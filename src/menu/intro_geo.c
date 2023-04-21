@@ -12,6 +12,8 @@
 #include "buffers/framebuffers.h"
 #include "game/game_init.h"
 #include "audio/external.h"
+#include "levels/intro/Intro/header.h"
+#include "levels/intro/author/header.h"
 
 // frame counts for the zoom in, hold, and zoom out of title model
 #define INTRO_STEPS_ZOOM_IN 20
@@ -51,7 +53,7 @@ Gfx *geo_intro_super_mario_64_logo(s32 callContext, struct GraphNode *node, UNUS
         f32 *scaleTable2 = segmented_to_virtual(intro_seg7_table_scale_2);
         SET_GRAPH_NODE_LAYER(graphNode->flags, LAYER_OPAQUE);
         Mtx *scaleMat = alloc_display_list(sizeof(*scaleMat));
-        dl = alloc_display_list(4 * sizeof(*dl));
+        dl = alloc_display_list(20 * sizeof(*dl));
         dlIter = dl;
         Vec3f scale;
 
@@ -69,10 +71,10 @@ Gfx *geo_intro_super_mario_64_logo(s32 callContext, struct GraphNode *node, UNUS
             // disappeared
             vec3_zero(scale);
         }
-        guScale(scaleMat, scale[0], scale[1], scale[2]);
+        guScale(scaleMat, 1, 1, 1);
 
         gSPMatrix(dlIter++, scaleMat, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
-        gSPDisplayList(dlIter++, &intro_seg7_dl_main_logo);  // draw model
+        gSPDisplayList(dlIter++, &Intro_Cube_mesh);  // draw model
         gSPPopMatrix(dlIter++, G_MTX_MODELVIEW);
         gSPEndDisplayList(dlIter);
 
@@ -94,16 +96,17 @@ Gfx *geo_intro_tm_copyright(s32 callContext, struct GraphNode *node, UNUSED void
     } else if (callContext == GEO_CONTEXT_RENDER) { // draw
         dl = alloc_display_list(5 * sizeof(*dl));
         dlIter = dl;
-        gSPDisplayList(dlIter++, dl_proj_mtx_fullscreen);
+
+        Mtx *scaleMat = alloc_display_list(sizeof(*scaleMat));
+        guScale(scaleMat, 1, 1, 1);
+
         gDPSetEnvColor(dlIter++, 255, 255, 255, sTmCopyrightAlpha);
-        if (sTmCopyrightAlpha == 255) { // opaque
-            SET_GRAPH_NODE_LAYER(graphNode->flags, LAYER_OPAQUE);
-            gDPSetRenderMode(dlIter++, G_RM_AA_OPA_SURF, G_RM_AA_OPA_SURF2);
-        } else { // blend
-            SET_GRAPH_NODE_LAYER(graphNode->flags, LAYER_TRANSPARENT);
-            gDPSetRenderMode(dlIter++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
-        }
-        gSPDisplayList(dlIter++, &intro_seg7_dl_copyright_trademark); // draw model
+        SET_GRAPH_NODE_LAYER(graphNode->flags, LAYER_TRANSPARENT);
+        //gDPSetRenderMode(dlIter++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+
+        gSPMatrix(dlIter++, scaleMat, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+        gSPDisplayList(dlIter++, &author_Plane_mesh); // draw model
+        gSPPopMatrix(dlIter++, G_MTX_MODELVIEW);
         gSPEndDisplayList(dlIter);
 
         // Once the "Super Mario 64" logo has just about zoomed fully, fade in the "TM" and copyright text

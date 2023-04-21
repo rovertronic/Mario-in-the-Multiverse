@@ -3471,3 +3471,7 @@ const f32 intro_seg7_table_scale_2[] = {
     0.048600f, 0.048600f, 0.012800f, 0.012800f,
     0.012800f, 0.000000f, 0.000000f, 0.000000f,
 };
+
+#include "levels/intro/Intro/model.inc.c"
+#include "levels/intro/intro_skybox/model.inc.c"
+#include "levels/intro/author/model.inc.c"

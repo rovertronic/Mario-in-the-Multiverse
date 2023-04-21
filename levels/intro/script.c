@@ -38,15 +38,15 @@ const LevelScript level_intro_splash_screen[] = {
 
     // Load "Super Mario 64" logo
     ALLOC_LEVEL_POOL(),
-    LOAD_MODEL_FROM_GEO(MODEL_GOOMBA, goomba_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_INTRO_SKYBOX, intro_skybox_geo),
     AREA(/*index*/ 1, intro_geo_splash_screen),
-        OBJECT(/*model*/ MODEL_GOOMBA, /*pos*/ -570, -480, 1500, /*angle*/ 0,  50, 0, /*behParam*/ BP(0x18, 0x00, 0x10, 0x0B), /*beh*/ bhvFloombaStartup),
-        OBJECT(/*model*/ MODEL_GOOMBA, /*pos*/  570, -480, 1500, /*angle*/ 0, -50, 0, /*behParam*/ BP(0x18, 0x00, 0x90, 0x0B), /*beh*/ bhvFloombaStartup),
+        OBJECT(/*model*/ MODEL_INTRO_SKYBOX, /*pos*/ 0,0,0, /*angle*/ 0,  0, 0, /*behParam*/ BP(0x18, 0x00, 0x10, 0x0B), /*beh*/ bhvIntroSkybox),
     END_AREA(),
     FREE_LEVEL_POOL(),
 
     // Start animation
     LOAD_AREA(/*area*/ 1),
+    TRANSITION(/*transType*/ WARP_TRANSITION_FADE_FROM_COLOR, /*time*/ 16, /*color*/ 0x00, 0x00, 0x00),
 
     SET_MENU_MUSIC(/*seq*/ SEQ_SOUND_PLAYER),
     CALL(/*arg*/ LVL_INTRO_PLAY_ITS_A_ME_MARIO, /*func*/ lvl_intro_update),

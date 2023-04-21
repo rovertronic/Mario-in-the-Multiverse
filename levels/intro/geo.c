@@ -35,15 +35,13 @@ const GeoLayout intro_geo_splash_screen[] = {
             GEO_CAMERA(CAMERA_MODE_NONE, 0, 0, 3200, 0, 0, 0, 0x00000000),
             GEO_OPEN_NODE(),
                GEO_ASM(0, geo_intro_super_mario_64_logo),
-#if defined(FLOOMBAS) && defined(INTRO_FLOOMBAS)
                GEO_RENDER_OBJ(),
-#endif
+               GEO_ASM(0, geo_intro_tm_copyright),
             GEO_CLOSE_NODE(),
          GEO_CLOSE_NODE(),
       GEO_CLOSE_NODE(),
       GEO_ZBUFFER(0),
       GEO_OPEN_NODE(),
-         GEO_ASM(0, geo_intro_tm_copyright),
       GEO_CLOSE_NODE(),
    GEO_CLOSE_NODE(),
    GEO_END(),
@@ -155,3 +153,5 @@ const GeoLayout intro_geo_debug_level_select[] = {
    GEO_END(),
 };
 
+
+#include "levels/intro/intro_skybox/geo.inc.c"

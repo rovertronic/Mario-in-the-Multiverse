@@ -516,6 +516,12 @@ SECTIONS
 	END_SEG(capcom)
 #endif
 
+   BEGIN_SEG(title_card, __romPos)
+   {
+      KEEP(BUILD_DIR/bin/tc_data/title_card_data.o(.data*));
+   }
+   END_SEG(title_card)
+
 #ifdef DEBUG_MAP_STACKTRACE
    BEGIN_SEG(mapData, (RAM_END - 0x00100000)) {
       KEEP(BUILD_DIR/asm/debug/map.o(.data*));

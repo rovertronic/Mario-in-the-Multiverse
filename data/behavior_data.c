@@ -12,6 +12,7 @@
 #include "game/debug.h"
 #include "menu/file_select.h"
 #include "engine/surface_load.h"
+#include "game/mitm_hub.h"
 
 #include "actors/common0.h"
 #include "actors/common1.h"
@@ -6084,5 +6085,16 @@ const BehaviorScript bhvIntroSkybox[] = {
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
     BEGIN_LOOP(),
         ADD_FLOAT(oPosX, 5),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvLevelPipe[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(level_pipe_collision),
+    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 20000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(level_pipe_loop),
     END_LOOP(),
 };

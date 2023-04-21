@@ -143,6 +143,8 @@ DECLARE_SEGMENT(title_screen_bg_mio0)
 
 DECLARE_SEGMENT(debug_level_select_mio0)
 
+DECLARE_SEGMENT(title_card)
+
 #ifdef VERSION_EU
 DECLARE_SEGMENT(translation_de_mio0)
 DECLARE_SEGMENT(translation_en_mio0)

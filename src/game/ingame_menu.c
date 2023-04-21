@@ -26,6 +26,7 @@
 #include "config.h"
 #include "puppycam2.h"
 #include "main.h"
+#include "mitm_hub.h"
 
 #ifdef VERSION_EU
 #undef LANGUAGE_FUNCTION

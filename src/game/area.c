@@ -402,6 +402,10 @@ void render_game(void) {
                       SCREEN_HEIGHT - gBorderHeight);
         gMenuOptSelectIndex = render_menus_and_dialogs();
 
+        if (gCurrLevelNum == LEVEL_CASTLE) {
+            render_mitm_hub_hud();
+            }
+
         if (gMenuOptSelectIndex != 0) {
             gSaveOptSelectIndex = gMenuOptSelectIndex;
         }

@@ -572,6 +572,59 @@
 #define MODEL_VCUTM_WARP_PIPE                     MODEL_LEVEL_GEOMETRY_16   // warp_pipe_geo
 #define MODEL_CASTLE_GROUNDS_WARP_PIPE            MODEL_LEVEL_GEOMETRY_16   // warp_pipe_geo
 
-#define MODEL_INTRO_SKYBOX                        0xFF
+/* GLOBAL MODEL IDS 0xF0-0xFF */
+#define MODEL_LEVEL_PIPE                          0xFF
+
+/* LEVEL SPECIFIC MODELS 0x100-0x1FF */
+//Format: #define MODEL_A_MODELNAME
+
+/* LEVEL INTRO START */
+#define MODEL_INTRO_SKYBOX                        0x100
+/* LEVEL INTRO END */
+
+/* LEVEL A START */
+/* LEVEL A END */
+
+/* LEVEL B START */
+/* LEVEL B END */
+
+/* LEVEL C START */
+/* LEVEL C END */
+
+/* LEVEL D START */
+/* LEVEL D END */
+
+/* LEVEL E START */
+/* LEVEL E END */
+
+/* LEVEL F START */
+/* LEVEL F END */
+
+/* LEVEL G START */
+/* LEVEL G END */
+
+/* LEVEL H START */
+/* LEVEL H END */
+
+/* LEVEL I START */
+/* LEVEL I END */
+
+/* LEVEL J START */
+/* LEVEL J END */
+
+/* LEVEL K START */
+/* LEVEL K END */
+
+/* LEVEL L START */
+/* LEVEL L END */
+
+/* LEVEL M START */
+/* LEVEL M END */
+
+/* LEVEL N START */
+/* LEVEL N END */
+
+/* LEVEL O START */
+/* LEVEL O END */
 
 #endif // MODEL_IDS_H

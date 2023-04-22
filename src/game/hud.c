@@ -19,6 +19,7 @@
 #include "puppyprint.h"
 
 #include "config.h"
+#include "ability.h"
 
 /* @file hud.c
  * This file implements HUD rendering and power meter animations.
@@ -551,6 +552,9 @@ void render_hud(void) {
 #else
         create_dl_ortho_matrix();
 #endif
+
+        render_ability_dpad(45,45,255);
+        control_ability_dpad();
 
         if (gCurrentArea != NULL && gCurrentArea->camera->mode == CAMERA_MODE_INSIDE_CANNON) {
             render_hud_cannon_reticle();

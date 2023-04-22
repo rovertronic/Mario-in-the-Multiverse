@@ -1,0 +1,10 @@
+extern u8 dpad_round_corner_ia8[];
+extern Vtx dpad_dpad_mesh_vtx_0[38];
+extern Gfx dpad_dpad_mesh_tri_0[];
+extern Vtx dpad_dpad_mesh_vtx_1[12];
+extern Gfx dpad_dpad_mesh_tri_1[];
+extern Gfx mat_dpad_ui_corner[];
+extern Gfx mat_revert_dpad_ui_corner[];
+extern Gfx mat_dpad_ui_corner_white[];
+extern Gfx mat_revert_dpad_ui_corner_white[];
+extern Gfx dpad_dpad_mesh[];

@@ -1867,6 +1867,7 @@ void init_mario(void) {
 }
 
 void init_mario_from_save_file(void) {
+    gMarioState->abilityId = 0;
     gMarioState->playerID = 0;
     gMarioState->flags = MARIO_NONE;
     gMarioState->action = ACT_UNINITIALIZED;

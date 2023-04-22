@@ -337,4 +337,8 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "round_box/header.h"
 
+#include "dpad/header.h"
+
+#include "ability/header.h"
+
 #endif

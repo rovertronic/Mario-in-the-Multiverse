@@ -489,6 +489,8 @@ struct MarioState {
              s16 ceilYaw;
              s16 wallYaw;
     // -- HackerSM64 MarioState fields end --
+
+            u8 abilityId;
 };
 
 #endif // TYPES_H

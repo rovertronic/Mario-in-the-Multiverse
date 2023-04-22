@@ -49,6 +49,7 @@
 #include "actors/group0.h"
 
 #include "mitm_hub.h"
+#include "ability.h"
 
 u8 author_string_a[] = {AUTHOR_A};
 u8 author_string_b[] = {AUTHOR_B};

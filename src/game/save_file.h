@@ -196,6 +196,7 @@ void save_file_move_cap_to_default_location(void);
 void disable_warp_checkpoint(void);
 void check_if_should_set_warp_checkpoint(struct WarpNode *warpNode);
 s32 check_warp_checkpoint(struct WarpNode *warpNode);
+u8 save_file_level_flags(u8 course_id);
 
 #if MULTILANG
 enum EuLanguages {

@@ -4,7 +4,10 @@
 void level_pipe_loop(void);
 
 struct mitm_hub_level {
-    u8 * author;
+    u8 *author;
+    u8 level;
+    u8 course;
+    u8 star_requirement;
 };
 
 #endif

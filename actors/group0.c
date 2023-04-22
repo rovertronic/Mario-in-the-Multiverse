@@ -33,3 +33,4 @@
 
 #include "level_pipe/collision.inc.c"
 #include "level_pipe/model.inc.c"
+#include "round_box/model.inc.c"

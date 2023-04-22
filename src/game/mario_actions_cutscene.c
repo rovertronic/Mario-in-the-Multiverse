@@ -394,6 +394,34 @@ s32 act_reading_npc_dialog(struct MarioState *m) {
     return FALSE;
 }
 
+s32 act_enter_hub_pipe(struct MarioState *m) {
+    set_mario_animation(m, MARIO_ANIM_A_POSE);
+    vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
+    vec3s_set(m->marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
+    gMarioState->pos[0] = approach_f32_asymptotic(gMarioState->pos[0],gMarioState->interactObj->oPosX,0.1f);
+    gMarioState->pos[1] = approach_f32_asymptotic(gMarioState->pos[1],gMarioState->interactObj->oPosY+300.0f,0.1f);
+    gMarioState->pos[2] = approach_f32_asymptotic(gMarioState->pos[2],gMarioState->interactObj->oPosZ,0.1f);
+    m->faceAngle[1] += 0x200;
+
+    if (m->actionState == 0) {
+        if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+            gMarioState->interactObj->oAction = 2;
+            set_mario_action(m, ACT_IDLE, 0);
+        }
+
+        if (gPlayer1Controller->buttonPressed & A_BUTTON) {
+            if (gMarioState->interactObj->oAction == 3) {
+                play_sound(SOUND_MENU_ENTER_PIPE, m->marioObj->header.gfx.cameraToObject);
+                m->actionState = 1;
+            } else {
+                play_sound(SOUND_MENU_CAMERA_BUZZ, m->marioObj->header.gfx.cameraToObject);
+            }
+        }
+    }
+
+    return FALSE;
+}
+
 // puts Mario in a state where he's waiting for (npc) dialog; doesn't do much
 s32 act_waiting_for_dialog(struct MarioState *m) {
     set_mario_animation(m, m->heldObj == NULL ? MARIO_ANIM_FIRST_PERSON
@@ -2687,6 +2715,7 @@ s32 mario_execute_cutscene_action(struct MarioState *m) {
         case ACT_BUTT_STUCK_IN_GROUND:       cancel = act_butt_stuck_in_ground(m);       break;
         case ACT_FEET_STUCK_IN_GROUND:       cancel = act_feet_stuck_in_ground(m);       break;
         case ACT_PUTTING_ON_CAP:             cancel = act_putting_on_cap(m);             break;
+        case ACT_ENTER_HUB_PIPE:             cancel = act_enter_hub_pipe(m);             break;
     }
     /* clang-format on */
 

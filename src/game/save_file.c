@@ -665,6 +665,11 @@ s32 save_file_is_cannon_unlocked(void) {
 #endif
 }
 
+u8 save_file_level_flags(u8 course_id) {
+    return gSaveBuffer.files[gCurrSaveFileNum - 1][0].courseStars[course_id];
+}
+
+
 /**
  * Sets the cannon status to unlocked in the current course.
  */

@@ -335,4 +335,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "level_pipe/geo_header.h"
 
+#include "round_box/header.h"
+
 #endif

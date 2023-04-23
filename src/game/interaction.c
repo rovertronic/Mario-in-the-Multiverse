@@ -24,6 +24,7 @@
 #include "sound_init.h"
 #include "rumble_init.h"
 #include "config.h"
+#include "ability.h"
 
 u8  sDelayInvincTimer;
 s16 sInvulnerable;
@@ -207,6 +208,10 @@ u32 determine_interaction(struct MarioState *m, struct Object *obj) {
         } else if (m->forwardVel <= -26.0f || 26.0f <= m->forwardVel) {
             interaction = INT_FAST_ATTACK_OR_SHELL;
         }
+    }
+
+    if (action == ACT_ABILITY_AXE_JUMP) {
+        interaction = INT_KICK;
     }
 
     // Prior to this, the interaction type could be overwritten. This requires, however,

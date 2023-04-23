@@ -76,11 +76,11 @@ u8 star_string[] = {0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,DIALOG_CHAR_TERMINAT
 
 struct mitm_hub_level hub_levels[] = {
     {&author_string_a,LEVEL_BOB,COURSE_BOB,0},
-    {&author_string_b,LEVEL_BOB,COURSE_BOB,100},
-    {&author_string_c,LEVEL_BOB,COURSE_BOB,0},
-    {&author_string_d,LEVEL_BOB,COURSE_BOB,0},
-    {&author_string_e,LEVEL_BOB,COURSE_BOB,0},
-    {&author_string_f,LEVEL_BOB,COURSE_BOB,0},
+    {&author_string_b,LEVEL_WF ,COURSE_BOB ,0},
+    {&author_string_c,LEVEL_CCM,COURSE_BOB,0},
+    {&author_string_d,LEVEL_SSL,COURSE_BOB,0},
+    {&author_string_e,LEVEL_BBH,COURSE_BOB,0},
+    {&author_string_f,LEVEL_LLL,COURSE_BOB,0},
     {&author_string_g,LEVEL_BOB,COURSE_BOB,0},
     {&author_string_h,LEVEL_BOB,COURSE_BOB,0},
     {&author_string_i,LEVEL_BOB,COURSE_BOB,0},
@@ -190,4 +190,8 @@ void render_mitm_hub_hud(void) {
     }
 
     hub_level_index = -1;
+}
+
+u8 get_hub_level(u8 id) {
+    return hub_levels[id].level ;
 }

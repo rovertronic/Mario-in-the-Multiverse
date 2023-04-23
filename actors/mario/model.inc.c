@@ -873,6 +873,7 @@ const Gfx mario_right_hand_closed_dl[] = {
 
 // 0x0400E458 - 0x0400E478
 const Gfx mario_right_hand_closed[] = {
+    gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
     gsSPLightColor(LIGHT_1, 0xffffffff),
     gsSPLightColor(LIGHT_2, 0x7f7f7fff),
     gsSPDisplayList(mario_right_hand_closed_dl),

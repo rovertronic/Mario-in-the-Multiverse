@@ -36,3 +36,5 @@
 #include "round_box/model.inc.c"
 #include "dpad/model.inc.c"
 #include "ability/model.inc.c"
+#include "default_hand/model.inc.c"
+#include "saw_hand/model.inc.c"

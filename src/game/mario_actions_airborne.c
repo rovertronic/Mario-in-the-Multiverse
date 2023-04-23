@@ -14,6 +14,7 @@
 #include "mario_step.h"
 #include "save_file.h"
 #include "rumble_init.h"
+#include "ability.h"
 
 #include "config.h"
 
@@ -496,6 +497,57 @@ s32 act_triple_jump(struct MarioState *m) {
     return FALSE;
 }
 
+s32 act_axe_jump(struct MarioState *m) {
+    struct Surface *floor = m->floor;
+    f32 steepness = sqrtf(sqr(floor->normal.x) + sqr(floor->normal.z));
+    s16 floorDYaw = abs_angle_diff(m->floorYaw, m->faceAngle[1]);
+
+    play_mario_sound(m, SOUND_ACTION_TERRAIN_JUMP, 0);
+
+    common_air_action_step(m, ACT_TRIPLE_JUMP_LAND, MARIO_ANIM_FORWARD_SPINNING, 0);
+
+    if (m->action == ACT_TRIPLE_JUMP_LAND) {
+        if (mario_update_quicksand(m, 0.5f)) {
+            return FALSE;
+        }
+
+        play_mario_sound(m, SOUND_ACTION_METAL_LANDING, 0);
+        m->vel[1] = 70.0f;
+        m->forwardVel = 50.0f;
+
+        if (steepness > 0.3f) {
+            m->forwardVel = -50.0f;
+        }
+
+        m->particleFlags |= PARTICLE_HORIZONTAL_STAR;
+
+        if ((m->input & INPUT_B_DOWN)&&(using_ability(ABILITY_ESTEEMED_MORTAL))) {
+            m->faceAngle[1] = m->intendedYaw;
+            if (steepness > 0.3f) {
+                if (floorDYaw > 0x4000) {
+                    m->faceAngle[1] = floorDYaw;
+                } else {
+                    m->faceAngle[1] = floorDYaw+0x8000;
+                }
+            }
+            return drop_and_set_mario_action(m,ACT_ABILITY_AXE_JUMP,0);
+        } else {
+            return set_mario_action(m, ACT_FORWARD_ROLLOUT, 0);
+        }
+    }
+
+#if ENABLE_RUMBLE
+    if (m->action == ACT_TRIPLE_JUMP_LAND) {
+        queue_rumble_data(5, 40);
+    }
+#endif
+
+    if (set_mario_animation(m, MARIO_ANIM_FORWARD_SPINNING) == 0) {
+        play_sound(SOUND_ACTION_SPIN, m->marioObj->header.gfx.cameraToObject);
+    }
+    return FALSE;
+}
+
 s32 act_backflip(struct MarioState *m) {
     if (m->input & INPUT_Z_PRESSED) {
         return set_mario_action(m, ACT_GROUND_POUND, 0);
@@ -720,6 +772,12 @@ s32 act_twirling(struct MarioState *m) {
 }
 
 s32 act_dive(struct MarioState *m) {
+    if (using_ability(ABILITY_ESTEEMED_MORTAL)) {
+        set_mario_action(m, ACT_ABILITY_AXE_JUMP, 0);
+        play_sound(SOUND_MARIO_HAHA, gGlobalSoundSource);
+        return TRUE;
+    }
+
     if (m->actionArg == 0) {
         play_mario_sound(m, SOUND_ACTION_THROW, SOUND_MARIO_HOOHOO);
     } else {
@@ -2058,6 +2116,7 @@ s32 mario_execute_airborne_action(struct MarioState *m) {
         case ACT_RIDING_HOOT:          cancel = act_riding_hoot(m);          break;
         case ACT_TOP_OF_POLE_JUMP:     cancel = act_top_of_pole_jump(m);     break;
         case ACT_VERTICAL_WIND:        cancel = act_vertical_wind(m);        break;
+        case ACT_ABILITY_AXE_JUMP:     cancel = act_axe_jump(m);             break;
     }
     /* clang-format on */
 

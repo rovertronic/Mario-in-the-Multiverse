@@ -1,0 +1,16 @@
+extern Lights1 saw_hand_Gloves_lights;
+extern u8 saw_hand_SawHandle_rgba16[];
+extern u8 saw_hand_HalfSaw_rgba16[];
+extern Vtx saw_hand_skinned_016_mesh_vtx_cull[8];
+extern Vtx saw_hand_skinned_016_mesh_vtx_0[42];
+extern Gfx saw_hand_skinned_016_mesh_tri_0[];
+extern Vtx saw_hand_skinned_016_mesh_vtx_1[8];
+extern Gfx saw_hand_skinned_016_mesh_tri_1[];
+extern Vtx saw_hand_skinned_016_mesh_vtx_2[7];
+extern Gfx saw_hand_skinned_016_mesh_tri_2[];
+extern Gfx mat_saw_hand_Gloves[];
+extern Gfx mat_saw_hand_Handle[];
+extern Gfx mat_revert_saw_hand_Handle[];
+extern Gfx mat_saw_hand_Saw[];
+extern Gfx mat_revert_saw_hand_Saw[];
+extern Gfx saw_hand_skinned_016_mesh[];

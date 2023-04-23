@@ -1,4 +1,5 @@
 // Normal Mario Geo
+#include "src/game/ability.h"
 
 // 0x170002E0
 const GeoLayout mario_geo_face_and_wings[] = {
@@ -79,7 +80,7 @@ const GeoLayout mario_geo_right_hand[] = {
          GEO_ASM(0, geo_mario_hand_foot_scaler),
          GEO_SCALE(0x00, 65536),
          GEO_OPEN_NODE(),
-            GEO_DISPLAY_LIST(LAYER_OPAQUE, mario_right_hand_closed),
+            GEO_DISPLAY_LIST(LAYER_ALPHA, gfx_ability_hand),
          GEO_CLOSE_NODE(),
          GEO_HELD_OBJECT(0x00, 0, 0, 0, geo_switch_mario_hand_grab_pos),
       GEO_CLOSE_NODE(),

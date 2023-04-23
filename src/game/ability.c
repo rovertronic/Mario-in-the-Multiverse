@@ -23,7 +23,6 @@
 #include "segment7.h"
 #include "seq_ids.h"
 #include "sm64.h"
-#include "text_strings.h"
 #include "types.h"
 #include "config.h"
 #include "puppycam2.h"
@@ -53,6 +52,8 @@
 
 #include "mitm_hub.h"
 #include "ability.h"
+
+Gfx gfx_ability_hand[2] = {gsSPEndDisplayList()};
 
 //Graphics data for abilities
 ALIGNED8 u8 ability_images[][2048] = {
@@ -102,11 +103,30 @@ ALIGNED8 u8 ability_images[][2048] = {
     #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
     },
     { /*Ability O*/
-    #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
+    #include "actors/ability_images/custom_ability_o.rgba16.inc.c"
     },
     {/*Locked*/
     #include "actors/ability_images/custom_ability_locked.rgba16.inc.c"
     }
+};
+
+struct ability ability_struct[] = {
+    /*Default*/{&mario_right_hand_closed},
+    /*A*/{&mario_right_hand_closed},
+    /*B*/{&mario_right_hand_closed},
+    /*C*/{&mario_right_hand_closed},
+    /*D*/{&mario_right_hand_closed},
+    /*E*/{&mario_right_hand_closed},
+    /*F*/{&mario_right_hand_closed},
+    /*G*/{&mario_right_hand_closed},
+    /*H*/{&mario_right_hand_closed},
+    /*I*/{&mario_right_hand_closed},
+    /*J*/{&mario_right_hand_closed},
+    /*K*/{&mario_right_hand_closed},
+    /*L*/{&mario_right_hand_closed},
+    /*M*/{&mario_right_hand_closed},
+    /*N*/{&mario_right_hand_closed},
+    /*O*/{&saw_hand_skinned_016_mesh},
 };
 
 void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index) {
@@ -175,5 +195,12 @@ void control_ability_dpad(void) {
         gMarioState->abilityId = ability_slot[picked_ability];
         ability_y_offset[picked_ability] = 5;
         ability_gravity[picked_ability] = 2;
+
+        gSPDisplayList(&gfx_ability_hand[0], ability_struct[gMarioState->abilityId].hand);
+        gSPEndDisplayList(&gfx_ability_hand[1]);
     }
+}
+
+u8 using_ability(u8 ability_id) {
+    return (gMarioState->abilityId == ability_id);
 }

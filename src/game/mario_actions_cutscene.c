@@ -27,6 +27,7 @@
 #include "seq_ids.h"
 #include "sound_init.h"
 #include "rumble_init.h"
+#include "mitm_hub.h"
 
 static struct Object *sIntroWarpPipeObj;
 static struct Object *sEndPeachObj;
@@ -413,9 +414,16 @@ s32 act_enter_hub_pipe(struct MarioState *m) {
             if (gMarioState->interactObj->oAction == 3) {
                 play_sound(SOUND_MENU_ENTER_PIPE, m->marioObj->header.gfx.cameraToObject);
                 m->actionState = 1;
+
             } else {
                 play_sound(SOUND_MENU_CAMERA_BUZZ, m->marioObj->header.gfx.cameraToObject);
             }
+        }
+    } else {
+        if (m->actionTimer++ > 30) {
+            initiate_warp(get_hub_level(gMarioState->interactObj->oBehParams2ndByte), 1, 0x0A, WARP_FLAGS_NONE);
+            fade_into_special_warp(WARP_SPECIAL_NONE, 0);
+            gSavedCourseNum = COURSE_NONE;
         }
     }
 

@@ -341,4 +341,8 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "ability/header.h"
 
+#include "default_hand/header.h"
+
+#include "saw_hand/header.h"
+
 #endif

@@ -32,6 +32,7 @@
 #include "save_file.h"
 #include "sound_init.h"
 #include "rumble_init.h"
+#include "ability.h"
 
 
 /**************************************************
@@ -1036,6 +1037,13 @@ s32 set_jumping_action(struct MarioState *m, u32 action, u32 actionArg) {
         } else {
             return set_mario_action(m, ACT_HOLD_QUICKSAND_JUMP_LAND, 0);
         }
+    }
+
+    if (using_ability(ABILITY_ESTEEMED_MORTAL)) {
+        gMarioState->vel[1] = 80.0f;
+        drop_and_set_mario_action(m, ACT_ABILITY_AXE_JUMP, actionArg);
+        play_sound(SOUND_MARIO_HAHA, gGlobalSoundSource);
+        return TRUE;
     }
 
     if (mario_floor_is_steep(m)) {

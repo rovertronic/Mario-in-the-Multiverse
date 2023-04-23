@@ -50,12 +50,12 @@
 #include "puppylights.h"
 #include "actors/group0.h"
 
-#include "text_strings.h"
+#include "text_strings.h" //IGNORE THIS ERROR, make -j AGAIN
 
 #include "mitm_hub.h"
 #include "ability.h"
 
-Gfx gfx_ability_hand[2] = {gsSPEndDisplayList()};
+Gfx gfx_ability_hand[2] = {gsSPDisplayList(mario_right_hand_closed),gsSPEndDisplayList()};
 
 //Graphics data for abilities
 ALIGNED8 u8 ability_images[][2048] = {
@@ -63,46 +63,46 @@ ALIGNED8 u8 ability_images[][2048] = {
     #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
     },
     { /*Ability A*/
-    #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
+    #include "actors/ability_images/custom_ability_a.rgba16.inc.c"
     },
     { /*Ability B*/
-    #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
+    #include "actors/ability_images/custom_ability_b.rgba16.inc.c"
     },
     { /*Ability C*/
-    #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
+    #include "actors/ability_images/custom_ability_c.rgba16.inc.c"
     },
     { /*Ability D*/
-    #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
+    #include "actors/ability_images/custom_ability_d.rgba16.inc.c"
     },
     { /*Ability E*/
-    #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
+    #include "actors/ability_images/custom_ability_e.rgba16.inc.c"
     },
     { /*Ability F*/
-    #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
+    #include "actors/ability_images/custom_ability_f.rgba16.inc.c"
     },
     { /*Ability G*/
-    #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
+    #include "actors/ability_images/custom_ability_g.rgba16.inc.c"
     },
     { /*Ability H*/
-    #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
+    #include "actors/ability_images/custom_ability_h.rgba16.inc.c"
     },
     { /*Ability I*/
-    #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
+    #include "actors/ability_images/custom_ability_i.rgba16.inc.c"
     },
     { /*Ability J*/
-    #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
+    #include "actors/ability_images/custom_ability_j.rgba16.inc.c"
     },
     { /*Ability K*/
-    #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
+    #include "actors/ability_images/custom_ability_k.rgba16.inc.c"
     },
     { /*Ability L*/
-    #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
+    #include "actors/ability_images/custom_ability_l.rgba16.inc.c"
     },
     { /*Ability M*/
-    #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
+    #include "actors/ability_images/custom_ability_m.rgba16.inc.c"
     },
     { /*Ability N*/
-    #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
+    #include "actors/ability_images/custom_ability_n.rgba16.inc.c"
     },
     { /*Ability O*/
     #include "actors/ability_images/custom_ability_o.rgba16.inc.c"

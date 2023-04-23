@@ -1,5 +1,4 @@
 #include "src/game/envfx_snow.h"
-#include "src/game/ability.h"
 
 const GeoLayout ability_unlock_geo[] = {
 	GEO_NODE_START(),

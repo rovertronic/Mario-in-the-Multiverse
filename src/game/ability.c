@@ -171,13 +171,20 @@ Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context
     currentGraphNode = node;
 
     if (callContext == GEO_CONTEXT_RENDER) {
-        dlHead = alloc_display_list(sizeof(Gfx) * (5));
+        currentGraphNode->fnNode.node.flags = (currentGraphNode->fnNode.node.flags & 0xFF) | (LAYER_ALPHA << 8);
+
+        dlHead = alloc_display_list(sizeof(Gfx) * (11));
         dlStart = dlHead;
 
         gDPPipeSync(dlHead++);
+        gDPSetCombineLERP(dlHead++,0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0);
+        gSPTexture(dlHead++,65535, 65535, 0, 0, 1);
+        gDPSetTextureImage(dlHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, ability_images[0]);
         gDPSetTile(dlHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0);
-        gDPSetTextureImage(dlHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, &ability_images[0]);
         gDPLoadBlock(dlHead++,7, 0, 0, 1023, 256);
+        gDPSetTile(dlHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0);
+        gDPSetTileSize(dlHead++,0, 0, 0, 124, 124);
+        gSPEndDisplayList(dlHead++);
 
         gSPEndDisplayList(dlHead++);
     }
@@ -187,7 +194,7 @@ Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context
 //DPAD ORDER: UP, RIGHT, DOWN, LEFT
 s8 ability_y_offset[4] = {0,0,0,0};
 s8 ability_gravity[4] = {0,0,0,0};
-u8 ability_slot[4] = {ABILITY_DEFAULT,ABILITY_DEFAULT,ABILITY_DEFAULT,ABILITY_ESTEEMED_MORTAL};
+u8 ability_slot[4] = {ABILITY_DEFAULT,ABILITY_DEFAULT,ABILITY_DEFAULT,ABILITY_DEFAULT};
 
 void render_ability_dpad(s16 x, s16 y, u8 alpha) {
     u8 i;

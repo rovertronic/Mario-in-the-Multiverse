@@ -1,4 +1,5 @@
 extern const GeoLayout ability_unlock_geo[];
+extern u8 ability_unlock_emortal_logo_rgba16[];
 extern u8 ability_unlock_glow_ia8[];
 extern Vtx ability_unlock_ability_unlock_mesh_layer_4_vtx_0[4];
 extern Gfx ability_unlock_ability_unlock_mesh_layer_4_tri_0[];

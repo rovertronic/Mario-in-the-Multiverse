@@ -50,6 +50,8 @@
 #include "puppylights.h"
 #include "actors/group0.h"
 
+#include "text_strings.h"
+
 #include "mitm_hub.h"
 #include "ability.h"
 
@@ -110,23 +112,41 @@ ALIGNED8 u8 ability_images[][2048] = {
     }
 };
 
+u8 abstr_def[] = {TEXT_ABILITY_DEFAULT};
+u8 abstr_a[] = {TEXT_ABILITY_A};
+u8 abstr_b[] = {TEXT_ABILITY_B};
+u8 abstr_c[] = {TEXT_ABILITY_C};
+u8 abstr_d[] = {TEXT_ABILITY_D};
+u8 abstr_e[] = {TEXT_ABILITY_E};
+u8 abstr_f[] = {TEXT_ABILITY_F};
+u8 abstr_g[] = {TEXT_ABILITY_G};
+u8 abstr_h[] = {TEXT_ABILITY_H};
+u8 abstr_i[] = {TEXT_ABILITY_I};
+u8 abstr_j[] = {TEXT_ABILITY_J};
+u8 abstr_k[] = {TEXT_ABILITY_K};
+u8 abstr_l[] = {TEXT_ABILITY_L};
+u8 abstr_m[] = {TEXT_ABILITY_M};
+u8 abstr_n[] = {TEXT_ABILITY_N};
+u8 abstr_o[] = {TEXT_ABILITY_O};
+
 struct ability ability_struct[] = {
-    /*Default*/{&mario_right_hand_closed},
-    /*A*/{&mario_right_hand_closed},
-    /*B*/{&mario_right_hand_closed},
-    /*C*/{&mario_right_hand_closed},
-    /*D*/{&mario_right_hand_closed},
-    /*E*/{&mario_right_hand_closed},
-    /*F*/{&mario_right_hand_closed},
-    /*G*/{&mario_right_hand_closed},
-    /*H*/{&mario_right_hand_closed},
-    /*I*/{&mario_right_hand_closed},
-    /*J*/{&mario_right_hand_closed},
-    /*K*/{&mario_right_hand_closed},
-    /*L*/{&mario_right_hand_closed},
-    /*M*/{&mario_right_hand_closed},
-    /*N*/{&mario_right_hand_closed},
-    /*O*/{&saw_hand_skinned_016_mesh},
+    /*           HAND DISPLAY LIST          MARIO MODEL ID     STRING */
+    /*Default*/{&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_def},
+    /*A*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_a  },
+    /*B*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_b  },
+    /*C*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_c  },
+    /*D*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_d  },
+    /*E*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_e  },
+    /*F*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_f  },
+    /*G*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_g  },
+    /*H*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_h  },
+    /*I*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_i  },
+    /*J*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_j  },
+    /*K*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_k  },
+    /*L*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_l  },
+    /*M*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_m  },
+    /*N*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_n  },
+    /*O*/      {&saw_hand_skinned_016_mesh ,MODEL_MARIO       ,&abstr_o  },
 };
 
 void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index) {
@@ -141,6 +161,27 @@ void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index) {
     gSPDisplayList(gDisplayListHead++,ability_ability_mesh);
     
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+}
+
+Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context) {
+    Gfx *dlStart, *dlHead;
+    struct Object *obj;
+    struct GraphNodeGenerated *currentGraphNode;
+
+    currentGraphNode = node;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        dlHead = alloc_display_list(sizeof(Gfx) * (5));
+        dlStart = dlHead;
+
+        gDPPipeSync(dlHead++);
+        gDPSetTile(dlHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0);
+        gDPSetTextureImage(dlHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, &ability_images[0]);
+        gDPLoadBlock(dlHead++,7, 0, 0, 1023, 256);
+
+        gSPEndDisplayList(dlHead++);
+    }
+    return dlStart;
 }
 
 //DPAD ORDER: UP, RIGHT, DOWN, LEFT
@@ -203,4 +244,8 @@ void control_ability_dpad(void) {
 
 u8 using_ability(u8 ability_id) {
     return (gMarioState->abilityId == ability_id);
+}
+
+u8* ability_string(u8 ability_id) {
+    return (ability_struct[ability_id].string);
 }

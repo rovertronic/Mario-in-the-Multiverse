@@ -1,0 +1,16 @@
+extern const GeoLayout ability_unlock_geo[];
+extern u8 ability_unlock_glow_ia8[];
+extern Vtx ability_unlock_ability_unlock_mesh_layer_4_vtx_0[4];
+extern Gfx ability_unlock_ability_unlock_mesh_layer_4_tri_0[];
+extern Vtx ability_unlock_ability_unlock_mesh_layer_5_vtx_0[4];
+extern Gfx ability_unlock_ability_unlock_mesh_layer_5_tri_0[];
+extern Vtx ability_unlock_ability_unlock_mesh_layer_5_vtx_1[13];
+extern Gfx ability_unlock_ability_unlock_mesh_layer_5_tri_1[];
+extern Gfx mat_ability_unlock_ability[];
+extern Gfx mat_ability_unlock_glow[];
+extern Gfx mat_revert_ability_unlock_glow[];
+extern Gfx mat_ability_unlock_glow_scroll[];
+extern Gfx mat_revert_ability_unlock_glow_scroll[];
+extern Gfx ability_unlock_ability_unlock_mesh_layer_4[];
+extern Gfx ability_unlock_ability_unlock_mesh_layer_5[];
+extern Gfx ability_unlock_material_revert_render_settings[];

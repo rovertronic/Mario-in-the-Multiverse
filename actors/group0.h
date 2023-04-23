@@ -345,4 +345,10 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "saw_hand/header.h"
 
+#include "main_menu/header.h"
+
+#include "selector/header.h"
+
+#include "ability_unlock/geo_header.h"
+
 #endif

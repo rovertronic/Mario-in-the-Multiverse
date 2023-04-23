@@ -27,6 +27,7 @@
 #include "puppycam2.h"
 #include "main.h"
 #include "mitm_hub.h"
+#include "ability.h"
 #include "actors/group0.h"
 
 #ifdef VERSION_EU
@@ -131,7 +132,9 @@ s16 gDialogTextPos = 0;
 s8 gDialogLineNum = 1;
 s8 gLastDialogResponse = 0;
 u8 gMenuHoldKeyIndex = 0;
+u8 gMenuHoldKeyIndex2 = 0;
 u8 gMenuHoldKeyTimer = 0;
+u8 gMenuHoldKeyTimer2 = 0;
 s32 gDialogResponse = DIALOG_RESPONSE_NONE;
 
 
@@ -583,11 +586,11 @@ void handle_menu_scrolling(s8 scrollDirection, s8 *currentIndex, s8 minIndex, s8
     u8 index = 0;
 
     if (scrollDirection == MENU_SCROLL_VERTICAL) {
-        if ((gPlayer3Controller->rawStickY >  60) || (gPlayer3Controller->buttonDown & (U_CBUTTONS | U_JPAD))) index++;
-        if ((gPlayer3Controller->rawStickY < -60) || (gPlayer3Controller->buttonDown & (D_CBUTTONS | D_JPAD))) index += 2;
+        if ((gPlayer3Controller->rawStickY >  60) || (gPlayer3Controller->buttonDown & (U_CBUTTONS))) index++;
+        if ((gPlayer3Controller->rawStickY < -60) || (gPlayer3Controller->buttonDown & (D_CBUTTONS))) index += 2;
     } else if (scrollDirection == MENU_SCROLL_HORIZONTAL) {
-        if ((gPlayer3Controller->rawStickX >  60) || (gPlayer3Controller->buttonDown & (R_CBUTTONS | R_JPAD))) index += 2;
-        if ((gPlayer3Controller->rawStickX < -60) || (gPlayer3Controller->buttonDown & (L_CBUTTONS | L_JPAD))) index++;
+        if ((gPlayer3Controller->rawStickX >  60) || (gPlayer3Controller->buttonDown & (R_CBUTTONS))) index += 2;
+        if ((gPlayer3Controller->rawStickX < -60) || (gPlayer3Controller->buttonDown & (L_CBUTTONS))) index++;
     }
 
     if (((index ^ gMenuHoldKeyIndex) & index) == 2) {
@@ -614,6 +617,68 @@ void handle_menu_scrolling(s8 scrollDirection, s8 *currentIndex, s8 minIndex, s8
 
     if ((index & 3) == 0) {
         gMenuHoldKeyTimer = 0;
+    }
+}
+
+void handle_menu_scrolling_2way(s8 *currentIndex2, s8 *currentIndex, s8 minIndex, s8 maxIndex) {
+    u8 index = 0;
+    u8 index2 = 0;
+
+    if ((gPlayer3Controller->rawStickY >  60) || (gPlayer3Controller->buttonDown & (U_CBUTTONS))) index++;
+    if ((gPlayer3Controller->rawStickY < -60) || (gPlayer3Controller->buttonDown & (D_CBUTTONS))) index += 2;
+    if ((gPlayer3Controller->rawStickX >  60) || (gPlayer3Controller->buttonDown & (R_CBUTTONS))) index2 += 2;
+    if ((gPlayer3Controller->rawStickX < -60) || (gPlayer3Controller->buttonDown & (L_CBUTTONS))) index2++;
+
+    if (((index ^ gMenuHoldKeyIndex) & index) == 2) {
+        if (*currentIndex != maxIndex) {
+            play_sound(SOUND_MENU_CHANGE_SELECT, gGlobalSoundSource);
+            (*currentIndex)++;
+        }
+    }
+
+    if (((index ^ gMenuHoldKeyIndex) & index) == 1) {
+        if (*currentIndex != minIndex) {
+            play_sound(SOUND_MENU_CHANGE_SELECT, gGlobalSoundSource);
+            (*currentIndex)--;
+        }
+    }
+
+    if (((index2 ^ gMenuHoldKeyIndex2) & index2) == 2) {
+        if (*currentIndex2 != maxIndex) {
+            play_sound(SOUND_MENU_CHANGE_SELECT, gGlobalSoundSource);
+            (*currentIndex2)++;
+        }
+    }
+
+    if (((index2 ^ gMenuHoldKeyIndex2) & index2) == 1) {
+        if (*currentIndex2 != minIndex) {
+            play_sound(SOUND_MENU_CHANGE_SELECT, gGlobalSoundSource);
+            (*currentIndex2)--;
+        }
+    }
+
+    if (gMenuHoldKeyTimer == 10) {
+        gMenuHoldKeyTimer = 8;
+        gMenuHoldKeyIndex = 0;
+    } else {
+        gMenuHoldKeyTimer++;
+        gMenuHoldKeyIndex = index;
+    }
+
+    if ((index & 3) == 0) {
+        gMenuHoldKeyTimer = 0;
+    }
+
+    if (gMenuHoldKeyTimer2 == 10) {
+        gMenuHoldKeyTimer2 = 8;
+        gMenuHoldKeyIndex2 = 0;
+    } else {
+        gMenuHoldKeyTimer2++;
+        gMenuHoldKeyIndex2 = index2;
+    }
+
+    if ((index2 & 3) == 0) {
+        gMenuHoldKeyTimer2 = 0;
     }
 }
 
@@ -1851,8 +1916,12 @@ s32 gCourseDoneMenuTimer = 0;
 s32 gCourseCompleteCoins = 0;
 s8 gHudFlash = HUD_FLASH_NONE;
 
+u8 ability_menu_index = 0;
+s8 ability_menu_x = 0;
+s8 ability_menu_y = 0;
 s32 render_pause_courses_and_castle(void) {
     s16 index;
+    u8 i;
 
 #ifdef PUPPYCAM
     puppycam_check_pause_buttons();
@@ -1907,12 +1976,48 @@ s32 render_pause_courses_and_castle(void) {
             break;
 
         case DIALOG_STATE_HORIZONTAL:
-            shade_screen();
-            print_hud_pause_colorful_str();
-            render_pause_castle_menu_box(160, 143);
-            render_pause_castle_main_strings(104, 60);
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
+            create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
+            gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+            gSPDisplayList(gDisplayListHead++, main_menu_roundbox_001_mesh);
+            gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 
-            if (gPlayer3Controller->buttonPressed & (A_BUTTON | START_BUTTON | Z_TRIG)) {
+            render_ability_dpad(233,142,gDialogTextAlpha);
+
+            for (i=0;i<16;i++) {
+                render_ability_icon(55+(i%4)*33, 195-((i/4)*33), gDialogTextAlpha, i);
+            }
+
+            handle_menu_scrolling_2way(&ability_menu_x, &ability_menu_y, 0, 3);
+            ability_menu_index = (ability_menu_x)+(ability_menu_y*4);
+
+            if (gPlayer3Controller->buttonDown & U_JPAD) {
+                ability_slot[0] = ability_menu_index;
+            }
+            if (gPlayer3Controller->buttonDown & R_JPAD) {
+                ability_slot[1] = ability_menu_index;
+            }
+            if (gPlayer3Controller->buttonDown & D_JPAD) {
+                ability_slot[2] = ability_menu_index;
+            }
+            if (gPlayer3Controller->buttonDown & L_JPAD) {
+                ability_slot[3] = ability_menu_index;
+            }
+
+            create_dl_translation_matrix(MENU_MTX_PUSH, 55+(ability_menu_index%4)*33, 195-((ability_menu_index/4)*33), 0);
+            gSPDisplayList(gDisplayListHead++, selector_selector_mesh);
+            gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
+            print_generic_string(43, 58, ability_string(ability_menu_index));
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+
+            //print_hud_pause_colorful_str();
+            //render_pause_castle_menu_box(160, 143);
+            //render_pause_castle_main_strings(104, 60);
+
+            if (gPlayer3Controller->buttonPressed & (START_BUTTON)) {
                 level_set_transition(0, NULL);
                 play_sound(SOUND_MENU_PAUSE_CLOSE, gGlobalSoundSource);
                 gMenuMode = MENU_MODE_NONE;
@@ -1923,7 +2028,7 @@ s32 render_pause_courses_and_castle(void) {
             break;
     }
 #if defined(WIDE) && !defined(PUPPYCAM)
-        render_widescreen_setting();
+        //render_widescreen_setting();
 #endif
     if (gDialogTextAlpha < 250) {
         gDialogTextAlpha += 25;

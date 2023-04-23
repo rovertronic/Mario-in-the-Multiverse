@@ -1039,13 +1039,6 @@ s32 set_jumping_action(struct MarioState *m, u32 action, u32 actionArg) {
         }
     }
 
-    if (using_ability(ABILITY_ESTEEMED_MORTAL)) {
-        gMarioState->vel[1] = 80.0f;
-        drop_and_set_mario_action(m, ACT_ABILITY_AXE_JUMP, actionArg);
-        play_sound(SOUND_MARIO_HAHA, gGlobalSoundSource);
-        return TRUE;
-    }
-
     if (mario_floor_is_steep(m)) {
         set_steep_jump_action(m);
     } else {
@@ -1764,6 +1757,10 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 case ACT_GROUP_AUTOMATIC:  inLoop = mario_execute_automatic_action(gMarioState);  break;
                 case ACT_GROUP_OBJECT:     inLoop = mario_execute_object_action(gMarioState);     break;
             }
+        }
+
+        if (!(gMarioState->action & ACT_GROUP_CUTSCENE)) {
+            control_ability_dpad();
         }
 
         sink_mario_in_quicksand(gMarioState);

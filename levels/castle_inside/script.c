@@ -54,6 +54,7 @@ const LevelScript level_castle_inside_entry[] = {
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, castle_inside_area_1),
+		OBJECT(MODEL_ABILITY, -365, 0, 2423, 0, 142, 0, 0x00000000, bhvAbilityUnlock),
 		OBJECT(MODEL_LEVEL_PIPE, 800, 0, -2600, 0, 0, 0, (0 << 16), bhvLevelPipe),
 		OBJECT(MODEL_LEVEL_PIPE, 800, 0, -2000, 0, 0, 0, (1 << 16), bhvLevelPipe),
 		OBJECT(MODEL_LEVEL_PIPE, 800, 0, -1400, 0, 0, 0, (2 << 16), bhvLevelPipe),

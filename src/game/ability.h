@@ -3,7 +3,11 @@
 
 void render_ability_dpad(s16 x, s16 y, u8 alpha);
 void control_ability_dpad(void);
+void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index);
 u8 using_ability(u8 ability_id);
+u8* ability_string(u8 ability_id);
+
+Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context);
 
 enum ability_ids {
     ABILITY_DEFAULT,
@@ -26,8 +30,11 @@ enum ability_ids {
 
 struct ability {
     Gfx * hand;
+    u8 model_id;
+    u8 * string;
 };
 
 extern Gfx gfx_ability_hand[2];
+extern u8 ability_slot[4];
 
 #endif

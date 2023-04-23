@@ -574,6 +574,7 @@
 
 /* GLOBAL MODEL IDS 0xF0-0xFF */
 #define MODEL_LEVEL_PIPE                          0xFF
+#define MODEL_ABILITY                             0xFE
 
 /* LEVEL SPECIFIC MODELS 0x100-0x1FF */
 //Format: #define MODEL_A_MODELNAME

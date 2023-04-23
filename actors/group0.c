@@ -38,3 +38,6 @@
 #include "ability/model.inc.c"
 #include "default_hand/model.inc.c"
 #include "saw_hand/model.inc.c"
+#include "main_menu/model.inc.c"
+#include "selector/model.inc.c"
+#include "ability_unlock/model.inc.c"

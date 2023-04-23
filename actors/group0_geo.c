@@ -18,3 +18,4 @@
 #include "mario/geo.inc.c"
 
 #include "level_pipe/geo.inc.c"
+#include "ability_unlock/geo.inc.c"

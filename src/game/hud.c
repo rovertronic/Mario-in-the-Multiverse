@@ -554,7 +554,6 @@ void render_hud(void) {
 #endif
 
         render_ability_dpad(45,45,255);
-        control_ability_dpad();
 
         if (gCurrentArea != NULL && gCurrentArea->camera->mode == CAMERA_MODE_INSIDE_CANNON) {
             render_hud_cannon_reticle();

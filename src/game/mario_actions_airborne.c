@@ -500,7 +500,7 @@ s32 act_triple_jump(struct MarioState *m) {
 s32 act_axe_jump(struct MarioState *m) {
     struct Surface *floor = m->floor;
     f32 steepness = sqrtf(sqr(floor->normal.x) + sqr(floor->normal.z));
-    s16 floorDYaw = abs_angle_diff(m->floorYaw, m->faceAngle[1]);
+    s16 floorDYaw = atan2s(floor->normal.z,floor->normal.x)+0x8000;
 
     play_mario_sound(m, SOUND_ACTION_TERRAIN_JUMP, 0);
 
@@ -524,11 +524,7 @@ s32 act_axe_jump(struct MarioState *m) {
         if ((m->input & INPUT_B_DOWN)&&(using_ability(ABILITY_ESTEEMED_MORTAL))) {
             m->faceAngle[1] = m->intendedYaw;
             if (steepness > 0.3f) {
-                if (floorDYaw > 0x4000) {
-                    m->faceAngle[1] = floorDYaw;
-                } else {
-                    m->faceAngle[1] = floorDYaw+0x8000;
-                }
+                m->faceAngle[1] = floorDYaw;
             }
             return drop_and_set_mario_action(m,ACT_ABILITY_AXE_JUMP,0);
         } else {

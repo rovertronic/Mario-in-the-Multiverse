@@ -526,7 +526,8 @@ s32 act_axe_jump(struct MarioState *m) {
             if (steepness > 0.3f) {
                 m->faceAngle[1] = floorDYaw;
             }
-            return drop_and_set_mario_action(m,ACT_ABILITY_AXE_JUMP,0);
+            m->vel[1] = 70.0f;
+            return set_mario_action(m,ACT_ABILITY_AXE_JUMP,0);
         } else {
             return set_mario_action(m, ACT_FORWARD_ROLLOUT, 0);
         }

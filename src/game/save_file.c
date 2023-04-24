@@ -445,8 +445,8 @@ void save_file_collect_star_or_key(s16 coinScore, s16 starIndex) {
     s32 fileIndex = gCurrSaveFileNum - 1;
     s32 courseIndex = COURSE_NUM_TO_INDEX(gCurrCourseNum);
 #ifdef GLOBAL_STAR_IDS
-    s32 starByte = COURSE_NUM_TO_INDEX(starIndex / 7);
-    s32 starFlag = 1 << (starIndex % 7);
+    s32 starByte = COURSE_NUM_TO_INDEX(starIndex / 8);
+    s32 starFlag = 1 << (starIndex % 8);
 #else
     s32 starFlag = 1 << starIndex;
 #endif
@@ -545,7 +545,7 @@ s32 save_file_get_course_star_count(s32 fileIndex, s32 courseIndex) {
     u8 flag = 1;
     u8 starFlags = save_file_get_star_flags(fileIndex, courseIndex);
 
-    for (i = 0; i < 7; i++, flag <<= 1) {
+    for (i = 0; i < 8; i++, flag <<= 1) {
         if (starFlags & flag) {
             count++;
         }
@@ -622,7 +622,7 @@ u32 save_file_get_star_flags(s32 fileIndex, s32 courseIndex) {
     if (courseIndex == COURSE_NUM_TO_INDEX(COURSE_NONE)) {
         starFlags = SAVE_FLAG_TO_STAR_FLAG(gSaveBuffer.files[fileIndex][0].flags);
     } else {
-        starFlags = gSaveBuffer.files[fileIndex][0].courseStars[courseIndex] & 0x7F;
+        starFlags = gSaveBuffer.files[fileIndex][0].courseStars[courseIndex];
     }
 
     return starFlags;

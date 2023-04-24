@@ -402,7 +402,6 @@ s32 act_enter_hub_pipe(struct MarioState *m) {
     gMarioState->pos[0] = approach_f32_asymptotic(gMarioState->pos[0],gMarioState->interactObj->oPosX,0.1f);
     gMarioState->pos[1] = approach_f32_asymptotic(gMarioState->pos[1],gMarioState->interactObj->oPosY+300.0f,0.1f);
     gMarioState->pos[2] = approach_f32_asymptotic(gMarioState->pos[2],gMarioState->interactObj->oPosZ,0.1f);
-    m->faceAngle[1] += 0x200;
 
     if (m->actionState == 0) {
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {

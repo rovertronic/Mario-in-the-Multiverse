@@ -240,12 +240,19 @@ void control_ability_dpad(void) {
     }
 
     if (picked_ability > -1) {
+        // Set Mario's Ability Variable
         gMarioState->abilityId = ability_slot[picked_ability];
+
+        // Animate image on DPad HUD
         ability_y_offset[picked_ability] = 5;
         ability_gravity[picked_ability] = 2;
 
+        // Hand Display List
         gSPDisplayList(&gfx_ability_hand[0], ability_struct[gMarioState->abilityId].hand);
         gSPEndDisplayList(&gfx_ability_hand[1]);
+
+        // Mario Model
+        gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
     }
 }
 

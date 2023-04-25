@@ -353,4 +353,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "hudbar/header.h"
 
+#include "generic_pause/header.h"
+
 #endif

@@ -1375,6 +1375,7 @@ s32 lvl_set_current_level(UNUSED s16 initOrUpdate, s32 levelNum) {
         return FALSE;
     }
 
+    return FALSE; // This hack has star select disabled.
     return !gDebugLevelSelect;
 }
 

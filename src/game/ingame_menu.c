@@ -1586,7 +1586,7 @@ void render_pause_red_coins(void) {
     s8 x;
 
     for (x = 0; x < gRedCoinsCollected; x++) {
-        print_animated_red_coin(GFX_DIMENSIONS_FROM_RIGHT_EDGE(30) - x * 20, 16);
+        print_animated_red_coin(GFX_DIMENSIONS_FROM_RIGHT_EDGE(50) - x * 20, 25);
     }
 }
 
@@ -1676,13 +1676,7 @@ void render_pause_my_score_coins(void) {
 
         u8 *actName = segmented_to_virtual(actNameTbl[COURSE_NUM_TO_INDEX(gCurrCourseNum) * 6 + gDialogCourseActNum - 1]);
 
-        if (starFlags & (1 << (gDialogCourseActNum - 1))) {
-            print_generic_string(TXT_STAR_X, 140, textStar);
-        } else {
-            print_generic_string(TXT_STAR_X, 140, textUnfilledStar);
-        }
-
-        print_generic_string(ACT_NAME_X, 140, actName);
+        print_generic_string(ACT_NAME_X, 140, &hub_star_string); // No act names in this hack
         print_generic_string(LVL_NAME_X, 157, &courseName[3]);
     } else {
         print_generic_string(SECRET_LVL_NAME_X, 157, &courseName[3]);
@@ -1743,20 +1737,14 @@ void render_pause_course_options(s16 x, s16 y, s8 *index, s16 yIndex) {
     print_generic_string(x + 10, y - 2, LANGUAGE_ARRAY(textContinue));
     print_generic_string(x + 10, y - 17, LANGUAGE_ARRAY(textExitCourse));
 
-    if (*index != MENU_OPT_CAMERA_ANGLE_R) {
-        print_generic_string(x + 10, y - 33, LANGUAGE_ARRAY(textCameraAngleR));
-        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+    print_generic_string(x + 10, y - 33, LANGUAGE_ARRAY(textCameraAngleR));
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 
-        create_dl_translation_matrix(MENU_MTX_PUSH, x - X_VAL8, (y - ((*index - 1) * yIndex)) - Y_VAL8, 0);
+    create_dl_translation_matrix(MENU_MTX_PUSH, x - X_VAL8, (y - ((*index - 1) * yIndex)) - Y_VAL8, 0);
 
-        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
-        gSPDisplayList(gDisplayListHead++, dl_draw_triangle);
-        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
-    }
-
-    if (*index == MENU_OPT_CAMERA_ANGLE_R) {
-        render_pause_camera_options(x - 42, y - 42, &gDialogCameraAngleIndex, 110);
-    }
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
+    gSPDisplayList(gDisplayListHead++, dl_draw_triangle);
+    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 }
 
 void render_pause_castle_menu_box(s16 x, s16 y) {
@@ -1945,21 +1933,24 @@ s32 render_pause_courses_and_castle(void) {
             break;
 
         case DIALOG_STATE_VERTICAL:
-            shade_screen();
+            //LEVEL PAUSE
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
+            create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
+            gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+            gSPDisplayList(gDisplayListHead++, generic_pause_gp_mesh);
+            gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
             render_pause_my_score_coins();
             render_pause_red_coins();
-#ifndef DISABLE_EXIT_COURSE
-#ifdef EXIT_COURSE_WHILE_MOVING
-            if ((gMarioStates[0].action & (ACT_FLAG_SWIMMING | ACT_FLAG_METAL_WATER | ACT_FLAG_PAUSE_EXIT))
-             || (gMarioStates[0].pos[1] <= gMarioStates[0].floorHeight)) {
-#else
-            if (gMarioStates[0].action & ACT_FLAG_PAUSE_EXIT) {
-#endif
-                render_pause_course_options(99, 93, &gDialogLineNum, 15);
-            }
-#endif
+
+            render_pause_course_options(99, 93, &gDialogLineNum, 15);
 
             if (gPlayer3Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
+                if (gDialogLineNum == MENU_OPT_CAMERA_ANGLE_R) {
+                    gDialogBoxState = DIALOG_STATE_HORIZONTAL;
+                    return MENU_OPT_NONE;
+                }
+
                 level_set_transition(0, NULL);
                 play_sound(SOUND_MENU_PAUSE_CLOSE, gGlobalSoundSource);
                 gDialogBoxState = DIALOG_STATE_OPENING;
@@ -1976,6 +1967,7 @@ s32 render_pause_courses_and_castle(void) {
             break;
 
         case DIALOG_STATE_HORIZONTAL:
+            //HUB PAUSE / ABILITY SWITCHING
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
             create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
             gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);

@@ -72,24 +72,25 @@ u8 pipe_string_enter[] = {TEXT_PIPE_ENTER};
 u8 pipe_string_a[] = {TEXT_PIPE_A};
 u8 pipe_string_b[] = {TEXT_PIPE_B};
 
-u8 star_string[] = {0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,DIALOG_CHAR_TERMINATOR};
+u8 hub_star_string[] = {0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,DIALOG_CHAR_TERMINATOR};
 
 struct mitm_hub_level hub_levels[] = {
-    {&author_string_a,LEVEL_BOB,COURSE_BOB,0},
-    {&author_string_b,LEVEL_WF ,COURSE_BOB ,0},
-    {&author_string_c,LEVEL_CCM,COURSE_BOB,0},
-    {&author_string_d,LEVEL_SSL,COURSE_BOB,0},
-    {&author_string_e,LEVEL_BBH,COURSE_BOB,0},
-    {&author_string_f,LEVEL_LLL,COURSE_BOB,0},
-    {&author_string_g,LEVEL_BOB,COURSE_BOB,0},
-    {&author_string_h,LEVEL_BOB,COURSE_BOB,0},
-    {&author_string_i,LEVEL_BOB,COURSE_BOB,0},
-    {&author_string_j,LEVEL_BOB,COURSE_BOB,0},
-    {&author_string_k,LEVEL_BOB,COURSE_BOB,0},
-    {&author_string_l,LEVEL_BOB,COURSE_BOB,0},
-    {&author_string_m,LEVEL_BOB,COURSE_BOB,0},
-    {&author_string_n,LEVEL_BOB,COURSE_BOB,0},
-    {&author_string_o,LEVEL_BOB,COURSE_BOB,0},
+     /* Author */      /* Level */  /*Star Flags*/   /*Star Req*/
+    {&author_string_a, LEVEL_BOB,   COURSE_BOB,      0  },
+    {&author_string_b, LEVEL_WF ,   COURSE_WF ,      0  },
+    {&author_string_c, LEVEL_CCM,   COURSE_JRB,      0  },
+    {&author_string_d, LEVEL_SSL,   COURSE_CCM,      0  },
+    {&author_string_e, LEVEL_BBH,   COURSE_BBH,      0  },
+    {&author_string_f, LEVEL_LLL,   COURSE_HMC,      0  },
+    {&author_string_g, LEVEL_BOB,   COURSE_LLL,      0  },
+    {&author_string_h, LEVEL_BOB,   COURSE_SSL,      0  },
+    {&author_string_i, LEVEL_BOB,   COURSE_DDD,      0  },
+    {&author_string_j, LEVEL_BOB,   COURSE_SL ,      0  },
+    {&author_string_k, LEVEL_BOB,   COURSE_WDW,      0  },
+    {&author_string_l, LEVEL_BOB,   COURSE_TTM,      0  },
+    {&author_string_m, LEVEL_BOB,   COURSE_THI,      0  },
+    {&author_string_n, LEVEL_BOB,   COURSE_TTC,      0  },
+    {&author_string_o, LEVEL_BOB,   COURSE_RR ,      0  }, /*Mario in New Orleans | Rovert*/
 };
 
 s8 hub_level_index = -1;
@@ -165,13 +166,13 @@ void render_mitm_hub_hud(void) {
 
             for (i=0;i<8;i++) {
                 if (star_flags & (1<<i)) {
-                    star_string[i] = 0xFA;
+                    hub_star_string[i] = 0xFA;
                 } else {
-                    star_string[i] = 0xFD;
+                    hub_star_string[i] = 0xFD;
                 }
             }
 
-            print_generic_string(110,40,star_string);
+            print_generic_string(110,40,hub_star_string);
         } else {
             //Not Enough Stars to Enter
             gDPSetEnvColor(gDisplayListHead++, 255, 0, 0, (u8)hub_titlecard_alpha);

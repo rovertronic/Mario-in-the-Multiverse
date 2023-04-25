@@ -394,6 +394,7 @@ void print_act_selector_strings(void) {
  * Geo function that Print act selector strings.
  */
 Gfx *geo_act_selector_strings(s16 callContext, UNUSED struct GraphNode *node, UNUSED void *context) {
+    print_text_fmt_int(10, 72, "TURN OFF STAR SELECT LOL", 0);
     if (callContext == GEO_CONTEXT_RENDER) {
         print_act_selector_strings();
     }

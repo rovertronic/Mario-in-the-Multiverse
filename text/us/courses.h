@@ -1,3 +1,6 @@
+/*Do change the name of your level, but leave the act names alone. The act names are unused in this project.*/
+/*Leave the number as XX until course order is determined.*/
+
 COURSE_ACTS(COURSE_BOB, _(" 1 BOB-OMB BATTLEFIELD"),
        _("BIG BOB-OMB ON THE SUMMIT")     , _("FOOTRACE WITH KOOPA THE QUICK") , _("SHOOT TO THE ISLAND IN THE SKY"),
        _("FIND THE 8 RED COINS")          , _("MARIO WINGS TO THE SKY")        , _("BEHIND CHAIN CHOMP'S GATE"))
@@ -54,7 +57,7 @@ COURSE_ACTS(COURSE_TTC, _("14 TICK TOCK CLOCK"),
        _("ROLL INTO THE CAGE")            , _("THE PIT AND THE PENDULUMS")     , _("GET A HAND"),
        _("STOMP ON THE THWOMP")           , _("TIMED JUMPS ON MOVING BARS")    , _("STOP TIME FOR RED COINS"))
 
-COURSE_ACTS(COURSE_RR, _("15 RAINBOW RIDE"),
+COURSE_ACTS(COURSE_RR, _("XX MARIO IN NEW ORLEANS"),
        _("CRUISER CROSSING THE RAINBOW")  , _("THE BIG HOUSE IN THE SKY")      , _("COINS AMASSED IN A MAZE"),
        _("SWINGIN' IN THE BREEZE")        , _("TRICKY TRIANGLES!")             , _("SOMEWHERE OVER THE RAINBOW"))
 

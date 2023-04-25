@@ -555,12 +555,13 @@ void int_to_str_000(s32 num, u8 *dst) {
     return;
 }
 
-
+u16 hud_display_coins = 0;
 f32 hud_alpha = 255.0f;
 /**
  * Render HUD strings using hudDisplayFlags with it's render functions,
  * excluding the cannon reticle which detects a camera preset for it.
  */
+
 void render_hud(void) {
     s16 hudDisplayFlags = gHudDisplay.flags;
 
@@ -591,14 +592,24 @@ void render_hud(void) {
         create_dl_ortho_matrix();
 #endif
 
-        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action & ACT_GROUP_CUTSCENE)) {
+        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )) {
             hud_alpha = approach_f32_asymptotic(hud_alpha,0.0f,0.2f);
         } else {
             hud_alpha = approach_f32_asymptotic(hud_alpha,255.0f,0.2f);
         }
 
+        if (hud_display_coins == 0) {
+            hud_display_coins = gMarioState->numGlobalCoins;
+        }
+        if (hud_display_coins > gMarioState->numGlobalCoins) {
+            hud_display_coins --;
+        }
+        if ((hud_display_coins < gMarioState->numGlobalCoins)&&(gGlobalTimer%3==0)) {
+            hud_display_coins ++;
+        }
 
-        render_ability_dpad(50,195,(u8)hud_alpha);
+
+        render_ability_dpad(60,195,(u8)hud_alpha);
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hud_alpha);
 
         create_dl_translation_matrix(MENU_MTX_PUSH, 155, 120, 0);
@@ -610,7 +621,7 @@ void render_hud(void) {
             //Need to do this twice... sadge
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hud_alpha);
             int_to_str_000(gHudDisplay.stars, &hudbar_star[2]);
-            int_to_str_000(gHudDisplay.coins, &hudbar_coin[2]);
+            int_to_str_000(hud_display_coins, &hudbar_coin[2]);
 
             print_hud_lut_string(HUD_LUT_GLOBAL, 170, 14, hudbar_coin);
             print_hud_lut_string(HUD_LUT_GLOBAL, 240, 14, hudbar_star);

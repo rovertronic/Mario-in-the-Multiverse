@@ -25,14 +25,8 @@ struct SaveBlockSignature {
 };
 
 struct SaveFile {
-    // Location of lost cap.
-    // Note: the coordinates get set, but are never actually used, since the
-    // cap can always be found in a fixed spot within the course
-    u8 capLevel;
-    u8 capArea;
-    // Note: the coordinates get set, but are never actually used, since the
-    // cap can always be found in a fixed spot within the course
-    Vec3s capPos; // 48 bits
+    u16 coins; //amount of coins
+    u16 abilities; 
 
     u32 flags;
 
@@ -192,6 +186,9 @@ u32 save_file_get_widescreen_mode(void);
 void save_file_set_widescreen_mode(u8 mode);
 #endif
 void save_file_move_cap_to_default_location(void);
+
+void save_file_get_coins();
+void save_file_set_coins();
 
 void disable_warp_checkpoint(void);
 void check_if_should_set_warp_checkpoint(struct WarpNode *warpNode);

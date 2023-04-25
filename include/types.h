@@ -491,6 +491,7 @@ struct MarioState {
     // -- HackerSM64 MarioState fields end --
 
             u8 abilityId;
+            u16 numGlobalCoins;
 };
 
 #endif // TYPES_H

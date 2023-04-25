@@ -733,6 +733,8 @@ void reset_mario_pitch(struct MarioState *m) {
 }
 
 u32 interact_coin(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
+    gMarioState->numGlobalCoins += obj->oDamageOrCoinValue;
+    save_file_set_coins();
     m->numCoins += obj->oDamageOrCoinValue;
     m->healCounter += 4 * obj->oDamageOrCoinValue;
 #ifdef BREATH_METER

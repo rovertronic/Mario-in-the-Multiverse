@@ -680,15 +680,18 @@ void save_file_set_cannon_unlocked(void) {
 }
 
 void save_file_set_cap_pos(s16 x, s16 y, s16 z) {
+    /*
     struct SaveFile *saveFile = &gSaveBuffer.files[gCurrSaveFileNum - 1][0];
 
     saveFile->capLevel = gCurrLevelNum;
     saveFile->capArea = gCurrAreaIndex;
     vec3s_set(saveFile->capPos, x, y, z);
     save_file_set_flags(SAVE_FLAG_CAP_ON_GROUND);
+    */
 }
 
 s32 save_file_get_cap_pos(Vec3s capPos) {
+    /*
     struct SaveFile *saveFile = &gSaveBuffer.files[gCurrSaveFileNum - 1][0];
     s32 flags = save_file_get_flags();
 
@@ -698,6 +701,15 @@ s32 save_file_get_cap_pos(Vec3s capPos) {
         return TRUE;
     }
     return FALSE;
+    */
+}
+
+void save_file_set_coins(void) {
+    gSaveBuffer.files[gCurrSaveFileNum - 1][0].coins = gMarioState->numGlobalCoins;
+}
+
+void save_file_get_coins(void) {
+    gMarioState->numGlobalCoins = gSaveBuffer.files[gCurrSaveFileNum - 1][0].coins;
 }
 
 void save_file_set_sound_mode(u16 mode) {
@@ -726,6 +738,7 @@ u32 save_file_get_sound_mode(void) {
 }
 
 void save_file_move_cap_to_default_location(void) {
+    /*
     if (save_file_get_flags() & SAVE_FLAG_CAP_ON_GROUND) {
         switch (gSaveBuffer.files[gCurrSaveFileNum - 1][0].capLevel) {
             case LEVEL_SSL:
@@ -740,6 +753,7 @@ void save_file_move_cap_to_default_location(void) {
         }
         save_file_clear_flags(SAVE_FLAG_CAP_ON_GROUND);
     }
+    */
 }
 
 #if MULTILANG

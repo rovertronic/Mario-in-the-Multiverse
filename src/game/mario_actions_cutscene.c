@@ -400,10 +400,11 @@ s32 act_enter_hub_pipe(struct MarioState *m) {
     vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
     vec3s_set(m->marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
     gMarioState->pos[0] = approach_f32_asymptotic(gMarioState->pos[0],gMarioState->interactObj->oPosX,0.1f);
-    gMarioState->pos[1] = approach_f32_asymptotic(gMarioState->pos[1],gMarioState->interactObj->oPosY+300.0f,0.1f);
     gMarioState->pos[2] = approach_f32_asymptotic(gMarioState->pos[2],gMarioState->interactObj->oPosZ,0.1f);
 
     if (m->actionState == 0) {
+        gMarioState->pos[1] = approach_f32_asymptotic(gMarioState->pos[1],gMarioState->interactObj->oPosY+300.0f,0.1f);
+
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
             gMarioState->interactObj->oAction = 2;
             set_mario_action(m, ACT_IDLE, 0);
@@ -413,13 +414,16 @@ s32 act_enter_hub_pipe(struct MarioState *m) {
             if (gMarioState->interactObj->oAction == 3) {
                 play_sound(SOUND_MENU_ENTER_PIPE, m->marioObj->header.gfx.cameraToObject);
                 m->actionState = 1;
+                gMarioState->interactObj->oAction = 4;
 
             } else {
                 play_sound(SOUND_MENU_CAMERA_BUZZ, m->marioObj->header.gfx.cameraToObject);
             }
         }
     } else {
-        if (m->actionTimer++ > 30) {
+        gMarioState->pos[1] = approach_f32_asymptotic(gMarioState->pos[1],gMarioState->interactObj->oPosY+60.0f,0.1f);
+
+        if (m->actionTimer++ > 20) {
             initiate_warp(get_hub_level(gMarioState->interactObj->oBehParams2ndByte), 1, 0x0A, WARP_FLAGS_NONE);
             fade_into_special_warp(WARP_SPECIAL_NONE, 0);
             gSavedCourseNum = COURSE_NONE;

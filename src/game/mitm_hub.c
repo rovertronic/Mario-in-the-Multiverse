@@ -47,6 +47,7 @@
 #include "rumble_init.h"
 #include "puppylights.h"
 #include "actors/group0.h"
+#include "engine/surface_load.h"
 
 #include "mitm_hub.h"
 #include "ability.h"
@@ -112,6 +113,8 @@ void level_pipe_loop(void) {
                     }
                 }
             }
+
+            load_object_collision_model();
         break;
         case 1: // Choose
         case 3: // 
@@ -121,6 +124,10 @@ void level_pipe_loop(void) {
             if (lateral_dist_between_objects(o, gMarioObject) > 120.0f) {
                 o->oAction = 0;
             }
+            load_object_collision_model();
+        break;
+        case 4: // Level being entered
+            hub_level_index = -1;
         break;
     }
 }

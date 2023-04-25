@@ -351,4 +351,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "ability_unlock/geo_header.h"
 
+#include "hudbar/header.h"
+
 #endif

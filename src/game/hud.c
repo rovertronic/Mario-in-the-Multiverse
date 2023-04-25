@@ -17,6 +17,7 @@
 #include "engine/math_util.h"
 #include "puppycam2.h"
 #include "puppyprint.h"
+#include "actors/group0.h"
 
 #include "config.h"
 #include "ability.h"
@@ -519,6 +520,41 @@ void render_hud_camera_status(void) {
     gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
 }
 
+u8 hudbar_star[] = {GLYPH_STAR, DIALOG_CHAR_SPACE, 0, 0, 0, DIALOG_CHAR_TERMINATOR};
+u8 hudbar_coin[] = {GLYPH_COIN, DIALOG_CHAR_SPACE, 0, 0, 0, DIALOG_CHAR_TERMINATOR};
+
+//Warning: no automatic terminator
+void int_to_str_000(s32 num, u8 *dst) {
+    s32 digit[3];
+
+    s8 pos = 0;
+
+    if (num > 999) {
+        dst[0] = 0x00;
+        dst[1] = DIALOG_CHAR_TERMINATOR;
+        return;
+    }
+
+    digit[0] = (num / 100);
+    digit[1] = ((num - (digit[0] * 100)) / 10);
+    digit[2] = ((num - (digit[0] * 100)) - (digit[1] * 10));
+
+    if (num < 10) {
+        dst[0] = 0;
+        dst[1] = 0;
+        dst[2] = digit[2];
+    } else if (num < 100) {
+        dst[0] = 0;
+        dst[1] = digit[1];
+        dst[2] = digit[2];
+    } else {
+        dst[0] = digit[0];
+        dst[1] = digit[1];
+        dst[2] = digit[2];
+    }
+    return;
+}
+
 /**
  * Render HUD strings using hudDisplayFlags with it's render functions,
  * excluding the cannon reticle which detects a camera preset for it.
@@ -553,7 +589,20 @@ void render_hud(void) {
         create_dl_ortho_matrix();
 #endif
 
-        render_ability_dpad(45,45,255);
+        render_ability_dpad(50,195,255);
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
+
+        create_dl_translation_matrix(MENU_MTX_PUSH, 155, 120, 0);
+        gSPDisplayList(gDisplayListHead++, &hudbar_hudbar_mesh);
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+        gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
+        int_to_str_000(gHudDisplay.stars, &hudbar_star[2]);
+        int_to_str_000(gHudDisplay.coins, &hudbar_coin[2]);
+
+        print_hud_lut_string(HUD_LUT_GLOBAL, 170, 14, hudbar_coin);
+        print_hud_lut_string(HUD_LUT_GLOBAL, 240, 14, hudbar_star);
+        gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
 
         if (gCurrentArea != NULL && gCurrentArea->camera->mode == CAMERA_MODE_INSIDE_CANNON) {
             render_hud_cannon_reticle();
@@ -564,18 +613,6 @@ void render_hud(void) {
             render_hud_mario_lives();
         }
 #endif
-
-        if (hudDisplayFlags & HUD_DISPLAY_FLAG_COIN_COUNT) {
-            render_hud_coins();
-        }
-
-        if (hudDisplayFlags & HUD_DISPLAY_FLAG_STAR_COUNT) {
-            render_hud_stars();
-        }
-
-        if (hudDisplayFlags & HUD_DISPLAY_FLAG_KEYS) {
-            render_hud_keys();
-        }
 
 #ifdef BREATH_METER
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_BREATH_METER) render_hud_breath_meter();

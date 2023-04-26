@@ -44,3 +44,4 @@
 #include "hudbar/model.inc.c"
 #include "generic_pause/model.inc.c"
 #include "ability_sign/model.inc.c"
+#include "hat/model.inc.c"

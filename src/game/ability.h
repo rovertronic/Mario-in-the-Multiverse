@@ -30,11 +30,13 @@ enum ability_ids {
 
 struct ability {
     Gfx * hand;
+    Gfx * hat;
     u8 model_id;
     u8 * string;
 };
 
 extern Gfx gfx_ability_hand[2];
+extern Gfx gfx_ability_hat[2];
 extern u8 ability_slot[4];
 
 #endif

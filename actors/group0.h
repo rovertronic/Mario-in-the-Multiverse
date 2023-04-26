@@ -357,4 +357,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "ability_sign/geo_header.h"
 
+#include "hat/header.h"
+
 #endif

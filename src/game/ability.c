@@ -56,6 +56,7 @@
 #include "ability.h"
 
 Gfx gfx_ability_hand[2] = {gsSPDisplayList(mario_right_hand_closed),gsSPEndDisplayList()};
+Gfx gfx_ability_hat[2] = {gsSPEndDisplayList()};
 
 //Graphics data for abilities
 ALIGNED8 u8 ability_images[][2048] = {
@@ -130,23 +131,23 @@ u8 abstr_n[] = {TEXT_ABILITY_N};
 u8 abstr_o[] = {TEXT_ABILITY_O};
 
 struct ability ability_struct[] = {
-    /*           HAND DISPLAY LIST          MARIO MODEL ID     STRING */
-    /*Default*/{&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_def},
-    /*A*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_a  },
-    /*B*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_b  },
-    /*C*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_c  },
-    /*D*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_d  },
-    /*E*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_e  },
-    /*F*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_f  },
-    /*G*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_g  },
-    /*H*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_h  },
-    /*I*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_i  },
-    /*J*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_j  },
-    /*K*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_k  },
-    /*L*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_l  },
-    /*M*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_m  },
-    /*N*/      {&mario_right_hand_closed   ,MODEL_MARIO       ,&abstr_n  },
-    /*O*/      {&saw_hand_skinned_016_mesh ,MODEL_MARIO       ,&abstr_o  },
+    /*           HAND DISPLAY LIST        HAT DISPLAY LIST     MARIO MODEL ID     STRING */
+    /*Default*/{&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_def},
+    /*A*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_a  },
+    /*B*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_b  },
+    /*C*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_c  },
+    /*D*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_d  },
+    /*E*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_e  },
+    /*F*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_f  },
+    /*G*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_g  },
+    /*H*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_h  },
+    /*I*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_i  },
+    /*J*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_j  },
+    /*K*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_k  },
+    /*L*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_l  },
+    /*M*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_m  },
+    /*N*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_n  },
+    /*O*/      {&saw_hand_skinned_016_mesh, NULL               ,MODEL_MARIO       ,&abstr_o  },
 };
 
 void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index) {
@@ -251,6 +252,14 @@ void control_ability_dpad(void) {
         // Hand Display List
         gSPDisplayList(&gfx_ability_hand[0], ability_struct[gMarioState->abilityId].hand);
         gSPEndDisplayList(&gfx_ability_hand[1]);
+
+        //Hat Display List
+        if (ability_struct[gMarioState->abilityId].hat == NULL) {
+            gSPEndDisplayList(&gfx_ability_hat[0]);
+        } else {
+            gSPDisplayList(&gfx_ability_hat[0], ability_struct[gMarioState->abilityId].hat);
+            gSPEndDisplayList(&gfx_ability_hat[1]);
+        }
 
         // Mario Model
         gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];

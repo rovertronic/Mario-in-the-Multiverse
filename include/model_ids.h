@@ -572,15 +572,15 @@
 #define MODEL_VCUTM_WARP_PIPE                     MODEL_LEVEL_GEOMETRY_16   // warp_pipe_geo
 #define MODEL_CASTLE_GROUNDS_WARP_PIPE            MODEL_LEVEL_GEOMETRY_16   // warp_pipe_geo
 
-/* GLOBAL MODEL IDS 0xF0-0xFF */
+/* GLOBAL MODEL IDS 0xF0-0x14F */
 #define MODEL_LEVEL_PIPE                          0xFF
 #define MODEL_ABILITY                             0xFE
 
-/* LEVEL SPECIFIC MODELS 0x100-0x1FF */
+/* LEVEL SPECIFIC MODELS 0x150-0x1FF */
 //Format: #define MODEL_A_MODELNAME
 
 /* LEVEL INTRO START */
-#define MODEL_INTRO_SKYBOX                        0x100
+#define MODEL_INTRO_SKYBOX                        0x150
 /* LEVEL INTRO END */
 
 /* LEVEL A START */

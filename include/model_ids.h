@@ -573,9 +573,10 @@
 #define MODEL_CASTLE_GROUNDS_WARP_PIPE            MODEL_LEVEL_GEOMETRY_16   // warp_pipe_geo
 
 /* GLOBAL MODEL IDS 0xF0-0x14F */
-#define MODEL_LEVEL_PIPE                          0xFF
-#define MODEL_ABILITY                             0xFE
-
+enum GLOBAL_MODELS {
+    MODEL_LEVEL_PIPE=0xF0,
+    MODEL_ABILITY,
+};
 /* LEVEL SPECIFIC MODELS 0x150-0x1FF */
 //Format: #define MODEL_A_MODELNAME
 

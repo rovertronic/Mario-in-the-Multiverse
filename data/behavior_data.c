@@ -6106,3 +6106,48 @@ const BehaviorScript bhvAbilityUnlock[] = {
     BEGIN_LOOP(),
     END_LOOP(),
 };
+
+/* GROUP A START */
+/* GROUP A END */
+
+/* GROUP B START */
+/* GROUP B END */
+
+/* GROUP C START */
+/* GROUP C END */
+
+/* GROUP D START */
+/* GROUP D END */
+
+/* GROUP E START */
+/* GROUP E END */
+
+/* GROUP F START */
+/* GROUP F END */
+
+/* GROUP G START */
+/* GROUP G END */
+
+/* GROUP H START */
+/* GROUP H END */
+
+/* GROUP I START */
+/* GROUP I END */
+
+/* GROUP J START */
+/* GROUP J END */
+
+/* GROUP K START */
+/* GROUP K END */
+
+/* GROUP L START */
+/* GROUP L END */
+
+/* GROUP M START */
+/* GROUP M END */
+
+/* GROUP N START */
+/* GROUP N END */
+
+/* GROUP O START */
+/* GROUP O END */

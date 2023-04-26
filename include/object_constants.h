@@ -1,3 +1,5 @@
+#include "src/game/ability.h"
+
 #ifndef OBJECT_CONSTANTS_H
 #define OBJECT_CONSTANTS_H
 

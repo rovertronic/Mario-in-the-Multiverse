@@ -355,4 +355,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "generic_pause/header.h"
 
+#include "ability_sign/geo_header.h"
+
 #endif

@@ -326,26 +326,25 @@ struct Object {
         const void *asConstVoidPtr[MAX_OBJECT_FIELDS];
     } ptrData;
 #endif
-    /*0x1C8*/ u32 unused1;
-    /*0x1CC*/ const BehaviorScript *curBhvCommand;
-    /*0x1D0*/ u32 bhvStackIndex;
-    /*0x1D4*/ uintptr_t bhvStack[8];
-    /*0x1F4*/ s16 bhvDelayTimer;
-    /*0x1F6*/ s16 respawnInfoType;
-    /*0x1F8*/ f32 hitboxRadius;
-    /*0x1FC*/ f32 hitboxHeight;
-    /*0x200*/ f32 hurtboxRadius;
-    /*0x204*/ f32 hurtboxHeight;
-    /*0x208*/ f32 hitboxDownOffset;
-    /*0x20C*/ const BehaviorScript *behavior;
-    /*0x210*/ u32 unused2;
-    /*0x214*/ struct Object *platform;
-    /*0x218*/ void *collisionData;
-    /*0x21C*/ Mat4 transform;
-    /*0x25C*/ void *respawnInfo;
+    /*0x1C8*/ const BehaviorScript *curBhvCommand;
+    /*0x1CC*/ u32 bhvStackIndex;
+    /*0x1D0*/ uintptr_t bhvStack[8];
+    /*0x1F0*/ s16 bhvDelayTimer;
+    /*0x1F2*/ s16 respawnInfoType;
+    /*0x1F4*/ f32 hitboxRadius;
+    /*0x1F8*/ f32 hitboxHeight;
+    /*0x1FC*/ f32 hurtboxRadius;
+    /*0x200*/ f32 hurtboxHeight;
+    /*0x204*/ f32 hitboxDownOffset;
+    /*0x208*/ const BehaviorScript *behavior;
+    /*0x20C*/ struct Object *platform;
+    /*0x210*/ void *collisionData;
+    /*0x214*/ Mat4 transform;
+    /*0x254*/ void *respawnInfo;
 #ifdef PUPPYLIGHTS
     struct PuppyLight puppylight;
 #endif
+              u8 abilityChronosUpdatedCollisionLastFrame;
 };
 
 struct ObjectHitbox {
@@ -492,6 +491,8 @@ struct MarioState {
 
             u8 abilityId;
             u16 numGlobalCoins;
+
+            u8 abilityChronosTimeSlowActive;
 };
 
 #endif // TYPES_H

@@ -14,6 +14,7 @@
 #include "memory.h"
 #include "behavior_data.h"
 #include "rumble_init.h"
+#include "ability.h"
 
 #include "config.h"
 
@@ -213,6 +214,8 @@ s32 update_sliding(struct MarioState *m, f32 stopSpeed) {
     f32 forward = coss(intendedDYaw);
     f32 sideward = sins(intendedDYaw);
 
+    f32 abilityChronosSlowFactor = m->abilityChronosTimeSlowActive ? ABILITY_CHRONOS_SLOW_FACTOR : 1.0f;
+
     //! 10k glitch
     if (forward < 0.0f && m->forwardVel >= 0.0f) {
         forward *= 0.5f + 0.5f * m->forwardVel / 100.0f;
@@ -255,7 +258,7 @@ s32 update_sliding(struct MarioState *m, f32 stopSpeed) {
         m->slideVelZ = m->slideVelZ * oldSpeed / newSpeed;
     }
 
-    update_sliding_angle(m, accel, lossFactor);
+    update_sliding_angle(m, accel * abilityChronosSlowFactor, lossFactor);
 
     if (!mario_floor_is_slope(m) && m->forwardVel * m->forwardVel < stopSpeed * stopSpeed) {
         mario_set_forward_vel(m, 0.0f);
@@ -1410,7 +1413,7 @@ s32 common_slide_action_with_jump(struct MarioState *m, u32 stopAction, u32 jump
             return set_jumping_action(m, jumpAction, 0);
         }
     } else {
-        m->actionTimer++;
+        update_mario_action_timer_post(m);
     }
 
     if (update_sliding(m, 4.0f)) {
@@ -1445,7 +1448,7 @@ s32 act_crouch_slide(struct MarioState *m) {
     }
 
     if (m->actionTimer < 30) {
-        m->actionTimer++;
+        update_mario_action_timer_post(m);
         if (m->input & INPUT_A_PRESSED) {
             if (m->forwardVel > 10.0f) {
                 return set_jumping_action(m, ACT_LONG_JUMP, 0);
@@ -1514,7 +1517,7 @@ s32 stomach_slide_action(struct MarioState *m, u32 stopAction, u32 airAction, s3
                 m, m->forwardVel >= 0.0f ? ACT_FORWARD_ROLLOUT : ACT_BACKWARD_ROLLOUT, 0);
         }
     } else {
-        m->actionTimer++;
+        update_mario_action_timer_post(m);
     }
 
     if (update_sliding(m, 4.0f)) {
@@ -1749,7 +1752,7 @@ s32 common_landing_cancels(struct MarioState *m, struct LandingAction *landingAc
         return set_mario_action(m, landingAction->endAction, 0);
     }
 
-    if (++m->actionTimer >= landingAction->numFrames) {
+    if (update_mario_action_timer_pre(m) >= landingAction->numFrames) {
         return set_mario_action(m, landingAction->endAction, 0);
     }
 
@@ -1888,7 +1891,7 @@ s32 act_backflip_land(struct MarioState *m) {
 
 s32 quicksand_jump_land_action(struct MarioState *m, s32 animation1, s32 animation2, u32 endAction,
                                u32 airAction) {
-    if (m->actionTimer++ < 6) {
+    if (update_mario_action_timer_post(m) < 6) {
         m->quicksandDepth -= (7 - m->actionTimer) * 0.8f;
         if (m->quicksandDepth < 1.0f) {
             m->quicksandDepth = 1.1f;

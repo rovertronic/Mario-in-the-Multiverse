@@ -735,6 +735,8 @@ void load_object_collision_model(void) {
     }
     COND_BIT((marioDist < o->oDrawingDistance), o->header.gfx.node.flags, GRAPH_RENDER_ACTIVE);
     profiler_collision_update(first);
+
+    o->abilityChronosUpdatedCollisionLastFrame = TRUE;
 }
 
 /**

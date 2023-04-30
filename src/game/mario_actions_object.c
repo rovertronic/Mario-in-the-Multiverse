@@ -9,6 +9,8 @@
 #include "interaction.h"
 #include "engine/math_util.h"
 #include "rumble_init.h"
+#include "ability.h"
+#include "game_init.h"
 
 /**
  * Used by act_punching() to determine Mario's forward velocity during each
@@ -164,7 +166,9 @@ s32 act_punching(struct MarioState *m) {
 
     mario_set_forward_vel(m, sPunchingForwardVelocities[m->actionTimer]);
     if (m->actionTimer > 0) {
-        m->actionTimer--;
+        if (!m->abilityChronosTimeSlowActive || (m->abilityChronosTimeSlowActive && gGlobalTimer % ABILITY_CHRONOS_SLOW_SPLIT == 0)) {
+            m->actionTimer--;
+        }
     }
 
     mario_update_punch_sequence(m);
@@ -248,7 +252,7 @@ s32 act_placing_down(struct MarioState *m) {
         return drop_and_set_mario_action(m, ACT_FREEFALL, 0);
     }
 
-    if (++m->actionTimer == 8) {
+    if (update_mario_action_timer_pre(m) == 8) {
         mario_drop_held_object(m);
     }
 
@@ -269,7 +273,7 @@ s32 act_throwing(struct MarioState *m) {
         return drop_and_set_mario_action(m, ACT_FREEFALL, 0);
     }
 
-    if (++m->actionTimer == 7) {
+    if (update_mario_action_timer_pre(m) == 7) {
         mario_throw_held_object(m);
         play_sound_if_no_flag(m, SOUND_MARIO_WAH2, MARIO_MARIO_SOUND_PLAYED);
         play_sound_if_no_flag(m, SOUND_ACTION_THROW, MARIO_ACTION_SOUND_PLAYED);
@@ -291,7 +295,7 @@ s32 act_heavy_throw(struct MarioState *m) {
         return drop_and_set_mario_action(m, ACT_FREEFALL, 0);
     }
 
-    if (++m->actionTimer == 13) {
+    if (update_mario_action_timer_pre(m) == 13) {
         mario_drop_held_object(m);
         play_sound_if_no_flag(m, SOUND_MARIO_WAH2, MARIO_MARIO_SOUND_PLAYED);
         play_sound_if_no_flag(m, SOUND_ACTION_THROW, MARIO_ACTION_SOUND_PLAYED);
@@ -355,7 +359,7 @@ s32 act_holding_bowser(struct MarioState *m) {
     }
 
     if (m->angleVel[1] == 0) {
-        if (m->actionTimer++ > 120) {
+        if (update_mario_action_timer_post(m) > 120) {
             return set_mario_action(m, ACT_RELEASING_BOWSER, 1);
         }
 
@@ -414,7 +418,7 @@ s32 act_holding_bowser(struct MarioState *m) {
 }
 
 s32 act_releasing_bowser(struct MarioState *m) {
-    if (++m->actionTimer == 1) {
+    if (update_mario_action_timer_pre(m) == 1) {
         if (m->actionArg == 0) {
 #if ENABLE_RUMBLE
             queue_rumble_data(5, 50);

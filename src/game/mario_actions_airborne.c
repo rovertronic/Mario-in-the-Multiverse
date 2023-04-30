@@ -432,7 +432,7 @@ u32 common_air_action_step(struct MarioState *m, u32 landAction, s32 animation, 
 s32 act_jump(struct MarioState *m) {
 #ifdef EASIER_LONG_JUMPS
     if (m->actionTimer < 1) {
-        m->actionTimer++;
+        update_mario_action_timer_post(m);
         if (m->input & INPUT_Z_PRESSED && m->forwardVel > 10.0f) {
             return set_jumping_action(m, ACT_LONG_JUMP, 0);
         }
@@ -969,7 +969,8 @@ s32 act_ground_pound(struct MarioState *m) {
 
     if (m->actionState == 0) {
         if (m->actionTimer < 10) {
-            yOffset = 20 - 2 * m->actionTimer;
+            f32 abilityChronosSlowFactor = m->abilityChronosTimeSlowActive ? ABILITY_CHRONOS_SLOW_FACTOR : 1.0f;
+            yOffset = (20 - 2 * m->actionTimer) * abilityChronosSlowFactor;
             if (m->pos[1] + yOffset + 160.0f < m->ceilHeight) {
                 m->pos[1] += yOffset;
                 m->peakHeight = m->pos[1];
@@ -986,7 +987,7 @@ s32 act_ground_pound(struct MarioState *m) {
             play_sound(SOUND_ACTION_SPIN, m->marioObj->header.gfx.cameraToObject);
         }
 
-        m->actionTimer++;
+        update_mario_action_timer_post(m);
         if (m->actionTimer >= m->marioObj->header.gfx.animInfo.curAnim->loopEnd + 4) {
             play_sound(SOUND_MARIO_GROUND_POUND_WAH, m->marioObj->header.gfx.cameraToObject);
             m->actionState = ACT_STATE_GROUND_POUND_FALL;
@@ -1481,7 +1482,7 @@ s32 act_hold_butt_slide_air(struct MarioState *m) {
         return drop_and_set_mario_action(m, ACT_HOLD_FREEFALL, 1);
     }
 
-    if (++m->actionTimer > 30 && m->pos[1] - m->floorHeight > 500.0f) {
+    if (update_mario_action_timer_pre(m) > 30 && m->pos[1] - m->floorHeight > 500.0f) {
         return set_mario_action(m, ACT_HOLD_FREEFALL, 1);
     }
 
@@ -1811,7 +1812,7 @@ s32 act_flying(struct MarioState *m) {
                 set_mario_action(m, ACT_BACKWARD_AIR_KB, 0);
                 set_camera_mode(m->area->camera, m->area->camera->defMode, 1);
             } else {
-                if (m->actionTimer++ == 0) {
+                if (update_mario_action_timer_post(m) == 0) {
                     play_sound(SOUND_ACTION_HIT, m->marioObj->header.gfx.cameraToObject);
                 }
 
@@ -1929,7 +1930,7 @@ s32 act_flying_triple_jump(struct MarioState *m) {
         set_mario_action(m, ACT_FLYING, 1);
     }
 
-    if (m->actionTimer++ == 10 && m->area->camera->mode != FLYING_CAMERA_MODE) {
+    if (update_mario_action_timer_post(m) == 10 && m->area->camera->mode != FLYING_CAMERA_MODE) {
         set_camera_mode(m->area->camera, FLYING_CAMERA_MODE, 1);
     }
 

@@ -21,7 +21,7 @@ enum ability_ids {
     ABILITY_H_,
     ABILITY_I_,
     ABILITY_J_,
-    ABILITY_K_,
+    ABILITY_CHRONOS,
     ABILITY_L_,
     ABILITY_M_,
     ABILITY_N_,
@@ -38,5 +38,8 @@ struct ability {
 extern Gfx gfx_ability_hand[2];
 extern Gfx gfx_ability_hat[2];
 extern u8 ability_slot[4];
+
+#define ABILITY_CHRONOS_SLOW_SPLIT 3
+#define ABILITY_CHRONOS_SLOW_FACTOR 1.0f / ABILITY_CHRONOS_SLOW_SPLIT
 
 #endif

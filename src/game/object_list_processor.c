@@ -22,6 +22,8 @@
 #include "puppyprint.h"
 #include "puppylights.h"
 #include "profiling.h"
+#include "game_init.h"
+#include "ability.h"
 
 
 /**
@@ -293,8 +295,21 @@ s32 update_objects_starting_at(struct ObjectNode *objList, struct ObjectNode *fi
     while (objList != firstObj) {
         gCurrentObject = (struct Object *) firstObj;
 
-        gCurrentObject->header.gfx.node.flags |= GRAPH_RENDER_HAS_ANIMATION;
-        cur_obj_update();
+        if (
+            gCurrentObject->oFlags & OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW ||
+            !gMarioState->abilityChronosTimeSlowActive ||
+            gGlobalTimer % ABILITY_CHRONOS_SLOW_SPLIT == 0
+        ) {
+            gCurrentObject->abilityChronosUpdatedCollisionLastFrame = FALSE;
+            gCurrentObject->header.gfx.node.flags |= GRAPH_RENDER_HAS_ANIMATION;
+            cur_obj_update();
+        }
+        else {
+            gCurrentObject->header.gfx.node.flags &= ~GRAPH_RENDER_HAS_ANIMATION;
+            if (gCurrentObject->collisionData != NULL && gCurrentObject->abilityChronosUpdatedCollisionLastFrame) {
+                load_object_collision_model();
+            }
+        }
 
         firstObj = firstObj->next;
         count++;
@@ -483,7 +498,6 @@ void spawn_objects_from_info(UNUSED s32 unused, struct SpawnInfo *spawnInfo) {
             object->oBehParams2ndByte = GET_BPARAM2(spawnInfo->behaviorArg);
 
             object->behavior = script;
-            object->unused1 = 0;
 
             // Record death/collection in the SpawnInfo
             object->respawnInfoType = RESPAWN_INFO_TYPE_NORMAL;

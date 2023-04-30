@@ -166,7 +166,7 @@ s32 act_idle(struct MarioState *m) {
                     m->actionState = ACT_STATE_IDLE_HEAD_LEFT;
                 } else {
                     // If Mario hasn't turned his head 10 times yet, stay idle instead of going to sleep.
-                    m->actionTimer++;
+                    update_mario_action_timer_post(m);
                     if (m->actionTimer < 10) {
                         m->actionState = ACT_STATE_IDLE_HEAD_LEFT;
                     }
@@ -277,7 +277,7 @@ s32 act_sleeping(struct MarioState *m) {
             }
 
             if (is_anim_at_end(m)) {
-                m->actionTimer++;
+                update_mario_action_timer_post(m);
                 if (m->actionTimer > 45) {
                     m->actionState = ACT_SLEEPING_STATE_START_LYING;
                 }
@@ -322,7 +322,7 @@ s32 act_waking_up(struct MarioState *m) {
         return set_mario_action(m, ACT_BEGIN_SLIDING, 0);
     }
 
-    m->actionTimer++;
+    update_mario_action_timer_post(m);
 
     if (m->actionTimer > 20) {
         return set_mario_action(m, ACT_IDLE, 0);
@@ -781,7 +781,7 @@ s32 act_shockwave_bounce(struct MarioState *m) {
         }
     }
 
-    if (++m->actionTimer == 48) {
+    if (update_mario_action_timer_pre(m) == 48) {
         return set_mario_action(m, ACT_IDLE, 0);
     }
 
@@ -970,7 +970,7 @@ s32 act_air_throw_land(struct MarioState *m) {
         return set_mario_action(m, ACT_FREEFALL, 0);
     }
 
-    if (++m->actionTimer == 4) {
+    if (update_mario_action_timer_pre(m) == 4) {
         mario_throw_held_object(m);
     }
 

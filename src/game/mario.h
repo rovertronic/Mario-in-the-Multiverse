@@ -53,4 +53,7 @@ s32 execute_mario_action(UNUSED struct Object *obj);
 void init_mario(void);
 void init_mario_from_save_file(void);
 
+u16 update_mario_action_timer_pre(struct MarioState *m);
+u16 update_mario_action_timer_post(struct MarioState *m);
+
 #endif // MARIO_H

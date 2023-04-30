@@ -58,6 +58,10 @@ enum ObjFlags {
     OBJ_FLAG_OPACITY_FROM_CAMERA_DIST          = (1 << 21), // 0x00200000
     OBJ_FLAG_EMIT_LIGHT                        = (1 << 22), // 0x00400000
     OBJ_FLAG_ONLY_PROCESS_INSIDE_ROOM          = (1 << 23), // 0x00800000
+
+    OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW       = (1 << 24), // 0x01000000 - For Axo's Chronos ability - disables the "pause buffer" timeslow method,
+                                                            //              and instead allows the object to slow its velocity/animations manually
+
     OBJ_FLAG_HITBOX_WAS_SET                    = (1 << 30), // 0x40000000
 };
 

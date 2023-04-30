@@ -1744,6 +1744,17 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             return ACTIVE_PARTICLE_NONE;
         }
 
+        if (
+            (gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE &&
+            using_ability(ABILITY_CHRONOS) && 
+            gPlayer1Controller->buttonDown & L_TRIG
+        ) {
+            gMarioState->abilityChronosTimeSlowActive = TRUE;
+        }
+        else {
+            gMarioState->abilityChronosTimeSlowActive = FALSE;
+        }
+
         // The function can loop through many action shifts in one frame,
         // which can lead to unexpected sub-frame behavior. Could potentially hang
         // if a loop of actions were found, but there has not been a situation found.
@@ -1761,6 +1772,9 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 
         if ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE) {
             control_ability_dpad();
+        }
+        else {
+            gMarioState->abilityChronosTimeSlowActive = FALSE;
         }
 
         sink_mario_in_quicksand(gMarioState);
@@ -1905,4 +1919,20 @@ void init_mario_from_save_file(void) {
 
     gHudDisplay.coins = 0;
     gHudDisplay.wedges = 8;
+}
+
+
+u16 update_mario_action_timer_pre(struct MarioState *m) {
+    if (!m->abilityChronosTimeSlowActive || (m->abilityChronosTimeSlowActive && gGlobalTimer % ABILITY_CHRONOS_SLOW_SPLIT == 0)) {
+        m->actionTimer++;
+    }
+    return m->actionTimer;
+}
+
+u16 update_mario_action_timer_post(struct MarioState *m) {
+    u16 output = m->actionTimer;
+    if (!m->abilityChronosTimeSlowActive || (m->abilityChronosTimeSlowActive && gGlobalTimer % ABILITY_CHRONOS_SLOW_SPLIT == 0)) {
+        m->actionTimer++;
+    }
+    return output;
 }

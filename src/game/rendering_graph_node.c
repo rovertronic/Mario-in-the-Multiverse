@@ -931,7 +931,7 @@ void geo_set_animation_globals(struct AnimInfo *node, s32 hasAnimation, s32 abil
             !abilityChronosEnableManualSlow || // Object does not have flag
             !gMarioState->abilityChronosTimeSlowActive || // Time slow is not active
             newFrame == 0 || // We must always set on frame 0 to avoid a bugged frame
-            gGlobalTimer % ABILITY_CHRONOS_SLOW_SPLIT == 0 // Update every 3 frames if above conditions are not met
+            gGlobalTimer % ABILITY_CHRONOS_SLOW_SPLIT == 0 // Update every ABILITY_CHRONOS_SLOW_SPLIT frames if above conditions are not met
         ) {
             node->animFrame = newFrame;
         }

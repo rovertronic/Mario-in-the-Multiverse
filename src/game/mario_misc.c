@@ -25,6 +25,7 @@
 #include "skybox.h"
 #include "sound_init.h"
 #include "puppycam2.h"
+#include "ability.h"
 
 #include "config.h"
 
@@ -507,7 +508,9 @@ Gfx *geo_switch_mario_cap_on_off(s32 callContext, struct GraphNode *node, UNUSED
     struct MarioBodyState *bodyState = &gBodyStates[switchCase->numCases];
 
     if (callContext == GEO_CONTEXT_RENDER) {
-        switchCase->selectedCase = bodyState->capState & MARIO_HAS_DEFAULT_CAP_OFF;
+        switchCase->selectedCase = 
+            bodyState->capState & MARIO_HAS_DEFAULT_CAP_OFF ||
+            using_ability(ABILITY_CHRONOS);
         while (next != node) {
             if (next->type == GRAPH_NODE_TYPE_TRANSLATION_ROTATION) {
                 COND_BIT((bodyState->capState & MARIO_HAS_WING_CAP_ON), next->flags, GRAPH_RENDER_ACTIVE);

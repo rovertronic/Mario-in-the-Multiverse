@@ -1176,7 +1176,14 @@ s32 update_level(void) {
 
     switch (sCurrPlayMode) {
         case PLAY_MODE_NORMAL:
-            changeLevel = play_mode_normal(); scroll_textures();
+            changeLevel = play_mode_normal(); // Hopefully Fast64 doesn't overwrite this
+            
+            if (
+                !gMarioState->abilityChronosTimeSlowActive ||  // Scroll textures when time slow is not active,
+                gGlobalTimer % ABILITY_CHRONOS_SLOW_SPLIT == 0 // and if it is, scroll every ABILITY_CHRONOS_SLOW_SPLIT frames
+            ) {
+                scroll_textures();
+            }
             break;
         case PLAY_MODE_PAUSED:
             changeLevel = play_mode_paused();

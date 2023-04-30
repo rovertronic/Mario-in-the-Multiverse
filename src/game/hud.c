@@ -555,6 +555,31 @@ void int_to_str_000(s32 num, u8 *dst) {
     return;
 }
 
+Gfx *hp_dl_table[] = {
+    &hp_1_hp_1_mesh,
+    &hp_1_hp_1_mesh,
+    &hp_2_hp_2_mesh,
+    &hp_3_hp_3_mesh,
+    &hp_4_hp_4_mesh,
+    &hp_5_hp_5_mesh,
+    &hp_6_hp_6_mesh,
+    &hp_7_hp_7_mesh,
+    &hp_8_hp_8_mesh,
+};
+
+u8 hp_color_table[][3] = {
+    {255,0,0},
+    {255,0,0},//1
+    {255,0,0},//2
+    {255,50,0},//3
+    {255,255,0},//4
+    {255,255,0},//5
+    {0,255,0},//6
+    {0,255,0},//7
+    {0,200,255},//8
+};
+
+
 u16 hud_display_coins = 0;
 f32 hud_alpha = 255.0f;
 /**
@@ -614,6 +639,13 @@ void render_hud(void) {
 
         create_dl_translation_matrix(MENU_MTX_PUSH, 155, 120, 0);
         gSPDisplayList(gDisplayListHead++, &hudbar_hudbar_mesh);
+
+        if (gHudDisplay.wedges > 0) {
+            gDPSetEnvColor(gDisplayListHead++, hp_color_table[gHudDisplay.wedges][0],
+            hp_color_table[gHudDisplay.wedges][1], hp_color_table[gHudDisplay.wedges][2], (u8)hud_alpha);
+            gSPDisplayList(gDisplayListHead++, hp_dl_table[gHudDisplay.wedges]);
+        }
+
         gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 
         gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
@@ -646,7 +678,7 @@ void render_hud(void) {
 #endif
 
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_CAMERA_AND_POWER) {
-            render_hud_power_meter();
+            //render_hud_power_meter();
 #ifdef PUPPYCAM
             if (!gPuppyCam.enabled) {
 #endif

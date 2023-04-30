@@ -1759,7 +1759,17 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
 
-        if (!(gMarioState->action & ACT_GROUP_CUTSCENE)) {
+        u8 cutscene_override = FALSE;
+
+        //Actions that are falsely triggered by the cutscene action flag
+        switch(gMarioState->action) {
+            case ACT_PUNCHING:
+            case ACT_LEDGE_GRAB:
+            cutscene_override = TRUE;
+            break;
+        }
+
+        if (!(gMarioState->action & ACT_GROUP_CUTSCENE) || (cutscene_override)) {
             control_ability_dpad();
         }
 

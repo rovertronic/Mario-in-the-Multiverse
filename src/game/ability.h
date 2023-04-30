@@ -42,4 +42,6 @@ extern u8 ability_slot[4];
 #define ABILITY_CHRONOS_SLOW_SPLIT 3
 #define ABILITY_CHRONOS_SLOW_FACTOR 1.0f / ABILITY_CHRONOS_SLOW_SPLIT
 
+u8 ability_chronos_frame_can_progress(void);
+
 #endif

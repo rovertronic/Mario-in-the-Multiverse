@@ -297,8 +297,7 @@ s32 update_objects_starting_at(struct ObjectNode *objList, struct ObjectNode *fi
 
         if (
             gCurrentObject->oFlags & OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW ||
-            !gMarioState->abilityChronosTimeSlowActive ||
-            gGlobalTimer % ABILITY_CHRONOS_SLOW_SPLIT == 0
+            ability_chronos_frame_can_progress()
         ) {
             gCurrentObject->abilityChronosUpdatedCollisionLastFrame = FALSE;
             gCurrentObject->header.gfx.node.flags |= GRAPH_RENDER_HAS_ANIMATION;

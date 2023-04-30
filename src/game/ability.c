@@ -273,3 +273,26 @@ u8 using_ability(u8 ability_id) {
 u8* ability_string(u8 ability_id) {
     return (ability_struct[ability_id].string);
 }
+
+
+/**
+ * Returns whether the current frame can unfreeze itself, for Axo's Chronos
+ * ability's time slow mechanic. Always true if time slow is not active.
+ * Otherwise, it will only unfreeze every ABILITY_CHRONOS_SLOW_SPLIT frames.
+ * This uses static variables for optimization, so that the modulo operation
+ * is not run more than once per frame.
+ */
+u8 ability_chronos_frame_can_progress(void) {
+    static u8 frameCounter = 0;
+    static u8 curFrame = 0;
+
+    if (!gMarioState->abilityChronosTimeSlowActive) {
+        return TRUE;
+    }
+    else if (curFrame != gGlobalTimer) {
+        curFrame = gGlobalTimer;
+        frameCounter = curFrame % ABILITY_CHRONOS_SLOW_SPLIT;
+    }
+
+    return frameCounter == 0;
+}

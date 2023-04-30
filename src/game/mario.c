@@ -1923,7 +1923,7 @@ void init_mario_from_save_file(void) {
 
 
 u16 update_mario_action_timer_pre(struct MarioState *m) {
-    if (!m->abilityChronosTimeSlowActive || (m->abilityChronosTimeSlowActive && gGlobalTimer % ABILITY_CHRONOS_SLOW_SPLIT == 0)) {
+    if (ability_chronos_frame_can_progress()) {
         m->actionTimer++;
     }
     return m->actionTimer;
@@ -1931,7 +1931,7 @@ u16 update_mario_action_timer_pre(struct MarioState *m) {
 
 u16 update_mario_action_timer_post(struct MarioState *m) {
     u16 output = m->actionTimer;
-    if (!m->abilityChronosTimeSlowActive || (m->abilityChronosTimeSlowActive && gGlobalTimer % ABILITY_CHRONOS_SLOW_SPLIT == 0)) {
+    if (ability_chronos_frame_can_progress()) {
         m->actionTimer++;
     }
     return output;

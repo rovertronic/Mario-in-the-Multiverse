@@ -1178,10 +1178,7 @@ s32 update_level(void) {
         case PLAY_MODE_NORMAL:
             changeLevel = play_mode_normal(); // Hopefully Fast64 doesn't overwrite this
             
-            if (
-                !gMarioState->abilityChronosTimeSlowActive ||  // Scroll textures when time slow is not active,
-                gGlobalTimer % ABILITY_CHRONOS_SLOW_SPLIT == 0 // and if it is, scroll every ABILITY_CHRONOS_SLOW_SPLIT frames
-            ) {
+            if (ability_chronos_frame_can_progress()) {
                 scroll_textures();
             }
             break;

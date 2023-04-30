@@ -166,7 +166,7 @@ s32 act_punching(struct MarioState *m) {
 
     mario_set_forward_vel(m, sPunchingForwardVelocities[m->actionTimer]);
     if (m->actionTimer > 0) {
-        if (!m->abilityChronosTimeSlowActive || (m->abilityChronosTimeSlowActive && gGlobalTimer % ABILITY_CHRONOS_SLOW_SPLIT == 0)) {
+        if (ability_chronos_frame_can_progress()) {
             m->actionTimer--;
         }
     }

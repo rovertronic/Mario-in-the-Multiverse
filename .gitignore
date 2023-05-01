@@ -2146,3 +2146,6 @@ lib/libs2d_engine.a
 
 # :Zone_Identifier files
 *Zone.Identifier
+
+# .blend1 files
+*.blend1

@@ -180,7 +180,7 @@ extern Vtx mario_k_Right_Leg_mesh_layer_1_vtx_2[11];
 extern Gfx mario_k_Right_Leg_mesh_layer_1_tri_2[];
 extern Vtx mario_k_Right_Foot_DL_mesh_layer_1_vtx_0[36];
 extern Gfx mario_k_Right_Foot_DL_mesh_layer_1_tri_0[];
-extern Vtx mario_k_Right_Foot_DL_mesh_layer_1_vtx_1[26];
+extern Vtx mario_k_Right_Foot_DL_mesh_layer_1_vtx_1[24];
 extern Gfx mario_k_Right_Foot_DL_mesh_layer_1_tri_1[];
 extern Gfx mat_mario_k_Black[];
 extern Gfx mat_mario_k_White[];

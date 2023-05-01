@@ -577,6 +577,9 @@ enum GLOBAL_MODELS {
     MODEL_LEVEL_PIPE=0xF0,
     MODEL_ABILITY,
     MODEL_ABILITY_SIGN,
+
+    // Custom Mario Models
+    MODEL_MARIO_K,
 };
 /* LEVEL SPECIFIC MODELS 0x150-0x1FF */
 //Format: #define MODEL_A_MODELNAME

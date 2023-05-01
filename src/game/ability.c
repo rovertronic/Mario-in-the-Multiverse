@@ -143,7 +143,7 @@ struct ability ability_struct[] = {
     /*H*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_h  },
     /*I*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_i  },
     /*J*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_j  },
-    /*K*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_k  },
+    /*K*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO_K     ,&abstr_k  },
     /*L*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_l  },
     /*M*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_m  },
     /*N*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_n  },

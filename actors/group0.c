@@ -53,3 +53,4 @@
 #include "hp_3/model.inc.c"
 #include "hp_2/model.inc.c"
 #include "hp_1/model.inc.c"
+#include "mario_k/model.inc.c"

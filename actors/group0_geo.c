@@ -20,3 +20,4 @@
 #include "level_pipe/geo.inc.c"
 #include "ability_unlock/geo.inc.c"
 #include "ability_sign/geo.inc.c"
+#include "mario_k/geo.inc.c"

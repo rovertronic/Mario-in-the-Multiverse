@@ -495,4 +495,29 @@ struct MarioState {
             u8 abilityChronosTimeSlowActive;
 };
 
+typedef uint8_t   qu08_t;
+typedef uint16_t  qu016_t;
+typedef int16_t   qs48_t;
+typedef int16_t   qs510_t;
+typedef uint16_t  qu510_t;
+typedef int16_t   qs102_t;
+typedef uint16_t  qu102_t;
+typedef int16_t   qs105_t;
+typedef uint16_t  qu105_t;
+typedef int16_t   qs132_t;
+typedef int16_t   qs142_t;
+typedef int32_t   qs1516_t;
+typedef int32_t   qs1616_t;
+typedef int32_t   qs205_t;
+
+struct GlobalFog
+{
+    /*0x00*/ u8 r;
+    /*0x01*/ u8 g;
+    /*0x02*/ u8 b;
+    /*0x03*/ u8 a;
+    /*0x04*/ s16 low;
+    /*0x04*/ s16 high;
+};
+
 #endif // TYPES_H

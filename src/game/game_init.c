@@ -31,6 +31,7 @@
 #include "vc_check.h"
 #include "vc_ultra.h"
 #include "profiling.h"
+#include "fb_effects.h"
 
 // First 3 controller slots
 struct Controller gControllers[3];
@@ -49,6 +50,7 @@ s8 gGamecubeControllerPort = -1; // HackerSM64: This is set to -1 if there's no 
 u8 gIsConsole = TRUE; // Needs to be initialized before audio_reset_session is called
 u8 gCacheEmulated = TRUE;
 u8 gBorderHeight;
+u8 gFBE = FALSE;
 #ifdef VANILLA_STYLE_CUSTOM_DEBUG
 u8 gCustomDebugMode;
 #endif
@@ -348,6 +350,7 @@ void init_rcp(s32 resetZB) {
 void end_master_display_list(void) {
     draw_screen_borders();
 
+    render_fb_effects();
     gDPFullSync(gDisplayListHead++);
     gSPEndDisplayList(gDisplayListHead++);
 
@@ -405,9 +408,9 @@ void render_init(void) {
     // Skip incrementing the initial framebuffer index on emulators so that they display immediately as the Gfx task finishes
     // VC probably emulates osViSwapBuffer accurately so instant patch breaks VC compatibility
     // Currently, Ares passes the cache emulation test and has issues with single buffering so disable it there as well.
-    if (gIsConsole || gIsVC || gCacheEmulated) {
+    //if (gIsConsole || gIsVC || gCacheEmulated) { // if statement appears to only cause issues
         sRenderingFramebuffer++;
-    }
+    //}
     gGlobalTimer++;
 }
 
@@ -449,6 +452,13 @@ void display_and_vsync(void) {
             sRenderedFramebuffer = 0;
         }
         if (++sRenderingFramebuffer == 3) {
+            sRenderingFramebuffer = 0;
+        }
+    } else {
+        if (++sRenderedFramebuffer == 2) {
+            sRenderedFramebuffer = 0;
+        }
+        if (++sRenderingFramebuffer == 2) {
             sRenderingFramebuffer = 0;
         }
     }

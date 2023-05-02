@@ -216,6 +216,10 @@ void render_motion_blur(void) {
 static s32 sVerifiedFBE = FALSE; 
 
 void render_fb_effects(void) {
+    return;
+    //ADDED HERE BY ROVERT, SO THAT IT DOES NOT RENDER BY DEFAULT
+    //REPLACE THIS WITH SPECIFIC LEVEL / ABILITY CHECKS!
+
     check_fbe();
     if (!checkedFBE) return;
 

@@ -43,63 +43,93 @@
             [1, 32700],
             [32700, 29430],
             "hang"
+        ],
+        "envelope7": [
+            [2, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ],
+        "envelope8": [
+            [6, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
         ]
     },
     "instruments": {
         "inst0": {
-            "release_rate": 19,
-            "normal_range_lo": 29,
-            "normal_range_hi": 63,
+            "release_rate": 10,
             "envelope": "envelope0",
-            "sound_lo": "3B_banjo_2",
-            "sound": "3C_acoustic_guitar",
-            "sound_hi": "3D"
+            "sound": "30_rarefaction-lahna"
         },
         "inst1": {
             "release_rate": 208,
             "envelope": "envelope1",
-            "sound": "2E_accordion"
+            "sound": "31_rarefaction-convolution"
         },
         "inst2": {
             "release_rate": 208,
             "envelope": "envelope2",
-            "sound": "2E_accordion"
+            "sound": "31_rarefaction-convolution"
         },
         "inst3": {
-            "release_rate": 208,
+            "release_rate": 10,
+            "normal_range_lo": 14,
+            "normal_range_hi": 15,
             "envelope": "envelope3",
-            "sound": "16_french_horns"
+            "sound_lo": {"sample": "32_metal_rimshot", "tuning": 2.244924},
+            "sound": "33_kick_drum_2",
+            "sound_hi": {"sample": "32_metal_rimshot", "tuning": 2.828428}
         },
         "inst4": {
-            "release_rate": 208,
+            "release_rate": 10,
+            "normal_range_lo": 24,
             "envelope": "envelope4",
-            "sound": "16_french_horns"
+            "sound_lo": "0E_hihat_closed",
+            "sound": "0F_hihat_open"
         },
         "inst5": {
             "release_rate": 10,
-            "normal_range_lo": 24,
+            "normal_range_lo": 28,
+            "normal_range_hi": 28,
             "envelope": "envelope5",
-            "sound_lo": "0E_hihat_closed",
-            "sound": "0F_hihat_open"
+            "sound_lo": "10_cymbal_bell",
+            "sound": "11_splash_cymbal",
+            "sound_hi": "10_cymbal_bell"
         },
         "inst6": {
             "release_rate": 208,
             "envelope": "envelope6",
-            "sound": "2F_sleigh_bells"
+            "sound": "29_orchestra_hit"
+        },
+        "inst7": {
+            "release_rate": 114,
+            "envelope": "envelope7",
+            "sound": "34_alto_flute"
+        },
+        "inst8": {
+            "release_rate": 15,
+            "normal_range_lo": 27,
+            "normal_range_hi": 46,
+            "envelope": "envelope8",
+            "sound_lo": "23_strings_1",
+            "sound": "24_strings_2",
+            "sound_hi": "25_strings_3"
         }
     },
     "instrument_list": [
         "inst0",
         "inst1",
         "inst2",
+        "inst6",
+        "inst7",
         null,
-        null,
+        "inst8",
         null,
         "inst3",
+        null,
         "inst4",
-        null,
-        null,
-        "inst5",
-        "inst6"
+        "inst5"
     ]
 }

@@ -53,3 +53,4 @@
 #include "hp_3/model.inc.c"
 #include "hp_2/model.inc.c"
 #include "hp_1/model.inc.c"
+#include "ability_d_mask/model.inc.c"

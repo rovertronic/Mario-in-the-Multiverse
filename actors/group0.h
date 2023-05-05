@@ -375,4 +375,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "hp_1/header.h"
 
+#include "ability_d_mask/header.h"
+
 #endif

@@ -17,7 +17,7 @@ enum ability_ids {
     ABILITY_D_,
     ABILITY_E_,
     ABILITY_F_,
-    ABILITY_G_,
+    ABILITY_CUTTER,
     ABILITY_H_,
     ABILITY_I_,
     ABILITY_J_,

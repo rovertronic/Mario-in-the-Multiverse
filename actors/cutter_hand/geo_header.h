@@ -1,0 +1,17 @@
+extern const GeoLayout cutter_hand_geo[];
+extern Lights1 cutter_hand_gloves_001_lights;
+extern u8 cutter_hand_shinycutter_rgba16[];
+extern u8 cutter_hand_shiny_ia8[];
+extern Vtx cutter_hand_right_hand_open_mesh_layer_1_vtx_0[56];
+extern Gfx cutter_hand_right_hand_open_mesh_layer_1_tri_0[];
+extern Vtx cutter_hand_right_hand_open_mesh_layer_1_vtx_1[189];
+extern Gfx cutter_hand_right_hand_open_mesh_layer_1_tri_1[];
+extern Vtx cutter_hand_right_hand_open_mesh_layer_1_vtx_2[74];
+extern Gfx cutter_hand_right_hand_open_mesh_layer_1_tri_2[];
+extern Gfx mat_cutter_hand_gloves_001[];
+extern Gfx mat_cutter_hand_f3dlite_material_006[];
+extern Gfx mat_revert_cutter_hand_f3dlite_material_006[];
+extern Gfx mat_cutter_hand_f3dlite_material_007[];
+extern Gfx mat_revert_cutter_hand_f3dlite_material_007[];
+extern Gfx cutter_hand_right_hand_open_mesh_layer_1[];
+extern Gfx cutter_hand_material_revert_render_settings[];

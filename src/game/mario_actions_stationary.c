@@ -17,6 +17,8 @@
 #include "surface_terrains.h"
 #include "rumble_init.h"
 #include "ability.h"
+#include "include/behavior_data.h"
+#include "actors/group0.h"
 
 s32 check_common_idle_cancels(struct MarioState *m) {
     mario_drop_held_object(m);
@@ -1058,6 +1060,81 @@ s32 act_first_person(struct MarioState *m) {
     return FALSE;
 }
 
+s32 act_final_cutter_sequence(struct MarioState *m) {
+    if (m->input & INPUT_STOMPED) {
+        return set_mario_action(m, ACT_SHOCKWAVE_BOUNCE, 0);
+    }
+
+    if (m->input & INPUT_OFF_FLOOR) {
+        return set_mario_action(m, ACT_FREEFALL, 0);
+    }
+
+    gSPDisplayList(&gfx_ability_hand[0], &cutter_hand_right_hand_open_mesh_layer_1);
+    gSPEndDisplayList(&gfx_ability_hand[1]);
+
+    switch (m->actionArg) {
+        case 0:
+            if (m->actionTimer == 0) {
+                play_sound(SOUND_ABILITY_CUTTER_SLICE, m->marioObj->header.gfx.cameraToObject);
+            }
+            set_custom_mario_animation_with_accel(m, 0, 0x40000);
+            if (m->input & INPUT_B_PRESSED) {
+                m->actionArg = 1;
+                m->actionTimer = 0;
+            }
+
+            if (m->actionTimer == 20) {
+                m->actionArg = 3;
+            }
+        break;
+        case 1:
+            if (m->actionTimer == 1) {
+                play_sound(SOUND_ABILITY_CUTTER_SLICE, m->marioObj->header.gfx.cameraToObject);
+            }
+            set_custom_mario_animation_with_accel(m, 2, 0x40000);
+            if (m->input & INPUT_B_PRESSED) {
+                m->actionArg = 2;
+                m->actionTimer = 0;
+            }
+
+            if (m->actionTimer == 20) {
+                m->actionArg = 4;
+            }
+        break;
+        case 2:
+            if (m->actionTimer == 4) {
+                play_sound(SOUND_ABILITY_CUTTER_SLICE, m->marioObj->header.gfx.cameraToObject);
+            }
+
+            if (m->actionTimer == 20) {
+                play_sound(SOUND_ABILITY_CUTTER_FINAL, m->marioObj->header.gfx.cameraToObject);
+                spawn_object_relative(0, 0, 10, 0, m->marioObj, MODEL_CUTTER_BLAST, bhvCutterBlast);
+            }
+            set_custom_mario_animation_with_accel(m, 4, 0x15000);
+
+            if (is_anim_at_end(m)) {
+                return set_mario_action(m, ACT_IDLE, 0);
+            }
+        break;
+        case 3:
+            set_custom_mario_animation(m, 1);
+            if (is_anim_at_end(m)) {
+                return set_mario_action(m, ACT_IDLE, 0);
+            }
+        break;
+        case 4:
+            set_custom_mario_animation(m, 3);
+            if (is_anim_at_end(m)) {
+                return set_mario_action(m, ACT_IDLE, 0);
+            }
+        break;
+    }
+
+    m->actionTimer++;
+
+    return FALSE;
+}
+
 s32 check_common_stationary_cancels(struct MarioState *m) {
     if (m->pos[1] < m->waterLevel - 100) {
         if (m->action == ACT_SPAWN_SPIN_LANDING) {
@@ -1130,6 +1207,7 @@ s32 mario_execute_stationary_action(struct MarioState *m) {
         case ACT_BRAKING_STOP:            cancel = act_braking_stop(m);                     break;
         case ACT_BUTT_SLIDE_STOP:         cancel = act_butt_slide_stop(m);                  break;
         case ACT_HOLD_BUTT_SLIDE_STOP:    cancel = act_hold_butt_slide_stop(m);             break;
+        case ACT_FINAL_CUTTER_SEQUENCE:   cancel = act_final_cutter_sequence(m);            break;
         default:                          cancel = TRUE;                                    break;
     }
     /* clang-format on */

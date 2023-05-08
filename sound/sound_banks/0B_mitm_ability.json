@@ -14,9 +14,39 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "ability_X_0"
+        },
+        "inst_ability_cutter_throw": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_cutter_throw"
+        },
+        "inst_ability_cutter_slice": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_cutter_slice"
+        },
+        "inst_ability_cutter_final": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_cutter_final"
+        },
+        "inst_ability_cutter_dash": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_cutter_dash"
+        },
+        "inst_ability_cutter_catch": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_cutter_catch"
         }
     },
     "instrument_list": [
-        "inst_ability_X_0"
+        "inst_ability_X_0",
+        "inst_ability_cutter_throw",
+        "inst_ability_cutter_slice",
+        "inst_ability_cutter_final",
+        "inst_ability_cutter_dash",
+        "inst_ability_cutter_catch"
     ]
 }

@@ -15,6 +15,8 @@
 #include "save_file.h"
 #include "rumble_init.h"
 #include "ability.h"
+#include "include/behavior_data.h"
+#include "actors/group0.h"
 
 #include "config.h"
 
@@ -96,7 +98,15 @@ s32 check_fall_damage(struct MarioState *m, u32 hardFallAction) {
 
 s32 check_kick_or_dive_in_air(struct MarioState *m) {
     if (m->input & INPUT_B_PRESSED) {
-        return set_mario_action(m, m->forwardVel > 28.0f ? ACT_DIVE : ACT_JUMP_KICK, 0);
+        if (m->abilityId == ABILITY_CUTTER) {
+            if (m->forwardVel > 28.0f) {
+                play_sound(SOUND_ABILITY_CUTTER_SLICE, m->marioObj->header.gfx.cameraToObject);
+            }
+            return set_mario_action(m, m->forwardVel > 28.0f ? ACT_DIVE : ACT_CUTTER_THROW_AIR, 0);
+        } 
+        else {
+            return set_mario_action(m, m->forwardVel > 28.0f ? ACT_DIVE : ACT_JUMP_KICK, 0);
+        }
     }
     return FALSE;
 }
@@ -545,6 +555,54 @@ s32 act_axe_jump(struct MarioState *m) {
     return FALSE;
 }
 
+s32 act_cutter_throw_air(struct MarioState *m) {
+    if (m->actionState == ACT_STATE_JUMP_KICK_PLAY_SOUND_AND_ANIM) {
+        play_sound_if_no_flag(m, SOUND_MARIO_PUNCH_HOO, MARIO_ACTION_SOUND_PLAYED);
+        m->marioObj->header.gfx.animInfo.animID = -1;
+        set_mario_animation(m, MARIO_ANIM_FIRST_PUNCH);
+        m->actionState = ACT_STATE_JUMP_KICK_KICKING;
+    }
+
+    s32 animFrame = m->marioObj->header.gfx.animInfo.animFrame;
+    if (animFrame == 0) {
+        m->marioBodyState->punchState = (PUNCH_STATE_TYPE_KICK | 0x6);
+    }
+    if (animFrame >= 0 && animFrame < 8) {
+        m->flags |= MARIO_KICKING;
+    }
+
+    if (m->actionTimer <= 3) {
+            gSPDisplayList(&gfx_ability_hand[0], &cutter_hand_right_hand_open_mesh_layer_1);
+            gSPEndDisplayList(&gfx_ability_hand[1]);
+        }
+        else {
+            gSPDisplayList(&gfx_ability_hand[0], &mario_right_hand_closed);
+            gSPEndDisplayList(&gfx_ability_hand[1]);
+        }
+
+        if (m->actionTimer == 3) {
+            spawn_object_relative(0, 0, 100, 0, m->marioObj, MODEL_CUTTER_BLADE, bhvCutterBlade);
+        }
+
+        m->actionTimer++;
+
+    update_air_without_turn(m);
+
+    switch (perform_air_step(m, 0)) {
+        case AIR_STEP_LANDED:
+            if (!check_fall_damage_or_get_stuck(m, ACT_HARD_BACKWARD_GROUND_KB)) {
+                set_mario_action(m, ACT_FREEFALL_LAND, 0);
+            }
+            break;
+
+        case AIR_STEP_HIT_WALL:
+            mario_set_forward_vel(m, 0.0f);
+            break;
+    }
+
+    return FALSE;
+}
+
 s32 act_backflip(struct MarioState *m) {
     if (m->input & INPUT_Z_PRESSED) {
         return set_mario_action(m, ACT_GROUND_POUND, 0);
@@ -773,6 +831,10 @@ s32 act_dive(struct MarioState *m) {
         set_mario_action(m, ACT_ABILITY_AXE_JUMP, 0);
         play_sound(SOUND_MARIO_HAHA, gGlobalSoundSource);
         return TRUE;
+    }
+    else if (using_ability(ABILITY_CUTTER)) {
+        gSPDisplayList(&gfx_ability_hand[0], &cutter_hand_right_hand_open_mesh_layer_1);
+        gSPEndDisplayList(&gfx_ability_hand[1]);
     }
 
     if (m->actionArg == 0) {
@@ -2114,6 +2176,7 @@ s32 mario_execute_airborne_action(struct MarioState *m) {
         case ACT_TOP_OF_POLE_JUMP:     cancel = act_top_of_pole_jump(m);     break;
         case ACT_VERTICAL_WIND:        cancel = act_vertical_wind(m);        break;
         case ACT_ABILITY_AXE_JUMP:     cancel = act_axe_jump(m);             break;
+        case ACT_CUTTER_THROW_AIR: cancel = act_cutter_throw_air(m);         break;
     }
     /* clang-format on */
 

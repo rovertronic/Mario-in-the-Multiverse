@@ -25,6 +25,7 @@
 #include "skybox.h"
 #include "sound_init.h"
 #include "puppycam2.h"
+#include "actors/group0.h"
 
 #include "config.h"
 
@@ -480,6 +481,17 @@ Gfx *geo_mario_hand_foot_scaler(s32 callContext, struct GraphNode *node, UNUSED 
                 gMarioAttackScaleAnimation[asGenerated->parameter * 6 + (bodyState->punchState & PUNCH_STATE_TIMER_MASK)]
                 / 10.0f;
         }
+
+        //overrides for the cutter ability. basically, set mario's hand to normal when not in a cutter action.
+        if (gMarioState->abilityId == ABILITY_CUTTER && gMarioState->action != ACT_JUMP_KICK) {
+            scaleNode->scale = 1.0f;
+            if (gMarioState->action != ACT_PUNCHING && gMarioState->action != ACT_MOVE_PUNCHING && gMarioState->action != ACT_FINAL_CUTTER_SEQUENCE 
+            && gMarioState->action != ACT_CUTTER_THROW_AIR && gMarioState->action != ACT_CUTTER_DASH && gMarioState->action != ACT_DIVE
+            && gMarioState->action != ACT_DIVE_SLIDE) {
+                gSPDisplayList(&gfx_ability_hand[0], &mario_right_hand_closed);
+                gSPEndDisplayList(&gfx_ability_hand[1]);
+            }
+        }
     }
     return NULL;
 }
@@ -508,6 +520,9 @@ Gfx *geo_switch_mario_cap_on_off(s32 callContext, struct GraphNode *node, UNUSED
 
     if (callContext == GEO_CONTEXT_RENDER) {
         switchCase->selectedCase = bodyState->capState & MARIO_HAS_DEFAULT_CAP_OFF;
+        if (gMarioState->abilityId == ABILITY_CUTTER) {
+            switchCase->selectedCase = 1;
+        }
         while (next != node) {
             if (next->type == GRAPH_NODE_TYPE_TRANSLATION_ROTATION) {
                 COND_BIT((bodyState->capState & MARIO_HAS_WING_CAP_ON), next->flags, GRAPH_RENDER_ACTIVE);

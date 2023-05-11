@@ -4,14 +4,14 @@
     "envelopes": {
         "envelope0": [
             [2, 32700],
-            [130, 4954],
-            [523, 0],
+            [1, 32700],
+            [32700, 29430],
             "hang"
         ],
         "envelope1": [
             [2, 32700],
-            [130, 4954],
-            [523, 0],
+            [1, 32700],
+            [32700, 29430],
             "hang"
         ],
         "envelope2": [
@@ -34,14 +34,14 @@
         ],
         "envelope5": [
             [2, 32700],
-            [205, 0],
-            [1, 0],
+            [1, 32700],
+            [32700, 29430],
             "hang"
         ],
         "envelope6": [
             [2, 32700],
-            [1, 32700],
-            [32700, 29430],
+            [55, 32700],
+            [127, 0],
             "hang"
         ],
         "envelope7": [
@@ -55,59 +55,51 @@
             [1, 32700],
             [32700, 29430],
             "hang"
-        ],
-        "envelope9": [
-            [2, 32700],
-            [1, 32700],
-            [32700, 29430],
-            "hang"
-        ],
-        "envelope10": [
-            [2, 32700],
-            [55, 32700],
-            [127, 0],
-            "hang"
         ]
     },
     "instruments": {
         "inst0": {
-            "release_rate": 100,
-            "normal_range_lo": 41,
+            "release_rate": 24,
+            "normal_range_lo": 42,
             "envelope": "envelope0",
-            "sound_lo": "00",
-            "sound": "01_banjo_1"
+            "sound_lo": "14_strings_5",
+            "sound": "15_strings_4"
         },
         "inst1": {
-            "release_rate": 100,
-            "normal_range_lo": 41,
+            "release_rate": 24,
+            "normal_range_lo": 42,
             "envelope": "envelope1",
-            "sound_lo": "00",
-            "sound": "01_banjo_1"
+            "sound_lo": "14_strings_5",
+            "sound": "15_strings_4"
         },
         "inst2": {
-            "release_rate": 180,
+            "release_rate": 208,
             "envelope": "envelope2",
-            "sound": "02"
+            "sound": "16_french_horns"
         },
         "inst3": {
-            "release_rate": 208,
+            "release_rate": 67,
             "envelope": "envelope3",
-            "sound": "02"
+            "sound": "17_trumpet"
         },
         "inst4": {
-            "release_rate": 76,
+            "release_rate": 24,
+            "normal_range_lo": 42,
             "envelope": "envelope4",
-            "sound": "03_human_whistle"
+            "sound_lo": "14_strings_5",
+            "sound": "15_strings_4"
         },
         "inst5": {
-            "release_rate": 53,
+            "release_rate": 10,
             "envelope": "envelope5",
-            "sound": "04_bright_piano"
+            "sound": "18_timpani"
         },
         "inst6": {
-            "release_rate": 208,
+            "release_rate": 10,
+            "normal_range_lo": 18,
             "envelope": "envelope6",
-            "sound": "05_acoustic_bass"
+            "sound_lo": "12_snare_drum_1",
+            "sound": "13_snare_drum_2"
         },
         "percussion": [
             {"release_rate": 10, "pan": 62, "envelope": "envelope7", "sound": {"sample": "06_kick_drum_1", "tuning": 0.210224}},
@@ -177,26 +169,12 @@
         ],
         "inst7": {
             "release_rate": 10,
-            "normal_range_lo": 24,
-            "envelope": "envelope8",
-            "sound_lo": "0E_hihat_closed",
-            "sound": "0F_hihat_open"
-        },
-        "inst8": {
-            "release_rate": 10,
             "normal_range_lo": 28,
             "normal_range_hi": 28,
-            "envelope": "envelope9",
+            "envelope": "envelope8",
             "sound_lo": "10_cymbal_bell",
             "sound": "11_splash_cymbal",
             "sound_hi": "10_cymbal_bell"
-        },
-        "inst9": {
-            "release_rate": 10,
-            "normal_range_lo": 18,
-            "envelope": "envelope10",
-            "sound_lo": "12_snare_drum_1",
-            "sound": "13_snare_drum_2"
         }
     },
     "instrument_list": [
@@ -205,13 +183,12 @@
         "inst2",
         "inst3",
         "inst4",
+        null,
+        null,
         "inst5",
         "inst6",
         null,
         null,
-        null,
-        "inst7",
-        "inst8",
-        "inst9"
+        "inst7"
     ]
 }

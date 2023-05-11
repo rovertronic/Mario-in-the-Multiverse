@@ -12,7 +12,7 @@ seq_setmutescale 0
   seq_setvol 127
 #endif
 seq_settempo 120
-seq_initchannels 0x3ff
+seq_initchannels 0xfff
 seq_startchannel 0, .channel0
 seq_startchannel 1, .channel1
 seq_startchannel 2, .channel2
@@ -23,6 +23,8 @@ seq_startchannel 6, .channel6
 seq_startchannel 7, .channel7
 seq_startchannel 8, .channel38
 seq_startchannel 9, .channel59
+seq_startchannel 10, .channelAbility
+seq_startchannel 11, .channelLevel
 .seq_loop:
 seq_delay 20000
 seq_jump .seq_loop
@@ -69,6 +71,28 @@ chan_setval 0
 chan_iowriteval 5
 chan_stereoheadseteffects 1
 chan_setdyntable .channel59_table
+chan_jump .main_loop_023589
+
+.channelAbility:
+chan_largenoteson
+chan_setinstr 0
+chan_setpanmix 127
+chan_setnotepriority 14
+chan_setval 0
+chan_iowriteval 5
+chan_stereoheadseteffects 1
+chan_setdyntable .channelAbility_table
+chan_jump .main_loop_023589
+
+.channelLevel:
+chan_largenoteson
+chan_setinstr 0
+chan_setpanmix 127
+chan_setnotepriority 14
+chan_setval 0
+chan_iowriteval 5
+chan_stereoheadseteffects 1
+chan_setdyntable .channelLevel_table
 chan_jump .main_loop_023589
 
 // Main loop for standard, non-continuous sound effects
@@ -7914,6 +7938,37 @@ layer_note0 38, 0x3, 127, 127
 .layer_32BF:
 layer_delay 0x2a
 layer_jump .layer_32B7
+
+
+// MitM Ability Sound Effects
+.channelAbility_table:
+sound_ref .sound_ability_x_0
+
+.sound_ability_x_0:
+chan_setbank 11
+chan_setinstr 0
+chan_setlayer 0, .layer_ability_x_0
+chan_end
+
+.layer_ability_x_0:
+layer_note1 39, 0x7f, 127
+layer_end
+
+
+// MitM Level Sound Effects
+.channelLevel_table:
+sound_ref .sound_level_x_0
+
+.sound_level_x_0:
+chan_setbank 12
+chan_setinstr 0
+chan_setlayer 0, .layer_level_x_0
+chan_end
+
+.layer_level_x_0:
+layer_note1 39, 0x7f, 127
+layer_end
+
 
 .align 2, 0
 .envelope_32C4:

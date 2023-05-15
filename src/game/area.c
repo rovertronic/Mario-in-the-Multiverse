@@ -26,6 +26,7 @@
 #include "debug_box.h"
 #include "engine/colors.h"
 #include "profiling.h"
+#include "fb_effects.h"
 
 struct SpawnInfo gPlayerSpawnInfos[1];
 struct GraphNode *gGraphNodePointers[MODEL_ID_COUNT];
@@ -384,6 +385,8 @@ void render_game(void) {
 #ifdef PUPPYPRINT
         bzero(gCurrEnvCol, sizeof(ColorRGBA));
 #endif
+
+        render_fb_effects();
 
         gSPViewport(gDisplayListHead++, VIRTUAL_TO_PHYSICAL(&gViewport));
 

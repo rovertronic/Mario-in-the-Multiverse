@@ -6650,15 +6650,17 @@ Gfx mario_k_Left_Foot_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx mario_k_Left_Foot_mesh_layer_1_vtx_1[24] = {
+Vtx mario_k_Left_Foot_mesh_layer_1_vtx_1[26] = {
+	{{ {-45, 51, 62}, 0, {1008, 1008}, {0, 0, 127, 255} }},
+	{{ {108, 10, 62}, 0, {1008, -16}, {0, 0, 127, 255} }},
+	{{ {-40, 65, 62}, 0, {1008, 1008}, {0, 0, 127, 255} }},
+	{{ {-45, 51, 62}, 0, {1008, 1008}, {0, 0, 127, 255} }},
+	{{ {102, -4, 62}, 0, {1008, -16}, {0, 0, 127, 255} }},
+	{{ {108, 10, 62}, 0, {1008, -16}, {0, 0, 127, 255} }},
 	{{ {-45, 51, -39}, 0, {496, 1008}, {137, 44, 0, 255} }},
 	{{ {-40, 65, 62}, 0, {1008, 1008}, {137, 44, 0, 255} }},
 	{{ {-40, 65, -39}, 0, {496, 1008}, {137, 44, 0, 255} }},
 	{{ {-45, 51, 62}, 0, {1008, 1008}, {137, 44, 0, 255} }},
-	{{ {-45, 51, 62}, 0, {1008, 1008}, {0, 0, 127, 255} }},
-	{{ {108, 10, 62}, 0, {1008, -16}, {0, 0, 127, 255} }},
-	{{ {-40, 65, 62}, 0, {1008, 1008}, {0, 0, 127, 255} }},
-	{{ {102, -4, 62}, 0, {1008, -16}, {0, 0, 127, 255} }},
 	{{ {-40, 65, -39}, 0, {496, 1008}, {44, 119, 0, 255} }},
 	{{ {-40, 65, 62}, 0, {1008, 1008}, {44, 119, 0, 255} }},
 	{{ {108, 10, 62}, 0, {1008, -16}, {44, 119, 0, 255} }},
@@ -6678,20 +6680,20 @@ Vtx mario_k_Left_Foot_mesh_layer_1_vtx_1[24] = {
 };
 
 Gfx mario_k_Left_Foot_mesh_layer_1_tri_1[] = {
-	gsSPVertex(mario_k_Left_Foot_mesh_layer_1_vtx_1 + 0, 16, 0),
+	gsSPVertex(mario_k_Left_Foot_mesh_layer_1_vtx_1 + 0, 14, 0),
+	gsSP1Triangle(0, 1, 2, 0),
+	gsSP1Triangle(3, 4, 5, 0),
+	gsSP1Triangle(6, 7, 8, 0),
+	gsSP1Triangle(6, 9, 7, 0),
+	gsSP1Triangle(10, 11, 12, 0),
+	gsSP1Triangle(10, 12, 13, 0),
+	gsSPVertex(mario_k_Left_Foot_mesh_layer_1_vtx_1 + 14, 12, 0),
 	gsSP1Triangle(0, 1, 2, 0),
 	gsSP1Triangle(0, 3, 1, 0),
 	gsSP1Triangle(4, 5, 6, 0),
 	gsSP1Triangle(4, 7, 5, 0),
 	gsSP1Triangle(8, 9, 10, 0),
-	gsSP1Triangle(8, 10, 11, 0),
-	gsSP1Triangle(12, 13, 14, 0),
-	gsSP1Triangle(12, 15, 13, 0),
-	gsSPVertex(mario_k_Left_Foot_mesh_layer_1_vtx_1 + 16, 8, 0),
-	gsSP1Triangle(0, 1, 2, 0),
-	gsSP1Triangle(0, 3, 1, 0),
-	gsSP1Triangle(4, 5, 6, 0),
-	gsSP1Triangle(4, 7, 5, 0),
+	gsSP1Triangle(8, 11, 9, 0),
 	gsSPEndDisplayList(),
 };
 
@@ -6899,7 +6901,19 @@ Gfx mario_k_Right_Foot_DL_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx mario_k_Right_Foot_DL_mesh_layer_1_vtx_1[24] = {
+Vtx mario_k_Right_Foot_DL_mesh_layer_1_vtx_1[28] = {
+	{{ {102, -5, -62}, 0, {-16, -16}, {0, 0, 129, 255} }},
+	{{ {-39, 66, -62}, 0, {-16, 1008}, {0, 0, 129, 255} }},
+	{{ {108, 9, -62}, 0, {-16, -16}, {0, 0, 129, 255} }},
+	{{ {102, -5, -62}, 0, {-16, -16}, {0, 0, 129, 255} }},
+	{{ {-44, 52, -62}, 0, {-16, 1008}, {0, 0, 129, 255} }},
+	{{ {-39, 66, -62}, 0, {-16, 1008}, {0, 0, 129, 255} }},
+	{{ {-44, 52, 39}, 0, {496, 1008}, {0, 0, 127, 255} }},
+	{{ {108, 9, 39}, 0, {496, -16}, {0, 0, 127, 255} }},
+	{{ {-39, 66, 39}, 0, {496, 1008}, {0, 0, 127, 255} }},
+	{{ {-44, 52, 39}, 0, {496, 1008}, {0, 0, 127, 255} }},
+	{{ {102, -5, 39}, 0, {496, -16}, {0, 0, 127, 255} }},
+	{{ {108, 9, 39}, 0, {496, -16}, {0, 0, 127, 255} }},
 	{{ {-39, 66, -62}, 0, {-16, 1008}, {46, 119, 0, 255} }},
 	{{ {108, 9, 39}, 0, {496, -16}, {46, 119, 0, 255} }},
 	{{ {108, 9, -62}, 0, {-16, -16}, {46, 119, 0, 255} }},
@@ -6908,18 +6922,10 @@ Vtx mario_k_Right_Foot_DL_mesh_layer_1_vtx_1[24] = {
 	{{ {-39, 66, 39}, 0, {496, 1008}, {137, 46, 0, 255} }},
 	{{ {-39, 66, -62}, 0, {-16, 1008}, {137, 46, 0, 255} }},
 	{{ {-44, 52, 39}, 0, {496, 1008}, {137, 46, 0, 255} }},
-	{{ {102, -5, -62}, 0, {-16, -16}, {0, 0, 129, 255} }},
-	{{ {-39, 66, -62}, 0, {-16, 1008}, {0, 0, 129, 255} }},
-	{{ {108, 9, -62}, 0, {-16, -16}, {0, 0, 129, 255} }},
-	{{ {-44, 52, -62}, 0, {-16, 1008}, {0, 0, 129, 255} }},
 	{{ {102, -5, 39}, 0, {496, -16}, {119, 210, 0, 255} }},
 	{{ {108, 9, -62}, 0, {-16, -16}, {119, 210, 0, 255} }},
 	{{ {108, 9, 39}, 0, {496, -16}, {119, 210, 0, 255} }},
 	{{ {102, -5, -62}, 0, {-16, -16}, {119, 210, 0, 255} }},
-	{{ {-44, 52, 39}, 0, {496, 1008}, {0, 0, 127, 255} }},
-	{{ {108, 9, 39}, 0, {496, -16}, {0, 0, 127, 255} }},
-	{{ {-39, 66, 39}, 0, {496, 1008}, {0, 0, 127, 255} }},
-	{{ {102, -5, 39}, 0, {496, -16}, {0, 0, 127, 255} }},
 	{{ {-44, 52, -62}, 0, {-16, 1008}, {210, 137, 0, 255} }},
 	{{ {102, -5, -62}, 0, {-16, -16}, {210, 137, 0, 255} }},
 	{{ {102, -5, 39}, 0, {496, -16}, {210, 137, 0, 255} }},
@@ -6929,18 +6935,18 @@ Vtx mario_k_Right_Foot_DL_mesh_layer_1_vtx_1[24] = {
 Gfx mario_k_Right_Foot_DL_mesh_layer_1_tri_1[] = {
 	gsSPVertex(mario_k_Right_Foot_DL_mesh_layer_1_vtx_1 + 0, 16, 0),
 	gsSP1Triangle(0, 1, 2, 0),
+	gsSP1Triangle(3, 4, 5, 0),
+	gsSP1Triangle(6, 7, 8, 0),
+	gsSP1Triangle(9, 10, 11, 0),
+	gsSP1Triangle(12, 13, 14, 0),
+	gsSP1Triangle(12, 15, 13, 0),
+	gsSPVertex(mario_k_Right_Foot_DL_mesh_layer_1_vtx_1 + 16, 12, 0),
+	gsSP1Triangle(0, 1, 2, 0),
 	gsSP1Triangle(0, 3, 1, 0),
 	gsSP1Triangle(4, 5, 6, 0),
 	gsSP1Triangle(4, 7, 5, 0),
 	gsSP1Triangle(8, 9, 10, 0),
-	gsSP1Triangle(8, 11, 9, 0),
-	gsSP1Triangle(12, 13, 14, 0),
-	gsSP1Triangle(12, 15, 13, 0),
-	gsSPVertex(mario_k_Right_Foot_DL_mesh_layer_1_vtx_1 + 16, 8, 0),
-	gsSP1Triangle(0, 1, 2, 0),
-	gsSP1Triangle(0, 3, 1, 0),
-	gsSP1Triangle(4, 5, 6, 0),
-	gsSP1Triangle(4, 6, 7, 0),
+	gsSP1Triangle(8, 10, 11, 0),
 	gsSPEndDisplayList(),
 };
 
@@ -6979,6 +6985,19 @@ Gfx mat_mario_k_Metal[] = {
 Gfx mat_revert_mario_k_Metal[] = {
 	gsDPPipeSync(),
 	gsSPClearGeometryMode(G_TEXTURE_GEN),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_mario_k_Chronos_Glow[] = {
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(TEXEL0, 0, 0, PRIMITIVE, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, 0, PRIMITIVE, 0, 0, 0, ENVIRONMENT),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, mario_k_metal_rgba16),
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 2047, 128),
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 0),
+	gsDPSetTileSize(0, 0, 0, 252, 124),
 	gsSPEndDisplayList(),
 };
 
@@ -7200,6 +7219,13 @@ Gfx mario_k_Butt_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx mario_k_Butt_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
+	gsSPDisplayList(mario_k_Butt_mesh_layer_1_tri_0),
+	gsSPDisplayList(mario_k_Butt_mesh_layer_1_tri_1),
+	gsSPEndDisplayList(),
+};
+
 Gfx mario_k_Torso_mesh_layer_1[] = {
 	gsSPDisplayList(mat_mario_k_Black),
 	gsSPDisplayList(mario_k_Torso_mesh_layer_1_tri_0),
@@ -7213,6 +7239,14 @@ Gfx mario_k_Torso_mesh_layer_1[] = {
 
 Gfx mario_k_Torso_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPDisplayList(mat_mario_k_Metal),
+	gsSPDisplayList(mario_k_Torso_mesh_layer_1_tri_0),
+	gsSPDisplayList(mario_k_Torso_mesh_layer_1_tri_1),
+	gsSPDisplayList(mario_k_Torso_mesh_layer_1_tri_2),
+	gsSPEndDisplayList(),
+};
+
+Gfx mario_k_Torso_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
 	gsSPDisplayList(mario_k_Torso_mesh_layer_1_tri_0),
 	gsSPDisplayList(mario_k_Torso_mesh_layer_1_tri_1),
 	gsSPDisplayList(mario_k_Torso_mesh_layer_1_tri_2),
@@ -7246,7 +7280,17 @@ Gfx mario_k_Head_DL_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mario_k_Head_DL_mesh_layer_1_mat_override_Eye_Half_1[] = {
+Gfx mario_k_Head_DL_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
+	gsSPDisplayList(mario_k_Head_DL_mesh_layer_1_tri_0),
+	gsSPDisplayList(mario_k_Head_DL_mesh_layer_1_tri_1),
+	gsSPDisplayList(mario_k_Head_DL_mesh_layer_1_tri_2),
+	gsSPDisplayList(mario_k_Head_DL_mesh_layer_1_tri_3),
+	gsSPDisplayList(mario_k_Head_DL_mesh_layer_1_tri_4),
+	gsSPEndDisplayList(),
+};
+
+Gfx mario_k_Head_DL_mesh_layer_1_mat_override_Eye_Half_2[] = {
 	gsSPDisplayList(mat_mario_k_Eye_Half),
 	gsSPDisplayList(mario_k_Head_DL_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_mario_k_Mustache),
@@ -7262,7 +7306,7 @@ Gfx mario_k_Head_DL_mesh_layer_1_mat_override_Eye_Half_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mario_k_Head_DL_mesh_layer_1_mat_override_Eye_Closed_2[] = {
+Gfx mario_k_Head_DL_mesh_layer_1_mat_override_Eye_Closed_3[] = {
 	gsSPDisplayList(mat_mario_k_Eye_Closed),
 	gsSPDisplayList(mario_k_Head_DL_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_mario_k_Mustache),
@@ -7278,7 +7322,7 @@ Gfx mario_k_Head_DL_mesh_layer_1_mat_override_Eye_Closed_2[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mario_k_Head_DL_mesh_layer_1_mat_override_Eye_X_3[] = {
+Gfx mario_k_Head_DL_mesh_layer_1_mat_override_Eye_X_4[] = {
 	gsSPDisplayList(mat_mario_k_Eye_X),
 	gsSPDisplayList(mario_k_Head_DL_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_mario_k_Mustache),
@@ -7316,7 +7360,16 @@ Gfx mario_k_Switch_Option_Head_Capless_DL_mesh_layer_1_mat_override_Metal_0[] = 
 	gsSPEndDisplayList(),
 };
 
-Gfx mario_k_Switch_Option_Head_Capless_DL_mesh_layer_1_mat_override_Eye_Half_1[] = {
+Gfx mario_k_Switch_Option_Head_Capless_DL_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
+	gsSPDisplayList(mario_k_Switch_Option_Head_Capless_DL_mesh_layer_1_tri_0),
+	gsSPDisplayList(mario_k_Switch_Option_Head_Capless_DL_mesh_layer_1_tri_1),
+	gsSPDisplayList(mario_k_Switch_Option_Head_Capless_DL_mesh_layer_1_tri_2),
+	gsSPDisplayList(mario_k_Switch_Option_Head_Capless_DL_mesh_layer_1_tri_3),
+	gsSPEndDisplayList(),
+};
+
+Gfx mario_k_Switch_Option_Head_Capless_DL_mesh_layer_1_mat_override_Eye_Half_2[] = {
 	gsSPDisplayList(mat_mario_k_Eye_Half),
 	gsSPDisplayList(mario_k_Switch_Option_Head_Capless_DL_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_mario_k_Mustache),
@@ -7329,7 +7382,7 @@ Gfx mario_k_Switch_Option_Head_Capless_DL_mesh_layer_1_mat_override_Eye_Half_1[]
 	gsSPEndDisplayList(),
 };
 
-Gfx mario_k_Switch_Option_Head_Capless_DL_mesh_layer_1_mat_override_Eye_Closed_2[] = {
+Gfx mario_k_Switch_Option_Head_Capless_DL_mesh_layer_1_mat_override_Eye_Closed_3[] = {
 	gsSPDisplayList(mat_mario_k_Eye_Closed),
 	gsSPDisplayList(mario_k_Switch_Option_Head_Capless_DL_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_mario_k_Mustache),
@@ -7342,7 +7395,7 @@ Gfx mario_k_Switch_Option_Head_Capless_DL_mesh_layer_1_mat_override_Eye_Closed_2
 	gsSPEndDisplayList(),
 };
 
-Gfx mario_k_Switch_Option_Head_Capless_DL_mesh_layer_1_mat_override_Eye_X_3[] = {
+Gfx mario_k_Switch_Option_Head_Capless_DL_mesh_layer_1_mat_override_Eye_X_4[] = {
 	gsSPDisplayList(mat_mario_k_Eye_X),
 	gsSPDisplayList(mario_k_Switch_Option_Head_Capless_DL_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_mario_k_Mustache),
@@ -7375,6 +7428,16 @@ Gfx mario_k_Left_Wing_DL_mesh_layer_4_mat_override_Metal_0[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx mario_k_Left_Wing_DL_mesh_layer_4_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Wing_Outer),
+	gsSPDisplayList(mario_k_Left_Wing_DL_mesh_layer_4_tri_0),
+	gsSPDisplayList(mat_revert_mario_k_Wing_Outer),
+	gsSPDisplayList(mat_mario_k_Wing_Inner),
+	gsSPDisplayList(mario_k_Left_Wing_DL_mesh_layer_4_tri_1),
+	gsSPDisplayList(mat_revert_mario_k_Wing_Inner),
+	gsSPEndDisplayList(),
+};
+
 Gfx mario_k_Right_Wing_DL_mesh_layer_4[] = {
 	gsSPDisplayList(mat_mario_k_Wing_Outer),
 	gsSPDisplayList(mario_k_Right_Wing_DL_mesh_layer_4_tri_0),
@@ -7386,6 +7449,16 @@ Gfx mario_k_Right_Wing_DL_mesh_layer_4[] = {
 };
 
 Gfx mario_k_Right_Wing_DL_mesh_layer_4_mat_override_Metal_0[] = {
+	gsSPDisplayList(mat_mario_k_Wing_Outer),
+	gsSPDisplayList(mario_k_Right_Wing_DL_mesh_layer_4_tri_0),
+	gsSPDisplayList(mat_revert_mario_k_Wing_Outer),
+	gsSPDisplayList(mat_mario_k_Wing_Inner),
+	gsSPDisplayList(mario_k_Right_Wing_DL_mesh_layer_4_tri_1),
+	gsSPDisplayList(mat_revert_mario_k_Wing_Inner),
+	gsSPEndDisplayList(),
+};
+
+Gfx mario_k_Right_Wing_DL_mesh_layer_4_mat_override_Chronos_Glow_1[] = {
 	gsSPDisplayList(mat_mario_k_Wing_Outer),
 	gsSPDisplayList(mario_k_Right_Wing_DL_mesh_layer_4_tri_0),
 	gsSPDisplayList(mat_revert_mario_k_Wing_Outer),
@@ -7407,6 +7480,12 @@ Gfx mario_k_Left_Arm_Color_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx mario_k_Left_Arm_Color_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
+	gsSPDisplayList(mario_k_Left_Arm_Color_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
 Gfx mario_k_Left_Forearm_skinned_mesh_layer_1[] = {
 	gsSPDisplayList(mat_mario_k_Eye_Open),
 	gsSPDisplayList(mario_k_Left_Forearm_skinned_mesh_layer_1_tri_0),
@@ -7415,6 +7494,12 @@ Gfx mario_k_Left_Forearm_skinned_mesh_layer_1[] = {
 
 Gfx mario_k_Left_Forearm_skinned_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPDisplayList(mat_mario_k_Metal),
+	gsSPDisplayList(mario_k_Left_Forearm_skinned_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
+Gfx mario_k_Left_Forearm_skinned_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
 	gsSPDisplayList(mario_k_Left_Forearm_skinned_mesh_layer_1_tri_0),
 	gsSPEndDisplayList(),
 };
@@ -7433,6 +7518,13 @@ Gfx mario_k_Left_Forearm_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx mario_k_Left_Forearm_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
+	gsSPDisplayList(mario_k_Left_Forearm_mesh_layer_1_tri_0),
+	gsSPDisplayList(mario_k_Left_Forearm_mesh_layer_1_tri_1),
+	gsSPEndDisplayList(),
+};
+
 Gfx mario_k_Left_Hand_DL_mesh_layer_1[] = {
 	gsSPDisplayList(mat_mario_k_Eye_Open),
 	gsSPDisplayList(mario_k_Left_Hand_DL_mesh_layer_1_tri_0),
@@ -7441,6 +7533,12 @@ Gfx mario_k_Left_Hand_DL_mesh_layer_1[] = {
 
 Gfx mario_k_Left_Hand_DL_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPDisplayList(mat_mario_k_Metal),
+	gsSPDisplayList(mario_k_Left_Hand_DL_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
+Gfx mario_k_Left_Hand_DL_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
 	gsSPDisplayList(mario_k_Left_Hand_DL_mesh_layer_1_tri_0),
 	gsSPEndDisplayList(),
 };
@@ -7457,6 +7555,12 @@ Gfx mario_k_Switch_Option_Left_Hand_Open_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx mario_k_Switch_Option_Left_Hand_Open_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
+	gsSPDisplayList(mario_k_Switch_Option_Left_Hand_Open_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
 Gfx mario_k_Right_Arm_Color_mesh_layer_1[] = {
 	gsSPDisplayList(mat_mario_k_Black),
 	gsSPDisplayList(mario_k_Right_Arm_Color_mesh_layer_1_tri_0),
@@ -7469,6 +7573,12 @@ Gfx mario_k_Right_Arm_Color_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx mario_k_Right_Arm_Color_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
+	gsSPDisplayList(mario_k_Right_Arm_Color_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
 Gfx mario_k_Right_Forearm_skinned_mesh_layer_1[] = {
 	gsSPDisplayList(mat_mario_k_Black),
 	gsSPDisplayList(mario_k_Right_Forearm_skinned_mesh_layer_1_tri_0),
@@ -7477,6 +7587,12 @@ Gfx mario_k_Right_Forearm_skinned_mesh_layer_1[] = {
 
 Gfx mario_k_Right_Forearm_skinned_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPDisplayList(mat_mario_k_Metal),
+	gsSPDisplayList(mario_k_Right_Forearm_skinned_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
+Gfx mario_k_Right_Forearm_skinned_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
 	gsSPDisplayList(mario_k_Right_Forearm_skinned_mesh_layer_1_tri_0),
 	gsSPEndDisplayList(),
 };
@@ -7498,6 +7614,13 @@ Gfx mario_k_Right_Forearm_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx mario_k_Right_Forearm_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
+	gsSPDisplayList(mario_k_Right_Forearm_mesh_layer_1_tri_0),
+	gsSPDisplayList(mario_k_Right_Forearm_mesh_layer_1_tri_1),
+	gsSPEndDisplayList(),
+};
+
 Gfx mario_k_Right_Hand_DL_mesh_layer_1[] = {
 	gsSPDisplayList(mat_mario_k_Eye_Open),
 	gsSPDisplayList(mario_k_Right_Hand_DL_mesh_layer_1_tri_0),
@@ -7506,6 +7629,12 @@ Gfx mario_k_Right_Hand_DL_mesh_layer_1[] = {
 
 Gfx mario_k_Right_Hand_DL_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPDisplayList(mat_mario_k_Metal),
+	gsSPDisplayList(mario_k_Right_Hand_DL_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
+Gfx mario_k_Right_Hand_DL_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
 	gsSPDisplayList(mario_k_Right_Hand_DL_mesh_layer_1_tri_0),
 	gsSPEndDisplayList(),
 };
@@ -7522,6 +7651,12 @@ Gfx mario_k_Switch_Option_Right_Hand_Open_mesh_layer_1_mat_override_Metal_0[] = 
 	gsSPEndDisplayList(),
 };
 
+Gfx mario_k_Switch_Option_Right_Hand_Open_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
+	gsSPDisplayList(mario_k_Switch_Option_Right_Hand_Open_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
 Gfx mario_k_Switch_Option_Right_Hand_Peace_mesh_layer_1[] = {
 	gsSPDisplayList(mat_mario_k_Gloves),
 	gsSPDisplayList(mario_k_Switch_Option_Right_Hand_Peace_mesh_layer_1_tri_0),
@@ -7530,6 +7665,12 @@ Gfx mario_k_Switch_Option_Right_Hand_Peace_mesh_layer_1[] = {
 
 Gfx mario_k_Switch_Option_Right_Hand_Peace_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPDisplayList(mat_mario_k_Metal),
+	gsSPDisplayList(mario_k_Switch_Option_Right_Hand_Peace_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
+Gfx mario_k_Switch_Option_Right_Hand_Peace_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
 	gsSPDisplayList(mario_k_Switch_Option_Right_Hand_Peace_mesh_layer_1_tri_0),
 	gsSPEndDisplayList(),
 };
@@ -7549,6 +7690,13 @@ Gfx mario_k_Switch_Option_Right_Hand_Cap_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx mario_k_Switch_Option_Right_Hand_Cap_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
+	gsSPDisplayList(mario_k_Switch_Option_Right_Hand_Cap_mesh_layer_1_tri_0),
+	gsSPDisplayList(mario_k_Switch_Option_Right_Hand_Cap_mesh_layer_1_tri_1),
+	gsSPEndDisplayList(),
+};
+
 Gfx mario_k_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1[] = {
 	gsSPDisplayList(mat_mario_k_Cap),
 	gsSPDisplayList(mario_k_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_0),
@@ -7559,6 +7707,13 @@ Gfx mario_k_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1[] = {
 
 Gfx mario_k_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPDisplayList(mat_mario_k_Metal),
+	gsSPDisplayList(mario_k_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_0),
+	gsSPDisplayList(mario_k_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_1),
+	gsSPEndDisplayList(),
+};
+
+Gfx mario_k_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
 	gsSPDisplayList(mario_k_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_0),
 	gsSPDisplayList(mario_k_Switch_Option_Right_Hand_Wing_Cap_mesh_layer_1_tri_1),
 	gsSPEndDisplayList(),
@@ -7584,6 +7739,16 @@ Gfx mario_k_Switch_Option_Right_Hand_Wing_Cap_Wings_mesh_layer_4_mat_override_Me
 	gsSPEndDisplayList(),
 };
 
+Gfx mario_k_Switch_Option_Right_Hand_Wing_Cap_Wings_mesh_layer_4_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Wing_Outer),
+	gsSPDisplayList(mario_k_Switch_Option_Right_Hand_Wing_Cap_Wings_mesh_layer_4_tri_0),
+	gsSPDisplayList(mat_revert_mario_k_Wing_Outer),
+	gsSPDisplayList(mat_mario_k_Wing_Inner),
+	gsSPDisplayList(mario_k_Switch_Option_Right_Hand_Wing_Cap_Wings_mesh_layer_4_tri_1),
+	gsSPDisplayList(mat_revert_mario_k_Wing_Inner),
+	gsSPEndDisplayList(),
+};
+
 Gfx mario_k_Left_Thigh_Color_mesh_layer_1[] = {
 	gsSPDisplayList(mat_mario_k_Black),
 	gsSPDisplayList(mario_k_Left_Thigh_Color_mesh_layer_1_tri_0),
@@ -7596,6 +7761,12 @@ Gfx mario_k_Left_Thigh_Color_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx mario_k_Left_Thigh_Color_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
+	gsSPDisplayList(mario_k_Left_Thigh_Color_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
 Gfx mario_k_Left_Leg_skinned_mesh_layer_1[] = {
 	gsSPDisplayList(mat_mario_k_Black),
 	gsSPDisplayList(mario_k_Left_Leg_skinned_mesh_layer_1_tri_0),
@@ -7604,6 +7775,12 @@ Gfx mario_k_Left_Leg_skinned_mesh_layer_1[] = {
 
 Gfx mario_k_Left_Leg_skinned_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPDisplayList(mat_mario_k_Metal),
+	gsSPDisplayList(mario_k_Left_Leg_skinned_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
+Gfx mario_k_Left_Leg_skinned_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
 	gsSPDisplayList(mario_k_Left_Leg_skinned_mesh_layer_1_tri_0),
 	gsSPEndDisplayList(),
 };
@@ -7627,6 +7804,14 @@ Gfx mario_k_Left_Leg_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx mario_k_Left_Leg_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
+	gsSPDisplayList(mario_k_Left_Leg_mesh_layer_1_tri_0),
+	gsSPDisplayList(mario_k_Left_Leg_mesh_layer_1_tri_1),
+	gsSPDisplayList(mario_k_Left_Leg_mesh_layer_1_tri_2),
+	gsSPEndDisplayList(),
+};
+
 Gfx mario_k_Left_Foot_mesh_layer_1[] = {
 	gsSPDisplayList(mat_mario_k_Sideburns),
 	gsSPDisplayList(mario_k_Left_Foot_mesh_layer_1_tri_0),
@@ -7638,6 +7823,13 @@ Gfx mario_k_Left_Foot_mesh_layer_1[] = {
 
 Gfx mario_k_Left_Foot_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPDisplayList(mat_mario_k_Metal),
+	gsSPDisplayList(mario_k_Left_Foot_mesh_layer_1_tri_0),
+	gsSPDisplayList(mario_k_Left_Foot_mesh_layer_1_tri_1),
+	gsSPEndDisplayList(),
+};
+
+Gfx mario_k_Left_Foot_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
 	gsSPDisplayList(mario_k_Left_Foot_mesh_layer_1_tri_0),
 	gsSPDisplayList(mario_k_Left_Foot_mesh_layer_1_tri_1),
 	gsSPEndDisplayList(),
@@ -7655,6 +7847,12 @@ Gfx mario_k_Right_Thigh_Color_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx mario_k_Right_Thigh_Color_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
+	gsSPDisplayList(mario_k_Right_Thigh_Color_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
 Gfx mario_k_Right_Leg_skinned_mesh_layer_1[] = {
 	gsSPDisplayList(mat_mario_k_Black),
 	gsSPDisplayList(mario_k_Right_Leg_skinned_mesh_layer_1_tri_0),
@@ -7663,6 +7861,12 @@ Gfx mario_k_Right_Leg_skinned_mesh_layer_1[] = {
 
 Gfx mario_k_Right_Leg_skinned_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPDisplayList(mat_mario_k_Metal),
+	gsSPDisplayList(mario_k_Right_Leg_skinned_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
+Gfx mario_k_Right_Leg_skinned_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
 	gsSPDisplayList(mario_k_Right_Leg_skinned_mesh_layer_1_tri_0),
 	gsSPEndDisplayList(),
 };
@@ -7686,6 +7890,14 @@ Gfx mario_k_Right_Leg_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx mario_k_Right_Leg_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
+	gsSPDisplayList(mario_k_Right_Leg_mesh_layer_1_tri_0),
+	gsSPDisplayList(mario_k_Right_Leg_mesh_layer_1_tri_1),
+	gsSPDisplayList(mario_k_Right_Leg_mesh_layer_1_tri_2),
+	gsSPEndDisplayList(),
+};
+
 Gfx mario_k_Right_Foot_DL_mesh_layer_1[] = {
 	gsSPDisplayList(mat_mario_k_Sideburns),
 	gsSPDisplayList(mario_k_Right_Foot_DL_mesh_layer_1_tri_0),
@@ -7697,6 +7909,13 @@ Gfx mario_k_Right_Foot_DL_mesh_layer_1[] = {
 
 Gfx mario_k_Right_Foot_DL_mesh_layer_1_mat_override_Metal_0[] = {
 	gsSPDisplayList(mat_mario_k_Metal),
+	gsSPDisplayList(mario_k_Right_Foot_DL_mesh_layer_1_tri_0),
+	gsSPDisplayList(mario_k_Right_Foot_DL_mesh_layer_1_tri_1),
+	gsSPEndDisplayList(),
+};
+
+Gfx mario_k_Right_Foot_DL_mesh_layer_1_mat_override_Chronos_Glow_1[] = {
+	gsSPDisplayList(mat_mario_k_Chronos_Glow),
 	gsSPDisplayList(mario_k_Right_Foot_DL_mesh_layer_1_tri_0),
 	gsSPDisplayList(mario_k_Right_Foot_DL_mesh_layer_1_tri_1),
 	gsSPEndDisplayList(),

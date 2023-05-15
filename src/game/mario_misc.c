@@ -493,7 +493,12 @@ Gfx *geo_switch_mario_cap_effect(s32 callContext, struct GraphNode *node, UNUSED
     struct MarioBodyState *bodyState = &gBodyStates[switchCase->numCases];
 
     if (callContext == GEO_CONTEXT_RENDER) {
-        switchCase->selectedCase = bodyState->modelState >> 8;
+        if (!gMarioState->abilityChronosTimeSlowActive) {
+            switchCase->selectedCase = bodyState->modelState >> 8;
+        }
+        else {
+            switchCase->selectedCase = 4;
+        }
     }
     return NULL;
 }
@@ -641,4 +646,71 @@ Gfx *geo_mirror_mario_backface_culling(s32 callContext, struct GraphNode *node, 
         SET_GRAPH_NODE_LAYER(asGenerated->fnNode.node.flags, LAYER_OPAQUE);
     }
     return gfx;
+}
+
+
+Gfx *geo_mario_ability_chronos_set_aux_framebuffer(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx) {
+    struct GraphNodeGenerated *asGenerated = (struct GraphNodeGenerated *) node;
+    Gfx *dl = NULL;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        Gfx *dlHead = NULL;
+        static u8 toClear = FALSE;
+        if (gMarioState->abilityChronosTimeSlowActive) {
+            dl = alloc_display_list(12 * sizeof(*dl));
+            dlHead = dl;
+            gDPPipeSync(dlHead++);
+            gDPSetCycleType(dlHead++, G_CYC_1CYCLE);
+            gDPSetColorImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, gPhysicalChronosAuxFramebuffer);
+            gDPSetScissor(dlHead++, G_SC_NON_INTERLACE, 0, gBorderHeight, SCREEN_WIDTH, SCREEN_HEIGHT - gBorderHeight);
+            gDPPipeSync(dlHead++);
+            gDPSetRenderMode(dlHead++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+            gDPSetCycleType(dlHead++, G_CYC_1CYCLE);
+            gDPSetPrimColor(dlHead++, 0, 0, 0, 0, 0, 32);
+            gDPSetCombineMode(dlHead++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
+            gDPFillRectangle(dlHead++, 0, gBorderHeight, SCREEN_WIDTH - 1, SCREEN_HEIGHT - gBorderHeight - 1);
+            gDPSetRenderMode(dlHead++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+            gSPEndDisplayList(dlHead);
+            SET_GRAPH_NODE_LAYER(asGenerated->fnNode.node.flags, LAYER_OPAQUE);
+            toClear = TRUE;
+        }
+        else if (toClear) {
+            dl = alloc_display_list(14 * sizeof(*dl));
+            dlHead = dl;
+            gDPPipeSync(dlHead++);
+            gDPSetCycleType(dlHead++, G_CYC_1CYCLE);
+            gDPSetColorImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, gPhysicalChronosAuxFramebuffer);
+            gDPSetScissor(dlHead++, G_SC_NON_INTERLACE, 0, gBorderHeight, SCREEN_WIDTH, SCREEN_HEIGHT - gBorderHeight);
+            gDPPipeSync(dlHead++);
+            gDPSetRenderMode(dlHead++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+            gDPSetCycleType(gDisplayListHead++, G_CYC_FILL);
+            gDPSetPrimColor(dlHead++, 0, 0, 0, 0, 0, 255);
+            gDPSetCombineMode(dlHead++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
+            gDPFillRectangle(dlHead++, 0, gBorderHeight, SCREEN_WIDTH - 1, SCREEN_HEIGHT - gBorderHeight - 1);
+            gDPPipeSync(dlHead++);
+            gDPSetColorImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, gPhysicalFramebuffers[sRenderingFramebuffer]);
+            gDPSetCycleType(gDisplayListHead++, G_CYC_1CYCLE);
+            gSPEndDisplayList(dlHead);
+            SET_GRAPH_NODE_LAYER(asGenerated->fnNode.node.flags, LAYER_OPAQUE);
+            toClear = FALSE;
+        }
+    }
+    return dl;
+}
+
+Gfx *geo_mario_ability_chronos_reset_aux_framebuffer(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx) {
+    struct GraphNodeGenerated *asGenerated = (struct GraphNodeGenerated *) node;
+    Gfx *dl = NULL;
+
+    if (callContext == GEO_CONTEXT_RENDER && gMarioState->abilityChronosTimeSlowActive) {
+        Gfx *dlHead = NULL;
+        dl = alloc_display_list(4 * sizeof(*dl));
+        dlHead = dl;
+        gDPPipeSync(dlHead++);
+        gDPSetRenderMode(dlHead++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+        gDPSetColorImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, gPhysicalFramebuffers[sRenderingFramebuffer]);
+        gSPEndDisplayList(dlHead);
+        SET_GRAPH_NODE_LAYER(asGenerated->fnNode.node.flags, LAYER_OPAQUE);
+    }
+    return dl;
 }

@@ -675,7 +675,7 @@ Gfx *geo_mario_ability_chronos_set_aux_framebuffer(s32 callContext, struct Graph
             toClear = TRUE;
         }
         else if (toClear) {
-            dl = alloc_display_list(14 * sizeof(*dl));
+            dl = alloc_display_list(15 * sizeof(*dl));
             dlHead = dl;
             gDPPipeSync(dlHead++);
             gDPSetCycleType(dlHead++, G_CYC_1CYCLE);
@@ -690,6 +690,7 @@ Gfx *geo_mario_ability_chronos_set_aux_framebuffer(s32 callContext, struct Graph
             gDPPipeSync(dlHead++);
             gDPSetColorImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, gPhysicalFramebuffers[sRenderingFramebuffer]);
             gDPSetCycleType(gDisplayListHead++, G_CYC_1CYCLE);
+            gDPSetRenderMode(dlHead++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
             gSPEndDisplayList(dlHead);
             SET_GRAPH_NODE_LAYER(asGenerated->fnNode.node.flags, LAYER_OPAQUE);
             toClear = FALSE;
@@ -707,7 +708,7 @@ Gfx *geo_mario_ability_chronos_reset_aux_framebuffer(s32 callContext, struct Gra
         dl = alloc_display_list(4 * sizeof(*dl));
         dlHead = dl;
         gDPPipeSync(dlHead++);
-        gDPSetRenderMode(dlHead++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+        gDPSetRenderMode(dlHead++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
         gDPSetColorImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, gPhysicalFramebuffers[sRenderingFramebuffer]);
         gSPEndDisplayList(dlHead);
         SET_GRAPH_NODE_LAYER(asGenerated->fnNode.node.flags, LAYER_OPAQUE);

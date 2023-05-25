@@ -17,12 +17,12 @@
 #include "spawn_sound.h"
 #include "farcall.h"
 #include "audio/external.h"
-#include "level_update.h" //Also ignore this...
+#include "level_update.h"
 #include "mario.h"
 #include "save_file.h"
 #include "game_init.h"
 #include "obj_behaviors_2.h"
-#include "level_headers.h"
+#include "level_headers.h" //Also ignore this...
 #include "level_misc_macros.h"
 
 s32 obj_is_rendering_enabled(void);

@@ -155,12 +155,14 @@ void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index) {
     create_dl_translation_matrix(MENU_MTX_PUSH, x, y, 0);
 
 	gDPPipeSync(gDisplayListHead++);
+    gDPSetTextureFilter(gDisplayListHead++,G_TF_POINT);
 	gDPSetTextureImage(gDisplayListHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, &ability_images[index]);
 	gDPSetTile(gDisplayListHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0);
 	gDPLoadBlock(gDisplayListHead++,7, 0, 0, 1023, 256);
 
     gSPDisplayList(gDisplayListHead++,ability_ability_mesh);
     
+    gDPSetTextureFilter(gDisplayListHead++,G_TF_BILERP);
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 }
 
@@ -179,6 +181,7 @@ Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context
         dlStart = dlHead;
 
         gDPPipeSync(dlHead++);
+        gDPSetTextureFilter(dlHead++,G_TF_POINT);
         gDPSetCombineLERP(dlHead++,0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0);
         gSPTexture(dlHead++,65535, 65535, 0, 0, 1);
         gDPSetTextureImage(dlHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, ability_images[obj->oBehParams2ndByte]);
@@ -186,8 +189,6 @@ Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context
         gDPLoadBlock(dlHead++,7, 0, 0, 1023, 256);
         gDPSetTile(dlHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0);
         gDPSetTileSize(dlHead++,0, 0, 0, 124, 124);
-        gSPEndDisplayList(dlHead++);
-
         gSPEndDisplayList(dlHead++);
     }
     return dlStart;

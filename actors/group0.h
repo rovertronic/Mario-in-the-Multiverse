@@ -387,4 +387,8 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "cutter_particle_slash/geo_header.h"
 
+#include "dragonite/geo_header.h"
+
+
+#include "dragonite/anim_header.h"
 #endif

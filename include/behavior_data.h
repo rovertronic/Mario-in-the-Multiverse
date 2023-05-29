@@ -573,6 +573,7 @@ extern const BehaviorScript bhvCutterBlade[];
 /* GROUP I END */
 
 /* GROUP J START */
+extern const BehaviorScript bhvDragonite[];
 /* GROUP J END */
 
 /* GROUP K START */

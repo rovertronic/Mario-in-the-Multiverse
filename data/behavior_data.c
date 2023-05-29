@@ -6145,6 +6145,17 @@ const BehaviorScript bhvCutterBlade[] = {
 /* GROUP I END */
 
 /* GROUP J START */
+const BehaviorScript bhvDragonite[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, dragonite_anims),
+    CALL_NATIVE(bhv_dragonite_init),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_dragonite_loop),
+    END_LOOP(),
+
+};
 /* GROUP J END */
 
 /* GROUP K START */

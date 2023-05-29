@@ -582,3 +582,5 @@ void bhv_cutter_blast_init(void);
 void bhv_cutter_blast_loop(void);
 void bhv_cutter_particle_slash_init(void);
 void bhv_cutter_particle_slash_loop(void);
+void bhv_dragonite_init(void);
+void bhv_dragonite_loop(void);

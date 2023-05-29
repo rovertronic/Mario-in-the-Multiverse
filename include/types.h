@@ -492,6 +492,7 @@ struct MarioState {
 
             u8 abilityId;
             u16 numGlobalCoins;
+            u8 canHMFly;
 };
 
 typedef uint8_t   qu08_t;

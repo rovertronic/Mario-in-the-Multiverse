@@ -60,3 +60,6 @@
 #include "mario/anims/table.inc.c"
 #include "cutter_blast/model.inc.c"
 #include "cutter_particle_slash/model.inc.c"
+#include "dragonite/model.inc.c"
+#include "dragonite/anims/data.inc.c"
+#include "dragonite/anims/table.inc.c"

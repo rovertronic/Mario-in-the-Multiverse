@@ -516,6 +516,15 @@ static void obj_set_knockback_action(s32 attackType) {
     o->oMoveAngleYaw = obj_angle_to_object(gMarioObject, o);
 }
 
+static void obj_set_stun_knockback_action() {
+
+            o->oAction = OBJ_ACT_STUN_KNOCKBACK;
+            
+
+    o->oFlags &= ~OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW;
+    o->oMoveAngleYaw = obj_angle_to_object(gMarioObject, o);
+}
+
 static void obj_set_squished_action(void) {
     cur_obj_play_sound_2(SOUND_OBJ_STOMPED);
     o->oAction = OBJ_ACT_SQUISHED;
@@ -557,7 +566,13 @@ static s32 obj_handle_attacks(struct ObjectHitbox *hitbox, s32 attackedMarioActi
                 o->oAction = attackedMarioAction;
                 o->oTimer = 0;
             }
-        } else {
+        } else if ((o->oInteractStatus & INT_STATUS_ATTACK_MASK) == 7) {
+            attackType = o->oInteractStatus & INT_STATUS_ATTACK_MASK;
+            obj_set_stun_knockback_action();
+            o->oInteractStatus = INT_STATUS_NONE;
+            return attackType;
+        }
+            else {
             attackType = o->oInteractStatus & INT_STATUS_ATTACK_MASK;
 
             switch (attackHandlers[attackType - 1]) {
@@ -645,7 +660,75 @@ static void obj_act_squished(f32 baseScale) {
     cur_obj_move_standard(-78);
 }
 
-static s32 obj_update_standard_actions(f32 scale) {
+static struct SpawnParticlesInfo sStunParticles = {
+    /* behParam:        */ 2,
+    /* count:           */ 5,
+    /* model:           */ MODEL_CARTOON_STAR,
+    /* offsetY:         */ 0,
+    /* forwardVelBase:  */ 40,
+    /* forwardVelRange: */ 5,
+    /* velYBase:        */ 30,
+    /* velYRange:       */ 20,
+    /* gravity:         */ 252,
+    /* dragStrength:    */ 30,
+    /* sizeBase:        */ 3.0f,
+    /* sizeRange:       */ 1.0f,
+};
+
+static void obj_act_stun_knockback() {
+
+    cur_obj_update_floor_and_walls();
+
+    //every time mario slashes, make the enemy shake more and get knocked back a bit
+    if (gMarioState->action == ACT_FINAL_CUTTER_SEQUENCE && gMarioState->actionTimer == 3 && (gMarioState->actionArg == 0 || gMarioState->actionArg == 1 || gMarioState->actionArg == 2)) {
+        o->oTimer = 0;
+        o->oForwardVel = 15.0f;
+
+        spawn_object_relative(gMarioState->actionArg, sins(o->oFaceAngleYaw) * 50, 50, coss(o->oFaceAngleYaw) * 50, o, MODEL_CUTTER_PARTICLE_SLASH, bhvCutterParticleSlash);
+    }
+
+    //final down slash
+    if (gMarioState->action == ACT_FINAL_CUTTER_SEQUENCE && gMarioState->actionTimer == 20 && (gMarioState->actionArg == 2)) {
+        o->oTimer = 30;
+    }
+    if (o->oTimer % 4 == 0 && o->oTimer < 30) {
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
+        spawn_triangle_break_particles(5, MODEL_CARTOON_STAR, 0.3f, 3);
+    }
+
+    if (o->oTimer == 30) {
+        o->oForwardVel = 30.0f;
+        o->oVelY = 30.0f;
+    }
+        if (o->oTimer == 46) {
+            o->oHealth = 0;
+            obj_die_if_health_non_positive();
+            o->oForwardVel = 0.0f;
+            o->oVelY = 0.0f;
+        }
+    if (o->oTimer <= 5) {
+        o->oPosX += 30*(1 - ((o->oTimer + 1) % 3));
+        o->oPosY += 30*(1 - (o->oTimer % 3));
+        o->oPosZ += 30*(1 - ((o->oTimer + 2) % 3));
+        if (o->oForwardVel > 0) {
+            o->oForwardVel -= 4.0f;
+        }
+    }
+    else if (o->oTimer > 5 && o->oTimer < 30) {
+
+    o->oPosX += 10*(1 - ((o->oTimer + 1) % 3));
+    o->oPosY += 10*(1 - (o->oTimer % 3));
+    o->oPosZ += 10*(1 - ((o->oTimer + 2) % 3));
+
+    o->oForwardVel = 0.0f;
+    }
+
+    o->oGravity = -4.0f;
+
+    cur_obj_move_standard(-78);
+}
+
+s32 obj_update_standard_actions(f32 scale) {
     if (o->oAction < 100) {
         return TRUE;
     } else {
@@ -659,6 +742,10 @@ static s32 obj_update_standard_actions(f32 scale) {
 
             case OBJ_ACT_SQUISHED:
                 obj_act_squished(scale);
+                break;
+
+            case OBJ_ACT_STUN_KNOCKBACK:
+                obj_act_stun_knockback();
                 break;
         }
 

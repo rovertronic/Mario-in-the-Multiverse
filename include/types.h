@@ -493,6 +493,7 @@ struct MarioState {
             u16 numGlobalCoins;
 
             u8 abilityChronosTimeSlowActive;
+            u8 canHMFly;
 };
 
 typedef uint8_t   qu08_t;

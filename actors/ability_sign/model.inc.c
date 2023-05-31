@@ -769,6 +769,7 @@ Gfx ability_sign_absign_mesh_layer_1[] = {
 	gsSPDisplayList(mat_ability_sign_sign),
 	gsSPDisplayList(ability_sign_absign_mesh_layer_1_tri_1),
 	gsSPDisplayList(mat_revert_ability_sign_sign),
+	gsDPSetTextureFilter(G_TF_BILERP),
 	gsSPEndDisplayList(),
 };
 

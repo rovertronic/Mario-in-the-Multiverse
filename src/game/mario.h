@@ -50,6 +50,8 @@ s32 transition_submerged_to_walking(struct MarioState *m);
 s32 transition_submerged_to_airborne(struct MarioState *m);
 s32 set_water_plunge_action(struct MarioState *m);
 s32 execute_mario_action(UNUSED struct Object *obj);
+s16 set_custom_mario_animation(struct MarioState *m, s32 targetAnimID);
+s16 set_custom_mario_animation_with_accel(struct MarioState *m, s32 targetAnimID, s32 accel);
 void init_mario(void);
 void init_mario_from_save_file(void);
 

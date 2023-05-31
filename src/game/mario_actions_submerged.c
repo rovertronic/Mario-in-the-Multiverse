@@ -71,6 +71,11 @@ static f32 get_buoyancy(struct MarioState *m) {
 }
 
 static u32 perform_water_full_step(struct MarioState *m, Vec3f nextPos) {
+
+    if (!(m->input & INPUT_A_PRESSED)) {
+        m->canHMFly = 1;
+    }
+
     struct WallCollisionData wallData;
     struct Surface *ceil, *floor;
 

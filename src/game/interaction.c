@@ -174,7 +174,13 @@ u32 determine_interaction(struct MarioState *m, struct Object *obj) {
             if (m->flags & MARIO_PUNCHING) {
                 // 120 degrees total, or 60 each way
                 if (-0x2AAA <= dYawToObject && dYawToObject <= 0x2AAA) {
-                    interaction = INT_PUNCH;
+                    if (m->abilityId == ABILITY_CUTTER) {
+                        interaction = INT_HIT_STUN;
+                        set_mario_action(m, ACT_FINAL_CUTTER_SEQUENCE, 0);
+                    }
+                    else {
+                        interaction = INT_PUNCH;
+                    }
                 }
             }
             if (m->flags & MARIO_KICKING) {
@@ -211,6 +217,10 @@ u32 determine_interaction(struct MarioState *m, struct Object *obj) {
     }
 
     if (action == ACT_ABILITY_AXE_JUMP) {
+        interaction = INT_KICK;
+    }
+
+    if (action == ACT_CUTTER_DASH) {
         interaction = INT_KICK;
     }
 
@@ -258,6 +268,9 @@ u32 attack_object(struct Object *obj, s32 interaction) {
             break;
         case INT_HIT_FROM_BELOW:
             attackType = ATTACK_FROM_BELOW;
+            break;
+        case INT_HIT_STUN:
+            attackType = ATTACK_HIT_STUN;
             break;
     }
 
@@ -641,7 +654,7 @@ void push_mario_out_of_object(struct MarioState *m, struct Object *obj, f32 padd
 }
 
 void bounce_back_from_attack(struct MarioState *m, u32 interaction) {
-    if (interaction & (INT_PUNCH | INT_KICK | INT_TRIP)) {
+    if (interaction & (INT_PUNCH | INT_KICK | INT_TRIP) && m->action != ACT_CUTTER_DASH) {
         if (m->action == ACT_PUNCHING) {
             m->action = ACT_MOVE_PUNCHING;
         }

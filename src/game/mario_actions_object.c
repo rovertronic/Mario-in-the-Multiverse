@@ -9,8 +9,10 @@
 #include "interaction.h"
 #include "engine/math_util.h"
 #include "rumble_init.h"
-#include "ability.h"
 #include "game_init.h"
+#include "include/behavior_data.h"
+#include "ability.h"
+#include "actors/group0.h"
 
 /**
  * Used by act_punching() to determine Mario's forward velocity during each
@@ -29,6 +31,21 @@ void animated_stationary_ground_step(struct MarioState *m, s32 animation, u32 en
 s32 mario_update_punch_sequence(struct MarioState *m) {
     u32 endAction, crouchEndAction;
     s32 animFrame;
+
+    if (m->abilityId == ABILITY_CUTTER) {
+        if (m->actionTimer >= 2) {
+            gSPDisplayList(&gfx_ability_hand[0], &cutter_hand_right_hand_open_mesh_layer_1);
+            gSPEndDisplayList(&gfx_ability_hand[1]);
+        }
+        else {
+            gSPDisplayList(&gfx_ability_hand[0], &mario_right_hand_closed);
+            gSPEndDisplayList(&gfx_ability_hand[1]);
+        }
+
+        if (m->actionTimer == 2) {
+            spawn_object_relative(0, 0, 100, 0, m->marioObj, MODEL_CUTTER_BLADE, bhvCutterBlade);
+        }
+    }
 
     if (m->action & ACT_FLAG_MOVING) {
         endAction = ACT_WALKING, crouchEndAction = ACT_CROUCH_SLIDE;
@@ -50,7 +67,18 @@ s32 mario_update_punch_sequence(struct MarioState *m) {
 
             if (m->marioObj->header.gfx.animInfo.animFrame >= 2) {
                 if (mario_check_object_grab(m)) {
-                    return TRUE;
+                    if (m->abilityId == ABILITY_CUTTER && m->interactObj->behavior != segmented_to_virtual(bhvKingBobomb) && m->interactObj->behavior != segmented_to_virtual(bhvUkiki) 
+                    && m->interactObj->behavior != segmented_to_virtual(bhvBowser) && m->interactObj->behavior != segmented_to_virtual(bhvMips)
+                    && m->interactObj->behavior != segmented_to_virtual(bhvBreakableBoxSmall) && m->interactObj->behavior != segmented_to_virtual(bhvJumpingBox)) {
+                        m->interactObj->oAction = OBJ_ACT_STUN_KNOCKBACK;
+                        m->interactObj->oFlags &= ~OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW;
+                        m->interactObj->oMoveAngleYaw = obj_angle_to_object(m->marioObj, m->interactObj);
+                        set_mario_action(m, ACT_FINAL_CUTTER_SEQUENCE, 0);
+                        return FALSE;
+                    }
+                    else {
+                        return TRUE;
+                    }
                 }
 
                 m->flags |= MARIO_PUNCHING;
@@ -68,7 +96,7 @@ s32 mario_update_punch_sequence(struct MarioState *m) {
                 m->flags |= MARIO_PUNCHING;
             }
 
-            if (m->input & INPUT_B_PRESSED) {
+            if ((m->input & INPUT_B_PRESSED) && m->abilityId != ABILITY_CUTTER) {
                 m->actionArg = ACT_ARG_PUNCH_SEQUENCE_WAH;
             }
 

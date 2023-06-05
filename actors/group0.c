@@ -63,3 +63,4 @@
 #include "dragonite/model.inc.c"
 #include "dragonite/anims/data.inc.c"
 #include "dragonite/anims/table.inc.c"
+#include "bubble_hat/model.inc.c"

@@ -11,7 +11,7 @@ Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context
 
 enum ability_ids {
     ABILITY_DEFAULT,
-    ABILITY_A_,
+    ABILITY_BUBBLE_HAT,
     ABILITY_B_,
     ABILITY_C_,
     ABILITY_D_,

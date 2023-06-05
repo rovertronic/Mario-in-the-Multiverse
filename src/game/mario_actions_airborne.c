@@ -2169,6 +2169,8 @@ s32 act_hm_fly(struct MarioState *m){
         m->canHMFly = 0;
         m->usedObj = spawn_object(m->marioObj, MODEL_DRAGONITE, bhvDragonite);
         mario_set_forward_vel(m, m->forwardVel/2);
+        play_sound(SOUND_ABILITY_DRAGONITE, m->marioObj->header.gfx.cameraToObject);
+        
     }
     
     if (m->actionTimer >= 10 && (m->input & INPUT_A_PRESSED)){
@@ -2186,7 +2188,7 @@ s32 act_hm_fly(struct MarioState *m){
     if (m->vel[1] <= 40.0f){
         set_mario_animation(m, MARIO_ANIM_HANG_ON_OWL);
         m->vel[1] += 5.0f;
-    } else {
+    } else if (m->actionTimer > 30){
         set_mario_action(m, ACT_FREEFALL, 0);
     }
 
@@ -2203,35 +2205,20 @@ s32 act_hm_fly(struct MarioState *m){
             break;
 
         case AIR_STEP_HIT_WALL:
-            if (m->wall != NULL) {
-                mario_set_forward_vel(m, -16.0f);
-                m->faceAngle[0] = 0;
+            mario_set_forward_vel(m, -16.0f);
+            m->faceAngle[0] = 0;
 
-                if (m->vel[1] > 0.0f) {
-                    m->vel[1] = 0.0f;
-                }
-
-                play_sound((m->flags & MARIO_METAL_CAP) ? SOUND_ACTION_METAL_BONK
-                                                        : SOUND_ACTION_BONK,
-                           m->marioObj->header.gfx.cameraToObject);
-
-                m->particleFlags |= PARTICLE_VERTICAL_STAR;
-                set_mario_action(m, ACT_BACKWARD_AIR_KB, 0);
-                set_camera_mode(m->area->camera, m->area->camera->defMode, 1);
-            } else {
-                if (m->actionTimer++ == 0) {
-                    play_sound(SOUND_ACTION_HIT, m->marioObj->header.gfx.cameraToObject);
-                }
-
-                if (m->actionTimer == 30) {
-                    m->actionTimer = 0;
-                }
-
-                m->faceAngle[0] -= 0x200;
-
-                m->marioObj->header.gfx.angle[0] = -m->faceAngle[0];
-                m->marioObj->header.gfx.angle[2] = m->faceAngle[2];
+            if (m->vel[1] > 0.0f) {
+                m->vel[1] = 0.0f;
             }
+
+            play_sound((m->flags & MARIO_METAL_CAP) ? SOUND_ACTION_METAL_BONK
+                                                    : SOUND_ACTION_BONK,
+                        m->marioObj->header.gfx.cameraToObject);
+
+            m->particleFlags |= PARTICLE_VERTICAL_STAR;
+            set_mario_action(m, ACT_BACKWARD_AIR_KB, 0);
+            set_camera_mode(m->area->camera, m->area->camera->defMode, 1);
             break;
 
         case AIR_STEP_HIT_LAVA_WALL:

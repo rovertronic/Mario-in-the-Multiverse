@@ -375,4 +375,8 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "hp_1/header.h"
 
+#include "bigdaddyhat/header.h"
+
+#include "bigdaddyhand/header.h"
+
 #endif

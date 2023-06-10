@@ -6,13 +6,15 @@ void control_ability_dpad(void);
 void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index);
 u8 using_ability(u8 ability_id);
 u8* ability_string(u8 ability_id);
+extern s16 check_water_height;
+extern Bool8 bd_submerged;
 
 Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context);
 
 enum ability_ids {
     ABILITY_DEFAULT,
     ABILITY_A_,
-    ABILITY_B_,
+    ABILITY_BIG_DADDY,
     ABILITY_C_,
     ABILITY_D_,
     ABILITY_E_,

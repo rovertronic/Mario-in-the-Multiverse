@@ -27,7 +27,7 @@
 
 #define TEXT_ABILITY_DEFAULT    _("Mario's Cap:\nMario's basic moveset as you know it.")
 #define TEXT_ABILITY_A          _("A")
-#define TEXT_ABILITY_B          _("B")
+#define TEXT_ABILITY_B          _("The Helmet and Drill of a deceased Big Daddy.\nThe drill can break certain walls.\nwhile underwater you maintain normal movement.")
 #define TEXT_ABILITY_C          _("C")
 #define TEXT_ABILITY_D          _("D")
 #define TEXT_ABILITY_E          _("E")

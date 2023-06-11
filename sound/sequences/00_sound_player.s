@@ -8001,7 +8001,7 @@ chan_setlayer 0, .layer_ability_hm_fly
 chan_end
 
 .layer_ability_hm_fly:
-layer_note1 39, 0x7f, 127
+layer_note1 39, 0x1B0, 127
 layer_end
 
 

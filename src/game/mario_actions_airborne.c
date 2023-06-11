@@ -2165,6 +2165,13 @@ s32 act_special_triple_jump(struct MarioState *m) {
 
 s32 act_hm_fly(struct MarioState *m){
 
+    // struct Surface *surface;
+    // f32 ceilHeight = find_ceil(m->pos[0], m->pos[1], m->pos[2], &surface);
+
+    if (m->pos[1] + 300.0f > m->ceilHeight){
+        return set_mario_action(m, ACT_FREEFALL, 0);
+    }
+
     if (m->actionTimer == 0){
         m->canHMFly = 0;
         m->usedObj = spawn_object(m->marioObj, MODEL_DRAGONITE, bhvDragonite);
@@ -2172,6 +2179,7 @@ s32 act_hm_fly(struct MarioState *m){
         play_sound(SOUND_ABILITY_DRAGONITE, m->marioObj->header.gfx.cameraToObject);
         
     }
+    
     
     if (m->actionTimer >= 10 && (m->input & INPUT_A_PRESSED)){
         return set_mario_action(m, ACT_FREEFALL, 0);
@@ -2189,7 +2197,7 @@ s32 act_hm_fly(struct MarioState *m){
         set_mario_animation(m, MARIO_ANIM_HANG_ON_OWL);
         m->vel[1] += 5.0f;
     } else if (m->actionTimer > 30){
-        set_mario_action(m, ACT_FREEFALL, 0);
+        return set_mario_action(m, ACT_FREEFALL, 0);
     }
 
     update_air_without_turn(m);

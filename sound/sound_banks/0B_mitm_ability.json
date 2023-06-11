@@ -39,6 +39,11 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "ability_cutter_catch"
+        },
+        "inst_ability_aku": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_aku"
         }
     },
     "instrument_list": [
@@ -47,6 +52,7 @@
         "inst_ability_cutter_slice",
         "inst_ability_cutter_final",
         "inst_ability_cutter_dash",
-        "inst_ability_cutter_catch"
+        "inst_ability_cutter_catch",
+        "inst_ability_aku"
     ]
 }

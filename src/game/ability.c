@@ -55,6 +55,10 @@
 #include "mitm_hub.h"
 #include "ability.h"
 
+// Ability specific variables
+u16 aku_invincibility = 0;
+//
+
 Gfx gfx_ability_hand[2] = {gsSPDisplayList(mario_right_hand_closed),gsSPEndDisplayList()};
 Gfx gfx_ability_hat[2] = {gsSPEndDisplayList()};
 
@@ -264,6 +268,13 @@ void control_ability_dpad(void) {
 
         // Mario Model
         gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
+
+        // Equip Sound Effect
+        switch(gMarioState->abilityId) {
+            case ABILITY_AKU:
+                play_sound(SOUND_ABILITY_AKU_AKU, gGlobalSoundSource);
+            break;
+        }
     }
 }
 

@@ -14,7 +14,7 @@ enum ability_ids {
     ABILITY_A_,
     ABILITY_B_,
     ABILITY_C_,
-    ABILITY_D_,
+    ABILITY_AKU,
     ABILITY_E_,
     ABILITY_F_,
     ABILITY_CUTTER,
@@ -38,5 +38,9 @@ struct ability {
 extern Gfx gfx_ability_hand[2];
 extern Gfx gfx_ability_hat[2];
 extern u8 ability_slot[4];
+
+// Ability specific variables
+extern u16 aku_invincibility;
+//
 
 #endif

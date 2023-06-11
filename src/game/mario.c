@@ -33,6 +33,7 @@
 #include "sound_init.h"
 #include "rumble_init.h"
 #include "ability.h"
+#include "seq_ids.h"
 
 
 /**************************************************
@@ -1858,6 +1859,32 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 #if ENABLE_RUMBLE
         queue_rumble_particles(gMarioState);
 #endif
+
+        //Aku Ability Code
+        if (!using_ability(ABILITY_AKU)) {
+            if (aku_invincibility != 0) {
+                aku_invincibility = 0;
+                stop_cap_music();
+            }
+        } else {
+            if ((gPlayer1Controller->buttonDown & L_TRIG)&&(aku_invincibility == 0)&&(gMarioState->numGlobalCoins >= 10)) {
+                aku_invincibility = 300;
+                gMarioState->numGlobalCoins -= 10;
+                play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
+            }
+        }
+        if (aku_invincibility > 0) {
+            struct Object *sparkleObj = spawn_object(o, MODEL_SPARKLES, bhvCoinSparkles);
+            sparkleObj->oPosX += random_float() * 50.0f - 25.0f;
+            sparkleObj->oPosY += random_float() * 100.0f;
+            sparkleObj->oPosZ += random_float() * 50.0f - 25.0f;
+
+            aku_invincibility --;
+
+            if (aku_invincibility == 0) {
+                stop_cap_music();
+            }
+        }
 
         return gMarioState->particleFlags;
     }

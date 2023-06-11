@@ -29,7 +29,7 @@
 #define TEXT_ABILITY_A          _("A")
 #define TEXT_ABILITY_B          _("B")
 #define TEXT_ABILITY_C          _("C")
-#define TEXT_ABILITY_D          _("Aku Aku: A mask with a spirit inside.\nPress L to spend 10 coins and activate 10\nseconds of invincibility.")
+#define TEXT_ABILITY_D          _("Aku Aku: A mask with a spirit inside.\nPress [L] to spend 10 coins and activate 10\nseconds of invincibility. Can walk on lava.")
 #define TEXT_ABILITY_E          _("E")
 #define TEXT_ABILITY_F          _("F")
 #define TEXT_ABILITY_G          _("Cutter: A set of cut-based abilities.\n[B] - Cutter Throw, [B](moving) - Cutter Dash\n[B](near enemy) - Final Cutter")

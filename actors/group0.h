@@ -393,4 +393,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 
 #include "dragonite/anim_header.h"
+#include "nitro/geo_header.h"
+
 #endif

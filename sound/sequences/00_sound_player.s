@@ -7948,6 +7948,7 @@ sound_ref .sound_ability_cutter_slice
 sound_ref .sound_ability_cutter_final
 sound_ref .sound_ability_cutter_dash
 sound_ref .sound_ability_cutter_catch
+sound_ref .sound_ability_aku
 
 .sound_ability_x_0:
 chan_setbank 11
@@ -7986,6 +7987,12 @@ chan_end
 .sound_ability_cutter_catch:
 chan_setbank 11
 chan_setinstr 5
+chan_setlayer 0, .layer_ability_cutter
+chan_end
+
+.sound_ability_aku:
+chan_setbank 11
+chan_setinstr 6
 chan_setlayer 0, .layer_ability_cutter
 chan_end
 

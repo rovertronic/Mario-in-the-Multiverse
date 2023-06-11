@@ -655,8 +655,10 @@ s32 act_freefall(struct MarioState *m) {
         return set_mario_action(m, ACT_GROUND_POUND, 0);
     }
 
-    if (using_ability(ABILITY_HM_FLY) && m->input & INPUT_A_PRESSED && m->canHMFly == 1) {
+    if (using_ability(ABILITY_HM_FLY) && m->input & INPUT_A_PRESSED && m->canHMFly == 1  && m->actionTimer > 0) {
         return set_mario_action(m, ACT_HM_FLY, 0);
+    } else {
+        m->actionTimer++;
     }
 
     switch (m->actionArg) {
@@ -729,7 +731,7 @@ s32 act_side_flip(struct MarioState *m) {
         return set_mario_action(m, ACT_GROUND_POUND, 0);
     }
 
-     if (using_ability(ABILITY_HM_FLY) && m->input & INPUT_A_PRESSED && m->canHMFly == 1  && m->actionTimer > 0) {
+    if (using_ability(ABILITY_HM_FLY) && m->input & INPUT_A_PRESSED && m->canHMFly == 1  && m->actionTimer > 0) {
         return set_mario_action(m, ACT_HM_FLY, 0);
     } else {
         m->actionTimer++;
@@ -2168,16 +2170,16 @@ s32 act_hm_fly(struct MarioState *m){
     // struct Surface *surface;
     // f32 ceilHeight = find_ceil(m->pos[0], m->pos[1], m->pos[2], &surface);
 
-    if (m->pos[1] + 300.0f > m->ceilHeight){
-        return set_mario_action(m, ACT_FREEFALL, 0);
-    }
-
     if (m->actionTimer == 0){
         m->canHMFly = 0;
         m->usedObj = spawn_object(m->marioObj, MODEL_DRAGONITE, bhvDragonite);
         mario_set_forward_vel(m, m->forwardVel/2);
         play_sound(SOUND_ABILITY_DRAGONITE, m->marioObj->header.gfx.cameraToObject);
         
+    }
+
+    if (m->pos[1] + 300.0f > m->ceilHeight){
+        return set_mario_action(m, ACT_FREEFALL, 0);
     }
     
     

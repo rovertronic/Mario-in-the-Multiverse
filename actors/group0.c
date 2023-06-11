@@ -66,3 +66,4 @@
 #include "dragonite/anims/table.inc.c"
 
 #include "nitro/model.inc.c"
+#include "pokeball_hand/model.inc.c"

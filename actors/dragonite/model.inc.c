@@ -2435,29 +2435,29 @@ Gfx dragonite_l_LowerArm_mesh_layer_1_tri_2[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx dragonite_l_Wing_mesh_layer_5_vtx_0[4] = {
+Vtx dragonite_l_Wing_mesh_layer_4_vtx_0[4] = {
 	{{ {85, 11, 14}, 0, {2029, 2045}, {241, 1, 126, 255} }},
 	{{ {-89, 140, -8}, 0, {-16, -16}, {241, 1, 126, 255} }},
 	{{ {-76, -4, -6}, 0, {2029, -3}, {241, 1, 126, 255} }},
 	{{ {71, 155, 11}, 0, {-16, 2032}, {241, 1, 126, 255} }},
 };
 
-Gfx dragonite_l_Wing_mesh_layer_5_tri_0[] = {
-	gsSPVertex(dragonite_l_Wing_mesh_layer_5_vtx_0 + 0, 4, 0),
+Gfx dragonite_l_Wing_mesh_layer_4_tri_0[] = {
+	gsSPVertex(dragonite_l_Wing_mesh_layer_4_vtx_0 + 0, 4, 0),
 	gsSP1Triangle(0, 1, 2, 0),
 	gsSP1Triangle(0, 3, 1, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx dragonite_l_Wing_mesh_layer_5_vtx_1[4] = {
+Vtx dragonite_l_Wing_mesh_layer_4_vtx_1[4] = {
 	{{ {85, 13, 12}, 0, {2042, 2032}, {15, 255, 130, 255} }},
 	{{ {-89, 142, -11}, 0, {-16, -16}, {15, 255, 130, 255} }},
 	{{ {72, 157, 9}, 0, {-16, 2032}, {15, 255, 130, 255} }},
 	{{ {-76, -2, -8}, 0, {2042, -16}, {15, 255, 130, 255} }},
 };
 
-Gfx dragonite_l_Wing_mesh_layer_5_tri_1[] = {
-	gsSPVertex(dragonite_l_Wing_mesh_layer_5_vtx_1 + 0, 4, 0),
+Gfx dragonite_l_Wing_mesh_layer_4_tri_1[] = {
+	gsSPVertex(dragonite_l_Wing_mesh_layer_4_vtx_1 + 0, 4, 0),
 	gsSP1Triangle(0, 1, 2, 0),
 	gsSP1Triangle(0, 3, 1, 0),
 	gsSPEndDisplayList(),
@@ -2662,29 +2662,29 @@ Gfx dragonite_r_LowerArm_mesh_layer_1_tri_2[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx dragonite_r_Wing_mesh_layer_5_vtx_0[4] = {
+Vtx dragonite_r_Wing_mesh_layer_4_vtx_0[4] = {
 	{{ {-85, 11, 14}, 0, {2030, 2039}, {15, 1, 126, 255} }},
 	{{ {76, -4, -6}, 0, {2030, -8}, {15, 1, 126, 255} }},
 	{{ {89, 140, -8}, 0, {-8, -14}, {15, 1, 126, 255} }},
 	{{ {-71, 155, 11}, 0, {-8, 2033}, {15, 1, 126, 255} }},
 };
 
-Gfx dragonite_r_Wing_mesh_layer_5_tri_0[] = {
-	gsSPVertex(dragonite_r_Wing_mesh_layer_5_vtx_0 + 0, 4, 0),
+Gfx dragonite_r_Wing_mesh_layer_4_tri_0[] = {
+	gsSPVertex(dragonite_r_Wing_mesh_layer_4_vtx_0 + 0, 4, 0),
 	gsSP1Triangle(0, 1, 2, 0),
 	gsSP1Triangle(0, 2, 3, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx dragonite_r_Wing_mesh_layer_5_vtx_1[4] = {
+Vtx dragonite_r_Wing_mesh_layer_4_vtx_1[4] = {
 	{{ {-85, 13, 12}, 0, {2034, 2030}, {241, 255, 130, 255} }},
 	{{ {-72, 157, 9}, 0, {-18, 2030}, {241, 255, 130, 255} }},
 	{{ {89, 142, -11}, 0, {-18, -18}, {241, 255, 130, 255} }},
 	{{ {76, -2, -8}, 0, {2034, -18}, {241, 255, 130, 255} }},
 };
 
-Gfx dragonite_r_Wing_mesh_layer_5_tri_1[] = {
-	gsSPVertex(dragonite_r_Wing_mesh_layer_5_vtx_1 + 0, 4, 0),
+Gfx dragonite_r_Wing_mesh_layer_4_tri_1[] = {
+	gsSPVertex(dragonite_r_Wing_mesh_layer_4_vtx_1 + 0, 4, 0),
 	gsSP1Triangle(0, 1, 2, 0),
 	gsSP1Triangle(0, 2, 3, 0),
 	gsSPEndDisplayList(),
@@ -3787,12 +3787,12 @@ Gfx dragonite_l_LowerArm_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx dragonite_l_Wing_mesh_layer_5[] = {
+Gfx dragonite_l_Wing_mesh_layer_4[] = {
 	gsSPDisplayList(mat_dragonite_WingFront),
-	gsSPDisplayList(dragonite_l_Wing_mesh_layer_5_tri_0),
+	gsSPDisplayList(dragonite_l_Wing_mesh_layer_4_tri_0),
 	gsSPDisplayList(mat_revert_dragonite_WingFront),
 	gsSPDisplayList(mat_dragonite_WingBack),
-	gsSPDisplayList(dragonite_l_Wing_mesh_layer_5_tri_1),
+	gsSPDisplayList(dragonite_l_Wing_mesh_layer_4_tri_1),
 	gsSPDisplayList(mat_revert_dragonite_WingBack),
 	gsSPEndDisplayList(),
 };
@@ -3822,12 +3822,12 @@ Gfx dragonite_r_LowerArm_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx dragonite_r_Wing_mesh_layer_5[] = {
+Gfx dragonite_r_Wing_mesh_layer_4[] = {
 	gsSPDisplayList(mat_dragonite_WingFront),
-	gsSPDisplayList(dragonite_r_Wing_mesh_layer_5_tri_0),
+	gsSPDisplayList(dragonite_r_Wing_mesh_layer_4_tri_0),
 	gsSPDisplayList(mat_revert_dragonite_WingFront),
 	gsSPDisplayList(mat_dragonite_WingBack),
-	gsSPDisplayList(dragonite_r_Wing_mesh_layer_5_tri_1),
+	gsSPDisplayList(dragonite_r_Wing_mesh_layer_4_tri_1),
 	gsSPDisplayList(mat_revert_dragonite_WingBack),
 	gsSPEndDisplayList(),
 };

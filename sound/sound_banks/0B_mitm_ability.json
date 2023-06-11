@@ -44,6 +44,11 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "ability_aku"
+        },
+        "inst_ability_dragonite": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_dragonite"
         }
     },
     "instrument_list": [
@@ -53,6 +58,7 @@
         "inst_ability_cutter_final",
         "inst_ability_cutter_dash",
         "inst_ability_cutter_catch",
-        "inst_ability_aku"
+        "inst_ability_aku",
+        "inst_ability_dragonite"
     ]
 }

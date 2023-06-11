@@ -1,6 +1,6 @@
 void bhv_dragonite_init(void){
     obj_scale_xyz(o, 0.0f, 0.0f, 0.0f);
-
+    spawn_mist_particles_variable(0, 0, 30.0f);
 }
 
 void bhv_dragonite_loop(void){
@@ -10,7 +10,7 @@ void bhv_dragonite_loop(void){
     f32 maxScale = 0.8f;
     obj_set_pos(o, gMarioState->pos[0], gMarioState->pos[1] + 156.0f, gMarioState->pos[2]);
     o->oFaceAngleYaw = gMarioState->faceAngle[1];
-
+    o->oFaceAnglePitch = 0.0f;
 
     if (gMarioState->action != ACT_HM_FLY) {
         if (yScale > 0.0f) {
@@ -28,13 +28,14 @@ void bhv_dragonite_loop(void){
 
     } else {
         if (yScale < maxScale) {
-            yScale += 0.1f;
+            yScale += 0.15f;
+            xScale += 0.15f;
+            zScale += 0.15f;
         }
-        if (xScale < maxScale) {
-            xScale += 0.1f;
-        }
-        if (zScale < maxScale) {
-            zScale += 0.1f;
+        if (yScale > maxScale){
+            yScale = maxScale;
+            xScale = maxScale;
+            zScale = maxScale;
         }
     }
 

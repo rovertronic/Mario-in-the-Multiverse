@@ -3,27 +3,27 @@
     "sample_bank": "instruments",
     "envelopes": {
         "envelope0": [
-            [6, 32700],
+            [2, 32700],
             [1, 32700],
             [32700, 29430],
             "hang"
         ],
         "envelope1": [
-            [6, 32700],
+            [2, 32700],
             [1, 32700],
             [32700, 29430],
             "hang"
         ],
         "envelope2": [
-            [6, 32700],
+            [2, 32700],
             [1, 32700],
             [32700, 29430],
             "hang"
         ],
         "envelope3": [
             [2, 32700],
-            [136, 0],
-            [32700, 0],
+            [1, 32700],
+            [32700, 29430],
             "hang"
         ],
         "envelope4": [
@@ -39,51 +39,51 @@
             "hang"
         ],
         "envelope6": [
-            [3, 32700],
-            [298, 0],
-            [1, 0],
+            [2, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ],
+        "envelope7": [
+            [2, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ],
+        "envelope8": [
+            [2, 32700],
+            [55, 32700],
+            [127, 0],
             "hang"
         ]
     },
     "instruments": {
         "inst0": {
-            "release_rate": 15,
-            "normal_range_lo": 27,
-            "normal_range_hi": 46,
+            "release_rate": 67,
             "envelope": "envelope0",
-            "sound_lo": "23_strings_1",
-            "sound": "24_strings_2",
-            "sound_hi": "25_strings_3"
+            "sound": "17_trumpet"
         },
         "inst1": {
-            "release_rate": 15,
-            "normal_range_lo": 27,
-            "normal_range_hi": 46,
+            "release_rate": 119,
             "envelope": "envelope1",
-            "sound_lo": "23_strings_1",
-            "sound": "24_strings_2",
-            "sound_hi": "25_strings_3"
+            "sound": "2D_trombone"
         },
         "inst2": {
-            "release_rate": 15,
-            "normal_range_lo": 27,
-            "normal_range_hi": 46,
+            "release_rate": 208,
             "envelope": "envelope2",
-            "sound_lo": "23_strings_1",
-            "sound": "24_strings_2",
-            "sound_hi": "25_strings_3"
+            "sound": "16_french_horns"
         },
         "inst3": {
-            "release_rate": 43,
-            "normal_range_hi": 47,
+            "release_rate": 24,
+            "normal_range_lo": 42,
             "envelope": "envelope3",
-            "sound": "46_pizzicato_strings_1",
-            "sound_hi": "47_pizzicato_strings_2"
+            "sound_lo": "14_strings_5",
+            "sound": "15_strings_4"
         },
         "inst4": {
-            "release_rate": 119,
+            "release_rate": 208,
             "envelope": "envelope4",
-            "sound": "2D_trombone"
+            "sound": "19_brass"
         },
         "inst5": {
             "release_rate": 10,
@@ -93,7 +93,23 @@
         "inst6": {
             "release_rate": 10,
             "envelope": "envelope6",
-            "sound": "26_crystal_rhodes"
+            "sound": "18_timpani"
+        },
+        "inst7": {
+            "release_rate": 10,
+            "normal_range_lo": 28,
+            "normal_range_hi": 28,
+            "envelope": "envelope7",
+            "sound_lo": "10_cymbal_bell",
+            "sound": "11_splash_cymbal",
+            "sound_hi": "10_cymbal_bell"
+        },
+        "inst8": {
+            "release_rate": 10,
+            "normal_range_lo": 18,
+            "envelope": "envelope8",
+            "sound_lo": "12_snare_drum_1",
+            "sound": "13_snare_drum_2"
         }
     },
     "instrument_list": [
@@ -103,6 +119,12 @@
         "inst3",
         "inst4",
         "inst5",
-        "inst6"
+        null,
+        null,
+        null,
+        null,
+        "inst6",
+        "inst7",
+        "inst8"
     ]
 }

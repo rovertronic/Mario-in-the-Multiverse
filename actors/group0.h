@@ -377,4 +377,20 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "ability_d_mask/header.h"
 
+#include "cutter_blade/geo_header.h"
+
+#include "cutter_hand/geo_header.h"
+
+#include "cutter_hat/geo_header.h"
+
+
+#include "mario/anim_header.h"
+#include "cutter_blast/geo_header.h"
+
+#include "cutter_particle_slash/geo_header.h"
+
+#include "dragonite/geo_header.h"
+
+
+#include "dragonite/anim_header.h"
 #endif

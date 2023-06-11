@@ -15,9 +15,15 @@
             "hang"
         ],
         "envelope2": [
-            [6, 32700],
-            [298, 0],
-            [1, 0],
+            [2, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ],
+        "envelope3": [
+            [2, 32700],
+            [55, 32700],
+            [127, 0],
             "hang"
         ]
     },
@@ -33,15 +39,31 @@
             "sound": "2E_accordion"
         },
         "inst2": {
-            "release_rate": 10,
+            "release_rate": 208,
             "envelope": "envelope2",
-            "sound": "26_crystal_rhodes"
+            "sound": "2F_sleigh_bells"
+        },
+        "inst3": {
+            "release_rate": 10,
+            "normal_range_lo": 18,
+            "envelope": "envelope3",
+            "sound_lo": "12_snare_drum_1",
+            "sound": "13_snare_drum_2"
         }
     },
     "instrument_list": [
         "inst0",
         null,
         "inst1",
-        "inst2"
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        "inst2",
+        "inst3"
     ]
 }

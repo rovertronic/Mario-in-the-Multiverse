@@ -36,6 +36,8 @@ enum SoundBank {
     SOUND_BANK_MENU,
     SOUND_BANK_GENERAL2,
     SOUND_BANK_OBJ2,
+    SOUND_BANK_MITM_ABILITY,
+    SOUND_BANK_MITM_LEVEL,
     SOUND_BANK_COUNT
 };
 
@@ -55,7 +57,9 @@ enum SoundBank {
     (1 << SOUND_BANK_ACTION) |\
     (1 << SOUND_BANK_MOVING) |\
     (1 << SOUND_BANK_VOICE) |\
-    (1 << SOUND_BANK_GENERAL))
+    (1 << SOUND_BANK_GENERAL) |\
+    (1 << SOUND_BANK_MITM_ABILITY) |\
+    (1 << SOUND_BANK_MITM_LEVEL))
 
 /* Audio playback bitflags. */
 #define SOUND_NO_VOLUME_LOSS        0x1000000 // No volume loss with distance
@@ -594,5 +598,18 @@ enum SoundBank {
 #define SOUND_OBJ2_MONTY_MOLE_APPEAR             /* 0x90678081 */ SOUND_ARG_LOAD(SOUND_BANK_OBJ2,     0x67, 0x80, SOUND_DISCRETE)
 #define SOUND_OBJ2_BOSS_DIALOG_GRUNT             /* 0x90694081 */ SOUND_ARG_LOAD(SOUND_BANK_OBJ2,     0x69, 0x40, SOUND_DISCRETE)
 #define SOUND_OBJ2_MRI_SPINNING                  /* 0x906B0081 */ SOUND_ARG_LOAD(SOUND_BANK_OBJ2,     0x6B, 0x00, SOUND_DISCRETE)
+
+
+/* MitM Ability Sound Effects (Channel 10) */
+#define SOUND_MITM_ABILITY_X_0                                    SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x00, 0xFF, SOUND_DISCRETE)
+#define SOUND_ABILITY_CUTTER_THROW                                    SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x01, 0xFF, SOUND_DISCRETE)
+#define SOUND_ABILITY_CUTTER_SLICE                                   SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x02, 0x80, SOUND_DISCRETE)
+#define SOUND_ABILITY_CUTTER_FINAL                                   SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x03, 0xFF, SOUND_DISCRETE)
+#define SOUND_ABILITY_CUTTER_DASH                                  SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x04, 0x80, SOUND_DISCRETE)
+#define SOUND_ABILITY_CUTTER_CATCH                                   SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x05, 0x40, SOUND_DISCRETE)
+
+/* MitM Level Sound Effects (Channel 11) */
+#define SOUND_MITM_LEVEL_X_0                                      SOUND_ARG_LOAD(SOUND_BANK_MITM_LEVEL, 0x00, 0xFF, SOUND_DISCRETE)
+
 
 #endif // SOUNDS_H

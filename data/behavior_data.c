@@ -6126,6 +6126,16 @@ const BehaviorScript bhvAbilityUnlock[] = {
 /* GROUP F END */
 
 /* GROUP G START */
+const BehaviorScript bhvCutterBlade[] = {
+    BEGIN(OBJ_LIST_DESTRUCTIVE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    SET_HOME(),
+    CALL_NATIVE(bhv_cutter_blade_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_cutter_blade_loop),
+    END_LOOP(),
+};
+
 /* GROUP G END */
 
 /* GROUP H START */
@@ -6135,6 +6145,17 @@ const BehaviorScript bhvAbilityUnlock[] = {
 /* GROUP I END */
 
 /* GROUP J START */
+const BehaviorScript bhvDragonite[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, dragonite_anims),
+    CALL_NATIVE(bhv_dragonite_init),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_dragonite_loop),
+    END_LOOP(),
+
+};
 /* GROUP J END */
 
 /* GROUP K START */
@@ -6151,3 +6172,23 @@ const BehaviorScript bhvAbilityUnlock[] = {
 
 /* GROUP O START */
 /* GROUP O END */
+
+const BehaviorScript bhvCutterBlast[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 20000),
+    CALL_NATIVE(bhv_cutter_blast_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_cutter_blast_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvCutterParticleSlash[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    //BILLBOARD(),
+    CALL_NATIVE(bhv_cutter_particle_slash_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_cutter_particle_slash_loop),
+    END_LOOP(),
+};

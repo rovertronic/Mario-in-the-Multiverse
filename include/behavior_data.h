@@ -563,6 +563,7 @@ extern const BehaviorScript bhvAbilityUnlock[];
 /* GROUP F END */
 
 /* GROUP G START */
+extern const BehaviorScript bhvCutterBlade[];
 /* GROUP G END */
 
 /* GROUP H START */
@@ -572,6 +573,7 @@ extern const BehaviorScript bhvAbilityUnlock[];
 /* GROUP I END */
 
 /* GROUP J START */
+extern const BehaviorScript bhvDragonite[];
 /* GROUP J END */
 
 /* GROUP K START */
@@ -590,3 +592,7 @@ extern const BehaviorScript bhvAbilityUnlock[];
 /* GROUP O END */
 
 #endif // BEHAVIOR_DATA_H
+
+
+extern const BehaviorScript bhvCutterBlast[];
+extern const BehaviorScript bhvCutterParticleSlash[];

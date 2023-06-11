@@ -1,0 +1,52 @@
+{
+    "date": "1996-03-19",
+    "sample_bank": "sfx_mitm_ability",
+    "envelopes": {
+        "envelope0": [
+            [2, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ]
+    },
+    "instruments": {
+        "inst_ability_X_0": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_X_0"
+        },
+        "inst_ability_cutter_throw": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_cutter_throw"
+        },
+        "inst_ability_cutter_slice": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_cutter_slice"
+        },
+        "inst_ability_cutter_final": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_cutter_final"
+        },
+        "inst_ability_cutter_dash": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_cutter_dash"
+        },
+        "inst_ability_cutter_catch": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_cutter_catch"
+        }
+    },
+    "instrument_list": [
+        "inst_ability_X_0",
+        "inst_ability_cutter_throw",
+        "inst_ability_cutter_slice",
+        "inst_ability_cutter_final",
+        "inst_ability_cutter_dash",
+        "inst_ability_cutter_catch"
+    ]
+}

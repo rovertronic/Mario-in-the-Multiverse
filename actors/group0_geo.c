@@ -20,3 +20,6 @@
 #include "level_pipe/geo.inc.c"
 #include "ability_unlock/geo.inc.c"
 #include "ability_sign/geo.inc.c"
+#include "rocket_hand/geo.inc.c"
+#include "rocket_button_off/geo.inc.c"
+#include "rocket_button_on/geo.inc.c"

@@ -1,0 +1,9 @@
+extern Lights1 rocket_hand_f3dlite_material_001_lights;
+extern u8 rocket_hand_missile_ci4[];
+extern u8 rocket_hand_missile_ci4_pal_rgba16[];
+extern Vtx rocket_hand_RaymanMissile_mesh_vtx_cull[8];
+extern Vtx rocket_hand_RaymanMissile_mesh_vtx_0[170];
+extern Gfx rocket_hand_RaymanMissile_mesh_tri_0[];
+extern Gfx mat_rocket_hand_f3dlite_material_001[];
+extern Gfx mat_revert_rocket_hand_f3dlite_material_001[];
+extern Gfx rocket_hand_RaymanMissile_mesh[];

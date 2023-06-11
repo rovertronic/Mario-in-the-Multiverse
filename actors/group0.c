@@ -53,3 +53,6 @@
 #include "hp_3/model.inc.c"
 #include "hp_2/model.inc.c"
 #include "hp_1/model.inc.c"
+#include "rocket_hand/model.inc.c"
+#include "rocket_button_off/model.inc.c"
+#include "rocket_button_on/model.inc.c"

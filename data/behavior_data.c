@@ -6132,6 +6132,42 @@ const BehaviorScript bhvAbilityUnlock[] = {
 /* GROUP H END */
 
 /* GROUP I START */
+const BehaviorScript bhvShockRocket[] = {
+    BEGIN(OBJ_LIST_DESTRUCTIVE),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO |OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SCALE(/*Unused*/ 0, /*Field*/ 20),
+    SET_INT(oWallHitboxRadius, 40),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ 0, /*Bounciness*/ 0, /*Drag strength*/ 0, /*Friction*/ 0, /*Buoyancy*/ 0, /*Unused*/ 0, 0),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_shock_rocket_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRocketSmoke[] = {
+    BEGIN(OBJ_LIST_UNIMPORTANT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_FLOAT(oGraphYOffset, -5),
+    BILLBOARD(),
+    CALL_NATIVE(bhv_rocket_smoke_init),
+    SET_INT(oAnimState, OBJ_ANIM_STATE_INIT_ANIM),
+    BEGIN_REPEAT(3),
+        ADD_INT(oAnimState, 1),
+    END_REPEAT(),
+    DEACTIVATE(),
+};
+
+const BehaviorScript bhvRocketButton[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_INT(oIntangibleTimer, 0),
+    SET_FLOAT(oDrawingDistance, 16000),
+    SET_HITBOX(/*Radius*/ 80, /*Height*/ 130),
+    SET_FLOAT(oGraphYOffset, 65),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rocket_button_loop),
+    END_LOOP(),
+};
 /* GROUP I END */
 
 /* GROUP J START */

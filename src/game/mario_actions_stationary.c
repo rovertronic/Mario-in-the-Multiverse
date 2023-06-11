@@ -17,6 +17,8 @@
 #include "surface_terrains.h"
 #include "rumble_init.h"
 #include "ability.h"
+#include "object_list_processor.h"
+#include "game_init.h"
 
 s32 check_common_idle_cancels(struct MarioState *m) {
     mario_drop_held_object(m);
@@ -55,6 +57,36 @@ s32 check_common_idle_cancels(struct MarioState *m) {
 
     if (m->input & INPUT_Z_DOWN) {
         return set_mario_action(m, ACT_START_CROUCHING, 0);
+    }
+
+    if (gPlayer1Controller->buttonPressed & L_TRIG) {
+        if ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE && using_ability(ABILITY_SHOCK_ROCKET) && count_objects_with_behavior(bhvShockRocket) == 0){
+                spawn_object_relative(0, 0, 100, 0, gMarioObject, MODEL_SHOCK_ROCKET, bhvShockRocket);
+                if(m->action != ACT_IDLE){
+                     return set_mario_action(m, ACT_IDLE, 0);
+                }
+        }
+    }
+
+    return FALSE;
+}
+
+s32 check_common_launch_rocket_cancels(struct MarioState *m) {
+    mario_drop_held_object(m);
+    if (m->floor->normal.y < COS73) {
+        return mario_push_off_steep_floor(m, ACT_FREEFALL, 0);
+    }
+
+    if (m->input & INPUT_STOMPED) {
+        return set_mario_action(m, ACT_SHOCKWAVE_BOUNCE, 0);
+    }
+
+    if (m->input & INPUT_OFF_FLOOR) {
+        return set_mario_action(m, ACT_FREEFALL, 0);
+    }
+
+    if (m->input & INPUT_ABOVE_SLIDE) {
+        return set_mario_action(m, ACT_BEGIN_SLIDING, 0);
     }
 
     return FALSE;
@@ -105,20 +137,30 @@ s32 check_common_hold_idle_cancels(struct MarioState *m) {
 
 //! TODO: actionArg names
 s32 act_idle(struct MarioState *m) {
+    if(count_objects_with_behavior(bhvShockRocket) != 0){
+        m->actionState = ACT_STATE_IDLE_ROCKET;
+    }
+
     if (m->quicksandDepth > 30.0f) {
         return set_mario_action(m, ACT_IN_QUICKSAND, 0);
     }
 
-    if (m->input & INPUT_IN_POISON_GAS) {
+    if (m->input & INPUT_IN_POISON_GAS && m->actionState != ACT_STATE_IDLE_ROCKET) {
         return set_mario_action(m, ACT_COUGHING, 0);
     }
 
-    if (!(m->actionArg & 1) && m->health < 0x300) {
+    if (!(m->actionArg & 1) && m->health < 0x300 && m->actionState != ACT_STATE_IDLE_ROCKET) {
         return set_mario_action(m, ACT_PANTING, 0);
     }
 
-    if (check_common_idle_cancels(m)) {
-        return TRUE;
+    if(m->actionState != ACT_STATE_IDLE_ROCKET){
+        if (check_common_idle_cancels(m)) {
+            return TRUE;
+        }
+    } else {
+        if (check_common_launch_rocket_cancels(m)) {
+            return TRUE;
+        }
     }
 
     if (m->actionState == ACT_STATE_IDLE_RESET_OR_SLEEP) {
@@ -146,9 +188,12 @@ s32 act_idle(struct MarioState *m) {
             case ACT_STATE_IDLE_HEAD_CENTER:
                 set_mario_animation(m, MARIO_ANIM_IDLE_HEAD_CENTER);
                 break;
+            case ACT_STATE_IDLE_ROCKET:
+                set_mario_animation(m, MARIO_ANIM_IDLE_HEAD_CENTER);
+                break;
         }
 
-        if (is_anim_at_end(m)) {
+        if (is_anim_at_end(m) && m->actionState != ACT_STATE_IDLE_ROCKET) {
             // Fall asleep after 10 head turning cycles.
             // act_start_sleeping is triggered earlier in the function
             // when actionState == ACT_STATE_IDLE_RESET_OR_SLEEP. This

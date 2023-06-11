@@ -9,7 +9,8 @@ enum ActionStatesIdle { // act_idle, act_metal_water_standing
     ACT_STATE_IDLE_HEAD_LEFT,
     ACT_STATE_IDLE_HEAD_RIGHT,
     ACT_STATE_IDLE_HEAD_CENTER,
-    ACT_STATE_IDLE_RESET_OR_SLEEP
+    ACT_STATE_IDLE_RESET_OR_SLEEP,
+    ACT_STATE_IDLE_ROCKET,
 };
 
 enum ActionStatesStartSleeping { // act_start_sleeping

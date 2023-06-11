@@ -1942,8 +1942,10 @@ void cur_obj_if_hit_wall_bounce_away(void) {
     }
 }
 
+//ABILITY I -> add the distance with the rocket to display object like Whomps when nearby
 s32 cur_obj_hide_if_mario_far_away_y(f32 distY) {
-    if (absf(o->oPosY - gMarioObject->oPosY) < distY) {
+    struct Object *rocket = cur_obj_nearest_object_with_behavior(bhvShockRocket);
+    if (absf(o->oPosY - gMarioObject->oPosY) < distY || (rocket != NULL && absf(o->oPosY - rocket->oPosY) < distY)) {
         cur_obj_unhide();
         return FALSE;
     } else {

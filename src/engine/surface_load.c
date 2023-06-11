@@ -700,11 +700,17 @@ void load_object_collision_model(void) {
     PUPPYPRINT_GET_SNAPSHOT();
     TerrainData *collisionData = o->collisionData;
     f32 marioDist = o->oDistanceToMario;
+    f32 rocketDist = o->oDistanceToMario;
 
     // On an object's first frame, the distance is set to 19000.0f.
     // If the distance hasn't been updated, update it now.
     if (o->oDistanceToMario == 19000.0f) {
         marioDist = dist_between_objects(o, gMarioObject);
+    }
+
+    // if there is a rocket launched
+    if(count_objects_with_behavior(bhvShockRocket) != 0){
+        rocketDist = dist_between_objects(o, cur_obj_nearest_object_with_behavior(bhvShockRocket));
     }
 
 #ifdef AUTO_COLLISION_DISTANCE
@@ -722,7 +728,7 @@ void load_object_collision_model(void) {
     // Update if no Time Stop, in range, and in the current room.
     if (
         !(gTimeStopState & TIME_STOP_ACTIVE)
-        && (marioDist < o->oCollisionDistance)
+        && ((marioDist < o->oCollisionDistance) || (rocketDist < o->oCollisionDistance))
         && !(o->activeFlags & ACTIVE_FLAG_IN_DIFFERENT_ROOM)
     ) {
         collisionData++;
@@ -733,7 +739,7 @@ void load_object_collision_model(void) {
             load_object_surfaces(&collisionData, sVertexData, TRUE);
         }
     }
-    COND_BIT((marioDist < o->oDrawingDistance), o->header.gfx.node.flags, GRAPH_RENDER_ACTIVE);
+    COND_BIT((marioDist < o->oDrawingDistance || rocketDist < o->oDrawingDistance), o->header.gfx.node.flags, GRAPH_RENDER_ACTIVE);
     profiler_collision_update(first);
 }
 

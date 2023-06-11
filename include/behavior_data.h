@@ -569,6 +569,9 @@ extern const BehaviorScript bhvAbilityUnlock[];
 /* GROUP H END */
 
 /* GROUP I START */
+extern const BehaviorScript bhvShockRocket[];
+extern const BehaviorScript bhvRocketSmoke[];
+extern const BehaviorScript bhvRocketButton[];
 /* GROUP I END */
 
 /* GROUP J START */

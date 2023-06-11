@@ -460,6 +460,30 @@ s32 is_point_within_radius_of_mario(f32 x, f32 y, f32 z, s32 dist) {
 }
 
 /**
+ * Checks if a point is within distance from rocket's graphical position. Test is exclusive.
+ */
+s32 is_point_within_radius_of_rocket(f32 x, f32 y, f32 z, s32 dist) {
+    struct Object *rocket = cur_obj_nearest_object_with_behavior(bhvShockRocket);
+    if(rocket != NULL){
+        f32 dx = x - rocket->header.gfx.pos[0];
+        f32 dy = y - rocket->header.gfx.pos[1];
+        f32 dz = z - rocket->header.gfx.pos[2];
+
+    return sqr(dx) + sqr(dy) + sqr(dz) < (f32)sqr(dist);
+    } else {
+        return FALSE;
+    }
+}
+
+/**
+ * Checks if a point is within distance from rocket's graphical position. Test is exclusive.
+ */
+s32 is_point_within_radius_of_mario_or_rocket(f32 x, f32 y, f32 z, s32 dist) {
+    return (is_point_within_radius_of_mario(x, y, z, dist) || is_point_within_radius_of_rocket(x, y, z, dist));
+}
+    
+
+/**
  * Checks whether a point is within distance of a given point. Test is exclusive.
  */
 s32 is_point_close_to_object(struct Object *obj, f32 x, f32 y, f32 z, s32 dist) {
@@ -475,7 +499,7 @@ s32 is_point_close_to_object(struct Object *obj, f32 x, f32 y, f32 z, s32 dist) 
  */
 void set_object_visibility(struct Object *obj, s32 dist) {
     COND_BIT(
-        !is_point_within_radius_of_mario(obj->oPosX, obj->oPosY, obj->oPosZ, dist),
+        !is_point_within_radius_of_mario_or_rocket(obj->oPosX, obj->oPosY, obj->oPosZ, dist),
         obj->header.gfx.node.flags,
         GRAPH_RENDER_INVISIBLE
     );

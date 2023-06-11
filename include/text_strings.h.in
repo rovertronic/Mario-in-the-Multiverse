@@ -34,7 +34,7 @@
 #define TEXT_ABILITY_F          _("F")
 #define TEXT_ABILITY_G          _("G")
 #define TEXT_ABILITY_H          _("H")
-#define TEXT_ABILITY_I          _("I")
+#define TEXT_ABILITY_I          _("Shock Rocket: A guided exploding rocket.\nPress [B] while static to aim, then [B] to fire.\nOnce launched, guide it with the analog stick.")
 #define TEXT_ABILITY_J          _("J")
 #define TEXT_ABILITY_K          _("K")
 #define TEXT_ABILITY_L          _("L")

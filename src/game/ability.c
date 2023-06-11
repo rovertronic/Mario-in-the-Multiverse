@@ -141,7 +141,7 @@ struct ability ability_struct[] = {
     /*F*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_f  },
     /*G*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_g  },
     /*H*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_h  },
-    /*I*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_i  },
+    /*I*/      {&rocket_hand_RaymanMissile_mesh_layer_1  , NULL               ,MODEL_MARIO       ,&abstr_i  },
     /*J*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_j  },
     /*K*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_k  },
     /*L*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_l  },

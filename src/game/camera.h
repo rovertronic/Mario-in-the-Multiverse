@@ -120,7 +120,8 @@ enum CameraModes {
     /*14*/ CAMERA_MODE_8_DIRECTIONS, // AKA Parallel Camera, Bowser Courses & Rainbow Ride
     /*15*/ CAMERA_MODE_0F,
     /*16*/ CAMERA_MODE_FREE_ROAM,
-    /*17*/ CAMERA_MODE_SPIRAL_STAIRS
+    /*17*/ CAMERA_MODE_SPIRAL_STAIRS,
+    /*18*/ CAMERA_MODE_SHOCK_ROCKET
 };
 
 enum CameraMovementFlags {

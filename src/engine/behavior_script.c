@@ -817,6 +817,8 @@ static BhvCommandProc BehaviorCmdTable[] = {
 void cur_obj_update(void) {
     u32 objFlags = o->oFlags;
     f32 distanceFromMario;
+    f32 distanceFromRocket;
+    f32 distanceClosest;
     BhvCommandProc bhvCmdProc;
     s32 bhvProcResult;
 
@@ -833,6 +835,21 @@ void cur_obj_update(void) {
         distanceFromMario = o->oDistanceToMario;
     } else {
         distanceFromMario = 0.0f;
+    }
+
+    // Calculate the distance from the rocket to Mario
+    distanceFromRocket = 0.0f;
+
+    struct Object *rocket = cur_obj_nearest_object_with_behavior(bhvShockRocket);
+    if(rocket != NULL){
+         distanceFromRocket = dist_between_objects(o, rocket);
+    } 
+
+    //keeps the closest distance
+    if((distanceFromRocket < distanceFromMario) && distanceFromRocket != 0.0f){
+        distanceClosest = distanceFromRocket;
+    } else {
+        distanceClosest = distanceFromMario;
     }
 
     // Calculate the angle from the object to Mario.
@@ -928,7 +945,7 @@ void cur_obj_update(void) {
         // If the object is in a room, only show it when Mario is in the room.
         if (
             (objFlags & OBJ_FLAG_ACTIVE_FROM_AFAR)
-            || distanceFromMario < o->oDrawingDistance
+            || distanceClosest < o->oDrawingDistance
         ) {
             if (inRoom == MARIO_OUTSIDE_ROOM) {
                 cur_obj_disable_rendering_in_room();
@@ -946,7 +963,7 @@ void cur_obj_update(void) {
         && !(objFlags & OBJ_FLAG_ACTIVE_FROM_AFAR)
     ) {
         // If the object has a render distance, check if it should be shown.
-        if (distanceFromMario > o->oDrawingDistance) {
+        if (distanceClosest > o->oDrawingDistance) {
             // Out of render distance, hide the object.
             o->header.gfx.node.flags &= ~GRAPH_RENDER_ACTIVE;
             o->activeFlags |= ACTIVE_FLAG_FAR_AWAY;

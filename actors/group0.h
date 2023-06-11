@@ -375,4 +375,12 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "hp_1/header.h"
 
+#include "rocket_hand/header.h"
+
+#include "rocket_hand/geo_header.h"
+
+#include "rocket_button_off/geo_header.h"
+
+#include "rocket_button_on/geo_header.h"
+
 #endif

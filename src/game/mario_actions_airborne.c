@@ -763,6 +763,8 @@ s32 act_side_flip(struct MarioState *m) {
 }
 
 s32 act_wall_kick_air(struct MarioState *m) {
+    m->abilityChronosCanSlash = TRUE;
+
     if (m->input & INPUT_B_PRESSED) {
         if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
             return set_mario_action(m, ACT_MOVE_PUNCHING, 11);

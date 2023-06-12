@@ -20,7 +20,7 @@ enum ability_ids {
     ABILITY_E_,
     ABILITY_F_,
     ABILITY_CUTTER,
-    ABILITY_H_,
+    ABILITY_PHASEWALK,
     ABILITY_I_,
     ABILITY_HM_FLY,
     ABILITY_K_,
@@ -43,6 +43,8 @@ extern u8 ability_slot[4];
 
 // Ability specific variables
 extern u16 aku_invincibility;
+extern u8 phasewalk_state;
+extern u16 phasewalk_timer;
 //
 
 #endif

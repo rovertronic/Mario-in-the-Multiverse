@@ -9,6 +9,7 @@
 #include "surface_collision.h"
 #include "surface_load.h"
 #include "game/puppyprint.h"
+#include "game/ability.h"
 
 /**************************************************
  *                      WALLS                     *
@@ -92,6 +93,8 @@ static s32 find_wall_collisions_from_list(struct SurfaceNode *surfaceNode, struc
                 if (o->activeFlags & ACTIVE_FLAG_MOVE_THROUGH_GRATE) continue;
                 // If Mario has a vanish cap, pass through the vanish cap wall.
                 if (o == gMarioObject && gMarioState->flags & MARIO_VANISH_CAP) continue;
+
+                if (phasewalk_state > 0) continue;
             }
         }
 

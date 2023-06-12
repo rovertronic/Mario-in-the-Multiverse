@@ -763,8 +763,6 @@ s32 act_side_flip(struct MarioState *m) {
 }
 
 s32 act_wall_kick_air(struct MarioState *m) {
-    m->abilityChronosCanSlash = TRUE;
-
     if (m->input & INPUT_B_PRESSED) {
         if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
             return set_mario_action(m, ACT_MOVE_PUNCHING, 11);
@@ -1336,6 +1334,7 @@ u32 common_air_knockback_step(struct MarioState *m, u32 landAction, u32 hardFall
 s32 check_wall_kick(struct MarioState *m) {
     if ((m->input & INPUT_A_PRESSED) && m->wallKickTimer != 0 && m->prevAction == ACT_AIR_HIT_WALL) {
         m->faceAngle[1] += 0x8000;
+        m->abilityChronosCanSlash = TRUE;
         return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
     }
 

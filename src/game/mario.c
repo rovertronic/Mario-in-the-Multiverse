@@ -925,6 +925,11 @@ u32 set_mario_action_airborne(struct MarioState *m, u32 action, u32 actionArg) {
             break;
     }
 
+    if (phasewalk_state == 2) {
+        m->vel[1] *= 1.25f;
+        play_sound(SOUND_GENERAL_CRAZY_BOX_BOING_FAST, m->marioObj->header.gfx.cameraToObject);
+    }
+
     m->peakHeight = m->pos[1];
     m->flags |= MARIO_JUMPING;
 
@@ -1912,12 +1917,14 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             if (aku_invincibility != 0) {
                 aku_invincibility = 0;
                 stop_cap_music();
+                ability_ready(ABILITY_AKU);
             }
         } else {
             if ((gPlayer1Controller->buttonDown & L_TRIG)&&(aku_invincibility == 0)&&(gMarioState->numGlobalCoins >= 10)) {
                 aku_invincibility = 300;
                 gMarioState->numGlobalCoins -= 10;
                 play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
+                cool_down_ability(ABILITY_AKU);
             }
         }
         if (aku_invincibility > 0) {
@@ -1930,6 +1937,45 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 
             if (aku_invincibility == 0) {
                 stop_cap_music();
+                ability_ready(ABILITY_AKU);
+            }
+        }
+
+        //Phasewalk ability code
+        if (using_ability(ABILITY_PHASEWALK)) {
+
+             if ((gPlayer1Controller->buttonDown & L_TRIG)&&(phasewalk_timer == 0)) {
+                phasewalk_state = 1;
+                phasewalk_timer = 240;
+                play_sound(SOUND_GENERAL_VANISH_SFX, gMarioState->marioObj->header.gfx.cameraToObject);
+                cool_down_ability(ABILITY_PHASEWALK);
+             }
+            if (phasewalk_timer == 180) {
+                phasewalk_state = 2;
+            }
+            if (phasewalk_timer == 150) {
+                phasewalk_state = 0;
+            }
+
+            //spawn sparkles to indicate superjump
+            if (phasewalk_state == 2) {
+                struct Object *sparkleObj = spawn_object(o, MODEL_SPARKLES, bhvCoinSparkles);
+                sparkleObj->oPosX += random_float() * 50.0f - 25.0f;
+                sparkleObj->oPosY += random_float() * 100.0f;
+                sparkleObj->oPosZ += random_float() * 50.0f - 25.0f;
+            }
+
+        } else {
+            phasewalk_state = 0;
+            if (phasewalk_timer > 140) {
+                phasewalk_timer = 140;
+            }
+        }
+        //the phasewalk timer runs unconditionally
+        if (phasewalk_timer > 0) {
+            phasewalk_timer --;
+            if (phasewalk_timer == 0) {
+                ability_ready(ABILITY_PHASEWALK);
             }
         }
 

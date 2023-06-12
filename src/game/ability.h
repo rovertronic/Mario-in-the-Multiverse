@@ -6,6 +6,10 @@ void control_ability_dpad(void);
 void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index);
 u8 using_ability(u8 ability_id);
 u8* ability_string(u8 ability_id);
+u16 ability_is_cooling_down(u8 ability_id);
+u8 cool_down_ability(u8 ability_id);
+u8 ability_ready(u8 ability_id);
+
 extern s16 check_water_height;
 extern Bool8 bd_submerged;
 
@@ -20,7 +24,7 @@ enum ability_ids {
     ABILITY_E_,
     ABILITY_F_,
     ABILITY_CUTTER,
-    ABILITY_H_,
+    ABILITY_PHASEWALK,
     ABILITY_I_,
     ABILITY_HM_FLY,
     ABILITY_CHRONOS,
@@ -48,6 +52,8 @@ u8 ability_chronos_frame_can_progress(void);
 
 // Ability specific variables
 extern u16 aku_invincibility;
+extern u8 phasewalk_state;
+extern u16 phasewalk_timer;
 //
 
 #endif

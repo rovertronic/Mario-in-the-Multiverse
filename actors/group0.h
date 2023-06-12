@@ -401,4 +401,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "bigdaddyhand/header.h"
 
+#include "phasewalk_hand/header.h"
+
 #endif

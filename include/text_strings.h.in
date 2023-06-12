@@ -36,7 +36,7 @@
 #define TEXT_ABILITY_H          _("H")
 #define TEXT_ABILITY_I          _("I")
 #define TEXT_ABILITY_J          _("HM Fly: Call upon your Pokemon pal to soar\nhigh into the sky.\nPress [A] while in the air to begin flying.")
-#define TEXT_ABILITY_K          _("Chronos: A dangerous precognitive drug, and a\nsharp blade. Press [B] to do a sweeping slash.\nPress [Z]+[B] to dash. Hold [L] to slow time.")
+#define TEXT_ABILITY_K          _("Chronos: A dangerous precognitive drug,\nalongside an even deadlier katana.\nPress [B] to slash, and hold [L] to slow time.")
 #define TEXT_ABILITY_L          _("L")
 #define TEXT_ABILITY_M          _("M")
 #define TEXT_ABILITY_N          _("N")

@@ -1805,7 +1805,10 @@ u32 interact_text(struct MarioState *m, UNUSED u32 interactType, struct Object *
 }
 
 void check_kick_or_punch_wall(struct MarioState *m) {
-    if (m->flags & (MARIO_PUNCHING | MARIO_KICKING | MARIO_TRIPPING)) {
+    if (
+        m->flags & (MARIO_PUNCHING | MARIO_KICKING | MARIO_TRIPPING) &&
+        !(using_ability(ABILITY_CHRONOS) && m->flags & (MARIO_PUNCHING))
+    ) {
         struct WallCollisionData detector;
         detector.x = m->pos[0] + 50.0f * sins(m->faceAngle[1]);
         detector.z = m->pos[2] + 50.0f * coss(m->faceAngle[1]);

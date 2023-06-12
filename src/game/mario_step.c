@@ -373,6 +373,11 @@ s32 perform_ground_step(struct MarioState *m) {
     if (stepResult == GROUND_STEP_HIT_WALL_CONTINUE_QSTEPS) {
         stepResult = GROUND_STEP_HIT_WALL;
     }
+
+    if (stepResult != GROUND_STEP_LEFT_GROUND && !mario_floor_is_slippery(m)) {
+        m->abilityChronosCanSlash = TRUE;
+    }
+
     return stepResult;
 }
 

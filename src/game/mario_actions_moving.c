@@ -490,6 +490,10 @@ s32 should_begin_sliding(struct MarioState *m) {
 
 s32 check_ground_dive_or_punch(struct MarioState *m) {
     if (m->input & INPUT_B_PRESSED) {
+        if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+            return set_mario_action(m, ACT_MOVE_PUNCHING, 10);
+        }
+
         //! Speed kick (shoutouts to SimpleFlips)
         if (m->forwardVel >= 29.0f && m->controller->stickMag > 48.0f) {
             if (m->abilityId == ABILITY_CUTTER) {
@@ -837,12 +841,17 @@ s32 act_walking(struct MarioState *m) {
 }
 
 s32 act_move_punching(struct MarioState *m) {
-    if (should_begin_sliding(m)) {
-        return set_mario_action(m, ACT_BEGIN_SLIDING, 0);
-    }
+    if (m->actionArg != ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH && m->actionArg != ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR) {
+        if (should_begin_sliding(m)) {
+            return set_mario_action(m, ACT_BEGIN_SLIDING, 0);
+        }
 
-    if (m->actionState == ACT_STATE_MOVE_PUNCHING_CAN_JUMP_KICK && (m->input & INPUT_A_DOWN)) {
-        return set_mario_action(m, ACT_JUMP_KICK, 0);
+        if (m->actionState == ACT_STATE_MOVE_PUNCHING_CAN_JUMP_KICK && (m->input & INPUT_A_DOWN)) {
+            return set_mario_action(m, ACT_JUMP_KICK, 0);
+        }
+    }
+    else {
+        m->forwardVel = 60.0f * (m->intendedMag / 32.0f);
     }
 
     m->actionState = ACT_STATE_MOVE_PUNCHING_NO_JUMP_KICK;
@@ -852,7 +861,9 @@ s32 act_move_punching(struct MarioState *m) {
     }
     
     if (m->actionTimer > 0) {
-        m->actionTimer--;
+        if (ability_chronos_frame_can_progress()) {
+            m->actionTimer--;
+        }
     }
 
     mario_update_punch_sequence(m);
@@ -866,18 +877,25 @@ s32 act_move_punching(struct MarioState *m) {
         apply_slope_accel(m);
     }
 
-    switch (perform_ground_step(m)) {
-        case GROUND_STEP_LEFT_GROUND:
-            set_mario_action(m, ACT_FREEFALL, 0);
-            break;
+    if (m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR) {
+        perform_air_step(m, 0);
+    }
+    else {
+        switch (perform_ground_step(m)) {
+            case GROUND_STEP_LEFT_GROUND:
+                if (m->actionArg != ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH) {
+                    set_mario_action(m, ACT_FREEFALL, 0);
+                }
+                break;
 
-        case GROUND_STEP_NONE:
-            if (bd_submerged == TRUE){
-                m->particleFlags |= PARTICLE_PLUNGE_BUBBLE;
-            } else {
-                m->particleFlags |= PARTICLE_DUST;
-            }
-            break;
+            case GROUND_STEP_NONE:
+                if (bd_submerged == TRUE){
+                    m->particleFlags |= PARTICLE_PLUNGE_BUBBLE;
+                } else {
+                    m->particleFlags |= PARTICLE_DUST;
+                }
+                break;
+        }
     }
 
     return FALSE;

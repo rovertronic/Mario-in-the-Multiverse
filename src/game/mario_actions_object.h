@@ -24,6 +24,8 @@ enum ActionArgsPunchSequence { // mario_update_punch_sequence
     ACT_ARG_PUNCH_SEQUENCE_SECOND_PUNCH_FAST,
     ACT_ARG_PUNCH_SEQUENCE_GROUND_KICK,
     ACT_ARG_PUNCH_SEQUENCE_BREAKDANCE = 9,
+    ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH,
+    ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR,
 };
 
 s32 mario_update_punch_sequence(struct MarioState *m);

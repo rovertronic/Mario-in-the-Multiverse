@@ -98,6 +98,9 @@ s32 check_fall_damage(struct MarioState *m, u32 hardFallAction) {
 
 s32 check_kick_or_dive_in_air(struct MarioState *m) {
     if (m->input & INPUT_B_PRESSED) {
+        if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+            return set_mario_action(m, ACT_MOVE_PUNCHING, 11);
+        }
         if (m->abilityId == ABILITY_CUTTER) {
             if (m->forwardVel > 28.0f) {
                 play_sound(SOUND_ABILITY_CUTTER_SLICE, m->marioObj->header.gfx.cameraToObject);
@@ -501,6 +504,9 @@ s32 act_triple_jump(struct MarioState *m) {
     }
 
     if (m->input & INPUT_B_PRESSED) {
+        if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+            return set_mario_action(m, ACT_MOVE_PUNCHING, 11);
+        }
         return set_mario_action(m, ACT_DIVE, 0);
     }
 
@@ -648,6 +654,9 @@ s32 act_freefall(struct MarioState *m) {
     s32 animation = MARIO_ANIM_GENERAL_FALL;
 
     if (m->input & INPUT_B_PRESSED) {
+        if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+            return set_mario_action(m, ACT_MOVE_PUNCHING, 11);
+        }
         return set_mario_action(m, ACT_DIVE, 0);
     }
 
@@ -723,6 +732,9 @@ s32 act_hold_freefall(struct MarioState *m) {
 s32 act_side_flip(struct MarioState *m) {
     if (m->input & INPUT_B_PRESSED) {
         m->marioObj->header.gfx.angle[1] += 0x8000;
+        if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+            return set_mario_action(m, ACT_MOVE_PUNCHING, 11);
+        }
         return set_mario_action(m, ACT_DIVE, 0);
     }
 
@@ -752,6 +764,9 @@ s32 act_side_flip(struct MarioState *m) {
 
 s32 act_wall_kick_air(struct MarioState *m) {
     if (m->input & INPUT_B_PRESSED) {
+        if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+            return set_mario_action(m, ACT_MOVE_PUNCHING, 11);
+        }
         return set_mario_action(m, ACT_DIVE, 0);
     }
 
@@ -1054,6 +1069,9 @@ s32 act_hold_water_jump(struct MarioState *m) {
 
 s32 act_steep_jump(struct MarioState *m) {
     if (m->input & INPUT_B_PRESSED) {
+        if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+            return set_mario_action(m, ACT_MOVE_PUNCHING, 11);
+        }
         return set_mario_action(m, ACT_DIVE, 0);
     }
 
@@ -2128,6 +2146,9 @@ s32 act_vertical_wind(struct MarioState *m) {
 
 s32 act_special_triple_jump(struct MarioState *m) {
     if (m->input & INPUT_B_PRESSED) {
+        if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+            return set_mario_action(m, ACT_MOVE_PUNCHING, 11);
+        }
         return set_mario_action(m, ACT_DIVE, 0);
     }
 
@@ -2189,6 +2210,9 @@ s32 act_hm_fly(struct MarioState *m){
     }
 
     if (m->actionTimer >= 10 && m->input & INPUT_B_PRESSED){
+        if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+            return set_mario_action(m, ACT_MOVE_PUNCHING, 11);
+        }
         return set_mario_action(m, ACT_DIVE, 0);
     }
 

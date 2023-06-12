@@ -74,6 +74,7 @@ static u32 perform_water_full_step(struct MarioState *m, Vec3f nextPos) {
 
     if (!(m->input & INPUT_A_PRESSED)) {
         m->canHMFly = 1;
+        m->abilityChronosCanSlash = TRUE;
     }
 
     struct WallCollisionData wallData;

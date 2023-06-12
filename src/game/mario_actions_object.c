@@ -169,6 +169,24 @@ s32 mario_update_punch_sequence(struct MarioState *m) {
                 set_mario_action(m, crouchEndAction, 0);
             }
             break;
+
+        case ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH:
+        case ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR:
+            m->abilityChronosCanSlash = FALSE;
+            set_mario_animation(m, MARIO_ANIM_FIRST_PUNCH);
+
+            if (m->marioObj->header.gfx.animInfo.animFrame == 0) {
+                play_sound(SOUND_MARIO_PUNCH_YAH, m->marioObj->header.gfx.cameraToObject);
+            }
+
+            if (m->marioObj->header.gfx.animInfo.animFrame >= 2) {
+                m->flags |= MARIO_PUNCHING;
+            }
+
+            if (is_anim_at_end(m)) {
+                set_mario_action(m, endAction, 0);
+            }
+            break;
     }
 
     return FALSE;
@@ -179,12 +197,17 @@ s32 act_punching(struct MarioState *m) {
         return drop_and_set_mario_action(m, ACT_SHOCKWAVE_BOUNCE, 0);
     }
 
-    if (m->input & (INPUT_NONZERO_ANALOG | INPUT_A_PRESSED | INPUT_OFF_FLOOR | INPUT_ABOVE_SLIDE)) {
-        return check_common_action_exits(m);
-    }
+    if (m->actionArg != ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH && m->actionArg != ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR) {
+        if (m->input & (INPUT_NONZERO_ANALOG | INPUT_A_PRESSED | INPUT_OFF_FLOOR | INPUT_ABOVE_SLIDE)) {
+            return check_common_action_exits(m);
+        }
 
-    if (m->actionState == ACT_STATE_PUNCHING_CAN_JUMP_KICK && (m->input & INPUT_A_DOWN)) {
-        return set_mario_action(m, ACT_JUMP_KICK, 0);
+        if (m->actionState == ACT_STATE_PUNCHING_CAN_JUMP_KICK && (m->input & INPUT_A_DOWN)) {
+            return set_mario_action(m, ACT_JUMP_KICK, 0);
+        }
+    }
+    else {
+        m->forwardVel = 60.0f * (m->intendedMag / 32.0f);
     }
 
     m->actionState = ACT_STATE_PUNCHING_NO_JUMP_KICK;
@@ -200,7 +223,12 @@ s32 act_punching(struct MarioState *m) {
     }
 
     mario_update_punch_sequence(m);
-    perform_ground_step(m);
+    if (m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR) {
+        perform_air_step(m, 0);
+    }
+    else {
+        perform_ground_step(m);
+    }
     return FALSE;
 }
 

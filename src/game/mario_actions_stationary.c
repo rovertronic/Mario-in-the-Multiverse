@@ -52,6 +52,9 @@ s32 check_common_idle_cancels(struct MarioState *m) {
     }
 
     if (m->input & INPUT_B_PRESSED) {
+        if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+            return set_mario_action(m, ACT_PUNCHING, 10);
+        }
         return set_mario_action(m, ACT_PUNCHING, 0);
     }
 
@@ -110,6 +113,7 @@ s32 act_idle(struct MarioState *m) {
 
     if (!(m->input & INPUT_A_PRESSED)) {
         m->canHMFly = 1;
+        m->abilityChronosCanSlash = TRUE;
     }
 
     if (m->quicksandDepth > 30.0f) {
@@ -482,6 +486,9 @@ s32 act_standing_against_wall(struct MarioState *m) {
     }
 
     if (m->input & INPUT_B_PRESSED) {
+        if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+            return set_mario_action(m, ACT_PUNCHING, 10);
+        }
         return set_mario_action(m, ACT_PUNCHING, 0);
     }
 
@@ -611,6 +618,9 @@ s32 act_braking_stop(struct MarioState *m) {
     }
 
     if (m->input & INPUT_B_PRESSED) {
+        if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+            return set_mario_action(m, ACT_PUNCHING, 10);
+        }
         return set_mario_action(m, ACT_PUNCHING, 0);
     }
 
@@ -839,6 +849,9 @@ s32 check_common_landing_cancels(struct MarioState *m, u32 action) {
     }
 
     if (m->input & INPUT_B_PRESSED) {
+        if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+            return set_mario_action(m, ACT_PUNCHING, 10);
+        }
         return set_mario_action(m, ACT_PUNCHING, 0);
     }
 

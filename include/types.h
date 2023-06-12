@@ -493,6 +493,8 @@ struct MarioState {
             u16 numGlobalCoins;
 
             u8 abilityChronosTimeSlowActive;
+            u8 abilityChronosCanSlash;
+            
             u8 canHMFly;
 };
 

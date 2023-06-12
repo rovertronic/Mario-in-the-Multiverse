@@ -9,7 +9,7 @@ extern u8 rocket_button_off_bouton_bois_side_ci4[];
 extern u8 rocket_button_off_bouton_bois_side_ci4_pal_rgba16[];
 extern u8 rocket_button_off_bouton_rouge_ci4[];
 extern u8 rocket_button_off_bouton_rouge_ci4_pal_rgba16[];
-extern Vtx rocket_button_off_rayman_missile_bouton_off_mesh_layer_1_vtx_0[14];
+extern Vtx rocket_button_off_rayman_missile_bouton_off_mesh_layer_1_vtx_0[8];
 extern Gfx rocket_button_off_rayman_missile_bouton_off_mesh_layer_1_tri_0[];
 extern Vtx rocket_button_off_rayman_missile_bouton_off_mesh_layer_1_vtx_1[16];
 extern Gfx rocket_button_off_rayman_missile_bouton_off_mesh_layer_1_tri_1[];

@@ -67,6 +67,8 @@
 
 #include "nitro/model.inc.c"
 #include "pokeball_hand/model.inc.c"
+#include "bigdaddyhat/model.inc.c"
+#include "bigdaddyhand/model.inc.c"
 
 #include "rocket_hand/model.inc.c"
 #include "rocket_button_off/model.inc.c"

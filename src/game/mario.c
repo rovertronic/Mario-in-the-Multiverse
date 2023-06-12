@@ -33,6 +33,7 @@
 #include "sound_init.h"
 #include "rumble_init.h"
 #include "ability.h"
+#include "seq_ids.h"
 
 
 /**************************************************
@@ -87,6 +88,65 @@ s16 set_mario_animation(struct MarioState *m, s32 targetAnimID) {
     }
 
     return marioObj->header.gfx.animInfo.animFrame;
+}
+
+extern const struct Animation *const mario_anims[];
+
+s16 set_custom_mario_animation(struct MarioState *m, s32 targetAnimID) {
+    struct Object *o = m->marioObj;
+
+    if (o->header.gfx.animInfo.animID != targetAnimID) {
+        struct Animation **animPtrAddr = &mario_anims[targetAnimID];
+        struct Animation **animSegmented = segmented_to_virtual(animPtrAddr);
+        struct Animation *targetAnim = segmented_to_virtual(*animSegmented);
+
+        o->header.gfx.animInfo.animID = targetAnimID;
+        o->header.gfx.animInfo.curAnim = targetAnim;
+        o->header.gfx.animInfo.animAccel = 0;
+        o->header.gfx.animInfo.animYTrans = m->animYTrans;
+
+        if (targetAnim->flags & ANIM_FLAG_NO_ACCEL) {
+            o->header.gfx.animInfo.animFrame = targetAnim->startFrame;
+        } else {
+            if (targetAnim->flags & ANIM_FLAG_FORWARD) {
+                o->header.gfx.animInfo.animFrame = targetAnim->startFrame + 1;
+            } else {
+                o->header.gfx.animInfo.animFrame = targetAnim->startFrame - 1;
+            }
+        }
+    }
+
+    return o->header.gfx.animInfo.animFrame;
+}
+
+s16 set_custom_mario_animation_with_accel(struct MarioState *m, s32 targetAnimID, s32 accel) {
+    struct Object *o = m->marioObj;
+
+    if (o->header.gfx.animInfo.animID != targetAnimID) {
+        struct Animation **animPtrAddr = &mario_anims[targetAnimID];
+        struct Animation **animSegmented = segmented_to_virtual(animPtrAddr);
+        struct Animation *targetAnim = segmented_to_virtual(*animSegmented);
+
+        o->header.gfx.animInfo.animID = targetAnimID;
+        o->header.gfx.animInfo.curAnim = targetAnim;
+        o->header.gfx.animInfo.animYTrans = m->animYTrans;
+
+        if (targetAnim->flags & ANIM_FLAG_NO_ACCEL) {
+            o->header.gfx.animInfo.animFrameAccelAssist = (targetAnim->startFrame << 0x10);
+        } else {
+            if (targetAnim->flags & ANIM_FLAG_FORWARD) {
+                o->header.gfx.animInfo.animFrameAccelAssist = (targetAnim->startFrame << 0x10) + accel;
+            } else {
+                o->header.gfx.animInfo.animFrameAccelAssist = (targetAnim->startFrame << 0x10) - accel;
+            }
+        }
+
+        o->header.gfx.animInfo.animFrame = (o->header.gfx.animInfo.animFrameAccelAssist >> 0x10);
+    }
+
+    o->header.gfx.animInfo.animAccel = accel;
+
+    return o->header.gfx.animInfo.animFrame;
 }
 
 /**
@@ -823,9 +883,17 @@ u32 set_mario_action_airborne(struct MarioState *m, u32 action, u32 actionArg) {
             break;
 
         case ACT_DIVE:
+        if (m->abilityId == ABILITY_CUTTER) {
+            if ((forwardVel = m->forwardVel + 25.0f) > 58.0f) {
+                forwardVel = 58.0f;
+            }
+            m->vel[1] -= 25.0f;
+        }
+        else {
             if ((forwardVel = m->forwardVel + 15.0f) > 48.0f) {
                 forwardVel = 48.0f;
             }
+        }
             mario_set_forward_vel(m, forwardVel);
             break;
 
@@ -849,6 +917,7 @@ u32 set_mario_action_airborne(struct MarioState *m, u32 action, u32 actionArg) {
             break;
 
         case ACT_JUMP_KICK:
+        case ACT_CUTTER_THROW_AIR:
             m->vel[1] = 20.0f;
             break;
     }
@@ -1790,6 +1859,32 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 #if ENABLE_RUMBLE
         queue_rumble_particles(gMarioState);
 #endif
+
+        //Aku Ability Code
+        if (!using_ability(ABILITY_AKU)) {
+            if (aku_invincibility != 0) {
+                aku_invincibility = 0;
+                stop_cap_music();
+            }
+        } else {
+            if ((gPlayer1Controller->buttonDown & L_TRIG)&&(aku_invincibility == 0)&&(gMarioState->numGlobalCoins >= 10)) {
+                aku_invincibility = 300;
+                gMarioState->numGlobalCoins -= 10;
+                play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
+            }
+        }
+        if (aku_invincibility > 0) {
+            struct Object *sparkleObj = spawn_object(o, MODEL_SPARKLES, bhvCoinSparkles);
+            sparkleObj->oPosX += random_float() * 50.0f - 25.0f;
+            sparkleObj->oPosY += random_float() * 100.0f;
+            sparkleObj->oPosZ += random_float() * 50.0f - 25.0f;
+
+            aku_invincibility --;
+
+            if (aku_invincibility == 0) {
+                stop_cap_music();
+            }
+        }
 
         return gMarioState->particleFlags;
     }

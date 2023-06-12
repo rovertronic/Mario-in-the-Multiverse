@@ -349,6 +349,10 @@ s32 perform_ground_step(struct MarioState *m) {
 
     set_mario_wall(m, NULL);
 
+    if (!(m->input & INPUT_A_PRESSED)) {
+        m->canHMFly = 1;
+    }
+
     for (i = 0; i < 4; i++) {
         intendedPos[0] = m->pos[0] + m->floor->normal.y * (m->vel[0] / numSteps);
         intendedPos[2] = m->pos[2] + m->floor->normal.y * (m->vel[2] / numSteps);

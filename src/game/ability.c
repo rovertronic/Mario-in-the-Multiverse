@@ -55,6 +55,10 @@
 #include "mitm_hub.h"
 #include "ability.h"
 
+// Ability specific variables
+u16 aku_invincibility = 0;
+//
+
 Gfx gfx_ability_hand[2] = {gsSPDisplayList(mario_right_hand_closed),gsSPEndDisplayList()};
 Gfx gfx_ability_hat[2] = {gsSPEndDisplayList()};
 
@@ -136,13 +140,13 @@ struct ability ability_struct[] = {
     /*A*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_a  },
     /*B*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_b  },
     /*C*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_c  },
-    /*D*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_d  },
+    /*D*/      {&mario_right_hand_closed  , ability_d_mask_hat_mesh ,MODEL_MARIO       ,&abstr_d  },
     /*E*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_e  },
     /*F*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_f  },
-    /*G*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_g  },
+    /*G*/      {&mario_right_hand_closed  , &cutter_hat_Circle_mesh_layer_1               ,MODEL_MARIO       ,&abstr_g  },
     /*H*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_h  },
     /*I*/      {&rocket_hand_RaymanMissile_mesh_layer_1  , NULL               ,MODEL_MARIO       ,&abstr_i  },
-    /*J*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_j  },
+    /*J*/      {&pokeball_hand_hand_mesh  , NULL               ,MODEL_MARIO       ,&abstr_j  },
     /*K*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_k  },
     /*L*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_l  },
     /*M*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_m  },
@@ -155,12 +159,14 @@ void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index) {
     create_dl_translation_matrix(MENU_MTX_PUSH, x, y, 0);
 
 	gDPPipeSync(gDisplayListHead++);
+    gDPSetTextureFilter(gDisplayListHead++,G_TF_POINT);
 	gDPSetTextureImage(gDisplayListHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, &ability_images[index]);
 	gDPSetTile(gDisplayListHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0);
 	gDPLoadBlock(gDisplayListHead++,7, 0, 0, 1023, 256);
 
     gSPDisplayList(gDisplayListHead++,ability_ability_mesh);
     
+    gDPSetTextureFilter(gDisplayListHead++,G_TF_BILERP);
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 }
 
@@ -179,6 +185,7 @@ Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context
         dlStart = dlHead;
 
         gDPPipeSync(dlHead++);
+        gDPSetTextureFilter(dlHead++,G_TF_POINT);
         gDPSetCombineLERP(dlHead++,0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0);
         gSPTexture(dlHead++,65535, 65535, 0, 0, 1);
         gDPSetTextureImage(dlHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, ability_images[obj->oBehParams2ndByte]);
@@ -186,8 +193,6 @@ Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context
         gDPLoadBlock(dlHead++,7, 0, 0, 1023, 256);
         gDPSetTile(dlHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0);
         gDPSetTileSize(dlHead++,0, 0, 0, 124, 124);
-        gSPEndDisplayList(dlHead++);
-
         gSPEndDisplayList(dlHead++);
     }
     return dlStart;
@@ -263,6 +268,13 @@ void control_ability_dpad(void) {
 
         // Mario Model
         gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
+
+        // Equip Sound Effect
+        switch(gMarioState->abilityId) {
+            case ABILITY_AKU:
+                play_sound(SOUND_ABILITY_AKU_AKU, gGlobalSoundSource);
+            break;
+        }
     }
 }
 

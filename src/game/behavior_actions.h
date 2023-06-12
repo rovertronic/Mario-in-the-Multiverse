@@ -578,3 +578,13 @@ extern struct WaterDropletParams gShallowWaterSplashDropletParams;
 extern struct WaterDropletParams gShallowWaterWaveDropletParams;
 
 #endif // BEHAVIOR_ACTIONS_H
+
+void bhv_cutter_blade_init(void);
+void bhv_cutter_blade_loop(void);
+void bhv_cutter_blast_init(void);
+void bhv_cutter_blast_loop(void);
+void bhv_cutter_particle_slash_init(void);
+void bhv_cutter_particle_slash_loop(void);
+void bhv_dragonite_init(void);
+void bhv_dragonite_loop(void);
+void bhv_nitro_box_loop(void);

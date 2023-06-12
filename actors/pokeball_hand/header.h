@@ -1,0 +1,13 @@
+extern Lights1 pokeball_hand_Gloves_lights;
+extern Lights1 pokeball_hand_pokeball_lights;
+extern u8 pokeball_hand_Pokeball_ci4[];
+extern u8 pokeball_hand_Pokeball_ci4_pal_rgba16[];
+extern Vtx pokeball_hand_hand_mesh_vtx_cull[8];
+extern Vtx pokeball_hand_hand_mesh_vtx_0[42];
+extern Gfx pokeball_hand_hand_mesh_tri_0[];
+extern Vtx pokeball_hand_hand_mesh_vtx_1[63];
+extern Gfx pokeball_hand_hand_mesh_tri_1[];
+extern Gfx mat_pokeball_hand_Gloves[];
+extern Gfx mat_pokeball_hand_pokeball[];
+extern Gfx mat_revert_pokeball_hand_pokeball[];
+extern Gfx pokeball_hand_hand_mesh[];

@@ -174,7 +174,13 @@ u32 determine_interaction(struct MarioState *m, struct Object *obj) {
             if (m->flags & MARIO_PUNCHING) {
                 // 120 degrees total, or 60 each way
                 if (-0x2AAA <= dYawToObject && dYawToObject <= 0x2AAA) {
-                    interaction = INT_PUNCH;
+                    if (m->abilityId == ABILITY_CUTTER) {
+                        interaction = INT_HIT_STUN;
+                        set_mario_action(m, ACT_FINAL_CUTTER_SEQUENCE, 0);
+                    }
+                    else {
+                        interaction = INT_PUNCH;
+                    }
                 }
             }
             if (m->flags & MARIO_KICKING) {
@@ -211,6 +217,10 @@ u32 determine_interaction(struct MarioState *m, struct Object *obj) {
     }
 
     if (action == ACT_ABILITY_AXE_JUMP) {
+        interaction = INT_KICK;
+    }
+
+    if (action == ACT_CUTTER_DASH) {
         interaction = INT_KICK;
     }
 
@@ -258,6 +268,9 @@ u32 attack_object(struct Object *obj, s32 interaction) {
             break;
         case INT_HIT_FROM_BELOW:
             attackType = ATTACK_FROM_BELOW;
+            break;
+        case INT_HIT_STUN:
+            attackType = ATTACK_HIT_STUN;
             break;
     }
 
@@ -641,7 +654,7 @@ void push_mario_out_of_object(struct MarioState *m, struct Object *obj, f32 padd
 }
 
 void bounce_back_from_attack(struct MarioState *m, u32 interaction) {
-    if (interaction & (INT_PUNCH | INT_KICK | INT_TRIP)) {
+    if (interaction & (INT_PUNCH | INT_KICK | INT_TRIP) && m->action != ACT_CUTTER_DASH) {
         if (m->action == ACT_PUNCHING) {
             m->action = ACT_MOVE_PUNCHING;
         }
@@ -686,7 +699,7 @@ u32 take_damage_from_interact_object(struct MarioState *m) {
         damage += (damage + 1) / 2;
     }
 
-    if (m->flags & MARIO_METAL_CAP) {
+    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)) {
         damage = 0;
     }
 
@@ -1157,7 +1170,7 @@ u32 interact_strong_wind(struct MarioState *m, UNUSED u32 interactType, struct O
 u32 interact_flame(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 burningAction = ACT_BURNING_JUMP;
 
-    if (!sInvulnerable && !(m->flags & MARIO_METAL_CAP) && !(m->flags & MARIO_VANISH_CAP)
+    if (!sInvulnerable && !(m->flags & MARIO_METAL_CAP) && !(m->flags & MARIO_VANISH_CAP) && (aku_invincibility == 0)
         && !(obj->oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY)) {
 #if ENABLE_RUMBLE
         queue_rumble_data(5, 80);
@@ -1227,7 +1240,7 @@ u32 interact_clam_or_bubba(struct MarioState *m, UNUSED u32 interactType, struct
 
 u32 interact_bully(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 interaction;
-    if (m->flags & MARIO_METAL_CAP) {
+    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)) {
         interaction = INT_FAST_ATTACK_OR_SHELL;
     } else {
         interaction = determine_interaction(m, obj);
@@ -1318,7 +1331,7 @@ u32 interact_mr_blizzard(struct MarioState *m, UNUSED u32 interactType, struct O
 
 u32 interact_hit_from_below(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 interaction;
-    if (m->flags & MARIO_METAL_CAP) {
+    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)) {
         interaction = INT_FAST_ATTACK_OR_SHELL;
     } else {
         interaction = determine_interaction(m, obj);
@@ -1358,7 +1371,7 @@ u32 interact_hit_from_below(struct MarioState *m, UNUSED u32 interactType, struc
 
 u32 interact_bounce_top(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 interaction;
-    if (m->flags & MARIO_METAL_CAP) {
+    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)) {
         interaction = INT_FAST_ATTACK_OR_SHELL;
     } else {
         interaction = determine_interaction(m, obj);
@@ -1866,6 +1879,11 @@ void check_death_barrier(struct MarioState *m) {
 }
 
 void check_lava_boost(struct MarioState *m) {
+    if (aku_invincibility > 0) {
+        spawn_object(m->marioObj, MODEL_RED_FLAME, bhvKoopaShellFlame);
+        return;
+    }
+
     if (!(m->action & ACT_FLAG_RIDING_SHELL) && m->pos[1] < m->floorHeight + 10.0f) {
         if (!(m->flags & MARIO_METAL_CAP)) {
             m->hurtCounter += (m->flags & MARIO_CAP_ON_HEAD) ? 12 : 18;

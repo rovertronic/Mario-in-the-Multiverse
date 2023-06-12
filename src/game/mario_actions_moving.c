@@ -14,6 +14,8 @@
 #include "memory.h"
 #include "behavior_data.h"
 #include "rumble_init.h"
+#include "ability.h"
+#include "actors/group0.h"
 
 #include "config.h"
 
@@ -488,8 +490,15 @@ s32 check_ground_dive_or_punch(struct MarioState *m) {
     if (m->input & INPUT_B_PRESSED) {
         //! Speed kick (shoutouts to SimpleFlips)
         if (m->forwardVel >= 29.0f && m->controller->stickMag > 48.0f) {
-            m->vel[1] = 20.0f;
-            return set_mario_action(m, ACT_DIVE, 1);
+            if (m->abilityId == ABILITY_CUTTER) {
+                m->forwardVel = 100.0f;
+                play_sound(SOUND_ABILITY_CUTTER_DASH, m->marioObj->header.gfx.cameraToObject);
+                return set_mario_action(m, ACT_CUTTER_DASH, 0);
+            }
+            else {
+                m->vel[1] = 20.0f;
+                return set_mario_action(m, ACT_DIVE, 1);
+            }
         }
 
         return set_mario_action(m, ACT_MOVE_PUNCHING, 0);
@@ -829,6 +838,14 @@ s32 act_move_punching(struct MarioState *m) {
     }
 
     m->actionState = ACT_STATE_MOVE_PUNCHING_NO_JUMP_KICK;
+
+    if (m->actionArg == 0) {
+        m->actionTimer = 7;
+    }
+    
+    if (m->actionTimer > 0) {
+        m->actionTimer--;
+    }
 
     mario_update_punch_sequence(m);
 
@@ -1373,9 +1390,11 @@ void common_slide_action(struct MarioState *m, u32 endAction, u32 airAction, s32
             break;
 
         case GROUND_STEP_NONE:
-            set_mario_animation(m, animation);
-            align_with_floor(m);
-            m->particleFlags |= PARTICLE_DUST;
+            if (m->action != ACT_CUTTER_DASH) {
+                set_mario_animation(m, animation);
+                align_with_floor(m);
+                m->particleFlags |= PARTICLE_DUST;
+            }
             break;
 
         case GROUND_STEP_HIT_WALL:
@@ -1501,6 +1520,53 @@ s32 act_slide_kick_slide(struct MarioState *m) {
 
     play_sound(SOUND_MOVING_TERRAIN_SLIDE + m->terrainSoundAddend, m->marioObj->header.gfx.cameraToObject);
     m->particleFlags |= PARTICLE_DUST;
+    return FALSE;
+}
+
+s32 act_cutter_dash(struct MarioState *m) {
+    if (m->input & INPUT_A_PRESSED) {
+#if ENABLE_RUMBLE
+        queue_rumble_data(5, 80);
+#endif
+        m->forwardVel = (m->forwardVel >= 0 ? 45.0f : -45.0f);
+        m->flags &= ~MARIO_PUNCHING;
+        return set_jumping_action(m, ACT_FORWARD_ROLLOUT, 0);
+    }
+
+    gSPDisplayList(&gfx_ability_hand[0], &cutter_hand_right_hand_open_mesh_layer_1);
+            gSPEndDisplayList(&gfx_ability_hand[1]);
+
+    if (m->actionTimer == 0) {
+        set_custom_mario_animation_with_accel(m, 5, 0x30000);
+    }
+    if (m->forwardVel < 10.0f) {
+        return set_mario_action(m, ACT_WALKING, 0);
+    }
+    if (m->actionTimer < 5) {
+        m->forwardVel = 20 * m->actionTimer;
+    }
+    else{
+        m->forwardVel = 90.0f;
+    }
+
+    m->flags |= MARIO_PUNCHING;
+    common_slide_action(m, ACT_WALKING, ACT_FREEFALL, m->animList);
+    update_sliding(m, 10.0f);
+    switch (perform_ground_step(m)) {
+        case GROUND_STEP_LEFT_GROUND:
+            set_mario_action(m, ACT_FREEFALL, 2);
+            break;
+
+        case GROUND_STEP_HIT_WALL:
+            mario_bonk_reflection(m, TRUE);
+            m->particleFlags |= PARTICLE_VERTICAL_STAR;
+            set_mario_action(m, ACT_BACKWARD_GROUND_KB, 0);
+            break;
+    }
+
+    play_sound(SOUND_MOVING_TERRAIN_SLIDE + m->terrainSoundAddend, m->marioObj->header.gfx.cameraToObject);
+    m->particleFlags |= PARTICLE_DUST;
+    m->actionTimer++;
     return FALSE;
 }
 
@@ -1999,6 +2065,7 @@ s32 mario_execute_moving_action(struct MarioState *m) {
         case ACT_QUICKSAND_JUMP_LAND:      cancel = act_quicksand_jump_land(m);      break;
         case ACT_HOLD_QUICKSAND_JUMP_LAND: cancel = act_hold_quicksand_jump_land(m); break;
         case ACT_LONG_JUMP_LAND:           cancel = act_long_jump_land(m);           break;
+        case ACT_CUTTER_DASH:              cancel = act_cutter_dash(m);           break;
     }
     /* clang-format on */
 

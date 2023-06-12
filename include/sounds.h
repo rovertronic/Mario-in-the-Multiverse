@@ -602,6 +602,13 @@ enum SoundBank {
 
 /* MitM Ability Sound Effects (Channel 10) */
 #define SOUND_MITM_ABILITY_X_0                                    SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x00, 0xFF, SOUND_DISCRETE)
+#define SOUND_ABILITY_CUTTER_THROW                                    SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x01, 0xFF, SOUND_DISCRETE)
+#define SOUND_ABILITY_CUTTER_SLICE                                   SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x02, 0x80, SOUND_DISCRETE)
+#define SOUND_ABILITY_CUTTER_FINAL                                   SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x03, 0xFF, SOUND_DISCRETE)
+#define SOUND_ABILITY_CUTTER_DASH                                  SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x04, 0x80, SOUND_DISCRETE)
+#define SOUND_ABILITY_CUTTER_CATCH                                   SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x05, 0x40, SOUND_DISCRETE)
+#define SOUND_ABILITY_AKU_AKU                                         SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x06, 0xFF, SOUND_DISCRETE)
+#define SOUND_ABILITY_DRAGONITE                                      SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x07, 0xFF, SOUND_DISCRETE)
 
 /* MitM Level Sound Effects (Channel 11) */
 #define SOUND_MITM_LEVEL_X_0                                      SOUND_ARG_LOAD(SOUND_BANK_MITM_LEVEL, 0x00, 0xFF, SOUND_DISCRETE)

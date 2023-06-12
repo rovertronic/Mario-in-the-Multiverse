@@ -15,6 +15,7 @@
 #include "graph_node.h"
 #include "surface_collision.h"
 #include "game/puppylights.h"
+#include "src/game/farcall_helpers.h"
 
 // Macros for retrieving arguments from behavior scripts.
 #define BHV_CMD_GET_1ST_U8(index)  (u8)((gCurBhvCommand[index] >> 24) & 0xFF) // unused
@@ -884,6 +885,11 @@ void cur_obj_update(void) {
         o->oTimer = 0;
         o->oSubAction = 0;
         o->oPrevAction = o->oAction;
+    }
+
+    //make other enemies experience generic attack actions in order for the cutter stun to work
+    if (o->oAction > 100 && o->behavior != segmented_to_virtual(bhvGoomba) && o->behavior != segmented_to_virtual(bhvKoopa) && o->behavior != segmented_to_virtual(bhvPokey)) {
+        obj_update_standard_actions(0);
     }
 
     // Execute various code based on object flags.

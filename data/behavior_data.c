@@ -6117,6 +6117,20 @@ const BehaviorScript bhvAbilityUnlock[] = {
 /* GROUP C END */
 
 /* GROUP D START */
+const BehaviorScript bhvNitroBox[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_INT(oIntangibleTimer, 0),
+    SET_INT(oDamageOrCoinValue, 99),
+    SET_INTERACT_TYPE(INTERACT_DAMAGE),
+    SET_HOME(),
+    SET_HITBOX_WITH_OFFSET(/*Radius*/ 150, /*Height*/ 150, /*Downwards offset*/ 0),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_bowser_bomb_loop),
+        CALL_NATIVE(bhv_nitro_box_loop),
+    END_LOOP(),
+};
 /* GROUP D END */
 
 /* GROUP E START */
@@ -6126,6 +6140,16 @@ const BehaviorScript bhvAbilityUnlock[] = {
 /* GROUP F END */
 
 /* GROUP G START */
+const BehaviorScript bhvCutterBlade[] = {
+    BEGIN(OBJ_LIST_DESTRUCTIVE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    SET_HOME(),
+    CALL_NATIVE(bhv_cutter_blade_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_cutter_blade_loop),
+    END_LOOP(),
+};
+
 /* GROUP G END */
 
 /* GROUP H START */
@@ -6171,6 +6195,17 @@ const BehaviorScript bhvRocketButton[] = {
 /* GROUP I END */
 
 /* GROUP J START */
+const BehaviorScript bhvDragonite[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, dragonite_anims),
+    CALL_NATIVE(bhv_dragonite_init),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_dragonite_loop),
+    END_LOOP(),
+
+};
 /* GROUP J END */
 
 /* GROUP K START */
@@ -6187,3 +6222,23 @@ const BehaviorScript bhvRocketButton[] = {
 
 /* GROUP O START */
 /* GROUP O END */
+
+const BehaviorScript bhvCutterBlast[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 20000),
+    CALL_NATIVE(bhv_cutter_blast_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_cutter_blast_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvCutterParticleSlash[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    //BILLBOARD(),
+    CALL_NATIVE(bhv_cutter_particle_slash_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_cutter_particle_slash_loop),
+    END_LOOP(),
+};

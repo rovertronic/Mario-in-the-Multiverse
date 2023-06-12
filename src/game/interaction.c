@@ -525,6 +525,8 @@ void bounce_off_object(struct MarioState *m, struct Object *obj, f32 velY) {
 
     m->flags &= ~MARIO_JUMPING;
 
+    m->abilityChronosCanSlash = TRUE;
+
     play_sound(SOUND_ACTION_BOUNCE_OFF_OBJECT, m->marioObj->header.gfx.cameraToObject);
 }
 

@@ -416,6 +416,9 @@ s32 act_hanging(struct MarioState *m) {
 #ifdef BETTER_HANGING
     // Only let go if A or B is pressed
     if (m->input & (INPUT_A_PRESSED | INPUT_B_PRESSED)) {
+        if (m->input & (INPUT_B_PRESSED)) {
+            m->abilityChronosCanSlash = FALSE;
+        }
         return set_mario_action(m, ACT_FREEFALL, 0);
     }
 #else
@@ -448,6 +451,9 @@ s32 act_hang_moving(struct MarioState *m) {
 #ifdef BETTER_HANGING
     // Only let go if A or B is pressed
     if (m->input & (INPUT_A_PRESSED | INPUT_B_PRESSED)) {
+        if (m->input & (INPUT_B_PRESSED)) {
+            m->abilityChronosCanSlash = FALSE;
+        }
         return set_mario_action(m, ACT_FREEFALL, 0);
     }
 #else

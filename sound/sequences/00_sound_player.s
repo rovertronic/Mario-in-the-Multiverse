@@ -7950,6 +7950,9 @@ sound_ref .sound_ability_cutter_dash
 sound_ref .sound_ability_cutter_catch
 sound_ref .sound_ability_aku
 sound_ref .sound_ability_dragonite
+sound_ref .sound_ability_chronos_slash_1
+sound_ref .sound_ability_chronos_slash_2
+sound_ref .sound_ability_chronos_slash_3
 
 .sound_ability_x_0:
 chan_setbank 11
@@ -8011,6 +8014,35 @@ chan_end
 layer_note1 39, 0x1B0, 127
 layer_end
 
+.sound_ability_chronos_slash_1:
+chan_setbank 11
+chan_setinstr 8
+chan_setlayer 0, .layer_ability_chronos_slash_1
+chan_end
+
+.layer_ability_chronos_slash_1:
+layer_note1 39, 0x26, 127
+layer_end
+
+.sound_ability_chronos_slash_2:
+chan_setbank 11
+chan_setinstr 9
+chan_setlayer 0, .layer_ability_chronos_slash_2
+chan_end
+
+.layer_ability_chronos_slash_2:
+layer_note1 39, 0x28, 127
+layer_end
+
+.sound_ability_chronos_slash_3:
+chan_setbank 11
+chan_setinstr 10
+chan_setlayer 0, .layer_ability_chronos_slash_3
+chan_end
+
+.layer_ability_chronos_slash_3:
+layer_note1 39, 0x23, 127
+layer_end
 
 // MitM Level Sound Effects
 .channelLevel_table:

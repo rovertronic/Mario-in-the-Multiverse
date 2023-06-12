@@ -174,9 +174,22 @@ s32 mario_update_punch_sequence(struct MarioState *m) {
         case ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR:
             m->abilityChronosCanSlash = FALSE;
             set_mario_animation(m, MARIO_ANIM_FIRST_PUNCH);
-
+        
             if (m->marioObj->header.gfx.animInfo.animFrame == 0) {
-                play_sound(SOUND_MARIO_PUNCH_YAH, m->marioObj->header.gfx.cameraToObject);
+                u8 slashSound = random_u16() % 3;
+                s32 slashSoundBits = NO_SOUND;
+                switch (slashSound) {
+                    case 0:
+                        slashSoundBits = SOUND_ABILITY_CHRONOS_SLASH_1;
+                        break;
+                    case 1:
+                        slashSoundBits = SOUND_ABILITY_CHRONOS_SLASH_2;
+                        break;
+                    case 2:
+                        slashSoundBits = SOUND_ABILITY_CHRONOS_SLASH_3;
+                        break;
+                }
+                play_sound(slashSoundBits, m->marioObj->header.gfx.cameraToObject);
             }
 
             if (m->marioObj->header.gfx.animInfo.animFrame >= 2) {

@@ -709,7 +709,11 @@ void push_or_sidle_wall(struct MarioState *m, Vec3f startPos) {
 
             if (m->marioObj->header.gfx.animInfo.animFrame < 20) {
                 play_sound((SOUND_MOVING_TERRAIN_SLIDE + m->terrainSoundAddend), m->marioObj->header.gfx.cameraToObject);
-                m->particleFlags |= PARTICLE_DUST;
+                if (bd_submerged == TRUE){
+                    m->particleFlags |= PARTICLE_PLUNGE_BUBBLE;
+                } else {
+                    m->particleFlags |= PARTICLE_DUST;
+                }
             }
 
             m->actionState = ACT_STATE_PUSH_OR_SIDLE_WALL_SIDLING;
@@ -814,7 +818,9 @@ s32 act_walking(struct MarioState *m) {
 
         case GROUND_STEP_NONE:
             anim_and_audio_for_walk(m);
-            if (m->intendedMag - m->forwardVel > 16.0f) {
+            if (bd_submerged == TRUE){
+                m->particleFlags |= PARTICLE_PLUNGE_BUBBLE;
+            } else {
                 m->particleFlags |= PARTICLE_DUST;
             }
             break;
@@ -866,7 +872,11 @@ s32 act_move_punching(struct MarioState *m) {
             break;
 
         case GROUND_STEP_NONE:
-            m->particleFlags |= PARTICLE_DUST;
+            if (bd_submerged == TRUE){
+                m->particleFlags |= PARTICLE_PLUNGE_BUBBLE;
+            } else {
+                m->particleFlags |= PARTICLE_DUST;
+            }
             break;
     }
 
@@ -921,7 +931,11 @@ s32 act_hold_walking(struct MarioState *m) {
     anim_and_audio_for_hold_walk(m);
 
     if (0.4f * m->intendedMag - m->forwardVel > 10.0f) {
-        m->particleFlags |= PARTICLE_DUST;
+            if (bd_submerged == TRUE){
+                m->particleFlags |= PARTICLE_PLUNGE_BUBBLE;
+            } else {
+                m->particleFlags |= PARTICLE_DUST;
+            }
     }
 
     return FALSE;
@@ -991,7 +1005,11 @@ s32 act_turning_around(struct MarioState *m) {
             break;
 
         case GROUND_STEP_NONE:
-            m->particleFlags |= PARTICLE_DUST;
+            if (bd_submerged == TRUE){
+                m->particleFlags |= PARTICLE_PLUNGE_BUBBLE;
+            } else {
+                m->particleFlags |= PARTICLE_DUST;
+            }
             break;
     }
 
@@ -1071,7 +1089,11 @@ s32 act_braking(struct MarioState *m) {
             break;
 
         case GROUND_STEP_NONE:
-            m->particleFlags |= PARTICLE_DUST;
+            if (bd_submerged == TRUE){
+                m->particleFlags |= PARTICLE_PLUNGE_BUBBLE;
+            } else {
+                m->particleFlags |= PARTICLE_DUST;
+            }
             break;
 
         case GROUND_STEP_HIT_WALL:
@@ -1132,7 +1154,11 @@ s32 act_decelerating(struct MarioState *m) {
         set_mario_animation(m, MARIO_ANIM_IDLE_HEAD_LEFT);
         play_sound(SOUND_MOVING_TERRAIN_SLIDE + m->terrainSoundAddend, m->marioObj->header.gfx.cameraToObject);
         adjust_sound_for_speed(m);
-        m->particleFlags |= PARTICLE_DUST;
+        if (bd_submerged == TRUE){
+            m->particleFlags |= PARTICLE_PLUNGE_BUBBLE;
+        } else {
+            m->particleFlags |= PARTICLE_DUST;
+        }
     } else {
         // (Speed Crash) Crashes if speed exceeds 2^17.
         s32 animSpeed = (s32)(m->forwardVel / 4.0f * 0x10000);
@@ -1198,7 +1224,11 @@ s32 act_hold_decelerating(struct MarioState *m) {
         set_mario_animation(m, MARIO_ANIM_IDLE_WITH_LIGHT_OBJ);
         play_sound(SOUND_MOVING_TERRAIN_SLIDE + m->terrainSoundAddend, m->marioObj->header.gfx.cameraToObject);
         adjust_sound_for_speed(m);
-        m->particleFlags |= PARTICLE_DUST;
+        if (bd_submerged == TRUE){
+            m->particleFlags |= PARTICLE_PLUNGE_BUBBLE;
+        } else {
+            m->particleFlags |= PARTICLE_DUST;
+        }
     } else {
         //! (Speed Crash) This crashes if Mario has more speed than 2^15 speed.
         s32 animSpeed = (s32)(m->forwardVel * 0x10000);
@@ -1395,7 +1425,12 @@ void common_slide_action(struct MarioState *m, u32 endAction, u32 airAction, s32
             if (m->action != ACT_CUTTER_DASH) {
                 set_mario_animation(m, animation);
                 align_with_floor(m);
-                m->particleFlags |= PARTICLE_DUST;
+
+                if (bd_submerged == TRUE){
+                    m->particleFlags |= PARTICLE_PLUNGE_BUBBLE;
+                } else {
+                    m->particleFlags |= PARTICLE_DUST;
+                }
             }
             break;
 
@@ -1521,7 +1556,11 @@ s32 act_slide_kick_slide(struct MarioState *m) {
     }
 
     play_sound(SOUND_MOVING_TERRAIN_SLIDE + m->terrainSoundAddend, m->marioObj->header.gfx.cameraToObject);
-    m->particleFlags |= PARTICLE_DUST;
+    if (bd_submerged == TRUE){
+        m->particleFlags |= PARTICLE_PLUNGE_BUBBLE;
+    } else {
+        m->particleFlags |= PARTICLE_DUST;
+    }
     return FALSE;
 }
 
@@ -1785,7 +1824,11 @@ u32 common_landing_action(struct MarioState *m, s16 animation, u32 airAction) {
     }
 
     if (m->forwardVel > 16.0f) {
-        m->particleFlags |= PARTICLE_DUST;
+        if (bd_submerged == TRUE){
+            m->particleFlags |= PARTICLE_PLUNGE_BUBBLE;
+        } else {
+            m->particleFlags |= PARTICLE_DUST;
+        }
     }
 
     set_mario_animation(m, animation);
@@ -2073,7 +2116,11 @@ s32 mario_execute_moving_action(struct MarioState *m) {
 
     if (!cancel && (m->input & INPUT_IN_WATER)) {
         m->particleFlags |= PARTICLE_WAVE_TRAIL;
-        m->particleFlags &= ~PARTICLE_DUST;
+        if (bd_submerged == TRUE){
+            m->particleFlags |= PARTICLE_PLUNGE_BUBBLE;
+        } else {
+            m->particleFlags |= PARTICLE_DUST;
+        }
     }
 
     return cancel;

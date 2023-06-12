@@ -377,6 +377,8 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "mario_k/geo_header.h"
 
+#include "ability_d_mask/header.h"
+
 #include "cutter_blade/geo_header.h"
 
 #include "cutter_hand/geo_header.h"
@@ -393,4 +395,10 @@ extern const Gfx white_particle_small_unused_dl[];
 
 
 #include "dragonite/anim_header.h"
+#include "nitro/geo_header.h"
+#include "pokeball_hand/header.h"
+#include "bigdaddyhat/header.h"
+
+#include "bigdaddyhand/header.h"
+
 #endif

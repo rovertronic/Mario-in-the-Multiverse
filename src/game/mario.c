@@ -33,7 +33,11 @@
 #include "sound_init.h"
 #include "rumble_init.h"
 #include "ability.h"
+#include "seq_ids.h"
 
+s16 check_water_height = -10000;
+Bool8 have_splashed;
+Bool8 bd_submerged;
 
 /**************************************************
  *                    ANIMATIONS                  *
@@ -519,7 +523,7 @@ u32 mario_get_terrain_sound_addend(struct MarioState *m) {
     if (m->floor != NULL) {
         floorType = m->floor->type;
 
-        if ((gCurrLevelNum != LEVEL_LLL) && (m->floorHeight < (m->waterLevel - 10))) {
+        if (((gCurrLevelNum != LEVEL_LLL) && (m->floorHeight < (m->waterLevel - 10))) || (m->pos[1] < (check_water_height - 10) && m->pos[1] > (check_water_height - 200))) {
             // Water terrain sound, excluding LLL since it uses water in the volcano.
             ret = SOUND_TERRAIN_WATER << 16;
         } else if (SURFACE_IS_QUICKSAND(floorType)) {
@@ -1355,7 +1359,37 @@ void update_mario_geometry_inputs(struct MarioState *m) {
 
     m->ceilHeight = find_mario_ceil(m->pos, m->floorHeight, &m->ceil);
     gasLevel = find_poison_gas_level(m->pos[0], m->pos[2]);
-    m->waterLevel = find_water_level(m->pos[0], m->pos[2]);
+
+    if (using_ability(ABILITY_BIG_DADDY)){
+        check_water_height = find_water_level(m->pos[0], m->pos[2]);
+        m->waterLevel = -10000;
+
+        if (m->pos[1] < (check_water_height - 200)){
+            m->particleFlags |= PARTICLE_BUBBLE;
+        } 
+
+        if (check_water_height > m->pos[1]){
+            bd_submerged = TRUE;
+
+            if (bd_submerged == TRUE && have_splashed == FALSE){
+                m->particleFlags |= PARTICLE_WATER_SPLASH;
+                play_sound(SOUND_ACTION_WATER_PLUNGE, m->marioObj->header.gfx.cameraToObject);
+                have_splashed = TRUE;
+            }
+        } 
+
+        if (bd_submerged == TRUE && check_water_height < m->pos[1]){
+            m->particleFlags |= PARTICLE_WATER_SPLASH;
+            play_sound(SOUND_ACTION_WATER_PLUNGE, m->marioObj->header.gfx.cameraToObject);
+            bd_submerged = FALSE;
+            have_splashed = FALSE;
+        }
+        
+    } else {
+        m->waterLevel = find_water_level(m->pos[0], m->pos[2]);
+        bd_submerged = FALSE;
+        have_splashed = FALSE;
+    }
 
     if (m->floor != NULL) {
         m->floorYaw = atan2s(m->floor->normal.z, m->floor->normal.x);
@@ -1378,7 +1412,7 @@ void update_mario_geometry_inputs(struct MarioState *m) {
             m->input |= INPUT_OFF_FLOOR;
         }
 
-        if (m->pos[1] < (m->waterLevel - 10)) {
+        if ((m->pos[1] < (m->waterLevel - 10)) || (m->pos[1] < (check_water_height - 10) && m->pos[1] > (check_water_height - 200))) {
             m->input |= INPUT_IN_WATER;
         }
 
@@ -1571,7 +1605,7 @@ void update_mario_breath(struct MarioState *m) {
                 gRumblePakTimer = 0;
 #endif
             }
-        } else if (!(m->input & INPUT_IN_POISON_GAS)) {
+        } else if (!(m->input & INPUT_IN_POISON_GAS) && (bd_submerged == FALSE)) {
             m->breath += 0x1A;
         }
         if (m->breathCounter > 0) {
@@ -1872,6 +1906,32 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 #if ENABLE_RUMBLE
         queue_rumble_particles(gMarioState);
 #endif
+
+        //Aku Ability Code
+        if (!using_ability(ABILITY_AKU)) {
+            if (aku_invincibility != 0) {
+                aku_invincibility = 0;
+                stop_cap_music();
+            }
+        } else {
+            if ((gPlayer1Controller->buttonDown & L_TRIG)&&(aku_invincibility == 0)&&(gMarioState->numGlobalCoins >= 10)) {
+                aku_invincibility = 300;
+                gMarioState->numGlobalCoins -= 10;
+                play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
+            }
+        }
+        if (aku_invincibility > 0) {
+            struct Object *sparkleObj = spawn_object(o, MODEL_SPARKLES, bhvCoinSparkles);
+            sparkleObj->oPosX += random_float() * 50.0f - 25.0f;
+            sparkleObj->oPosY += random_float() * 100.0f;
+            sparkleObj->oPosZ += random_float() * 50.0f - 25.0f;
+
+            aku_invincibility --;
+
+            if (aku_invincibility == 0) {
+                stop_cap_music();
+            }
+        }
 
         return gMarioState->particleFlags;
     }

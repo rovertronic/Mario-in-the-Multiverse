@@ -123,6 +123,7 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_CUTTER_BLAST,            cutter_blast_geo),
     LOAD_MODEL_FROM_GEO(MODEL_CUTTER_PARTICLE_SLASH,            cutter_particle_slash_geo),
     LOAD_MODEL_FROM_GEO(MODEL_DRAGONITE,               dragonite_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_NITRO_BOX,               nitro_geo),
     FREE_LEVEL_POOL(),
     POP_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),

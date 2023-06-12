@@ -55,6 +55,10 @@
 #include "mitm_hub.h"
 #include "ability.h"
 
+// Ability specific variables
+u16 aku_invincibility = 0;
+//
+
 Gfx gfx_ability_hand[2] = {gsSPDisplayList(mario_right_hand_closed),gsSPEndDisplayList()};
 Gfx gfx_ability_hat[2] = {gsSPEndDisplayList()};
 
@@ -134,15 +138,15 @@ struct ability ability_struct[] = {
     /*           HAND DISPLAY LIST        HAT DISPLAY LIST     MARIO MODEL ID     STRING */
     /*Default*/{&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_def},
     /*A*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_a  },
-    /*B*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_b  },
+    /*B*/      {&bigdaddyhand_Plane_mesh  , bigdaddyhat_bigdaddy_mesh               ,MODEL_MARIO       ,&abstr_b  },
     /*C*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_c  },
-    /*D*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_d  },
+    /*D*/      {&mario_right_hand_closed  , ability_d_mask_hat_mesh ,MODEL_MARIO       ,&abstr_d  },
     /*E*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_e  },
     /*F*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_f  },
     /*G*/      {&mario_right_hand_closed  , &cutter_hat_Circle_mesh_layer_1               ,MODEL_MARIO       ,&abstr_g  },
     /*H*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_h  },
     /*I*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_i  },
-    /*J*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_j  },
+    /*J*/      {&pokeball_hand_hand_mesh  , NULL               ,MODEL_MARIO       ,&abstr_j  },
     /*K*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO_K     ,&abstr_k  },
     /*L*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_l  },
     /*M*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_m  },
@@ -264,6 +268,13 @@ void control_ability_dpad(void) {
 
         // Mario Model
         gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
+
+        // Equip Sound Effect
+        switch(gMarioState->abilityId) {
+            case ABILITY_AKU:
+                play_sound(SOUND_ABILITY_AKU_AKU, gGlobalSoundSource);
+            break;
+        }
     }
 }
 

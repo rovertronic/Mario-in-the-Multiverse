@@ -33,6 +33,7 @@
 #include "puppyprint.h"
 #include "puppylights.h"
 #include "level_commands.h"
+#include "ability.h"
 
 #include "config.h"
 
@@ -1211,6 +1212,8 @@ s32 init_level(void) {
 #endif
 
     set_play_mode(PLAY_MODE_NORMAL);
+
+    aku_invincibility = 0;
 
     sDelayedWarpOp = WARP_OP_NONE;
     sTransitionTimer = 0;

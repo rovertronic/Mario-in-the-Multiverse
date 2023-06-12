@@ -7948,6 +7948,8 @@ sound_ref .sound_ability_cutter_slice
 sound_ref .sound_ability_cutter_final
 sound_ref .sound_ability_cutter_dash
 sound_ref .sound_ability_cutter_catch
+sound_ref .sound_ability_aku
+sound_ref .sound_ability_dragonite
 
 .sound_ability_x_0:
 chan_setbank 11
@@ -7989,8 +7991,24 @@ chan_setinstr 5
 chan_setlayer 0, .layer_ability_cutter
 chan_end
 
+.sound_ability_aku:
+chan_setbank 11
+chan_setinstr 6
+chan_setlayer 0, .layer_ability_cutter
+chan_end
+
 .layer_ability_cutter:
 layer_note1 39, 0x7f, 127
+layer_end
+
+.sound_ability_dragonite:
+chan_setbank 11
+chan_setinstr 7
+chan_setlayer 0, .layer_ability_hm_fly
+chan_end
+
+.layer_ability_hm_fly:
+layer_note1 39, 0x1B0, 127
 layer_end
 
 

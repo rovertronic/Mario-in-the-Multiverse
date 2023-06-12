@@ -6117,6 +6117,20 @@ const BehaviorScript bhvAbilityUnlock[] = {
 /* GROUP C END */
 
 /* GROUP D START */
+const BehaviorScript bhvNitroBox[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_INT(oIntangibleTimer, 0),
+    SET_INT(oDamageOrCoinValue, 99),
+    SET_INTERACT_TYPE(INTERACT_DAMAGE),
+    SET_HOME(),
+    SET_HITBOX_WITH_OFFSET(/*Radius*/ 150, /*Height*/ 150, /*Downwards offset*/ 0),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_bowser_bomb_loop),
+        CALL_NATIVE(bhv_nitro_box_loop),
+    END_LOOP(),
+};
 /* GROUP D END */
 
 /* GROUP E START */
@@ -6147,7 +6161,7 @@ const BehaviorScript bhvCutterBlade[] = {
 /* GROUP J START */
 const BehaviorScript bhvDragonite[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW)),
     LOAD_ANIMATIONS(oAnimations, dragonite_anims),
     CALL_NATIVE(bhv_dragonite_init),
     ANIMATE(0),

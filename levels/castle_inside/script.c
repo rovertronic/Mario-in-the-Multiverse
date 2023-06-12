@@ -58,7 +58,7 @@ const LevelScript level_castle_inside_entry[] = {
 
 		//2 blank objects for testing
 												   /*0 is BehParam2*/
-		OBJECT(MODEL_NONE, -601, 0, 1572, 0, 94, 0, (0 << 16), bhvStaticObject),
+		OBJECT(MODEL_NITRO_BOX, -601, 0, 1572, 0, 94, 0, (0 << 16), bhvNitroBox),
 		OBJECT(MODEL_NONE, -601, 0, 1061, 0, 87, 0, (0 << 16), bhvStaticObject),
 
 		OBJECT(MODEL_LEVEL_PIPE, 800, 0, -2600, 0, 0, 0, (0 << 16), bhvLevelPipe),

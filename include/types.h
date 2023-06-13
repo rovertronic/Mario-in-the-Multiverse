@@ -392,6 +392,7 @@ enum PunchStateTypes {
     PUNCH_STATE_TYPE_FIRST_PUNCH  = (0 << 6),
     PUNCH_STATE_TYPE_SECOND_PUNCH = (1 << 6),
     PUNCH_STATE_TYPE_KICK         = (2 << 6),
+    PUNCH_STATE_TYPE_SLASH        = (3 << 6),
 };
 
 struct MarioBodyState {

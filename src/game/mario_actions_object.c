@@ -194,6 +194,7 @@ s32 mario_update_punch_sequence(struct MarioState *m) {
 
             if (m->marioObj->header.gfx.animInfo.animFrame >= 2) {
                 m->flags |= MARIO_PUNCHING;
+                m->marioBodyState->punchState = PUNCH_STATE_TYPE_SLASH;
             }
 
             if (is_anim_at_end(m)) {

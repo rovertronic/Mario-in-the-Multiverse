@@ -71,8 +71,11 @@ static s8 gMarioBlinkAnimation[7] = { 1, 2, 1, 0, 1, 2, 1 };
  * All combined, this means e.g. the first animation scales Mario's fist by {2.4, 1.6, 1.2, 1.0} on
  * successive frames.
  */
-static s8 gMarioAttackScaleAnimation[3 * 6] = {
-    10, 12, 16, 24, 10, 10, 10, 14, 20, 30, 10, 10, 10, 16, 20, 26, 26, 20,
+static s8 gMarioAttackScaleAnimation[4 * 6] = {
+    10, 12, 16, 24, 10, 10, // PUNCH_STATE_TYPE_FIRST_PUNCH
+    10, 14, 20, 30, 10, 10, // PUNCH_STATE_TYPE_SECOND_PUNCH
+    10, 16, 20, 26, 26, 20, // PUNCH_STATE_TYPE_KICK
+    10, 14, 20, 30, 10, 10, // PUNCH_STATE_TYPE_SLASH
 };
 
 struct MarioBodyState gBodyStates[2]; // 2nd is never accessed in practice, most likely Luigi related
@@ -441,7 +444,15 @@ Gfx *geo_switch_mario_hand(s32 callContext, struct GraphNode *node, UNUSED Mat4 
     struct MarioBodyState *bodyState = &gBodyStates[0];
 
     if (callContext == GEO_CONTEXT_RENDER) {
-        if (bodyState->handState == MARIO_HAND_FISTS) {
+        if (
+            switchCase->numCases == 0 &&
+            using_ability(ABILITY_CHRONOS) && 
+            (bodyState->action == ACT_PUNCHING || bodyState->action == ACT_MOVE_PUNCHING) &&
+            bodyState->punchState == PUNCH_STATE_TYPE_SLASH
+        ) {
+            switchCase->selectedCase = 5;
+        }
+        else if (bodyState->handState == MARIO_HAND_FISTS) {
             // switch between fists (0) and open (1)
             switchCase->selectedCase = ((bodyState->action & ACT_FLAG_SWIMMING_OR_FLYING) != 0);
         } else {

@@ -71,3 +71,4 @@
 #include "bigdaddyhand/model.inc.c"
 
 #include "phasewalk_hand/model.inc.c"
+#include "samplesphere/model.inc.c"

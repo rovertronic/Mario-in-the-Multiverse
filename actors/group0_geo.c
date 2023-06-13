@@ -27,3 +27,4 @@
 #include "cutter_particle_slash/geo.inc.c"
 #include "dragonite/geo.inc.c"
 #include "nitro/geo.inc.c"
+#include "samplesphere/geo.inc.c"

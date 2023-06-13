@@ -848,10 +848,30 @@ s32 act_tornado_twirling(struct MarioState *m) {
 }
 
 s32 check_common_automatic_cancels(struct MarioState *m) {
+    if (m->action == ACT_MARBLE) {
+        return FALSE;
+    }
+
     if (m->pos[1] < m->waterLevel - 100) {
         return set_water_plunge_action(m);
     }
 
+    return FALSE;
+}
+
+s32 act_marble(struct MarioState *m) {
+    struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
+    set_mario_animation(m, MARIO_ANIM_START_HANDSTAND);
+    m->marioObj->header.gfx.animInfo.animFrame = 7;
+    perform_air_step(m, AIR_STEP_NONE);
+
+    if (marble) {
+        vec3f_copy(m->pos,&marble->oPosVec);
+        vec3f_copy(&m->marioObj->oPosVec,&marble->oPosVec);
+        m->marioObj->header.gfx.throwMatrix = marble->transform;
+    } else {
+
+    }
     return FALSE;
 }
 
@@ -883,6 +903,7 @@ s32 mario_execute_automatic_action(struct MarioState *m) {
         case ACT_GRABBED:                cancel = act_grabbed(m);                break;
         case ACT_IN_CANNON:              cancel = act_in_cannon(m);              break;
         case ACT_TORNADO_TWIRLING:       cancel = act_tornado_twirling(m);       break;
+        case ACT_MARBLE:                 cancel = act_marble(m);                 break;
     }
     /* clang-format on */
 

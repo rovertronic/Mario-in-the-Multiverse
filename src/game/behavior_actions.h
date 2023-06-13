@@ -585,3 +585,5 @@ void bhv_cutter_particle_slash_loop(void);
 void bhv_dragonite_init(void);
 void bhv_dragonite_loop(void);
 void bhv_nitro_box_loop(void);
+void bhv_marble_init(void);
+void bhv_marble_loop(void);

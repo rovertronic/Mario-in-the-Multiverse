@@ -120,10 +120,11 @@ enum Interactions {
     INT_FAST_ATTACK_OR_SHELL       = (1 << 5), // 0x20
     INT_HIT_FROM_ABOVE             = (1 << 6), // 0x40
     INT_HIT_FROM_BELOW             = (1 << 7), // 0x80
-    INT_HIT_STUN                   = (1 << 8), // 0x100
-    INT_ATTACK_NOT_FROM_BELOW      = (INT_GROUND_POUND_OR_TWIRL | INT_PUNCH | INT_KICK | INT_TRIP | INT_SLIDE_KICK | INT_FAST_ATTACK_OR_SHELL | INT_HIT_FROM_ABOVE                      | INT_HIT_STUN),
-    INT_ANY_ATTACK                 = (INT_GROUND_POUND_OR_TWIRL | INT_PUNCH | INT_KICK | INT_TRIP | INT_SLIDE_KICK | INT_FAST_ATTACK_OR_SHELL | INT_HIT_FROM_ABOVE | INT_HIT_FROM_BELOW | INT_HIT_STUN),
-    INT_ATTACK_NOT_WEAK_FROM_ABOVE = (INT_GROUND_POUND_OR_TWIRL | INT_PUNCH | INT_KICK | INT_TRIP |                                                                  INT_HIT_FROM_BELOW | INT_HIT_STUN),
+    INT_HIT_STUN                   = (1 << 8), // 0x100 (Cutter)
+    INT_SLASH                      = (1 << 9), // 0x200 (Chronos)
+    INT_ATTACK_NOT_FROM_BELOW      = (INT_GROUND_POUND_OR_TWIRL | INT_PUNCH | INT_KICK | INT_TRIP | INT_SLIDE_KICK | INT_FAST_ATTACK_OR_SHELL | INT_HIT_FROM_ABOVE                      | INT_HIT_STUN | INT_SLASH),
+    INT_ANY_ATTACK                 = (INT_GROUND_POUND_OR_TWIRL | INT_PUNCH | INT_KICK | INT_TRIP | INT_SLIDE_KICK | INT_FAST_ATTACK_OR_SHELL | INT_HIT_FROM_ABOVE | INT_HIT_FROM_BELOW | INT_HIT_STUN | INT_SLASH),
+    INT_ATTACK_NOT_WEAK_FROM_ABOVE = (INT_GROUND_POUND_OR_TWIRL | INT_PUNCH | INT_KICK | INT_TRIP |                                                                  INT_HIT_FROM_BELOW | INT_HIT_STUN | INT_SLASH),
 };
 
 s16 mario_obj_angle_to_object(struct MarioState *m, struct Object *obj);

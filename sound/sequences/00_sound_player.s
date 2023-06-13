@@ -6949,6 +6949,28 @@ sound_ref .chan_2D18
 sound_ref .sound_menu_power_meter
 sound_ref .sound_menu_camera_buzz
 sound_ref .sound_menu_camera_turn
+sound_ref .sound_menu_chronos_slomo_engage
+sound_ref .sound_menu_chronos_slomo_disengage
+
+.sound_menu_chronos_slomo_engage:
+chan_setbank 9
+chan_setinstr 7
+chan_setlayer 0, .layer_menu_chronos_slomo_engage
+chan_end
+
+.layer_menu_chronos_slomo_engage:
+layer_note1 39, 0x58, 127
+layer_end
+
+.sound_menu_chronos_slomo_disengage:
+chan_setbank 9
+chan_setinstr 8
+chan_setlayer 0, .layer_menu_chronos_slomo_disengage
+chan_end
+
+.layer_menu_chronos_slomo_disengage:
+layer_note1 39, 0x34, 127
+layer_end
 
 .sound_menu_change_select:
 chan_setbank 9

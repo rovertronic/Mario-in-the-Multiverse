@@ -1856,9 +1856,15 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             using_ability(ABILITY_CHRONOS) && 
             gPlayer1Controller->buttonDown & L_TRIG
         ) {
+            if (gMarioState->abilityChronosTimeSlowActive == FALSE) {
+                play_sound(SOUND_MENU_CHRONOS_SLOMO_ENGAGE, gGlobalSoundSource);
+            }
             gMarioState->abilityChronosTimeSlowActive = TRUE;
         }
         else {
+            if (gMarioState->abilityChronosTimeSlowActive == TRUE) {
+                play_sound(SOUND_MENU_CHRONOS_SLOMO_DISENGAGE, gGlobalSoundSource);
+            }
             gMarioState->abilityChronosTimeSlowActive = FALSE;
         }
 

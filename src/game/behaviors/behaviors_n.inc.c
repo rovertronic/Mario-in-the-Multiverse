@@ -56,8 +56,21 @@ struct MeshInfo Ball_Mesh = {
     0
 };
 
+static struct ObjectHitbox sMarbleHitbox = {
+    /* interactType:      */ INTERACT_NONE,
+    /* downOffset:        */ 50,
+    /* damageOrCoinValue: */ 1,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 60,
+    /* height:            */ 100,
+    /* hurtboxRadius:     */ 100,
+    /* hurtboxHeight:     */ 100,
+};
+
 void bhv_marble_init(void) {
     struct RigidBody *body = allocate_rigid_body_from_object(o, &Ball_Mesh, 1.0f, ball_Size, FALSE);
+    vec3f_copy(body->linearVel,gMarioState->vel);
 }
 
 void bhv_marble_loop(void) {
@@ -74,13 +87,26 @@ void bhv_marble_loop(void) {
         o->oPosZ + (coss(gMarioState->intendedYaw+0x8000) * 50.0f),
     };
 
-    if ( vec3_mag(o->rigidBody->linearVel) < 20.0f) {
+    //if ( vec3_mag(o->rigidBody->linearVel) < 20.0f) {
         //rigid_body_add_force(o->rigidBody, push_position, move_force, TRUE);
-    }
+    //}
 
     o->rigidBody->asleep = FALSE;
     vec3f_add(o->rigidBody->linearVel, move_force);
 
+    vec3f_copy(&gMarioObject->oPosVec,&o->oPosVec);
     vec3f_copy(gMarioState->pos,&o->oPosVec);
-    gMarioState->vel[1] = 0;
+    vec3f_copy(gMarioState->vel,&o->rigidBody->linearVel);
+
+    obj_set_hitbox(o, &sMarbleHitbox);
+    o->oInteractStatus = 0;
+    o->oIntangibleTimer = 0;
+
+    for (int i = 0; i < o->numCollidedObjs; i++) {
+        struct Object *other = o->collidedObjs[i];
+        if (other != gMarioObject) {
+            cur_obj_play_sound_2(SOUND_GENERAL_EXPLOSION7);
+            attack_object(other, 2);
+        }
+    }
 }

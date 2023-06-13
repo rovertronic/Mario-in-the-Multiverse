@@ -30,7 +30,7 @@ enum ability_ids {
     ABILITY_K_,
     ABILITY_L_,
     ABILITY_M_,
-    ABILITY_N_,
+    ABILITY_MARBLE,
     ABILITY_ESTEEMED_MORTAL,
 };
 

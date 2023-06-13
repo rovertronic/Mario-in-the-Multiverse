@@ -573,7 +573,7 @@ enum MarioActionFlags {
 #define ACT_UNUSED_13E                 0x0000013E // (0x13E)
 #define ACT_UNUSED_13F                 0x0000013F // (0x13F)
 #define ACT_ENTER_HUB_PIPE             0x0000113E
-#define ACT_MARBLE                     0x0000113F
+#define ACT_MARBLE                     0x0000193F
 
 // group 0x140: "automatic" actions
 #define ACT_HOLDING_POLE               0x08100340 // (0x140 | ACT_FLAG_STATIONARY | ACT_FLAG_ON_POLE | ACT_FLAG_PAUSE_EXIT)

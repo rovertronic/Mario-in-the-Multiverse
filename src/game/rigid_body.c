@@ -112,6 +112,11 @@ void add_collision(struct Collision *collision, Vec3f point, Vec3f normal, f32 p
             }
         }
     }
+
+    //if (penetration > 6.0f) {
+    //    play_sound(SOUND_ACTION_BOUNCE_OFF_OBJECT, collision->body1->obj->header.gfx.cameraToObject);
+    //}
+
     increment_debug_counter(&pNumColsTrunc, 1);
     struct CollisionPoint *colPoint = &collision->points[collision->numPoints];
     vec3f_copy(colPoint->point, point);
@@ -428,6 +433,13 @@ void rigid_body_check_surf_collisions(struct RigidBody *body) {
                     body_vs_surface_collision(body, node->surface, col);
                     node = node->next;
                 }
+
+                node = gDynamicSurfacePartition[cellZ][cellX][i].next;
+                while (node != NULL) {
+                    body_vs_surface_collision(body, node->surface, col);
+                    node = node->next;
+                }
+
             }
         }
     }

@@ -2668,7 +2668,13 @@ static s32 check_for_instant_quicksand(struct MarioState *m) {
 
 s32 act_marble(struct MarioState *m) {
     struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
+    set_mario_animation(m, MARIO_ANIM_START_HANDSTAND);
+    m->marioObj->header.gfx.animInfo.animFrame = 7;
+    perform_air_step(m, AIR_STEP_NONE);
+
     if (marble) {
+        vec3f_copy(m->pos,&marble->oPosVec);
+        vec3f_copy(&m->marioObj->oPosVec,&marble->oPosVec);
         m->marioObj->header.gfx.throwMatrix = marble->transform;
     }
     return FALSE;

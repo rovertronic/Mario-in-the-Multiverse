@@ -403,4 +403,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "phasewalk_hand/header.h"
 
+#include "samplesphere/geo_header.h"
+
 #endif

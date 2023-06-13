@@ -587,6 +587,7 @@ extern const BehaviorScript bhvDragonite[];
 /* GROUP M END */
 
 /* GROUP N START */
+extern const BehaviorScript bhvPhysicsMarble[];
 /* GROUP N END */
 
 /* GROUP O START */

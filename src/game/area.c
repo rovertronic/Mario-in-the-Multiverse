@@ -27,7 +27,7 @@
 #include "engine/colors.h"
 #include "profiling.h"
 #include "fb_effects.h"
-
+#include "rigid_body.h"
 extern Bool8 cam_submerged;
 
 struct SpawnInfo gPlayerSpawnInfos[1];
@@ -237,6 +237,10 @@ void load_area(s32 index) {
         gCurrAreaIndex = gCurrentArea->index;
         main_pool_pop_state();
         main_pool_push_state();
+
+        for (u32 i = 0; i < MAX_RIGID_BODIES; i++) {
+            deallocate_rigid_body(&gRigidBodies[i]);
+        }
 
         gMarioCurrentRoom = 0;
 

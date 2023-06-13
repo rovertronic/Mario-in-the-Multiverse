@@ -11,15 +11,15 @@
 
 #define PENETRATION_BIAS 0.1f
 #define PENETRATION_MIN_DEPTH 0.f
-#define PENETRATION_MAX_DEPTH 15.f
+#define PENETRATION_MAX_DEPTH 20.f
 
-#define GRAVITY_FORCE -3.f
+#define GRAVITY_FORCE -4.f
 #define FRICTION 1.0f
 
-#define NUM_RIGID_BODY_STEPS 3
+#define NUM_RIGID_BODY_STEPS 2
 #define NUM_IMPULSE_ITERATIONS 1
 
-#define MAX_RIGID_BODIES 2
+#define MAX_RIGID_BODIES 1
 
 typedef Vec4f Quat;
 
@@ -110,7 +110,7 @@ struct QuadInfo {
     Vec3f normal;
 };
 
-extern struct Collision gCollisions[50];
+extern struct Collision gCollisions[100];
 extern u32 gNumCollisions;
 extern struct RigidBody gRigidBodies[MAX_RIGID_BODIES];
 

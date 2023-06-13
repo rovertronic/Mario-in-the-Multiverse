@@ -1,48 +1,68 @@
 Vec3f ball_Size = {100.0f,100.0f,100.0f};
 
-Vec3f ball_Vertices[42] = {
-{.0, -.100, .0},
-{.43, -.85, .31}, 
-{-.16, -.85, .50},
-{-.28, -.45, -.85},
-{-.69, -.53, -.50},
-{-.59, .0, -.81}, 
-{-.28, -.45, .85},
-{.0, .0, .100},
-{-.59, .0, .81},
-{.53, .85, .0},
-{.69, .53, -.50},
-{.16, .85, -.50},
-{-.43, .85, -.31},
-{-.43, .85, .31}, 
-{.0, .100, .0},
-{-.26, .53, .81}, 
-{.28, .45, .85},
-{.16, .85, .50},
-{-.72, .45, -.53},
-{-.26, .53, -.81},
-{-.95, .0, .31},
-{-.72, .45, .53}, 
-{-.85, .53, .0},
+Vec3f ball_Vertices[62] = {
+{.0, -.95, -.31}, 
+{.0, -.81, -.59}, 
+{.35, -.81, -.48}, 
+{.18, -.95, -.25}, 
+{.56, -.31, -.77}, 
+{.48, -.59, -.65},  
+{.59, .0, -.81}, 
+{.95, .0, -.31}, 
+{.90, -.31, -.29},   
+{.77, -.59, -.25}, 
+{.56, -.81, -.18}, 
+{.29, -.95, -.10},  
+{.56, -.81, .18}, 
+{.29, -.95, .10},   
+{.90, -.31, .29}, 
+{.77, -.59, .25},   
+{.48, -.59, .65}, 
+{.35, -.81, .48},  
 {.95, .0, .31}, 
-{.89, .45, .0},
-{.69, .53, .50},
-{.59, .0, -.81},
-{.0, .0, -.100},
-{.28, .45, -.85},
-{-.95, .0, -.31},
-{.26, -.53, .81},
-{.72, -.45, .53},
-{.59, .0, .81},
-{.85, -.53, .0},
-{.72, -.45, -.53},
-{.95, .0, -.31},
-{.43, -.85, -.31},
-{-.16, -.85, -.50},
-{.26, -.53, -.81},
-{-.53, -.85, .0}, 
-{-.69, -.53, .50},
-{-.89, -.45, .0}, 
+{.59, .0, .81}, 
+{.56, -.31, .77}, 
+{.18, -.95, .25},  
+{.0, -.81, .59}, 
+{.0, -.95, .31}, 
+{.0, -.31, .95}, 
+{.0, -.59, .81}, 
+{-.48, -.59, .65}, 
+{-.35, -.81, .48}, 
+{0, -.31, .95},
+{0, 0, 1.00},
+{-.59, .0, .81},
+{-.56, -.31, .77},   
+{-.90, -.31, .29}, 
+{-.77, -.59, .25}, 
+{-.18, -.95, .25},  
+{-.56, -.81, .18}, 
+{-.29, -.95, .10}, 
+{-.95, 0, .31},
+{-.95, 0, -.31},
+{-.90, -.31, -.29},
+{-.77, -.59, -.25},
+{-.56, -.81, -.18},
+{-.29, -.95, -.10},
+{-.35, -.81, -.48},
+{-.18, -.95, -.25},
+{-.48, -.59, -.65},
+{.0, -.59, -.81},
+{.0, -.81, -.59},
+{-.56, -.31, -.77},
+{-.59, 0, -.81},
+{.0, 0, -1.00},
+{.0, -.31, -.95},
+{.59, .81, 0},
+{.95, .31, 0},
+{.0, .31, .95},
+{.0, .81, .59},
+{-.95, .31, 0},
+{-.59, .81, 0},
+{.0, .81, -.59},
+{.0, .31, -.95},
+{0.0f,-0.999f,0.0f},
+{0.0f,0.999f,0.0f},
 };
 
 struct MeshInfo Ball_Mesh = {
@@ -50,7 +70,7 @@ struct MeshInfo Ball_Mesh = {
     NULL,
     NULL,
     NULL,
-    42, // Number of vertices
+    62, // Number of vertices
     0,
     0,
     0
@@ -73,9 +93,8 @@ void bhv_marble_init(void) {
     vec3f_copy(body->linearVel,gMarioState->vel);
 }
 
-void bhv_marble_loop(void) {
-    set_mario_action(gMarioState,ACT_MARBLE,0);
-    
+u8 underwater = FALSE;
+void bhv_marble_loop(void) {    
     Vec3f move_force = {
         (sins(gMarioState->intendedYaw) * gMarioState->intendedMag)/10.0f,
         0.0f,
@@ -93,6 +112,30 @@ void bhv_marble_loop(void) {
 
     o->rigidBody->asleep = FALSE;
     vec3f_add(o->rigidBody->linearVel, move_force);
+
+    struct Surface *floor;
+    f32 water_level = find_water_level_and_floor(o->oPosX,o->oPosY,o->oPosZ, &floor);
+
+    if (water_level > o->oPosY) {
+        o->rigidBody->linearVel[1] += 5.0f;//buoyancy
+        vec3_mul_val(o->rigidBody->linearVel,0.94f);//drag
+        vec3_mul_val(o->rigidBody->angularVel,0.94f);
+        if (!underwater) {
+            underwater = TRUE;
+            if (o->rigidBody->linearVel[1] < -4.0f) {
+                cur_obj_play_sound_2(SOUND_ACTION_WATER_PLUNGE);
+            }
+        }
+    } else {
+        underwater = FALSE;
+    }
+
+    //break upon contact with lava / quicksand
+    f32 fheight = find_floor(o->oPosX,o->oPosY,o->oPosZ, &floor);
+    if (floor && fheight+120.0f > o->oPosY && (floor->type == SURFACE_BURNING || floor->type == SURFACE_INSTANT_QUICKSAND || floor->type == SURFACE_DEATH_PLANE)) {
+        gMarioState->abilityId = ABILITY_DEFAULT;
+    }
+
 
     vec3f_copy(&gMarioObject->oPosVec,&o->oPosVec);
     vec3f_copy(gMarioState->pos,&o->oPosVec);

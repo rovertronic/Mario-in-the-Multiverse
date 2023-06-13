@@ -2666,20 +2666,6 @@ static s32 check_for_instant_quicksand(struct MarioState *m) {
     return FALSE;
 }
 
-s32 act_marble(struct MarioState *m) {
-    struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
-    set_mario_animation(m, MARIO_ANIM_START_HANDSTAND);
-    m->marioObj->header.gfx.animInfo.animFrame = 7;
-    perform_air_step(m, AIR_STEP_NONE);
-
-    if (marble) {
-        vec3f_copy(m->pos,&marble->oPosVec);
-        vec3f_copy(&m->marioObj->oPosVec,&marble->oPosVec);
-        m->marioObj->header.gfx.throwMatrix = marble->transform;
-    }
-    return FALSE;
-}
-
 s32 mario_execute_cutscene_action(struct MarioState *m) {
     s32 cancel;
 
@@ -2741,7 +2727,6 @@ s32 mario_execute_cutscene_action(struct MarioState *m) {
         case ACT_FEET_STUCK_IN_GROUND:       cancel = act_feet_stuck_in_ground(m);       break;
         case ACT_PUTTING_ON_CAP:             cancel = act_putting_on_cap(m);             break;
         case ACT_ENTER_HUB_PIPE:             cancel = act_enter_hub_pipe(m);             break;
-        case ACT_MARBLE:                     cancel = act_marble(m);                     break;
     }
     /* clang-format on */
 

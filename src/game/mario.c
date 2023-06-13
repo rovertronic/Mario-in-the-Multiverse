@@ -34,6 +34,7 @@
 #include "rumble_init.h"
 #include "ability.h"
 #include "seq_ids.h"
+#include "rigid_body.h"
 
 s16 check_water_height = -10000;
 Bool8 have_splashed;
@@ -1969,7 +1970,22 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         if (using_ability(ABILITY_MARBLE)) {
             struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
             if (!marble) {
+                set_mario_action(gMarioState,ACT_MARBLE,0);
+                gMarioState->pos[1] += 90.0f;
+                gMarioObject->oPosY += 90.0f;
                 spawn_object(o,MODEL_MARBLE,bhvPhysicsMarble);
+            }
+        } else {
+            struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
+            if (marble) {
+                vec3f_copy(gMarioState->vel,marble->rigidBody->linearVel);
+                gMarioState->forwardVel = vec3_mag(marble->rigidBody->linearVel);
+                gMarioState->faceAngle[1] = atan2s(marble->rigidBody->linearVel[2],marble->rigidBody->linearVel[0]);
+                gMarioState->action = ACT_FREEFALL;
+                deallocate_rigid_body(marble->rigidBody);
+                obj_mark_for_deletion(marble);
+                gMarioState->pos[1] -= 90.0f;
+                gMarioObject->oPosY -= 90.0f;
             }
         }
 

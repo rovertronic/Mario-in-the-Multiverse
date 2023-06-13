@@ -39,7 +39,7 @@
 #define TEXT_ABILITY_K          _("K")
 #define TEXT_ABILITY_L          _("L")
 #define TEXT_ABILITY_M          _("M")
-#define TEXT_ABILITY_N          _("N")
+#define TEXT_ABILITY_N          _("Hamster Ball: A hollow ball that Mario can\nenter. Use the analog stick to roll around\nwith sphere physics!")
 #define TEXT_ABILITY_O          _("Esteemed Mortal: A walker slaying saw-axe.\nReplaces your dive with an axe jump.\nHold [B] to hop and hold [A] to jump higher.")
 
 #if defined(PUPPYCAM)

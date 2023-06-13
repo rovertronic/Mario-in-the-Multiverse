@@ -79,7 +79,7 @@ void quat_normalize(Quat quat) {
     quat[3] *= invMag;
 }
 
-struct Collision gCollisions[50];
+struct Collision gCollisions[100];
 u32 gNumCollisions = 0;
 
 // u8 sReverseContactPoint = FALSE;
@@ -663,6 +663,18 @@ void rigid_body_add_force(struct RigidBody *body, Vec3f contactPoint, Vec3f forc
 }
 
 void rigid_body_apply_displacement(struct RigidBody *body, Vec3f linear, Vec3f angular) {
+    //keep ridge bodies inbounds
+    struct Surface *floor;
+    find_floor(body->transform[3][0]+linear[0],body->transform[3][1]+linear[1],body->transform[3][2]+linear[2],&floor);
+    if (!floor) {
+        play_sound(SOUND_ACTION_BONK, body->obj->header.gfx.cameraToObject);
+        linear[0] = -linear[0];
+        linear[1] = -linear[1];
+        linear[2] = -linear[2];
+        vec3f_normalize(linear);
+    }
+
+
     // Apply linear velocity
     // Δx = v * Δt
     vec3f_add_scaled(body->centerOfMass, linear, dt);

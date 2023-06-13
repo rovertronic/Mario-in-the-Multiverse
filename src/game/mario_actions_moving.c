@@ -862,9 +862,6 @@ s32 act_move_punching(struct MarioState *m) {
             return set_mario_action(m, ACT_JUMP_KICK, 0);
         }
     }
-    else {
-        m->forwardVel = 60.0f * (m->intendedMag / 32.0f);
-    }
 
     m->actionState = ACT_STATE_MOVE_PUNCHING_NO_JUMP_KICK;
 

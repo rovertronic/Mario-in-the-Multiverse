@@ -2104,6 +2104,11 @@ s32 act_flying_triple_jump(struct MarioState *m) {
 s32 act_top_of_pole_jump(struct MarioState *m) {
     play_mario_jump_sound(m);
     common_air_action_step(m, ACT_FREEFALL_LAND, MARIO_ANIM_HANDSTAND_JUMP, AIR_STEP_CHECK_LEDGE_GRAB);
+    if (m->input & INPUT_B_PRESSED) {
+        if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+            return set_mario_action(m, ACT_MOVE_PUNCHING, 11);
+        }
+    }
     return FALSE;
 }
 

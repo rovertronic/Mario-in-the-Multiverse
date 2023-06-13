@@ -190,6 +190,7 @@ s32 mario_update_punch_sequence(struct MarioState *m) {
                         break;
                 }
                 play_sound(slashSoundBits, m->marioObj->header.gfx.cameraToObject);
+                m->forwardVel = 60.0f * (m->intendedMag / 32.0f);
             }
 
             if (m->marioObj->header.gfx.animInfo.animFrame >= 2) {
@@ -219,9 +220,6 @@ s32 act_punching(struct MarioState *m) {
         if (m->actionState == ACT_STATE_PUNCHING_CAN_JUMP_KICK && (m->input & INPUT_A_DOWN)) {
             return set_mario_action(m, ACT_JUMP_KICK, 0);
         }
-    }
-    else {
-        m->forwardVel = 60.0f * (m->intendedMag / 32.0f);
     }
 
     m->actionState = ACT_STATE_PUNCHING_NO_JUMP_KICK;

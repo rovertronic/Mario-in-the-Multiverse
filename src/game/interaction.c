@@ -1535,6 +1535,8 @@ u32 interact_pole(struct MarioState *m, UNUSED u32 interactType, struct Object *
             m->vel[1] = 0.0f;
             m->forwardVel = 0.0f;
 
+            m->abilityChronosCanSlash = TRUE;
+
             // Pole fix
             // If mario is beneath the pole, clamp mario's position to the down-offset of the pole (bottom)
             marioObj->oMarioPolePos = ((m->pos[1] - obj->oPosY) < 0) ? -obj->hitboxDownOffset : (m->pos[1] - obj->oPosY);

@@ -1965,6 +1965,10 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
 
+        if (gPlayer1Controller->buttonPressed & L_TRIG) {
+            spawn_object(o,MODEL_MARBLE,bhvPhysicsMarble);
+        }
+
         return gMarioState->particleFlags;
     }
 

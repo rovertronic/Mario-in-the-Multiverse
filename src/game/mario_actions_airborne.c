@@ -17,6 +17,7 @@
 #include "ability.h"
 #include "include/behavior_data.h"
 #include "actors/group0.h"
+#include "object_helpers.h"
 
 #include "config.h"
 
@@ -2239,7 +2240,6 @@ s32 act_hm_fly(struct MarioState *m){
     m->actionTimer++;
 
     return FALSE;
-
 }
 
 s32 check_common_airborne_cancels(struct MarioState *m) {

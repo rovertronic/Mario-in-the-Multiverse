@@ -745,3 +745,22 @@ Gfx *geo_mario_ability_chronos_reset_aux_framebuffer(s32 callContext, struct Gra
     }
     return dl;
 }
+
+Gfx *geo_switch_mario_ability_chronos_sheathed_katana(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx) {
+    struct GraphNodeSwitchCase *switchCase = (struct GraphNodeSwitchCase *) node;
+    struct MarioBodyState *bodyState = &gBodyStates[0];
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        if (
+            using_ability(ABILITY_CHRONOS) && 
+            (bodyState->action == ACT_PUNCHING || bodyState->action == ACT_MOVE_PUNCHING) &&
+            bodyState->punchState == PUNCH_STATE_TYPE_SLASH
+        ) {
+            switchCase->selectedCase = 1;
+        }
+        else {
+            switchCase->selectedCase = 0;
+        }
+    }
+    return NULL;
+}

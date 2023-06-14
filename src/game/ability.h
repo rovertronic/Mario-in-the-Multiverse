@@ -54,6 +54,8 @@ u8 ability_chronos_frame_can_progress(void);
 extern u16 aku_invincibility;
 extern u8 phasewalk_state;
 extern u16 phasewalk_timer;
+extern u16 chronos_timer;
+extern u8 chronos_expended;
 //
 
 #endif

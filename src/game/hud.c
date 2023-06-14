@@ -686,16 +686,27 @@ u8 meter_style_color_table[METER_STYLE_COUNT][9][3] = {
         {0, 100, 127},   // 7
         {0, 100, 127},   // 8
     },
+    {   // Chronos
+        {240, 19, 226},  // 1
+        {208, 47, 230},  // 2
+        {176, 74, 234},  // 3
+        {144, 102, 237}, // 4
+        {111, 130, 241}, // 5
+        {80, 158, 245},  // 6
+        {48, 185, 249},  // 7
+        {0, 200, 255},   // 8
+    },
 };
 
 Gfx *meter_style_icon_dl_table[] = {
     NULL,
     &meter_hp_meter_hp_mesh,
     &meter_breath_meter_breath_mesh,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    &meter_hp_meter_hp_mesh,
+    &meter_breath_meter_breath_mesh,
+    &meter_breath_meter_breath_mesh,
+    &meter_breath_meter_breath_mesh,
+    &meter_chronos_meter_chronos_mesh,
 };
 
 void render_meter(f32 x, f32 y, s32 meterStyle, s16 wedges, u8 a) {

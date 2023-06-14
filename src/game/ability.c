@@ -59,6 +59,8 @@
 u16 aku_invincibility = 0;
 u8 phasewalk_state = 0;
 u16 phasewalk_timer = 0;
+u16 chronos_timer = 0;
+u8 chronos_expended = FALSE;
 //
 
 Gfx gfx_ability_hand[2] = {gsSPDisplayList(mario_right_hand_closed),gsSPEndDisplayList()};

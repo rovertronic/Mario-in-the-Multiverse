@@ -1854,21 +1854,38 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             return ACTIVE_PARTICLE_NONE;
         }
 
-        if (
-            (gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE &&
-            using_ability(ABILITY_CHRONOS) && 
-            gPlayer1Controller->buttonDown & L_TRIG
-        ) {
-            if (gMarioState->abilityChronosTimeSlowActive == FALSE) {
-                play_sound(SOUND_MENU_CHRONOS_SLOMO_ENGAGE, gGlobalSoundSource);
+        u8 chronos_active = FALSE;
+        // Chronos Ability Code
+        if (using_ability(ABILITY_CHRONOS)) {
+            if (!(gPlayer1Controller->buttonDown & L_TRIG)) {
+                chronos_expended = FALSE;
             }
-            gMarioState->abilityChronosTimeSlowActive = TRUE;
+
+            if (
+                (gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE &&
+                (gPlayer1Controller->buttonDown & L_TRIG) &&
+                chronos_timer > 0 &&
+                !chronos_expended
+            ) {
+                if (gMarioState->abilityChronosTimeSlowActive == FALSE) {
+                    play_sound(SOUND_MENU_CHRONOS_SLOMO_ENGAGE, gGlobalSoundSource);
+                }
+                gMarioState->abilityChronosTimeSlowActive = TRUE;
+                chronos_active = TRUE;
+                chronos_timer = MAX(chronos_timer - 2, 0);
+                if (chronos_timer == 0) {
+                    chronos_expended = TRUE;
+                }
+            }
         }
-        else {
+        if (!chronos_active) {
             if (gMarioState->abilityChronosTimeSlowActive == TRUE) {
                 play_sound(SOUND_MENU_CHRONOS_SLOMO_DISENGAGE, gGlobalSoundSource);
             }
             gMarioState->abilityChronosTimeSlowActive = FALSE;
+            if (chronos_timer < 360) {
+                chronos_timer++;
+            }
         }
 
         // The function can loop through many action shifts in one frame,
@@ -1920,6 +1937,16 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 #if ENABLE_RUMBLE
         queue_rumble_particles(gMarioState);
 #endif
+
+        if (using_ability(ABILITY_CHRONOS)) {
+            gHudDisplay.abilityMeterStyle = METER_STYLE_CHRONOS;
+            if (chronos_active) {
+                gHudDisplay.abilityMeter = MIN((s16)((chronos_timer / 360.0f) * 8.0f) + 1, 8);
+            }
+            else {
+                gHudDisplay.abilityMeter = (s16)((chronos_timer / 360.0f) * 8.0f);
+            }
+        }
 
         //Aku Ability Code
         if (!using_ability(ABILITY_AKU)) {
@@ -2112,6 +2139,8 @@ void init_mario(void) {
         capObject->oForwardVel = 0;
         capObject->oMoveAngleYaw = 0;
     }
+
+    chronos_timer = 360;
 }
 
 void init_mario_from_save_file(void) {
@@ -2149,6 +2178,8 @@ void init_mario_from_save_file(void) {
 
     gHudDisplay.coins = 0;
     gHudDisplay.wedges = 8;
+
+    chronos_timer = 360;
 }
 
 

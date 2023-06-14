@@ -702,10 +702,10 @@ Gfx *meter_style_icon_dl_table[] = {
     NULL,
     &meter_hp_meter_hp_mesh,
     &meter_breath_meter_breath_mesh,
-    &meter_hp_meter_hp_mesh,
-    &meter_breath_meter_breath_mesh,
-    &meter_breath_meter_breath_mesh,
-    &meter_breath_meter_breath_mesh,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
     &meter_chronos_meter_chronos_mesh,
 };
 

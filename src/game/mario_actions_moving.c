@@ -429,6 +429,11 @@ void update_walking_speed(struct MarioState *m) {
 
     targetSpeed = m->intendedMag < maxTargetSpeed ? m->intendedMag : maxTargetSpeed;
 
+    if (phasewalk_state > 0) {
+        maxTargetSpeed = 70.0f;
+        targetSpeed = 70.0f;
+    }
+
     if (m->quicksandDepth > 10.0f) {
         targetSpeed *= 6.25f / m->quicksandDepth;
     }
@@ -439,12 +444,19 @@ void update_walking_speed(struct MarioState *m) {
     } else if (m->forwardVel <= targetSpeed) {
         // If accelerating
         m->forwardVel += 1.1f - m->forwardVel / 43.0f;
+
+        if (phasewalk_state > 0) {
+             m->forwardVel += 1.1f;
+        }
+
     } else if (m->floor->normal.y >= 0.95f) {
         m->forwardVel -= 1.0f;
     }
 
-    if (m->forwardVel > 48.0f) {
-        m->forwardVel = 48.0f;
+    if (phasewalk_state == 0) {
+        if (m->forwardVel > 48.0f) {
+            m->forwardVel = 48.0f;
+        }
     }
 
 #ifdef VELOCITY_BASED_TURN_SPEED

@@ -27,6 +27,7 @@
 #include "cutter_particle_slash/geo.inc.c"
 #include "dragonite/geo.inc.c"
 #include "nitro/geo.inc.c"
+#include "samplesphere/geo.inc.c"
 #include "rocket_hand/geo.inc.c"
 #include "rocket_button_off/geo.inc.c"
 #include "rocket_button_on/geo.inc.c"

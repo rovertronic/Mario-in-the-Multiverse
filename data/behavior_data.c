@@ -6225,6 +6225,13 @@ const BehaviorScript bhvDragonite[] = {
 /* GROUP M END */
 
 /* GROUP N START */
+const BehaviorScript bhvPhysicsMarble[] = {
+    BEGIN(OBJ_LIST_PLAYER),
+    CALL_NATIVE(bhv_marble_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_marble_loop),
+    END_LOOP(),
+};
 /* GROUP N END */
 
 /* GROUP O START */

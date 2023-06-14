@@ -34,10 +34,13 @@
 #include "rumble_init.h"
 #include "ability.h"
 #include "seq_ids.h"
+#include "rigid_body.h"
 
 s16 check_water_height = -10000;
 Bool8 have_splashed;
 Bool8 bd_submerged;
+
+u8 lastAbility = ABILITY_DEFAULT;
 
 /**************************************************
  *                    ANIMATIONS                  *
@@ -923,6 +926,11 @@ u32 set_mario_action_airborne(struct MarioState *m, u32 action, u32 actionArg) {
         case ACT_CUTTER_THROW_AIR:
             m->vel[1] = 20.0f;
             break;
+    }
+
+    if (phasewalk_state == 2) {
+        m->vel[1] *= 1.25f;
+        play_sound(SOUND_GENERAL_CRAZY_BOX_BOING_FAST, m->marioObj->header.gfx.cameraToObject);
     }
 
     m->peakHeight = m->pos[1];
@@ -1812,6 +1820,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     vec3f_get_dist_and_lateral_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->lateralSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);
     vec3f_copy(gMarioState->prevPos, gMarioState->pos);
 
+    gHudDisplay.abilityMeter = -1; // Reset ability meter if it's not set past this point
+
     if (gMarioState->action) {
 #ifdef ENABLE_DEBUG_FREE_MOVE
         if (gPlayer1Controller->buttonDown & U_JPAD && !(gPlayer1Controller->buttonDown & L_TRIG)) {
@@ -1898,12 +1908,19 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             if (aku_invincibility != 0) {
                 aku_invincibility = 0;
                 stop_cap_music();
+                ability_ready(ABILITY_AKU);
             }
         } else {
             if ((gPlayer1Controller->buttonDown & L_TRIG)&&(aku_invincibility == 0)&&(gMarioState->numGlobalCoins >= 10)) {
                 aku_invincibility = 300;
                 gMarioState->numGlobalCoins -= 10;
                 play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
+                cool_down_ability(ABILITY_AKU);
+            }
+
+            if (aku_invincibility > 0) {
+                gHudDisplay.abilityMeter = MIN((s16)((aku_invincibility / 300.0f) * 8.0f) + 1, 8);
+                gHudDisplay.abilityMeterStyle = METER_STYLE_AKU;
             }
         }
         if (aku_invincibility > 0) {
@@ -1916,7 +1933,92 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 
             if (aku_invincibility == 0) {
                 stop_cap_music();
+                ability_ready(ABILITY_AKU);
             }
+        }
+
+        //Phasewalk ability code
+        if (using_ability(ABILITY_PHASEWALK)) {
+
+             if ((gPlayer1Controller->buttonDown & L_TRIG)&&(phasewalk_timer == 0)) {
+                phasewalk_state = 1;
+                phasewalk_timer = 240;
+                play_sound(SOUND_GENERAL_VANISH_SFX, gMarioState->marioObj->header.gfx.cameraToObject);
+                cool_down_ability(ABILITY_PHASEWALK);
+             }
+            if (phasewalk_timer == 180) {
+                phasewalk_state = 2;
+            }
+            if (phasewalk_timer == 150) {
+                phasewalk_state = 0;
+            }
+
+            if (phasewalk_state == 0) {
+                if (phasewalk_timer == 0) {
+                    gHudDisplay.abilityMeter = 8;
+                    gHudDisplay.abilityMeterStyle = METER_STYLE_PHASEWALK;
+                }
+                else {
+                    gHudDisplay.abilityMeter = (s16)(((150 - phasewalk_timer) / 150.0f) * 8.0f);
+                    gHudDisplay.abilityMeterStyle = METER_STYLE_PHASEWALK_RECHARGE;
+                }
+            }
+            else {
+                u16 phasewalk_remaining = phasewalk_timer - 150;
+                gHudDisplay.abilityMeter =  MIN((s16)((phasewalk_remaining / 90.0f) * 8.0f) + 1, 8);
+                if (phasewalk_state == 2) {
+                    //spawn sparkles to indicate superjump
+                    struct Object *sparkleObj = spawn_object(o, MODEL_SPARKLES, bhvCoinSparkles);
+                    sparkleObj->oPosX += random_float() * 50.0f - 25.0f;
+                    sparkleObj->oPosY += random_float() * 100.0f;
+                    sparkleObj->oPosZ += random_float() * 50.0f - 25.0f;
+
+                    gHudDisplay.abilityMeterStyle = METER_STYLE_PHASEWALK_SUPERJUMP;
+                }
+                else {
+                    gHudDisplay.abilityMeterStyle = METER_STYLE_PHASEWALK;
+                }
+            }
+        } else {
+            phasewalk_state = 0;
+            if (phasewalk_timer > 140) {
+                phasewalk_timer = 140;
+            }
+        }
+        //the phasewalk timer runs unconditionally
+        if (phasewalk_timer > 0) {
+            phasewalk_timer --;
+            if (phasewalk_timer == 0) {
+                ability_ready(ABILITY_PHASEWALK);
+            }
+        }
+
+        //Marble Ability
+        if (using_ability(ABILITY_MARBLE)) {
+            struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
+            if (!marble) {
+                set_mario_action(gMarioState,ACT_MARBLE,0);
+                gMarioState->pos[1] += 90.0f;
+                gMarioObject->oPosY += 90.0f;
+                spawn_object(o,MODEL_MARBLE,bhvPhysicsMarble);
+            }
+        } else {
+            struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
+            if (marble) {
+                vec3f_copy(gMarioState->vel,marble->rigidBody->linearVel);
+                gMarioState->forwardVel = vec3_mag(marble->rigidBody->linearVel);
+                gMarioState->faceAngle[1] = atan2s(marble->rigidBody->linearVel[2],marble->rigidBody->linearVel[0]);
+                gMarioState->action = ACT_FREEFALL;
+                deallocate_rigid_body(marble->rigidBody);
+                obj_mark_for_deletion(marble);
+                gMarioState->pos[1] -= 90.0f;
+                gMarioObject->oPosY -= 90.0f;
+            }
+        }
+
+        if (lastAbility != gMarioState->abilityId) {
+            gHudDisplay.abilityMeter = -1;
+            lastAbility = gMarioState->abilityId;
         }
 
         return gMarioState->particleFlags;
@@ -2028,6 +2130,7 @@ void init_mario_from_save_file(void) {
     gMarioState->breath = 0x880;
     gHudDisplay.breath = 8;
 #endif
+    gHudDisplay.abilityMeter = -1;
     gMarioState->prevNumStarsForDialog = gMarioState->numStars;
     gMarioState->animYTrans = 0xBD;
 

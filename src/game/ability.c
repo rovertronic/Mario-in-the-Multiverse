@@ -57,6 +57,8 @@
 
 // Ability specific variables
 u16 aku_invincibility = 0;
+u8 phasewalk_state = 0;
+u16 phasewalk_timer = 0;
 //
 
 Gfx gfx_ability_hand[2] = {gsSPDisplayList(mario_right_hand_closed),gsSPEndDisplayList()};
@@ -144,8 +146,8 @@ struct ability ability_struct[] = {
     /*E*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_e  },
     /*F*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_f  },
     /*G*/      {&mario_right_hand_closed  , &cutter_hat_Circle_mesh_layer_1               ,MODEL_MARIO       ,&abstr_g  },
-    /*H*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_h  },
-    /*I*/      {&rocket_hand_RaymanMissile_mesh_layer_1  , NULL               ,MODEL_MARIO       ,&abstr_i  },
+    /*H*/      {&phasewalk_hand_hand_mesh , NULL               ,MODEL_MARIO       ,&abstr_h  },
+    /*I*/      {&rocket_hand_RaymanMissile_mesh_layer_1, NULL  ,MODEL_MARIO       ,&abstr_i  },
     /*J*/      {&pokeball_hand_hand_mesh  , NULL               ,MODEL_MARIO       ,&abstr_j  },
     /*K*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_k  },
     /*L*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_l  },
@@ -154,7 +156,13 @@ struct ability ability_struct[] = {
     /*O*/      {&saw_hand_skinned_016_mesh, NULL               ,MODEL_MARIO       ,&abstr_o  },
 };
 
+u16 ability_cooldown_flags = 0; //Flags that determine if their ability icon is "greyed out" or not; 0 = normal, 1 = cooling down
+
 void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index) {
+    if (ability_is_cooling_down(index)) {
+        alpha = 100+(sins(gGlobalTimer*0x600)*30);
+    }
+
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, alpha);
     create_dl_translation_matrix(MENU_MTX_PUSH, x, y, 0);
 
@@ -284,4 +292,16 @@ u8 using_ability(u8 ability_id) {
 
 u8* ability_string(u8 ability_id) {
     return (ability_struct[ability_id].string);
+}
+
+u16 ability_is_cooling_down(u8 ability_id) {
+    return (ability_cooldown_flags & (1<<ability_id));
+}
+
+u8 cool_down_ability(u8 ability_id) {
+    ability_cooldown_flags |= (1<<ability_id);
+}
+
+u8 ability_ready(u8 ability_id) {
+    ability_cooldown_flags &= ~(1<<ability_id);
 }

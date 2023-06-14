@@ -632,6 +632,8 @@ void clear_dynamic_surface_references(void) {
     }
 }
 
+#include "rigid_body.h"
+
 /**
  * Update all objects. This includes script execution, object collision detection,
  * and object surface management.
@@ -654,6 +656,10 @@ void update_objects(UNUSED s32 unused) {
 
     // Update spawners and objects with surfaces
     update_terrain_objects();
+
+    for (u32 i = 0; i < NUM_RIGID_BODY_STEPS; i++) {
+        do_rigid_body_step();
+    }
 
     // If Mario was touching a moving platform at the end of last frame, apply
     // displacement now

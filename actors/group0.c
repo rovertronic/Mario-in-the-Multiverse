@@ -73,11 +73,9 @@
 #include "bigdaddyhat/model.inc.c"
 #include "bigdaddyhand/model.inc.c"
 
-<<<<<<< HEAD
+#include "phasewalk_hand/model.inc.c"
+#include "samplesphere/model.inc.c"
+
 #include "rocket_hand/model.inc.c"
 #include "rocket_button_off/model.inc.c"
 #include "rocket_button_on/model.inc.c"
-=======
-#include "phasewalk_hand/model.inc.c"
-#include "samplesphere/model.inc.c"
->>>>>>> 36f931ba2765377280966955b224ac5943788981

@@ -1919,6 +1919,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         queue_rumble_particles(gMarioState);
 #endif
 
+        gHudDisplay.abilityMeter = -1; // Reset ability meter if it's not set past this point
+
         //Aku Ability Code
         if (!using_ability(ABILITY_AKU)) {
             if (aku_invincibility != 0) {
@@ -1932,6 +1934,11 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 gMarioState->numGlobalCoins -= 10;
                 play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
                 cool_down_ability(ABILITY_AKU);
+            }
+
+            if (aku_invincibility > 0) {
+                gHudDisplay.abilityMeter = MIN((s16)((aku_invincibility / 300.0f) * 8.0f) + 1, 8);
+                gHudDisplay.abilityMeterStyle = METER_STYLE_AKU;
             }
         }
         if (aku_invincibility > 0) {
@@ -1964,14 +1971,32 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 phasewalk_state = 0;
             }
 
-            //spawn sparkles to indicate superjump
-            if (phasewalk_state == 2) {
-                struct Object *sparkleObj = spawn_object(o, MODEL_SPARKLES, bhvCoinSparkles);
-                sparkleObj->oPosX += random_float() * 50.0f - 25.0f;
-                sparkleObj->oPosY += random_float() * 100.0f;
-                sparkleObj->oPosZ += random_float() * 50.0f - 25.0f;
+            if (phasewalk_state == 0) {
+                if (phasewalk_timer == 0) {
+                    gHudDisplay.abilityMeter = 8;
+                    gHudDisplay.abilityMeterStyle = METER_STYLE_PHASEWALK;
+                }
+                else {
+                    gHudDisplay.abilityMeter = (s16)(((150 - phasewalk_timer) / 150.0f) * 8.0f);
+                    gHudDisplay.abilityMeterStyle = METER_STYLE_PHASEWALK_RECHARGE;
+                }
             }
+            else {
+                u16 phasewalk_remaining = phasewalk_timer - 150;
+                gHudDisplay.abilityMeter =  MIN((s16)((phasewalk_remaining / 90.0f) * 8.0f) + 1, 8);
+                if (phasewalk_state == 2) {
+                    //spawn sparkles to indicate superjump
+                    struct Object *sparkleObj = spawn_object(o, MODEL_SPARKLES, bhvCoinSparkles);
+                    sparkleObj->oPosX += random_float() * 50.0f - 25.0f;
+                    sparkleObj->oPosY += random_float() * 100.0f;
+                    sparkleObj->oPosZ += random_float() * 50.0f - 25.0f;
 
+                    gHudDisplay.abilityMeterStyle = METER_STYLE_PHASEWALK_SUPERJUMP;
+                }
+                else {
+                    gHudDisplay.abilityMeterStyle = METER_STYLE_PHASEWALK;
+                }
+            }
         } else {
             phasewalk_state = 0;
             if (phasewalk_timer > 140) {
@@ -2118,6 +2143,7 @@ void init_mario_from_save_file(void) {
     gMarioState->breath = 0x880;
     gHudDisplay.breath = 8;
 #endif
+    gHudDisplay.abilityMeter = -1;
     gMarioState->prevNumStarsForDialog = gMarioState->numStars;
     gMarioState->animYTrans = 0xBD;
 

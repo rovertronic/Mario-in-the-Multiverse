@@ -359,21 +359,27 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "hat/header.h"
 
-#include "hp_8/header.h"
+#include "meter_bg/header.h"
 
-#include "hp_7/header.h"
+#include "meter_8/header.h"
 
-#include "hp_6/header.h"
+#include "meter_7/header.h"
 
-#include "hp_5/header.h"
+#include "meter_6/header.h"
 
-#include "hp_4/header.h"
+#include "meter_5/header.h"
 
-#include "hp_3/header.h"
+#include "meter_4/header.h"
 
-#include "hp_2/header.h"
+#include "meter_3/header.h"
 
-#include "hp_1/header.h"
+#include "meter_2/header.h"
+
+#include "meter_1/header.h"
+
+#include "meter_hp/header.h"
+
+#include "meter_breath/header.h"
 
 #include "mario_k/geo_header.h"
 

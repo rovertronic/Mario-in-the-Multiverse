@@ -555,16 +555,16 @@ void int_to_str_000(s32 num, u8 *dst) {
     return;
 }
 
-Gfx *hp_dl_table[] = {
-    &hp_1_hp_1_mesh,
-    &hp_1_hp_1_mesh,
-    &hp_2_hp_2_mesh,
-    &hp_3_hp_3_mesh,
-    &hp_4_hp_4_mesh,
-    &hp_5_hp_5_mesh,
-    &hp_6_hp_6_mesh,
-    &hp_7_hp_7_mesh,
-    &hp_8_hp_8_mesh,
+Gfx *meter_dl_table[] = {
+    &meter_1_meter_1_mesh,
+    &meter_1_meter_1_mesh,
+    &meter_2_meter_2_mesh,
+    &meter_3_meter_3_mesh,
+    &meter_4_meter_4_mesh,
+    &meter_5_meter_5_mesh,
+    &meter_6_meter_6_mesh,
+    &meter_7_meter_7_mesh,
+    &meter_8_meter_8_mesh,
 };
 
 u8 hp_color_table[][3] = {
@@ -637,13 +637,17 @@ void render_hud(void) {
         render_ability_dpad(60,195,(u8)hud_alpha);
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hud_alpha);
 
-        create_dl_translation_matrix(MENU_MTX_PUSH, 155, 120, 0);
         gSPDisplayList(gDisplayListHead++, &hudbar_hudbar_mesh);
+
+        create_dl_translation_matrix(MENU_MTX_PUSH, 293, 185, 0);
+
+        gSPDisplayList(gDisplayListHead++, &meter_bg_meter_bg_mesh);
+        gSPDisplayList(gDisplayListHead++, &meter_hp_meter_hp_mesh);
 
         if (gHudDisplay.wedges > 0) {
             gDPSetEnvColor(gDisplayListHead++, hp_color_table[gHudDisplay.wedges][0],
             hp_color_table[gHudDisplay.wedges][1], hp_color_table[gHudDisplay.wedges][2], (u8)hud_alpha);
-            gSPDisplayList(gDisplayListHead++, hp_dl_table[gHudDisplay.wedges]);
+            gSPDisplayList(gDisplayListHead++, meter_dl_table[gHudDisplay.wedges]);
         }
 
         gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);

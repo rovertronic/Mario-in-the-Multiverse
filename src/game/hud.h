@@ -33,6 +33,13 @@ enum BreathMeterAnimation {
 };
 #endif
 
+enum AbilityMeterAnimation {
+    ABILITY_METER_HIDDEN,
+    ABILITY_METER_SHOWING,
+    ABILITY_METER_HIDING,
+    ABILITY_METER_VISIBLE
+};
+
 enum CameraHUDLUT {
     GLYPH_CAM_CAMERA,
     GLYPH_CAM_MARIO_HEAD,
@@ -40,12 +47,6 @@ enum CameraHUDLUT {
     GLYPH_CAM_FIXED,
     GLYPH_CAM_ARROW_UP,
     GLYPH_CAM_ARROW_DOWN
-};
-
-enum CustomMeters {
-    METER_HP,
-    METER_BREATH,
-    METER_COUNT
 };
 
 void set_hud_camera_status(s16 status);

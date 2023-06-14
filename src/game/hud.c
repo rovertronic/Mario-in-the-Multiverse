@@ -108,10 +108,18 @@ static s16 sBreathMeterStoredValue;
 static struct PowerMeterHUD sBreathMeterHUD = {
     BREATH_METER_HIDDEN,
     HUD_BREATH_METER_X,
-    HUD_BREATH_METER_HIDDEN_Y,
+    HUD_BREATH_METER_HIDDEN_Y, // Alpha
 };
 s32 sBreathMeterVisibleTimer = 0;
 #endif
+
+static s16 sAbilityMeterStoredValue;
+static struct PowerMeterHUD sAbilityMeterHUD = {
+    ABILITY_METER_HIDDEN,
+    METER_STYLE_GENERIC, // Meter style
+    0, // Alpha
+};
+s32 sAbilityMeterVisibleTimer = 0;
 
 static struct CameraHUD sCameraHUD = { CAM_STATUS_NONE };
 
@@ -385,6 +393,47 @@ void render_hud_breath_meter(void) {
 }
 #endif
 
+static void animate_ability_meter_sliding_in(void) {
+    approach_s16_symmetric_bool(&sAbilityMeterHUD.y, 255, 20);
+    if (sAbilityMeterHUD.y         == 255) {
+        sAbilityMeterHUD.animation = ABILITY_METER_VISIBLE;
+    }
+}
+
+static void animate_ability_meter_sliding_out(void) {
+    approach_s16_symmetric_bool(&sAbilityMeterHUD.y, 0, 20);
+    if (sAbilityMeterHUD.y         == 0) {
+        sAbilityMeterHUD.animation = ABILITY_METER_HIDDEN;
+    }
+}
+
+void handle_ability_meter_actions(s16 numAbilityWedges, s16 style) {
+    if (numAbilityWedges > -1 && sAbilityMeterHUD.animation == ABILITY_METER_HIDDEN) {
+        sAbilityMeterHUD.animation = ABILITY_METER_SHOWING;
+    }
+    if (numAbilityWedges < 0) {
+        sAbilityMeterHUD.animation = ABILITY_METER_HIDING;
+    }
+    if (sAbilityMeterHUD.animation != ABILITY_METER_HIDDEN && sAbilityMeterHUD.animation != ABILITY_METER_HIDING) {
+        
+        sAbilityMeterStoredValue = numAbilityWedges;
+        sAbilityMeterHUD.x = style;
+    }
+}
+
+void render_hud_ability_meter(void) {
+    s16 shownAbilityAmount = gHudDisplay.abilityMeter;
+    s16 shownAbilityStyle = gHudDisplay.abilityMeterStyle;
+    if (sAbilityMeterHUD.animation != ABILITY_METER_HIDING) handle_ability_meter_actions(shownAbilityAmount, shownAbilityStyle);
+    if (sAbilityMeterHUD.animation == ABILITY_METER_HIDDEN) return;
+    switch (sAbilityMeterHUD.animation) {
+        case ABILITY_METER_SHOWING:       animate_ability_meter_sliding_in();  break;
+        case ABILITY_METER_HIDING:        animate_ability_meter_sliding_out(); break;
+        default:                                                             break;
+    }
+    sAbilityMeterVisibleTimer++;
+}
+
 
 /**
  * Renders the amount of lives Mario has.
@@ -566,7 +615,17 @@ Gfx *meter_wedges_dl_table[] = {
     &meter_8_meter_8_mesh,
 };
 
-u8 meter_color_table[METER_COUNT][9][3] = {
+u8 meter_style_color_table[METER_STYLE_COUNT][9][3] = {
+    {   // Generic
+        {255, 0, 0},     // 1
+        {255, 0, 0},     // 2
+        {255, 50, 0},    // 3
+        {255, 255, 0},   // 4
+        {255, 255, 0},   // 5
+        {0, 255, 0},     // 6
+        {0, 255, 0},     // 7
+        {0, 200, 255},   // 8
+    },
     {   // HP
         {255, 0, 0},     // 1
         {255, 0, 0},     // 2
@@ -575,7 +634,7 @@ u8 meter_color_table[METER_COUNT][9][3] = {
         {255, 255, 0},   // 5
         {0, 255, 0},     // 6
         {0, 255, 0},     // 7
-        {0, 200, 255}, // 8
+        {0, 200, 255},   // 8
     },
     {   // Breath
         {255, 0, 0},     // 1
@@ -585,25 +644,73 @@ u8 meter_color_table[METER_COUNT][9][3] = {
         {255, 255, 0},   // 5
         {0, 255, 0},     // 6
         {0, 255, 0},     // 7
-        {0, 200, 255}, // 8
+        {0, 200, 255},   // 8
+    },
+    {   // Aku Aku Mask
+        {255, 255, 0},   // 1
+        {255, 255, 0},   // 2
+        {255, 255, 0},   // 3
+        {255, 255, 0},   // 4
+        {255, 255, 0},   // 5
+        {255, 255, 0},   // 6
+        {255, 255, 0},   // 7
+        {255, 255, 0},   // 8
+    },
+    {   // Phasewalk
+        {0, 200, 255},   // 1
+        {0, 200, 255},   // 2
+        {0, 200, 255},   // 3
+        {0, 200, 255},   // 4
+        {0, 200, 255},   // 5
+        {0, 200, 255},   // 6
+        {0, 200, 255},   // 7
+        {0, 200, 255},   // 8
+    },
+    {   // Phasewalk (Superjump)
+        {255, 255, 0},   // 1
+        {255, 255, 0},   // 2
+        {255, 255, 0},   // 3
+        {255, 255, 0},   // 4
+        {255, 255, 0},   // 5
+        {255, 255, 0},   // 6
+        {255, 255, 0},   // 7
+        {255, 255, 0},   // 8
+    },
+    {   // Phasewalk (Recharge)
+        {0, 100, 127},   // 1
+        {0, 100, 127},   // 2
+        {0, 100, 127},   // 3
+        {0, 100, 127},   // 4
+        {0, 100, 127},   // 5
+        {0, 100, 127},   // 6
+        {0, 100, 127},   // 7
+        {0, 100, 127},   // 8
     },
 };
 
-Gfx *meter_icon_dl_table[] = {
+Gfx *meter_style_icon_dl_table[] = {
+    NULL,
     &meter_hp_meter_hp_mesh,
-    &meter_breath_meter_breath_mesh
+    &meter_breath_meter_breath_mesh,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
 };
 
-void render_meter(f32 x, f32 y, s32 meter, s16 wedges, u8 a) {
+void render_meter(f32 x, f32 y, s32 meterStyle, s16 wedges, u8 a) {
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, a);
     create_dl_translation_matrix(MENU_MTX_PUSH, x, y, 0);
 
     gSPDisplayList(gDisplayListHead++, &meter_bg_meter_bg_mesh);
-    gSPDisplayList(gDisplayListHead++, meter_icon_dl_table[meter]);
+
+    if (meter_style_icon_dl_table[meterStyle] != NULL) {
+        gSPDisplayList(gDisplayListHead++, meter_style_icon_dl_table[meterStyle]);
+    }
 
     if (wedges > 0) {
-        gDPSetEnvColor(gDisplayListHead++, meter_color_table[meter][wedges - 1][0],
-        meter_color_table[meter][wedges - 1][1], meter_color_table[meter][wedges - 1][2], a);
+        gDPSetEnvColor(gDisplayListHead++, meter_style_color_table[meterStyle][wedges - 1][0],
+        meter_style_color_table[meterStyle][wedges - 1][1], meter_style_color_table[meterStyle][wedges - 1][2], a);
         gSPDisplayList(gDisplayListHead++, meter_wedges_dl_table[wedges]);
     }
 
@@ -669,14 +776,21 @@ void render_hud(void) {
 
         gSPDisplayList(gDisplayListHead++, &hudbar_hudbar_mesh);
 
-        render_meter(293, 185, METER_HP, gHudDisplay.wedges, (u8)hud_alpha);
+        render_meter(293, 185, METER_STYLE_HP, gHudDisplay.wedges, (u8)hud_alpha);
 
 #ifdef BREATH_METER
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_BREATH_METER) {
             render_hud_breath_meter();
-            render_meter(293, 145, METER_BREATH, gHudDisplay.breath, (u8)hud_alpha * (sBreathMeterHUD.y / 255.0f));
+            if (sBreathMeterHUD.y > 0) {
+                render_meter(293, 145, METER_STYLE_BREATH, gHudDisplay.breath, (u8)hud_alpha * (sBreathMeterHUD.y / 255.0f));
+            }
         }
 #endif
+
+        render_hud_ability_meter();
+        if (sAbilityMeterHUD.y > 0) {
+            render_meter(253, 185, sAbilityMeterHUD.x, sAbilityMeterStoredValue, (u8)hud_alpha * (sAbilityMeterHUD.y / 255.0f));
+        }
 
         gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
 

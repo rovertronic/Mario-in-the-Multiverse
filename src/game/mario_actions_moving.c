@@ -1892,6 +1892,9 @@ s32 common_landing_cancels(struct MarioState *m, struct LandingAction *landingAc
     }
 
     if (m->input & INPUT_A_PRESSED) {
+        if (!mario_floor_is_slippery(m)) {
+            m->abilityChronosCanSlash = TRUE;
+        }
         return setAPressAction(m, landingAction->aPressedAction, 0);
     }
 

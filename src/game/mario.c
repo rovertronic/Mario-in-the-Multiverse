@@ -40,6 +40,8 @@ s16 check_water_height = -10000;
 Bool8 have_splashed;
 Bool8 bd_submerged;
 
+u8 lastAbility = ABILITY_DEFAULT;
+
 /**************************************************
  *                    ANIMATIONS                  *
  **************************************************/
@@ -2012,6 +2014,11 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 gMarioState->pos[1] -= 90.0f;
                 gMarioObject->oPosY -= 90.0f;
             }
+        }
+
+        if (lastAbility != gMarioState->abilityId) {
+            gHudDisplay.abilityMeter = -1;
+            lastAbility = gMarioState->abilityId;
         }
 
         return gMarioState->particleFlags;

@@ -89,7 +89,7 @@ void shock_rocket_move(void){
     //collision
     obj_attack_collided_from_other_object(o);
     cur_obj_update_floor_and_walls();
-    cur_obj_play_sound_1(SOUND_AIR_BOBOMB_LIT_FUSE);
+    play_sound(SOUND_AIR_BOBOMB_LIT_FUSE, gGlobalSoundSource);
 
     //control and moving
     shock_rocket_stick_control();
@@ -137,15 +137,15 @@ void shock_rocket_wait_before_quitting(){
 
 void bhv_shock_rocket_loop(void) {
     switch(o->oAction){
-        case 0:
+        case SHOCK_ROCKET_ACT_ARMED:
         shock_rocket_armed();
         break;
 
-        case 1:
+        case SHOCK_ROCKET_ACT_MOVE:
         shock_rocket_move();
         break;
 
-        case 2:
+        case SHOCK_ROCKET_ACT_WAIT_BEFORE_QUITING:
         shock_rocket_wait_before_quitting();
         break;
     }
@@ -168,6 +168,7 @@ void rocket_button_off() {
 }
 
 void rocket_button_on() {
+    s32 buttonToggleGroupSucceded = 0;
     if(o->oTimer == 0){
         obj_set_model(o, MODEL_ROCKET_BUTTON_ON);
         play_sound(SOUND_GENERAL2_PURPLE_SWITCH, gGlobalSoundSource);
@@ -176,14 +177,17 @@ void rocket_button_on() {
     if(o->oTimer > DELAY){
     //if Bparam 2 is set, represent a timer for the button to stay on, after what it goes off again
         if(o->oBehParams2ndByte != 0){
-            if ((o->oBehParams2ndByte * 5) - o->oTimer <  90) {
-                play_sound(SOUND_GENERAL2_SWITCH_TICK_SLOW, gGlobalSoundSource);
-            } else {
-                play_sound(SOUND_GENERAL2_SWITCH_TICK_FAST, gGlobalSoundSource);
+            buttonToggleGroupSucceded = count_objects_with_behavior_bparam1_action(bhvRocketButtonGroup, o->oBehParams >> 24, 1);
+            if(!buttonToggleGroupSucceded){
+                if ((o->oBehParams2ndByte * 5) - o->oTimer <  90) {
+                    play_sound(SOUND_GENERAL2_SWITCH_TICK_SLOW, gGlobalSoundSource);
+                } else {
+                    play_sound(SOUND_GENERAL2_SWITCH_TICK_FAST, gGlobalSoundSource);
+                }
             }
 
             // time over
-            if (o->oTimer > o->oBehParams2ndByte * 5 ) {
+            if (o->oTimer > o->oBehParams2ndByte * 5 && !buttonToggleGroupSucceded){
                 o->oAction--;
             }
         }
@@ -192,16 +196,25 @@ void rocket_button_on() {
 }
 void bhv_rocket_button_loop(void) {
     switch(o->oAction){
-        case 0:
+        case ROCKET_BUTTON_ACT_OFF:
         rocket_button_off();
         break;
 
-        case 1:
+        case ROCKET_BUTTON_ACT_ON:
         rocket_button_on();
         break;
     }
 
     o->oInteractStatus = INT_STATUS_NONE;
+}
+
+void bhv_rocket_button_group_loop(void){
+    if(o->oAction == ROCKET_BUTTON_GROUP_WAITING && 
+        count_objects_with_behavior_bparam1_action(bhvRocketButton, o->oBehParams >> 24, ROCKET_BUTTON_ACT_OFF) == 0){
+        if(o->oBehParams2ndByte == 0)
+            play_puzzle_jingle();
+        o->oAction = ROCKET_BUTTON_GROUP_SUCCESSFUL;
+    }
 }
 
 

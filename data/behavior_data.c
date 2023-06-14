@@ -6192,6 +6192,13 @@ const BehaviorScript bhvRocketButton[] = {
         CALL_NATIVE(bhv_rocket_button_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvRocketButtonGroup[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rocket_button_group_loop),
+    END_LOOP(),
+};
 /* GROUP I END */
 
 /* GROUP J START */

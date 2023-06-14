@@ -2675,17 +2675,23 @@ void mode_shock_rocket_camera(struct Camera *c) {
     s16 yaw = rocket->oMoveAngleYaw;
     s16 pitch = rocket->oMoveAnglePitch;
     f32 cossPitch = coss(pitch);
-    Vec3f offset = {
-        (sins(yaw) * cossPitch) * (rocket->oForwardVel - 100),
-        (sins(pitch)) * (rocket->oForwardVel + 100),
-        (coss(yaw) * cossPitch) * (rocket->oForwardVel - 100)
+    u32 camDecrement;
+    if(rocket->oAction != 1){
+        camDecrement = 150;
+    } else {
+        camDecrement = 100;
+    }
+    Vec3f camOffset = {
+        (sins(yaw) * cossPitch) * (rocket->oForwardVel - camDecrement),
+        (sins(pitch)) * (rocket->oForwardVel + camDecrement),
+        (coss(yaw) * cossPitch) * (rocket->oForwardVel - camDecrement)
     };
     Vec3f newPos;
 
     vec3f_copy(c->focus, &rocket->oPosX);
 
     vec3f_copy(newPos, c->focus);
-    vec3f_add(newPos, offset);
+    vec3f_add(newPos, camOffset);
     vec3f_copy(c->pos, newPos);
 
 }
@@ -2886,7 +2892,7 @@ void update_lakitu(struct Camera *c) {
                                      gLakituState.pos[1] + 20.0f,
                                      gLakituState.pos[2], &floor);
             if (distToFloor != FLOOR_LOWER_LIMIT) {
-                if (gLakituState.pos[1] < (distToFloor += 100.0f)) {
+                if (gLakituState.pos[1] < (distToFloor += 100.0f) && count_objects_with_behavior(bhvShockRocket) == 0) {
                     gLakituState.pos[1] = distToFloor;
                 } else {
                     gCollisionFlags &= ~COLLISION_FLAG_CAMERA;

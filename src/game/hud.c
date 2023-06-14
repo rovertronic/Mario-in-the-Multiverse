@@ -30,8 +30,8 @@
 
 #ifdef BREATH_METER
 #define HUD_BREATH_METER_X         40
-#define HUD_BREATH_METER_Y         32
-#define HUD_BREATH_METER_HIDDEN_Y -20
+#define HUD_BREATH_METER_Y         255 // This is used for alpha instead of y position.
+#define HUD_BREATH_METER_HIDDEN_Y  0
 #endif
 
 // ------------- FPS COUNTER ---------------
@@ -331,7 +331,7 @@ void render_dl_breath_meter(s16 numBreathWedges) {
  * Moves breath meter y pos speed until it's visible.
  */
 static void animate_breath_meter_sliding_in(void) {
-    approach_s16_symmetric_bool(&sBreathMeterHUD.y, HUD_BREATH_METER_Y, 5);
+    approach_s16_symmetric_bool(&sBreathMeterHUD.y, HUD_BREATH_METER_Y, 20);
     if (sBreathMeterHUD.y         == HUD_BREATH_METER_Y) {
         sBreathMeterHUD.animation = BREATH_METER_VISIBLE;
     }
@@ -381,7 +381,6 @@ void render_hud_breath_meter(void) {
         case BREATH_METER_HIDING:        animate_breath_meter_sliding_out(); break;
         default:                                                             break;
     }
-    render_dl_breath_meter(shownBreathAmount);
     sBreathMeterVisibleTimer++;
 }
 #endif
@@ -555,7 +554,7 @@ void int_to_str_000(s32 num, u8 *dst) {
     return;
 }
 
-Gfx *meter_dl_table[] = {
+Gfx *meter_wedges_dl_table[] = {
     &meter_1_meter_1_mesh,
     &meter_1_meter_1_mesh,
     &meter_2_meter_2_mesh,
@@ -567,18 +566,49 @@ Gfx *meter_dl_table[] = {
     &meter_8_meter_8_mesh,
 };
 
-u8 hp_color_table[][3] = {
-    {255,0,0},
-    {255,0,0},//1
-    {255,0,0},//2
-    {255,50,0},//3
-    {255,255,0},//4
-    {255,255,0},//5
-    {0,255,0},//6
-    {0,255,0},//7
-    {0,200,255},//8
+u8 meter_color_table[METER_COUNT][9][3] = {
+    {   // HP
+        {255, 0, 0},     // 1
+        {255, 0, 0},     // 2
+        {255, 50, 0},    // 3
+        {255, 255, 0},   // 4
+        {255, 255, 0},   // 5
+        {0, 255, 0},     // 6
+        {0, 255, 0},     // 7
+        {0, 200, 255}, // 8
+    },
+    {   // Breath
+        {255, 0, 0},     // 1
+        {255, 0, 0},     // 2
+        {255, 50, 0},    // 3
+        {255, 255, 0},   // 4
+        {255, 255, 0},   // 5
+        {0, 255, 0},     // 6
+        {0, 255, 0},     // 7
+        {0, 200, 255}, // 8
+    },
 };
 
+Gfx *meter_icon_dl_table[] = {
+    &meter_hp_meter_hp_mesh,
+    &meter_breath_meter_breath_mesh
+};
+
+void render_meter(f32 x, f32 y, s32 meter, s16 wedges, u8 a) {
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, a);
+    create_dl_translation_matrix(MENU_MTX_PUSH, x, y, 0);
+
+    gSPDisplayList(gDisplayListHead++, &meter_bg_meter_bg_mesh);
+    gSPDisplayList(gDisplayListHead++, meter_icon_dl_table[meter]);
+
+    if (wedges > 0) {
+        gDPSetEnvColor(gDisplayListHead++, meter_color_table[meter][wedges - 1][0],
+        meter_color_table[meter][wedges - 1][1], meter_color_table[meter][wedges - 1][2], a);
+        gSPDisplayList(gDisplayListHead++, meter_wedges_dl_table[wedges]);
+    }
+
+    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+}
 
 u16 hud_display_coins = 0;
 f32 hud_alpha = 255.0f;
@@ -639,18 +669,14 @@ void render_hud(void) {
 
         gSPDisplayList(gDisplayListHead++, &hudbar_hudbar_mesh);
 
-        create_dl_translation_matrix(MENU_MTX_PUSH, 293, 185, 0);
+        render_meter(293, 185, METER_HP, gHudDisplay.wedges, (u8)hud_alpha);
 
-        gSPDisplayList(gDisplayListHead++, &meter_bg_meter_bg_mesh);
-        gSPDisplayList(gDisplayListHead++, &meter_hp_meter_hp_mesh);
-
-        if (gHudDisplay.wedges > 0) {
-            gDPSetEnvColor(gDisplayListHead++, hp_color_table[gHudDisplay.wedges][0],
-            hp_color_table[gHudDisplay.wedges][1], hp_color_table[gHudDisplay.wedges][2], (u8)hud_alpha);
-            gSPDisplayList(gDisplayListHead++, meter_dl_table[gHudDisplay.wedges]);
+#ifdef BREATH_METER
+        if (hudDisplayFlags & HUD_DISPLAY_FLAG_BREATH_METER) {
+            render_hud_breath_meter();
+            render_meter(293, 145, METER_BREATH, gHudDisplay.breath, (u8)hud_alpha * (sBreathMeterHUD.y / 255.0f));
         }
-
-        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+#endif
 
         gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
 
@@ -675,10 +701,6 @@ void render_hud(void) {
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_LIVES) {
             render_hud_mario_lives();
         }
-#endif
-
-#ifdef BREATH_METER
-        if (hudDisplayFlags & HUD_DISPLAY_FLAG_BREATH_METER) render_hud_breath_meter();
 #endif
 
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_CAMERA_AND_POWER) {

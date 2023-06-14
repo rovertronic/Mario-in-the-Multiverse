@@ -515,19 +515,17 @@ u8 meter_3_hp_circle_ia8[] = {
 	
 };
 
-Vtx meter_3_meter_3_mesh_vtx_0[5] = {
-	{{ {-15, 0, 0}, 0, {-16, 1008}, {0, 0, 127, 255} }},
-	{{ {0, 15, 0}, 0, {1008, -16}, {0, 0, 127, 255} }},
+Vtx meter_3_meter_3_mesh_vtx_0[4] = {
 	{{ {-15, 15, 0}, 0, {-16, -16}, {0, 0, 127, 255} }},
 	{{ {0, 0, 0}, 0, {1008, 1008}, {0, 0, 127, 255} }},
+	{{ {0, 15, 0}, 0, {1008, -16}, {0, 0, 127, 255} }},
 	{{ {-15, -15, 0}, 0, {-16, 2032}, {0, 0, 127, 255} }},
 };
 
 Gfx meter_3_meter_3_mesh_tri_0[] = {
-	gsSPVertex(meter_3_meter_3_mesh_vtx_0 + 0, 5, 0),
+	gsSPVertex(meter_3_meter_3_mesh_vtx_0 + 0, 4, 0),
 	gsSP1Triangle(0, 1, 2, 0),
-	gsSP1Triangle(0, 3, 1, 0),
-	gsSP1Triangle(3, 0, 4, 0),
+	gsSP1Triangle(1, 0, 3, 0),
 	gsSPEndDisplayList(),
 };
 

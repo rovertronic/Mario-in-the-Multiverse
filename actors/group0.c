@@ -55,6 +55,7 @@
 #include "meter_2/model.inc.c"
 #include "meter_1/model.inc.c"
 #include "meter_hp/model.inc.c"
+#include "meter_breath/model.inc.c"
 #include "ability_d_mask/model.inc.c"
 #include "cutter_blade/model.inc.c"
 #include "cutter_hand/model.inc.c"

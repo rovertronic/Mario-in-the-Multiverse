@@ -42,6 +42,12 @@ enum CameraHUDLUT {
     GLYPH_CAM_ARROW_DOWN
 };
 
+enum CustomMeters {
+    METER_HP,
+    METER_BREATH,
+    METER_COUNT
+};
+
 void set_hud_camera_status(s16 status);
 void render_hud(void);
 

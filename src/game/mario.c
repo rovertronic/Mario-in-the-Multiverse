@@ -2146,8 +2146,6 @@ void init_mario(void) {
         capObject->oForwardVel = 0;
         capObject->oMoveAngleYaw = 0;
     }
-
-    chronos_timer = 360;
 }
 
 void init_mario_from_save_file(void) {

@@ -360,6 +360,7 @@ void init_mario_after_warp(void) {
         if (sWarpDest.type == WARP_TYPE_CHANGE_LEVEL || sWarpDest.type == WARP_TYPE_CHANGE_AREA) {
             gPlayerSpawnInfos[0].areaIndex = sWarpDest.areaIdx;
             load_mario_area();
+            chronos_timer = 360;
         }
 
         init_mario();

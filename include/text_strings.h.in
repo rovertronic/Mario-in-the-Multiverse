@@ -37,7 +37,7 @@
 #define TEXT_ABILITY_I          _("Shock Rocket: A guided exploding rocket.\nPress [L] while static to aim, then [B] to fire.\nOnce launched, guide it with the analog stick.")
 #define TEXT_ABILITY_J          _("HM Fly: Call upon your Pokemon pal to soar\nhigh into the sky.\nPress [A] while in the air to begin flying.")
 #define TEXT_ABILITY_K          _("K")
-#define TEXT_ABILITY_L          _("L")
+#define TEXT_ABILITY_L          _("Pizza Knight: A heavy suit of knight armor.\nLimits Mario's move set, but lets him slide off\nslopes to break metal blocks and double jump.")
 #define TEXT_ABILITY_M          _("M")
 #define TEXT_ABILITY_N          _("Hamster Ball: A hollow ball that Mario can\nenter. Use the analog stick to roll around\nwith sphere physics!")
 #define TEXT_ABILITY_O          _("Esteemed Mortal: A walker slaying saw-axe.\nReplaces your dive with an axe jump.\nHold [B] to hop and hold [A] to jump higher.")

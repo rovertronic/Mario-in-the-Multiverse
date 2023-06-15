@@ -814,21 +814,14 @@ static BhvCommandProc BehaviorCmdTable[] = {
     /*BHV_CMD_SPAWN_WATER_DROPLET   */ bhv_cmd_spawn_water_droplet,
 };
 
-// Execute the behavior script of the current object, process the object flags, and other miscellaneous code for updating objects.
-void cur_obj_update(void) {
+// Handle visibility of object
+void cur_obj_handle_visibility(void) {
     u32 objFlags = o->oFlags;
     f32 distanceFromMario;
     f32 distanceFromRocket;
     f32 distanceClosest;
-    BhvCommandProc bhvCmdProc;
-    s32 bhvProcResult;
 
     s32 inRoom = cur_obj_is_mario_in_room();
-
-    if (inRoom == MARIO_OUTSIDE_ROOM && (objFlags & OBJ_FLAG_ONLY_PROCESS_INSIDE_ROOM)) {
-        cur_obj_disable_rendering_in_room();
-        return;
-    }
 
     // Calculate the distance from the object to Mario.
     if (objFlags & OBJ_FLAG_COMPUTE_DIST_TO_MARIO) {
@@ -851,6 +844,53 @@ void cur_obj_update(void) {
         distanceClosest = distanceFromRocket;
     } else {
         distanceClosest = distanceFromMario;
+    }
+
+    if (o->oRoom != -1) {
+        // If the object is in a room, only show it when Mario is in the room.
+        if (
+            (objFlags & OBJ_FLAG_ACTIVE_FROM_AFAR)
+            || distanceClosest < o->oDrawingDistance
+        ) {
+            if (inRoom == MARIO_OUTSIDE_ROOM) {
+                cur_obj_disable_rendering_in_room();
+            } else if (inRoom == MARIO_INSIDE_ROOM) {
+                cur_obj_enable_rendering_in_room();
+            }
+            o->activeFlags &= ~ACTIVE_FLAG_FAR_AWAY;
+        } else {
+            o->header.gfx.node.flags &= ~GRAPH_RENDER_ACTIVE;
+            o->activeFlags |= ACTIVE_FLAG_FAR_AWAY;
+        }
+    } else if (
+        o->collisionData == NULL
+        &&  (objFlags & OBJ_FLAG_COMPUTE_DIST_TO_MARIO)
+        && !(objFlags & OBJ_FLAG_ACTIVE_FROM_AFAR)
+    ) {
+        // If the object has a render distance, check if it should be shown.
+        if (distanceClosest > o->oDrawingDistance) {
+            // Out of render distance, hide the object.
+            o->header.gfx.node.flags &= ~GRAPH_RENDER_ACTIVE;
+            o->activeFlags |= ACTIVE_FLAG_FAR_AWAY;
+        } else if (o->oHeldState == HELD_FREE) {
+            // In render distance (and not being held), show the object.
+            o->header.gfx.node.flags |= GRAPH_RENDER_ACTIVE;
+            o->activeFlags &= ~ACTIVE_FLAG_FAR_AWAY;
+        }
+    }
+}
+
+// Execute the behavior script of the current object, process the object flags, and other miscellaneous code for updating objects.
+void cur_obj_update(void) {
+    u32 objFlags = o->oFlags;
+    BhvCommandProc bhvCmdProc;
+    s32 bhvProcResult;
+
+    s32 inRoom = cur_obj_is_mario_in_room();
+
+    if (cur_obj_is_mario_in_room() == MARIO_OUTSIDE_ROOM && (objFlags & OBJ_FLAG_ONLY_PROCESS_INSIDE_ROOM)) {
+        cur_obj_disable_rendering_in_room();
+        return;
     }
 
     // Calculate the angle from the object to Mario.
@@ -946,37 +986,5 @@ void cur_obj_update(void) {
     puppylights_object_emit(o);
 #endif
 
-    // Handle visibility of object
-    if (o->oRoom != -1) {
-        // If the object is in a room, only show it when Mario is in the room.
-        if (
-            (objFlags & OBJ_FLAG_ACTIVE_FROM_AFAR)
-            || distanceClosest < o->oDrawingDistance
-        ) {
-            if (inRoom == MARIO_OUTSIDE_ROOM) {
-                cur_obj_disable_rendering_in_room();
-            } else if (inRoom == MARIO_INSIDE_ROOM) {
-                cur_obj_enable_rendering_in_room();
-            }
-            o->activeFlags &= ~ACTIVE_FLAG_FAR_AWAY;
-        } else {
-            o->header.gfx.node.flags &= ~GRAPH_RENDER_ACTIVE;
-            o->activeFlags |= ACTIVE_FLAG_FAR_AWAY;
-        }
-    } else if (
-        o->collisionData == NULL
-        &&  (objFlags & OBJ_FLAG_COMPUTE_DIST_TO_MARIO)
-        && !(objFlags & OBJ_FLAG_ACTIVE_FROM_AFAR)
-    ) {
-        // If the object has a render distance, check if it should be shown.
-        if (distanceClosest > o->oDrawingDistance) {
-            // Out of render distance, hide the object.
-            o->header.gfx.node.flags &= ~GRAPH_RENDER_ACTIVE;
-            o->activeFlags |= ACTIVE_FLAG_FAR_AWAY;
-        } else if (o->oHeldState == HELD_FREE) {
-            // In render distance (and not being held), show the object.
-            o->header.gfx.node.flags |= GRAPH_RENDER_ACTIVE;
-            o->activeFlags &= ~ACTIVE_FLAG_FAR_AWAY;
-        }
-    }
+    cur_obj_handle_visibility();
 }

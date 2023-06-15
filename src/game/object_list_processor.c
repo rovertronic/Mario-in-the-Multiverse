@@ -308,6 +308,12 @@ s32 update_objects_starting_at(struct ObjectNode *objList, struct ObjectNode *fi
             if (gCurrentObject->collisionData != NULL && gCurrentObject->abilityChronosUpdatedCollisionLastFrame) {
                 load_object_collision_model();
             }
+            if (gCurrentObject->oInteractType == INTERACT_DOOR) {
+                bhv_door_rendering_loop();
+            }
+            else {
+                cur_obj_handle_visibility();
+            }
         }
 
         firstObj = firstObj->next;

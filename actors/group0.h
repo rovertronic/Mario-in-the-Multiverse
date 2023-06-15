@@ -417,4 +417,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "rocket_button_on/geo_header.h"
 
+#include "knight_mario/geo_header.h"
+
 #endif

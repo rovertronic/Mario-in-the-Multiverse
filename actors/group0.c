@@ -79,3 +79,5 @@
 #include "rocket_hand/model.inc.c"
 #include "rocket_button_off/model.inc.c"
 #include "rocket_button_on/model.inc.c"
+
+#include "knight_mario/model.inc.c"

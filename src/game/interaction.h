@@ -95,6 +95,7 @@ enum InteractStatus {
     // Object Interaction Status
     INT_STATUS_TOUCHED_MARIO        = (1 <<  0), /* 0x00000001 */
     INT_STATUS_GRABBED_MARIO        = (1 << 11), /* 0x00000800 */
+    INT_STATUS_CHRONOS_SLASHED      = (1 << 12), /* 0x00001000 */
     INT_STATUS_ATTACKED_MARIO       = (1 << 13), /* 0x00002000 */
     INT_STATUS_WAS_ATTACKED         = (1 << 14), /* 0x00004000 */
     INT_STATUS_INTERACTED           = (1 << 15), /* 0x00008000 */

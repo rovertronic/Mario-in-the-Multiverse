@@ -281,6 +281,11 @@ u32 attack_object(struct Object *obj, s32 interaction) {
     }
 
     obj->oInteractStatus = attackType + (INT_STATUS_INTERACTED | INT_STATUS_WAS_ATTACKED);
+
+    if (interaction == INT_SLASH) {
+        obj->oInteractStatus |= INT_STATUS_CHRONOS_SLASHED;
+    }
+
     return attackType;
 }
 

@@ -450,7 +450,7 @@ s32 act_jump(struct MarioState *m) {
         return set_mario_action(m, ACT_HM_FLY, 0);
     }
 
-    if (using_ability(ABILITY_BUBBLE_HAT) && m->input & INPUT_B_PRESSED) {
+    if (using_ability(ABILITY_BUBBLE_HAT) && m->input & INPUT_A_PRESSED) {
         return set_mario_action(m, ACT_BUBBLE_HAT_JUMP, 0);
         return 0;
     }
@@ -2182,16 +2182,19 @@ m->actionState = 1;
 }
     
     if (m->actionTimer == 0) {
-        m->vel[1] = 70.0;
-        set_mario_animation(m, MARIO_ANIM_DOUBLE_JUMP_RISE);
+        if (m->vel[1] > 40.0f) {
+            m->vel[1] = 70.0;
+            set_mario_animation(m, MARIO_ANIM_DOUBLE_JUMP_FALL);            
+        }
+
        // return 0;
 
        // m->actionState++;
     }
 
-    if (m->actionTimer >= 30) {
+    if (m->actionTimer >= 5) {
         return set_mario_action(m, ACT_FREEFALL, 0);
-        set_mario_animation(m, MARIO_ANIM_DOUBLE_JUMP_FALL);
+        set_mario_animation(m, MARIO_ANIM_DOUBLE_JUMP_RISE);
     }
 
     update_air_without_turn(m);

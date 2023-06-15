@@ -191,6 +191,7 @@ s32 mario_update_punch_sequence(struct MarioState *m) {
                 }
                 play_sound(slashSoundBits, m->marioObj->header.gfx.cameraToObject);
                 m->forwardVel = 60.0f * (m->intendedMag / 32.0f);
+                spawn_object_relative(3, 0, 50, 0, m->marioObj, MODEL_SLASH_PARTICLE, bhvSlashParticle);
             }
 
             m->flags |= MARIO_PUNCHING;

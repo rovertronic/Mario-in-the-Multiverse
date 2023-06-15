@@ -601,4 +601,4 @@ extern const BehaviorScript bhvPhysicsMarble[];
 
 
 extern const BehaviorScript bhvCutterBlast[];
-extern const BehaviorScript bhvCutterParticleSlash[];
+extern const BehaviorScript bhvSlashParticle[];

@@ -685,7 +685,7 @@ static void obj_act_stun_knockback() {
         o->oTimer = 0;
         o->oForwardVel = 15.0f;
 
-        spawn_object_relative(gMarioState->actionArg, sins(o->oFaceAngleYaw) * 50, 50, coss(o->oFaceAngleYaw) * 50, o, MODEL_CUTTER_PARTICLE_SLASH, bhvCutterParticleSlash);
+        spawn_object_relative(gMarioState->actionArg, sins(o->oFaceAngleYaw) * 50, 50, coss(o->oFaceAngleYaw) * 50, o, MODEL_SLASH_PARTICLE, bhvSlashParticle);
     }
 
     //final down slash

@@ -121,7 +121,7 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_MARIO_K,                 mario_k_geo),
     LOAD_MODEL_FROM_GEO(MODEL_CUTTER_BLADE,            cutter_blade_geo),
     LOAD_MODEL_FROM_GEO(MODEL_CUTTER_BLAST,            cutter_blast_geo),
-    LOAD_MODEL_FROM_GEO(MODEL_CUTTER_PARTICLE_SLASH,            cutter_particle_slash_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SLASH_PARTICLE,          cutter_particle_slash_geo),
     LOAD_MODEL_FROM_GEO(MODEL_DRAGONITE,               dragonite_geo),
     LOAD_MODEL_FROM_GEO(MODEL_NITRO_BOX,               nitro_geo),
     LOAD_MODEL_FROM_GEO(MODEL_MARBLE,                  samplesphere_geo),

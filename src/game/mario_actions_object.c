@@ -237,7 +237,10 @@ s32 act_punching(struct MarioState *m) {
         perform_air_step(m, 0);
     }
     else {
-        perform_ground_step(m);
+        s32 step = perform_ground_step(m);
+        if (step == GROUND_STEP_LEFT_GROUND && m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH) {
+            m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR;
+        }
     }
     return FALSE;
 }
@@ -527,8 +530,14 @@ s32 mario_execute_object_action(struct MarioState *m) {
         return TRUE;
     }
 
-    if (mario_update_quicksand(m, 0.5f)) {
-        return TRUE;
+    if (!(
+        m->action == ACT_PUNCHING && 
+        (m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH ||
+        m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR)
+    )) {
+        if (mario_update_quicksand(m, 0.5f)) {
+            return TRUE;
+        }
     }
 
     /* clang-format off */

@@ -895,6 +895,9 @@ s32 act_move_punching(struct MarioState *m) {
                 if (m->actionArg != ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH) {
                     set_mario_action(m, ACT_FREEFALL, 0);
                 }
+                else {
+                    m->actionArg = ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR;
+                }
                 break;
 
             case GROUND_STEP_NONE:
@@ -2096,8 +2099,14 @@ s32 mario_execute_moving_action(struct MarioState *m) {
         return TRUE;
     }
 
-    if (mario_update_quicksand(m, 0.25f)) {
-        return TRUE;
+    if (!(
+        m->action == ACT_MOVE_PUNCHING && 
+        (m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH ||
+        m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR)
+    )) {
+        if (mario_update_quicksand(m, 0.25f)) {
+            return TRUE;
+        }
     }
 
     /* clang-format off */

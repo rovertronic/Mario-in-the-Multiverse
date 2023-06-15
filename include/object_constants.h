@@ -2681,6 +2681,22 @@ enum animIDsFirePiranhaPlant {
     #define WF_ATTACK_GROUND                                0x1
     #define WF_ATTACK_AIR                                   0x2
 
+/* Shock Rocket */
+    /* oAction */
+    #define SHOCK_ROCKET_ACT_ARMED                          0x0
+    #define SHOCK_ROCKET_ACT_MOVE                           0x1
+    #define SHOCK_ROCKET_ACT_WAIT_BEFORE_QUITING            0x2
+
+/* Rocket Button*/
+    /* oAction */
+    #define ROCKET_BUTTON_ACT_OFF                           0x0
+    #define ROCKET_BUTTON_ACT_ON                            0x1
+
+/* Rocket Button Group*/
+    /* oAction */
+    #define ROCKET_BUTTON_GROUP_WAITING                     0x0
+    #define ROCKET_BUTTON_GROUP_SUCCESSFUL                  0x1
+
 /* White Puff Explosion */
     /* oBehParams2ndByte */
     #define WHITE_PUFF_EXPLODE_BP_FAST_FADE                 0x2

@@ -76,3 +76,7 @@
 
 #include "phasewalk_hand/model.inc.c"
 #include "samplesphere/model.inc.c"
+
+#include "rocket_hand/model.inc.c"
+#include "rocket_button_off/model.inc.c"
+#include "rocket_button_on/model.inc.c"

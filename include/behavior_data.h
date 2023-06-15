@@ -571,6 +571,10 @@ extern const BehaviorScript bhvCutterBlade[];
 /* GROUP H END */
 
 /* GROUP I START */
+extern const BehaviorScript bhvShockRocket[];
+extern const BehaviorScript bhvRocketSmoke[];
+extern const BehaviorScript bhvRocketButton[];
+extern const BehaviorScript bhvRocketButtonGroup[];
 /* GROUP I END */
 
 /* GROUP J START */

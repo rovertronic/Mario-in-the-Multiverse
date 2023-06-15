@@ -34,7 +34,7 @@
 #define TEXT_ABILITY_F          _("F")
 #define TEXT_ABILITY_G          _("Cutter: A set of cut-based abilities.\n[B] - Cutter Throw, [B](moving) - Cutter Dash\n[B](near enemy) - Final Cutter")
 #define TEXT_ABILITY_H          _("Phasewalk: Press [L] to activate. Mario will\nbecome invisible and get an increase in running\nspeed, and get a jump boost at the end.")
-#define TEXT_ABILITY_I          _("I")
+#define TEXT_ABILITY_I          _("Shock Rocket: A guided exploding rocket.\nPress [L] while static to aim, then [B] to fire.\nOnce launched, guide it with the analog stick.")
 #define TEXT_ABILITY_J          _("HM Fly: Call upon your Pokemon pal to soar\nhigh into the sky.\nPress [A] while in the air to begin flying.")
 #define TEXT_ABILITY_K          _("Chronos: A dangerous precognitive drug,\nalongside an even deadlier katana.\nPress [B] to slash, and hold [L] to slow time.")
 #define TEXT_ABILITY_L          _("L")

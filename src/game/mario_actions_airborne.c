@@ -97,6 +97,11 @@ s32 check_fall_damage(struct MarioState *m, u32 hardFallAction) {
 }
 
 s32 check_kick_or_dive_in_air(struct MarioState *m) {
+        if (using_ability(ABILITY_BUBBLE_HAT) && m->input & INPUT_B_PRESSED) {
+        return set_mario_action(m, ACT_BUBBLE_HAT_JUMP, 0);
+        return 0;
+    }
+    
     if (m->input & INPUT_B_PRESSED) {
         if (m->abilityId == ABILITY_CUTTER) {
             if (m->forwardVel > 28.0f) {
@@ -443,6 +448,11 @@ s32 act_jump(struct MarioState *m) {
 
     if (using_ability(ABILITY_HM_FLY) && m->input & INPUT_A_PRESSED && m->canHMFly == 1 && m->actionTimer > 0) {
         return set_mario_action(m, ACT_HM_FLY, 0);
+    }
+
+    if (using_ability(ABILITY_BUBBLE_HAT) && m->input & INPUT_B_PRESSED) {
+        return set_mario_action(m, ACT_BUBBLE_HAT_JUMP, 0);
+        return 0;
     }
 
 #ifdef EASIER_LONG_JUMPS
@@ -2163,6 +2173,34 @@ s32 act_special_triple_jump(struct MarioState *m) {
     return FALSE;
 }
 
+s32 act_bubble_hat_jump(struct MarioState *m) {
+    s32 animation;
+
+    if (m->actionState) {
+m->actionTimer = 0;
+m->actionState = 1;
+}
+    
+    if (m->actionTimer == 0) {
+        m->vel[1] = 70.0;
+        set_mario_animation(m, MARIO_ANIM_DOUBLE_JUMP_RISE);
+       // return 0;
+
+       // m->actionState++;
+    }
+
+    if (m->actionTimer >= 30) {
+        return set_mario_action(m, ACT_FREEFALL, 0);
+        set_mario_animation(m, MARIO_ANIM_DOUBLE_JUMP_FALL);
+    }
+
+    update_air_without_turn(m);
+
+    m->actionTimer++;
+
+    return 0;
+}
+
 s32 act_hm_fly(struct MarioState *m){
 
     if (m->actionTimer == 0){
@@ -2323,6 +2361,7 @@ s32 mario_execute_airborne_action(struct MarioState *m) {
         case ACT_ABILITY_AXE_JUMP:     cancel = act_axe_jump(m);             break;
         case ACT_CUTTER_THROW_AIR: cancel = act_cutter_throw_air(m);         break;
         case ACT_HM_FLY:               cancel = act_hm_fly(m);               break;
+        case ACT_BUBBLE_HAT_JUMP:      cancel = act_bubble_hat_jump(m);      break;
     }
     /* clang-format on */
 

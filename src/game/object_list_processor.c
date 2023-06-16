@@ -262,8 +262,13 @@ void spawn_particle(u32 activeParticleFlag, ModelID16 model, const BehaviorScrip
  * Mario's primary behavior update function.
  */
 void bhv_mario_update(void) {
+    struct MarioState *m = &gMarioStates[0];
     u32 particleFlags = 0;
     s32 i;
+
+    if (m->floor->type == SURFACE_SQUID_INK) {
+        m->forwardVel = 45.5f;
+    }
 
     particleFlags = execute_mario_action(gCurrentObject);
     gCurrentObject->oMarioParticleFlags = particleFlags;

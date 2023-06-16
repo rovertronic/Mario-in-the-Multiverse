@@ -19,7 +19,7 @@ enum ability_ids {
     ABILITY_DEFAULT,
     ABILITY_A_,
     ABILITY_BIG_DADDY,
-    ABILITY_C_,
+    ABILITY_SQUID,
     ABILITY_AKU,
     ABILITY_E_,
     ABILITY_F_,

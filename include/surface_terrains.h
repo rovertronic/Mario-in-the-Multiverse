@@ -225,6 +225,7 @@ enum SurfaceTypes {
     SURFACE_WOBBLING_WARP,              // 0x00FD // Pool warp (HMC & DDD)
     SURFACE_00FE,                       // 0x00FE // Unused
     SURFACE_TRAPDOOR,                   // 0x00FF // Bowser Left trapdoor, has no action defined
+    SURFACE_SQUID_INK,                  // 0x01AA // Squid Ink
 };
 
 // From Surface 0x1B to 0x1E

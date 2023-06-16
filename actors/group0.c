@@ -79,3 +79,7 @@
 #include "rocket_hand/model.inc.c"
 #include "rocket_button_off/model.inc.c"
 #include "rocket_button_on/model.inc.c"
+
+#include "squid/model.inc.c"
+#include "squid/anims/data.inc.c"
+#include "squid/anims/table.inc.c"

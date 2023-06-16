@@ -31,3 +31,4 @@
 #include "rocket_hand/geo.inc.c"
 #include "rocket_button_off/geo.inc.c"
 #include "rocket_button_on/geo.inc.c"
+#include "squid/geo.inc.c"

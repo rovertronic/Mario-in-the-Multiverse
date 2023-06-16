@@ -8,6 +8,8 @@
 #include "synthesis.h"
 #include "effects.h"
 #include "external.h"
+#include "game/level_update.h"
+#include "game/ability.h"
 
 void note_set_resampling_rate(struct Note *note, f32 resamplingRateInput);
 
@@ -595,6 +597,11 @@ void process_notes(void) {
 
             scale = note->adsrVolScale;
             frequency *= note->vibratoFreqScale * note->portamentoFreqScale;
+
+            if (gMarioState->abilityChronosTimeSlowActive) {
+                frequency *= ABILITY_CHRONOS_SLOW_FACTOR;
+            }
+
             cap = 3.99992f;
             if (gAiFrequency != 32006) {
                 frequency *= (32000.0f / (f32) gAiFrequency);

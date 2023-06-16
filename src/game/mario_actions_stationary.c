@@ -54,6 +54,9 @@ s32 check_common_idle_cancels(struct MarioState *m) {
     }
 
     if (m->input & INPUT_B_PRESSED) {
+        if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+            return set_mario_action(m, ACT_PUNCHING, 10);
+        }
         return set_mario_action(m, ACT_PUNCHING, 0);
     }
 
@@ -145,6 +148,7 @@ s32 act_idle(struct MarioState *m) {
 
     if (!(m->input & INPUT_A_PRESSED)) {
         m->canHMFly = 1;
+        m->abilityChronosCanSlash = TRUE;
     }
 
     if (m->quicksandDepth > 30.0f) {
@@ -217,7 +221,7 @@ s32 act_idle(struct MarioState *m) {
                     m->actionState = ACT_STATE_IDLE_HEAD_LEFT;
                 } else {
                     // If Mario hasn't turned his head 10 times yet, stay idle instead of going to sleep.
-                    m->actionTimer++;
+                    update_mario_action_timer_post(m);
                     if (m->actionTimer < 10) {
                         m->actionState = ACT_STATE_IDLE_HEAD_LEFT;
                     }
@@ -328,7 +332,7 @@ s32 act_sleeping(struct MarioState *m) {
             }
 
             if (is_anim_at_end(m)) {
-                m->actionTimer++;
+                update_mario_action_timer_post(m);
                 if (m->actionTimer > 45) {
                     m->actionState = ACT_SLEEPING_STATE_START_LYING;
                 }
@@ -373,7 +377,7 @@ s32 act_waking_up(struct MarioState *m) {
         return set_mario_action(m, ACT_BEGIN_SLIDING, 0);
     }
 
-    m->actionTimer++;
+    update_mario_action_timer_post(m);
 
     if (m->actionTimer > 20) {
         return set_mario_action(m, ACT_IDLE, 0);
@@ -526,6 +530,9 @@ s32 act_standing_against_wall(struct MarioState *m) {
     }
 
     if (m->input & INPUT_B_PRESSED) {
+        if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+            return set_mario_action(m, ACT_PUNCHING, 10);
+        }
         return set_mario_action(m, ACT_PUNCHING, 0);
     }
 
@@ -655,6 +662,9 @@ s32 act_braking_stop(struct MarioState *m) {
     }
 
     if (m->input & INPUT_B_PRESSED) {
+        if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+            return set_mario_action(m, ACT_PUNCHING, 10);
+        }
         return set_mario_action(m, ACT_PUNCHING, 0);
     }
 
@@ -832,7 +842,7 @@ s32 act_shockwave_bounce(struct MarioState *m) {
         }
     }
 
-    if (++m->actionTimer == 48) {
+    if (update_mario_action_timer_pre(m) == 48) {
         return set_mario_action(m, ACT_IDLE, 0);
     }
 
@@ -883,6 +893,9 @@ s32 check_common_landing_cancels(struct MarioState *m, u32 action) {
     }
 
     if (m->input & INPUT_B_PRESSED) {
+        if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+            return set_mario_action(m, ACT_PUNCHING, 10);
+        }
         return set_mario_action(m, ACT_PUNCHING, 0);
     }
 
@@ -1021,7 +1034,7 @@ s32 act_air_throw_land(struct MarioState *m) {
         return set_mario_action(m, ACT_FREEFALL, 0);
     }
 
-    if (++m->actionTimer == 4) {
+    if (update_mario_action_timer_pre(m) == 4) {
         mario_throw_held_object(m);
     }
 
@@ -1179,7 +1192,7 @@ s32 act_final_cutter_sequence(struct MarioState *m) {
         break;
     }
 
-    m->actionTimer++;
+    update_mario_action_timer_post(m);
 
     return FALSE;
 }

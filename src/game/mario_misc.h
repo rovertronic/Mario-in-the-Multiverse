@@ -31,4 +31,8 @@ Gfx *geo_switch_mario_hand_grab_pos(s32 callContext, struct GraphNode *node, Mat
 Gfx *geo_render_mirror_mario(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
 Gfx *geo_mirror_mario_backface_culling(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
 
+Gfx *geo_mario_ability_chronos_set_aux_framebuffer(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
+Gfx *geo_mario_ability_chronos_reset_aux_framebuffer(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
+Gfx *geo_switch_mario_ability_chronos_sheathed_katana(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
+
 #endif // MARIO_MISC_H

@@ -59,6 +59,8 @@
 u16 aku_invincibility = 0;
 u8 phasewalk_state = 0;
 u16 phasewalk_timer = 0;
+u16 chronos_timer = 0;
+u8 chronos_expended = FALSE;
 //
 
 Gfx gfx_ability_hand[2] = {gsSPDisplayList(mario_right_hand_closed),gsSPEndDisplayList()};
@@ -149,7 +151,7 @@ struct ability ability_struct[] = {
     /*H*/      {&phasewalk_hand_hand_mesh , NULL               ,MODEL_MARIO       ,&abstr_h  },
     /*I*/      {&rocket_hand_RaymanMissile_mesh_layer_1, NULL  ,MODEL_MARIO       ,&abstr_i  },
     /*J*/      {&pokeball_hand_hand_mesh  , NULL               ,MODEL_MARIO       ,&abstr_j  },
-    /*K*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_k  },
+    /*K*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO_K     ,&abstr_k  },
     /*L*/      {&mario_right_hand_closed  , NULL               ,MODEL_KNIGHT_MARIO,&abstr_l  },
     /*M*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_m  },
     /*N*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_n  },
@@ -304,4 +306,26 @@ u8 cool_down_ability(u8 ability_id) {
 
 u8 ability_ready(u8 ability_id) {
     ability_cooldown_flags &= ~(1<<ability_id);
+}
+
+/**
+ * Returns whether the current frame can unfreeze itself, for Axo's Chronos
+ * ability's time slow mechanic. Always true if time slow is not active.
+ * Otherwise, it will only unfreeze every ABILITY_CHRONOS_SLOW_SPLIT frames.
+ * This uses static variables for optimization, so that the modulo operation
+ * is not run more than once per frame.
+ */
+u8 ability_chronos_frame_can_progress(void) {
+    static u8 frameCounter = 0;
+    static u8 curFrame = 0;
+
+    if (!gMarioState->abilityChronosTimeSlowActive) {
+        return TRUE;
+    }
+    else if (curFrame != gGlobalTimer) {
+        curFrame = gGlobalTimer;
+        frameCounter = curFrame % ABILITY_CHRONOS_SLOW_SPLIT;
+    }
+
+    return frameCounter == 0;
 }

@@ -58,6 +58,16 @@ enum ObjFlags {
     OBJ_FLAG_OPACITY_FROM_CAMERA_DIST          = (1 << 21), // 0x00200000
     OBJ_FLAG_EMIT_LIGHT                        = (1 << 22), // 0x00400000
     OBJ_FLAG_ONLY_PROCESS_INSIDE_ROOM          = (1 << 23), // 0x00800000
+
+    // For Axo's Chronos ability - disables the "pause buffer" timeslow method,
+    // and instead allows the object to run every frame. If you use this, you
+    // should instead use code in the behavior to slow its velocity if
+    // gMarioState->abilityChronosTimeSlowActive is true. Additionally, this
+    // flag also tells the animation code to only advance the animation every
+    // ABILITY_CHRONOS_SLOW_SPLIT frames. There is currently no support for
+    // manually smoothed animations or automatically interpolated animations.
+    OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW       = (1 << 24), // 0x01000000
+
     OBJ_FLAG_HITBOX_WAS_SET                    = (1 << 30), // 0x40000000
 };
 

@@ -70,6 +70,7 @@ struct VblankHandler gGameVblankHandler;
 
 // Buffers
 uintptr_t gPhysicalFramebuffers[3];
+uintptr_t gPhysicalChronosAuxFramebuffer;
 uintptr_t gPhysicalZBuffer;
 
 // Mario Anims and Demo allocation
@@ -350,7 +351,6 @@ void init_rcp(s32 resetZB) {
 void end_master_display_list(void) {
     draw_screen_borders();
 
-    render_fb_effects();
     gDPFullSync(gDisplayListHead++);
     gSPEndDisplayList(gDisplayListHead++);
 
@@ -733,6 +733,7 @@ void setup_game_memory(void) {
     gPhysicalFramebuffers[0] = VIRTUAL_TO_PHYSICAL(gFramebuffer0);
     gPhysicalFramebuffers[1] = VIRTUAL_TO_PHYSICAL(gFramebuffer1);
     gPhysicalFramebuffers[2] = VIRTUAL_TO_PHYSICAL(gFramebuffer2);
+    gPhysicalChronosAuxFramebuffer = VIRTUAL_TO_PHYSICAL(gChronosAuxFramebuffer);
     // Setup Mario Animations
     gMarioAnimsMemAlloc = main_pool_alloc(MARIO_ANIMS_POOL_SIZE, MEMORY_POOL_LEFT);
     set_segment_base_addr(SEGMENT_MARIO_ANIMS, (void *) gMarioAnimsMemAlloc);

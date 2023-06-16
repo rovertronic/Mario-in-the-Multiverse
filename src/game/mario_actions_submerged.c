@@ -18,6 +18,7 @@
 #include "behavior_data.h"
 #include "level_table.h"
 #include "rumble_init.h"
+#include "ability.h"
 
 #define MIN_SWIM_STRENGTH 160
 #define MIN_SWIM_SPEED 16.0f
@@ -73,6 +74,7 @@ static u32 perform_water_full_step(struct MarioState *m, Vec3f nextPos) {
 
     if (!(m->input & INPUT_A_PRESSED)) {
         m->canHMFly = 1;
+        m->abilityChronosCanSlash = TRUE;
     }
 
     struct WallCollisionData wallData;
@@ -523,7 +525,7 @@ static s32 act_breaststroke(struct MarioState *m) {
         return set_mario_action(m, ACT_WATER_PUNCH, 0);
     }
 
-    if (++m->actionTimer == 14) {
+    if (update_mario_action_timer_pre(m) == 14) {
         return set_mario_action(m, ACT_FLUTTER_KICK, 0);
     }
 
@@ -598,7 +600,7 @@ static s32 act_swimming_end(struct MarioState *m) {
         sSwimStrength = MIN_SWIM_STRENGTH;
     }
 
-    m->actionTimer++;
+    update_mario_action_timer_post(m);
 
     m->forwardVel -= 0.25f;
     set_mario_animation(m, MARIO_ANIM_SWIM_PART2);
@@ -645,7 +647,7 @@ static s32 act_hold_breaststroke(struct MarioState *m) {
         return drop_and_set_mario_action(m, ACT_WATER_IDLE, 0);
     }
 
-    if (++m->actionTimer == 17) {
+    if (update_mario_action_timer_pre(m) == 17) {
         return set_mario_action(m, ACT_HOLD_FLUTTER_KICK, 0);
     }
 
@@ -712,7 +714,7 @@ static s32 act_hold_swimming_end(struct MarioState *m) {
         return set_mario_action(m, ACT_HOLD_BREASTSTROKE, 0);
     }
 
-    m->actionTimer++;
+    update_mario_action_timer_post(m);
 
     m->forwardVel -= 0.25f;
     set_mario_animation(m, MARIO_ANIM_SWIM_WITH_OBJ_PART2);
@@ -755,7 +757,7 @@ static s32 act_water_shell_swimming(struct MarioState *m) {
         return set_mario_action(m, ACT_WATER_THROW, 0);
     }
 
-    if (m->actionTimer++ == 240) {
+    if (update_mario_action_timer_post(m) == 240) {
         m->heldObj->oInteractStatus = INT_STATUS_STOP_RIDING;
         m->heldObj = NULL;
         stop_shell_music();
@@ -804,7 +806,7 @@ static s32 act_water_throw(struct MarioState *m) {
 
     m->marioBodyState->headAngle[0] = approach_s32(m->marioBodyState->headAngle[0], 0, 0x200, 0x200);
 
-    if (m->actionTimer++ == 5) {
+    if (update_mario_action_timer_post(m) == 5) {
         mario_throw_held_object(m);
 #if ENABLE_RUMBLE
         queue_rumble_data(3, 50);
@@ -896,7 +898,7 @@ static s32 act_water_shocked(struct MarioState *m) {
     set_camera_shake_from_hit(SHAKE_SHOCK);
 
     if (set_mario_animation(m, MARIO_ANIM_SHOCKED) == 0) {
-        m->actionTimer++;
+        update_mario_action_timer_post(m);
         m->flags |= MARIO_METAL_SHOCK;
     }
 
@@ -968,7 +970,7 @@ static s32 act_water_plunge(struct MarioState *m) {
         stateFlags |= PLUNGE_FLAG_DIVING;
     }
 
-    m->actionTimer++;
+    update_mario_action_timer_post(m);
 
     stationary_slow_down(m);
 
@@ -1053,7 +1055,7 @@ static s32 act_caught_in_whirlpool(struct MarioState *m) {
 
     if ((marioObj->oMarioWhirlpoolPosY += m->vel[1]) < 0.0f) {
         marioObj->oMarioWhirlpoolPosY = 0.0f;
-        if (distance < 16.1f && m->actionTimer++ == 16) {
+        if (distance < 16.1f && update_mario_action_timer_post(m) == 16) {
             level_trigger_warp(m, WARP_OP_DEATH);
         }
     }

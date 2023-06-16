@@ -553,6 +553,8 @@ enum SoundBank {
 #define SOUND_MENU_HIGH_SCORE                    /* 0x70222081 */ SOUND_ARG_LOAD(SOUND_BANK_MENU,     0x22, 0x20, SOUND_DISCRETE) // unverified
 #define SOUND_MENU_STAR_SOUND_OKEY_DOKEY         /* 0x7023FF81 */ SOUND_ARG_LOAD(SOUND_BANK_MENU,     0x23, 0xFF, SOUND_DISCRETE)
 #define SOUND_MENU_STAR_SOUND_LETS_A_GO          /* 0x7024FF81 */ SOUND_ARG_LOAD(SOUND_BANK_MENU,     0x24, 0xFF, SOUND_DISCRETE)
+#define SOUND_MENU_CHRONOS_SLOMO_ENGAGE                           SOUND_ARG_LOAD(SOUND_BANK_MENU,     0x40, 0xF0, SOUND_DISCRETE)
+#define SOUND_MENU_CHRONOS_SLOMO_DISENGAGE                        SOUND_ARG_LOAD(SOUND_BANK_MENU,     0x41, 0xF0, SOUND_DISCRETE)
 
 // US/EU only; an index between 0-7 or 0-4 is added to the sound ID before
 // playing, producing the same sound with different pitch.
@@ -609,6 +611,9 @@ enum SoundBank {
 #define SOUND_ABILITY_CUTTER_CATCH                                   SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x05, 0x40, SOUND_DISCRETE)
 #define SOUND_ABILITY_AKU_AKU                                         SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x06, 0xFF, SOUND_DISCRETE)
 #define SOUND_ABILITY_DRAGONITE                                      SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x07, 0xFF, SOUND_DISCRETE)
+#define SOUND_ABILITY_CHRONOS_SLASH_1                             SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x08, 0xFF, SOUND_DISCRETE)
+#define SOUND_ABILITY_CHRONOS_SLASH_2                             SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x09, 0xFF, SOUND_DISCRETE)
+#define SOUND_ABILITY_CHRONOS_SLASH_3                             SOUND_ARG_LOAD(SOUND_BANK_MITM_ABILITY, 0x0A, 0xFF, SOUND_DISCRETE)
 
 /* MitM Level Sound Effects (Channel 11) */
 #define SOUND_MITM_LEVEL_X_0                                      SOUND_ARG_LOAD(SOUND_BANK_MITM_LEVEL, 0x00, 0xFF, SOUND_DISCRETE)

@@ -36,7 +36,7 @@
 #define TEXT_ABILITY_H          _("Phasewalk: Press [L] to activate. Mario will\nbecome invisible and get an increase in running\nspeed, and get a jump boost at the end.")
 #define TEXT_ABILITY_I          _("Shock Rocket: A guided exploding rocket.\nPress [L] while static to aim, then [B] to fire.\nOnce launched, guide it with the analog stick.")
 #define TEXT_ABILITY_J          _("HM Fly: Call upon your Pokemon pal to soar\nhigh into the sky.\nPress [A] while in the air to begin flying.")
-#define TEXT_ABILITY_K          _("K")
+#define TEXT_ABILITY_K          _("Chronos: A dangerous precognitive drug,\nalongside an even deadlier katana.\nPress [B] to slash, and hold [L] to slow time.")
 #define TEXT_ABILITY_L          _("Pizza Knight: A heavy suit of knight armor.\nLimits Mario's move set, but lets him slide off\nslopes to break metal blocks and double jump.")
 #define TEXT_ABILITY_M          _("M")
 #define TEXT_ABILITY_N          _("Hamster Ball: A hollow ball that Mario can\nenter. Use the analog stick to roll around\nwith sphere physics!")

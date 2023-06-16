@@ -20,6 +20,7 @@
 #include "level_pipe/geo.inc.c"
 #include "ability_unlock/geo.inc.c"
 #include "ability_sign/geo.inc.c"
+#include "mario_k/geo.inc.c"
 #include "cutter_blade/geo.inc.c"
 #include "cutter_hand/geo.inc.c"
 #include "cutter_hat/geo.inc.c"

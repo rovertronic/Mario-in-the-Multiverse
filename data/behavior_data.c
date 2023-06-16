@@ -3458,7 +3458,7 @@ UNUSED static const u64 behavior_data_unused_0 = 0;
 const BehaviorScript bhvMario[] = {
     BEGIN(OBJ_LIST_PLAYER),
     SET_INT(oIntangibleTimer, 0),
-    OR_LONG(oFlags, (OBJ_FLAG_PLAYER | OBJ_FLAG_SILHOUETTE)),
+    OR_LONG(oFlags, (OBJ_FLAG_PLAYER | OBJ_FLAG_SILHOUETTE | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW)),
     OR_INT(oUnk94, 0x0001),
     SET_HITBOX(/*Radius*/ 37, /*Height*/ 160),
     BEGIN_LOOP(),
@@ -6204,7 +6204,7 @@ const BehaviorScript bhvRocketButtonGroup[] = {
 /* GROUP J START */
 const BehaviorScript bhvDragonite[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW)),
     LOAD_ANIMATIONS(oAnimations, dragonite_anims),
     CALL_NATIVE(bhv_dragonite_init),
     ANIMATE(0),
@@ -6241,18 +6241,15 @@ const BehaviorScript bhvCutterBlast[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     SET_FLOAT(oDrawingDistance, 20000),
-    CALL_NATIVE(bhv_cutter_blast_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_cutter_blast_loop),
     END_LOOP(),
 };
 
-const BehaviorScript bhvCutterParticleSlash[] = {
+const BehaviorScript bhvSlashParticle[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-    //BILLBOARD(),
-    CALL_NATIVE(bhv_cutter_particle_slash_init),
     BEGIN_LOOP(),
-        CALL_NATIVE(bhv_cutter_particle_slash_loop),
+        CALL_NATIVE(bhv_slash_particle_loop),
     END_LOOP(),
 };

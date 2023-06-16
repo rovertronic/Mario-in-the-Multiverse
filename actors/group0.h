@@ -381,6 +381,12 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "meter_breath/header.h"
 
+#include "meter_aku/header.h"
+
+#include "meter_phase/header.h"
+
+#include "meter_rocket/header.h"
+
 #include "meter_chronos/header.h"
 
 #include "mario_k/geo_header.h"

@@ -686,6 +686,16 @@ u8 meter_style_color_table[METER_STYLE_COUNT][9][3] = {
         {0, 100, 127},   // 7
         {0, 100, 127},   // 8
     },
+    {   // Rocket
+        {255, 156, 0},   // 1
+        {255, 156, 0},   // 2
+        {255, 156, 0},   // 3
+        {255, 156, 0},   // 4
+        {255, 156, 0},   // 5
+        {255, 156, 0},   // 6
+        {255, 156, 0},   // 7
+        {255, 156, 0},   // 8
+    },
     {   // Chronos
         {240, 19, 226},  // 1
         {208, 47, 230},  // 2
@@ -702,10 +712,11 @@ Gfx *meter_style_icon_dl_table[] = {
     NULL,
     &meter_hp_meter_hp_mesh,
     &meter_breath_meter_breath_mesh,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    &meter_aku_meter_aku_mesh,
+    &meter_phase_meter_phase_mesh,
+    &meter_phase_meter_phase_mesh,
+    &meter_phase_meter_phase_mesh,
+    &meter_rocket_meter_rocket_mesh,
     &meter_chronos_meter_chronos_mesh,
 };
 

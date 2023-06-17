@@ -5,7 +5,7 @@ static const struct Animation anim_D6[] = {
 	1,
 	20,
 	ANIMINDEX_NUMPARTS(anim_D6_indices),
-	anim_D6S_values,
+	anim_D6_values,
 	anim_D6_indices,
 	0,
 };

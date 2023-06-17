@@ -37,7 +37,7 @@ enum ability_ids {
 struct ability {
     Gfx * hand;
     Gfx * hat;
-    u8 model_id;
+    u16 model_id;
     u8 * string;
 };
 
@@ -57,5 +57,7 @@ extern u16 phasewalk_timer;
 extern u16 chronos_timer;
 extern u8 chronos_expended;
 //
+
+extern struct ability ability_struct[];
 
 #endif

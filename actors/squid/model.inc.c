@@ -516,55 +516,55 @@ u8 squid_squid_ia8[] = {
 };
 
 Vtx squid_Torso_mesh_layer_1_vtx_0[15] = {
-	{{{33, 40, 40}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0x10}}},
-	{{{0, 38, 8}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xF}}},
-	{{{58, 33, 14}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xF}}},
-	{{{0, 17, 49}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x19}}},
-	{{{17, 17, 76}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x22}}},
-	{{{42, 17, 55}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x12}}},
-	{{{33, -7, 40}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
-	{{{0, -4, 8}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
-	{{{58, -9, 14}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
-	{{{-33, -7, 40}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
-	{{{-17, 17, 76}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x22}}},
-	{{{-42, 17, 55}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x12}}},
-	{{{-33, 40, 40}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0x10}}},
-	{{{-58, 33, 14}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xF}}},
-	{{{-58, -9, 14}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{40, 48, 48}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0x10}}},
+	{{{70, 40, 16}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xF}}},
+	{{{0, 45, 9}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xF}}},
+	{{{0, 20, 59}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x19}}},
+	{{{-40, 48, 48}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0x10}}},
+	{{{-70, 40, 16}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xF}}},
+	{{{-21, 20, 91}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x22}}},
+	{{{-50, 20, 67}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x12}}},
+	{{{-40, -8, 48}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{0, -5, 9}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{-70, -10, 16}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{40, -8, 48}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{70, -10, 16}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{21, 20, 91}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x22}}},
+	{{{50, 20, 67}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x12}}},
 };
 
 Gfx squid_Torso_mesh_layer_1_tri_0[] = {
 	gsSPVertex(squid_Torso_mesh_layer_1_vtx_0 + 0, 15, 0),
 	gsSP1Triangle(0, 1, 2, 0),
-	gsSP1Triangle(3, 1, 0, 0),
-	gsSP1Triangle(3, 0, 4, 0),
-	gsSP1Triangle(4, 0, 5, 0),
-	gsSP1Triangle(4, 5, 6, 0),
+	gsSP1Triangle(3, 0, 2, 0),
+	gsSP1Triangle(4, 3, 2, 0),
+	gsSP1Triangle(5, 4, 2, 0),
 	gsSP1Triangle(3, 4, 6, 0),
-	gsSP1Triangle(3, 6, 7, 0),
-	gsSP1Triangle(6, 8, 7, 0),
-	gsSP1Triangle(9, 3, 7, 0),
-	gsSP1Triangle(3, 9, 10, 0),
-	gsSP1Triangle(10, 9, 11, 0),
-	gsSP1Triangle(10, 11, 12, 0),
-	gsSP1Triangle(3, 10, 12, 0),
-	gsSP1Triangle(12, 1, 3, 0),
-	gsSP1Triangle(13, 1, 12, 0),
-	gsSP1Triangle(14, 9, 7, 0),
+	gsSP1Triangle(6, 4, 7, 0),
+	gsSP1Triangle(6, 7, 8, 0),
+	gsSP1Triangle(3, 6, 8, 0),
+	gsSP1Triangle(8, 9, 3, 0),
+	gsSP1Triangle(10, 9, 8, 0),
+	gsSP1Triangle(3, 9, 11, 0),
+	gsSP1Triangle(11, 9, 12, 0),
+	gsSP1Triangle(3, 11, 13, 0),
+	gsSP1Triangle(13, 11, 14, 0),
+	gsSP1Triangle(13, 14, 0, 0),
+	gsSP1Triangle(3, 13, 0, 0),
 	gsSPEndDisplayList(),
 };
 
 Vtx squid_Eyes_skinned_mesh_layer_1_vtx_0[10] = {
-	{{{73, 17, 9}, 0, {112, 1040}, {0x22, 0x0, 0x52, 0x14}}},
-	{{{73, 17, 9}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x14}}},
-	{{{58, 33, 14}, 0, {368, 1040}, {0x10, 0x0, 0xAA, 0xF}}},
-	{{{-73, 17, 9}, 0, {112, 1040}, {0x22, 0x0, 0x52, 0x14}}},
-	{{{-73, 17, 9}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x14}}},
-	{{{-58, 33, 14}, 0, {368, 1040}, {0x10, 0x0, 0xAA, 0xF}}},
-	{{{0, 38, 8}, 0, {1008, 1040}, {0x10, 0x0, 0xAA, 0xF}}},
-	{{{58, -9, 14}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
-	{{{-58, -9, 14}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
-	{{{0, -4, 8}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{88, 20, 11}, 0, {112, 1040}, {0x22, 0x0, 0x52, 0x14}}},
+	{{{88, 20, 11}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x14}}},
+	{{{70, 40, 16}, 0, {368, 1040}, {0x10, 0x0, 0xAA, 0xF}}},
+	{{{-88, 20, 11}, 0, {112, 1040}, {0x22, 0x0, 0x52, 0x14}}},
+	{{{-88, 20, 11}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x14}}},
+	{{{-70, 40, 16}, 0, {368, 1040}, {0x10, 0x0, 0xAA, 0xF}}},
+	{{{0, 45, 9}, 0, {1008, 1040}, {0x10, 0x0, 0xAA, 0xF}}},
+	{{{70, -10, 16}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{-70, -10, 16}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{0, -5, 9}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
 };
 
 Gfx squid_Eyes_skinned_mesh_layer_1_tri_0[] = {
@@ -573,93 +573,93 @@ Gfx squid_Eyes_skinned_mesh_layer_1_tri_0[] = {
 };
 
 Vtx squid_Eyes_mesh_layer_1_vtx_0[10] = {
-	{{{64, 32, -19}, 0, {368, -16}, {0x22, 0x0, 0x52, 0xE}}},
-	{{{77, 15, 12}, 0, {112, -16}, {0x22, 0x0, 0x52, 0xE}}},
-	{{{0, 32, 2}, 0, {1008, 240}, {0x22, 0x0, 0x52, 0xE}}},
-	{{{-64, 32, -19}, 0, {368, -16}, {0x22, 0x0, 0x52, 0xE}}},
-	{{{-77, 15, 12}, 0, {112, -16}, {0x22, 0x0, 0x52, 0xE}}},
-	{{{77, 15, 12}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0xE}}},
-	{{{64, -16, -19}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
-	{{{0, -19, 2}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
-	{{{-64, -16, -19}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
-	{{{-77, 15, 12}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0xE}}},
+	{{{93, 19, 14}, 0, {112, -16}, {0x22, 0x0, 0x52, 0xE}}},
+	{{{77, 38, -23}, 0, {368, -16}, {0x22, 0x0, 0x52, 0xE}}},
+	{{{0, 38, 2}, 0, {1008, 240}, {0x22, 0x0, 0x52, 0xE}}},
+	{{{-77, 38, -23}, 0, {368, -16}, {0x22, 0x0, 0x52, 0xE}}},
+	{{{-93, 19, 14}, 0, {112, -16}, {0x22, 0x0, 0x52, 0xE}}},
+	{{{77, -19, -23}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{93, 19, 14}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0xE}}},
+	{{{0, -22, 2}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{-77, -19, -23}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{-93, 19, 14}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0xE}}},
 };
 
 Gfx squid_Eyes_mesh_layer_1_tri_0[] = {
 	gsSPVertex(squid_Eyes_mesh_layer_1_vtx_0 + 0, 5, 10),
 	gsSP1Triangle(0, 10, 11, 0),
-	gsSP1Triangle(0, 2, 10, 0),
-	gsSP1Triangle(12, 10, 2, 0),
-	gsSP1Triangle(12, 2, 6, 0),
-	gsSP1Triangle(5, 12, 6, 0),
-	gsSP1Triangle(5, 13, 12, 0),
-	gsSP1Triangle(3, 13, 5, 0),
-	gsSP1Triangle(3, 14, 13, 0),
+	gsSP1Triangle(0, 11, 2, 0),
+	gsSP1Triangle(12, 2, 11, 0),
+	gsSP1Triangle(12, 6, 2, 0),
+	gsSP1Triangle(5, 6, 12, 0),
+	gsSP1Triangle(5, 12, 13, 0),
+	gsSP1Triangle(3, 5, 13, 0),
+	gsSP1Triangle(3, 13, 14, 0),
 	gsSPVertex(squid_Eyes_mesh_layer_1_vtx_0 + 5, 5, 10),
 	gsSP1Triangle(1, 10, 11, 0),
-	gsSP1Triangle(1, 11, 7, 0),
-	gsSP1Triangle(7, 11, 12, 0),
-	gsSP1Triangle(7, 12, 9, 0),
-	gsSP1Triangle(12, 8, 9, 0),
-	gsSP1Triangle(12, 13, 8, 0),
-	gsSP1Triangle(4, 8, 13, 0),
-	gsSP1Triangle(4, 13, 14, 0),
+	gsSP1Triangle(1, 7, 10, 0),
+	gsSP1Triangle(7, 12, 10, 0),
+	gsSP1Triangle(7, 9, 12, 0),
+	gsSP1Triangle(12, 9, 8, 0),
+	gsSP1Triangle(12, 8, 13, 0),
+	gsSP1Triangle(4, 13, 8, 0),
+	gsSP1Triangle(4, 14, 13, 0),
 	gsSPEndDisplayList(),
 };
 
 Vtx squid_Eyes_mesh_layer_1_vtx_1[16] = {
-	{{{77, 15, 12}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0xE}}},
-	{{{64, 32, -19}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0xE}}},
-	{{{122, 39, -22}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{55, 45, -32}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{0, 45, -11}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{0, 32, 2}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0xE}}},
-	{{{-55, 45, -32}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{-64, 32, -19}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0xE}}},
-	{{{-122, 39, -22}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{-77, 15, 12}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0xE}}},
-	{{{-152, 15, -10}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x35}}},
-	{{{-122, -8, -22}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
-	{{{-64, -16, -19}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
-	{{{152, 15, -10}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x35}}},
-	{{{122, -8, -22}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
-	{{{64, -16, -19}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{93, 19, 14}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0xE}}},
+	{{{146, 46, -26}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{77, 38, -23}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0xE}}},
+	{{{182, 19, -12}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x35}}},
+	{{{146, -9, -26}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{77, -19, -23}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{66, 54, -38}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{0, 54, -13}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{0, 38, 2}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0xE}}},
+	{{{-66, 54, -38}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{-77, 38, -23}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0xE}}},
+	{{{-146, 46, -26}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{-93, 19, 14}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0xE}}},
+	{{{-182, 19, -12}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x35}}},
+	{{{-146, -9, -26}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{-77, -19, -23}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
 };
 
 Gfx squid_Eyes_mesh_layer_1_tri_1[] = {
 	gsSPVertex(squid_Eyes_mesh_layer_1_vtx_1 + 0, 16, 0),
 	gsSP1Triangle(0, 1, 2, 0),
-	gsSP1Triangle(2, 1, 3, 0),
-	gsSP1Triangle(4, 3, 1, 0),
-	gsSP1Triangle(4, 1, 5, 0),
-	gsSP1Triangle(6, 4, 5, 0),
-	gsSP1Triangle(6, 5, 7, 0),
-	gsSP1Triangle(8, 6, 7, 0),
+	gsSP1Triangle(0, 3, 1, 0),
+	gsSP1Triangle(0, 4, 3, 0),
+	gsSP1Triangle(0, 5, 4, 0),
+	gsSP1Triangle(1, 6, 2, 0),
+	gsSP1Triangle(7, 2, 6, 0),
+	gsSP1Triangle(7, 8, 2, 0),
 	gsSP1Triangle(9, 8, 7, 0),
 	gsSP1Triangle(9, 10, 8, 0),
-	gsSP1Triangle(9, 11, 10, 0),
-	gsSP1Triangle(9, 12, 11, 0),
-	gsSP1Triangle(0, 2, 13, 0),
-	gsSP1Triangle(0, 13, 14, 0),
-	gsSP1Triangle(0, 14, 15, 0),
+	gsSP1Triangle(11, 10, 9, 0),
+	gsSP1Triangle(12, 10, 11, 0),
+	gsSP1Triangle(12, 11, 13, 0),
+	gsSP1Triangle(12, 13, 14, 0),
+	gsSP1Triangle(12, 14, 15, 0),
 	gsSPEndDisplayList(),
 };
 
 Vtx squid_Head_skinned_mesh_layer_1_vtx_0[14] = {
-	{{{152, 15, -10}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x35}}},
-	{{{122, 39, -22}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{55, 45, -32}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{55, 45, -32}, 0, {464, 2224}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{-55, 45, -32}, 0, {464, 2224}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{0, 45, -11}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{-55, 45, -32}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{-152, 15, -10}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x35}}},
-	{{{-122, 39, -22}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{64, -16, -19}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
-	{{{122, -8, -22}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
-	{{{-64, -16, -19}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
-	{{{0, -19, 2}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
-	{{{-122, -8, -22}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{182, 19, -12}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x35}}},
+	{{{66, 54, -38}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{146, 46, -26}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{66, 54, -38}, 0, {464, 2224}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{-66, 54, -38}, 0, {464, 2224}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{-66, 54, -38}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{0, 54, -13}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{-182, 19, -12}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x35}}},
+	{{{-146, 46, -26}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{77, -19, -23}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{146, -9, -26}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{-77, -19, -23}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{0, -22, 2}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{-146, -9, -26}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
 };
 
 Gfx squid_Head_skinned_mesh_layer_1_tri_0[] = {
@@ -668,99 +668,99 @@ Gfx squid_Head_skinned_mesh_layer_1_tri_0[] = {
 };
 
 Vtx squid_Head_mesh_layer_1_vtx_0[17] = {
-	{{{86, 49, -23}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{103, 19, -36}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x4B}}},
-	{{{103, 19, -36}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x4B}}},
-	{{{86, -10, -23}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
-	{{{0, -27, 11}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
-	{{{86, -10, -23}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
-	{{{0, -27, 11}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
-	{{{-86, -10, -23}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
-	{{{-86, -10, -23}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
-	{{{-103, 19, -36}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x4B}}},
-	{{{-86, 49, -23}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{-103, 19, -36}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x4B}}},
-	{{{86, 49, -23}, 0, {464, 1680}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{0, 65, 11}, 0, {1040, 1872}, {0x0, 0x1F, 0xFF, 0xE}}},
-	{{{-86, 49, -23}, 0, {464, 1680}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{0, 65, 11}, 0, {1040, 1872}, {0x0, 0x1F, 0xFF, 0xE}}},
-	{{{0, 65, 11}, 0, {432, 1232}, {0x0, 0x1F, 0xFF, 0xE}}},
+	{{{104, 59, -27}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{123, 23, -44}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x4B}}},
+	{{{104, -13, -27}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{123, 23, -44}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x4B}}},
+	{{{0, -32, 13}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{104, -13, -27}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{-104, -13, -27}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{0, -32, 13}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{-104, -13, -27}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{-123, 23, -44}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x4B}}},
+	{{{-104, 59, -27}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{-123, 23, -44}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x4B}}},
+	{{{104, 59, -27}, 0, {464, 1680}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{0, 79, 13}, 0, {1040, 1872}, {0x0, 0x1F, 0xFF, 0xE}}},
+	{{{-104, 59, -27}, 0, {464, 1680}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{0, 79, 13}, 0, {1040, 1872}, {0x0, 0x1F, 0xFF, 0xE}}},
+	{{{0, 79, 13}, 0, {432, 1232}, {0x0, 0x1F, 0xFF, 0xE}}},
 };
 
 Gfx squid_Head_mesh_layer_1_tri_0[] = {
 	gsSPVertex(squid_Head_mesh_layer_1_vtx_0 + 0, 2, 14),
 	gsSP1Triangle(14, 1, 2, 0),
-	gsSP1Triangle(0, 1, 14, 0),
-	gsSP1Triangle(0, 14, 15, 0),
+	gsSP1Triangle(0, 14, 2, 0),
+	gsSP1Triangle(0, 15, 14, 0),
 	gsSPVertex(squid_Head_mesh_layer_1_vtx_0 + 2, 2, 14),
 	gsSP1Triangle(0, 14, 15, 0),
-	gsSP1Triangle(0, 15, 10, 0),
-	gsSP1Triangle(15, 9, 10, 0),
+	gsSP1Triangle(0, 10, 14, 0),
+	gsSP1Triangle(14, 10, 9, 0),
 	gsSPVertex(squid_Head_mesh_layer_1_vtx_0 + 4, 2, 14),
-	gsSP1Triangle(14, 9, 15, 0),
-	gsSP1Triangle(9, 14, 12, 0),
-	gsSP1Triangle(12, 14, 11, 0),
+	gsSP1Triangle(14, 15, 9, 0),
+	gsSP1Triangle(9, 12, 14, 0),
+	gsSP1Triangle(12, 11, 14, 0),
 	gsSPVertex(squid_Head_mesh_layer_1_vtx_0 + 6, 2, 14),
 	gsSP1Triangle(11, 14, 15, 0),
-	gsSP1Triangle(11, 15, 13, 0),
-	gsSP1Triangle(15, 7, 13, 0),
+	gsSP1Triangle(11, 13, 14, 0),
+	gsSP1Triangle(14, 13, 7, 0),
 	gsSPVertex(squid_Head_mesh_layer_1_vtx_0 + 8, 2, 14),
-	gsSP1Triangle(14, 15, 7, 0),
-	gsSPVertex(squid_Head_mesh_layer_1_vtx_0 + 10, 2, 14),
 	gsSP1Triangle(14, 7, 15, 0),
-	gsSP1Triangle(14, 8, 7, 0),
-	gsSP1Triangle(14, 6, 8, 0),
+	gsSPVertex(squid_Head_mesh_layer_1_vtx_0 + 10, 2, 14),
+	gsSP1Triangle(14, 15, 7, 0),
+	gsSP1Triangle(14, 7, 8, 0),
+	gsSP1Triangle(14, 8, 5, 0),
 	gsSPVertex(squid_Head_mesh_layer_1_vtx_0 + 12, 2, 14),
-	gsSP1Triangle(14, 3, 15, 0),
+	gsSP1Triangle(14, 15, 3, 0),
 	gsSPVertex(squid_Head_mesh_layer_1_vtx_0 + 14, 2, 14),
-	gsSP1Triangle(14, 15, 4, 0),
+	gsSP1Triangle(14, 4, 15, 0),
 	gsSPVertex(squid_Head_mesh_layer_1_vtx_0 + 16, 1, 14),
 	gsSP1Triangle(14, 5, 6, 0),
-	gsSP1Triangle(14, 2, 5, 0),
+	gsSP1Triangle(14, 6, 1, 0),
 	gsSPEndDisplayList(),
 };
 
 Vtx squid_Head_mesh_layer_1_vtx_1[14] = {
-	{{{103, 19, -36}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x4B}}},
-	{{{86, 49, -23}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{0, 42, -102}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{0, 19, -128}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0xFF}}},
-	{{{-103, 19, -36}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x4B}}},
-	{{{-86, 49, -23}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{0, -4, -102}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
-	{{{-86, -10, -23}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
-	{{{0, -27, 11}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
-	{{{86, -10, -23}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
-	{{{86, 49, -23}, 0, {464, 1680}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{0, 65, 11}, 0, {1040, 1872}, {0x0, 0x1F, 0xFF, 0xE}}},
-	{{{0, 42, -102}, 0, {1040, 1264}, {0x10, 0x0, 0xAA, 0xE}}},
-	{{{-86, 49, -23}, 0, {464, 1680}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{123, 23, -44}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x4B}}},
+	{{{0, 51, -123}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{104, 59, -27}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{0, 23, -154}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0xFF}}},
+	{{{0, -5, -123}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{104, -13, -27}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{0, -32, 13}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{-104, -13, -27}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{-123, 23, -44}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x4B}}},
+	{{{-104, 59, -27}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{104, 59, -27}, 0, {464, 1680}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{0, 51, -123}, 0, {1040, 1264}, {0x10, 0x0, 0xAA, 0xE}}},
+	{{{0, 79, 13}, 0, {1040, 1872}, {0x0, 0x1F, 0xFF, 0xE}}},
+	{{{-104, 59, -27}, 0, {464, 1680}, {0x10, 0x0, 0xAA, 0xE}}},
 };
 
 Gfx squid_Head_mesh_layer_1_tri_1[] = {
 	gsSPVertex(squid_Head_mesh_layer_1_vtx_1 + 0, 14, 0),
 	gsSP1Triangle(0, 1, 2, 0),
-	gsSP1Triangle(0, 2, 3, 0),
-	gsSP1Triangle(4, 3, 2, 0),
-	gsSP1Triangle(4, 2, 5, 0),
-	gsSP1Triangle(4, 6, 3, 0),
-	gsSP1Triangle(4, 7, 6, 0),
-	gsSP1Triangle(7, 8, 6, 0),
-	gsSP1Triangle(9, 6, 8, 0),
-	gsSP1Triangle(0, 6, 9, 0),
-	gsSP1Triangle(0, 3, 6, 0),
+	gsSP1Triangle(0, 3, 1, 0),
+	gsSP1Triangle(0, 4, 3, 0),
+	gsSP1Triangle(0, 5, 4, 0),
+	gsSP1Triangle(5, 6, 4, 0),
+	gsSP1Triangle(7, 4, 6, 0),
+	gsSP1Triangle(8, 4, 7, 0),
+	gsSP1Triangle(8, 3, 4, 0),
+	gsSP1Triangle(8, 1, 3, 0),
+	gsSP1Triangle(8, 9, 1, 0),
 	gsSP1Triangle(10, 11, 12, 0),
 	gsSP1Triangle(13, 12, 11, 0),
 	gsSPEndDisplayList(),
 };
 
 Vtx squid_Tentacle_L_skinned_mesh_layer_1_vtx_0[6] = {
-	{{{42, 17, 55}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x12}}},
-	{{{58, 33, 14}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xF}}},
-	{{{73, 17, 9}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x14}}},
-	{{{58, -9, 14}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
-	{{{33, 40, 40}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0x10}}},
-	{{{33, -7, 40}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{50, 20, 67}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x12}}},
+	{{{88, 20, 11}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x14}}},
+	{{{70, 40, 16}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xF}}},
+	{{{70, -10, 16}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{40, 48, 48}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0x10}}},
+	{{{40, -8, 48}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
 };
 
 Gfx squid_Tentacle_L_skinned_mesh_layer_1_tri_0[] = {
@@ -769,126 +769,14 @@ Gfx squid_Tentacle_L_skinned_mesh_layer_1_tri_0[] = {
 };
 
 Vtx squid_Tentacle_L_mesh_layer_1_vtx_0[4] = {
-	{{{14, 18, -22}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x5F}}},
-	{{{1, 43, 0}, 0, {432, 1232}, {0x6, 0x0, 0xFF, 0xE}}},
-	{{{4, 18, 20}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x43}}},
-	{{{1, -8, 0}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{16, 21, -26}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x5F}}},
+	{{{1, -9, 0}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{5, 21, 24}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x43}}},
+	{{{1, 52, 0}, 0, {432, 1232}, {0x6, 0x0, 0xFF, 0xE}}},
 };
 
 Gfx squid_Tentacle_L_mesh_layer_1_tri_0[] = {
 	gsSPVertex(squid_Tentacle_L_mesh_layer_1_vtx_0 + 0, 4, 6),
-	gsSP1Triangle(6, 1, 2, 0),
-	gsSP1Triangle(6, 7, 1, 0),
-	gsSP1Triangle(7, 4, 1, 0),
-	gsSP1Triangle(0, 4, 7, 0),
-	gsSP1Triangle(0, 7, 8, 0),
-	gsSP1Triangle(0, 8, 9, 0),
-	gsSP1Triangle(0, 9, 5, 0),
-	gsSP1Triangle(9, 3, 5, 0),
-	gsSP1Triangle(6, 3, 9, 0),
-	gsSP1Triangle(6, 2, 3, 0),
-	gsSPEndDisplayList(),
-};
-
-Vtx squid_Tentacle_L_mesh_layer_1_vtx_1[8] = {
-	{{{4, 18, 20}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x43}}},
-	{{{1, 43, 0}, 0, {432, 1232}, {0x6, 0x0, 0xFF, 0xE}}},
-	{{{43, 46, 8}, 0, {432, 1232}, {0x0, 0x1F, 0xFF, 0x34}}},
-	{{{59, 18, -15}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x99}}},
-	{{{14, 18, -22}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x5F}}},
-	{{{1, -8, 0}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
-	{{{43, -11, 8}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
-	{{{26, 18, 38}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x6E}}},
-};
-
-Gfx squid_Tentacle_L_mesh_layer_1_tri_1[] = {
-	gsSPVertex(squid_Tentacle_L_mesh_layer_1_vtx_1 + 0, 8, 0),
-	gsSP1Triangle(0, 1, 2, 0),
-	gsSP1Triangle(3, 2, 1, 0),
-	gsSP1Triangle(3, 1, 4, 0),
-	gsSP1Triangle(3, 4, 5, 0),
-	gsSP1Triangle(3, 5, 6, 0),
-	gsSP1Triangle(0, 6, 5, 0),
-	gsSP1Triangle(0, 7, 6, 0),
-	gsSP1Triangle(0, 2, 7, 0),
-	gsSPEndDisplayList(),
-};
-
-Vtx squid_Tentacle_End_L_skinned_mesh_layer_1_vtx_0[4] = {
-	{{{43, 46, 8}, 0, {592, 2512}, {0x0, 0x1F, 0xFF, 0x34}}},
-	{{{59, 18, -15}, 0, {304, 2480}, {0x22, 0x0, 0x52, 0x99}}},
-	{{{43, -11, 8}, 0, {592, 2512}, {0x20, 0x0, 0x5F, 0xFF}}},
-	{{{26, 18, 38}, 0, {848, 2576}, {0x22, 0x0, 0x52, 0x6E}}},
-};
-
-Gfx squid_Tentacle_End_L_skinned_mesh_layer_1_tri_0[] = {
-	gsSPVertex(squid_Tentacle_End_L_skinned_mesh_layer_1_vtx_0 + 0, 4, 0),
-	gsSPEndDisplayList(),
-};
-
-Vtx squid_Tentacle_End_L_mesh_layer_1_vtx_0[4] = {
-	{{{27, 15, 45}, 0, {-16, 3600}, {0x22, 0x0, 0x52, 0xEA}}},
-	{{{4, 37, -2}, 0, {496, 3472}, {0x0, 0x1F, 0xFF, 0xC4}}},
-	{{{-23, 15, -46}, 0, {1008, 3408}, {0x22, 0x0, 0x52, 0xCE}}},
-	{{{4, -6, -2}, 0, {496, 3472}, {0xF, 0x0, 0x24, 0xFF}}},
-};
-
-Gfx squid_Tentacle_End_L_mesh_layer_1_tri_0[] = {
-	gsSPVertex(squid_Tentacle_End_L_mesh_layer_1_vtx_0 + 0, 4, 4),
-	gsSP1Triangle(4, 0, 1, 0),
-	gsSP1Triangle(4, 5, 0, 0),
-	gsSP1Triangle(5, 3, 0, 0),
-	gsSP1Triangle(5, 6, 3, 0),
-	gsSP1Triangle(7, 3, 6, 0),
-	gsSP1Triangle(7, 2, 3, 0),
-	gsSP1Triangle(4, 2, 7, 0),
-	gsSP1Triangle(4, 1, 2, 0),
-	gsSPEndDisplayList(),
-};
-
-Vtx squid_Tentacle_End_L_mesh_layer_1_vtx_1[6] = {
-	{{{-39, 15, 55}, 0, {432, 4080}, {0x22, 0x0, 0x52, 0xFD}}},
-	{{{4, 37, -2}, 0, {496, 3472}, {0x0, 0x1F, 0xFF, 0xC4}}},
-	{{{27, 15, 45}, 0, {-16, 3600}, {0x22, 0x0, 0x52, 0xEA}}},
-	{{{-52, 15, -2}, 0, {784, 3856}, {0x22, 0x0, 0x52, 0xF8}}},
-	{{{4, -6, -2}, 0, {496, 3472}, {0xF, 0x0, 0x24, 0xFF}}},
-	{{{-23, 15, -46}, 0, {1008, 3408}, {0x22, 0x0, 0x52, 0xCE}}},
-};
-
-Gfx squid_Tentacle_End_L_mesh_layer_1_tri_1[] = {
-	gsSPVertex(squid_Tentacle_End_L_mesh_layer_1_vtx_1 + 0, 6, 0),
-	gsSP1Triangle(0, 1, 2, 0),
-	gsSP1Triangle(1, 0, 3, 0),
-	gsSP1Triangle(4, 3, 0, 0),
-	gsSP1Triangle(0, 2, 4, 0),
-	gsSP1Triangle(3, 4, 5, 0),
-	gsSP1Triangle(3, 5, 1, 0),
-	gsSPEndDisplayList(),
-};
-
-Vtx squid_Tentacle_R_skinned_mesh_layer_1_vtx_0[6] = {
-	{{{-42, 17, 55}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x12}}},
-	{{{-73, 17, 9}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x14}}},
-	{{{-58, 33, 14}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xF}}},
-	{{{-58, -9, 14}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
-	{{{-33, 40, 40}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0x10}}},
-	{{{-33, -7, 40}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
-};
-
-Gfx squid_Tentacle_R_skinned_mesh_layer_1_tri_0[] = {
-	gsSPVertex(squid_Tentacle_R_skinned_mesh_layer_1_vtx_0 + 0, 6, 0),
-	gsSPEndDisplayList(),
-};
-
-Vtx squid_Tentacle_R_mesh_layer_1_vtx_0[4] = {
-	{{{-20, 18, 16}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x5F}}},
-	{{{0, -8, 1}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
-	{{{20, 18, 2}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x43}}},
-	{{{0, 43, 1}, 0, {432, 1232}, {0x6, 0x0, 0xFF, 0xE}}},
-};
-
-Gfx squid_Tentacle_R_mesh_layer_1_tri_0[] = {
-	gsSPVertex(squid_Tentacle_R_mesh_layer_1_vtx_0 + 0, 4, 6),
 	gsSP1Triangle(6, 1, 2, 0),
 	gsSP1Triangle(6, 3, 1, 0),
 	gsSP1Triangle(6, 7, 3, 0),
@@ -902,19 +790,19 @@ Gfx squid_Tentacle_R_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx squid_Tentacle_R_mesh_layer_1_vtx_1[8] = {
-	{{{20, 18, 2}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x43}}},
-	{{{41, 18, 22}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x6E}}},
-	{{{12, 46, 42}, 0, {432, 1232}, {0x0, 0x1F, 0xFF, 0x34}}},
-	{{{12, -11, 42}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
-	{{{0, -8, 1}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
-	{{{-10, 18, 61}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x99}}},
-	{{{-20, 18, 16}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x5F}}},
-	{{{0, 43, 1}, 0, {432, 1232}, {0x6, 0x0, 0xFF, 0xE}}},
+Vtx squid_Tentacle_L_mesh_layer_1_vtx_1[8] = {
+	{{{5, 21, 24}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x43}}},
+	{{{31, 21, 46}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x6E}}},
+	{{{52, 55, 10}, 0, {432, 1232}, {0x0, 0x1F, 0xFF, 0x34}}},
+	{{{52, -13, 10}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{1, -9, 0}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{71, 21, -18}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x99}}},
+	{{{16, 21, -26}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x5F}}},
+	{{{1, 52, 0}, 0, {432, 1232}, {0x6, 0x0, 0xFF, 0xE}}},
 };
 
-Gfx squid_Tentacle_R_mesh_layer_1_tri_1[] = {
-	gsSPVertex(squid_Tentacle_R_mesh_layer_1_vtx_1 + 0, 8, 0),
+Gfx squid_Tentacle_L_mesh_layer_1_tri_1[] = {
+	gsSPVertex(squid_Tentacle_L_mesh_layer_1_vtx_1 + 0, 8, 0),
 	gsSP1Triangle(0, 1, 2, 0),
 	gsSP1Triangle(0, 3, 1, 0),
 	gsSP1Triangle(0, 4, 3, 0),
@@ -926,27 +814,27 @@ Gfx squid_Tentacle_R_mesh_layer_1_tri_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx squid_Tentacle_End_R_skinned_mesh_layer_1_vtx_0[4] = {
-	{{{-10, 18, 61}, 0, {304, 2480}, {0x22, 0x0, 0x52, 0x99}}},
-	{{{12, 46, 42}, 0, {592, 2512}, {0x0, 0x1F, 0xFF, 0x34}}},
-	{{{12, -11, 42}, 0, {592, 2512}, {0x20, 0x0, 0x5F, 0xFF}}},
-	{{{41, 18, 22}, 0, {848, 2576}, {0x22, 0x0, 0x52, 0x6E}}},
+Vtx squid_Tentacle_End_L_skinned_mesh_layer_1_vtx_0[4] = {
+	{{{71, 21, -18}, 0, {304, 2480}, {0x22, 0x0, 0x52, 0x99}}},
+	{{{52, 55, 10}, 0, {592, 2512}, {0x0, 0x1F, 0xFF, 0x34}}},
+	{{{52, -13, 10}, 0, {592, 2512}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{31, 21, 46}, 0, {848, 2576}, {0x22, 0x0, 0x52, 0x6E}}},
 };
 
-Gfx squid_Tentacle_End_R_skinned_mesh_layer_1_tri_0[] = {
-	gsSPVertex(squid_Tentacle_End_R_skinned_mesh_layer_1_vtx_0 + 0, 4, 0),
+Gfx squid_Tentacle_End_L_skinned_mesh_layer_1_tri_0[] = {
+	gsSPVertex(squid_Tentacle_End_L_skinned_mesh_layer_1_vtx_0 + 0, 4, 0),
 	gsSPEndDisplayList(),
 };
 
-Vtx squid_Tentacle_End_R_mesh_layer_1_vtx_0[4] = {
-	{{{-14, 15, 45}, 0, {-16, 3600}, {0x22, 0x0, 0x52, 0xEA}}},
-	{{{-2, -6, -6}, 0, {496, 3472}, {0xF, 0x0, 0x24, 0xFF}}},
-	{{{15, 15, -55}, 0, {1008, 3408}, {0x22, 0x0, 0x52, 0xCE}}},
-	{{{-2, 37, -6}, 0, {496, 3472}, {0x0, 0x1F, 0xFF, 0xC4}}},
+Vtx squid_Tentacle_End_L_mesh_layer_1_vtx_0[4] = {
+	{{{32, 19, 54}, 0, {-16, 3600}, {0x22, 0x0, 0x52, 0xEA}}},
+	{{{5, -7, -2}, 0, {496, 3472}, {0xF, 0x0, 0x24, 0xFF}}},
+	{{{-28, 19, -55}, 0, {1008, 3408}, {0x22, 0x0, 0x52, 0xCE}}},
+	{{{5, 44, -2}, 0, {496, 3472}, {0x0, 0x1F, 0xFF, 0xC4}}},
 };
 
-Gfx squid_Tentacle_End_R_mesh_layer_1_tri_0[] = {
-	gsSPVertex(squid_Tentacle_End_R_mesh_layer_1_vtx_0 + 0, 4, 4),
+Gfx squid_Tentacle_End_L_mesh_layer_1_tri_0[] = {
+	gsSPVertex(squid_Tentacle_End_L_mesh_layer_1_vtx_0 + 0, 4, 4),
 	gsSP1Triangle(4, 0, 1, 0),
 	gsSP1Triangle(4, 2, 0, 0),
 	gsSP1Triangle(4, 5, 2, 0),
@@ -958,17 +846,17 @@ Gfx squid_Tentacle_End_R_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx squid_Tentacle_End_R_mesh_layer_1_vtx_1[6] = {
-	{{{53, 15, 40}, 0, {432, 4080}, {0x22, 0x0, 0x52, 0xFD}}},
-	{{{-14, 15, 45}, 0, {-16, 3600}, {0x22, 0x0, 0x52, 0xEA}}},
-	{{{-2, 37, -6}, 0, {496, 3472}, {0x0, 0x1F, 0xFF, 0xC4}}},
-	{{{-2, -6, -6}, 0, {496, 3472}, {0xF, 0x0, 0x24, 0xFF}}},
-	{{{53, 15, -19}, 0, {784, 3856}, {0x22, 0x0, 0x52, 0xF8}}},
-	{{{15, 15, -55}, 0, {1008, 3408}, {0x22, 0x0, 0x52, 0xCE}}},
+Vtx squid_Tentacle_End_L_mesh_layer_1_vtx_1[6] = {
+	{{{-47, 19, 66}, 0, {432, 4080}, {0x22, 0x0, 0x52, 0xFD}}},
+	{{{32, 19, 54}, 0, {-16, 3600}, {0x22, 0x0, 0x52, 0xEA}}},
+	{{{5, 44, -2}, 0, {496, 3472}, {0x0, 0x1F, 0xFF, 0xC4}}},
+	{{{5, -7, -2}, 0, {496, 3472}, {0xF, 0x0, 0x24, 0xFF}}},
+	{{{-63, 19, -3}, 0, {784, 3856}, {0x22, 0x0, 0x52, 0xF8}}},
+	{{{-28, 19, -55}, 0, {1008, 3408}, {0x22, 0x0, 0x52, 0xCE}}},
 };
 
-Gfx squid_Tentacle_End_R_mesh_layer_1_tri_1[] = {
-	gsSPVertex(squid_Tentacle_End_R_mesh_layer_1_vtx_1 + 0, 6, 0),
+Gfx squid_Tentacle_End_L_mesh_layer_1_tri_1[] = {
+	gsSPVertex(squid_Tentacle_End_L_mesh_layer_1_vtx_1 + 0, 6, 0),
 	gsSP1Triangle(0, 1, 2, 0),
 	gsSP1Triangle(0, 3, 1, 0),
 	gsSP1Triangle(3, 0, 4, 0),
@@ -978,12 +866,123 @@ Gfx squid_Tentacle_End_R_mesh_layer_1_tri_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Vtx squid_Tentacle_R_skinned_mesh_layer_1_vtx_0[6] = {
+	{{{-50, 20, 67}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x12}}},
+	{{{-70, 40, 16}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0xF}}},
+	{{{-88, 20, 11}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x14}}},
+	{{{-70, -10, 16}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+	{{{-40, 48, 48}, 0, {432, 1232}, {0x10, 0x0, 0xAA, 0x10}}},
+	{{{-40, -8, 48}, 0, {432, 1232}, {0x27, 0x0, 0x72, 0xFF}}},
+};
+
+Gfx squid_Tentacle_R_skinned_mesh_layer_1_tri_0[] = {
+	gsSPVertex(squid_Tentacle_R_skinned_mesh_layer_1_vtx_0 + 0, 6, 0),
+	gsSPEndDisplayList(),
+};
+
+Vtx squid_Tentacle_R_mesh_layer_1_vtx_0[4] = {
+	{{{-25, 21, 19}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x5F}}},
+	{{{0, 52, 1}, 0, {432, 1232}, {0x6, 0x0, 0xFF, 0xE}}},
+	{{{25, 21, 3}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x43}}},
+	{{{0, -9, 1}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+};
+
+Gfx squid_Tentacle_R_mesh_layer_1_tri_0[] = {
+	gsSPVertex(squid_Tentacle_R_mesh_layer_1_vtx_0 + 0, 4, 6),
+	gsSP1Triangle(6, 1, 2, 0),
+	gsSP1Triangle(6, 7, 1, 0),
+	gsSP1Triangle(7, 4, 1, 0),
+	gsSP1Triangle(0, 4, 7, 0),
+	gsSP1Triangle(0, 7, 8, 0),
+	gsSP1Triangle(0, 8, 9, 0),
+	gsSP1Triangle(0, 9, 5, 0),
+	gsSP1Triangle(9, 3, 5, 0),
+	gsSP1Triangle(6, 3, 9, 0),
+	gsSP1Triangle(6, 2, 3, 0),
+	gsSPEndDisplayList(),
+};
+
+Vtx squid_Tentacle_R_mesh_layer_1_vtx_1[8] = {
+	{{{25, 21, 3}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x43}}},
+	{{{0, 52, 1}, 0, {432, 1232}, {0x6, 0x0, 0xFF, 0xE}}},
+	{{{14, 55, 51}, 0, {432, 1232}, {0x0, 0x1F, 0xFF, 0x34}}},
+	{{{-12, 21, 73}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x99}}},
+	{{{-25, 21, 19}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x5F}}},
+	{{{0, -9, 1}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{14, -13, 51}, 0, {432, 1232}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{49, 21, 27}, 0, {432, 1232}, {0x22, 0x0, 0x52, 0x6E}}},
+};
+
+Gfx squid_Tentacle_R_mesh_layer_1_tri_1[] = {
+	gsSPVertex(squid_Tentacle_R_mesh_layer_1_vtx_1 + 0, 8, 0),
+	gsSP1Triangle(0, 1, 2, 0),
+	gsSP1Triangle(3, 2, 1, 0),
+	gsSP1Triangle(3, 1, 4, 0),
+	gsSP1Triangle(3, 4, 5, 0),
+	gsSP1Triangle(3, 5, 6, 0),
+	gsSP1Triangle(0, 6, 5, 0),
+	gsSP1Triangle(0, 7, 6, 0),
+	gsSP1Triangle(0, 2, 7, 0),
+	gsSPEndDisplayList(),
+};
+
+Vtx squid_Tentacle_End_R_skinned_mesh_layer_1_vtx_0[4] = {
+	{{{14, 55, 51}, 0, {592, 2512}, {0x0, 0x1F, 0xFF, 0x34}}},
+	{{{-12, 21, 73}, 0, {304, 2480}, {0x22, 0x0, 0x52, 0x99}}},
+	{{{14, -13, 51}, 0, {592, 2512}, {0x20, 0x0, 0x5F, 0xFF}}},
+	{{{49, 21, 27}, 0, {848, 2576}, {0x22, 0x0, 0x52, 0x6E}}},
+};
+
+Gfx squid_Tentacle_End_R_skinned_mesh_layer_1_tri_0[] = {
+	gsSPVertex(squid_Tentacle_End_R_skinned_mesh_layer_1_vtx_0 + 0, 4, 0),
+	gsSPEndDisplayList(),
+};
+
+Vtx squid_Tentacle_End_R_mesh_layer_1_vtx_0[4] = {
+	{{{-16, 19, 54}, 0, {-16, 3600}, {0x22, 0x0, 0x52, 0xEA}}},
+	{{{-2, 44, -7}, 0, {496, 3472}, {0x0, 0x1F, 0xFF, 0xC4}}},
+	{{{18, 19, -66}, 0, {1008, 3408}, {0x22, 0x0, 0x52, 0xCE}}},
+	{{{-2, -7, -7}, 0, {496, 3472}, {0xF, 0x0, 0x24, 0xFF}}},
+};
+
+Gfx squid_Tentacle_End_R_mesh_layer_1_tri_0[] = {
+	gsSPVertex(squid_Tentacle_End_R_mesh_layer_1_vtx_0 + 0, 4, 4),
+	gsSP1Triangle(4, 0, 1, 0),
+	gsSP1Triangle(4, 5, 0, 0),
+	gsSP1Triangle(5, 3, 0, 0),
+	gsSP1Triangle(5, 6, 3, 0),
+	gsSP1Triangle(7, 3, 6, 0),
+	gsSP1Triangle(7, 2, 3, 0),
+	gsSP1Triangle(4, 2, 7, 0),
+	gsSP1Triangle(4, 1, 2, 0),
+	gsSPEndDisplayList(),
+};
+
+Vtx squid_Tentacle_End_R_mesh_layer_1_vtx_1[6] = {
+	{{{63, 19, 48}, 0, {432, 4080}, {0x22, 0x0, 0x52, 0xFD}}},
+	{{{-2, 44, -7}, 0, {496, 3472}, {0x0, 0x1F, 0xFF, 0xC4}}},
+	{{{-16, 19, 54}, 0, {-16, 3600}, {0x22, 0x0, 0x52, 0xEA}}},
+	{{{64, 19, -23}, 0, {784, 3856}, {0x22, 0x0, 0x52, 0xF8}}},
+	{{{-2, -7, -7}, 0, {496, 3472}, {0xF, 0x0, 0x24, 0xFF}}},
+	{{{18, 19, -66}, 0, {1008, 3408}, {0x22, 0x0, 0x52, 0xCE}}},
+};
+
+Gfx squid_Tentacle_End_R_mesh_layer_1_tri_1[] = {
+	gsSPVertex(squid_Tentacle_End_R_mesh_layer_1_vtx_1 + 0, 6, 0),
+	gsSP1Triangle(0, 1, 2, 0),
+	gsSP1Triangle(1, 0, 3, 0),
+	gsSP1Triangle(4, 3, 0, 0),
+	gsSP1Triangle(0, 2, 4, 0),
+	gsSP1Triangle(3, 4, 5, 0),
+	gsSP1Triangle(3, 5, 1, 0),
+	gsSPEndDisplayList(),
+};
+
 
 Gfx mat_squid_f3dlite_material_001[] = {
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, ENVIRONMENT, 0, SHADE, 0, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, ENVIRONMENT, 0, SHADE, 0),
-	gsSPSetGeometryMode(G_CULL_FRONT),
-	gsSPClearGeometryMode(G_CULL_BACK | G_LIGHTING),
+	gsSPClearGeometryMode(G_LIGHTING),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
 	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, squid_squid_ia8),
@@ -998,8 +997,7 @@ Gfx mat_squid_f3dlite_material_001[] = {
 
 Gfx mat_revert_squid_f3dlite_material_001[] = {
 	gsDPPipeSync(),
-	gsSPClearGeometryMode(G_CULL_FRONT),
-	gsSPSetGeometryMode(G_CULL_BACK | G_LIGHTING),
+	gsSPSetGeometryMode(G_LIGHTING),
 	gsSPEndDisplayList(),
 };
 

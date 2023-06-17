@@ -551,6 +551,7 @@ extern const BehaviorScript bhvAbilityUnlock[];
 /* GROUP B END */
 
 /* GROUP C START */
+extern const BehaviorScript bhvSquid[];
 /* GROUP C END */
 
 /* GROUP D START */

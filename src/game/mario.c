@@ -71,6 +71,9 @@ s16 set_mario_animation(struct MarioState *m, s32 targetAnimID) {
     struct Object *marioObj = m->marioObj;
     struct Animation *targetAnim = m->animList->bufTarget;
 
+    if(using_ability(ABILITY_SQUID))
+        targetAnimID = MARIO_ANIM_TWIRL;
+
     if (load_patchable_table(m->animList, targetAnimID)) {
         targetAnim->values = (void *) VIRTUAL_TO_PHYSICAL((u8 *) targetAnim + (uintptr_t) targetAnim->values);
         targetAnim->index  = (void *) VIRTUAL_TO_PHYSICAL((u8 *) targetAnim + (uintptr_t) targetAnim->index);

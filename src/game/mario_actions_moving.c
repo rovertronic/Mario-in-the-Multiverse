@@ -1621,6 +1621,10 @@ s32 act_cutter_dash(struct MarioState *m) {
     return FALSE;
 }
 
+s32 act_squid(struct MarioState *m){
+    return FALSE;
+}
+
 s32 stomach_slide_action(struct MarioState *m, u32 stopAction, u32 airAction, s32 animation) {
     if (m->actionTimer == 5) {
         if (!(m->input & INPUT_ABOVE_SLIDE) && (m->input & (INPUT_A_PRESSED | INPUT_B_PRESSED))) {
@@ -2120,7 +2124,8 @@ s32 mario_execute_moving_action(struct MarioState *m) {
         case ACT_QUICKSAND_JUMP_LAND:      cancel = act_quicksand_jump_land(m);      break;
         case ACT_HOLD_QUICKSAND_JUMP_LAND: cancel = act_hold_quicksand_jump_land(m); break;
         case ACT_LONG_JUMP_LAND:           cancel = act_long_jump_land(m);           break;
-        case ACT_CUTTER_DASH:              cancel = act_cutter_dash(m);           break;
+        case ACT_CUTTER_DASH:              cancel = act_cutter_dash(m);              break;
+        case ACT_SQUID:                    cancel = act_squid(m);                    break;
     }
     /* clang-format on */
 

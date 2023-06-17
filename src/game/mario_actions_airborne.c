@@ -2279,6 +2279,40 @@ s32 act_hm_fly(struct MarioState *m){
     return FALSE;
 }
 
+s32 act_knight_jump(struct MarioState *m) {
+
+    if (m->knightDoubleJump) {
+        set_mario_animation(m, MARIO_ANIM_FORWARD_SPINNING_FLIP);
+    } else {
+        set_mario_animation(m, MARIO_ANIM_AIR_FORWARD_KB);
+    }
+    mario_set_forward_vel(m, m->forwardVel);
+
+    switch(perform_air_step(m, 0)) {
+        case AIR_STEP_LANDED:
+            return set_mario_action(m,ACT_KNIGHT_SLIDE,0);
+        break;
+        case AIR_STEP_HIT_WALL:
+            return set_mario_action(m,ACT_AIR_HIT_WALL,0);
+        break;
+    }
+
+    if (m->knightDoubleJump) {
+        return FALSE;
+    }
+
+    //only single jump
+    if ((m->input & INPUT_A_PRESSED)&&(m->actionTimer > 0)) {
+        m->vel[1] = 60.0f;
+        m->knightDoubleJump = TRUE;
+        play_sound(SOUND_ABILITY_KNIGHT_EQUIP, m->marioObj->header.gfx.cameraToObject);
+        return set_mario_action(m,ACT_KNIGHT_JUMP,0);
+    }
+    m->actionTimer++;
+
+    return FALSE;
+}
+
 s32 check_common_airborne_cancels(struct MarioState *m) {
     if (m->pos[1] < m->waterLevel - 100) {
         return set_water_plunge_action(m);
@@ -2357,6 +2391,7 @@ s32 mario_execute_airborne_action(struct MarioState *m) {
         case ACT_ABILITY_AXE_JUMP:     cancel = act_axe_jump(m);             break;
         case ACT_CUTTER_THROW_AIR: cancel = act_cutter_throw_air(m);         break;
         case ACT_HM_FLY:               cancel = act_hm_fly(m);               break;
+        case ACT_KNIGHT_JUMP:          cancel = act_knight_jump(m);          break;
     }
     /* clang-format on */
 

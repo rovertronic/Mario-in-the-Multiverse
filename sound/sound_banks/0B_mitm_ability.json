@@ -64,6 +64,16 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "ability_chronos_slash_3"
+        },
+        "inst_knight_slide": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "sfx_knightslide"
+        },
+        "inst_knight_sword": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "sfx_knightsword"
         }
     },
     "instrument_list": [
@@ -77,6 +87,8 @@
         "inst_ability_dragonite",
         "inst_ability_chronos_slash_1",
         "inst_ability_chronos_slash_2",
-        "inst_ability_chronos_slash_3"
+        "inst_ability_chronos_slash_3",
+        "inst_knight_slide",
+        "inst_knight_sword"
     ]
 }

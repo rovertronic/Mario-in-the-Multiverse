@@ -284,6 +284,9 @@ void control_ability_dpad(void) {
             case ABILITY_AKU:
                 play_sound(SOUND_ABILITY_AKU_AKU, gGlobalSoundSource);
             break;
+            case ABILITY_KNIGHT:
+                play_sound(SOUND_ABILITY_KNIGHT_EQUIP, gGlobalSoundSource);
+            break;
         }
     }
 }

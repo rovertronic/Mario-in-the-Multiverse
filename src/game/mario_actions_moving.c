@@ -50,7 +50,7 @@ s16 tilt_body_running(struct MarioState *m) {
 
 void play_step_sound(struct MarioState *m, s16 frame1, s16 frame2) {
     if (is_anim_past_frame(m, frame1) || is_anim_past_frame(m, frame2)) {
-        if (m->flags & MARIO_METAL_CAP) {
+        if ((m->flags & MARIO_METAL_CAP)||(using_ability(ABILITY_KNIGHT))) {
             if (m->marioObj->header.gfx.animInfo.animID == MARIO_ANIM_TIPTOE) {
                 play_sound_and_spawn_particles(m, SOUND_ACTION_METAL_STEP_TIPTOE, 0);
             } else {
@@ -789,6 +789,10 @@ s32 act_walking(struct MarioState *m) {
 
     mario_drop_held_object(m);
 
+    if (ground_check_knight(m)) {
+        return FALSE;
+    }
+
     if (should_begin_sliding(m)) {
         return set_mario_action(m, ACT_BEGIN_SLIDING, 0);
     }
@@ -1111,6 +1115,10 @@ s32 act_braking(struct MarioState *m) {
 
     if (m->input & INPUT_B_PRESSED) {
         return set_mario_action(m, ACT_MOVE_PUNCHING, 0);
+    }
+
+    if (ground_check_knight(m)) {
+        return FALSE;
     }
 
     switch (perform_ground_step(m)) {
@@ -1504,6 +1512,10 @@ s32 common_slide_action_with_jump(struct MarioState *m, u32 stopAction, u32 jump
     }
 
     common_slide_action(m, stopAction, airAction, animation);
+
+    if (ground_check_knight(m)) {
+        return FALSE;
+    }
     return FALSE;
 }
 
@@ -1663,6 +1675,10 @@ s32 stomach_slide_action(struct MarioState *m, u32 stopAction, u32 airAction, s3
 }
 
 s32 act_stomach_slide(struct MarioState *m) {
+    if (ground_check_knight(m)) {
+        return FALSE;
+    }
+
     return stomach_slide_action(m, ACT_STOMACH_SLIDE_STOP, ACT_FREEFALL, MARIO_ANIM_SLIDE_DIVE);
 }
 
@@ -1671,10 +1687,18 @@ s32 act_hold_stomach_slide(struct MarioState *m) {
         return drop_and_set_mario_action(m, ACT_STOMACH_SLIDE, 0);
     }
 
+    if (ground_check_knight(m)) {
+        return FALSE;
+    }
+
     return stomach_slide_action(m, ACT_DIVE_PICKING_UP, ACT_HOLD_FREEFALL, MARIO_ANIM_SLIDE_DIVE);
 }
 
 s32 act_dive_slide(struct MarioState *m) {
+    if (ground_check_knight(m)) {
+        return FALSE;
+    }
+
     if (!(m->input & INPUT_ABOVE_SLIDE) && (m->input & (INPUT_A_PRESSED | INPUT_B_PRESSED))) {
 #if ENABLE_RUMBLE
         queue_rumble_data(5, 80);
@@ -2056,6 +2080,65 @@ s32 quicksand_jump_land_action(struct MarioState *m, s32 animation1, s32 animati
     return FALSE;
 }
 
+s32 act_knight_slide(struct MarioState *m) {
+    //visuals
+    set_mario_animation(m, MARIO_ANIM_RIDING_SHELL);
+    align_with_floor(m);
+
+    if (m->actionTimer % 3 == 0) {
+    m->particleFlags = PARTICLE_HORIZONTAL_STAR;
+    } else 
+    {
+    m->particleFlags = 0;
+    }
+
+    //audio
+    //if (m->actionTimer % 48 == 0) {
+        play_sound((SOUND_ABILITY_KNIGHT_SLIDE), m->marioObj->header.gfx.cameraToObject);
+    //}
+
+    m->actionTimer++;
+
+    //logic
+    mario_set_forward_vel(m, m->forwardVel);
+
+    s32 ground_step_state = perform_ground_step(m);
+    struct Surface *floor = m->floor;
+    f32 steepness = sqrtf(sqr(floor->normal.x) + sqr(floor->normal.z));
+    s16 floorDYaw = atan2s(floor->normal.z,floor->normal.x);
+
+    if (steepness > 0.4f) {
+        m->faceAngle[1] = approach_s16_symmetric(m->faceAngle[1], floorDYaw, 0x150);
+        if (abs_angle_diff(m->faceAngle[1],floorDYaw) > 0x4000) {
+            m->forwardVel -= steepness*2.5f;
+        } else {
+            m->forwardVel += steepness*2.5f;
+        }
+    } else {
+        if (m->forwardVel < 48.0f) {
+            m->forwardVel += 0.8f;
+        }
+    }
+
+    m->knightDoubleJump = FALSE;
+    if (m->input & INPUT_A_PRESSED) {
+        m->vel[1] = 60.0f;
+        play_sound(SOUND_ABILITY_KNIGHT_EQUIP, m->marioObj->header.gfx.cameraToObject);
+        return set_mario_action(m,ACT_KNIGHT_JUMP,0);
+    }
+    
+    if (ground_step_state == GROUND_STEP_HIT_WALL) {
+        return set_mario_action(m,ACT_GROUND_BONK,0);
+    }
+    if (ground_step_state == GROUND_STEP_LEFT_GROUND) {
+        return set_mario_action(m,ACT_KNIGHT_JUMP,0);
+    }
+    if (!using_ability(ABILITY_KNIGHT)) {
+        return set_mario_action(m,ACT_IDLE,0);
+    }
+    return FALSE;
+}
+
 s32 act_quicksand_jump_land(struct MarioState *m) {
     return quicksand_jump_land_action(m, MARIO_ANIM_SINGLE_JUMP,
                                          MARIO_ANIM_LAND_FROM_SINGLE_JUMP,
@@ -2150,6 +2233,7 @@ s32 mario_execute_moving_action(struct MarioState *m) {
         case ACT_HOLD_QUICKSAND_JUMP_LAND: cancel = act_hold_quicksand_jump_land(m); break;
         case ACT_LONG_JUMP_LAND:           cancel = act_long_jump_land(m);           break;
         case ACT_CUTTER_DASH:              cancel = act_cutter_dash(m);           break;
+        case ACT_KNIGHT_SLIDE:             cancel = act_knight_slide(m);          break;
     }
     /* clang-format on */
 

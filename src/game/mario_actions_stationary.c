@@ -146,6 +146,10 @@ s32 act_idle(struct MarioState *m) {
         m->actionState = ACT_STATE_IDLE_ROCKET;
     }
 
+    if (ground_check_knight(m)) {
+        return FALSE;
+    }
+
     if (!(m->input & INPUT_A_PRESSED)) {
         m->canHMFly = 1;
         m->abilityChronosCanSlash = TRUE;

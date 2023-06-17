@@ -6219,6 +6219,16 @@ const BehaviorScript bhvDragonite[] = {
 /* GROUP K END */
 
 /* GROUP L START */
+const BehaviorScript bhvPtMetalBox[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(pt_mb_collision),
+    SET_FLOAT(oDrawingDistance, 16000),
+    SET_FLOAT(oCollisionDistance, 500),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_pt_mb),
+    END_LOOP(),
+};
 /* GROUP L END */
 
 /* GROUP M START */

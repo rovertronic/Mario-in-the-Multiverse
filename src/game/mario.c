@@ -1811,6 +1811,26 @@ void queue_rumble_particles(struct MarioState *m) {
 }
 #endif
 
+s32 ground_check_knight(struct MarioState *m) {
+    struct Surface *floor = m->floor;
+    f32 steepness = sqrtf(sqr(floor->normal.x) + sqr(floor->normal.z));
+    s16 floorDYaw = atan2s(floor->normal.z,floor->normal.x)+0x8000;
+
+    if (!using_ability(ABILITY_KNIGHT)) {
+        return FALSE;
+    }
+
+    if (steepness > 0.2f) {
+        m->forwardVel = 48.0f;
+        if (abs_angle_diff(m->faceAngle[1],floorDYaw) < 0x4000) {
+            m->faceAngle[1] = floorDYaw+0x8000;
+        }
+        return set_mario_action(m, ACT_KNIGHT_SLIDE, 0);
+    } else {
+        return FALSE;
+    }
+}
+
 /**
  * Main function for executing Mario's behavior. Returns particleFlags.
  */
@@ -1894,6 +1914,14 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             gMarioState->abilityChronosTimeSlowActive = FALSE;
             if (chronos_timer < 360) {
                 chronos_timer++;
+            }
+        }
+
+        //Knight Suit
+        if (using_ability(ABILITY_KNIGHT) && (gMarioState->action != ACT_KNIGHT_SLIDE) &&
+        (gMarioState->action != ACT_KNIGHT_JUMP)) {
+            if (gMarioState->forwardVel > 10.0f) {
+                gMarioState->forwardVel = 10.0f;
             }
         }
 
@@ -2111,6 +2139,8 @@ void init_mario(void) {
     } else {
         gMarioState->flags = (MARIO_NORMAL_CAP | MARIO_CAP_ON_HEAD);
     }
+
+    gMarioState->knightDoubleJump = FALSE;
 
     gMarioState->forwardVel = 0.0f;
     gMarioState->squishTimer = 0;

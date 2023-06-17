@@ -6639,7 +6639,7 @@ layer_end
 sound_ref .sound_air_bowser_spit_fire
 sound_ref .chan_29C2
 sound_ref .sound_air_lakitu_fly
-sound_ref .sound_air_amp_buzz
+sound_ref .sound_air_
 sound_ref .sound_air_blow_fire
 sound_ref .sound_air_rough_slide
 sound_ref .sound_air_heaveho_move
@@ -6712,7 +6712,7 @@ layer_note1 27, 0x16, 50
 layer_jump .layer_29E5
 layer_end
 
-.sound_air_amp_buzz:
+.sound_air_:
 chan_setbank 3
 chan_setinstr 9
 chan_setenvelope .envelope_32E4
@@ -7975,6 +7975,8 @@ sound_ref .sound_ability_dragonite
 sound_ref .sound_ability_chronos_slash_1
 sound_ref .sound_ability_chronos_slash_2
 sound_ref .sound_ability_chronos_slash_3
+sound_ref .sound_ability_knightslide
+sound_ref .sound_ability_knightsword
 
 .sound_ability_x_0:
 chan_setbank 11
@@ -8063,6 +8065,31 @@ chan_setlayer 0, .layer_ability_chronos_slash_3
 chan_end
 
 .layer_ability_chronos_slash_3:
+layer_note1 39, 0x23, 127
+layer_end
+
+.sound_ability_knightslide:
+chan_setbank 11
+chan_setinstr 11
+chan_setenvelope .envelope_32E4
+chan_setdecayrelease 15
+chan_setlayer 0, .layer_ability_knightslide
+chan_end
+
+.layer_ability_knightslide:
+layer_somethingon
+.layer_knightslide2:
+layer_note1 39, 0x7F, 127
+layer_jump .layer_knightslide2
+layer_end
+
+.sound_ability_knightsword:
+chan_setbank 11
+chan_setinstr 12
+chan_setlayer 0, .layer_ability_knightsword
+chan_end
+
+.layer_ability_knightsword:
 layer_note1 39, 0x23, 127
 layer_end
 

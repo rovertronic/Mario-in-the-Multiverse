@@ -85,3 +85,5 @@
 #include "rocket_button_on/model.inc.c"
 
 #include "knight_mario/model.inc.c"
+#include "pt_mb/collision.inc.c"
+#include "pt_mb/model.inc.c"

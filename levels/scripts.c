@@ -127,6 +127,7 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_SHOCK_ROCKET,            shock_rocket_geo),
     LOAD_MODEL_FROM_GEO(MODEL_ROCKET_BUTTON_OFF,       rocket_button_off_geo),
     LOAD_MODEL_FROM_GEO(MODEL_ROCKET_BUTTON_ON,        rocket_button_on_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SQUID,                   squid_geo),
     FREE_LEVEL_POOL(),
     POP_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),

@@ -58,14 +58,16 @@ void bhv_animates_on_floor_switch_press_loop(void) {
             cur_obj_play_sound_1(SOUND_GENERAL2_SWITCH_TICK_FAST);
         }
 
-        if (--o->oFloorSwitchPressAnimationTickTimer == 0) {
-            o->oFloorSwitchPressAnimationDoResetTime = 0;
-        }
+        if (ability_chronos_frame_can_progress()) {
+            if (--o->oFloorSwitchPressAnimationTickTimer == 0) {
+                o->oFloorSwitchPressAnimationDoResetTime = 0;
+            }
 
-        if (o->oFloorSwitchPressAnimationDoubleFrame < 9) {
-            o->oFloorSwitchPressAnimationDoubleFrame++;
+            if (o->oFloorSwitchPressAnimationDoubleFrame < 9) {
+                o->oFloorSwitchPressAnimationDoubleFrame++;
+            }
         }
-    } else if ((o->oFloorSwitchPressAnimationDoubleFrame -= 2) < 0) {
+    } else if (ability_chronos_frame_can_progress() && (o->oFloorSwitchPressAnimationDoubleFrame -= 2) < 0) {
         o->oFloorSwitchPressAnimationDoubleFrame = 0;
         o->oFloorSwitchPressAnimationDoResetTime = 1;
     }

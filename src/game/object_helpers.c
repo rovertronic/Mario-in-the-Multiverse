@@ -27,6 +27,7 @@
 #include "spawn_object.h"
 #include "spawn_sound.h"
 #include "puppylights.h"
+#include "ability.h"
 
 static s32 clear_move_flag(u32 *bitSet, s32 flag);
 
@@ -1491,8 +1492,16 @@ UNUSED static s32 cur_obj_within_bounds(f32 bounds) {
 }
 
 void cur_obj_move_using_vel_and_gravity(void) {
-    o->oVelY += o->oGravity; //! No terminal velocity
-    vec3f_add(&o->oPosVec, &o->oVelVec);
+    if (o->oFlags & OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW) {
+        o->oVelY += o->oGravity * ability_chronos_current_slow_factor(); //! No terminal velocity
+        o->oPosX += o->oVelX * ability_chronos_current_slow_factor();
+        o->oPosY += o->oVelY * ability_chronos_current_slow_factor();
+        o->oPosZ += o->oVelZ * ability_chronos_current_slow_factor();
+    }
+    else {
+        o->oVelY += o->oGravity; //! No terminal velocity
+        vec3f_add(&o->oPosVec, &o->oVelVec);
+    }
 }
 
 void cur_obj_move_using_fvel_and_gravity(void) {

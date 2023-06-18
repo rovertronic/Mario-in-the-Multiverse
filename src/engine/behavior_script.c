@@ -916,7 +916,7 @@ void cur_obj_update(void) {
     o->curBhvCommand = gCurBhvCommand;
 
     // Increment the object's timer.
-    if (o->oTimer < 0x3FFFFFFF) {
+    if (o->oTimer < 0x3FFFFFFF && ability_chronos_frame_can_progress()) {
         o->oTimer++;
     }
 

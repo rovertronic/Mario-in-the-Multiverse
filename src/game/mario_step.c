@@ -347,7 +347,6 @@ s32 perform_ground_step(struct MarioState *m) {
     u32 stepResult;
     Vec3f intendedPos;
     const f32 numSteps = 4.0f;
-    f32 abilityChronosSlowFactor = m->abilityChronosTimeSlowActive ? ABILITY_CHRONOS_SLOW_FACTOR : 1.0f;
 
     set_mario_wall(m, NULL);
 
@@ -356,8 +355,8 @@ s32 perform_ground_step(struct MarioState *m) {
     }
 
     for (i = 0; i < 4; i++) {
-        intendedPos[0] = m->pos[0] + m->floor->normal.y * ((m->vel[0] * abilityChronosSlowFactor) / numSteps);
-        intendedPos[2] = m->pos[2] + m->floor->normal.y * ((m->vel[2] * abilityChronosSlowFactor) / numSteps);
+        intendedPos[0] = m->pos[0] + m->floor->normal.y * ((m->vel[0] * ability_chronos_current_slow_factor()) / numSteps);
+        intendedPos[2] = m->pos[2] + m->floor->normal.y * ((m->vel[2] * ability_chronos_current_slow_factor()) / numSteps);
         intendedPos[1] = m->pos[1];
 
         stepResult = perform_ground_quarter_step(m, intendedPos);
@@ -708,14 +707,13 @@ s32 perform_air_step(struct MarioState *m, u32 stepArg) {
     s32 i;
     s32 quarterStepResult;
     s32 stepResult = AIR_STEP_NONE;
-    f32 abilityChronosSlowFactor = m->abilityChronosTimeSlowActive ? ABILITY_CHRONOS_SLOW_FACTOR : 1.0f;
 
     set_mario_wall(m, NULL);
 
     for (i = 0; i < 4; i++) {
-        intendedPos[0] = m->pos[0] + (m->vel[0] * abilityChronosSlowFactor) / numSteps;
-        intendedPos[1] = m->pos[1] + (m->vel[1] * abilityChronosSlowFactor) / numSteps;
-        intendedPos[2] = m->pos[2] + (m->vel[2] * abilityChronosSlowFactor) / numSteps;
+        intendedPos[0] = m->pos[0] + (m->vel[0] * ability_chronos_current_slow_factor()) / numSteps;
+        intendedPos[1] = m->pos[1] + (m->vel[1] * ability_chronos_current_slow_factor()) / numSteps;
+        intendedPos[2] = m->pos[2] + (m->vel[2] * ability_chronos_current_slow_factor()) / numSteps;
 
         quarterStepResult = perform_air_quarter_step(m, intendedPos, stepArg);
 
@@ -737,7 +735,7 @@ s32 perform_air_step(struct MarioState *m, u32 stepArg) {
     m->terrainSoundAddend = mario_get_terrain_sound_addend(m);
 
     if (m->action != ACT_FLYING) {
-        apply_gravity(m, abilityChronosSlowFactor);
+        apply_gravity(m, ability_chronos_current_slow_factor());
     }
     apply_vertical_wind(m);
 

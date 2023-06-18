@@ -1121,8 +1121,7 @@ s32 act_ground_pound(struct MarioState *m) {
 
     if (m->actionState == 0) {
         if (m->actionTimer < 10) {
-            f32 abilityChronosSlowFactor = m->abilityChronosTimeSlowActive ? ABILITY_CHRONOS_SLOW_FACTOR : 1.0f;
-            yOffset = (20 - 2 * m->actionTimer) * abilityChronosSlowFactor;
+            yOffset = (20 - 2 * m->actionTimer) * ability_chronos_current_slow_factor();
             if (m->pos[1] + yOffset + 160.0f < m->ceilHeight) {
                 m->pos[1] += yOffset;
                 m->peakHeight = m->pos[1];

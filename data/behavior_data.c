@@ -6158,7 +6158,7 @@ const BehaviorScript bhvCutterBlade[] = {
 /* GROUP I START */
 const BehaviorScript bhvShockRocket[] = {
     BEGIN(OBJ_LIST_DESTRUCTIVE),
-    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO |OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO |OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW)),
     SCALE(/*Unused*/ 0, /*Field*/ 20),
     SET_INT(oWallHitboxRadius, 40),
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ 0, /*Bounciness*/ 0, /*Drag strength*/ 0, /*Friction*/ 0, /*Buoyancy*/ 0, /*Unused*/ 0, 0),

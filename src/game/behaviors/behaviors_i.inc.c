@@ -22,12 +22,12 @@ void shock_rocket_stick_control(void){
     if (stickX < 10 && stickX > -10) stickX = 0;
     if (stickY < 10 && stickY > -10) stickY = 0;
     if (find_water_level(o->oPosX, o->oPosZ) > o->oPosY) {
-        o->oMoveAngleYaw -= 5 * stickX;
-        o->oMoveAnglePitch -= 5 * stickY;
+        o->oMoveAngleYaw -= 5 * stickX * ability_chronos_current_slow_factor();
+        o->oMoveAnglePitch -= 5 * stickY * ability_chronos_current_slow_factor();
         o->oForwardVel = 20.0f;
     } else {
-        o->oMoveAngleYaw -= 10 * stickX;
-        o->oMoveAnglePitch -= 10 * stickY;
+        o->oMoveAngleYaw -= 10 * stickX * ability_chronos_current_slow_factor();
+        o->oMoveAnglePitch -= 10 * stickY * ability_chronos_current_slow_factor();
         o->oForwardVel = 30.0f;
     }
     //CAP PITCH TO AVOID CAMERA FLIPPING
@@ -36,7 +36,7 @@ void shock_rocket_stick_control(void){
 }
 
 void shock_rocket_quit(void){
-    obj_set_model(gMarioObject, MODEL_MARIO);
+    gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
     obj_mark_for_deletion(o);
     if(!(gMarioState->action & ACT_FLAG_INVULNERABLE)){
        gMarioState->actionState = 2;
@@ -82,7 +82,7 @@ void shock_rocket_move(void){
     f32 ceilHeight;
 
     if (o->oTimer == 5) {
-        obj_set_model(gMarioObject, MODEL_MARIO);
+        gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
         o->oInteractType = INTERACT_DAMAGE; 
     }
 
@@ -93,9 +93,9 @@ void shock_rocket_move(void){
 
     //control and moving
     shock_rocket_stick_control();
-    o->oPosX += (sins(o->oMoveAngleYaw) * coss(o->oMoveAnglePitch)) * o->oForwardVel;
-    o->oPosY -= (sins(o->oMoveAnglePitch)) * o->oForwardVel;
-    o->oPosZ += (coss(o->oMoveAngleYaw) * coss(o->oMoveAnglePitch)) * o->oForwardVel;
+    o->oPosX += (sins(o->oMoveAngleYaw) * coss(o->oMoveAnglePitch)) * o->oForwardVel * ability_chronos_current_slow_factor();
+    o->oPosY -= (sins(o->oMoveAnglePitch)) * o->oForwardVel * ability_chronos_current_slow_factor();
+    o->oPosZ += (coss(o->oMoveAngleYaw) * coss(o->oMoveAnglePitch)) * o->oForwardVel * ability_chronos_current_slow_factor();
 
     //visual animation
     o->oMoveAngleRoll =  sins(o->oTimer * 0x1000) * DEGREES(1.0f);

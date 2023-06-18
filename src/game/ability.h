@@ -49,6 +49,7 @@ extern u8 ability_slot[4];
 #define ABILITY_CHRONOS_SLOW_FACTOR 1.0f / ABILITY_CHRONOS_SLOW_SPLIT
 
 u8 ability_chronos_frame_can_progress(void);
+f32 ability_chronos_current_slow_factor(void);
 
 // Ability specific variables
 extern u16 aku_invincibility;

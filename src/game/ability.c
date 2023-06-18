@@ -332,3 +332,10 @@ u8 ability_chronos_frame_can_progress(void) {
 
     return frameCounter == 0;
 }
+
+/**
+ * Returns the current factor by which to slow time at, if at all.
+ */
+f32 ability_chronos_current_slow_factor(void) {
+    return gMarioState->abilityChronosTimeSlowActive ? ABILITY_CHRONOS_SLOW_FACTOR : 1.0f;
+}

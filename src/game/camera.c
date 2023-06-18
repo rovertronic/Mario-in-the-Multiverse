@@ -28,6 +28,7 @@
 #include "config.h"
 #include "puppyprint.h"
 #include "profiling.h"
+#include "ability.h"
 
 #define CBUTTON_MASK (U_CBUTTONS | D_CBUTTONS | L_CBUTTONS | R_CBUTTONS)
 
@@ -2682,9 +2683,9 @@ void mode_shock_rocket_camera(struct Camera *c) {
         camDecrement = 100;
     }
     Vec3f camOffset = {
-        (sins(yaw) * cossPitch) * (rocket->oForwardVel - camDecrement),
-        (sins(pitch)) * (rocket->oForwardVel + camDecrement),
-        (coss(yaw) * cossPitch) * (rocket->oForwardVel - camDecrement)
+        (sins(yaw) * cossPitch) * ((rocket->oForwardVel * ability_chronos_current_slow_factor()) - camDecrement),
+        (sins(pitch)) * ((rocket->oForwardVel * ability_chronos_current_slow_factor()) + camDecrement),
+        (coss(yaw) * cossPitch) * ((rocket->oForwardVel * ability_chronos_current_slow_factor()) - camDecrement)
     };
     Vec3f newPos;
 

@@ -215,8 +215,6 @@ s32 update_sliding(struct MarioState *m, f32 stopSpeed) {
     f32 forward = coss(intendedDYaw);
     f32 sideward = sins(intendedDYaw);
 
-    f32 abilityChronosSlowFactor = m->abilityChronosTimeSlowActive ? ABILITY_CHRONOS_SLOW_FACTOR : 1.0f;
-
     //! 10k glitch
     if (forward < 0.0f && m->forwardVel >= 0.0f) {
         forward *= 0.5f + 0.5f * m->forwardVel / 100.0f;
@@ -259,7 +257,7 @@ s32 update_sliding(struct MarioState *m, f32 stopSpeed) {
         m->slideVelZ = m->slideVelZ * oldSpeed / newSpeed;
     }
 
-    update_sliding_angle(m, accel * abilityChronosSlowFactor, lossFactor);
+    update_sliding_angle(m, accel * ability_chronos_current_slow_factor(), lossFactor);
 
     if (!mario_floor_is_slope(m) && m->forwardVel * m->forwardVel < stopSpeed * stopSpeed) {
         mario_set_forward_vel(m, 0.0f);

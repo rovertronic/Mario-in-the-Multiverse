@@ -83,3 +83,4 @@
 #include "squid/model.inc.c"
 #include "squid/anims/data.inc.c"
 #include "squid/anims/table.inc.c"
+#include "squid_hat/model.inc.c"

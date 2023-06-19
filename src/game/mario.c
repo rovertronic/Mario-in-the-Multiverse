@@ -71,9 +71,6 @@ s16 set_mario_animation(struct MarioState *m, s32 targetAnimID) {
     struct Object *marioObj = m->marioObj;
     struct Animation *targetAnim = m->animList->bufTarget;
 
-    if(using_ability(ABILITY_SQUID))
-        targetAnimID = MARIO_ANIM_TWIRL;
-
     if (load_patchable_table(m->animList, targetAnimID)) {
         targetAnim->values = (void *) VIRTUAL_TO_PHYSICAL((u8 *) targetAnim + (uintptr_t) targetAnim->values);
         targetAnim->index  = (void *) VIRTUAL_TO_PHYSICAL((u8 *) targetAnim + (uintptr_t) targetAnim->index);
@@ -2016,6 +2013,14 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 obj_mark_for_deletion(marble);
                 gMarioState->pos[1] -= 90.0f;
                 gMarioObject->oPosY -= 90.0f;
+            }
+        }
+
+        //Squid Ability
+        if(using_ability(ABILITY_SQUID)){
+            if (gPlayer1Controller->buttonDown & L_TRIG){
+                obj_set_model(gMarioObject, MODEL_SQUID);
+                set_mario_action(gMarioState, ACT_SQUID, 0);
             }
         }
 

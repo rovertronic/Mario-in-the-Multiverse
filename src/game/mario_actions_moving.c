@@ -1622,6 +1622,7 @@ s32 act_cutter_dash(struct MarioState *m) {
 }
 
 s32 act_squid(struct MarioState *m){
+    set_custom_mario_animation(m, 6);
     return FALSE;
 }
 

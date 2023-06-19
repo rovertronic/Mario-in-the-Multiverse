@@ -419,6 +419,8 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "squid/geo_header.h"
 
-
 #include "squid/anim_header.h"
+
+#include "squid_hat/header.h"
+
 #endif

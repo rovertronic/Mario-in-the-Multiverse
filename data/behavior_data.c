@@ -6114,15 +6114,6 @@ const BehaviorScript bhvAbilityUnlock[] = {
 /* GROUP B END */
 
 /* GROUP C START */
-
-const BehaviorScript bhvSquid[] = {
-    BEGIN(OBJ_LIST_GENACTOR),
-    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
-    LOAD_ANIMATIONS(oAnimations, squid_anims),
-    ANIMATE(1),
-    BEGIN_LOOP(),
-    END_LOOP(),
-};
 /* GROUP C END */
 
 /* GROUP D START */

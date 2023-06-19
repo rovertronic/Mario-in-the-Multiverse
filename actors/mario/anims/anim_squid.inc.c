@@ -1,4 +1,4 @@
-static const s16 squid_anim_ArmatureAction_values[] = {
+static const s16 mario_anim_squid_values[] = {
 	0x0000, 0xFFFF, 0x0018, 0x0000, 0x0000, 0x0000, 0x0000, 0xF961, 0xF502, 
 	0xF1EE, 0xED02, 0xEB2E, 0xED02, 0xF1EE, 0xF502, 0xF961, 0x0000, 0x0638, 
 	0x0AAA, 0x0ED2, 0x134F, 0x160E, 0x134F, 0x0ED2, 0x0AAA, 0x0638, 0x0000, 
@@ -43,7 +43,7 @@ static const s16 squid_anim_ArmatureAction_values[] = {
 	0xFFFF, 
 };
 
-static const u16 squid_anim_ArmatureAction_indices[] = {
+static const u16 mario_anim_squid_indices[] = {
 	0x0001, 0x0000, 0x0001, 0x0001, 0x0001, 0x0002, 0x0001, 0x0003, 0x0001, 
 	0x0004, 0x0001, 0x0005, 0x0015, 0x0006, 0x0012, 0x001B, 0x0015, 0x002D, 
 	0x0015, 0x0042, 0x0015, 0x0057, 0x0014, 0x006C, 0x0015, 0x0080, 0x0015, 
@@ -52,15 +52,15 @@ static const u16 squid_anim_ArmatureAction_indices[] = {
 	0x014B, 0x0015, 0x015D, 
 };
 
-static const struct Animation squid_anim_ArmatureAction = {
+static const struct Animation mario_anim_squid = {
 	0,
 	0,
 	0,
 	0,
 	20,
-	ANIMINDEX_NUMPARTS(squid_anim_ArmatureAction_indices),
-	squid_anim_ArmatureAction_values,
-	squid_anim_ArmatureAction_indices,
+	ANIMINDEX_NUMPARTS(mario_anim_squid_indices),
+	mario_anim_squid_values,
+	mario_anim_squid_indices,
 	0,
 };
 

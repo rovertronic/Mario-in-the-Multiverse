@@ -2110,6 +2110,20 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
 
+        //Watch Ability
+        if (using_ability(ABILITY_GADGET_WATCH)) {
+            struct Object *aim = cur_obj_nearest_object_with_behavior(bhvGadgetAim);
+            if (!aim) {
+                spawn_object(o,MODEL_WATCH_AIM,bhvGadgetAim);
+            }
+        } else {
+            //no more gadget watch
+            struct Object *aim = cur_obj_nearest_object_with_behavior(bhvGadgetAim);
+            if (aim) {
+                obj_mark_for_deletion(aim);
+            }   
+        }
+
         if (lastAbility != gMarioState->abilityId) {
             gHudDisplay.abilityMeter = -1;
             lastAbility = gMarioState->abilityId;

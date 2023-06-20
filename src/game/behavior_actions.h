@@ -590,3 +590,4 @@ void bhv_nitro_box_loop(void);
 void bhv_marble_init(void);
 void bhv_marble_loop(void);
 void bhv_pt_mb(void);
+void bhv_gadget_aim(void);

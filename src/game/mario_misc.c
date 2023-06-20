@@ -541,7 +541,8 @@ Gfx *geo_switch_mario_cap_on_off(s32 callContext, struct GraphNode *node, UNUSED
 
     if (callContext == GEO_CONTEXT_RENDER) {
         switchCase->selectedCase = bodyState->capState & MARIO_HAS_DEFAULT_CAP_OFF;
-        if (gMarioState->abilityId == ABILITY_CUTTER) {
+        //evil cowquack not using the helper functions v
+        if ((gMarioState->abilityId == ABILITY_CUTTER)||using_ability(ABILITY_GADGET_WATCH)) {
             switchCase->selectedCase = 1;
         }
         while (next != node) {

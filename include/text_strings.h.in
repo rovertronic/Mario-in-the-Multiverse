@@ -31,7 +31,7 @@
 #define TEXT_ABILITY_C          _("C")
 #define TEXT_ABILITY_D          _("Aku Aku: A mask with a spirit inside.\nPress [L] to spend 10 coins and activate 10\nseconds of invincibility. Can walk on lava.")
 #define TEXT_ABILITY_E          _("E")
-#define TEXT_ABILITY_F          _("F")
+#define TEXT_ABILITY_F          _("Gadget Watch:")
 #define TEXT_ABILITY_G          _("Cutter: A set of cut-based abilities.\n[B] - Cutter Throw, [B](moving) - Cutter Dash\n[B](near enemy) - Final Cutter")
 #define TEXT_ABILITY_H          _("Phasewalk: Press [L] to activate. Mario will\nbecome invisible and get an increase in running\nspeed, and get a jump boost at the end.")
 #define TEXT_ABILITY_I          _("Shock Rocket: A guided exploding rocket.\nPress [L] while static to aim, then [B] to fire.\nOnce launched, guide it with the analog stick.")

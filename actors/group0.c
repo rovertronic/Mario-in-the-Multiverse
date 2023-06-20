@@ -87,3 +87,5 @@
 #include "knight_mario/model.inc.c"
 #include "pt_mb/collision.inc.c"
 #include "pt_mb/model.inc.c"
+#include "hat_f/model.inc.c"
+#include "hand_f/model.inc.c"

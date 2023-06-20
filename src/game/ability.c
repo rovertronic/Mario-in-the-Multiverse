@@ -146,7 +146,7 @@ struct ability ability_struct[] = {
     /*C*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_c  },
     /*D*/      {&mario_right_hand_closed  , ability_d_mask_hat_mesh ,MODEL_MARIO       ,&abstr_d  },
     /*E*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_e  },
-    /*F*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_f  },
+    /*F*/      {&hand_f_hand_mesh         , &hat_f_hat_mesh    ,MODEL_MARIO       ,&abstr_f  },
     /*G*/      {&mario_right_hand_closed  , &cutter_hat_Circle_mesh_layer_1               ,MODEL_MARIO       ,&abstr_g  },
     /*H*/      {&phasewalk_hand_hand_mesh , NULL               ,MODEL_MARIO       ,&abstr_h  },
     /*I*/      {&rocket_hand_RaymanMissile_mesh_layer_1, NULL  ,MODEL_MARIO       ,&abstr_i  },

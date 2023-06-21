@@ -12,32 +12,34 @@ void bhv_dragonite_loop(void){
     o->oFaceAngleYaw = gMarioState->faceAngle[1];
     o->oFaceAnglePitch = 0.0f;
 
-    if (gMarioState->action != ACT_HM_FLY) {
-        if (yScale > 0.0f) {
-            yScale -= 0.15f;
-        }
-        if (xScale > 0.0f) {
-            xScale -= 0.15f;
-        }
-        if (zScale > 0.0f) {
-            zScale -= 0.15f;
-        }
-        if (yScale <= 0.0f) {
-            obj_mark_for_deletion(o);
+    if (ability_chronos_frame_can_progress()) {
+        if (gMarioState->action != ACT_HM_FLY) {
+            if (yScale > 0.0f) {
+                yScale -= 0.15f;
+            }
+            if (xScale > 0.0f) {
+                xScale -= 0.15f;
+            }
+            if (zScale > 0.0f) {
+                zScale -= 0.15f;
+            }
+            if (yScale <= 0.0f) {
+                obj_mark_for_deletion(o);
+            }
+
+        } else {
+            if (yScale < maxScale) {
+                yScale += 0.15f;
+                xScale += 0.15f;
+                zScale += 0.15f;
+            }
+            if (yScale > maxScale){
+                yScale = maxScale;
+                xScale = maxScale;
+                zScale = maxScale;
+            }
         }
 
-    } else {
-        if (yScale < maxScale) {
-            yScale += 0.15f;
-            xScale += 0.15f;
-            zScale += 0.15f;
-        }
-        if (yScale > maxScale){
-            yScale = maxScale;
-            xScale = maxScale;
-            zScale = maxScale;
-        }
+        obj_scale_xyz(o, xScale, yScale, zScale);
     }
-
-    obj_scale_xyz(o, xScale, yScale, zScale);
 }

@@ -39,6 +39,7 @@ extern OSMesg gGameMesgBuf[1];
 extern OSMesg gGfxMesgBuf[1];
 extern struct VblankHandler gGameVblankHandler;
 extern uintptr_t gPhysicalFramebuffers[3];
+extern uintptr_t gPhysicalChronosAuxFramebuffer;
 extern uintptr_t gPhysicalZBuffer;
 extern void *gMarioAnimsMemAlloc;
 extern void *gDemoInputsMemAlloc;

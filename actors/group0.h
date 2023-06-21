@@ -381,6 +381,16 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "meter_breath/header.h"
 
+#include "meter_aku/header.h"
+
+#include "meter_phase/header.h"
+
+#include "meter_rocket/header.h"
+
+#include "meter_chronos/header.h"
+
+#include "mario_k/geo_header.h"
+
 #include "ability_d_mask/header.h"
 
 #include "cutter_blade/geo_header.h"
@@ -422,5 +432,10 @@ extern const Gfx white_particle_small_unused_dl[];
 #include "squid/anim_header.h"
 
 #include "squid_hat/header.h"
+#include "knight_mario/geo_header.h"
+
+#include "pt_mb/collision_header.h"
+
+#include "pt_mb/geo_header.h"
 
 #endif

@@ -235,3 +235,4 @@ void set_obj_anim_with_accel_and_sound(s16 frame1, s16 frame2, s32 sound) {
 
 #include "behaviors/cutter_blade.inc.c"
 #include "behaviors/cutter_blast.inc.c"
+#include "behaviors/slash_particle.inc.c"

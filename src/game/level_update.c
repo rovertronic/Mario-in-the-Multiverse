@@ -360,6 +360,7 @@ void init_mario_after_warp(void) {
         if (sWarpDest.type == WARP_TYPE_CHANGE_LEVEL || sWarpDest.type == WARP_TYPE_CHANGE_AREA) {
             gPlayerSpawnInfos[0].areaIndex = sWarpDest.areaIdx;
             load_mario_area();
+            chronos_timer = 360;
         }
 
         init_mario();
@@ -1177,7 +1178,11 @@ s32 update_level(void) {
 
     switch (sCurrPlayMode) {
         case PLAY_MODE_NORMAL:
-            changeLevel = play_mode_normal(); scroll_textures();
+            changeLevel = play_mode_normal(); // Hopefully Fast64 doesn't overwrite this
+            
+            if (ability_chronos_frame_can_progress()) {
+                scroll_textures();
+            }
             break;
         case PLAY_MODE_PAUSED:
             changeLevel = play_mode_paused();

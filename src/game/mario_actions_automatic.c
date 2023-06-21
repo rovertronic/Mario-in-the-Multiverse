@@ -16,6 +16,7 @@
 #include "camera.h"
 #include "level_table.h"
 #include "rumble_init.h"
+#include "ability.h"
 
 #include "config.h"
 
@@ -357,11 +358,11 @@ void update_hang_stationary(struct MarioState *m) {
 
 s32 act_start_hanging(struct MarioState *m) {
 #if ENABLE_RUMBLE
-    if (m->actionTimer++ == 0) {
+    if (update_mario_action_timer_post(m) == 0) {
         queue_rumble_data(5, 80);
     }
 #else
-    m->actionTimer++;
+    update_mario_action_timer_post(m);
 #endif
 #ifdef BETTER_HANGING
     // immediately go into hanging if controller stick is pointed far enough in
@@ -415,6 +416,9 @@ s32 act_hanging(struct MarioState *m) {
 #ifdef BETTER_HANGING
     // Only let go if A or B is pressed
     if (m->input & (INPUT_A_PRESSED | INPUT_B_PRESSED)) {
+        if (m->input & (INPUT_B_PRESSED)) {
+            m->abilityChronosCanSlash = FALSE;
+        }
         return set_mario_action(m, ACT_FREEFALL, 0);
     }
 #else
@@ -447,6 +451,9 @@ s32 act_hang_moving(struct MarioState *m) {
 #ifdef BETTER_HANGING
     // Only let go if A or B is pressed
     if (m->input & (INPUT_A_PRESSED | INPUT_B_PRESSED)) {
+        if (m->input & (INPUT_B_PRESSED)) {
+            m->abilityChronosCanSlash = FALSE;
+        }
         return set_mario_action(m, ACT_FREEFALL, 0);
     }
 #else
@@ -541,7 +548,7 @@ void update_ledge_climb_camera(struct MarioState *m) {
     m->statusForCamera->pos[0] = m->pos[0] + dist * sins(m->faceAngle[1]);
     m->statusForCamera->pos[2] = m->pos[2] + dist * coss(m->faceAngle[1]);
     m->statusForCamera->pos[1] = m->pos[1];
-    m->actionTimer++;
+    update_mario_action_timer_post(m);
     m->flags |= MARIO_LEDGE_CLIMB_CAMERA;
 }
 
@@ -563,7 +570,7 @@ s32 act_ledge_grab(struct MarioState *m) {
     s32 hasSpaceForMario = (m->ceilHeight - m->floorHeight >= 160.0f);
 
     if (m->actionTimer < 10) {
-        m->actionTimer++;
+        update_mario_action_timer_post(m);
     }
     if (m->floor->normal.y < COS25) {
         return let_go_of_ledge(m);
@@ -825,7 +832,7 @@ s32 act_tornado_twirling(struct MarioState *m) {
         }
     }
 
-    m->actionTimer++;
+    update_mario_action_timer_post(m);
 
     set_mario_animation(m, (m->actionArg == 0) ? MARIO_ANIM_START_TWIRL : MARIO_ANIM_TWIRL);
 

@@ -586,6 +586,7 @@ extern const BehaviorScript bhvDragonite[];
 /* GROUP K END */
 
 /* GROUP L START */
+extern const BehaviorScript bhvPtMetalBox[];
 /* GROUP L END */
 
 /* GROUP M START */
@@ -602,4 +603,4 @@ extern const BehaviorScript bhvPhysicsMarble[];
 
 
 extern const BehaviorScript bhvCutterBlast[];
-extern const BehaviorScript bhvCutterParticleSlash[];
+extern const BehaviorScript bhvSlashParticle[];

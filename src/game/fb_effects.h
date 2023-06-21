@@ -23,6 +23,9 @@ enum FBETypes {
     FBE_EFFECT_MONO_LIGHT = (1 << 3),
     // inverted * fb_effect_col
     FBE_EFFECT_INVERT     = (1 << 4),
+
+    /* custom effects */
+    FBE_EFFECT_CHRONOS    = (1 << 5),
 };
 
 typedef struct FBEffects {

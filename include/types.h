@@ -326,7 +326,6 @@ struct Object {
         const void *asConstVoidPtr[MAX_OBJECT_FIELDS];
     } ptrData;
 #endif
-    /*0x1C8*/ u32 unused1;
               struct RigidBody *rigidBody;
     /*0x1CC*/ const BehaviorScript *curBhvCommand;
     /*0x1D0*/ u32 bhvStackIndex;
@@ -339,7 +338,6 @@ struct Object {
     /*0x204*/ f32 hurtboxHeight;
     /*0x208*/ f32 hitboxDownOffset;
     /*0x20C*/ const BehaviorScript *behavior;
-    /*0x210*/ u32 unused2;
     /*0x214*/ struct Object *platform;
     /*0x218*/ void *collisionData;
     /*0x21C*/ Mat4 transform;
@@ -347,6 +345,7 @@ struct Object {
 #ifdef PUPPYLIGHTS
     struct PuppyLight puppylight;
 #endif
+              u8 abilityChronosUpdatedCollisionLastFrame;
 };
 
 struct ObjectHitbox {
@@ -394,6 +393,7 @@ enum PunchStateTypes {
     PUNCH_STATE_TYPE_FIRST_PUNCH  = (0 << 6),
     PUNCH_STATE_TYPE_SECOND_PUNCH = (1 << 6),
     PUNCH_STATE_TYPE_KICK         = (2 << 6),
+    PUNCH_STATE_TYPE_SLASH        = (3 << 6),
 };
 
 struct MarioBodyState {
@@ -493,7 +493,13 @@ struct MarioState {
 
             u8 abilityId;
             u16 numGlobalCoins;
+
+            u8 abilityChronosTimeSlowActive;
+            u8 abilityChronosCanSlash;
+            
             u8 canHMFly;
+
+            u8 knightDoubleJump;
 };
 
 typedef uint8_t   qu08_t;

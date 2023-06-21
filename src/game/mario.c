@@ -41,6 +41,7 @@ Bool8 have_splashed;
 Bool8 bd_submerged;
 
 u8 lastAbility = ABILITY_DEFAULT;
+Bool8 toZeroMeter = FALSE;
 
 /**************************************************
  *                    ANIMATIONS                  *
@@ -1810,6 +1811,26 @@ void queue_rumble_particles(struct MarioState *m) {
 }
 #endif
 
+s32 ground_check_knight(struct MarioState *m) {
+    struct Surface *floor = m->floor;
+    f32 steepness = sqrtf(sqr(floor->normal.x) + sqr(floor->normal.z));
+    s16 floorDYaw = atan2s(floor->normal.z,floor->normal.x)+0x8000;
+
+    if (!using_ability(ABILITY_KNIGHT)) {
+        return FALSE;
+    }
+
+    if (steepness > 0.2f) {
+        m->forwardVel = 48.0f;
+        if (abs_angle_diff(m->faceAngle[1],floorDYaw) < 0x4000) {
+            m->faceAngle[1] = floorDYaw+0x8000;
+        }
+        return set_mario_action(m, ACT_KNIGHT_SLIDE, 0);
+    } else {
+        return FALSE;
+    }
+}
+
 /**
  * Main function for executing Mario's behavior. Returns particleFlags.
  */
@@ -1820,7 +1841,13 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     vec3f_get_dist_and_lateral_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->lateralSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);
     vec3f_copy(gMarioState->prevPos, gMarioState->pos);
 
-    gHudDisplay.abilityMeter = -1; // Reset ability meter if it's not set past this point
+    if (toZeroMeter) {  // Reset ability meter if it's not set past this point
+        gHudDisplay.abilityMeter = 0;
+        toZeroMeter = FALSE;
+    }
+    else {
+        gHudDisplay.abilityMeter = -1;
+    }
 
     if (gMarioState->action) {
 #ifdef ENABLE_DEBUG_FREE_MOVE
@@ -1856,6 +1883,48 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             return ACTIVE_PARTICLE_NONE;
         }
 
+        u8 chronos_active = FALSE;
+        // Chronos Ability Code
+        if (using_ability(ABILITY_CHRONOS)) {
+            if (!(gPlayer1Controller->buttonDown & L_TRIG)) {
+                chronos_expended = FALSE;
+            }
+
+            if (
+                (gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE &&
+                (gPlayer1Controller->buttonDown & L_TRIG) &&
+                chronos_timer > 0 &&
+                !chronos_expended
+            ) {
+                if (gMarioState->abilityChronosTimeSlowActive == FALSE) {
+                    play_sound(SOUND_MENU_CHRONOS_SLOMO_ENGAGE, gGlobalSoundSource);
+                }
+                gMarioState->abilityChronosTimeSlowActive = TRUE;
+                chronos_active = TRUE;
+                chronos_timer = MAX(chronos_timer - 2, 0);
+                if (chronos_timer == 0) {
+                    chronos_expended = TRUE;
+                }
+            }
+        }
+        if (!chronos_active) {
+            if (gMarioState->abilityChronosTimeSlowActive == TRUE) {
+                play_sound(SOUND_MENU_CHRONOS_SLOMO_DISENGAGE, gGlobalSoundSource);
+            }
+            gMarioState->abilityChronosTimeSlowActive = FALSE;
+            if (chronos_timer < 360) {
+                chronos_timer++;
+            }
+        }
+
+        //Knight Suit
+        if (using_ability(ABILITY_KNIGHT) && (gMarioState->action != ACT_KNIGHT_SLIDE) &&
+        (gMarioState->action != ACT_KNIGHT_JUMP)) {
+            if (gMarioState->forwardVel > 10.0f) {
+                gMarioState->forwardVel = 10.0f;
+            }
+        }
+
         // The function can loop through many action shifts in one frame,
         // which can lead to unexpected sub-frame behavior. Could potentially hang
         // if a loop of actions were found, but there has not been a situation found.
@@ -1873,6 +1942,9 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 
         if ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE) {
             control_ability_dpad();
+        }
+        else {
+            gMarioState->abilityChronosTimeSlowActive = FALSE;
         }
 
         sink_mario_in_quicksand(gMarioState);
@@ -1903,6 +1975,16 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         queue_rumble_particles(gMarioState);
 #endif
 
+        if (using_ability(ABILITY_CHRONOS)) {
+            gHudDisplay.abilityMeterStyle = METER_STYLE_CHRONOS;
+            if (chronos_active) {
+                gHudDisplay.abilityMeter = MIN((s16)((chronos_timer / 360.0f) * 8.0f) + 1, 8);
+            }
+            else {
+                gHudDisplay.abilityMeter = (s16)((chronos_timer / 360.0f) * 8.0f);
+            }
+        }
+
         //Aku Ability Code
         if (!using_ability(ABILITY_AKU)) {
             if (aku_invincibility != 0) {
@@ -1921,6 +2003,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             if (aku_invincibility > 0) {
                 gHudDisplay.abilityMeter = MIN((s16)((aku_invincibility / 300.0f) * 8.0f) + 1, 8);
                 gHudDisplay.abilityMeterStyle = METER_STYLE_AKU;
+                toZeroMeter = TRUE;
             }
         }
         if (aku_invincibility > 0) {
@@ -1993,6 +2076,17 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
 
+        if (using_ability(ABILITY_SHOCK_ROCKET)) {
+            if (count_objects_with_behavior(bhvShockRocket) != 0) {
+                struct Object *rocket = cur_obj_nearest_object_with_behavior(bhvShockRocket);
+                if (rocket->oAction == SHOCK_ROCKET_ACT_MOVE) {
+                    gHudDisplay.abilityMeterStyle = METER_STYLE_ROCKET;
+                    gHudDisplay.abilityMeter =  MIN((s16)(((300 - rocket->oTimer) / 300.0f) * 8.0f) + 1, 8);
+                    toZeroMeter = TRUE;
+                }
+            }
+        }
+
         //Marble Ability
         if (using_ability(ABILITY_MARBLE)) {
             struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
@@ -2054,6 +2148,8 @@ void init_mario(void) {
         gMarioState->flags = (MARIO_NORMAL_CAP | MARIO_CAP_ON_HEAD);
     }
 
+    gMarioState->knightDoubleJump = FALSE;
+
     gMarioState->forwardVel = 0.0f;
     gMarioState->squishTimer = 0;
 
@@ -2107,6 +2203,8 @@ void init_mario(void) {
         capObject->oForwardVel = 0;
         capObject->oMoveAngleYaw = 0;
     }
+
+    gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
 }
 
 void init_mario_from_save_file(void) {
@@ -2144,4 +2242,22 @@ void init_mario_from_save_file(void) {
 
     gHudDisplay.coins = 0;
     gHudDisplay.wedges = 8;
+
+    chronos_timer = 360;
+}
+
+
+u16 update_mario_action_timer_pre(struct MarioState *m) {
+    if (ability_chronos_frame_can_progress()) {
+        m->actionTimer++;
+    }
+    return m->actionTimer;
+}
+
+u16 update_mario_action_timer_post(struct MarioState *m) {
+    u16 output = m->actionTimer;
+    if (ability_chronos_frame_can_progress()) {
+        m->actionTimer++;
+    }
+    return output;
 }

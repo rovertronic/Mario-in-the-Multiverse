@@ -27,8 +27,8 @@ enum ability_ids {
     ABILITY_PHASEWALK,
     ABILITY_SHOCK_ROCKET,
     ABILITY_HM_FLY,
-    ABILITY_K_,
-    ABILITY_L_,
+    ABILITY_CHRONOS,
+    ABILITY_KNIGHT,
     ABILITY_M_,
     ABILITY_MARBLE,
     ABILITY_ESTEEMED_MORTAL,
@@ -37,7 +37,7 @@ enum ability_ids {
 struct ability {
     Gfx * hand;
     Gfx * hat;
-    u8 model_id;
+    u16 model_id;
     u8 * string;
 };
 
@@ -45,10 +45,19 @@ extern Gfx gfx_ability_hand[2];
 extern Gfx gfx_ability_hat[2];
 extern u8 ability_slot[4];
 
+#define ABILITY_CHRONOS_SLOW_SPLIT 3
+#define ABILITY_CHRONOS_SLOW_FACTOR 1.0f / ABILITY_CHRONOS_SLOW_SPLIT
+
+u8 ability_chronos_frame_can_progress(void);
+
 // Ability specific variables
 extern u16 aku_invincibility;
 extern u8 phasewalk_state;
 extern u16 phasewalk_timer;
+extern u16 chronos_timer;
+extern u8 chronos_expended;
 //
+
+extern struct ability ability_struct[];
 
 #endif

@@ -159,7 +159,6 @@ struct Object *allocate_object(struct ObjectNode *objList) {
     }
 #endif
 
-    obj->unused1 = 0;
     obj->bhvStackIndex = 0;
     obj->bhvDelayTimer = 0;
 
@@ -168,7 +167,6 @@ struct Object *allocate_object(struct ObjectNode *objList) {
     obj->hurtboxRadius = 0.0f;
     obj->hurtboxHeight = 0.0f;
     obj->hitboxDownOffset = 0.0f;
-    obj->unused2 = 0;
 
     obj->platform = NULL;
     obj->collisionData = NULL;

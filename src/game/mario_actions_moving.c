@@ -785,6 +785,11 @@ void tilt_body_ground_shell(struct MarioState *m, s16 startYaw) {
 }
 
 s32 act_walking(struct MarioState *m) {
+
+    if (check_dashboost_inputs(m)) {
+        return FALSE;
+    }
+
     Vec3f startPos;
     s16 startYaw = m->faceAngle[1];
 

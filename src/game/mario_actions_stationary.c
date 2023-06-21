@@ -142,6 +142,11 @@ s32 check_common_hold_idle_cancels(struct MarioState *m) {
 
 //! TODO: actionArg names
 s32 act_idle(struct MarioState *m) {
+    m->remainingDashes = 3;
+    if (check_dashboost_inputs(m)) {
+        return FALSE;
+    }
+
     if(count_objects_with_behavior(bhvShockRocket) != 0){
         m->actionState = ACT_STATE_IDLE_ROCKET;
     }
@@ -151,7 +156,7 @@ s32 act_idle(struct MarioState *m) {
     }
 
     if (!(m->input & INPUT_A_PRESSED)) {
-        m->canHMFly = 1;
+        m->canHMFly = 3;
         m->abilityChronosCanSlash = TRUE;
     }
 

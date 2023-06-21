@@ -1831,6 +1831,31 @@ s32 ground_check_knight(struct MarioState *m) {
     }
 }
 
+s32 check_dashboost_inputs(struct MarioState *m) {
+    if (!using_ability(ABILITY_DASH_BOOSTER)||m->remainingDashes == 0) {
+        return FALSE;
+    }
+
+    if (gPlayer1Controller->buttonPressed & L_TRIG) {
+        if (((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_MOVING)||
+        ((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_STATIONARY)) {
+            m->pos[1] += 15.0f;
+        }
+
+        play_sound(SOUND_GENERAL_EXPLOSION6, gGlobalSoundSource);
+        m->remainingDashes--;
+        return set_mario_action(m,ACT_DASH_BOOST,0);
+    }
+
+    if (gPlayer1Controller->buttonPressed & Z_TRIG) {
+        play_sound(SOUND_GENERAL_EXPLOSION6, gGlobalSoundSource);
+        m->remainingDashes--;
+        return set_mario_action(m,ACT_DASH_BOOST,1);
+    }
+
+    return FALSE;
+}
+
 /**
  * Main function for executing Mario's behavior. Returns particleFlags.
  */
@@ -1922,6 +1947,25 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         (gMarioState->action != ACT_KNIGHT_JUMP)) {
             if (gMarioState->forwardVel > 10.0f) {
                 gMarioState->forwardVel = 10.0f;
+            }
+        }
+
+        //Dash Booster Meter
+        if (using_ability(ABILITY_DASH_BOOSTER)) {
+            gHudDisplay.abilityMeterStyle = METER_STYLE_DASH_BOOSTER;
+            switch(gMarioState->remainingDashes) {
+                case 0:
+                    gHudDisplay.abilityMeter = 0;
+                break;
+                case 1:
+                    gHudDisplay.abilityMeter = 3;
+                break;
+                case 2:
+                    gHudDisplay.abilityMeter = 5;
+                break;
+                case 3:
+                    gHudDisplay.abilityMeter = 8;
+                break;
             }
         }
 

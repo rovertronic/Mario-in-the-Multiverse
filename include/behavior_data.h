@@ -562,6 +562,7 @@ extern const BehaviorScript bhvNitroBox[];
 /* GROUP E END */
 
 /* GROUP F START */
+extern const BehaviorScript bhvGadgetAim[];
 /* GROUP F END */
 
 /* GROUP G START */

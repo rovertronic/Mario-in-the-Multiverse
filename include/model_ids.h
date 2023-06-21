@@ -588,6 +588,7 @@ enum GLOBAL_MODELS {
     MODEL_ROCKET_BUTTON_ON,
     MODEL_SQUID,
     MODEL_PT_METAL_BOX,
+    MODEL_WATCH_AIM,
 
     // Custom Mario Models
     MODEL_MARIO_K,

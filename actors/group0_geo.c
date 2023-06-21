@@ -36,3 +36,4 @@
 #include "knight_mario/geo.inc.c"
 
 #include "pt_mb/geo.inc.c"
+#include "aim_f/geo.inc.c"

@@ -94,3 +94,5 @@
 #include "hat_f/model.inc.c"
 #include "hand_f/model.inc.c"
 #include "aim_f/model.inc.c"
+
+#include "hand_m/model.inc.c"

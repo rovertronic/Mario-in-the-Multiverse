@@ -1,0 +1,12 @@
+extern Lights1 hand_m_Gloves_lights;
+extern u8 hand_m_dashbooster_texture_ci4[];
+extern u8 hand_m_dashbooster_texture_pal_rgba16[];
+extern Vtx hand_m_hand_mesh_vtx_cull[8];
+extern Vtx hand_m_hand_mesh_vtx_0[42];
+extern Gfx hand_m_hand_mesh_tri_0[];
+extern Vtx hand_m_hand_mesh_vtx_1[344];
+extern Gfx hand_m_hand_mesh_tri_1[];
+extern Gfx mat_hand_m_Gloves[];
+extern Gfx mat_hand_m_dashbooster[];
+extern Gfx mat_revert_hand_m_dashbooster[];
+extern Gfx hand_m_hand_mesh[];

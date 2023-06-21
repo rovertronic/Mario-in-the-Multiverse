@@ -444,4 +444,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "aim_f/geo_header.h"
 
+#include "hand_m/header.h"
+
 #endif

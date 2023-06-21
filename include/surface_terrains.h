@@ -93,7 +93,7 @@ enum SurfaceTypes {
     SURFACE_NO_CAM_COL_SLIPPERY,        // 0x0079 // Surface with no cam collision flag, slippery with noise (CCM, PSS and TTM slides)
     SURFACE_SWITCH,                     // 0x007A // Surface with no cam collision flag, non-slippery with noise, used by switches and Dorrie
     SURFACE_VANISH_CAP_WALLS,           // 0x007B // Vanish cap walls, pass through them with Vanish Cap
-    SURFACE_007C,                       // 0x007C // Unused
+    SURFACE_SQUID_INK,                  // 0x007C // Squid Ink
     SURFACE_007D,                       // 0x007D // Unused
     SURFACE_007E,                       // 0x007E // Unused
     SURFACE_007F,                       // 0x007F // Unused
@@ -225,7 +225,6 @@ enum SurfaceTypes {
     SURFACE_WOBBLING_WARP,              // 0x00FD // Pool warp (HMC & DDD)
     SURFACE_00FE,                       // 0x00FE // Unused
     SURFACE_TRAPDOOR,                   // 0x00FF // Bowser Left trapdoor, has no action defined
-    SURFACE_SQUID_INK,                  // 0x01AA // Squid Ink
 };
 
 // From Surface 0x1B to 0x1E

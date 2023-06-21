@@ -2112,7 +2112,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 
         //Squid Ability
         if(using_ability(ABILITY_SQUID)){
-            if (gPlayer1Controller->buttonDown & L_TRIG){
+            if (gPlayer1Controller->buttonPressed & L_TRIG){
                 if (gMarioState->action == ACT_SQUID) {
                     obj_set_model(gMarioObject, MODEL_MARIO);
                     set_mario_action(gMarioState, ACT_IDLE, 0);
@@ -2122,7 +2122,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 }
             }
         }
-        
+
         //Watch Ability
         if (using_ability(ABILITY_GADGET_WATCH)) {
             struct Object *aim = cur_obj_nearest_object_with_behavior(bhvGadgetAim);

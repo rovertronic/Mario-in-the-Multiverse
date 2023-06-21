@@ -452,7 +452,6 @@ s32 act_jump(struct MarioState *m) {
 
     if (using_ability(ABILITY_BUBBLE_HAT) && m->input & INPUT_A_PRESSED) {
         return set_mario_action(m, ACT_BUBBLE_HAT_JUMP, 0);
-        return 0;
     }
 
 #ifdef EASIER_LONG_JUMPS

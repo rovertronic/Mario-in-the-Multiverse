@@ -92,6 +92,8 @@ s32 begin_walking_action(struct MarioState *m, f32 forwardVel, u32 action, u32 a
     return set_mario_action(m, action, actionArg);
 }
 
+s16 bubble_hat_rotate = 0;
+
 s32 act_bubble_hat_attack(struct MarioState *m) {
     s16 startTwirlYaw = m->twirlYaw;
     s16 yawVelTarget;
@@ -104,7 +106,6 @@ s32 act_bubble_hat_attack(struct MarioState *m) {
 
     m->angleVel[0] = approach_s32_symmetric(m->angleVel[0], yawVelTarget, 0x200);
     m->twirlYaw += m->angleVel[0];
-    m->faceAngle[0] = angleVelYaw;
 
     //update_laval_boost_and_twirling(m);
 
@@ -117,16 +118,21 @@ s32 act_bubble_hat_attack(struct MarioState *m) {
     set_mario_animation(m, m->actionArg == 0 ? MARIO_ANIM_START_TWIRL : MARIO_ANIM_TWIRL);
 
     switch (perform_ground_step(m)) {
-        case GROUND_STEP_LEFT_GROUND:
-        if ((m->actionTimer > 30)||(0 == GROUND_STEP_HIT_WALL)) {
-            set_mario_action(m, ACT_TWIRLING ,0);
-        }
-        break;
         case GROUND_STEP_HIT_WALL:
-            set_mario_action(m, ACT_TRIPLE_JUMP_LAND_STOP, 0);
+            return set_mario_action(m, ACT_TRIPLE_JUMP_LAND_STOP, 0);
         break;
-}
+    }
 
+    if (m->actionTimer == 0) {
+        bubble_hat_rotate = m->faceAngle[1];
+    }
+    if (m->actionTimer > 40) {
+        return set_mario_action(m, ACT_TRIPLE_JUMP_LAND_STOP, 0);
+    }
+    m->actionTimer ++;
+    bubble_hat_rotate += 0x900;
+
+    vec3s_set(m->marioObj->header.gfx.angle, 0, bubble_hat_rotate, 0);
 
     return 0;
 }

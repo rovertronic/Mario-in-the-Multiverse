@@ -447,4 +447,6 @@ extern const Gfx white_particle_small_unused_dl[];
 #include "hand_m/header.h"
 #include "bubble_hat/header.h"
 
+#include "net_hand_2/header.h"
+
 #endif

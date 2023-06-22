@@ -141,7 +141,7 @@ u8 abstr_o[] = {TEXT_ABILITY_O};
 struct ability ability_struct[] = {
     /*           HAND DISPLAY LIST        HAT DISPLAY LIST     MARIO MODEL ID     STRING */
     /*Default*/{&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_def},
-    /*A*/      {&mario_right_hand_closed  , &bubble_hat_bhat_mesh               ,MODEL_MARIO       ,&abstr_a  },
+    /*A*/      {&net_hand_2_hand_mesh     , &bubble_hat_bhat_mesh               ,MODEL_MARIO       ,&abstr_a  },
     /*B*/      {&bigdaddyhand_Plane_mesh  , bigdaddyhat_bigdaddy_mesh               ,MODEL_MARIO       ,&abstr_b  },
     /*C*/      {&mario_right_hand_closed  , &squid_hat_lunette_mesh               ,MODEL_MARIO       ,&abstr_c  },
     /*D*/      {&mario_right_hand_closed  , ability_d_mask_hat_mesh ,MODEL_MARIO       ,&abstr_d  },

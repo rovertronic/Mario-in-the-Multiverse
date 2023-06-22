@@ -97,3 +97,5 @@
 
 #include "hand_m/model.inc.c"
 #include "bubble_hat/model.inc.c"
+
+#include "net_hand_2/model.inc.c"

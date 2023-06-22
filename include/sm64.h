@@ -372,7 +372,7 @@ enum MarioActionFlags {
 #define ACT_CUTTER_DASH                0x0088047B // (0x07B)
 #define ACT_KNIGHT_SLIDE               0x0088047C // (0x07C)
 #define ACT_SQUID                      0x0402047D // (0x07D)| ACT_FLAG_MOVING | ACT_FLAG_ALLOW_FIRST_PERSON | ACT_FLAG_ALLOW_FIRST_PERSON
-#define ACT_BUBBLE_HAT_ATTACK          0x0000007E // (0x07C)
+#define ACT_BUBBLE_HAT_ATTACK          0x0088047E // (0x07C)
 #define ACT_UNUSED_07D                 0x0000007D // (0x07D)
 #define ACT_UNUSED_07E                 0x0000007E // (0x07E)
 #define ACT_UNUSED_07F                 0x0000007F // (0x07F)

@@ -32,6 +32,8 @@
 #include "rocket_hand/geo.inc.c"
 #include "rocket_button_off/geo.inc.c"
 #include "rocket_button_on/geo.inc.c"
+#include "squid/geo.inc.c"
 #include "knight_mario/geo.inc.c"
 
 #include "pt_mb/geo.inc.c"
+#include "aim_f/geo.inc.c"

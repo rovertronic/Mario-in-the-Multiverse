@@ -350,6 +350,8 @@ s32 perform_ground_step(struct MarioState *m) {
 
     set_mario_wall(m, NULL);
 
+    m->remainingDashes = 3;
+
     if (!(m->input & INPUT_A_PRESSED)) {
         m->canHMFly = 1;
     }

@@ -84,6 +84,18 @@
 #include "rocket_button_off/model.inc.c"
 #include "rocket_button_on/model.inc.c"
 
+#include "squid/model.inc.c"
+#include "squid/anims/data.inc.c"
+#include "squid/anims/table.inc.c"
+#include "squid_hat/model.inc.c"
 #include "knight_mario/model.inc.c"
 #include "pt_mb/collision.inc.c"
 #include "pt_mb/model.inc.c"
+#include "hat_f/model.inc.c"
+#include "hand_f/model.inc.c"
+#include "aim_f/model.inc.c"
+
+#include "hand_m/model.inc.c"
+#include "bubble_hat/model.inc.c"
+
+#include "net_hand_2/model.inc.c"

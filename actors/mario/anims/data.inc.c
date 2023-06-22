@@ -4,3 +4,4 @@
 #include "anim_Cutter_2_end.inc.c"
 #include "anim_Cutter_3.inc.c"
 #include "anim_cutter_dash.inc.c"
+#include "anim_squid.inc.c"

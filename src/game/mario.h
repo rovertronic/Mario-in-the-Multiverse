@@ -55,6 +55,7 @@ s16 set_custom_mario_animation_with_accel(struct MarioState *m, s32 targetAnimID
 void init_mario(void);
 void init_mario_from_save_file(void);
 s32 ground_check_knight(struct MarioState *m);
+s32 check_dashboost_inputs(struct MarioState *m);
 
 u16 update_mario_action_timer_pre(struct MarioState *m);
 u16 update_mario_action_timer_post(struct MarioState *m);

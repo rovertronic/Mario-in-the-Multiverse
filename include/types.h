@@ -500,6 +500,7 @@ struct MarioState {
             u8 canHMFly;
 
             u8 knightDoubleJump;
+            u8 remainingDashes;
 };
 
 typedef uint8_t   qu08_t;

@@ -5,5 +5,6 @@ const struct Animation *const mario_anims[] = {
 	&mario_anim_Cutter_2_end,
 	&mario_anim_Cutter_3,
 	&mario_anim_cutter_dash,
+	&mario_anim_squid,
 	NULL,
 };

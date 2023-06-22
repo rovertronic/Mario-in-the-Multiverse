@@ -6137,6 +6137,14 @@ const BehaviorScript bhvNitroBox[] = {
 /* GROUP E END */
 
 /* GROUP F START */
+const BehaviorScript bhvGadgetAim[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    BILLBOARD(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_gadget_aim),
+    END_LOOP(),
+};
 /* GROUP F END */
 
 /* GROUP G START */

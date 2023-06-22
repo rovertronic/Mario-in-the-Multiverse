@@ -91,7 +91,7 @@ struct mitm_hub_level hub_levels[] = {
     {&author_string_l, LEVEL_BOB,   COURSE_TTM,      0  },
     {&author_string_m, LEVEL_BOB,   COURSE_THI,      0  },
     {&author_string_n, LEVEL_BOB,   COURSE_TTC,      0  },
-    {&author_string_o, LEVEL_BOB,   COURSE_RR ,      0  }, /*Mario in New Orleans | Rovert*/
+    {&author_string_o, LEVEL_INK_TEST,   COURSE_RR ,      0  }, /*Mario in New Orleans | Rovert*/
 };
 
 s8 hub_level_index = -1;

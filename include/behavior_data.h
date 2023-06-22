@@ -551,6 +551,7 @@ extern const BehaviorScript bhvAbilityUnlock[];
 /* GROUP B END */
 
 /* GROUP C START */
+extern const BehaviorScript bhvSquid[];
 /* GROUP C END */
 
 /* GROUP D START */
@@ -561,6 +562,7 @@ extern const BehaviorScript bhvNitroBox[];
 /* GROUP E END */
 
 /* GROUP F START */
+extern const BehaviorScript bhvGadgetAim[];
 /* GROUP F END */
 
 /* GROUP G START */

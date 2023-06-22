@@ -427,10 +427,26 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "rocket_button_on/geo_header.h"
 
+#include "squid/geo_header.h"
+
+#include "squid/anim_header.h"
+
+#include "squid_hat/header.h"
 #include "knight_mario/geo_header.h"
 
 #include "pt_mb/collision_header.h"
 
 #include "pt_mb/geo_header.h"
+
+#include "hat_f/header.h"
+
+#include "hand_f/header.h"
+
+#include "aim_f/geo_header.h"
+
+#include "hand_m/header.h"
+#include "bubble_hat/header.h"
+
+#include "net_hand_2/header.h"
 
 #endif

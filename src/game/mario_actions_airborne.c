@@ -2510,7 +2510,7 @@ s32 mario_execute_airborne_action(struct MarioState *m) {
         case ACT_CUTTER_THROW_AIR: cancel = act_cutter_throw_air(m);         break;
         case ACT_HM_FLY:               cancel = act_hm_fly(m);               break;
         case ACT_KNIGHT_JUMP:          cancel = act_knight_jump(m);          break;
-        case ACT_DASH_BOOST:           cancel = act_dash_boost(m);
+        case ACT_DASH_BOOST:           cancel = act_dash_boost(m);           break;
         case ACT_BUBBLE_HAT_JUMP:      cancel = act_bubble_hat_jump(m);      break;
     }
     /* clang-format on */

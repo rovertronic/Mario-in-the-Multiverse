@@ -98,6 +98,11 @@ s32 check_fall_damage(struct MarioState *m, u32 hardFallAction) {
 }
 
 s32 check_kick_or_dive_in_air(struct MarioState *m) {
+        if (using_ability(ABILITY_BUBBLE_HAT) && m->input & INPUT_B_PRESSED) {
+        return set_mario_action(m, ACT_BUBBLE_HAT_JUMP, 0);
+        return 0;
+    }
+    
     if (m->input & INPUT_B_PRESSED) {
         if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
             return set_mario_action(m, ACT_MOVE_PUNCHING, 11);
@@ -451,6 +456,10 @@ s32 act_jump(struct MarioState *m) {
 
     if (using_ability(ABILITY_HM_FLY) && m->input & INPUT_A_PRESSED && m->canHMFly == 1 && m->actionTimer > 0) {
         return set_mario_action(m, ACT_HM_FLY, 0);
+    }
+
+    if (using_ability(ABILITY_BUBBLE_HAT) && m->input & INPUT_A_PRESSED) {
+        return set_mario_action(m, ACT_BUBBLE_HAT_JUMP, 0);
     }
 
 #ifdef EASIER_LONG_JUMPS
@@ -2245,6 +2254,37 @@ s32 act_special_triple_jump(struct MarioState *m) {
     return FALSE;
 }
 
+s32 act_bubble_hat_jump(struct MarioState *m) {
+    s32 animation;
+
+    if (m->actionState) {
+m->actionTimer = 0;
+m->actionState = 1;
+}
+    
+    if (m->actionTimer == 0) {
+        if (m->vel[1] > 40.0f) {
+            m->vel[1] = 70.0;
+            set_mario_animation(m, MARIO_ANIM_DOUBLE_JUMP_FALL);            
+        }
+
+       // return 0;
+
+       // m->actionState++;
+    }
+
+    if (m->actionTimer >= 5) {
+        return set_mario_action(m, ACT_FREEFALL, 0);
+        set_mario_animation(m, MARIO_ANIM_DOUBLE_JUMP_RISE);
+    }
+
+    update_air_without_turn(m);
+
+    m->actionTimer++;
+
+    return 0;
+}
+
 s32 act_hm_fly(struct MarioState *m){
 
     // struct Surface *surface;
@@ -2471,6 +2511,7 @@ s32 mario_execute_airborne_action(struct MarioState *m) {
         case ACT_HM_FLY:               cancel = act_hm_fly(m);               break;
         case ACT_KNIGHT_JUMP:          cancel = act_knight_jump(m);          break;
         case ACT_DASH_BOOST:           cancel = act_dash_boost(m);
+        case ACT_BUBBLE_HAT_JUMP:      cancel = act_bubble_hat_jump(m);      break;
     }
     /* clang-format on */
 

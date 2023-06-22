@@ -92,6 +92,45 @@ s32 begin_walking_action(struct MarioState *m, f32 forwardVel, u32 action, u32 a
     return set_mario_action(m, action, actionArg);
 }
 
+s32 act_bubble_hat_attack(struct MarioState *m) {
+    s16 startTwirlYaw = m->twirlYaw;
+    s16 yawVelTarget;
+    f32 angleVelYaw;
+
+    //f32 perform_ground_step;
+
+    yawVelTarget = 0x2000;
+    angleVelYaw = 0x300;
+
+    m->angleVel[0] = approach_s32_symmetric(m->angleVel[0], yawVelTarget, 0x200);
+    m->twirlYaw += m->angleVel[0];
+    m->faceAngle[0] = angleVelYaw;
+
+    //update_laval_boost_and_twirling(m);
+
+    m->marioObj->header.gfx.angle[0] += m->twirlYaw;
+
+    if (startTwirlYaw > m->twirlYaw) {
+        play_sound(SOUND_ACTION_TWIRL, m->marioObj->header.gfx.cameraToObject);
+    }
+
+    set_mario_animation(m, m->actionArg == 0 ? MARIO_ANIM_START_TWIRL : MARIO_ANIM_TWIRL);
+
+    switch (perform_ground_step(m)) {
+        case GROUND_STEP_LEFT_GROUND:
+        if ((m->actionTimer > 30)||(0 == GROUND_STEP_HIT_WALL)) {
+            set_mario_action(m, ACT_TWIRLING ,0);
+        }
+        break;
+        case GROUND_STEP_HIT_WALL:
+            set_mario_action(m, ACT_TRIPLE_JUMP_LAND_STOP, 0);
+        break;
+}
+
+
+    return 0;
+}
+
 void check_ledge_climb_down(struct MarioState *m) {
     struct WallCollisionData wallCols;
     struct Surface *floor, *wall;
@@ -793,6 +832,10 @@ s32 act_walking(struct MarioState *m) {
     Vec3f startPos;
     s16 startYaw = m->faceAngle[1];
 
+    if (using_ability(ABILITY_BUBBLE_HAT) && m->input & INPUT_B_PRESSED) {
+        return set_mario_action(m, ACT_BUBBLE_HAT_ATTACK, 0);
+    }
+    
     mario_drop_held_object(m);
 
     if (ground_check_knight(m)) {
@@ -2363,6 +2406,7 @@ s32 mario_execute_moving_action(struct MarioState *m) {
         case ACT_CUTTER_DASH:              cancel = act_cutter_dash(m);              break;
         case ACT_SQUID:                    cancel = act_squid(m);                    break;
         case ACT_KNIGHT_SLIDE:             cancel = act_knight_slide(m);          break;
+        case ACT_BUBBLE_HAT_ATTACK:        cancel = act_bubble_hat_attack(m);       break;
     }
     /* clang-format on */
 

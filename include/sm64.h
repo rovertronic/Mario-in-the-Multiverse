@@ -370,8 +370,9 @@ enum MarioActionFlags {
 #define ACT_LONG_JUMP_LAND             0x00000479 // (0x079 | ACT_FLAG_MOVING)
 #define ACT_BACKFLIP_LAND              0x0400047A // (0x07A | ACT_FLAG_MOVING | ACT_FLAG_ALLOW_FIRST_PERSON)
 #define ACT_CUTTER_DASH                0x0088047B // (0x07B)
-#define ACT_KNIGHT_SLIDE                 0x0088047C // (0x07C)
+#define ACT_KNIGHT_SLIDE               0x0088047C // (0x07C)
 #define ACT_SQUID                      0x0402047D // (0x07D)| ACT_FLAG_MOVING | ACT_FLAG_ALLOW_FIRST_PERSON | ACT_FLAG_ALLOW_FIRST_PERSON
+#define ACT_BUBBLE_HAT_ATTACK          0x0000007E // (0x07C)
 #define ACT_UNUSED_07D                 0x0000007D // (0x07D)
 #define ACT_UNUSED_07E                 0x0000007E // (0x07E)
 #define ACT_UNUSED_07F                 0x0000007F // (0x07F)
@@ -439,6 +440,7 @@ enum MarioActionFlags {
 #define ACT_HM_FLY                     0x010208BF
 #define ACT_KNIGHT_JUMP                0x010208A5
 #define ACT_DASH_BOOST                 0x010208A6
+#define ACT_BUBBLE_HAT_JUMP            0x010208A7
 
 #define ACT_UNUSED_0BC                 0x000000BC // (0x0BC)
 #define ACT_THROWN_FORWARD             0x010208BD // (0x0BD | ACT_FLAG_AIR | ACT_FLAG_INVULNERABLE | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)

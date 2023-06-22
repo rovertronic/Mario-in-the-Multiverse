@@ -96,3 +96,4 @@
 #include "aim_f/model.inc.c"
 
 #include "hand_m/model.inc.c"
+#include "bubble_hat/model.inc.c"

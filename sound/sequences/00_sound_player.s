@@ -8006,13 +8006,13 @@ chan_end
 
 .sound_ability_e_shotgun3:
 chan_setbank 11
-chan_setinstr 15
+chan_setinstr 14
 chan_setlayer 0, .layer_ability_e_shotgun3
 chan_end
 
 .sound_ability_e_shotgun_rack:
 chan_setbank 11
-chan_setinstr 16
+chan_setinstr 15
 chan_setlayer 0, .layer_ability_e_shotgun
 chan_end
 

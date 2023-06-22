@@ -3462,7 +3462,7 @@ UNUSED static const u64 behavior_data_unused_0 = 0;
 const BehaviorScript bhvMario[] = {
     BEGIN(OBJ_LIST_PLAYER),
     SET_INT(oIntangibleTimer, 0),
-    OR_LONG(oFlags, (OBJ_FLAG_PLAYER | OBJ_FLAG_SILHOUETTE)),
+    OR_LONG(oFlags, (OBJ_FLAG_PLAYER | OBJ_FLAG_SILHOUETTE | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW)),
     OR_INT(oUnk94, 0x0001),
     SET_HITBOX(/*Radius*/ 37, /*Height*/ 160),
     BEGIN_LOOP(),
@@ -6122,6 +6122,20 @@ const BehaviorScript bhvAbilityUnlock[] = {
 /* GROUP C END */
 
 /* GROUP D START */
+const BehaviorScript bhvNitroBox[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_INT(oIntangibleTimer, 0),
+    SET_INT(oDamageOrCoinValue, 99),
+    SET_INTERACT_TYPE(INTERACT_DAMAGE),
+    SET_HOME(),
+    SET_HITBOX_WITH_OFFSET(/*Radius*/ 150, /*Height*/ 150, /*Downwards offset*/ 0),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_bowser_bomb_loop),
+        CALL_NATIVE(bhv_nitro_box_loop),
+    END_LOOP(),
+};
 /* GROUP D END */
 
 /* GROUP E START */
@@ -6174,31 +6188,137 @@ const BehaviorScript bhvD[] = {
 /* GROUP E END */
 
 /* GROUP F START */
+const BehaviorScript bhvGadgetAim[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    BILLBOARD(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_gadget_aim),
+    END_LOOP(),
+};
 /* GROUP F END */
 
 /* GROUP G START */
+const BehaviorScript bhvCutterBlade[] = {
+    BEGIN(OBJ_LIST_DESTRUCTIVE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    SET_HOME(),
+    CALL_NATIVE(bhv_cutter_blade_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_cutter_blade_loop),
+    END_LOOP(),
+};
+
 /* GROUP G END */
 
 /* GROUP H START */
 /* GROUP H END */
 
 /* GROUP I START */
+const BehaviorScript bhvShockRocket[] = {
+    BEGIN(OBJ_LIST_DESTRUCTIVE),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO |OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SCALE(/*Unused*/ 0, /*Field*/ 20),
+    SET_INT(oWallHitboxRadius, 40),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ 0, /*Bounciness*/ 0, /*Drag strength*/ 0, /*Friction*/ 0, /*Buoyancy*/ 0, /*Unused*/ 0, 0),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_shock_rocket_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRocketSmoke[] = {
+    BEGIN(OBJ_LIST_UNIMPORTANT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_FLOAT(oGraphYOffset, -5),
+    BILLBOARD(),
+    CALL_NATIVE(bhv_rocket_smoke_init),
+    SET_INT(oAnimState, OBJ_ANIM_STATE_INIT_ANIM),
+    BEGIN_REPEAT(3),
+        ADD_INT(oAnimState, 1),
+    END_REPEAT(),
+    DEACTIVATE(),
+};
+
+const BehaviorScript bhvRocketButton[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_INT(oIntangibleTimer, 0),
+    SET_FLOAT(oDrawingDistance, 16000),
+    SET_HITBOX(/*Radius*/ 80, /*Height*/ 130),
+    SET_FLOAT(oGraphYOffset, 65),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rocket_button_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRocketButtonGroup[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rocket_button_group_loop),
+    END_LOOP(),
+};
 /* GROUP I END */
 
 /* GROUP J START */
+const BehaviorScript bhvDragonite[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW)),
+    LOAD_ANIMATIONS(oAnimations, dragonite_anims),
+    CALL_NATIVE(bhv_dragonite_init),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_dragonite_loop),
+    END_LOOP(),
+
+};
 /* GROUP J END */
 
 /* GROUP K START */
 /* GROUP K END */
 
 /* GROUP L START */
+const BehaviorScript bhvPtMetalBox[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(pt_mb_collision),
+    SET_FLOAT(oDrawingDistance, 16000),
+    SET_FLOAT(oCollisionDistance, 500),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_pt_mb),
+    END_LOOP(),
+};
 /* GROUP L END */
 
 /* GROUP M START */
 /* GROUP M END */
 
 /* GROUP N START */
+const BehaviorScript bhvPhysicsMarble[] = {
+    BEGIN(OBJ_LIST_PLAYER),
+    CALL_NATIVE(bhv_marble_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_marble_loop),
+    END_LOOP(),
+};
 /* GROUP N END */
 
 /* GROUP O START */
 /* GROUP O END */
+
+const BehaviorScript bhvCutterBlast[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 20000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_cutter_blast_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvSlashParticle[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_slash_particle_loop),
+    END_LOOP(),
+};

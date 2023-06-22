@@ -33,7 +33,15 @@
 #include "sound_init.h"
 #include "rumble_init.h"
 #include "ability.h"
+#include "seq_ids.h"
+#include "rigid_body.h"
 
+s16 check_water_height = -10000;
+Bool8 have_splashed;
+Bool8 bd_submerged;
+
+u8 lastAbility = ABILITY_DEFAULT;
+Bool8 toZeroMeter = FALSE;
 
 /**************************************************
  *                    ANIMATIONS                  *
@@ -87,6 +95,65 @@ s16 set_mario_animation(struct MarioState *m, s32 targetAnimID) {
     }
 
     return marioObj->header.gfx.animInfo.animFrame;
+}
+
+extern const struct Animation *const mario_anims[];
+
+s16 set_custom_mario_animation(struct MarioState *m, s32 targetAnimID) {
+    struct Object *o = m->marioObj;
+
+    if (o->header.gfx.animInfo.animID != targetAnimID) {
+        struct Animation **animPtrAddr = &mario_anims[targetAnimID];
+        struct Animation **animSegmented = segmented_to_virtual(animPtrAddr);
+        struct Animation *targetAnim = segmented_to_virtual(*animSegmented);
+
+        o->header.gfx.animInfo.animID = targetAnimID;
+        o->header.gfx.animInfo.curAnim = targetAnim;
+        o->header.gfx.animInfo.animAccel = 0;
+        o->header.gfx.animInfo.animYTrans = m->animYTrans;
+
+        if (targetAnim->flags & ANIM_FLAG_NO_ACCEL) {
+            o->header.gfx.animInfo.animFrame = targetAnim->startFrame;
+        } else {
+            if (targetAnim->flags & ANIM_FLAG_FORWARD) {
+                o->header.gfx.animInfo.animFrame = targetAnim->startFrame + 1;
+            } else {
+                o->header.gfx.animInfo.animFrame = targetAnim->startFrame - 1;
+            }
+        }
+    }
+
+    return o->header.gfx.animInfo.animFrame;
+}
+
+s16 set_custom_mario_animation_with_accel(struct MarioState *m, s32 targetAnimID, s32 accel) {
+    struct Object *o = m->marioObj;
+
+    if (o->header.gfx.animInfo.animID != targetAnimID) {
+        struct Animation **animPtrAddr = &mario_anims[targetAnimID];
+        struct Animation **animSegmented = segmented_to_virtual(animPtrAddr);
+        struct Animation *targetAnim = segmented_to_virtual(*animSegmented);
+
+        o->header.gfx.animInfo.animID = targetAnimID;
+        o->header.gfx.animInfo.curAnim = targetAnim;
+        o->header.gfx.animInfo.animYTrans = m->animYTrans;
+
+        if (targetAnim->flags & ANIM_FLAG_NO_ACCEL) {
+            o->header.gfx.animInfo.animFrameAccelAssist = (targetAnim->startFrame << 0x10);
+        } else {
+            if (targetAnim->flags & ANIM_FLAG_FORWARD) {
+                o->header.gfx.animInfo.animFrameAccelAssist = (targetAnim->startFrame << 0x10) + accel;
+            } else {
+                o->header.gfx.animInfo.animFrameAccelAssist = (targetAnim->startFrame << 0x10) - accel;
+            }
+        }
+
+        o->header.gfx.animInfo.animFrame = (o->header.gfx.animInfo.animFrameAccelAssist >> 0x10);
+    }
+
+    o->header.gfx.animInfo.animAccel = accel;
+
+    return o->header.gfx.animInfo.animFrame;
 }
 
 /**
@@ -460,7 +527,7 @@ u32 mario_get_terrain_sound_addend(struct MarioState *m) {
     if (m->floor != NULL) {
         floorType = m->floor->type;
 
-        if ((gCurrLevelNum != LEVEL_LLL) && (m->floorHeight < (m->waterLevel - 10))) {
+        if (((gCurrLevelNum != LEVEL_LLL) && (m->floorHeight < (m->waterLevel - 10))) || (m->pos[1] < (check_water_height - 10) && m->pos[1] > (check_water_height - 200))) {
             // Water terrain sound, excluding LLL since it uses water in the volcano.
             ret = SOUND_TERRAIN_WATER << 16;
         } else if (SURFACE_IS_QUICKSAND(floorType)) {
@@ -823,9 +890,17 @@ u32 set_mario_action_airborne(struct MarioState *m, u32 action, u32 actionArg) {
             break;
 
         case ACT_DIVE:
+        if (m->abilityId == ABILITY_CUTTER) {
+            if ((forwardVel = m->forwardVel + 25.0f) > 58.0f) {
+                forwardVel = 58.0f;
+            }
+            m->vel[1] -= 25.0f;
+        }
+        else {
             if ((forwardVel = m->forwardVel + 15.0f) > 48.0f) {
                 forwardVel = 48.0f;
             }
+        }
             mario_set_forward_vel(m, forwardVel);
             break;
 
@@ -849,8 +924,14 @@ u32 set_mario_action_airborne(struct MarioState *m, u32 action, u32 actionArg) {
             break;
 
         case ACT_JUMP_KICK:
+        case ACT_CUTTER_THROW_AIR:
             m->vel[1] = 20.0f;
             break;
+    }
+
+    if (phasewalk_state == 2) {
+        m->vel[1] *= 1.25f;
+        play_sound(SOUND_GENERAL_CRAZY_BOX_BOING_FAST, m->marioObj->header.gfx.cameraToObject);
     }
 
     m->peakHeight = m->pos[1];
@@ -1287,7 +1368,37 @@ void update_mario_geometry_inputs(struct MarioState *m) {
 
     m->ceilHeight = find_mario_ceil(m->pos, m->floorHeight, &m->ceil);
     gasLevel = find_poison_gas_level(m->pos[0], m->pos[2]);
-    m->waterLevel = find_water_level(m->pos[0], m->pos[2]);
+
+    if (using_ability(ABILITY_BIG_DADDY)){
+        check_water_height = find_water_level(m->pos[0], m->pos[2]);
+        m->waterLevel = -10000;
+
+        if (m->pos[1] < (check_water_height - 200)){
+            m->particleFlags |= PARTICLE_BUBBLE;
+        } 
+
+        if (check_water_height > m->pos[1]){
+            bd_submerged = TRUE;
+
+            if (bd_submerged == TRUE && have_splashed == FALSE){
+                m->particleFlags |= PARTICLE_WATER_SPLASH;
+                play_sound(SOUND_ACTION_WATER_PLUNGE, m->marioObj->header.gfx.cameraToObject);
+                have_splashed = TRUE;
+            }
+        } 
+
+        if (bd_submerged == TRUE && check_water_height < m->pos[1]){
+            m->particleFlags |= PARTICLE_WATER_SPLASH;
+            play_sound(SOUND_ACTION_WATER_PLUNGE, m->marioObj->header.gfx.cameraToObject);
+            bd_submerged = FALSE;
+            have_splashed = FALSE;
+        }
+        
+    } else {
+        m->waterLevel = find_water_level(m->pos[0], m->pos[2]);
+        bd_submerged = FALSE;
+        have_splashed = FALSE;
+    }
 
     if (m->floor != NULL) {
         m->floorYaw = atan2s(m->floor->normal.z, m->floor->normal.x);
@@ -1310,7 +1421,7 @@ void update_mario_geometry_inputs(struct MarioState *m) {
             m->input |= INPUT_OFF_FLOOR;
         }
 
-        if (m->pos[1] < (m->waterLevel - 10)) {
+        if ((m->pos[1] < (m->waterLevel - 10)) || (m->pos[1] < (check_water_height - 10) && m->pos[1] > (check_water_height - 200))) {
             m->input |= INPUT_IN_WATER;
         }
 
@@ -1503,7 +1614,7 @@ void update_mario_breath(struct MarioState *m) {
                 gRumblePakTimer = 0;
 #endif
             }
-        } else if (!(m->input & INPUT_IN_POISON_GAS)) {
+        } else if (!(m->input & INPUT_IN_POISON_GAS) && (bd_submerged == FALSE)) {
             m->breath += 0x1A;
         }
         if (m->breathCounter > 0) {
@@ -1700,6 +1811,51 @@ void queue_rumble_particles(struct MarioState *m) {
 }
 #endif
 
+s32 ground_check_knight(struct MarioState *m) {
+    struct Surface *floor = m->floor;
+    f32 steepness = sqrtf(sqr(floor->normal.x) + sqr(floor->normal.z));
+    s16 floorDYaw = atan2s(floor->normal.z,floor->normal.x)+0x8000;
+
+    if (!using_ability(ABILITY_KNIGHT)) {
+        return FALSE;
+    }
+
+    if (steepness > 0.2f) {
+        m->forwardVel = 48.0f;
+        if (abs_angle_diff(m->faceAngle[1],floorDYaw) < 0x4000) {
+            m->faceAngle[1] = floorDYaw+0x8000;
+        }
+        return set_mario_action(m, ACT_KNIGHT_SLIDE, 0);
+    } else {
+        return FALSE;
+    }
+}
+
+s32 check_dashboost_inputs(struct MarioState *m) {
+    if (!using_ability(ABILITY_DASH_BOOSTER)||m->remainingDashes == 0) {
+        return FALSE;
+    }
+
+    if (gPlayer1Controller->buttonPressed & L_TRIG) {
+        if (((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_MOVING)||
+        ((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_STATIONARY)) {
+            m->pos[1] += 15.0f;
+        }
+
+        play_sound(SOUND_GENERAL_EXPLOSION6, gGlobalSoundSource);
+        m->remainingDashes--;
+        return set_mario_action(m,ACT_DASH_BOOST,0);
+    }
+
+    if (gPlayer1Controller->buttonPressed & Z_TRIG) {
+        play_sound(SOUND_GENERAL_EXPLOSION6, gGlobalSoundSource);
+        m->remainingDashes--;
+        return set_mario_action(m,ACT_DASH_BOOST,1);
+    }
+
+    return FALSE;
+}
+
 /**
  * Main function for executing Mario's behavior. Returns particleFlags.
  */
@@ -1709,6 +1865,14 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     // Updates once per frame:
     vec3f_get_dist_and_lateral_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->lateralSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);
     vec3f_copy(gMarioState->prevPos, gMarioState->pos);
+
+    if (toZeroMeter) {  // Reset ability meter if it's not set past this point
+        gHudDisplay.abilityMeter = 0;
+        toZeroMeter = FALSE;
+    }
+    else {
+        gHudDisplay.abilityMeter = -1;
+    }
 
     if (gMarioState->action) {
 #ifdef ENABLE_DEBUG_FREE_MOVE
@@ -1754,6 +1918,66 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
 
+        u8 chronos_active = FALSE;
+        // Chronos Ability Code
+        if (using_ability(ABILITY_CHRONOS)) {
+            if (!(gPlayer1Controller->buttonDown & L_TRIG)) {
+                chronos_expended = FALSE;
+            }
+
+            if (
+                (gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE &&
+                (gPlayer1Controller->buttonDown & L_TRIG) &&
+                chronos_timer > 0 &&
+                !chronos_expended
+            ) {
+                if (gMarioState->abilityChronosTimeSlowActive == FALSE) {
+                    play_sound(SOUND_MENU_CHRONOS_SLOMO_ENGAGE, gGlobalSoundSource);
+                }
+                gMarioState->abilityChronosTimeSlowActive = TRUE;
+                chronos_active = TRUE;
+                chronos_timer = MAX(chronos_timer - 2, 0);
+                if (chronos_timer == 0) {
+                    chronos_expended = TRUE;
+                }
+            }
+        }
+        if (!chronos_active) {
+            if (gMarioState->abilityChronosTimeSlowActive == TRUE) {
+                play_sound(SOUND_MENU_CHRONOS_SLOMO_DISENGAGE, gGlobalSoundSource);
+            }
+            gMarioState->abilityChronosTimeSlowActive = FALSE;
+            if (chronos_timer < 360) {
+                chronos_timer++;
+            }
+        }
+
+        //Knight Suit
+        if (using_ability(ABILITY_KNIGHT) && (gMarioState->action != ACT_KNIGHT_SLIDE) &&
+        (gMarioState->action != ACT_KNIGHT_JUMP)) {
+            if (gMarioState->forwardVel > 10.0f) {
+                gMarioState->forwardVel = 10.0f;
+            }
+        }
+
+        //Dash Booster Meter
+        if (using_ability(ABILITY_DASH_BOOSTER)) {
+            gHudDisplay.abilityMeterStyle = METER_STYLE_DASH_BOOSTER;
+            switch(gMarioState->remainingDashes) {
+                case 0:
+                    gHudDisplay.abilityMeter = 0;
+                break;
+                case 1:
+                    gHudDisplay.abilityMeter = 3;
+                break;
+                case 2:
+                    gHudDisplay.abilityMeter = 5;
+                break;
+                case 3:
+                    gHudDisplay.abilityMeter = 8;
+                break;
+            }
+        }
 
         // The function can loop through many action shifts in one frame,
         // which can lead to unexpected sub-frame behavior. Could potentially hang
@@ -1777,6 +2001,9 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 
         if ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE) {
             control_ability_dpad();
+        }
+        else {
+            gMarioState->abilityChronosTimeSlowActive = FALSE;
         }
 
         sink_mario_in_quicksand(gMarioState);
@@ -1807,6 +2034,173 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         queue_rumble_particles(gMarioState);
 #endif
 
+        if (using_ability(ABILITY_CHRONOS)) {
+            gHudDisplay.abilityMeterStyle = METER_STYLE_CHRONOS;
+            if (chronos_active) {
+                gHudDisplay.abilityMeter = MIN((s16)((chronos_timer / 360.0f) * 8.0f) + 1, 8);
+            }
+            else {
+                gHudDisplay.abilityMeter = (s16)((chronos_timer / 360.0f) * 8.0f);
+            }
+        }
+
+        //Aku Ability Code
+        if (!using_ability(ABILITY_AKU)) {
+            if (aku_invincibility != 0) {
+                aku_invincibility = 0;
+                stop_cap_music();
+                ability_ready(ABILITY_AKU);
+            }
+        } else {
+            if ((gPlayer1Controller->buttonDown & L_TRIG)&&(aku_invincibility == 0)&&(gMarioState->numGlobalCoins >= 10)) {
+                aku_invincibility = 300;
+                gMarioState->numGlobalCoins -= 10;
+                play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
+                cool_down_ability(ABILITY_AKU);
+            }
+
+            if (aku_invincibility > 0) {
+                gHudDisplay.abilityMeter = MIN((s16)((aku_invincibility / 300.0f) * 8.0f) + 1, 8);
+                gHudDisplay.abilityMeterStyle = METER_STYLE_AKU;
+                toZeroMeter = TRUE;
+            }
+        }
+        if (aku_invincibility > 0) {
+            struct Object *sparkleObj = spawn_object(o, MODEL_SPARKLES, bhvCoinSparkles);
+            sparkleObj->oPosX += random_float() * 50.0f - 25.0f;
+            sparkleObj->oPosY += random_float() * 100.0f;
+            sparkleObj->oPosZ += random_float() * 50.0f - 25.0f;
+
+            aku_invincibility --;
+
+            if (aku_invincibility == 0) {
+                stop_cap_music();
+                ability_ready(ABILITY_AKU);
+            }
+        }
+
+        //Phasewalk ability code
+        if (using_ability(ABILITY_PHASEWALK)) {
+
+             if ((gPlayer1Controller->buttonDown & L_TRIG)&&(phasewalk_timer == 0)) {
+                phasewalk_state = 1;
+                phasewalk_timer = 240;
+                play_sound(SOUND_GENERAL_VANISH_SFX, gMarioState->marioObj->header.gfx.cameraToObject);
+                cool_down_ability(ABILITY_PHASEWALK);
+             }
+            if (phasewalk_timer == 180) {
+                phasewalk_state = 2;
+            }
+            if (phasewalk_timer == 150) {
+                phasewalk_state = 0;
+            }
+
+            if (phasewalk_state == 0) {
+                if (phasewalk_timer == 0) {
+                    gHudDisplay.abilityMeter = 8;
+                    gHudDisplay.abilityMeterStyle = METER_STYLE_PHASEWALK;
+                }
+                else {
+                    gHudDisplay.abilityMeter = (s16)(((150 - phasewalk_timer) / 150.0f) * 8.0f);
+                    gHudDisplay.abilityMeterStyle = METER_STYLE_PHASEWALK_RECHARGE;
+                }
+            }
+            else {
+                u16 phasewalk_remaining = phasewalk_timer - 150;
+                gHudDisplay.abilityMeter =  MIN((s16)((phasewalk_remaining / 90.0f) * 8.0f) + 1, 8);
+                if (phasewalk_state == 2) {
+                    //spawn sparkles to indicate superjump
+                    struct Object *sparkleObj = spawn_object(o, MODEL_SPARKLES, bhvCoinSparkles);
+                    sparkleObj->oPosX += random_float() * 50.0f - 25.0f;
+                    sparkleObj->oPosY += random_float() * 100.0f;
+                    sparkleObj->oPosZ += random_float() * 50.0f - 25.0f;
+
+                    gHudDisplay.abilityMeterStyle = METER_STYLE_PHASEWALK_SUPERJUMP;
+                }
+                else {
+                    gHudDisplay.abilityMeterStyle = METER_STYLE_PHASEWALK;
+                }
+            }
+        } else {
+            phasewalk_state = 0;
+            if (phasewalk_timer > 140) {
+                phasewalk_timer = 140;
+            }
+        }
+        //the phasewalk timer runs unconditionally
+        if (phasewalk_timer > 0) {
+            phasewalk_timer --;
+            if (phasewalk_timer == 0) {
+                ability_ready(ABILITY_PHASEWALK);
+            }
+        }
+
+        if (using_ability(ABILITY_SHOCK_ROCKET)) {
+            if (count_objects_with_behavior(bhvShockRocket) != 0) {
+                struct Object *rocket = cur_obj_nearest_object_with_behavior(bhvShockRocket);
+                if (rocket->oAction == SHOCK_ROCKET_ACT_MOVE) {
+                    gHudDisplay.abilityMeterStyle = METER_STYLE_ROCKET;
+                    gHudDisplay.abilityMeter =  MIN((s16)(((300 - rocket->oTimer) / 300.0f) * 8.0f) + 1, 8);
+                    toZeroMeter = TRUE;
+                }
+            }
+        }
+
+        //Marble Ability
+        if (using_ability(ABILITY_MARBLE)) {
+            struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
+            if (!marble) {
+                set_mario_action(gMarioState,ACT_MARBLE,0);
+                gMarioState->pos[1] += 90.0f;
+                gMarioObject->oPosY += 90.0f;
+                spawn_object(o,MODEL_MARBLE,bhvPhysicsMarble);
+            }
+        } else {
+            struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
+            if (marble) {
+                vec3f_copy(gMarioState->vel,marble->rigidBody->linearVel);
+                gMarioState->forwardVel = vec3_mag(marble->rigidBody->linearVel);
+                gMarioState->faceAngle[1] = atan2s(marble->rigidBody->linearVel[2],marble->rigidBody->linearVel[0]);
+                gMarioState->action = ACT_FREEFALL;
+                deallocate_rigid_body(marble->rigidBody);
+                obj_mark_for_deletion(marble);
+                gMarioState->pos[1] -= 90.0f;
+                gMarioObject->oPosY -= 90.0f;
+            }
+        }
+
+        //Squid Ability
+        if(using_ability(ABILITY_SQUID)){
+            if (gPlayer1Controller->buttonPressed & L_TRIG){
+                if (gMarioState->action == ACT_SQUID) {
+                    obj_set_model(gMarioObject, MODEL_MARIO);
+                    set_mario_action(gMarioState, ACT_IDLE, 0);
+                } else {
+                    obj_set_model(gMarioObject, MODEL_SQUID);
+                    set_mario_action(gMarioState, ACT_SQUID, 0);
+                }
+            }
+        }
+
+        //Watch Ability
+        if (using_ability(ABILITY_GADGET_WATCH)) {
+            struct Object *aim = cur_obj_nearest_object_with_behavior(bhvGadgetAim);
+            if (!aim) {
+                spawn_object(o,MODEL_WATCH_AIM,bhvGadgetAim);
+            }
+        } else {
+            //no more gadget watch
+            struct Object *aim = cur_obj_nearest_object_with_behavior(bhvGadgetAim);
+            if (aim) {
+                obj_mark_for_deletion(aim);
+            }   
+        }
+
+        if (lastAbility != gMarioState->abilityId) {
+            gHudDisplay.abilityMeter = -1;
+            lastAbility = gMarioState->abilityId;
+        }
+
         return gMarioState->particleFlags;
     }
 
@@ -1831,6 +2225,8 @@ void init_mario(void) {
     } else {
         gMarioState->flags = (MARIO_NORMAL_CAP | MARIO_CAP_ON_HEAD);
     }
+
+    gMarioState->knightDoubleJump = FALSE;
 
     gMarioState->forwardVel = 0.0f;
     gMarioState->squishTimer = 0;
@@ -1889,6 +2285,7 @@ void init_mario(void) {
     //--E | No first-frame gun position
     e__set_upper_anim(gMarioState, 2);
 
+    gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
 }
 
 void init_mario_from_save_file(void) {
@@ -1920,9 +2317,28 @@ void init_mario_from_save_file(void) {
     gMarioState->breath = 0x880;
     gHudDisplay.breath = 8;
 #endif
+    gHudDisplay.abilityMeter = -1;
     gMarioState->prevNumStarsForDialog = gMarioState->numStars;
     gMarioState->animYTrans = 0xBD;
 
     gHudDisplay.coins = 0;
     gHudDisplay.wedges = 8;
+
+    chronos_timer = 360;
+}
+
+
+u16 update_mario_action_timer_pre(struct MarioState *m) {
+    if (ability_chronos_frame_can_progress()) {
+        m->actionTimer++;
+    }
+    return m->actionTimer;
+}
+
+u16 update_mario_action_timer_post(struct MarioState *m) {
+    u16 output = m->actionTimer;
+    if (ability_chronos_frame_can_progress()) {
+        m->actionTimer++;
+    }
+    return output;
 }

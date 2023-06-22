@@ -359,21 +359,95 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "hat/header.h"
 
-#include "hp_8/header.h"
+#include "meter_bg/header.h"
 
-#include "hp_7/header.h"
+#include "meter_8/header.h"
 
-#include "hp_6/header.h"
+#include "meter_7/header.h"
 
-#include "hp_5/header.h"
+#include "meter_6/header.h"
 
-#include "hp_4/header.h"
+#include "meter_5/header.h"
 
-#include "hp_3/header.h"
+#include "meter_4/header.h"
 
-#include "hp_2/header.h"
+#include "meter_3/header.h"
 
-#include "hp_1/header.h"
+#include "meter_2/header.h"
+
+#include "meter_1/header.h"
+
+#include "meter_hp/header.h"
+
+#include "meter_breath/header.h"
+
+#include "meter_aku/header.h"
+
+#include "meter_phase/header.h"
+
+#include "meter_rocket/header.h"
+
+#include "meter_chronos/header.h"
+
+#include "mario_k/geo_header.h"
+
+#include "ability_d_mask/header.h"
+
+#include "cutter_blade/geo_header.h"
+
+#include "cutter_hand/geo_header.h"
+
+#include "cutter_hat/geo_header.h"
+
+
+#include "mario/anim_header.h"
+#include "cutter_blast/geo_header.h"
+
+#include "cutter_particle_slash/geo_header.h"
+
+#include "dragonite/geo_header.h"
+
+
+#include "dragonite/anim_header.h"
+#include "nitro/geo_header.h"
+#include "pokeball_hand/header.h"
+#include "bigdaddyhat/header.h"
+
+#include "bigdaddyhand/header.h"
+
+#include "phasewalk_hand/header.h"
+
+#include "samplesphere/geo_header.h"
+
+#include "rocket_hand/header.h"
+
+#include "rocket_hand/geo_header.h"
+
+#include "rocket_button_off/geo_header.h"
+
+#include "rocket_button_on/geo_header.h"
+
+#include "squid/geo_header.h"
+
+#include "squid/anim_header.h"
+
+#include "squid_hat/header.h"
+#include "knight_mario/geo_header.h"
+
+#include "pt_mb/collision_header.h"
+
+#include "pt_mb/geo_header.h"
+
+#include "hat_f/header.h"
+
+#include "hand_f/header.h"
+
+#include "aim_f/geo_header.h"
+
+#include "hand_m/header.h"
+#include "bubble_hat/header.h"
+
+#include "net_hand_2/header.h"
 
 #include "e__mario/geo_header.h"
 

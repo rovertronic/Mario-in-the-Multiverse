@@ -61,6 +61,16 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "06"
+        },
+        "inst7_chronos_slomo_engage": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "07_chronos_slomo_engage"
+        },
+        "inst8_chronos_slomo_disengage": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "08_chronos_slomo_disengage"
         }
     },
     "instrument_list": [
@@ -70,6 +80,8 @@
         "inst3",
         "inst4",
         "inst5",
-        "inst6"
+        "inst6",
+        "inst7_chronos_slomo_engage",
+        "inst8_chronos_slomo_disengage"
     ]
 }

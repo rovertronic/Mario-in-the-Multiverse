@@ -31,6 +31,7 @@
 
 #define CBUTTON_MASK (U_CBUTTONS | D_CBUTTONS | L_CBUTTONS | R_CBUTTONS)
 
+Bool8 cam_submerged;
 /**
  * @file camera.c
  * Implements the camera system, including C-button input, camera modes, camera triggers, and cutscenes.
@@ -2759,6 +2760,41 @@ void mode_cannon_camera(struct Camera *c) {
 }
 
 /**
+ * Updates the camera when a Shcok Rocket is Launch
+ */
+void mode_shock_rocket_camera(struct Camera *c) {
+
+    sLakituPitch = 0;
+    gCameraMovementFlags &= ~CAM_MOVING_INTO_MODE;
+    sStatusFlags &= ~CAM_FLAG_BLOCK_SMOOTH_MOVEMENT;
+
+    struct Object *rocket = gMarioState->usedObj;
+    
+    s16 yaw = rocket->oMoveAngleYaw;
+    s16 pitch = rocket->oMoveAnglePitch;
+    f32 cossPitch = coss(pitch);
+    u32 camDecrement;
+    if(rocket->oAction != 1){
+        camDecrement = 150;
+    } else {
+        camDecrement = 100;
+    }
+    Vec3f camOffset = {
+        (sins(yaw) * cossPitch) * (rocket->oForwardVel - camDecrement),
+        (sins(pitch)) * (rocket->oForwardVel + camDecrement),
+        (coss(yaw) * cossPitch) * (rocket->oForwardVel - camDecrement)
+    };
+    Vec3f newPos;
+
+    vec3f_copy(c->focus, &rocket->oPosX);
+
+    vec3f_copy(newPos, c->focus);
+    vec3f_add(newPos, camOffset);
+    vec3f_copy(c->pos, newPos);
+
+}
+
+/**
  * Cause Lakitu to fly to the next Camera position and focus over a number of frames.
  *
  * At the end of each frame, Lakitu's position and focus ("state") are stored.
@@ -2882,6 +2918,11 @@ void update_lakitu(struct Camera *c) {
     f32 distToFloor;
     s16 newYaw;
 
+    if (c->pos[1] < check_water_height){
+        cam_submerged = TRUE;
+    } else {
+        cam_submerged = FALSE;
+    }
     if (!(gCameraMovementFlags & CAM_MOVE_PAUSE_SCREEN)) {
         newYaw = next_lakitu_state(newPos, newFoc, c->pos, c->focus, sOldPosition, sOldFocus,
                                    c->nextYaw);
@@ -2949,7 +2990,7 @@ void update_lakitu(struct Camera *c) {
                                      gLakituState.pos[1] + 20.0f,
                                      gLakituState.pos[2], &floor);
             if (distToFloor != FLOOR_LOWER_LIMIT) {
-                if (gLakituState.pos[1] < (distToFloor += 100.0f)) {
+                if (gLakituState.pos[1] < (distToFloor += 100.0f) && count_objects_with_behavior(bhvShockRocket) == 0) {
                     gLakituState.pos[1] = distToFloor;
                 } else {
                     gCollisionFlags &= ~COLLISION_FLAG_CAMERA;
@@ -3074,7 +3115,6 @@ void update_camera(struct Camera *c) {
     // If not in a cutscene, do mode processing
     if (c->cutscene == CUTSCENE_NONE) {
         sYawSpeed = 0x400;
-
         if (sSelectionFlags & CAM_MODE_MARIO_ACTIVE) {
             switch (c->mode) {
                 case CAMERA_MODE_BEHIND_MARIO:
@@ -3096,6 +3136,10 @@ void update_camera(struct Camera *c) {
 
                 case CAMERA_MODE_INSIDE_CANNON:
                     mode_cannon_camera(c);
+                    break;
+
+                case CAMERA_MODE_SHOCK_ROCKET:
+                    mode_shock_rocket_camera(c);
                     break;
 
                 default:
@@ -3167,6 +3211,10 @@ void update_camera(struct Camera *c) {
 
                 case CAMERA_MODE_SPIRAL_STAIRS:
                     mode_spiral_stairs_camera(c);
+                    break;
+
+                case CAMERA_MODE_SHOCK_ROCKET:
+                    mode_shock_rocket_camera(c);
                     break;
             }
         }
@@ -6189,6 +6237,9 @@ struct CameraTrigger sCamBBH[] = {
  *
  * Each table is terminated with NULL_TRIGGER
  */
+struct CameraTrigger sCamInkTest[] = {
+	NULL_TRIGGER
+};
 struct CameraTrigger *sCameraTriggers[LEVEL_COUNT + 1] = {
     NULL,
     #include "levels/level_defines.h"

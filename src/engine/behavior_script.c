@@ -15,6 +15,7 @@
 #include "graph_node.h"
 #include "surface_collision.h"
 #include "game/puppylights.h"
+#include "src/game/farcall_helpers.h"
 
 // Macros for retrieving arguments from behavior scripts.
 #define BHV_CMD_GET_1ST_U8(index)  (u8)((gCurBhvCommand[index] >> 24) & 0xFF) // unused
@@ -813,19 +814,14 @@ static BhvCommandProc BehaviorCmdTable[] = {
     /*BHV_CMD_SPAWN_WATER_DROPLET   */ bhv_cmd_spawn_water_droplet,
 };
 
-// Execute the behavior script of the current object, process the object flags, and other miscellaneous code for updating objects.
-void cur_obj_update(void) {
+// Handle visibility of object
+void cur_obj_handle_visibility(void) {
     u32 objFlags = o->oFlags;
     f32 distanceFromMario;
-    BhvCommandProc bhvCmdProc;
-    s32 bhvProcResult;
+    f32 distanceFromRocket;
+    f32 distanceClosest;
 
     s32 inRoom = cur_obj_is_mario_in_room();
-
-    if (inRoom == MARIO_OUTSIDE_ROOM && (objFlags & OBJ_FLAG_ONLY_PROCESS_INSIDE_ROOM)) {
-        cur_obj_disable_rendering_in_room();
-        return;
-    }
 
     // Calculate the distance from the object to Mario.
     if (objFlags & OBJ_FLAG_COMPUTE_DIST_TO_MARIO) {
@@ -833,6 +829,68 @@ void cur_obj_update(void) {
         distanceFromMario = o->oDistanceToMario;
     } else {
         distanceFromMario = 0.0f;
+    }
+
+    // Calculate the distance from the rocket to Mario
+    distanceFromRocket = 0.0f;
+
+    struct Object *rocket = cur_obj_nearest_object_with_behavior(bhvShockRocket);
+    if(rocket != NULL){
+         distanceFromRocket = dist_between_objects(o, rocket);
+    } 
+
+    //keeps the closest distance
+    if((distanceFromRocket < distanceFromMario) && distanceFromRocket != 0.0f){
+        distanceClosest = distanceFromRocket;
+    } else {
+        distanceClosest = distanceFromMario;
+    }
+
+    if (o->oRoom != -1) {
+        // If the object is in a room, only show it when Mario is in the room.
+        if (
+            (objFlags & OBJ_FLAG_ACTIVE_FROM_AFAR)
+            || distanceClosest < o->oDrawingDistance
+        ) {
+            if (inRoom == MARIO_OUTSIDE_ROOM) {
+                cur_obj_disable_rendering_in_room();
+            } else if (inRoom == MARIO_INSIDE_ROOM) {
+                cur_obj_enable_rendering_in_room();
+            }
+            o->activeFlags &= ~ACTIVE_FLAG_FAR_AWAY;
+        } else {
+            o->header.gfx.node.flags &= ~GRAPH_RENDER_ACTIVE;
+            o->activeFlags |= ACTIVE_FLAG_FAR_AWAY;
+        }
+    } else if (
+        o->collisionData == NULL
+        &&  (objFlags & OBJ_FLAG_COMPUTE_DIST_TO_MARIO)
+        && !(objFlags & OBJ_FLAG_ACTIVE_FROM_AFAR)
+    ) {
+        // If the object has a render distance, check if it should be shown.
+        if (distanceClosest > o->oDrawingDistance) {
+            // Out of render distance, hide the object.
+            o->header.gfx.node.flags &= ~GRAPH_RENDER_ACTIVE;
+            o->activeFlags |= ACTIVE_FLAG_FAR_AWAY;
+        } else if (o->oHeldState == HELD_FREE) {
+            // In render distance (and not being held), show the object.
+            o->header.gfx.node.flags |= GRAPH_RENDER_ACTIVE;
+            o->activeFlags &= ~ACTIVE_FLAG_FAR_AWAY;
+        }
+    }
+}
+
+// Execute the behavior script of the current object, process the object flags, and other miscellaneous code for updating objects.
+void cur_obj_update(void) {
+    u32 objFlags = o->oFlags;
+    BhvCommandProc bhvCmdProc;
+    s32 bhvProcResult;
+
+    s32 inRoom = cur_obj_is_mario_in_room();
+
+    if (cur_obj_is_mario_in_room() == MARIO_OUTSIDE_ROOM && (objFlags & OBJ_FLAG_ONLY_PROCESS_INSIDE_ROOM)) {
+        cur_obj_disable_rendering_in_room();
+        return;
     }
 
     // Calculate the angle from the object to Mario.
@@ -867,6 +925,11 @@ void cur_obj_update(void) {
         o->oTimer = 0;
         o->oSubAction = 0;
         o->oPrevAction = o->oAction;
+    }
+
+    //make other enemies experience generic attack actions in order for the cutter stun to work
+    if (o->oAction > 100 && o->behavior != segmented_to_virtual(bhvGoomba) && o->behavior != segmented_to_virtual(bhvKoopa) && o->behavior != segmented_to_virtual(bhvPokey)) {
+        obj_update_standard_actions(0);
     }
 
     // Execute various code based on object flags.
@@ -923,37 +986,5 @@ void cur_obj_update(void) {
     puppylights_object_emit(o);
 #endif
 
-    // Handle visibility of object
-    if (o->oRoom != -1) {
-        // If the object is in a room, only show it when Mario is in the room.
-        if (
-            (objFlags & OBJ_FLAG_ACTIVE_FROM_AFAR)
-            || distanceFromMario < o->oDrawingDistance
-        ) {
-            if (inRoom == MARIO_OUTSIDE_ROOM) {
-                cur_obj_disable_rendering_in_room();
-            } else if (inRoom == MARIO_INSIDE_ROOM) {
-                cur_obj_enable_rendering_in_room();
-            }
-            o->activeFlags &= ~ACTIVE_FLAG_FAR_AWAY;
-        } else {
-            o->header.gfx.node.flags &= ~GRAPH_RENDER_ACTIVE;
-            o->activeFlags |= ACTIVE_FLAG_FAR_AWAY;
-        }
-    } else if (
-        o->collisionData == NULL
-        &&  (objFlags & OBJ_FLAG_COMPUTE_DIST_TO_MARIO)
-        && !(objFlags & OBJ_FLAG_ACTIVE_FROM_AFAR)
-    ) {
-        // If the object has a render distance, check if it should be shown.
-        if (distanceFromMario > o->oDrawingDistance) {
-            // Out of render distance, hide the object.
-            o->header.gfx.node.flags &= ~GRAPH_RENDER_ACTIVE;
-            o->activeFlags |= ACTIVE_FLAG_FAR_AWAY;
-        } else if (o->oHeldState == HELD_FREE) {
-            // In render distance (and not being held), show the object.
-            o->header.gfx.node.flags |= GRAPH_RENDER_ACTIVE;
-            o->activeFlags &= ~ACTIVE_FLAG_FAR_AWAY;
-        }
-    }
+    cur_obj_handle_visibility();
 }

@@ -1,16 +1,6 @@
 extern u8 hudbar_round_corner_ia8[];
-extern u8 hudbar_circle_transparent_ia8[];
-extern u8 hudbar_heart_ia8[];
-extern Vtx hudbar_hudbar_mesh_vtx_0[20];
+extern Vtx hudbar_hudbar_mesh_vtx_0[24];
 extern Gfx hudbar_hudbar_mesh_tri_0[];
-extern Vtx hudbar_hudbar_mesh_vtx_1[4];
-extern Gfx hudbar_hudbar_mesh_tri_1[];
-extern Vtx hudbar_hudbar_mesh_vtx_2[4];
-extern Gfx hudbar_hudbar_mesh_tri_2[];
 extern Gfx mat_hudbar_ui_corner[];
 extern Gfx mat_revert_hudbar_ui_corner[];
-extern Gfx mat_hudbar_ui_transparent_circle[];
-extern Gfx mat_revert_hudbar_ui_transparent_circle[];
-extern Gfx mat_hudbar_ui_heart[];
-extern Gfx mat_revert_hudbar_ui_heart[];
 extern Gfx hudbar_hudbar_mesh[];

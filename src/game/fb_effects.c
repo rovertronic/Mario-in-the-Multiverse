@@ -12,6 +12,8 @@
 #include "segment2.h"
 #include "print.h"
 #include "levels/intro/header.h"
+#include "level_update.h"
+#include "ability.h"
 
 
 extern u16 sRenderedFramebuffer;
@@ -127,6 +129,7 @@ void render_motion_blur(void) {
     u16 srcFB = sRenderedFramebuffer; // blur
     u32 fmt = G_IM_FMT_RGBA;
     s32 mode = G_CYC_1CYCLE;
+    Texture *imageFB = (u8 *)gFramebuffers[srcFB];
 
     switch (sFBEffects.type) {
         case FBE_EFFECT_BRIGHTEN:
@@ -182,6 +185,16 @@ void render_motion_blur(void) {
             srcFB = sRenderingFramebuffer;
             fmt = G_IM_FMT_RGBA;
             break;
+        case FBE_EFFECT_CHRONOS:
+            gDPSetCombineLERP(gDisplayListHead++,
+                TEXEL0, 0, ENVIRONMENT, 0,
+                0, 0, 0, ENVIRONMENT,
+                TEXEL0, 0, ENVIRONMENT, 0,
+                0, 0, 0, ENVIRONMENT
+            );
+            gDPSetEnvColor(gDisplayListHead++, sFBEffects.r, sFBEffects.g, sFBEffects.b, sFBEffects.a);
+            imageFB = (u8 *)gChronosAuxFramebuffer;
+            break;
         default: // lmao broken weird something have fun
             gDPSetCombineLERP(gDisplayListHead++,
                 ENVIRONMENT, 0, TEXEL0_ALPHA, 0,
@@ -203,7 +216,7 @@ void render_motion_blur(void) {
     gDPSetTexturePersp(gDisplayListHead++, G_TP_NONE);
 
     if (gFBE) {
-        render_tiled_screen_effect((u8 *)gFramebuffers[srcFB], mode, fmt);
+        render_tiled_screen_effect(imageFB, mode, fmt);
     } /* else { // MITM potential later use
         u8 *emu_tex = segmented_to_virtual(youre_emu);
         render_tiled_screen_effect(emu_tex, G_CYC_1CYCLE, G_IM_FMT_RGBA);
@@ -211,14 +224,21 @@ void render_motion_blur(void) {
 
     gDPSetColorDither(gDisplayListHead++, G_CD_MAGICSQ);
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
+    gDPSetTexturePersp(gDisplayListHead++, G_TP_PERSP);
+    gDPSetTextureFilter(gDisplayListHead++, G_TF_BILERP);
 }
 
 static s32 sVerifiedFBE = FALSE; 
 
 void render_fb_effects(void) {
-    return;
-    //ADDED HERE BY ROVERT, SO THAT IT DOES NOT RENDER BY DEFAULT
-    //REPLACE THIS WITH SPECIFIC LEVEL / ABILITY CHECKS!
+    if (gMarioState->abilityChronosTimeSlowActive) {
+        set_motion_blur(128);
+        set_fb_effect_col(0x00, 0xFF, 0xFF);
+        set_fb_effect_type(FBE_EFFECT_CHRONOS);
+    }
+    else {
+        return;
+    }
 
     check_fbe();
     if (!checkedFBE) return;

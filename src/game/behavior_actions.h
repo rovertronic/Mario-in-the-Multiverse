@@ -549,6 +549,10 @@ void bhv_intro_scene_loop(void);
 void bhv_dust_smoke_loop(void);
 void bhv_yoshi_loop(void);
 void bhv_volcano_trap_loop(void);
+void bhv_shock_rocket_loop(void);
+void bhv_rocket_smoke_init(void);
+void bhv_rocket_button_loop(void);
+void bhv_rocket_button_group_loop(void);
 
 Gfx *geo_move_mario_part_from_parent(s32 callContext, UNUSED struct GraphNode *node, Mat4 mtx);
 
@@ -608,3 +612,15 @@ Gfx *geo_e__switch_mario_shotgun_hand(s32 callContext, struct GraphNode *node, U
 
 
 #endif // BEHAVIOR_ACTIONS_H
+
+void bhv_cutter_blade_init(void);
+void bhv_cutter_blade_loop(void);
+void bhv_cutter_blast_loop(void);
+void bhv_slash_particle_loop(void);
+void bhv_dragonite_init(void);
+void bhv_dragonite_loop(void);
+void bhv_nitro_box_loop(void);
+void bhv_marble_init(void);
+void bhv_marble_loop(void);
+void bhv_pt_mb(void);
+void bhv_gadget_aim(void);

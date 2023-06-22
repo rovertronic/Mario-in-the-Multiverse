@@ -25,6 +25,8 @@
 #include "skybox.h"
 #include "sound_init.h"
 #include "puppycam2.h"
+#include "ability.h"
+#include "actors/group0.h"
 
 #include "config.h"
 
@@ -69,8 +71,11 @@ static s8 gMarioBlinkAnimation[7] = { 1, 2, 1, 0, 1, 2, 1 };
  * All combined, this means e.g. the first animation scales Mario's fist by {2.4, 1.6, 1.2, 1.0} on
  * successive frames.
  */
-static s8 gMarioAttackScaleAnimation[3 * 6] = {
-    10, 12, 16, 24, 10, 10, 10, 14, 20, 30, 10, 10, 10, 16, 20, 26, 26, 20,
+static s8 gMarioAttackScaleAnimation[4 * 6] = {
+    10, 12, 16, 24, 10, 10, // PUNCH_STATE_TYPE_FIRST_PUNCH
+    10, 14, 20, 30, 10, 10, // PUNCH_STATE_TYPE_SECOND_PUNCH
+    10, 16, 20, 26, 26, 20, // PUNCH_STATE_TYPE_KICK
+    10, 14, 20, 30, 10, 10, // PUNCH_STATE_TYPE_SLASH
 };
 
 struct MarioBodyState gBodyStates[2]; // 2nd is never accessed in practice, most likely Luigi related
@@ -439,7 +444,15 @@ Gfx *geo_switch_mario_hand(s32 callContext, struct GraphNode *node, UNUSED Mat4 
     struct MarioBodyState *bodyState = &gBodyStates[0];
 
     if (callContext == GEO_CONTEXT_RENDER) {
-        if (bodyState->handState == MARIO_HAND_FISTS) {
+        if (
+            switchCase->numCases == 0 &&
+            using_ability(ABILITY_CHRONOS) && 
+            (bodyState->action == ACT_PUNCHING || bodyState->action == ACT_MOVE_PUNCHING) &&
+            bodyState->punchState == PUNCH_STATE_TYPE_SLASH
+        ) {
+            switchCase->selectedCase = 5;
+        }
+        else if (bodyState->handState == MARIO_HAND_FISTS) {
             // switch between fists (0) and open (1)
             switchCase->selectedCase = ((bodyState->action & ACT_FLAG_SWIMMING_OR_FLYING) != 0);
         } else {
@@ -480,6 +493,17 @@ Gfx *geo_mario_hand_foot_scaler(s32 callContext, struct GraphNode *node, UNUSED 
                 gMarioAttackScaleAnimation[asGenerated->parameter * 6 + (bodyState->punchState & PUNCH_STATE_TIMER_MASK)]
                 / 10.0f;
         }
+
+        //overrides for the cutter ability. basically, set mario's hand to normal when not in a cutter action.
+        if (gMarioState->abilityId == ABILITY_CUTTER && gMarioState->action != ACT_JUMP_KICK) {
+            scaleNode->scale = 1.0f;
+            if (gMarioState->action != ACT_PUNCHING && gMarioState->action != ACT_MOVE_PUNCHING && gMarioState->action != ACT_FINAL_CUTTER_SEQUENCE 
+            && gMarioState->action != ACT_CUTTER_THROW_AIR && gMarioState->action != ACT_CUTTER_DASH && gMarioState->action != ACT_DIVE
+            && gMarioState->action != ACT_DIVE_SLIDE) {
+                gSPDisplayList(&gfx_ability_hand[0], &mario_right_hand_closed);
+                gSPEndDisplayList(&gfx_ability_hand[1]);
+            }
+        }
     }
     return NULL;
 }
@@ -492,7 +516,16 @@ Gfx *geo_switch_mario_cap_effect(s32 callContext, struct GraphNode *node, UNUSED
     struct MarioBodyState *bodyState = &gBodyStates[switchCase->numCases];
 
     if (callContext == GEO_CONTEXT_RENDER) {
-        switchCase->selectedCase = bodyState->modelState >> 8;
+        if (!gMarioState->abilityChronosTimeSlowActive) {
+            switchCase->selectedCase = bodyState->modelState >> 8;
+        }
+        else {
+            switchCase->selectedCase = 4;
+        }
+    }
+
+    if (phasewalk_state > 0) {
+        switchCase->selectedCase = 1;
     }
     return NULL;
 }
@@ -508,6 +541,10 @@ Gfx *geo_switch_mario_cap_on_off(s32 callContext, struct GraphNode *node, UNUSED
 
     if (callContext == GEO_CONTEXT_RENDER) {
         switchCase->selectedCase = bodyState->capState & MARIO_HAS_DEFAULT_CAP_OFF;
+        //evil cowquack not using the helper functions v
+        if ((gMarioState->abilityId == ABILITY_CUTTER)||using_ability(ABILITY_GADGET_WATCH)) {
+            switchCase->selectedCase = 1;
+        }
         while (next != node) {
             if (next->type == GRAPH_NODE_TYPE_TRANSLATION_ROTATION) {
                 COND_BIT((bodyState->capState & MARIO_HAS_WING_CAP_ON), next->flags, GRAPH_RENDER_ACTIVE);
@@ -640,4 +677,91 @@ Gfx *geo_mirror_mario_backface_culling(s32 callContext, struct GraphNode *node, 
         SET_GRAPH_NODE_LAYER(asGenerated->fnNode.node.flags, LAYER_OPAQUE);
     }
     return gfx;
+}
+
+
+Gfx *geo_mario_ability_chronos_set_aux_framebuffer(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx) {
+    struct GraphNodeGenerated *asGenerated = (struct GraphNodeGenerated *) node;
+    Gfx *dl = NULL;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        Gfx *dlHead = NULL;
+        static u8 toClear = FALSE;
+        if (gMarioState->abilityChronosTimeSlowActive) {
+            dl = alloc_display_list(12 * sizeof(*dl));
+            dlHead = dl;
+            gDPPipeSync(dlHead++);
+            gDPSetCycleType(dlHead++, G_CYC_1CYCLE);
+            gDPSetColorImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, gPhysicalChronosAuxFramebuffer);
+            gDPSetScissor(dlHead++, G_SC_NON_INTERLACE, 0, gBorderHeight, SCREEN_WIDTH, SCREEN_HEIGHT - gBorderHeight);
+            gDPPipeSync(dlHead++);
+            gDPSetRenderMode(dlHead++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+            gDPSetCycleType(dlHead++, G_CYC_1CYCLE);
+            gDPSetPrimColor(dlHead++, 0, 0, 0, 0, 0, 32);
+            gDPSetCombineMode(dlHead++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
+            gDPFillRectangle(dlHead++, 0, gBorderHeight, SCREEN_WIDTH - 1, SCREEN_HEIGHT - gBorderHeight - 1);
+            gDPSetRenderMode(dlHead++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+            gSPEndDisplayList(dlHead);
+            SET_GRAPH_NODE_LAYER(asGenerated->fnNode.node.flags, LAYER_OPAQUE);
+            toClear = TRUE;
+        }
+        else if (toClear) {
+            dl = alloc_display_list(15 * sizeof(*dl));
+            dlHead = dl;
+            gDPPipeSync(dlHead++);
+            gDPSetCycleType(dlHead++, G_CYC_1CYCLE);
+            gDPSetColorImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, gPhysicalChronosAuxFramebuffer);
+            gDPSetScissor(dlHead++, G_SC_NON_INTERLACE, 0, gBorderHeight, SCREEN_WIDTH, SCREEN_HEIGHT - gBorderHeight);
+            gDPPipeSync(dlHead++);
+            gDPSetRenderMode(dlHead++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+            gDPSetCycleType(gDisplayListHead++, G_CYC_FILL);
+            gDPSetPrimColor(dlHead++, 0, 0, 0, 0, 0, 255);
+            gDPSetCombineMode(dlHead++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
+            gDPFillRectangle(dlHead++, 0, gBorderHeight, SCREEN_WIDTH - 1, SCREEN_HEIGHT - gBorderHeight - 1);
+            gDPPipeSync(dlHead++);
+            gDPSetColorImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, gPhysicalFramebuffers[sRenderingFramebuffer]);
+            gDPSetCycleType(gDisplayListHead++, G_CYC_1CYCLE);
+            gDPSetRenderMode(dlHead++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
+            gSPEndDisplayList(dlHead);
+            SET_GRAPH_NODE_LAYER(asGenerated->fnNode.node.flags, LAYER_OPAQUE);
+            toClear = FALSE;
+        }
+    }
+    return dl;
+}
+
+Gfx *geo_mario_ability_chronos_reset_aux_framebuffer(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx) {
+    struct GraphNodeGenerated *asGenerated = (struct GraphNodeGenerated *) node;
+    Gfx *dl = NULL;
+
+    if (callContext == GEO_CONTEXT_RENDER && gMarioState->abilityChronosTimeSlowActive) {
+        Gfx *dlHead = NULL;
+        dl = alloc_display_list(4 * sizeof(*dl));
+        dlHead = dl;
+        gDPPipeSync(dlHead++);
+        gDPSetRenderMode(dlHead++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
+        gDPSetColorImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, gPhysicalFramebuffers[sRenderingFramebuffer]);
+        gSPEndDisplayList(dlHead);
+        SET_GRAPH_NODE_LAYER(asGenerated->fnNode.node.flags, LAYER_OPAQUE);
+    }
+    return dl;
+}
+
+Gfx *geo_switch_mario_ability_chronos_sheathed_katana(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx) {
+    struct GraphNodeSwitchCase *switchCase = (struct GraphNodeSwitchCase *) node;
+    struct MarioBodyState *bodyState = &gBodyStates[0];
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        if (
+            using_ability(ABILITY_CHRONOS) && 
+            (bodyState->action == ACT_PUNCHING || bodyState->action == ACT_MOVE_PUNCHING) &&
+            bodyState->punchState == PUNCH_STATE_TYPE_SLASH
+        ) {
+            switchCase->selectedCase = 1;
+        }
+        else {
+            switchCase->selectedCase = 0;
+        }
+    }
+    return NULL;
 }

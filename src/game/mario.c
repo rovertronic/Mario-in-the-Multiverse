@@ -1914,7 +1914,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             gE_ShotgunFlags &= ~E_SGF_AIM_FIRE;
             if (!(m->floor->normal.y < COS73)) {
                 if (!mario_is_in_air_action()) {
-                    gE_ShotgunFlags &= ~E_SGF_ROCKET_USED; }
+                    gE_ShotgunFlags &= ~E_SGF_AIR_SHOT_USED; }
             }
         }
 

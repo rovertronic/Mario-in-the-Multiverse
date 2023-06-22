@@ -100,6 +100,9 @@ void bhv_pokey_body_part_update(void) {
             // If the body part was attacked, then die. If the head was killed,
             // then die after a delay.
 
+            if (o->oShotByShotgun) {//--E
+                o->parentObj->oPokeyNumAliveBodyParts--; }
+
             if (obj_handle_attacks(&sPokeyBodyPartHitbox, o->oAction, sPokeyBodyPartAttackHandlers)) {
                 o->parentObj->oPokeyNumAliveBodyParts--;
                 if (o->oBehParams2ndByte == POKEY_PART_BP_HEAD) {

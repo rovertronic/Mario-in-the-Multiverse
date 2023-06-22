@@ -792,7 +792,22 @@ void geo_process_billboard(struct GraphNodeBillboard *node) {
         vec3f_copy(scale, gCurGraphNodeObject->scale);
     }
 
-    mtxf_billboard(gMatStack[gMatStackIndex + 1], gMatStack[gMatStackIndex], translation, scale, gCurGraphNodeCamera->roll);
+    //--E
+    s32 billboard = TRUE;
+    if (gCurGraphNodeObject != NULL) {
+        if (((struct Object *)(gCurGraphNodeObject))->behavior == segmented_to_virtual(bhvE_FlattenedObj)) {
+            billboard = FALSE; }
+    }
+    if (billboard) {
+        mtxf_billboard(gMatStack[gMatStackIndex + 1], gMatStack[gMatStackIndex], translation, scale, gCurGraphNodeCamera->roll); }
+    else {
+        struct Object *obj = ((struct Object *)(gCurGraphNodeObject));
+        Vec3f norm;
+        surface_normal_to_vec3f(norm, obj->OBJECT_FIELD_S16P(0x1B));
+        Vec3f negNorm = { -norm[0], -norm[1], -norm[2] };
+        mtxf_billboard_flattened_obj(negNorm, gMatStack[gMatStackIndex + 1], gMatStack[gMatStackIndex], translation, scale, obj->oFaceAngleRoll);
+    }
+
 
     inc_mat_stack();
     append_dl_and_return((struct GraphNodeDisplayList *)node);
@@ -958,6 +973,14 @@ void geo_set_animation_globals(struct AnimInfo *node, s32 hasAnimation) {
 void geo_process_shadow(struct GraphNodeShadow *node) {
 #ifndef DISABLE_SHADOWS
     if (gCurGraphNodeCamera != NULL && gCurGraphNodeObject != NULL) {
+        //--E
+        if (((struct Object *)(gCurGraphNodeObject))->behavior == segmented_to_virtual(bhvE_FlattenedObj)) {
+            if (node->node.children != NULL) {
+                geo_process_node_and_siblings(node->node.children); }
+            return;
+        }
+
+
         Vec3f shadowPos;
         f32 shadowScale;
 
@@ -1154,6 +1177,43 @@ void geo_process_object(struct Object *node) {
         if (node->header.gfx.animInfo.curAnim != NULL) {
             geo_set_animation_globals(&node->header.gfx.animInfo, (node->header.gfx.node.flags & GRAPH_RENDER_HAS_ANIMATION) != 0);
         }
+
+
+        //--E | hard-set anim globals for upper
+        if (using_ability(ABILITY_E_SHOTGUN)) {
+            struct Object *mObj = gMarioState->marioObj;
+            if (node == mObj) {
+                struct AnimInfo *animInfo = &gE_UpperAnimInfo;
+
+                if (animInfo->curAnim != NULL) {
+                    struct Animation *anim = animInfo->curAnim;
+
+                    if (mObj->header.gfx.node.flags & GRAPH_RENDER_HAS_ANIMATION) {
+                        if (animInfo->animYTrans) {//used for syncing animFrame
+                            animInfo->animFrame = mObj->header.gfx.animInfo.animFrame; }
+                        else {
+                            animInfo->animFrame = geo_update_animation_frame(animInfo, &animInfo->animFrameAccelAssist); }
+                    }
+
+                    animInfo->animTimer = gAreaUpdateCounter;
+                    if (anim->flags & ANIM_FLAG_HOR_TRANS) {
+                        gE_UpperAnimType = ANIM_TYPE_VERTICAL_TRANSLATION;
+                    } else if (anim->flags & ANIM_FLAG_VERT_TRANS) {
+                        gE_UpperAnimType = ANIM_TYPE_LATERAL_TRANSLATION;
+                    } else if (anim->flags & ANIM_FLAG_NO_TRANS) {
+                        gE_UpperAnimType = ANIM_TYPE_NO_TRANSLATION;
+                    } else {
+                        gE_UpperAnimType = ANIM_TYPE_TRANSLATION;
+                    }
+
+                    gE_UpperAnimFrame = animInfo->animFrame;
+                    gE_UpperAnimAttribute = segmented_to_virtual((void *) anim->index);
+                    gE_UpperAnimData = segmented_to_virtual((void *) anim->values);
+                }
+            }
+        }
+
+
         if (obj_is_in_view(&node->header.gfx)) {
             gMatStackIndex--;
             inc_mat_stack();
@@ -1262,6 +1322,174 @@ void geo_try_process_children(struct GraphNode *node) {
     }
 }
 
+
+
+//--E | regular & upper (6 or 8)
+
+void geo_process_e__mario_common(struct GraphNodeAnimatedPart *node) {
+    Vec3s rotation = { 0, 0, 0 };
+    Vec3f translation = { node->translation[0], node->translation[1], node->translation[2] };
+
+    if (gCurrAnimType == ANIM_TYPE_TRANSLATION) {
+        translation[0] += gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)]
+                          * gCurrAnimTranslationMultiplier;
+        translation[1] += gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)]
+                          * gCurrAnimTranslationMultiplier;
+        translation[2] += gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)]
+                          * gCurrAnimTranslationMultiplier;
+        gCurrAnimType = ANIM_TYPE_ROTATION;
+    } else {
+        if (gCurrAnimType == ANIM_TYPE_LATERAL_TRANSLATION) {
+            translation[0] +=
+                gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)]
+                * gCurrAnimTranslationMultiplier;
+            gCurrAnimAttribute += 2;
+            translation[2] +=
+                gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)]
+                * gCurrAnimTranslationMultiplier;
+            gCurrAnimType = ANIM_TYPE_ROTATION;
+        } else {
+            if (gCurrAnimType == ANIM_TYPE_VERTICAL_TRANSLATION) {
+                gCurrAnimAttribute += 2;
+                translation[1] +=
+                    gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)]
+                    * gCurrAnimTranslationMultiplier;
+                gCurrAnimAttribute += 2;
+                gCurrAnimType = ANIM_TYPE_ROTATION;
+            } else if (gCurrAnimType == ANIM_TYPE_NO_TRANSLATION) {
+                gCurrAnimAttribute += 6;
+                gCurrAnimType = ANIM_TYPE_ROTATION;
+            }
+        }
+    }
+
+    if (gCurrAnimType == ANIM_TYPE_ROTATION) {
+        rotation[0] = gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)];
+        rotation[1] = gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)];
+        rotation[2] = gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)];
+    }
+
+    //sloppy, make a better method later
+    if (((rotation[0] == 66) || (rotation[0] == 87) || (translation[0] == 66) || (translation[0] == 87))
+        && ((gE_ShotgunFlags & E_SGF_AIM_FIRE) || (gE_UpperAnimInfo.animID == 28))) {
+        mtxf_rotate_xyz_and_translate_and_mul(gVec3sZero, translation, gMatStack[gMatStackIndex + 1], gMatStack[gMatStackIndex]);
+    } else {
+        mtxf_rotate_xyz_and_translate_and_mul(rotation, translation, gMatStack[gMatStackIndex + 1], gMatStack[gMatStackIndex]);
+    }
+
+
+    //(other)
+    if (gE_UpperAnimType == ANIM_TYPE_TRANSLATION) {
+        retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute);
+        retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute);
+        retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute);
+        gE_UpperAnimType = ANIM_TYPE_ROTATION;
+    } else {
+        if (gE_UpperAnimType == ANIM_TYPE_LATERAL_TRANSLATION) {
+            retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute);
+            retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute);
+            gE_UpperAnimType = ANIM_TYPE_ROTATION;
+        } else {
+            if (gE_UpperAnimType == ANIM_TYPE_VERTICAL_TRANSLATION) {
+                gE_UpperAnimAttribute += 2;
+                retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute);
+                gE_UpperAnimAttribute += 2;
+                gE_UpperAnimType = ANIM_TYPE_ROTATION;
+            } else if (gE_UpperAnimType == ANIM_TYPE_NO_TRANSLATION) {
+                gE_UpperAnimAttribute += 6;
+                gE_UpperAnimType = ANIM_TYPE_ROTATION;
+            }
+        }
+    }
+
+    if (gE_UpperAnimType == ANIM_TYPE_ROTATION) {
+        retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute);
+        retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute);
+        retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute);
+    }
+
+
+
+    inc_mat_stack();
+    append_dl_and_return(((struct GraphNodeDisplayList *)node));
+}
+
+void geo_process_e__mario_upper(struct GraphNodeAnimatedPart *node) {
+    Vec3s rotation = { 0, 0, 0 };
+    Vec3f translation = { node->translation[0], node->translation[1], node->translation[2] };
+
+    if (gE_UpperAnimType == ANIM_TYPE_TRANSLATION) {
+        translation[0] += gE_UpperAnimData[retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute)];
+        translation[1] += gE_UpperAnimData[retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute)];
+        translation[2] += gE_UpperAnimData[retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute)];
+        gE_UpperAnimType = ANIM_TYPE_ROTATION;
+    } else {
+        if (gE_UpperAnimType == ANIM_TYPE_LATERAL_TRANSLATION) {
+            translation[0] += gE_UpperAnimData[retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute)];
+            gE_UpperAnimAttribute += 2;
+            translation[2] += gE_UpperAnimData[retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute)];
+            gE_UpperAnimType = ANIM_TYPE_ROTATION;
+        } else {
+            if (gE_UpperAnimType == ANIM_TYPE_VERTICAL_TRANSLATION) {
+                gE_UpperAnimAttribute += 2;
+                translation[1] += gE_UpperAnimData[retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute)];
+                gE_UpperAnimAttribute += 2;
+                gE_UpperAnimType = ANIM_TYPE_ROTATION;
+            } else if (gE_UpperAnimType == ANIM_TYPE_NO_TRANSLATION) {
+                gE_UpperAnimAttribute += 6;
+                gE_UpperAnimType = ANIM_TYPE_ROTATION;
+            }
+        }
+    }
+
+    if (gE_UpperAnimType == ANIM_TYPE_ROTATION) {
+        rotation[0] = gE_UpperAnimData[retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute)];
+        rotation[1] = gE_UpperAnimData[retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute)];
+        rotation[2] = gE_UpperAnimData[retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute)];
+    }
+
+    mtxf_rotate_xyz_and_translate_and_mul(rotation, translation, gMatStack[gMatStackIndex + 1], gMatStack[gMatStackIndex]);
+
+
+    //(other)
+    if (gCurrAnimType == ANIM_TYPE_TRANSLATION) {
+        retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute);
+        retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute);
+        retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute);
+        gCurrAnimType = ANIM_TYPE_ROTATION;
+    } else {
+        if (gCurrAnimType == ANIM_TYPE_LATERAL_TRANSLATION) {
+            retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute);
+            gCurrAnimAttribute += 2;
+            retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute);
+            gCurrAnimType = ANIM_TYPE_ROTATION;
+        } else {
+            if (gCurrAnimType == ANIM_TYPE_VERTICAL_TRANSLATION) {
+                gCurrAnimAttribute += 2;
+                retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute);
+                gCurrAnimAttribute += 2;
+                gCurrAnimType = ANIM_TYPE_ROTATION;
+            } else if (gCurrAnimType == ANIM_TYPE_NO_TRANSLATION) {
+                gCurrAnimAttribute += 6;
+                gCurrAnimType = ANIM_TYPE_ROTATION;
+            }
+        }
+    }
+
+    if (gCurrAnimType == ANIM_TYPE_ROTATION) {
+        retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute);
+        retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute);
+        retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute);
+    }
+
+
+
+    inc_mat_stack();
+    append_dl_and_return(((struct GraphNodeDisplayList *)node));
+}
+
+
+
 typedef void (*GeoProcessFunc)();
 
 // See enum 'GraphNodeTypes' in 'graph_node.h'.
@@ -1288,6 +1516,9 @@ static GeoProcessFunc GeoProcessJumpTable[] = {
     [GRAPH_NODE_TYPE_CULLING_RADIUS      ] = geo_try_process_children,
     [GRAPH_NODE_TYPE_ROOT                ] = geo_try_process_children,
     [GRAPH_NODE_TYPE_START               ] = geo_try_process_children,
+    //--E
+    [GRAPH_NODE_TYPE_E__MARIO_COMMON     ] = geo_process_e__mario_common,
+    [GRAPH_NODE_TYPE_E__MARIO_UPPER      ] = geo_process_e__mario_upper,
 };
 
 /**

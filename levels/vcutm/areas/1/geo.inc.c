@@ -21,6 +21,7 @@ const GeoLayout vcutm_geo_000208[] = {
                GEO_DISPLAY_LIST(LAYER_ALPHA,  vcutm_seg7_dl_070080D0),
                GEO_RENDER_OBJ(),
                GEO_ASM(ENVFX_MODE_NONE, geo_envfx_main),
+               GEO_ASM(0, e__shotgun_effects),
             GEO_CLOSE_NODE(),
          GEO_CLOSE_NODE(),
       GEO_CLOSE_NODE(),

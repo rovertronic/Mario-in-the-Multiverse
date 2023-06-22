@@ -7942,16 +7942,41 @@ layer_jump .layer_32B7
 
 // MitM Ability Sound Effects
 .channelAbility_table:
-sound_ref .sound_ability_x_0
+sound_ref .sound_ability_e_shotgun
+sound_ref .sound_ability_e_shotgun2
+sound_ref .sound_ability_e_shotgun3
+sound_ref .sound_ability_e_shotgun_rack
 
-.sound_ability_x_0:
+.sound_ability_e_shotgun:
 chan_setbank 11
 chan_setinstr 0
-chan_setlayer 0, .layer_ability_x_0
+chan_setlayer 0, .layer_ability_e_shotgun
 chan_end
 
-.layer_ability_x_0:
-layer_note1 39, 0x7f, 127
+.sound_ability_e_shotgun2:
+chan_setbank 11
+chan_setinstr 1
+chan_setlayer 0, .layer_ability_e_shotgun
+chan_end
+
+.sound_ability_e_shotgun3:
+chan_setbank 11
+chan_setinstr 0
+chan_setlayer 0, .layer_ability_e_shotgun3
+chan_end
+
+.sound_ability_e_shotgun_rack:
+chan_setbank 11
+chan_setinstr 2
+chan_setlayer 0, .layer_ability_e_shotgun
+chan_end
+
+.layer_ability_e_shotgun:
+layer_note1 39, 0x9A, 127
+layer_end
+
+.layer_ability_e_shotgun3:
+layer_note1 38, 0x9A, 127
 layer_end
 
 

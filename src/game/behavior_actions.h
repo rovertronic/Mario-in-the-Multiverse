@@ -574,4 +574,37 @@ Gfx *geo_scale_bowser_key(s32 callContext, struct GraphNode *node, UNUSED Mat4 m
 extern struct WaterDropletParams gShallowWaterSplashDropletParams;
 extern struct WaterDropletParams gShallowWaterWaveDropletParams;
 
+
+
+//--E
+
+\
+\
+\
+
+
+\
+\
+void bhv_e__rocket_blast(void);
+
+void e__sg_mtxf_align_with_surface(Mat4 dest, Vec3f upDir, Vec3f pos, Vec3f scale, s16 yaw);//used in e__shotgun_effects
+void bhv_e__flattened_obj(void);
+void bhv_e__push_obj(void);
+void bhv_e__d(void);
+
+
+
+
+\
+\
+\
+
+Gfx *geo_e__mario_torso_rotation(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
+Gfx *geo_e__mario_head_rotation(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
+Gfx *geo_e__mario_arm_rotation(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
+Gfx *geo_e__mario_shotgun_scale(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
+Gfx *geo_e__switch_mario_shotgun_hand(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
+
+
+
 #endif // BEHAVIOR_ACTIONS_H

@@ -20,3 +20,6 @@
 #include "level_pipe/geo.inc.c"
 #include "ability_unlock/geo.inc.c"
 #include "ability_sign/geo.inc.c"
+#include "e__mario/geo.inc.c"
+#include "e_rocket_blast/geo.inc.c"
+#include "e_muzzle_flash/geo.inc.c"

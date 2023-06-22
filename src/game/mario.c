@@ -1744,6 +1744,17 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             return ACTIVE_PARTICLE_NONE;
         }
 
+        //--E SG
+        if (using_ability(ABILITY_E_SHOTGUN)) {
+            struct MarioState *m = gMarioState;
+            gE_ShotgunFlags &= ~E_SGF_AIM_FIRE;
+            if (!(m->floor->normal.y < COS73)) {
+                if (!mario_is_in_air_action()) {
+                    gE_ShotgunFlags &= ~E_SGF_ROCKET_USED; }
+            }
+        }
+
+
         // The function can loop through many action shifts in one frame,
         // which can lead to unexpected sub-frame behavior. Could potentially hang
         // if a loop of actions were found, but there has not been a situation found.
@@ -1758,6 +1769,11 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 case ACT_GROUP_OBJECT:     inLoop = mario_execute_object_action(gMarioState);     break;
             }
         }
+
+        //--E
+        if (using_ability(ABILITY_E_SHOTGUN)) {
+            e__animate_upper(); }
+
 
         if ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE) {
             control_ability_dpad();
@@ -1869,6 +1885,10 @@ void init_mario(void) {
         capObject->oForwardVel = 0;
         capObject->oMoveAngleYaw = 0;
     }
+
+    //--E | No first-frame gun position
+    e__set_upper_anim(gMarioState, 2);
+
 }
 
 void init_mario_from_save_file(void) {

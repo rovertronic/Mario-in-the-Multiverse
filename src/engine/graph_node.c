@@ -885,3 +885,38 @@ UNUSED struct GraphNodeRoot *geo_find_root(struct GraphNode *graphNode) {
 
     return resGraphNode;
 }
+
+
+
+//--E
+struct GraphNodeAnimatedPart *init_graph_node_e__mario_common(struct AllocOnlyPool *pool,
+                                                            struct GraphNodeAnimatedPart *graphNode,
+                                                            s32 drawingLayer, void *displayList,
+                                                            Vec3s translation) {
+    if (pool != NULL) {
+        graphNode = alloc_only_pool_alloc(pool, sizeof(struct GraphNodeAnimatedPart)); }
+
+    if (graphNode != NULL) {
+        init_scene_graph_node_links(&graphNode->node, GRAPH_NODE_TYPE_E__MARIO_COMMON);
+        vec3s_copy(graphNode->translation, translation);
+        SET_GRAPH_NODE_LAYER(graphNode->node.flags, drawingLayer);
+        graphNode->displayList = displayList; }
+
+    return graphNode;
+}
+
+struct GraphNodeAnimatedPart *init_graph_node_e__mario_upper(struct AllocOnlyPool *pool,
+                                                            struct GraphNodeAnimatedPart *graphNode,
+                                                            s32 drawingLayer, void *displayList,
+                                                            Vec3s translation) {
+    if (pool != NULL) {
+        graphNode = alloc_only_pool_alloc(pool, sizeof(struct GraphNodeAnimatedPart)); }
+
+    if (graphNode != NULL) {
+        init_scene_graph_node_links(&graphNode->node, GRAPH_NODE_TYPE_E__MARIO_UPPER);
+        vec3s_copy(graphNode->translation, translation);
+        SET_GRAPH_NODE_LAYER(graphNode->node.flags, drawingLayer);
+        graphNode->displayList = displayList; }
+
+    return graphNode;
+}

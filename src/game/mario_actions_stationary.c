@@ -105,6 +105,8 @@ s32 check_common_hold_idle_cancels(struct MarioState *m) {
 
 //! TODO: actionArg names
 s32 act_idle(struct MarioState *m) {
+    e__fire_shotgun();//--E SG
+
     if (m->quicksandDepth > 30.0f) {
         return set_mario_action(m, ACT_IN_QUICKSAND, 0);
     }
@@ -114,7 +116,9 @@ s32 act_idle(struct MarioState *m) {
     }
 
     if (!(m->actionArg & 1) && m->health < 0x300) {
-        return set_mario_action(m, ACT_PANTING, 0);
+        if (!using_ability(ABILITY_E_SHOTGUN)) {//--E
+            return set_mario_action(m, ACT_PANTING, 0);
+        }
     }
 
     if (check_common_idle_cancels(m)) {
@@ -188,6 +192,9 @@ void play_anim_sound(struct MarioState *m, u32 actionState, s32 animFrame, u32 s
 }
 
 s32 act_start_sleeping(struct MarioState *m) {
+    if (using_ability(ABILITY_E_SHOTGUN)) {//--W SG
+        set_mario_action(m, ACT_IDLE, 0); }
+
     s32 animFrame = 0;
 
     if (check_common_idle_cancels(m)) {
@@ -243,6 +250,9 @@ s32 act_start_sleeping(struct MarioState *m) {
 }
 
 s32 act_sleeping(struct MarioState *m) {
+    if (using_ability(ABILITY_E_SHOTGUN)) {//--W SG
+        set_mario_action(m, ACT_IDLE, 0); }
+
     s32 animFrame;
     if (m->input
         & (INPUT_NONZERO_ANALOG | INPUT_A_PRESSED | INPUT_OFF_FLOOR | INPUT_ABOVE_SLIDE
@@ -303,6 +313,9 @@ s32 act_sleeping(struct MarioState *m) {
 }
 
 s32 act_waking_up(struct MarioState *m) {
+    if (using_ability(ABILITY_E_SHOTGUN)) {//--W SG
+        set_mario_action(m, ACT_IDLE, 0); }
+
     if (!m->actionTimer) {
         stop_sound(SOUND_MARIO_SNORING1, m->marioObj->header.gfx.cameraToObject);
         stop_sound(SOUND_MARIO_SNORING2, m->marioObj->header.gfx.cameraToObject);
@@ -484,6 +497,8 @@ s32 act_standing_against_wall(struct MarioState *m) {
 }
 
 s32 act_in_quicksand(struct MarioState *m) {
+    e__fire_shotgun();//--E SG
+
     if (m->quicksandDepth < 30.0f) {
         return set_mario_action(m, ACT_IDLE, 0);
     }
@@ -595,6 +610,8 @@ void stopping_step(struct MarioState *m, s32 animID, u32 action) {
 }
 
 s32 act_braking_stop(struct MarioState *m) {
+    e__fire_shotgun();//--E SG
+
     if (m->input & INPUT_STOMPED) {
         return set_mario_action(m, ACT_SHOCKWAVE_BOUNCE, 0);
     }
@@ -616,7 +633,9 @@ s32 act_braking_stop(struct MarioState *m) {
     return FALSE;
 }
 
-s32 act_butt_slide_stop(struct MarioState *m) {
+s32 act_butt_slide_stop(struct MarioState *m) {//**
+    e__fire_shotgun();//--E SG
+
     if (m->input & INPUT_STOMPED) {
         return set_mario_action(m, ACT_SHOCKWAVE_BOUNCE, 0);
     }
@@ -839,6 +858,8 @@ s32 check_common_landing_cancels(struct MarioState *m, u32 action) {
 }
 
 s32 act_jump_land_stop(struct MarioState *m) {
+    e__fire_shotgun();//--E SG
+
     if (check_common_landing_cancels(m, 0)) {
         return TRUE;
     }
@@ -848,6 +869,8 @@ s32 act_jump_land_stop(struct MarioState *m) {
 }
 
 s32 act_double_jump_land_stop(struct MarioState *m) {
+    e__fire_shotgun();//--E SG
+
     if (check_common_landing_cancels(m, 0)) {
         return TRUE;
     }
@@ -867,6 +890,8 @@ s32 act_side_flip_land_stop(struct MarioState *m) {
 }
 
 s32 act_freefall_land_stop(struct MarioState *m) {
+    e__fire_shotgun();//--E SG
+
     if (check_common_landing_cancels(m, 0)) {
         return TRUE;
     }
@@ -876,6 +901,8 @@ s32 act_freefall_land_stop(struct MarioState *m) {
 }
 
 s32 act_triple_jump_land_stop(struct MarioState *m) {
+    e__fire_shotgun();//--E SG
+
     if (check_common_landing_cancels(m, ACT_JUMP)) {
         return TRUE;
     }
@@ -885,6 +912,8 @@ s32 act_triple_jump_land_stop(struct MarioState *m) {
 }
 
 s32 act_backflip_land_stop(struct MarioState *m) {
+    e__fire_shotgun();//--E SG
+
     if (!(m->input & INPUT_Z_DOWN) || m->marioObj->header.gfx.animInfo.animFrame >= 6) {
         m->input &= ~INPUT_A_PRESSED;
     }
@@ -909,6 +938,8 @@ s32 act_lava_boost_land(struct MarioState *m) {
 }
 
 s32 act_long_jump_land_stop(struct MarioState *m) {
+    e__fire_shotgun();//--E SG
+
     m->input &= ~INPUT_B_PRESSED;
     if (check_common_landing_cancels(m, ACT_JUMP)) {
         return TRUE;
@@ -962,6 +993,8 @@ s32 act_hold_freefall_land_stop(struct MarioState *m) {
 }
 
 s32 act_air_throw_land(struct MarioState *m) {
+    e__fire_shotgun();//--E SG
+
     if (m->input & INPUT_STOMPED) {
         return set_mario_action(m, ACT_SHOCKWAVE_BOUNCE, 0);
     }
@@ -979,6 +1012,8 @@ s32 act_air_throw_land(struct MarioState *m) {
 }
 
 s32 act_twirl_land(struct MarioState *m) {
+    e__fire_shotgun();//--E SG
+
     m->actionState = ACT_STATE_TWIRL_LAND_1;
     if (m->input & INPUT_STOMPED) {
         return set_mario_action(m, ACT_SHOCKWAVE_BOUNCE, 0);
@@ -1026,7 +1061,7 @@ s32 act_ground_pound_land(struct MarioState *m) {
     return FALSE;
 }
 
-s32 act_first_person(struct MarioState *m) {
+s32 act_first_person(struct MarioState *m) {//**program later
     s32 exit = (m->input & (INPUT_OFF_FLOOR | INPUT_ABOVE_SLIDE | INPUT_STOMPED)) != 0;
 
     if (m->actionState == ACT_STATE_FIRST_PERSON_SET_MODE) {

@@ -10,13 +10,25 @@
         ]
     },
     "instruments": {
-        "inst_ability_X_0": {
-            "release_rate": 208,
+        "inst_ability_e_shotgun": {
+            "release_rate": 0,
             "envelope": "envelope0",
-            "sound": "ability_X_0"
+            "sound": "ability_e_shotgun"
+        },
+        "inst_ability_e_shotgun2": {
+            "release_rate": 0,
+            "envelope": "envelope0",
+            "sound": "ability_e_shotgun2"
+        },
+        "inst_ability_e_shotgun_rack": {
+            "release_rate": 0,
+            "envelope": "envelope0",
+            "sound": "ability_e_shotgun_rack"
         }
     },
     "instrument_list": [
-        "inst_ability_X_0"
+        "inst_ability_e_shotgun",
+        "inst_ability_e_shotgun2",
+        "inst_ability_e_shotgun_rack"
     ]
 }

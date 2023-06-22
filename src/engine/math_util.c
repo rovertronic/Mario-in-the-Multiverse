@@ -594,6 +594,51 @@ void mtxf_billboard(Mat4 dest, Mat4 mtx, Vec3f position, Vec3f scale, s16 angle)
     dest[3][3] = 1.0f;
 }
 
+//--E
+void mtxf_billboard_flattened_obj(Vec3f normal, Mat4 dest, Mat4 mtx, Vec3f position, Vec3f scale, s16 angle) {
+    PUPPYPRINT_ADD_COUNTER(gPuppyCallCounter.matrix);
+    register s32 i;
+    register f32 sx = scale[0];
+    register f32 sy = scale[1];
+    register f32 sz = scale[2];
+
+    Mat4 transform;
+    mtxf_lookat(transform, gVec3fZero, normal, 0);
+
+    for (i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            dest[i][j] = transform[j][i];
+        }
+        dest[i][3] = 0.0f;
+    }
+    if (angle != 0x0) {
+        float m00 = dest[0][0];
+        float m01 = dest[0][1];
+        float m02 = dest[0][2];
+        float m10 = dest[1][0];
+        float m11 = dest[1][1];
+        float m12 = dest[1][2];
+        float cosa = coss(angle);
+        float sina = sins(angle);
+        dest[0][0] = cosa * m00 + sina * m10; 
+        dest[0][1] = cosa * m01 + sina * m11; 
+        dest[0][2] = cosa * m02 + sina * m12;
+        dest[1][0] = -sina * m00 + cosa * m10;
+        dest[1][1] = -sina * m01 + cosa * m11;
+        dest[1][2] = -sina * m02 + cosa * m12;
+    }
+    for (i = 0; i < 3; i++) {
+        dest[0][i] *= sx;
+        dest[1][i] *= sy;
+        dest[2][i] *= sz;
+    }
+
+    // Translation = input translation + position
+    vec3f_copy(dest[3], position);
+    vec3f_add(dest[3], mtx[3]);
+    dest[3][3] = 1.0f;
+}
+
 /**
  * Mostly the same as 'mtxf_align_terrain_normal', but also applies a scale and multiplication.
  * 'upDir' is the terrain normal
@@ -1277,7 +1322,7 @@ s32 anim_spline_poll(Vec3f result) {
  *                    RAYCASTING                  *
  **************************************************/
 
-#define RAY_OFFSET 30.0f /* How many units to extrapolate surfaces when testing for a raycast */
+#define RAY_OFFSET 1.f /* How many units to extrapolate surfaces when testing for a raycast */
 #define RAY_STEPS      4 /* How many steps to do when casting rays, default to quartersteps.  */
 
 /**

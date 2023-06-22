@@ -94,12 +94,16 @@ enum CameraSelection {
     CAM_SELECTION_NONE,
     CAM_SELECTION_MARIO,
     CAM_SELECTION_FIXED,
+    //--E C
+    CAM_SELECTION_AIM,
 };
 
 enum CameraAngle {
     CAM_ANGLE_NONE,
     CAM_ANGLE_MARIO,
     CAM_ANGLE_LAKITU,
+    //--E C
+    CAM_ANGLE_AIM,
 };
 
 enum CameraModes {
@@ -181,8 +185,10 @@ enum CameraStatus {
     CAM_STATUS_FIXED  = (1 << 2), // 0x04
     CAM_STATUS_C_DOWN = (1 << 3), // 0x08
     CAM_STATUS_C_UP   = (1 << 4), // 0x10
+    //--E C
+    CAM_STATUS_AIM    = (1 << 5),
 
-    CAM_STATUS_MODE_GROUP   = (CAM_STATUS_MARIO | CAM_STATUS_LAKITU | CAM_STATUS_FIXED),
+    CAM_STATUS_MODE_GROUP   = (CAM_STATUS_MARIO | CAM_STATUS_LAKITU | CAM_STATUS_FIXED | CAM_STATUS_AIM),//--E C
     CAM_STATUS_C_MODE_GROUP = (CAM_STATUS_C_DOWN | CAM_STATUS_C_UP),
 };
 

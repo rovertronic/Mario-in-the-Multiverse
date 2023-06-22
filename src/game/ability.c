@@ -137,7 +137,7 @@ struct ability ability_struct[] = {
     /*B*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_b  },
     /*C*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_c  },
     /*D*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_d  },
-    /*E*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_e  },
+    /*E*/      {&mario_right_hand_closed  , NULL               ,MODEL_E__MARIO    ,&abstr_e  },
     /*F*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_f  },
     /*G*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_g  },
     /*H*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_h  },
@@ -273,3 +273,21 @@ u8 using_ability(u8 ability_id) {
 u8* ability_string(u8 ability_id) {
     return (ability_struct[ability_id].string);
 }
+
+
+
+//--E
+
+//graph
+struct AnimInfo gE_UpperAnimInfo = { 0 };//Some of this might not be necessary, but optimization isn't the goal. Might polish this later on after MitM
+u8   gE_UpperAnimType      = 0;
+s16  gE_UpperAnimFrame     = 0;
+u16 *gE_UpperAnimAttribute = NULL;
+s16 *gE_UpperAnimData      = NULL;
+
+s16 gE_UpperAimPitch = 0;
+s16 gE_UpperAimYaw   = 0;
+
+//behavior
+s8 gE_ShotgunTimer = 0;
+u8 gE_ShotgunFlags = 0x00;

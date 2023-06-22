@@ -236,7 +236,8 @@ void bhv_water_bomb_update(void) {
  * Despawn when the parent water bomb does.
  */
 void bhv_water_bomb_shadow_update(void) {
-    if (o->parentObj->oAction == WATER_BOMB_ACT_EXPLODE) {
+    if ((o->parentObj->oAction == WATER_BOMB_ACT_EXPLODE)
+        || (o->parentObj->activeFlags == 0)) {//--E
         obj_mark_for_deletion(o);
     } else {
         // TODO: What is happening here

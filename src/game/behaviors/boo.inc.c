@@ -333,7 +333,7 @@ static void boo_chase_mario(f32 minDY, s16 yawIncrement, f32 mul) {
     s16 targetYaw;
 
     if (boo_vanish_or_appear()) {
-        o->oInteractType = INTERACT_BOUNCE_TOP;
+        cur_obj_become_tangible();//--E
 
         if (cur_obj_lateral_dist_from_mario_to_home() > 1500.0f) {
             targetYaw = cur_obj_angle_to_home();
@@ -357,7 +357,7 @@ static void boo_chase_mario(f32 minDY, s16 yawIncrement, f32 mul) {
             boo_oscillate(FALSE);
         }
     } else {
-        o->oInteractType = 0;
+        cur_obj_become_intangible();//--E
         boo_stop();
     }
 }
@@ -552,7 +552,8 @@ static void big_boo_act_1(void) {
         o->oAction = 2;
     }
 
-    if (attackStatus == BOO_ATTACKED) {
+    if ((attackStatus == BOO_ATTACKED) || (o->oShotByShotgun)) {//--E
+        o->oShotByShotgun = 0;
         o->oAction = 3;
         create_sound_spawner(SOUND_OBJ_THWOMP);
     }

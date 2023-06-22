@@ -5,7 +5,7 @@ static struct ObjectHitbox sBobombHitbox = {
     /* downOffset:        */ 0,
     /* damageOrCoinValue: */ 0,
     /* health:            */ 0,
-    /* numLootCoins:      */ 0,
+    /* numLootCoins:      */ 1,//--E
     /* radius:            */ 65,
     /* height:            */ 113,
     /* hurtboxRadius:     */ 0,

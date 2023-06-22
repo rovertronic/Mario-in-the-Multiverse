@@ -1654,7 +1654,7 @@ s32 act_putting_on_cap(struct MarioState *m) {
 
 void stuck_in_ground_handler(struct MarioState *m, s32 animation, s32 unstuckFrame, s32 target2,
                              s32 target3, s32 endAction) {
-    s32 animFrame = set_mario_animation(m, animation);
+    s32 animFrame = set_mario_animation(m, ((m->actionArg) ? MARIO_ANIM_HEAD_STUCK_IN_GROUND : animation));
 
     if (m->input & INPUT_A_PRESSED) {
         m->actionTimer++;
@@ -1666,9 +1666,26 @@ void stuck_in_ground_handler(struct MarioState *m, s32 animation, s32 unstuckFra
 
     stop_and_set_height_to_floor(m);
 
+    if ((gPlayer1Controller->buttonPressed & L_TRIG) && (m->actionState == 0)) {//--E SG
+        if (animation == MARIO_ANIM_LEGS_STUCK_IN_GROUND) {
+            m->actionArg = 1;
+            set_mario_animation(m, MARIO_ANIM_HEAD_STUCK_IN_GROUND);
+        }
+        set_anim_to_frame(m, unstuckFrame);
+        m->actionState++;
+    }
+
     if (animFrame == -1) {
         play_sound_and_spawn_particles(m, SOUND_ACTION_TERRAIN_STUCK_IN_GROUND, 1);
-    } else if (animFrame == unstuckFrame) {
+    } else if ((animFrame == unstuckFrame) || (m->actionState == 1)) {//--E SG
+        if (m->actionState == 1) {
+            set_camera_shake_from_hit(SHAKE_GROUND_POUND);
+            play_sound(SOUND_MITM_ABILITY_E_SHOTGUN, gGlobalSoundSource);
+            play_sound_if_no_flag(m, SOUND_MARIO_UH, MARIO_MARIO_SOUND_PLAYED);
+            spawn_object(m->marioObj, MODEL_NONE, bhvMistCircParticleSpawner);
+            play_sound_and_spawn_particles(m, SOUND_ACTION_UNSTUCK_FROM_GROUND, 1);
+            m->actionState++;
+        }
 #if ENABLE_RUMBLE
         queue_rumble_data(5, 80);
 #endif

@@ -58,6 +58,16 @@ enum ObjFlags {
     OBJ_FLAG_OPACITY_FROM_CAMERA_DIST          = (1 << 21), // 0x00200000
     OBJ_FLAG_EMIT_LIGHT                        = (1 << 22), // 0x00400000
     OBJ_FLAG_ONLY_PROCESS_INSIDE_ROOM          = (1 << 23), // 0x00800000
+    //--E SG coll
+    OBJ_FLAG_E__SG_ENEMY                       = (1 << 24),//Used for common enemies - flattens the enemy against the surface that they were shot against
+    OBJ_FLAG_E__SG_BOSS                        = (1 << 25),//Used for bosses mostly. Pushes them back, if they don't take damage from being shot
+    OBJ_FLAG_E__SG_BREAKABLE                   = (1 << 26),//Usually used for small static objects - spawns a small breaking effect
+    OBJ_FLAG_E__SG_COLLISION_BREAKABLE         = (1 << 27),//Used for larger objects with collision models. If oHealth is set to 0 (or has its default 2048), it'll break in one shot.\
+                                                            Otherwise, oHealth will determine how many shots it takes to break, and will increment its model ID by 1, to show that damage is being done to the object\
+                                                            (Load all model IDs of different states of damage in a row, going from least to most damaged)
+    OBJ_FLAG_E__SG_CUSTOM                      = (1 << 28),//Only adds to oShotByShotgun to let the object know that it was shot, so that the object's behavior can do what it needs to from there
+    OBJ_FLAG_E__SG_COLLISION_CUSTOM            = (1 << 29),//Same as OBJ_FLAG_E__SG_CUSTOM, but for objects with collision models
+
     OBJ_FLAG_HITBOX_WAS_SET                    = (1 << 30), // 0x40000000
 };
 

@@ -897,7 +897,9 @@ s32 act_walking(struct MarioState *m) {
             if (bd_submerged == TRUE){
                 m->particleFlags |= PARTICLE_PLUNGE_BUBBLE;
             } else {
-                m->particleFlags |= PARTICLE_DUST;
+                if (m->intendedMag - m->forwardVel > 16.0f) {
+                    m->particleFlags |= PARTICLE_DUST;
+                }
             }
             break;
 

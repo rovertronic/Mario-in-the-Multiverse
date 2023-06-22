@@ -2436,6 +2436,11 @@ s32 act_knight_jump(struct MarioState *m) {
         return FALSE;
     }
 
+    //knight ground pound
+    if (m->input & INPUT_Z_PRESSED) {
+        return set_mario_action(m, ACT_GROUND_POUND, 0);
+    }
+
     //only single jump
     if ((m->input & INPUT_A_PRESSED)&&(m->actionTimer > 0)) {
         m->vel[1] = 60.0f;

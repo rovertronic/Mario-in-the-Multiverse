@@ -33,6 +33,13 @@ enum BreathMeterAnimation {
 };
 #endif
 
+enum AbilityMeterAnimation {
+    ABILITY_METER_HIDDEN,
+    ABILITY_METER_SHOWING,
+    ABILITY_METER_HIDING,
+    ABILITY_METER_VISIBLE
+};
+
 enum CameraHUDLUT {
     GLYPH_CAM_CAMERA,
     GLYPH_CAM_MARIO_HEAD,

@@ -7,6 +7,7 @@
 #include "object_list_processor.h"
 #include "spawn_object.h"
 #include "engine/math_util.h"
+#include "behavior_data.h"
 
 UNUSED struct Object *debug_print_obj_collision(struct Object *a) {
     struct Object *currCollidedObj;
@@ -149,7 +150,7 @@ void check_destructive_object_collision(void) {
     struct Object *nextObj = (struct Object *) destructiveObj->header.next;
 
     while (nextObj != destructiveObj) {
-        if (nextObj->oDistanceToMario < 2000.0f && !(nextObj->activeFlags & ACTIVE_FLAG_DESTRUCTIVE_OBJ_DONT_DESTROY)) {
+        if ((nextObj->oDistanceToMario < 2000.0f || count_objects_with_behavior(bhvShockRocket)  != 0) && !(nextObj->activeFlags & ACTIVE_FLAG_DESTRUCTIVE_OBJ_DONT_DESTROY)) {
             check_collision_in_list(nextObj, (struct Object *) nextObj->header.next, destructiveObj);
             check_collision_in_list(nextObj, (struct Object *) gObjectLists[OBJ_LIST_GENACTOR].next,
                           (struct Object *) &gObjectLists[OBJ_LIST_GENACTOR]);

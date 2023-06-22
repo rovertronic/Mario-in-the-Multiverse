@@ -26,6 +26,9 @@
 #include "debug_box.h"
 #include "engine/colors.h"
 #include "profiling.h"
+#include "fb_effects.h"
+#include "rigid_body.h"
+extern Bool8 cam_submerged;
 
 struct SpawnInfo gPlayerSpawnInfos[1];
 struct GraphNode *gGraphNodePointers[MODEL_ID_COUNT];
@@ -235,6 +238,10 @@ void load_area(s32 index) {
         main_pool_pop_state();
         main_pool_push_state();
 
+        for (u32 i = 0; i < MAX_RIGID_BODIES; i++) {
+            deallocate_rigid_body(&gRigidBodies[i]);
+        }
+
         gMarioCurrentRoom = 0;
 
         if (gCurrentArea->terrainData != NULL) {
@@ -385,11 +392,17 @@ void render_game(void) {
         bzero(gCurrEnvCol, sizeof(ColorRGBA));
 #endif
 
+        render_fb_effects();
+
         gSPViewport(gDisplayListHead++, VIRTUAL_TO_PHYSICAL(&gViewport));
 
         gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, 0, gBorderHeight, SCREEN_WIDTH,
                       SCREEN_HEIGHT - gBorderHeight);
         render_hud();
+        if (cam_submerged == TRUE){
+            shade_screen_blue();
+        }
+
 
         gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         render_text_labels();

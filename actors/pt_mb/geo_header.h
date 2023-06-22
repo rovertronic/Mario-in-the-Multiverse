@@ -1,0 +1,10 @@
+extern const GeoLayout pt_mb_geo[];
+extern Lights1 pt_mb_metalblock_lights;
+extern u8 pt_mb_metal_ci4[];
+extern u8 pt_mb_metal_pal_rgba16[];
+extern Vtx pt_mb_Cube_mesh_layer_1_vtx_0[24];
+extern Gfx pt_mb_Cube_mesh_layer_1_tri_0[];
+extern Gfx mat_pt_mb_metalblock[];
+extern Gfx mat_revert_pt_mb_metalblock[];
+extern Gfx pt_mb_Cube_mesh_layer_1[];
+extern Gfx pt_mb_material_revert_render_settings[];

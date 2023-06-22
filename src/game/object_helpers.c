@@ -664,6 +664,25 @@ s32 count_objects_with_behavior(const BehaviorScript *behavior) {
     return count;
 }
 
+s32 count_objects_with_behavior_bparam1_action(const BehaviorScript *behavior, u32 bparam1, s32 action) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct ObjectNode *obj = listHead->next;
+    s32 count = 0;
+
+    while (listHead != obj) {
+        if (((struct Object *) obj)->behavior == behaviorAddr && 
+            ((struct Object *) obj)->oBehParams >> 24 == bparam1 &&
+            ((struct Object *) obj)->oAction == action) {
+            count++;
+        }
+
+        obj = obj->next;
+    }
+
+    return count;
+}
+
 struct Object *cur_obj_find_nearby_held_actor(const BehaviorScript *behavior, f32 maxDist) {
     const BehaviorScript *behaviorAddr = segmented_to_virtual(behavior);
     struct ObjectNode *listHead = &gObjectLists[OBJ_LIST_GENACTOR];
@@ -1942,8 +1961,10 @@ void cur_obj_if_hit_wall_bounce_away(void) {
     }
 }
 
+//ABILITY I -> add the distance with the rocket to display object like Whomps when nearby
 s32 cur_obj_hide_if_mario_far_away_y(f32 distY) {
-    if (absf(o->oPosY - gMarioObject->oPosY) < distY) {
+    struct Object *rocket = cur_obj_nearest_object_with_behavior(bhvShockRocket);
+    if (absf(o->oPosY - gMarioObject->oPosY) < distY || (rocket != NULL && absf(o->oPosY - rocket->oPosY) < distY)) {
         cur_obj_unhide();
         return FALSE;
     } else {

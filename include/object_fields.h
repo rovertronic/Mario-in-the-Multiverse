@@ -1011,6 +1011,9 @@
 #define /*0x0F4*/ oCelebStarIsBowserKey        OBJECT_FIELD_S32(0x1B)
 #define /*0x108*/ oCelebStarDiameterOfRotation OBJECT_FIELD_S32(0x20)
 
+/* Shock Rocket*/
+#define /*0x0F4*/ oPreviousLakituCamMode       OBJECT_FIELD_U32(0x1B)
+
 /* Star Selector */
 #define /*0x0F4*/ oStarSelectorType  OBJECT_FIELD_S32(0x1B)
 #define /*0x0F8*/ oStarSelectorTimer OBJECT_FIELD_S32(0x1C)

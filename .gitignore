@@ -2151,4 +2151,4 @@ lib/libs2d_engine.a
 *.blend1
 
 # dropbox.attrs files
-*.dropbox.attrs
+*com.dropbox.attrs

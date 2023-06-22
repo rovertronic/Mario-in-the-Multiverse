@@ -551,9 +551,11 @@ extern const BehaviorScript bhvAbilityUnlock[];
 /* GROUP B END */
 
 /* GROUP C START */
+extern const BehaviorScript bhvSquid[];
 /* GROUP C END */
 
 /* GROUP D START */
+extern const BehaviorScript bhvNitroBox[];
 /* GROUP D END */
 
 /* GROUP E START */
@@ -573,33 +575,46 @@ extern const BehaviorScript bhvD[];
 /* GROUP E END */
 
 /* GROUP F START */
+extern const BehaviorScript bhvGadgetAim[];
 /* GROUP F END */
 
 /* GROUP G START */
+extern const BehaviorScript bhvCutterBlade[];
 /* GROUP G END */
 
 /* GROUP H START */
 /* GROUP H END */
 
 /* GROUP I START */
+extern const BehaviorScript bhvShockRocket[];
+extern const BehaviorScript bhvRocketSmoke[];
+extern const BehaviorScript bhvRocketButton[];
+extern const BehaviorScript bhvRocketButtonGroup[];
 /* GROUP I END */
 
 /* GROUP J START */
+extern const BehaviorScript bhvDragonite[];
 /* GROUP J END */
 
 /* GROUP K START */
 /* GROUP K END */
 
 /* GROUP L START */
+extern const BehaviorScript bhvPtMetalBox[];
 /* GROUP L END */
 
 /* GROUP M START */
 /* GROUP M END */
 
 /* GROUP N START */
+extern const BehaviorScript bhvPhysicsMarble[];
 /* GROUP N END */
 
 /* GROUP O START */
 /* GROUP O END */
 
 #endif // BEHAVIOR_DATA_H
+
+
+extern const BehaviorScript bhvCutterBlast[];
+extern const BehaviorScript bhvSlashParticle[];

@@ -119,6 +119,7 @@ struct Object *cur_obj_find_nearest_object_with_behavior(const BehaviorScript * 
 struct Object *find_unimportant_object(void);
 s32 count_unimportant_objects(void);
 s32 count_objects_with_behavior(const BehaviorScript *behavior);
+s32 count_objects_with_behavior_bparam1_action(const BehaviorScript *behavior, u32 bparam1, s32 action);
 struct Object *cur_obj_find_nearby_held_actor(const BehaviorScript *behavior, f32 maxDist);
 void cur_obj_change_action(s32 action);
 void cur_obj_set_vel_from_mario_vel(f32 f12,f32 f14);

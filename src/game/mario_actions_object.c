@@ -9,6 +9,10 @@
 #include "interaction.h"
 #include "engine/math_util.h"
 #include "rumble_init.h"
+#include "game_init.h"
+#include "include/behavior_data.h"
+#include "ability.h"
+#include "actors/group0.h"
 
 /**
  * Used by act_punching() to determine Mario's forward velocity during each
@@ -27,6 +31,21 @@ void animated_stationary_ground_step(struct MarioState *m, s32 animation, u32 en
 s32 mario_update_punch_sequence(struct MarioState *m) {
     u32 endAction, crouchEndAction;
     s32 animFrame;
+
+    if (m->abilityId == ABILITY_CUTTER) {
+        if (m->actionTimer >= 2) {
+            gSPDisplayList(&gfx_ability_hand[0], &cutter_hand_right_hand_open_mesh_layer_1);
+            gSPEndDisplayList(&gfx_ability_hand[1]);
+        }
+        else {
+            gSPDisplayList(&gfx_ability_hand[0], &mario_right_hand_closed);
+            gSPEndDisplayList(&gfx_ability_hand[1]);
+        }
+
+        if (m->actionTimer == 2) {
+            spawn_object_relative(0, 0, 100, 0, m->marioObj, MODEL_CUTTER_BLADE, bhvCutterBlade);
+        }
+    }
 
     if (m->action & ACT_FLAG_MOVING) {
         endAction = ACT_WALKING, crouchEndAction = ACT_CROUCH_SLIDE;
@@ -48,7 +67,18 @@ s32 mario_update_punch_sequence(struct MarioState *m) {
 
             if (m->marioObj->header.gfx.animInfo.animFrame >= 2) {
                 if (mario_check_object_grab(m)) {
-                    return TRUE;
+                    if (m->abilityId == ABILITY_CUTTER && m->interactObj->behavior != segmented_to_virtual(bhvKingBobomb) && m->interactObj->behavior != segmented_to_virtual(bhvUkiki) 
+                    && m->interactObj->behavior != segmented_to_virtual(bhvBowser) && m->interactObj->behavior != segmented_to_virtual(bhvMips)
+                    && m->interactObj->behavior != segmented_to_virtual(bhvBreakableBoxSmall) && m->interactObj->behavior != segmented_to_virtual(bhvJumpingBox)) {
+                        m->interactObj->oAction = OBJ_ACT_STUN_KNOCKBACK;
+                        m->interactObj->oFlags &= ~OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW;
+                        m->interactObj->oMoveAngleYaw = obj_angle_to_object(m->marioObj, m->interactObj);
+                        set_mario_action(m, ACT_FINAL_CUTTER_SEQUENCE, 0);
+                        return FALSE;
+                    }
+                    else {
+                        return TRUE;
+                    }
                 }
 
                 m->flags |= MARIO_PUNCHING;
@@ -66,7 +96,7 @@ s32 mario_update_punch_sequence(struct MarioState *m) {
                 m->flags |= MARIO_PUNCHING;
             }
 
-            if (m->input & INPUT_B_PRESSED) {
+            if ((m->input & INPUT_B_PRESSED) && m->abilityId != ABILITY_CUTTER) {
                 m->actionArg = ACT_ARG_PUNCH_SEQUENCE_WAH;
             }
 
@@ -139,6 +169,38 @@ s32 mario_update_punch_sequence(struct MarioState *m) {
                 set_mario_action(m, crouchEndAction, 0);
             }
             break;
+
+        case ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH:
+        case ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR:
+            m->abilityChronosCanSlash = FALSE;
+            set_mario_animation(m, MARIO_ANIM_FIRST_PUNCH);
+        
+            if (m->marioObj->header.gfx.animInfo.animFrame == 0) {
+                u8 slashSound = random_u16() % 3;
+                s32 slashSoundBits = NO_SOUND;
+                switch (slashSound) {
+                    case 0:
+                        slashSoundBits = SOUND_ABILITY_CHRONOS_SLASH_1;
+                        break;
+                    case 1:
+                        slashSoundBits = SOUND_ABILITY_CHRONOS_SLASH_2;
+                        break;
+                    case 2:
+                        slashSoundBits = SOUND_ABILITY_CHRONOS_SLASH_3;
+                        break;
+                }
+                play_sound(slashSoundBits, m->marioObj->header.gfx.cameraToObject);
+                m->forwardVel = 60.0f * (m->intendedMag / 32.0f);
+                spawn_object_relative(3, 0, 50, 0, m->marioObj, MODEL_SLASH_PARTICLE, bhvSlashParticle);
+            }
+
+            m->flags |= MARIO_PUNCHING;
+            m->marioBodyState->punchState = PUNCH_STATE_TYPE_SLASH;
+
+            if (is_anim_at_end(m)) {
+                set_mario_action(m, endAction, 0);
+            }
+            break;
     }
 
     return FALSE;
@@ -149,12 +211,14 @@ s32 act_punching(struct MarioState *m) {
         return drop_and_set_mario_action(m, ACT_SHOCKWAVE_BOUNCE, 0);
     }
 
-    if (m->input & (INPUT_NONZERO_ANALOG | INPUT_A_PRESSED | INPUT_OFF_FLOOR | INPUT_ABOVE_SLIDE)) {
-        return check_common_action_exits(m);
-    }
+    if (m->actionArg != ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH && m->actionArg != ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR) {
+        if (m->input & (INPUT_NONZERO_ANALOG | INPUT_A_PRESSED | INPUT_OFF_FLOOR | INPUT_ABOVE_SLIDE)) {
+            return check_common_action_exits(m);
+        }
 
-    if (m->actionState == ACT_STATE_PUNCHING_CAN_JUMP_KICK && (m->input & INPUT_A_DOWN)) {
-        return set_mario_action(m, ACT_JUMP_KICK, 0);
+        if (m->actionState == ACT_STATE_PUNCHING_CAN_JUMP_KICK && (m->input & INPUT_A_DOWN)) {
+            return set_mario_action(m, ACT_JUMP_KICK, 0);
+        }
     }
 
     m->actionState = ACT_STATE_PUNCHING_NO_JUMP_KICK;
@@ -164,11 +228,21 @@ s32 act_punching(struct MarioState *m) {
 
     mario_set_forward_vel(m, sPunchingForwardVelocities[m->actionTimer]);
     if (m->actionTimer > 0) {
-        m->actionTimer--;
+        if (ability_chronos_frame_can_progress()) {
+            m->actionTimer--;
+        }
     }
 
     mario_update_punch_sequence(m);
-    perform_ground_step(m);
+    if (m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR) {
+        perform_air_step(m, 0);
+    }
+    else {
+        s32 step = perform_ground_step(m);
+        if (step == GROUND_STEP_LEFT_GROUND && m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH) {
+            m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR;
+        }
+    }
     return FALSE;
 }
 
@@ -248,7 +322,7 @@ s32 act_placing_down(struct MarioState *m) {
         return drop_and_set_mario_action(m, ACT_FREEFALL, 0);
     }
 
-    if (++m->actionTimer == 8) {
+    if (update_mario_action_timer_pre(m) == 8) {
         mario_drop_held_object(m);
     }
 
@@ -269,7 +343,7 @@ s32 act_throwing(struct MarioState *m) {
         return drop_and_set_mario_action(m, ACT_FREEFALL, 0);
     }
 
-    if (++m->actionTimer == 7) {
+    if (update_mario_action_timer_pre(m) == 7) {
         mario_throw_held_object(m);
         play_sound_if_no_flag(m, SOUND_MARIO_WAH2, MARIO_MARIO_SOUND_PLAYED);
         play_sound_if_no_flag(m, SOUND_ACTION_THROW, MARIO_ACTION_SOUND_PLAYED);
@@ -291,7 +365,7 @@ s32 act_heavy_throw(struct MarioState *m) {
         return drop_and_set_mario_action(m, ACT_FREEFALL, 0);
     }
 
-    if (++m->actionTimer == 13) {
+    if (update_mario_action_timer_pre(m) == 13) {
         mario_drop_held_object(m);
         play_sound_if_no_flag(m, SOUND_MARIO_WAH2, MARIO_MARIO_SOUND_PLAYED);
         play_sound_if_no_flag(m, SOUND_ACTION_THROW, MARIO_ACTION_SOUND_PLAYED);
@@ -355,7 +429,7 @@ s32 act_holding_bowser(struct MarioState *m) {
     }
 
     if (m->angleVel[1] == 0) {
-        if (m->actionTimer++ > 120) {
+        if (update_mario_action_timer_post(m) > 120) {
             return set_mario_action(m, ACT_RELEASING_BOWSER, 1);
         }
 
@@ -414,7 +488,7 @@ s32 act_holding_bowser(struct MarioState *m) {
 }
 
 s32 act_releasing_bowser(struct MarioState *m) {
-    if (++m->actionTimer == 1) {
+    if (update_mario_action_timer_pre(m) == 1) {
         if (m->actionArg == 0) {
 #if ENABLE_RUMBLE
             queue_rumble_data(5, 50);
@@ -457,8 +531,14 @@ s32 mario_execute_object_action(struct MarioState *m) {
         return TRUE;
     }
 
-    if (mario_update_quicksand(m, 0.5f)) {
-        return TRUE;
+    if (!(
+        m->action == ACT_PUNCHING && 
+        (m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH ||
+        m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR)
+    )) {
+        if (mario_update_quicksand(m, 0.5f)) {
+            return TRUE;
+        }
     }
 
     /* clang-format off */

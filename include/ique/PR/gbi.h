@@ -3680,7 +3680,7 @@ typedef union {
 		(((width)*(height) + siz##_INCR) >> siz##_SHIFT)-1,	\
 		CALC_DXT(width, siz##_BYTES)); 				\
 	gDPPipeSync(pkt);						\
-	gDPSetTile(pkt, fmt, siz, (((width) * siz##_LINE_BYTES)+7)>>3,	\
+	gDPSetTile(pkt, fmt, siz, (((width) * siz##)+7)>>3,	\
 		tmem, rtile, pal, cmt,					\
 		maskt, shiftt, cms, masks, shifts);			\
 	gDPSetTileSize(pkt, rtile, 0, 0,				\

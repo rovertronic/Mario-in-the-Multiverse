@@ -8425,7 +8425,9 @@ Gfx title_card_TitleCardMesh_mesh_tri_0[] = {
 
 Gfx mat_title_card_TitleCard[] = {
 	gsDPPipeSync(),
+	gsDPSetTextureFilter(G_TF_POINT),
 	gsDPSetCombineLERP(0, 0, 0, TEXEL0, TEXEL0, 0, ENVIRONMENT, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, ENVIRONMENT, 0),
+    gsDPSetTextureFilter(G_TF_POINT),
 	gsSPClearGeometryMode(G_ZBUFFER),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPEndDisplayList(),
@@ -8433,7 +8435,9 @@ Gfx mat_title_card_TitleCard[] = {
 
 Gfx mat_revert_title_card_TitleCard[] = {
 	gsDPPipeSync(),
+    gsDPSetTextureFilter(G_TF_BILERP),
 	gsSPSetGeometryMode(G_ZBUFFER),
+	gsDPSetTextureFilter(G_TF_BILERP),
 	gsSPEndDisplayList(),
 };
 

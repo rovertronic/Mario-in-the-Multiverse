@@ -74,6 +74,15 @@ enum ObjFlags {
     OBJ_FLAG_E__SG_COLLISION_CUSTOM            = (1 << 29),//Same as OBJ_FLAG_E__SG_CUSTOM, but for objects with collision models
 
     OBJ_FLAG_HITBOX_WAS_SET                    = (1 << 30), // 0x40000000
+
+    // For Axo's Chronos ability - disables the "pause buffer" timeslow method,
+    // and instead allows the object to run every frame. If you use this, you
+    // should instead use code in the behavior to slow its velocity if
+    // gMarioState->abilityChronosTimeSlowActive is true. Additionally, this
+    // flag also tells the animation code to only advance the animation every
+    // ABILITY_CHRONOS_SLOW_SPLIT frames. There is currently no support for
+    // manually smoothed animations or automatically interpolated animations.
+    OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW       = (1 << 31), // 0x80000000
 };
 
 /* oHeldState */
@@ -252,7 +261,8 @@ enum ObjGeneralDeathActions {
 enum ObjGeneralKnockbackActions {
     OBJ_ACT_HORIZONTAL_KNOCKBACK = 100,
     OBJ_ACT_VERTICAL_KNOCKBACK,
-    OBJ_ACT_SQUISHED
+    OBJ_ACT_SQUISHED,
+    OBJ_ACT_STUN_KNOCKBACK
 };
 
 /* oAnimState */
@@ -2684,6 +2694,22 @@ enum animIDsFirePiranhaPlant {
     #define WF_ATTACK_NONE                                  0x0
     #define WF_ATTACK_GROUND                                0x1
     #define WF_ATTACK_AIR                                   0x2
+
+/* Shock Rocket */
+    /* oAction */
+    #define SHOCK_ROCKET_ACT_ARMED                          0x0
+    #define SHOCK_ROCKET_ACT_MOVE                           0x1
+    #define SHOCK_ROCKET_ACT_WAIT_BEFORE_QUITING            0x2
+
+/* Rocket Button*/
+    /* oAction */
+    #define ROCKET_BUTTON_ACT_OFF                           0x0
+    #define ROCKET_BUTTON_ACT_ON                            0x1
+
+/* Rocket Button Group*/
+    /* oAction */
+    #define ROCKET_BUTTON_GROUP_WAITING                     0x0
+    #define ROCKET_BUTTON_GROUP_SUCCESSFUL                  0x1
 
 /* White Puff Explosion */
     /* oBehParams2ndByte */

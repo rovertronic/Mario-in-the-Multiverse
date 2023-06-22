@@ -6639,7 +6639,7 @@ layer_end
 sound_ref .sound_air_bowser_spit_fire
 sound_ref .chan_29C2
 sound_ref .sound_air_lakitu_fly
-sound_ref .sound_air_amp_buzz
+sound_ref .sound_air_
 sound_ref .sound_air_blow_fire
 sound_ref .sound_air_rough_slide
 sound_ref .sound_air_heaveho_move
@@ -6712,7 +6712,7 @@ layer_note1 27, 0x16, 50
 layer_jump .layer_29E5
 layer_end
 
-.sound_air_amp_buzz:
+.sound_air_:
 chan_setbank 3
 chan_setinstr 9
 chan_setenvelope .envelope_32E4
@@ -6949,6 +6949,28 @@ sound_ref .chan_2D18
 sound_ref .sound_menu_power_meter
 sound_ref .sound_menu_camera_buzz
 sound_ref .sound_menu_camera_turn
+sound_ref .sound_menu_chronos_slomo_engage
+sound_ref .sound_menu_chronos_slomo_disengage
+
+.sound_menu_chronos_slomo_engage:
+chan_setbank 9
+chan_setinstr 7
+chan_setlayer 0, .layer_menu_chronos_slomo_engage
+chan_end
+
+.layer_menu_chronos_slomo_engage:
+layer_note1 39, 0x58, 127
+layer_end
+
+.sound_menu_chronos_slomo_disengage:
+chan_setbank 9
+chan_setinstr 8
+chan_setlayer 0, .layer_menu_chronos_slomo_disengage
+chan_end
+
+.layer_menu_chronos_slomo_disengage:
+layer_note1 39, 0x34, 127
+layer_end
 
 .sound_menu_change_select:
 chan_setbank 9
@@ -7942,32 +7964,55 @@ layer_jump .layer_32B7
 
 // MitM Ability Sound Effects
 .channelAbility_table:
+sound_ref .sound_ability_x_0
+sound_ref .sound_ability_cutter_throw
+sound_ref .sound_ability_cutter_slice
+sound_ref .sound_ability_cutter_final
+sound_ref .sound_ability_cutter_dash
+sound_ref .sound_ability_cutter_catch
+sound_ref .sound_ability_aku
+sound_ref .sound_ability_dragonite
+sound_ref .sound_ability_chronos_slash_1
+sound_ref .sound_ability_chronos_slash_2
+sound_ref .sound_ability_chronos_slash_3
+sound_ref .sound_ability_knightslide
+sound_ref .sound_ability_knightsword
 sound_ref .sound_ability_e_shotgun
 sound_ref .sound_ability_e_shotgun2
 sound_ref .sound_ability_e_shotgun3
 sound_ref .sound_ability_e_shotgun_rack
 
-.sound_ability_e_shotgun:
+.sound_ability_x_0:
 chan_setbank 11
 chan_setinstr 0
+chan_setlayer 0, .layer_ability_x_0
+chan_end
+
+.layer_ability_x_0:
+layer_note1 39, 0x7f, 127
+layer_end
+
+.sound_ability_e_shotgun:
+chan_setbank 11
+chan_setinstr 13
 chan_setlayer 0, .layer_ability_e_shotgun
 chan_end
 
 .sound_ability_e_shotgun2:
 chan_setbank 11
-chan_setinstr 1
+chan_setinstr 14
 chan_setlayer 0, .layer_ability_e_shotgun
 chan_end
 
 .sound_ability_e_shotgun3:
 chan_setbank 11
-chan_setinstr 0
+chan_setinstr 15
 chan_setlayer 0, .layer_ability_e_shotgun3
 chan_end
 
 .sound_ability_e_shotgun_rack:
 chan_setbank 11
-chan_setinstr 2
+chan_setinstr 16
 chan_setlayer 0, .layer_ability_e_shotgun
 chan_end
 
@@ -7979,6 +8024,110 @@ layer_end
 layer_note1 38, 0x9A, 127
 layer_end
 
+.sound_ability_cutter_throw:
+chan_setbank 11
+chan_setinstr 1
+chan_setlayer 0, .layer_ability_cutter
+chan_end
+
+.sound_ability_cutter_slice:
+chan_setbank 11
+chan_setinstr 2
+chan_setlayer 0, .layer_ability_cutter
+chan_end
+
+.sound_ability_cutter_final:
+chan_setbank 11
+chan_setinstr 3
+chan_setlayer 0, .layer_ability_cutter
+chan_end
+
+.sound_ability_cutter_dash:
+chan_setbank 11
+chan_setinstr 4
+chan_setlayer 0, .layer_ability_cutter
+chan_end
+
+.sound_ability_cutter_catch:
+chan_setbank 11
+chan_setinstr 5
+chan_setlayer 0, .layer_ability_cutter
+chan_end
+
+.sound_ability_aku:
+chan_setbank 11
+chan_setinstr 6
+chan_setlayer 0, .layer_ability_cutter
+chan_end
+
+.layer_ability_cutter:
+layer_note1 39, 0x7f, 127
+layer_end
+
+.sound_ability_dragonite:
+chan_setbank 11
+chan_setinstr 7
+chan_setlayer 0, .layer_ability_hm_fly
+chan_end
+
+.layer_ability_hm_fly:
+layer_note1 39, 0x1B0, 127
+layer_end
+
+.sound_ability_chronos_slash_1:
+chan_setbank 11
+chan_setinstr 8
+chan_setlayer 0, .layer_ability_chronos_slash_1
+chan_end
+
+.layer_ability_chronos_slash_1:
+layer_note1 39, 0x26, 127
+layer_end
+
+.sound_ability_chronos_slash_2:
+chan_setbank 11
+chan_setinstr 9
+chan_setlayer 0, .layer_ability_chronos_slash_2
+chan_end
+
+.layer_ability_chronos_slash_2:
+layer_note1 39, 0x28, 127
+layer_end
+
+.sound_ability_chronos_slash_3:
+chan_setbank 11
+chan_setinstr 10
+chan_setlayer 0, .layer_ability_chronos_slash_3
+chan_end
+
+.layer_ability_chronos_slash_3:
+layer_note1 39, 0x23, 127
+layer_end
+
+.sound_ability_knightslide:
+chan_setbank 11
+chan_setinstr 11
+chan_setenvelope .envelope_32E4
+chan_setdecayrelease 15
+chan_setlayer 0, .layer_ability_knightslide
+chan_end
+
+.layer_ability_knightslide:
+layer_somethingon
+.layer_knightslide2:
+layer_note1 39, 0x7F, 127
+layer_jump .layer_knightslide2
+layer_end
+
+.sound_ability_knightsword:
+chan_setbank 11
+chan_setinstr 12
+chan_setlayer 0, .layer_ability_knightsword
+chan_end
+
+.layer_ability_knightsword:
+layer_note1 39, 0x23, 127
+layer_end
 
 // MitM Level Sound Effects
 .channelLevel_table:

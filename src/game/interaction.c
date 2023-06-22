@@ -1525,7 +1525,7 @@ u32 interact_pole(struct MarioState *m, UNUSED u32 interactType, struct Object *
             marioObj->oMarioPolePos = ((m->pos[1] - obj->oPosY) < 0) ? -obj->hitboxDownOffset : (m->pos[1] - obj->oPosY);
 
             //--E SG
-            gE_ShotgunFlags &= ~E_SGF_ROCKET_USED;
+            gE_ShotgunFlags &= ~E_SGF_AIR_SHOT_USED;
 
             if (lowSpeed) {
                 return set_mario_action(m, ACT_GRAB_POLE_SLOW, 0);

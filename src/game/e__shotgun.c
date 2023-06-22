@@ -694,7 +694,7 @@ void e__fire_shotgun_air(void) {//--**combine with e__fire_shotgun later
         struct MarioState *m = gMarioState;
         if (mario_is_in_air_action()) {
             if (gPlayer1Controller->buttonPressed & L_TRIG) {
-                if (!(gE_ShotgunFlags & E_SGF_ROCKET_USED)) {
+                if (!(gE_ShotgunFlags & E_SGF_AIR_SHOT_USED)) {
                     e__set_upper_anim(m, 2);
                     gE_UpperAnimInfo.animFrame = 0;
 
@@ -709,11 +709,13 @@ void e__fire_shotgun_air(void) {//--**combine with e__fire_shotgun later
                     else {
                         m->vel[1] += 10.f; }
                     m->flags        &= ~MARIO_JUMPING;
-                    gE_ShotgunFlags |= E_SGF_ROCKET_USED;
+                    gE_ShotgunFlags |= E_SGF_AIR_SHOT_USED;
 
                     //shot
-                    Vec3f shotVisualPos = { m->pos[0], (m->pos[1] + E_SG_SHOT_Y_OFFSET), m->pos[2] };
-                    e__shotgun_shot(m->pos, shotVisualPos, DEGREES(270), 0);
+                    Vec3f shotPos = { (m->pos[0] + (sins(m->faceAngle[1]) * E_SG_SHOT_Y_OFFSET)),
+                                            (m->pos[1] + E_SG_SHOT_Y_OFFSET),
+                                            (m->pos[2] + (coss(m->faceAngle[1]) * E_SG_SHOT_Y_OFFSET)) };
+                    e__shotgun_shot(shotPos, shotPos, DEGREES(270), 0);
                     gE_ShotgunTimer = 26;
                 }
             }

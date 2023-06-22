@@ -80,7 +80,8 @@ void exclamation_box_act_active(void) {
         o->oPosY = o->oHomeY;
         o->oGraphYOffset = 0.0f;
     }
-    if (cur_obj_was_attacked_or_ground_pounded() || (o->oShotByShotgun == 2)) {//--E
+    
+    if (cur_obj_was_attacked_or_ground_pounded() || o->oShotByShotgun) {//--E
         o->oShotByShotgun = 0;
         cur_obj_become_intangible();
         o->oExclamationBoxScaleAngle = 0x4000;

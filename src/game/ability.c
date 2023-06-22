@@ -145,7 +145,7 @@ struct ability ability_struct[] = {
     /*B*/      {&bigdaddyhand_Plane_mesh  , bigdaddyhat_bigdaddy_mesh               ,MODEL_MARIO       ,&abstr_b  },
     /*C*/      {&mario_right_hand_closed  , &squid_hat_lunette_mesh               ,MODEL_MARIO       ,&abstr_c  },
     /*D*/      {&mario_right_hand_closed  , ability_d_mask_hat_mesh ,MODEL_MARIO       ,&abstr_d  },
-    /*E*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_e  },
+    /*E*/      {&mario_right_hand_closed  , NULL               ,MODEL_E__MARIO    ,&abstr_e  },
     /*F*/      {&hand_f_hand_mesh         , &hat_f_hat_mesh    ,MODEL_MARIO       ,&abstr_f  },
     /*G*/      {&mario_right_hand_closed  , &cutter_hat_Circle_mesh_layer_1               ,MODEL_MARIO       ,&abstr_g  },
     /*H*/      {&phasewalk_hand_hand_mesh , NULL               ,MODEL_MARIO       ,&abstr_h  },
@@ -310,6 +310,24 @@ u8 cool_down_ability(u8 ability_id) {
 u8 ability_ready(u8 ability_id) {
     ability_cooldown_flags &= ~(1<<ability_id);
 }
+
+
+//--E
+
+//graph
+struct AnimInfo gE_UpperAnimInfo = { 0 };//Some of this might not be necessary, but optimization isn't the goal. Might polish this later on after MitM
+u8   gE_UpperAnimType      = 0;
+s16  gE_UpperAnimFrame     = 0;
+u16 *gE_UpperAnimAttribute = NULL;
+s16 *gE_UpperAnimData      = NULL;
+
+s16 gE_UpperAimPitch = 0;
+s16 gE_UpperAimYaw   = 0;
+
+//behavior
+s8 gE_ShotgunTimer = 0;
+u8 gE_ShotgunFlags = 0x00;
+
 
 /**
  * Returns whether the current frame can unfreeze itself, for Axo's Chronos

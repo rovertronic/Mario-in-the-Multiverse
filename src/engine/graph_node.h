@@ -74,6 +74,9 @@ enum GraphNodeTypes {
     GRAPH_NODE_TYPE_CULLING_RADIUS,
     GRAPH_NODE_TYPE_ROOT,
     GRAPH_NODE_TYPE_START,
+    //--E
+    GRAPH_NODE_TYPE_E__MARIO_COMMON,
+    GRAPH_NODE_TYPE_E__MARIO_UPPER,
 };
 
 // Passed as first argument to a GraphNodeFunc to give information about in
@@ -389,6 +392,10 @@ struct GraphNodeObjectParent        *init_graph_node_object_parent       (struct
 struct GraphNodeGenerated           *init_graph_node_generated           (struct AllocOnlyPool *pool, struct GraphNodeGenerated           *graphNode, GraphNodeFunc gfxFunc, s32 parameter);
 struct GraphNodeBackground          *init_graph_node_background          (struct AllocOnlyPool *pool, struct GraphNodeBackground          *graphNode, u16 background, GraphNodeFunc backgroundFunc, s32 zero);
 struct GraphNodeHeldObject          *init_graph_node_held_object         (struct AllocOnlyPool *pool, struct GraphNodeHeldObject          *graphNode, struct Object *objNode, Vec3s translation, GraphNodeFunc nodeFunc, s32 playerIndex);
+//--E
+struct GraphNodeAnimatedPart        *init_graph_node_e__mario_common      (struct AllocOnlyPool *pool, struct GraphNodeAnimatedPart        *graphNode, s32 drawingLayer, void *displayList, Vec3s translation);
+struct GraphNodeAnimatedPart        *init_graph_node_e__mario_upper      (struct AllocOnlyPool *pool, struct GraphNodeAnimatedPart        *graphNode, s32 drawingLayer, void *displayList, Vec3s translation);
+
 
 struct GraphNode *geo_add_child       (struct GraphNode *parent, struct GraphNode *childNode);
 struct GraphNode *geo_remove_child    (struct GraphNode *graphNode);

@@ -125,7 +125,9 @@ void bhv_fire_piranha_plant_update(void) {
             break;
     }
 
-    if (obj_check_attacks(&sFirePiranhaPlantHitbox, o->oAction)) {
+    if (obj_check_attacks(&sFirePiranhaPlantHitbox, o->oAction)
+        || o->oShotByShotgun) {//--E
+        o->oShotByShotgun = 0;
         if (--o->oHealth < 0) {
             if (o->oFirePiranhaPlantActive) {
                 sNumActiveFirePiranhaPlants--;

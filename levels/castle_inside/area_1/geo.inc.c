@@ -1,4 +1,3 @@
-#include "src/game/envfx_snow.h"
 
 const GeoLayout castle_inside_area_1_geo[] = {
 	GEO_NODE_START(),
@@ -26,6 +25,7 @@ const GeoLayout castle_inside_area_1[] = {
 					GEO_BRANCH(1, castle_inside_area_1_geo),
 					GEO_RENDER_OBJ(),
 					GEO_ASM(ENVFX_MODE_NONE, geo_envfx_main),
+					GEO_ASM(0, e__shotgun_effects),
 				GEO_CLOSE_NODE(),
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),

@@ -22,6 +22,7 @@ const GeoLayout cotmc_geo_0001A0[] = {
                GEO_DISPLAY_LIST(LAYER_TRANSPARENT, cotmc_seg7_dl_0700A4B8),
                GEO_RENDER_OBJ(),
                GEO_ASM(ENVFX_MODE_NONE, geo_envfx_main),
+               GEO_ASM(0, e__shotgun_effects),
             GEO_CLOSE_NODE(),
          GEO_CLOSE_NODE(),
       GEO_CLOSE_NODE(),

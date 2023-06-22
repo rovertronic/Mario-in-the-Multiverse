@@ -21,6 +21,7 @@ const GeoLayout thi_geo_00079C[] = {
                GEO_DISPLAY_LIST(LAYER_ALPHA,       thi_seg7_dl_07009F58),
                GEO_RENDER_OBJ(),
                GEO_ASM(ENVFX_MODE_NONE, geo_envfx_main),
+               GEO_ASM(0, e__shotgun_effects),
             GEO_CLOSE_NODE(),
          GEO_CLOSE_NODE(),
       GEO_CLOSE_NODE(),

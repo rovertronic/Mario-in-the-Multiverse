@@ -67,8 +67,26 @@ enum ObjFlags {
     // ABILITY_CHRONOS_SLOW_SPLIT frames. There is currently no support for
     // manually smoothed animations or automatically interpolated animations.
     OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW       = (1 << 24), // 0x01000000
+    //--E SG coll
+    OBJ_FLAG_E__SG_ENEMY                       = (1 << 24),//Used for common enemies - flattens the enemy against the surface that they were shot against
+    OBJ_FLAG_E__SG_BOSS                        = (1 << 25),//Used for bosses mostly. Pushes them back, if they don't take damage from being shot
+    OBJ_FLAG_E__SG_BREAKABLE                   = (1 << 26),//Usually used for small static objects - spawns a small breaking effect
+    OBJ_FLAG_E__SG_COLLISION_BREAKABLE         = (1 << 27),//Used for larger objects with collision models. If oHealth is set to 0 (or has its default 2048), it'll break in one shot.\
+                                                            Otherwise, oHealth will determine how many shots it takes to break, and will increment its model ID by 1, to show that damage is being done to the object\
+                                                            (Load all model IDs of different states of damage in a row, going from least to most damaged)
+    OBJ_FLAG_E__SG_CUSTOM                      = (1 << 28),//Only adds to oShotByShotgun to let the object know that it was shot, so that the object's behavior can do what it needs to from there
+    OBJ_FLAG_E__SG_COLLISION_CUSTOM            = (1 << 29),//Same as OBJ_FLAG_E__SG_CUSTOM, but for objects with collision models
 
     OBJ_FLAG_HITBOX_WAS_SET                    = (1 << 30), // 0x40000000
+
+    // For Axo's Chronos ability - disables the "pause buffer" timeslow method,
+    // and instead allows the object to run every frame. If you use this, you
+    // should instead use code in the behavior to slow its velocity if
+    // gMarioState->abilityChronosTimeSlowActive is true. Additionally, this
+    // flag also tells the animation code to only advance the animation every
+    // ABILITY_CHRONOS_SLOW_SPLIT frames. There is currently no support for
+    // manually smoothed animations or automatically interpolated animations.
+    OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW       = (1 << 31), // 0x80000000
 };
 
 /* oHeldState */

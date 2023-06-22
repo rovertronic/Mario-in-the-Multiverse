@@ -775,6 +775,8 @@ s32 act_in_cannon(struct MarioState *m) {
 }
 
 s32 act_tornado_twirling(struct MarioState *m) {
+    e__fire_shotgun_air();//--E SG
+
     struct Surface *floor;
     Vec3f nextPos;
     f32 sinAngleVel;

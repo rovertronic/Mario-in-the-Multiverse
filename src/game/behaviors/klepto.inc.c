@@ -355,7 +355,9 @@ void bhv_klepto_update(void) {
                 break;
         }
 
-        if (obj_handle_attacks(&sKleptoHitbox, o->oAction, sKleptoAttackHandlers)) {
+        if (obj_handle_attacks(&sKleptoHitbox, o->oAction, sKleptoAttackHandlers)
+            || o->oShotByShotgun) {//--E
+            o->oShotByShotgun = 0;
             cur_obj_play_sound_2(SOUND_OBJ_KLEPTO_ATTACKED);
 
             if (o->oAnimState == KLEPTO_ANIM_STATE_HOLDING_CAP) {

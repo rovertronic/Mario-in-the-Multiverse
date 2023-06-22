@@ -24,6 +24,7 @@ const GeoLayout ccm_geo_00051C[] = {
                GEO_ASM(CCM_MOVTEX_PENGUIN_PUDDLE_WATER, geo_movtex_draw_water_regions),
                GEO_RENDER_OBJ(),
                GEO_ASM(ENVFX_SNOW_NORMAL, geo_envfx_main),
+               GEO_ASM(0, e__shotgun_effects),
             GEO_CLOSE_NODE(),
          GEO_CLOSE_NODE(),
       GEO_CLOSE_NODE(),

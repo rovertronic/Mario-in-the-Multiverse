@@ -1908,6 +1908,16 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             return ACTIVE_PARTICLE_NONE;
         }
 
+        //--E SG
+        if (using_ability(ABILITY_E_SHOTGUN)) {
+            struct MarioState *m = gMarioState;
+            gE_ShotgunFlags &= ~E_SGF_AIM_FIRE;
+            if (!(m->floor->normal.y < COS73)) {
+                if (!mario_is_in_air_action()) {
+                    gE_ShotgunFlags &= ~E_SGF_ROCKET_USED; }
+            }
+        }
+
         u8 chronos_active = FALSE;
         // Chronos Ability Code
         if (using_ability(ABILITY_CHRONOS)) {
@@ -1983,6 +1993,11 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 case ACT_GROUP_OBJECT:     inLoop = mario_execute_object_action(gMarioState);     break;
             }
         }
+
+        //--E
+        if (using_ability(ABILITY_E_SHOTGUN)) {
+            e__animate_upper(); }
+
 
         if ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE) {
             control_ability_dpad();
@@ -2266,6 +2281,9 @@ void init_mario(void) {
         capObject->oForwardVel = 0;
         capObject->oMoveAngleYaw = 0;
     }
+
+    //--E | No first-frame gun position
+    e__set_upper_anim(gMarioState, 2);
 
     gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
 }

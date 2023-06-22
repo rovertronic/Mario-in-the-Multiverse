@@ -76,4 +76,8 @@ extern Gfx dl_billboard_num_E[];
 extern Gfx dl_billboard_num_F[];
 #endif
 
+//--E C
+extern Gfx dl_e__crosshair[];
+
+
 #endif // SEGMENT2_H

@@ -23,6 +23,7 @@ const GeoLayout ddd_geo_0004C0[] = {
                GEO_ASM(DDD_MOVTEX_AREA1_WATER, geo_movtex_draw_water_regions),
                GEO_RENDER_OBJ(),
                GEO_ASM(ENVFX_WHIRLPOOL_BUBBLES, geo_envfx_main),
+               GEO_ASM(0, e__shotgun_effects),
             GEO_CLOSE_NODE(),
          GEO_CLOSE_NODE(),
       GEO_CLOSE_NODE(),

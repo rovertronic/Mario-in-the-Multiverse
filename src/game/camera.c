@@ -785,6 +785,19 @@ s16 look_down_slopes(s16 camYaw) {
  *
  * Since this function only affects the camera's focus, Mario's movement direction isn't affected.
  */
+
+//--E C
+static s16 sE_TurnSpeed = 0;
+static s16 sE_Pitch = 0;
+static s16 sE_Yaw   = 0;
+static s16 sE_GoalPitch = 0;
+static s16 sE_GoalYaw   = 0;
+
+static s16 sE_LastLakituPitch = 0;
+static s16 sE_LastLakituYaw   = 0;
+static s8  sE_LakituAngleTimer = 0;
+static f32 sE_Pan = 1.f;
+
 void pan_ahead_of_player(struct Camera *c) {
     f32 dist;
     s16 pitch, yaw;
@@ -794,7 +807,9 @@ void pan_ahead_of_player(struct Camera *c) {
     vec3f_get_dist_and_angle(c->pos, sMarioCamState->pos, &dist, &pitch, &yaw);
 
     // The camera will pan ahead up to about 30% of the camera's distance to Mario.
-    pan[2] = sins(0xC00) * dist;
+    //--E C
+    sE_Pan = approach_f32(sE_Pan, 1.f, 0.1f, 0.1f);
+    pan[2] = ((sins(0xC00) * dist) * sE_Pan);
 
     rotate_in_xz(pan, pan, sMarioCamState->faceAngle[1]);
     // rotate in the opposite direction
@@ -1158,6 +1173,89 @@ void mode_8_directions_camera(struct Camera *c) {
     sAreaYawChange = sAreaYaw - oldAreaYaw;
     set_camera_height(c, pos[1]);
 }
+
+//--E C
+void mode_shotgun_aim_camera(struct Camera *c) {
+    if ((!using_ability(ABILITY_E_SHOTGUN)) || (gCameraMovementFlags & CAM_MOVE_C_UP_MODE) || (gMarioState->action & ACT_FLAG_SWIMMING)) {
+        set_cam_angle(CAM_ANGLE_LAKITU);
+        gCameraMovementFlags |= CAM_MOVE_ZOOMED_OUT;
+        mode_8_directions_camera(c);
+        return;
+    }
+
+    if (gPlayer1Controller->buttonDown & CBUTTON_MASK) {
+        sE_TurnSpeed = approach_s16_symmetric(sE_TurnSpeed, 1100, 183); }
+    else {
+        sE_TurnSpeed = 0; }
+
+
+    if (gPlayer1Controller->buttonDown & L_CBUTTONS) {
+        sE_GoalYaw += sE_TurnSpeed; }
+    if (gPlayer1Controller->buttonDown & R_CBUTTONS) {
+        sE_GoalYaw -= sE_TurnSpeed; }
+
+    if (gPlayer1Controller->buttonDown & U_CBUTTONS) {
+        sE_GoalPitch -= (sE_TurnSpeed / 2); }
+    if (gPlayer1Controller->buttonDown & D_CBUTTONS) {
+        sE_GoalPitch += (sE_TurnSpeed / 2); }
+
+    if (sE_GoalPitch >= DEGREES(60)) {
+        sE_GoalPitch = DEGREES(60); }
+    if (sE_GoalPitch <= -(DEGREES(50))) {
+        sE_GoalPitch = -(DEGREES(50)); }
+
+    //focus
+    f32 dist = (1000.f + (sins(sE_GoalPitch) * 1200.f));
+    f32 fY = (gMarioState->floorHeight + 230.f);//--210.f -> 230.f
+    f32 mY = (gMarioState->pos[1]);
+    f32 x = gMarioState->pos[0];
+    f32 y = approach_f32_asymptotic(gLakituState.focus[1], ((mY < fY) ? fY : mY), 0.35f);
+    f32 z = gMarioState->pos[2];
+
+    gLakituState.focus[0] = x;
+    gLakituState.focus[1] = y;
+    gLakituState.focus[2] = z;
+    //transition back to lakitu
+     vec3f_set(gLakituState.curFocus, x, y, z);
+     vec3f_set(gLakituState.goalFocus, x, y, z);
+     vec3f_set(c->focus, x, y, z);
+
+
+    //position
+    y = gLakituState.focus[1];
+    sE_Pitch = approach_s16_asymptotic(sE_Pitch, sE_GoalPitch, 3);
+    sE_Yaw   = approach_s16_asymptotic(sE_Yaw,   sE_GoalYaw,   3);
+
+    x += ((sins(sE_Yaw) * coss(sE_Pitch)) * dist);
+    y += ((sins(sE_Pitch)) * dist);
+    z += ((coss(sE_Yaw) * coss(sE_Pitch)) * dist);
+    vec3f_set(gLakituState.pos, x, y, z);
+    //transition back to lakitu
+     vec3f_set(gLakituState.curPos, x, y, z);
+     vec3f_set(gLakituState.goalPos, x, y, z);
+     vec3f_set(c->pos, x, y, z);
+    //
+    sLakituDist = 400.f;
+    s16 roundedYaw = (s16)(((((u32)((u16)(sE_Yaw))) + 0x1000) / 8000) * 0x2000);//not sure about doing all this casting to achieve this. Might look into making a better method later
+    s8DirModeYawOffset = (roundedYaw - s8DirModeBaseYaw);
+    gLakituState.yaw             = sE_Yaw;
+    c->yaw                       = sE_Yaw;
+    sMarioCamState->faceAngle[1] = sE_Yaw;
+
+    //original shake process
+    gLakituState.roll = 0;//removing roll due to some bug. Gotta get the gun itself done first
+    shake_camera_pitch(gLakituState.pos, gLakituState.focus);
+    shake_camera_yaw(gLakituState.pos, gLakituState.focus);
+    shake_camera_roll(&gLakituState.roll);
+    shake_camera_handheld(gLakituState.pos, gLakituState.focus);
+
+    if (sMarioCamState->action == ACT_DIVE && gLakituState.lastFrameAction != ACT_DIVE) {
+        set_camera_shake_from_hit(SHAKE_HIT_FROM_BELOW);
+    }
+    gLakituState.roll += sHandheldShakeRoll;
+    gLakituState.roll += gLakituState.keyDanceRoll;
+}
+
 
 /**
  * Updates the camera in outward radial mode.
@@ -2924,7 +3022,33 @@ void update_camera(struct Camera *c) {
         if (cam_select_alt_mode(CAM_SELECTION_NONE) == CAM_SELECTION_MARIO) {
             if (gPlayer1Controller->buttonPressed & R_TRIG) {
                 if (set_cam_angle(0) == CAM_ANGLE_LAKITU) {
+                    //--E C
+                    sE_LastLakituPitch = -calculate_pitch(gLakituState.curPos, gLakituState.curFocus);
+                    sE_LastLakituYaw   = calculate_yaw(gMarioState->pos, gLakituState.curPos);
+                    sE_LakituAngleTimer = 30;
+
                     set_cam_angle(CAM_ANGLE_MARIO);
+                } else if (set_cam_angle(0) == CAM_ANGLE_MARIO) {//--E C
+                    if (using_ability(ABILITY_E_SHOTGUN) && (c->mode != CAMERA_MODE_C_UP) && (!(gMarioState->action & ACT_FLAG_SWIMMING))) {//--C^ & water
+                        set_cam_angle(CAM_ANGLE_AIM);
+                        if (sE_LakituAngleTimer) {
+                            sE_Pitch     = sE_LastLakituPitch;
+                            sE_GoalPitch = sE_LastLakituPitch;
+                            sE_Yaw     = sE_LastLakituYaw;
+                            sE_GoalYaw = sE_LastLakituYaw;
+                            sE_Pan = 0.f;
+                        } else {
+                            s16 angle = -calculate_pitch(gLakituState.curPos, gLakituState.curFocus);
+                            sE_Pitch     = angle;
+                            sE_GoalPitch = angle;
+                            angle     = calculate_yaw(gMarioState->pos, gLakituState.curPos);
+                            sE_Yaw     = angle;
+                            sE_GoalYaw = angle;
+                        }
+                    } else {
+                        set_cam_angle(CAM_ANGLE_LAKITU);
+                    }
+
                 } else {
                     set_cam_angle(CAM_ANGLE_LAKITU);
                 }
@@ -2932,6 +3056,12 @@ void update_camera(struct Camera *c) {
         }
         play_sound_if_cam_switched_to_lakitu_or_mario();
     }
+    //--E C
+    if (set_cam_angle(0) == CAM_ANGLE_MARIO) {
+        if (sE_LakituAngleTimer) {
+            sE_LakituAngleTimer--; }
+    }
+
 
     // Initialize the camera
     sStatusFlags &= ~CAM_FLAG_FRAME_AFTER_CAM_INIT;
@@ -2996,6 +3126,11 @@ void update_camera(struct Camera *c) {
                     break;
 
                 case CAMERA_MODE_WATER_SURFACE:
+                    if (gE_ShotgunFlags & E_SGF_AIM_MODE) {//--E C
+                        gE_ShotgunFlags &= ~E_SGF_AIM_MODE;
+                        set_cam_angle(CAM_ANGLE_LAKITU);
+                        gCameraMovementFlags |= CAM_MOVE_ZOOMED_OUT;
+                    }
                     mode_water_surface_camera(c);
                     break;
 
@@ -3021,6 +3156,11 @@ void update_camera(struct Camera *c) {
                     break;
 
                 case CAMERA_MODE_WATER_SURFACE:
+                    if (gE_ShotgunFlags & E_SGF_AIM_MODE) {//--E C
+                        gE_ShotgunFlags &= ~E_SGF_AIM_MODE;
+                        set_cam_angle(CAM_ANGLE_LAKITU);
+                        gCameraMovementFlags |= CAM_MOVE_ZOOMED_OUT;
+                    }
                     mode_water_surface_camera(c);
                     break;
 
@@ -3029,7 +3169,12 @@ void update_camera(struct Camera *c) {
                     break;
 
                 case CAMERA_MODE_8_DIRECTIONS:
-                    mode_8_directions_camera(c);
+                    //--E C
+                    if (gE_ShotgunFlags & E_SGF_AIM_MODE) {
+                        mode_shotgun_aim_camera(c);
+                    } else {
+                        mode_8_directions_camera(c); 
+                    }
                     break;
 
                 case CAMERA_MODE_RADIAL:
@@ -3123,7 +3268,11 @@ void update_camera(struct Camera *c) {
     }
 #endif
 
-    update_lakitu(c);
+    //--E C
+    if ((!(gE_ShotgunFlags & E_SGF_AIM_MODE)) || (c->cutscene)) {
+        update_lakitu(c);
+    }
+
 #ifdef PUPPYCAM
     }
     // Just a cute little bit that syncs puppycamera up to vanilla when playing a vanilla cutscene :3
@@ -3385,6 +3534,9 @@ void init_camera(struct Camera *c) {
 #ifdef PUPPYCAM
     puppycam_init();
 #endif
+
+    //--E C
+    sE_Pan = 1.f;
 }
 
 /**
@@ -3636,8 +3788,18 @@ s32 set_cam_angle(s32 mode) {
         sCameraSoundFlags |= CAM_SOUND_MARIO_ACTIVE;
     }
 
+    //--E C | Switch to shotgun aiming mode
+    if (mode == CAM_ANGLE_AIM) {
+        sSelectionFlags &= ~CAM_MODE_MARIO_ACTIVE;
+        gE_ShotgunFlags |= E_SGF_AIM_MODE;
+    }
+    if (gE_ShotgunFlags & E_SGF_AIM_MODE) {
+        curMode = CAM_ANGLE_AIM; }
+
+
     // Switch back to normal mode
-    if (mode == CAM_ANGLE_LAKITU && (sSelectionFlags & CAM_MODE_MARIO_ACTIVE)) {
+    //--E C
+    if (mode == CAM_ANGLE_LAKITU) {//-&& (sSelectionFlags & CAM_MODE_MARIO_ACTIVE)
         sSelectionFlags &= ~CAM_MODE_MARIO_ACTIVE;
         if (sSelectionFlags & CAM_MODE_LAKITU_WAS_ZOOMED_OUT) {
             sSelectionFlags &= ~CAM_MODE_LAKITU_WAS_ZOOMED_OUT;
@@ -3646,6 +3808,7 @@ s32 set_cam_angle(s32 mode) {
             gCameraMovementFlags &= ~CAM_MOVE_ZOOMED_OUT;
         }
         sCameraSoundFlags |= CAM_SOUND_NORMAL_ACTIVE;
+        gE_ShotgunFlags &= ~E_SGF_AIM_MODE;
     }
     if (sSelectionFlags & CAM_MODE_MARIO_ACTIVE) {
         curMode = CAM_ANGLE_MARIO;
@@ -3801,6 +3964,8 @@ s32 update_camera_hud_status(struct Camera *c) {
         status |= CAM_STATUS_FIXED;
     } else if (set_cam_angle(0) == CAM_ANGLE_MARIO) {
         status |= CAM_STATUS_MARIO;
+    } else if (set_cam_angle(0) == CAM_ANGLE_AIM) {
+        status |= CAM_STATUS_AIM;
     } else {
         status |= CAM_STATUS_LAKITU;
     }

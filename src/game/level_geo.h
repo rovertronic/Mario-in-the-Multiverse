@@ -3,6 +3,8 @@
 
 #include <PR/ultratypes.h>
 #include <PR/gbi.h>
+//--E
+#include "src/game/e__shotgun_effects.h"
 
 enum EnvFxMode {
     /* 0*/ ENVFX_MODE_NONE,         // no effects

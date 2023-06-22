@@ -74,6 +74,21 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "sfx_knightsword"
+        },
+        "inst_ability_e_shotgun": {
+            "release_rate": 0,
+            "envelope": "envelope0",
+            "sound": "ability_e_shotgun"
+        },
+        "inst_ability_e_shotgun2": {
+            "release_rate": 0,
+            "envelope": "envelope0",
+            "sound": "ability_e_shotgun2"
+        },
+        "inst_ability_e_shotgun_rack": {
+            "release_rate": 0,
+            "envelope": "envelope0",
+            "sound": "ability_e_shotgun_rack"
         }
     },
     "instrument_list": [
@@ -89,6 +104,9 @@
         "inst_ability_chronos_slash_2",
         "inst_ability_chronos_slash_3",
         "inst_knight_slide",
-        "inst_knight_sword"
+        "inst_knight_sword",
+        "inst_ability_e_shotgun",
+        "inst_ability_e_shotgun2",
+        "inst_ability_e_shotgun_rack"
     ]
 }

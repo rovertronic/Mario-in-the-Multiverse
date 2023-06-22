@@ -554,6 +554,15 @@ void render_hud_camera_status(void) {
         case CAM_STATUS_FIXED:
             render_hud_tex_lut(x + 16, y, (*cameraLUT)[GLYPH_CAM_FIXED]);
             break;
+            //--E C
+        case CAM_STATUS_AIM:
+            render_hud_tex_lut(x + 16, y, (*cameraLUT)[6]);//--**
+            if (gE_ShotgunFlags & E_SGF_AIM_FIRE) {
+                gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+                gSPDisplayList(gDisplayListHead++, dl_e__crosshair);
+                gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            }
+            break;
     }
 
     switch (sCameraHUD.status & CAM_STATUS_C_MODE_GROUP) {

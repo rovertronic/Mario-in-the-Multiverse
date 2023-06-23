@@ -60,6 +60,7 @@
 #include "meter_phase/model.inc.c"
 #include "meter_rocket/model.inc.c"
 #include "meter_chronos/model.inc.c"
+#include "meter_booster/model.inc.c"
 #include "e__mario/model.inc.c"
 #include "e__mario/anims/data.inc.c"
 #include "e__mario/anims/table.inc.c"

@@ -716,14 +716,14 @@ u8 meter_style_color_table[METER_STYLE_COUNT][9][3] = {
         {0, 200, 255},   // 8
     },
     {   // Dash Booster
-        {255, 156, 0},   // 1
-        {255, 156, 0},   // 2
-        {255, 156, 0},   // 3
-        {255, 156, 0},   // 4
-        {255, 156, 0},   // 5
-        {255, 156, 0},   // 6
-        {255, 156, 0},   // 7
-        {255, 156, 0},   // 8
+        {255, 74,  32},    // 1
+        {255, 74,  32},    // 2
+        {255, 74,  32},    // 3
+        {255, 159, 76},    // 4
+        {255, 159, 76},    // 5
+        {255, 255, 255},   // 6
+        {255, 255, 255},   // 7
+        {255, 255, 255},   // 8
     },
 };
 
@@ -737,7 +737,7 @@ Gfx *meter_style_icon_dl_table[] = {
     &meter_phase_meter_phase_mesh,
     &meter_rocket_meter_rocket_mesh,
     &meter_chronos_meter_chronos_mesh,
-    NULL,
+    &meter_booster_meter_booster_mesh,
 };
 
 void render_meter(f32 x, f32 y, s32 meterStyle, s16 wedges, u8 a) {

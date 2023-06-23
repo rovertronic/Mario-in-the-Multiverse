@@ -559,6 +559,19 @@ extern const BehaviorScript bhvNitroBox[];
 /* GROUP D END */
 
 /* GROUP E START */
+
+
+
+
+extern const BehaviorScript bhvE_RocketBlast[];
+
+extern const BehaviorScript bhvE_MuzzleFlash[];
+extern const BehaviorScript bhvE_FlattenedObj[];
+extern const BehaviorScript bhvE_PushObj[];
+extern const BehaviorScript bhvD[];
+
+
+
 /* GROUP E END */
 
 /* GROUP F START */

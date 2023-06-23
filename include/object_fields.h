@@ -54,6 +54,9 @@
 #define /*0x090*/ oDialogResponse             OBJECT_FIELD_S16(0x02, 0)
 #define /*0x092*/ oDialogState                OBJECT_FIELD_S16(0x02, 1)
 #define /*0x094*/ oUnk94                      OBJECT_FIELD_U32(0x03)
+//--E SG
+#define /*0x094*/ oShotByShotgun              OBJECT_FIELD_U32(0x03)
+
 // 0x98 unused/removed.
 #define /*0x09C*/ oIntangibleTimer            OBJECT_FIELD_S32(0x05)
 /* Position vector */

@@ -385,7 +385,10 @@ static void chain_chomp_act_move(void) {
         chain_chomp_update_chain_segments();
 
         // Begin a lunge if mario tries to attack
-        if (obj_check_attacks(&sChainChompHitbox, o->oAction) != 0) {
+        if ((obj_check_attacks(&sChainChompHitbox, o->oAction) != 0)
+            || o->oShotByShotgun) {//--E
+            o->oShotByShotgun = 0;
+            e__sg_obj_shot_sparks(&o->oPosX);
             o->oSubAction = CHAIN_CHOMP_SUB_ACT_LUNGE;
             // o->oChainChompMaxDistFromPivotPerChainPart = (900.0f / CHAIN_CHOMP_NUM_SEGMENTS);
             o->oChainChompMaxDistFromPivotPerChainPart = CHAIN_CHOMP_CHAIN_MAX_DIST_BETWEEN_PARTS; // ((CHAIN_CHOMP_NUM_SEGMENTS * CHAIN_CHOMP_CHAIN_MAX_DIST_BETWEEN_PARTS) / CHAIN_CHOMP_NUM_SEGMENTS);
@@ -434,6 +437,19 @@ void bhv_chain_chomp_update(void) {
  */
 void bhv_wooden_post_update(void) {
     // When ground pounded by mario, drop by -45 + -20
+    //--E
+    if (o->oShotByShotgun >= 2) {
+        if (o->oShotByShotgun == 2) {
+            o->oShotByShotgun++;
+            cur_obj_play_sound_2(SOUND_GENERAL_POUND_WOOD_POST);
+            o->oPosY -= 190.f;
+            obj_spawn_loot_yellow_coins(o, 5, 20.0f);
+            set_object_respawn_info_bits(o, RESPAWN_INFO_TYPE_NORMAL);
+        }
+        return;
+    }
+    o->oShotByShotgun = 0;
+
     if (!o->oWoodenPostMarioPounding) {
         if ((o->oWoodenPostMarioPounding = cur_obj_is_mario_ground_pounding_platform())) {
             cur_obj_play_sound_2(SOUND_GENERAL_POUND_WOOD_POST);

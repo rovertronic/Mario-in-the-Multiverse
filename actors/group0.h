@@ -449,4 +449,21 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "net_hand_2/header.h"
 
+#include "e__mario/geo_header.h"
+
+
+#include "e__mario/anim_header.h"
+
+#include "e_rocket_blast/geo_header.h"
+
+#include "e_sg_smoke/header.h"
+
+#include "e_sg_wall_damage/header.h"
+
+#include "e_sg_piece/header.h"
+
+#include "e_sg_spark/header.h"
+
+#include "e_muzzle_flash/geo_header.h"
+
 #endif

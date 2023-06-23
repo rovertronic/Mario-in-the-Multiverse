@@ -628,13 +628,13 @@ void apply_gravity(struct MarioState *m, f32 slowFactor) {
     } else if (m->action == ACT_LONG_JUMP || m->action == ACT_SLIDE_KICK
                || m->action == ACT_BBH_ENTER_SPIN) {
         m->vel[1] -= 2.0f * slowFactor;
-        if((using_ability(ABILITY_BIG_DADDY)) && (m->pos[1] < check_water_height)){
-                if (m->vel[1] < -25.0f) {
-                    m->vel[1] = -25.0f;
-            } else {
-                if (m->vel[1] < -75.0f) {
-                    m->vel[1] = -75.0f;
-                }
+        if ((using_ability(ABILITY_BIG_DADDY)) && (m->pos[1] < check_water_height)) {
+            if (m->vel[1] < -25.0f) {
+                m->vel[1] = -25.0f;
+            }
+        } else {
+            if (m->vel[1] < -75.0f) {
+                m->vel[1] = -75.0f;
             }
         }
     } else if (m->action == ACT_GROUND_POUND && using_ability(ABILITY_BIG_DADDY)) {
@@ -669,13 +669,13 @@ void apply_gravity(struct MarioState *m, f32 slowFactor) {
         }
     } else {
         m->vel[1] -= 4.0f * slowFactor;
-            if((using_ability(ABILITY_BIG_DADDY)) && (m->pos[1] < check_water_height)){
-                if (m->vel[1] < -25.0f) {
-                    m->vel[1] = -25.0f;
-            } else {
-                if (m->vel[1] < -75.0f) {
-                    m->vel[1] = -75.0f;
-                }
+        if((using_ability(ABILITY_BIG_DADDY)) && (m->pos[1] < check_water_height)) {
+            if (m->vel[1] < -25.0f) {
+                m->vel[1] = -25.0f;
+            }
+        } else {
+            if (m->vel[1] < -75.0f) {
+                m->vel[1] = -75.0f;
             }
         }
     }

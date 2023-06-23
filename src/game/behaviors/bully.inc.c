@@ -47,7 +47,8 @@ void bhv_big_bully_init(void) {
 }
 
 void bully_check_mario_collision(void) {
-    if (o->oAction != OBJ_ACT_LAVA_DEATH && o->oAction != OBJ_ACT_DEATH_PLANE_DEATH && o->oInteractStatus & INT_STATUS_INTERACTED) {
+    if (o->oAction != OBJ_ACT_LAVA_DEATH && o->oAction != OBJ_ACT_DEATH_PLANE_DEATH && ((o->oInteractStatus & INT_STATUS_INTERACTED) || o->oShotByShotgun)) {//--E
+        o->oShotByShotgun = 0;
         if (o->oBehParams2ndByte == BULLY_BP_SIZE_SMALL) {
             cur_obj_play_sound_2(SOUND_OBJ2_SMALL_BULLY_ATTACKED);
         } else {

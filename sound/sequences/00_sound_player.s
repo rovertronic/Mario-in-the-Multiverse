@@ -7977,6 +7977,10 @@ sound_ref .sound_ability_chronos_slash_2
 sound_ref .sound_ability_chronos_slash_3
 sound_ref .sound_ability_knightslide
 sound_ref .sound_ability_knightsword
+sound_ref .sound_ability_e_shotgun
+sound_ref .sound_ability_e_shotgun2
+sound_ref .sound_ability_e_shotgun3
+sound_ref .sound_ability_e_shotgun_rack
 
 .sound_ability_x_0:
 chan_setbank 11
@@ -7986,6 +7990,38 @@ chan_end
 
 .layer_ability_x_0:
 layer_note1 39, 0x7f, 127
+layer_end
+
+.sound_ability_e_shotgun:
+chan_setbank 11
+chan_setinstr 13
+chan_setlayer 0, .layer_ability_e_shotgun
+chan_end
+
+.sound_ability_e_shotgun2:
+chan_setbank 11
+chan_setinstr 14
+chan_setlayer 0, .layer_ability_e_shotgun
+chan_end
+
+.sound_ability_e_shotgun3:
+chan_setbank 11
+chan_setinstr 14
+chan_setlayer 0, .layer_ability_e_shotgun3
+chan_end
+
+.sound_ability_e_shotgun_rack:
+chan_setbank 11
+chan_setinstr 15
+chan_setlayer 0, .layer_ability_e_shotgun
+chan_end
+
+.layer_ability_e_shotgun:
+layer_note1 39, 0x9A, 127
+layer_end
+
+.layer_ability_e_shotgun3:
+layer_note1 38, 0x9A, 127
 layer_end
 
 .sound_ability_cutter_throw:

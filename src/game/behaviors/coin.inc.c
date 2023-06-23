@@ -291,7 +291,8 @@ void coin_inside_boo_act_carried(void) {
 
     obj_copy_pos(o, parent);
 
-    if (parent->oBooDeathStatus == BOO_DEATH_STATUS_DYING) {
+    if ((parent->oBooDeathStatus == BOO_DEATH_STATUS_DYING)
+        || (parent->activeFlags == 0)) {//--E
         o->oAction = COIN_INSIDE_BOO_ACT_DROPPED;
         s16 marioMoveYaw = gMarioObject->oMoveAngleYaw;
         o->oVelX = sins(marioMoveYaw) * 3.0f;

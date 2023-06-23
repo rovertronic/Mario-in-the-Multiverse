@@ -21,7 +21,7 @@ enum ability_ids {
     ABILITY_BIG_DADDY,
     ABILITY_SQUID,
     ABILITY_AKU,
-    ABILITY_E_,
+    ABILITY_E_SHOTGUN,
     ABILITY_GADGET_WATCH,
     ABILITY_CUTTER,
     ABILITY_PHASEWALK,
@@ -44,6 +44,27 @@ struct ability {
 extern Gfx gfx_ability_hand[2];
 extern Gfx gfx_ability_hat[2];
 extern u8 ability_slot[4];
+
+
+//--E
+
+#define E_SGF_LEFT_HAND        (1 << 0)
+#define E_SGF_AIM_MODE         (1 << 1)
+#define E_SGF_AIM_FIRE         (1 << 2)
+#define E_SGF_AIR_SHOT_USED      (1 << 3)
+
+extern struct AnimInfo gE_UpperAnimInfo;
+extern u8   gE_UpperAnimType;
+extern s16  gE_UpperAnimFrame;
+extern u16 *gE_UpperAnimAttribute;
+extern s16 *gE_UpperAnimData;
+
+extern s16 gE_UpperAimPitch;
+extern s16 gE_UpperAimYaw;
+
+extern s8 gE_ShotgunTimer;
+extern u8 gE_ShotgunFlags;
+
 
 #define ABILITY_CHRONOS_SLOW_SPLIT 3
 #define ABILITY_CHRONOS_SLOW_FACTOR 1.0f / ABILITY_CHRONOS_SLOW_SPLIT

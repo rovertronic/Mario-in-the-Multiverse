@@ -22,6 +22,7 @@ const GeoLayout lll_geo_000E00[] = {
                GEO_ASM(MOVTEX_LLL_LAVA_FLOOR, geo_movtex_draw_nocolor),
                GEO_RENDER_OBJ(),
                GEO_ASM(ENVFX_LAVA_BUBBLES, geo_envfx_main),
+               GEO_ASM(0, e__shotgun_effects),
             GEO_CLOSE_NODE(),
          GEO_CLOSE_NODE(),
       GEO_CLOSE_NODE(),

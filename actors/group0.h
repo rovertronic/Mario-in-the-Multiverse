@@ -389,6 +389,8 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "meter_chronos/header.h"
 
+#include "meter_booster/header.h"
+
 #include "mario_k/geo_header.h"
 
 #include "ability_d_mask/header.h"

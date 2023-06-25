@@ -95,6 +95,9 @@ ALIGNED8 u8 ability_images[][2048] = {
     { /*Ability K*/
     #include "actors/ability_images/custom_ability_k.rgba16.inc.c"
     },
+    { /*Ability E*/
+    #include "actors/ability_images/custom_ability_e.rgba16.inc.c"
+    },
     { /*Ability F*/
     #include "actors/ability_images/custom_ability_f.rgba16.inc.c"
     },
@@ -103,9 +106,6 @@ ALIGNED8 u8 ability_images[][2048] = {
     },
     { /*Ability D*/
     #include "actors/ability_images/custom_ability_d.rgba16.inc.c"
-    },
-    { /*Ability E*/
-    #include "actors/ability_images/custom_ability_e.rgba16.inc.c"
     },
     { /*Ability O*/
     #include "actors/ability_images/custom_ability_o.rgba16.inc.c"
@@ -149,10 +149,10 @@ struct ability ability_struct[] = {
     /*B*/      {&bigdaddyhand_Plane_mesh  , bigdaddyhat_bigdaddy_mesh               ,MODEL_MARIO       ,&abstr_b  },
     /*L*/      {&mario_right_hand_closed  , NULL               ,MODEL_KNIGHT_MARIO,&abstr_l  },
     /*K*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO_K     ,&abstr_k  },
+    /*E*/      {&mario_right_hand_closed  , NULL               ,MODEL_E__MARIO    ,&abstr_e  },
     /*F*/      {&hand_f_hand_mesh         , &hat_f_hat_mesh    ,MODEL_MARIO       ,&abstr_f  },
     /*J*/      {&pokeball_hand_hand_mesh  , NULL               ,MODEL_MARIO       ,&abstr_j  },
     /*D*/      {&mario_right_hand_closed  , ability_d_mask_hat_mesh ,MODEL_MARIO       ,&abstr_d  },
-    /*E*/      {&mario_right_hand_closed  , NULL               ,MODEL_E__MARIO    ,&abstr_e  },
     /*O*/      {&saw_hand_skinned_016_mesh, NULL               ,MODEL_MARIO       ,&abstr_o  },
     /*N*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_n  },
     /*M*/      {&hand_m_hand_mesh         , NULL               ,MODEL_MARIO       ,&abstr_m  },

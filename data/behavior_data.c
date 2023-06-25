@@ -6104,7 +6104,7 @@ const BehaviorScript bhvLevelPipe[] = {
 };
 
 const BehaviorScript bhvAbilityUnlock[] = {
-    BEGIN(OBJ_LIST_LEmVEL),
+    BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     BILLBOARD(),
     SET_FLOAT(oGraphYOffset, 100),

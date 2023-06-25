@@ -93,6 +93,7 @@ void bhv_blue_coin_switch_loop(void) {
 
                 cur_obj_play_sound_2(SOUND_GENERAL_SWITCH_DOOR_OPEN);
             }
+            o->oShotByShotgun = 0;//--E
 
             // Have collision
             load_object_collision_model();

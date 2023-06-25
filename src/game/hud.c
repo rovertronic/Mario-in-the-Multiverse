@@ -839,9 +839,19 @@ void render_hud(void) {
             //Need to do this twice... sadge
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hud_alpha);
             int_to_str_000(gHudDisplay.stars, &hudbar_star[2]);
+            //--E
             int_to_str_000(hud_display_coins, &hudbar_coin[2]);
+            s32 displayCoinCount = TRUE;
+            if (using_ability(ABILITY_E_SHOTGUN)) {
+                if (hud_display_coins <= 0) {
+                    if (gE_ShotgunTimer > 20) {//--E
+                        displayCoinCount = FALSE; }
+                }
+            }
+            if (displayCoinCount) {
+                print_hud_lut_string(HUD_LUT_GLOBAL, 170, 14, hudbar_coin);
+            }
 
-            print_hud_lut_string(HUD_LUT_GLOBAL, 170, 14, hudbar_coin);
             print_hud_lut_string(HUD_LUT_GLOBAL, 240, 14, hudbar_star);
 
         gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);

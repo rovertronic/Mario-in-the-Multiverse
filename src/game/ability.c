@@ -327,6 +327,7 @@ s16 gE_UpperAimYaw   = 0;
 //behavior
 s8 gE_ShotgunTimer = 0;
 u8 gE_ShotgunFlags = 0x00;
+u8 gE_MaxObjsHitPerShot = 8;
 
 
 /**

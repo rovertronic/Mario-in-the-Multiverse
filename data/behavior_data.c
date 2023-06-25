@@ -424,7 +424,7 @@ const BehaviorScript bhvMrI[] = {
 
 const BehaviorScript bhvMrIIris[] = {
     BEGIN(OBJ_LIST_DEFAULT),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_BREAKABLE)),//--E
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
     CALL_NATIVE(bhv_init_room),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_mr_i_iris_loop),
@@ -731,6 +731,7 @@ const BehaviorScript bhvChuckya[] = {
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
     SPAWN_OBJ(/*Model*/ MODEL_NONE, /*Behavior*/ bhvChuckyaAnchorMario),
     SET_INT(oNumLootCoins, 5),
+    SET_INT(oHealth, 3),//--E
     SET_INT(oIntangibleTimer, 0),
     SET_HOME(),
     BEGIN_LOOP(),
@@ -1768,7 +1769,8 @@ const BehaviorScript bhvFloorSwitchHardcodedModel[] = {
     // Floor switch - common:
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW)),//--E
     LOAD_COLLISION_DATA(purple_switch_seg8_collision_0800C7A8),
-    SET_HITBOX(/*Radius*/ 130, /*Height*/ 80),
+    SET_INT(oIntangibleTimer, 0),//--E
+    SET_HITBOX(/*Radius*/ 160, /*Height*/ 100),//--E
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_purple_switch_loop),
         CALL_NATIVE(load_object_collision_model),
@@ -2830,7 +2832,8 @@ const BehaviorScript bhvBlueCoinSwitch[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW),//--E
     LOAD_COLLISION_DATA(blue_coin_switch_seg8_collision_08000E98),
-    SET_HITBOX(/*Radius*/ 120, /*Height*/ 100),
+    SET_INT(oIntangibleTimer, 0),//--E
+    SET_HITBOX(/*Radius*/ 120, /*Height*/ 100),//--E
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_blue_coin_switch_loop),
     END_LOOP(),
@@ -2928,7 +2931,7 @@ const BehaviorScript bhvAnimatedTexture[] = {
 
 const BehaviorScript bhvBooInCastle[] = {
     BEGIN(OBJ_LIST_DEFAULT),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY)),//--E
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),//--E
     SET_HOME(),
     SET_FLOAT(oGraphYOffset, 60),
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ 0, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
@@ -2940,7 +2943,7 @@ const BehaviorScript bhvBooInCastle[] = {
 
 const BehaviorScript bhvBooWithCage[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY)),//--E
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),//--E
     SET_HOME(),
     SET_INT(oDamageOrCoinValue, 3),
     SET_HURTBOX(/*Radius*/ 80, /*Height*/ 120),
@@ -3004,7 +3007,7 @@ const BehaviorScript bhvMerryGoRoundBoo[] = {
 const BehaviorScript bhvGhostHuntBoo[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     // Boo - common:
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY)),//--E
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),//--E
     SET_INT(oIntangibleTimer, 0),
     SET_HOME(),
     SET_INT(oDamageOrCoinValue, 2),
@@ -5194,6 +5197,7 @@ const BehaviorScript bhvWoodenPost[] = {
     OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST | OBJ_FLAG_E__SG_CUSTOM)),//--E
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 0, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
     SET_HITBOX(/*Radius*/ 50, /*Height*/ 200),//--E
+    SET_INT(oIntangibleTimer, 0),//--E
     SET_INT(oNumLootCoins, 5),
     DROP_TO_FLOOR(),
     SET_HOME(),

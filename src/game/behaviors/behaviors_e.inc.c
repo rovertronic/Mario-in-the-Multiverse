@@ -1,7 +1,6 @@
 
 
 
-#include "game/spawn_sound.h"
 
 
 
@@ -231,12 +230,29 @@ void bhv_e__d(void) {
 //--Geo
 
 
+//obj
 
+Gfx *e__0(s32 callContext, struct GraphNode *node, Mat4 *context) {
+    /*if (callContext == GEO_CONTEXT_RENDER) {
+        Gfx *dlS = alloc_display_list(sizeof(Gfx) * 3);
+        Gfx *dlH = dlS
+        
+        if (dlS == NULL) {
+            return; }
 
+        struct Object *obj = (struct Object *) gCurGraphNodeObject; // TODO: change this to object pointer?
+        if (obj->oShotByShotgun) {
+            
 
+            gDPSetLights1(dlHead++, 255, 255, 255, objectOpacity);
+            gSPEndDisplayList(dlHead);
+        }
 
+        return dlStart;
+    }
 
-//env
+    return NULL;*/
+}
 
 
 

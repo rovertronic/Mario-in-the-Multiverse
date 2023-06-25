@@ -103,7 +103,7 @@ struct SGSpark *e__sg_spark(Vec3f pos, f32 scale) {
 
 //preset
 void e__sg_obj_shot_sparks(struct Object *obj) {
-	s32 i = 6;
+	s32 i = 3;
 	f32 mag = sqrtf(sqr(obj->hitboxRadius) + sqr(obj->hitboxHeight));
 	Vec3f pos = { 0.f, 0.f, 0.f };
 	while (i--) {
@@ -114,7 +114,9 @@ void e__sg_obj_shot_sparks(struct Object *obj) {
 	}
 	struct SGSmoke *smoke = e__sg_smoke(pos);
 	if (smoke != NULL) {
-		smoke->timer = 3; }
+		smoke->timer = 3;
+		smoke->scale = 3.f;
+	}
 }
 void e__sg_obj_explode(struct Object *obj, s32 count) {
 	f32 mag = sqrtf(sqr(obj->hitboxRadius) + sqr(obj->hitboxHeight));
@@ -167,6 +169,10 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
 		bzero(sSGSmokeList,      (SG_SMOKE_MAX       * sizeof(struct SGSmoke)));
 		bzero(sSGPieceList,      (SG_PIECE_MAX       * sizeof(struct SGPiece)));
 		bzero(sSGSparkList,      (SG_SPARK_MAX       * sizeof(struct SGSpark)));
+		if (gCurrLevelNum == LEVEL_DDD) {
+			gE_MaxObjsHitPerShot = 8; }
+		else {
+			gE_MaxObjsHitPerShot = 4; }
 	    break;
 
 

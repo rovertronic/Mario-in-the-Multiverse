@@ -64,6 +64,7 @@ extern s16 gE_UpperAimYaw;
 
 extern s8 gE_ShotgunTimer;
 extern u8 gE_ShotgunFlags;
+extern u8 gE_MaxObjsHitPerShot;
 
 
 #define ABILITY_CHRONOS_SLOW_SPLIT 3

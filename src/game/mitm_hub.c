@@ -90,7 +90,7 @@ struct mitm_hub_level hub_levels[] = {
     {&author_string_k, LEVEL_BOB,   COURSE_WDW,      0  },
     {&author_string_l, LEVEL_BOB,   COURSE_TTM,      0  },
     {&author_string_m, LEVEL_BOB,   COURSE_THI,      0  },
-    {&author_string_n, LEVEL_BOB,   COURSE_TTC,      0  },
+    {&author_string_n, LEVEL_X,   COURSE_TTC,      0  },
     {&author_string_o, LEVEL_INK_TEST,   COURSE_RR ,      0  }, /*Mario in New Orleans | Rovert*/
 };
 
@@ -99,6 +99,10 @@ s8 hub_dma_index = -1;
 f32 hub_titlecard_alpha = 0.0f;
 
 void level_pipe_loop(void) {
+    if (gCurrLevelNum != LEVEL_CASTLE) {
+        return;
+    }
+
     switch(o->oAction) {
         case 0:
             if ((lateral_dist_between_objects(o, gMarioObject) < 120.0f)&&(gMarioState->pos[1] < o->oPosY+500.0f)&&(gMarioState->pos[1] > o->oPosY)) {

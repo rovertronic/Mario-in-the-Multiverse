@@ -109,3 +109,6 @@
 #include "bubble_hat/model.inc.c"
 
 #include "net_hand_2/model.inc.c"
+#include "checkpoint_flag/model.inc.c"
+#include "checkpoint_flag/anims/data.inc.c"
+#include "checkpoint_flag/anims/table.inc.c"

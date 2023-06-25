@@ -2286,6 +2286,7 @@ void init_mario(void) {
     e__set_upper_anim(gMarioState, 2);
 
     gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
+    gMarioState->numCheckpointFlag = -1;
 }
 
 void init_mario_from_save_file(void) {

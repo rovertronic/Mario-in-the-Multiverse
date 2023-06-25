@@ -501,6 +501,7 @@ struct MarioState {
 
             u8 knightDoubleJump;
             u8 remainingDashes;
+            s8 numCheckpointFlag;
 };
 
 typedef uint8_t   qu08_t;

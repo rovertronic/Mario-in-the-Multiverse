@@ -543,6 +543,7 @@ extern const BehaviorScript bhvUnusedFakeStar[];
 extern const BehaviorScript bhvIntroSkybox[];
 extern const BehaviorScript bhvLevelPipe[];
 extern const BehaviorScript bhvAbilityUnlock[];
+extern const BehaviorScript bhvCheckpointFlag[];
 
 /* GROUP A START */
 /* GROUP A END */

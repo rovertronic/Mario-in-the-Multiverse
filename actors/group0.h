@@ -468,4 +468,8 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "e_muzzle_flash/geo_header.h"
 
+#include "checkpoint_flag/geo_header.h"
+
+
+#include "checkpoint_flag/anim_header.h"
 #endif

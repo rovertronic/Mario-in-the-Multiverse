@@ -135,6 +135,7 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_KNIGHT_MARIO,            knight_mario_geo),
     LOAD_MODEL_FROM_GEO(MODEL_PT_METAL_BOX,            pt_mb_geo),
     LOAD_MODEL_FROM_GEO(MODEL_WATCH_AIM,               aim_f_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_CHECKPOINT_FLAG,         checkpoint_flag_geo),
     FREE_LEVEL_POOL(),
     POP_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),

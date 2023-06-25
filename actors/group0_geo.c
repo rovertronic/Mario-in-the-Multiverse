@@ -40,3 +40,5 @@
 
 #include "pt_mb/geo.inc.c"
 #include "aim_f/geo.inc.c"
+
+#include "checkpoint_flag/geo.inc.c"

@@ -76,6 +76,7 @@ u8 pipe_string_b[] = {TEXT_PIPE_B};
 u8 hub_star_string[] = {0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,DIALOG_CHAR_TERMINATOR};
 
 //In course order, not alphabetical!
+//Only mess with /* Level */ entry, everything else is pre-configured
 struct mitm_hub_level hub_levels[] = {
           /* Author */      /* Level */  /*Star Flags*/   /*Star Req*/
     /*G*/ {&author_string_g, LEVEL_BOB,   COURSE_BOB,      0/*0 */ },

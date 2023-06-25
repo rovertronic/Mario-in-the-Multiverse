@@ -84,4 +84,5 @@ void bhv_purple_switch_loop(void) {
             }
             break;
     }
+    o->oShotByShotgun = 0;//--E
 }

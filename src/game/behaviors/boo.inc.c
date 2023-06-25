@@ -325,6 +325,13 @@ static s32 boo_get_attack_status(void) {
         }
     }
 
+    //--E
+    if (o->oInteractType) {
+        if (o->oShotByShotgun) {
+            attackStatus = BOO_ATTACKED; }
+    }
+    o->oShotByShotgun = 0;
+
     return attackStatus;
 }
 
@@ -333,7 +340,7 @@ static void boo_chase_mario(f32 minDY, s16 yawIncrement, f32 mul) {
     s16 targetYaw;
 
     if (boo_vanish_or_appear()) {
-        cur_obj_become_tangible();//--E
+        o->oInteractType = INTERACT_BOUNCE_TOP;
 
         if (cur_obj_lateral_dist_from_mario_to_home() > 1500.0f) {
             targetYaw = cur_obj_angle_to_home();
@@ -357,7 +364,7 @@ static void boo_chase_mario(f32 minDY, s16 yawIncrement, f32 mul) {
             boo_oscillate(FALSE);
         }
     } else {
-        cur_obj_become_intangible();//--E
+        o->oInteractType = 0;
         boo_stop();
     }
 }
@@ -552,8 +559,7 @@ static void big_boo_act_1(void) {
         o->oAction = 2;
     }
 
-    if ((attackStatus == BOO_ATTACKED) || (o->oShotByShotgun)) {//--E
-        o->oShotByShotgun = 0;
+    if (attackStatus == BOO_ATTACKED) {
         o->oAction = 3;
         create_sound_spawner(SOUND_OBJ_THWOMP);
     }

@@ -33,14 +33,17 @@ void whomp_init(void) {
             }
         } else if (cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP, 
             DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, DIALOG_114)) {
+            o->oIntangibleTimer = 0;//--E
             o->oAction = 2;
         }
-        o->oIntangibleTimer = 0;
-        o->oFlags |= OBJ_FLAG_E__SG_CUSTOM;//--E
+        o->oFlags |= OBJ_FLAG_E__SG_BOSS;//--E
     } else if (o->oDistanceToMario < 500.0f) {
         o->oAction = 1;
         o->oIntangibleTimer = 0;
-        o->oFlags |= OBJ_FLAG_E__SG_BREAKABLE;//--E
+        //--E
+        o->oDeathSound = SOUND_OBJ_WHOMP;
+        o->oHealth = 3;
+        o->oFlags |= OBJ_FLAG_E__SG_BREAKABLE;
     }
 
     whomp_play_sfx_from_pound_animation();
@@ -295,6 +298,11 @@ void bhv_whomp_loop(void) {
                 o->oAction = 4;
             }
         }
+    } else {
+        if (o->oShotByShotgun && o->activeFlags) {
+            play_sound(SOUND_OBJ_THWOMP, o->header.gfx.cameraToObject);
+            o->oShotByShotgun = 0;
+        }        
     }
 
     cur_obj_move_standard(-20);

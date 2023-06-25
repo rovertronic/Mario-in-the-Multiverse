@@ -282,7 +282,7 @@ struct ObjectHitbox sMrIHitbox = {
     /* interactType:      */ INTERACT_DAMAGE,
     /* downOffset:        */ 0,
     /* damageOrCoinValue: */ 2,
-    /* health:            */ 2,
+    /* health:            */ 1,//--E
     /* numLootCoins:      */ 5,
     /* radius:            */ 80,
     /* height:            */ 150,

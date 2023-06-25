@@ -170,6 +170,9 @@ void bobomb_free_loop(void) {
     } else {
         stationary_bobomb_free_loop();
     }
+
+    if (o->activeFlags == 0) {
+        create_respawner(MODEL_BLACK_BOBOMB, bhvBobomb, 3000); }
 }
 
 void bobomb_held_loop(void) {

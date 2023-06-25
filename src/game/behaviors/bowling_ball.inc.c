@@ -4,7 +4,7 @@ static struct ObjectHitbox sBowlingBallHitbox = {
     /* interactType:      */ INTERACT_DAMAGE,
     /* downOffset:        */ 0,
     /* damageOrCoinValue: */ 2,
-    /* health:            */ 0,
+    /* health:            */ 2,//--E
     /* numLootCoins:      */ 0,
     /* radius:            */ 100,
     /* height:            */ 150,

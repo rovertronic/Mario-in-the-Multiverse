@@ -345,10 +345,9 @@ static s32 e__obj_shotgun_cast_tm(Vec3f shotOrig, Vec3f dirNorm, f32 collPointDi
     f32 objDistToOffset = 0.f;
     vec3f_get_dist(oCenter, offsetPos, &objDistToOffset);//vec3f_get_dist_and_angle(oCenter, offsetPos, &objDistToOffset, &objPitchToOffset, &objYawToOffset);
 
-    f32 div = (shotDistToObj * 0.005f);
+    f32 div = (shotDistToObj * 0.012f);//--
     if (div < 1.f) {
-        div = 1.f;
-    }
+        div = 1.f; }
     f32 distRange = (shotDistToObj / div);
 
     if (objDistToOffset < (distRange + 400.f)) {//--**
@@ -426,8 +425,16 @@ static s32 e__obj_shotgun_cast_tm(Vec3f shotOrig, Vec3f dirNorm, f32 collPointDi
     return 0;
 }
 
+
+static void e__push_obj(struct Object *obj, Vec3f dirNorm, f32 pushStrength) {
+    s16 pushAngle = atan2s(dirNorm[2], dirNorm[0]);
+    struct Object *push = spawn_object(obj, MODEL_NONE, bhvE_PushObj);
+    push->oVelX = (sins(pushAngle) * pushStrength);
+    push->oVelZ = (coss(pushAngle) * pushStrength);
+}
+
 static void e__shotgun_object_collision(Vec3f shotOrig, Vec3f dirNorm, f32 collPointDist, s16 pitch, s16 yaw) {
-    s32 shotgunLists[6] = { OBJ_LIST_SURFACE, OBJ_LIST_PUSHABLE, OBJ_LIST_PUSHABLE, OBJ_LIST_GENACTOR, OBJ_LIST_DESTRUCTIVE, OBJ_LIST_LEVEL, OBJ_LIST_DEFAULT };
+    s32 shotgunLists[6] = { OBJ_LIST_SURFACE, OBJ_LIST_PUSHABLE, OBJ_LIST_GENACTOR, OBJ_LIST_DESTRUCTIVE, OBJ_LIST_LEVEL, OBJ_LIST_DEFAULT };
     s32 listIndex = 6;
     s32 shotObjCount = 0;
 
@@ -442,78 +449,97 @@ static void e__shotgun_object_collision(Vec3f shotOrig, Vec3f dirNorm, f32 collP
             Vec3f hitPos = { 0.f, 0.f, 0.f };
             s32 objIsShot = FALSE;
 
+            //--**! This ordering leads to unecessary amounts of math being done every shot. For the sake of stability, I'm gonna focus on reformatting & optimizing when we need it
             if (objIsShot = e__obj_shotgun_cast_tm(shotOrig, dirNorm, collPointDist, pitch, yaw, obj, &flattenSurf, hitPos)) {
-                shotObjCount++;
-                if (shotObjCount > 7) {
+                if (shotObjCount >= gE_MaxObjsHitPerShot) {
                     return; }
 
-                if (obj->oFlags & (OBJ_FLAG_E__SG_ENEMY | OBJ_FLAG_E__SG_BOSS | OBJ_FLAG_E__SG_BREAKABLE | OBJ_FLAG_E__SG_CUSTOM)) {
-                    obj->oShotByShotgun += objIsShot; }
+                if (obj->oFlags & (OBJ_FLAG_E__SG_ENEMY | OBJ_FLAG_E__SG_BREAKABLE)) {
+                    if (obj->oIntangibleTimer == 0) {//--**
+                        shotObjCount++;
+                        obj->oShotByShotgun += objIsShot;
 
-                if (obj->oFlags & OBJ_FLAG_E__SG_ENEMY) {
-                    if (obj->oIntangibleTimer == 0) {//--**bug - seems to just not work sometimes
                         e__sg_obj_shot_sparks(obj);//effect
 
-                        obj_spawn_loot_yellow_coins(obj, obj->oNumLootCoins, 20.f);
-                        //flatten against wall
-                        if (flattenSurf != NULL) {
-                            if (SURFACE_IS_NEW_WATER(flattenSurf)) {
-                                spawn_object(obj, MODEL_WATER_SPLASH, bhvWaterSplash);
-                            } else {
-                                struct Object *flatObj = spawn_object(obj, obj_get_model_id(obj), bhvE_FlattenedObj);
-                                flatObj->oDeathSound = obj->oDeathSound;
-                                flatObj->oUpVel = 1.f;//oUpVel used as scale osc mag
-                                flatObj->oAnimState = obj->oAnimState;
-                                flatObj->oOpacity   = obj->oOpacity;
-                                *((struct AnimInfo *)(&flatObj->header.gfx.animInfo)) = *((struct AnimInfo *)(&obj->header.gfx.animInfo));
-                                vec3f_copy(&flatObj->oVelX, obj->header.gfx.scale);//oVelX used as base scale
-                                vec3f_set(&flatObj->oVelX, (flatObj->oVelX * 1.6f), (flatObj->oVelY * 1.6f), (flatObj->oVelZ * 1.6f));
+                        if ((obj->oHealth <= 1) || (obj->oHealth == 2048)) {
+                            obj_spawn_loot_yellow_coins(obj, obj->oNumLootCoins, 20.f);
 
-                                Vec3f hitPosOffset = { (dirNorm[0] * 40.f), (dirNorm[1] * 40.f), (dirNorm[2] * 40.f) };
-                                vec3f_sub(hitPos, hitPosOffset);
-                                vec3f_copy(&flatObj->oPosX, hitPos);
+                            if (obj->oFlags & OBJ_FLAG_E__SG_ENEMY) {
+                                //flatten against wall
+                                if (flattenSurf != NULL) {
+                                    if (SURFACE_IS_NEW_WATER(flattenSurf)) {
+                                        spawn_object(obj, MODEL_WATER_SPLASH, bhvWaterSplash);
+                                    } else {
+                                        struct Object *flatObj = spawn_object(obj, obj_get_model_id(obj), bhvE_FlattenedObj);
+                                        flatObj->oDeathSound = obj->oDeathSound;
+                                        flatObj->oUpVel = 1.f;//oUpVel used as scale osc mag
+                                        flatObj->oAnimState = obj->oAnimState;
+                                        flatObj->oOpacity   = obj->oOpacity;
+                                        *((struct AnimInfo *)(&flatObj->header.gfx.animInfo)) = *((struct AnimInfo *)(&obj->header.gfx.animInfo));
+                                        vec3f_copy(&flatObj->oVelX, obj->header.gfx.scale);//oVelX used as base scale
+                                        vec3f_set(&flatObj->oVelX, (flatObj->oVelX * 1.6f), (flatObj->oVelY * 1.6f), (flatObj->oVelZ * 1.6f));
 
-                                flatObj->oFaceAnglePitch = 0;
-                                if (absf(flattenSurf->normal.y) < 0.01f) {//NORMAL_FLOOR_THRESHOLD
-                                    flatObj->oFaceAngleYaw = SURFACE_YAW(flattenSurf); }
-                                else {
-                                    flatObj->oFaceAngleYaw = (yaw + DEGREES(180));
-                                    flatObj->oAction = 1;
+                                        Vec3f hitPosOffset = { (dirNorm[0] * 40.f), (dirNorm[1] * 40.f), (dirNorm[2] * 40.f) };
+                                        vec3f_sub(hitPos, hitPosOffset);
+                                        vec3f_copy(&flatObj->oPosX, hitPos);
+
+                                        flatObj->oFaceAnglePitch = 0;
+                                        if (absf(flattenSurf->normal.y) < 0.01f) {//NORMAL_FLOOR_THRESHOLD
+                                            flatObj->oFaceAngleYaw = SURFACE_YAW(flattenSurf); }
+                                        else {
+                                            flatObj->oFaceAngleYaw = (yaw + DEGREES(180));
+                                            flatObj->oAction = 1;
+                                        }
+                                        flatObj->oFaceAngleRoll = 0;
+
+                                        flatObj->OBJECT_FIELD_S16P(0x1B) = flattenSurf;
+                                    }
+                                } else {
+                                    if (obj->oDeathSound) {
+                                        create_sound_spawner(obj->oDeathSound); }
                                 }
-                                flatObj->oFaceAngleRoll = 0;
 
-                                flatObj->OBJECT_FIELD_S16P(0x1B) = flattenSurf;
+
+                            } else {
+                            //--OBJ_FLAG_E__SG_BREAKABLE
+                                e__sg_obj_explode(obj, 4);//effect
+                                if (obj->oDeathSound) {
+                                    create_sound_spawner(obj->oDeathSound); }
                             }
+
+                            obj->activeFlags = 0;
                         } else {
-                            if (obj->oDeathSound) {
-                                create_sound_spawner(obj->oDeathSound); }
+                            obj->oHealth--;
+                            obj->header.gfx.animInfo.animFrame = 0;
+                            e__push_obj(obj, dirNorm, 50.f);
                         }
-                        obj->activeFlags = 0;
                     }
 
 
                 } else if (obj->oFlags & OBJ_FLAG_E__SG_BOSS) {
                     if (obj->oIntangibleTimer == 0) {//--**
-                        e__sg_obj_shot_sparks(obj);//effect
-                        s16 pushAngle = atan2s(dirNorm[2], dirNorm[0]);
-                        f32 pushStrength = (vec3_mag(obj->header.gfx.scale) * 50.f);
-                        struct Object *push = spawn_object(obj, MODEL_NONE, bhvE_PushObj);
-                        push->oVelX = (sins(pushAngle) * pushStrength);
-                        push->oVelZ = (coss(pushAngle) * pushStrength);
+                        obj->oShotByShotgun += objIsShot;
+                        shotObjCount++;
+
+                        Vec3f pos       = { obj->oPosX, obj->oPosY, obj->oPosZ };
+                        Vec3f offset = { (dirNorm[0] * 100.f), (dirNorm[1] * 100.f), (dirNorm[2] * 100.f) };                        
+                        vec3f_add(pos, offset);
+                        struct SGSmoke *smoke = e__sg_smoke(pos);
+                        if (smoke != NULL) {
+                            smoke->timer = 3;
+                            smoke->scale = 5.f;
+                        }
+                        e__push_obj(obj, dirNorm, 100.f);
                     }
-
-
-                } else if (obj->oFlags & OBJ_FLAG_E__SG_BREAKABLE) {
-                    e__sg_obj_explode(obj, 4);//effect
-                    obj_spawn_loot_yellow_coins(obj, obj->oNumLootCoins, 20.f);
-                    if (obj->oDeathSound) {
-                        create_sound_spawner(obj->oDeathSound); }
-                    obj->activeFlags = 0;
 
 
                 } else if (obj->oFlags & OBJ_FLAG_E__SG_CUSTOM) {
                     if (obj->oIntangibleTimer == 0) {//--**
-                        e__sg_obj_shot_sparks(obj); }//effect
+                        obj->oShotByShotgun += objIsShot;
+                        shotObjCount++;
+
+                        e__sg_obj_shot_sparks(obj);
+                    }//effect
                 }
             }
 
@@ -668,8 +694,16 @@ void e__fire_shotgun(void) {
 
         if (gE_ShotgunTimer == 0) {
             if (gPlayer1Controller->buttonDown & L_TRIG) {
-                gE_UpperAnimInfo.animFrame = 0;
                 struct MarioState *m = gMarioState;
+                if (m->numGlobalCoins) {
+                    m->numGlobalCoins--; }
+                else {
+                    gE_ShotgunTimer = 26;
+                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                    return;
+                }
+
+                gE_UpperAnimInfo.animFrame = 0;
                 Vec3f shotVisualPos = { m->pos[0], (m->pos[1] + E_SG_SHOT_Y_OFFSET), m->pos[2] };
 
                 if (gE_ShotgunFlags & E_SGF_AIM_MODE) {
@@ -694,6 +728,13 @@ void e__fire_shotgun_air(void) {//--**combine with e__fire_shotgun later
         struct MarioState *m = gMarioState;
         if (mario_is_in_air_action()) {
             if (gPlayer1Controller->buttonPressed & L_TRIG) {
+                if (m->numGlobalCoins) {
+                    m->numGlobalCoins--; }
+                else {
+                    gE_ShotgunTimer = 26;
+                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                    return;
+                }                
                 if (!(gE_ShotgunFlags & E_SGF_AIR_SHOT_USED)) {
                     e__set_upper_anim(m, 2);
                     gE_UpperAnimInfo.animFrame = 0;

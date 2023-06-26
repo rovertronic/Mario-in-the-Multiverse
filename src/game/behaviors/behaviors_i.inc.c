@@ -160,7 +160,7 @@ void bhv_rocket_smoke_init(void) {
 /*********************************Button*************************************/
 
 void rocket_button_off() {
-    obj_set_model(o, MODEL_ROCKET_BUTTON_OFF);
+    obj_set_model(o, o->oModelStateOFF);
     
     if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 2){
         o->oAction++;
@@ -170,7 +170,7 @@ void rocket_button_off() {
 void rocket_button_on() {
     s32 buttonToggleGroupSucceded = 0;
     if(o->oTimer == 0){
-        obj_set_model(o, MODEL_ROCKET_BUTTON_ON);
+        obj_set_model(o, o->oModelStateON);
         play_sound(SOUND_GENERAL2_PURPLE_SWITCH, gGlobalSoundSource);
     }
 
@@ -207,6 +207,15 @@ void bhv_rocket_button_loop(void) {
 
     o->oInteractStatus = INT_STATUS_NONE;
     o->oShotByShotgun = 0;
+}
+
+void bhv_rocket_button_group_init(void){
+    //if Bparam 3 is set, change the model ID for the ON state
+    o->oModelStateON = ((o->oBehParams >> 8) & 0xFF);
+    if (o->oModelStateON == 0) o->oModelStateON = MODEL_ROCKET_BUTTON_ON;
+    //if Bparam 4 is set, change the model ID for the OFF state
+    o->oModelStateOFF = ((o->oBehParams) & 0xFF);
+    if (o->oModelStateOFF == 0) o->oModelStateOFF = MODEL_ROCKET_BUTTON_OFF;
 }
 
 void bhv_rocket_button_group_loop(void){

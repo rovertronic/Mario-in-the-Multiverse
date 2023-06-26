@@ -552,6 +552,7 @@ void bhv_volcano_trap_loop(void);
 void bhv_shock_rocket_loop(void);
 void bhv_rocket_smoke_init(void);
 void bhv_rocket_button_loop(void);
+void bhv_rocket_button_group_init(void);
 void bhv_rocket_button_group_loop(void);
 void bhv_checkpoint_flag(void);
 

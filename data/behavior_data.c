@@ -6262,6 +6262,7 @@ const BehaviorScript bhvRocketButton[] = {
     SET_FLOAT(oDrawingDistance, 16000),
     SET_HITBOX(/*Radius*/ 80, /*Height*/ 130),
     SET_FLOAT(oGraphYOffset, 65),
+    CALL_NATIVE(bhv_rocket_button_group_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_rocket_button_loop),
     END_LOOP(),

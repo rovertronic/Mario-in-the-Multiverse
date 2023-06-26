@@ -6,7 +6,7 @@
 
 struct ObjectHitbox sShockRocketHitbox = {
     .interactType      = INTERACT_NONE,
-    .downOffset        = 0,
+    .downOffset        = 50,
     .damageOrCoinValue = 0,
     .health            = 1,
     .numLootCoins      = 0,

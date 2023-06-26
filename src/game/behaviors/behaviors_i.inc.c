@@ -162,7 +162,7 @@ void bhv_rocket_smoke_init(void) {
 void rocket_button_off() {
     obj_set_model(o, MODEL_ROCKET_BUTTON_OFF);
     
-    if(o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED){
+    if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 2){
         o->oAction++;
     }
 }
@@ -206,6 +206,7 @@ void bhv_rocket_button_loop(void) {
     }
 
     o->oInteractStatus = INT_STATUS_NONE;
+    o->oShotByShotgun = 0;
 }
 
 void bhv_rocket_button_group_loop(void){

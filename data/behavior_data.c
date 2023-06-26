@@ -6257,7 +6257,7 @@ const BehaviorScript bhvRocketSmoke[] = {
 
 const BehaviorScript bhvRocketButton[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW | OBJ_FLAG_E__SG_CUSTOM)),
     SET_INT(oIntangibleTimer, 0),
     SET_FLOAT(oDrawingDistance, 16000),
     SET_HITBOX(/*Radius*/ 80, /*Height*/ 130),

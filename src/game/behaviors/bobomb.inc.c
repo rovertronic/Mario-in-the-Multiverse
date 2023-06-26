@@ -5,7 +5,7 @@ static struct ObjectHitbox sBobombHitbox = {
     /* downOffset:        */ 0,
     /* damageOrCoinValue: */ 0,
     /* health:            */ 0,
-    /* numLootCoins:      */ 1,//--E
+    /* numLootCoins:      */ 0,
     /* radius:            */ 65,
     /* height:            */ 113,
     /* hurtboxRadius:     */ 0,
@@ -165,14 +165,18 @@ void stationary_bobomb_free_loop(void) {
 }
 
 void bobomb_free_loop(void) {
+    //--E
+    if (o->activeFlags == 0) {
+        bobomb_spawn_coin();
+        create_respawner(MODEL_BLACK_BOBOMB, bhvBobomb, 3000);
+        return;
+    }
+
     if (o->oBehParams2ndByte == BOBOMB_BP_STYPE_GENERIC) {
         generic_bobomb_free_loop();
     } else {
         stationary_bobomb_free_loop();
     }
-
-    if (o->activeFlags == 0) {
-        create_respawner(MODEL_BLACK_BOBOMB, bhvBobomb, 3000); }
 }
 
 void bobomb_held_loop(void) {

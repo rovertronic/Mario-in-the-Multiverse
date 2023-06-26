@@ -287,7 +287,7 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
 				Mat4 mtxf;
 				Vec3f scale = { smoke->scale, smoke->scale, smoke->scale };
 				mtxf_billboard(mtxf, mtxf, smoke->pos, scale, gLakituState.roll);
-				gDPSetEnvColor(dlH++, 0xFF, 0xFF, 0xFF, ((s32)(sins(smoke->timer) * 255.f)));
+				gDPSetEnvColor(dlH++, 0xFF, 0xFF, 0xFF, ((s32)(sins(smoke->timer) * 127.f)));
 				RENDER_SG_EFFECT(e_sg_smoke_smoke_mesh_tri_0, 1.f)
 			}
 			smoke++;

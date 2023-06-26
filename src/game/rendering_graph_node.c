@@ -806,6 +806,8 @@ void geo_process_billboard(struct GraphNodeBillboard *node) {
         Vec3f norm;
         surface_normal_to_vec3f(norm, obj->OBJECT_FIELD_S16P(0x1B));
         Vec3f negNorm = { -norm[0], -norm[1], -norm[2] };
+        if (negNorm[2] == 0.f) {//sloppy fix, but it works
+            negNorm[2] = 0.001f; }
         mtxf_billboard_flattened_obj(negNorm, gMatStack[gMatStackIndex + 1], gMatStack[gMatStackIndex], translation, scale, obj->oFaceAngleRoll);
     }
 

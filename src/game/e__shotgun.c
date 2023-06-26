@@ -566,8 +566,8 @@ static struct Surface *e__shotgun_raycast(Vec3f orig, Vec3f dir, Vec3f dirNorm, 
             //smoke
             Vec3f offset = { (surfNorm[0] * 100.f), (surfNorm[1] * 100.f), (surfNorm[2] * 100.f) };
             vec3f_add(pos, offset);
+            struct SGSmoke *newSmoke = e__sg_smoke(pos);
             if (obj != NULL) {
-                struct SGSmoke *newSmoke = e__sg_smoke(pos);
                 if (newSmoke != NULL) {
                     newSmoke->timer = 3; }
             }

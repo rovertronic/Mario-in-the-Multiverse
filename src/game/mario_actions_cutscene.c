@@ -1667,13 +1667,15 @@ void stuck_in_ground_handler(struct MarioState *m, s32 animation, s32 unstuckFra
 
     stop_and_set_height_to_floor(m);
 
-    if ((gPlayer1Controller->buttonPressed & L_TRIG) && (m->actionState == 0)) {//--E SG
-        if (animation == MARIO_ANIM_LEGS_STUCK_IN_GROUND) {
-            m->actionArg = 1;
-            set_mario_animation(m, MARIO_ANIM_HEAD_STUCK_IN_GROUND);
+    if (using_ability(ABILITY_E_SHOTGUN)) {
+        if ((gPlayer1Controller->buttonPressed & L_TRIG) && (m->actionState == 0)) {//--E SG
+            if (animation == MARIO_ANIM_LEGS_STUCK_IN_GROUND) {
+                m->actionArg = 1;
+                set_mario_animation(m, MARIO_ANIM_HEAD_STUCK_IN_GROUND);
+            }
+            set_anim_to_frame(m, unstuckFrame);
+            m->actionState++;
         }
-        set_anim_to_frame(m, unstuckFrame);
-        m->actionState++;
     }
 
     if (animFrame == -1) {

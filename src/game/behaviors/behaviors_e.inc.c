@@ -82,7 +82,7 @@ void bhv_e__flattened_obj(void) {
     f32 bounce = (coss(o->oUnk94) * o->oUpVel);
     f32 x = (o->oVelX + bounce);
     f32 y = (o->oVelY + bounce);
-    f32 z = 0.1f;
+    f32 z = 0.18f;
     o->header.gfx.scale[0] = x;
     o->header.gfx.scale[1] = y;
     o->header.gfx.scale[2] = z;

@@ -1689,6 +1689,7 @@ s32 act_butt_slide_air(struct MarioState *m) {
     switch (perform_air_step(m, AIR_STEP_CHECK_NONE)) {
         case AIR_STEP_LANDED:
             if (m->actionState == 0 && m->vel[1] < 0.0f && m->floor->normal.y >= COS10) {
+                gE_ShotgunFlags &= ~E_SGF_AIR_SHOT_USED;//--E SG
                 m->vel[1] = -m->vel[1] / 2.0f;
                 m->actionState = 1;
             } else {

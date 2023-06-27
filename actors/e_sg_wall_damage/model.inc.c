@@ -540,6 +540,8 @@ Gfx e_sg_wall_damage_wallDamage_mesh_tri_0[] = {
 };
 
 Gfx mat_e_sg_wall_damage_mat_f3d_layer1[] = {
+	gsSPClearGeometryMode(G_TEXTURE_GEN),//--
+
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(0, 0, 0, 0, 1, TEXEL0, TEXEL1, TEXEL0, 0, 0, 0, 0, COMBINED, 0, ENVIRONMENT, 0),
 	gsSPGeometryMode(G_LIGHTING, 0),

@@ -6139,6 +6139,19 @@ const BehaviorScript bhvFlipswitch[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvNoteblock[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(noteblock_collision),
+    SET_FLOAT(oDrawingDistance, 4000),
+    SET_FLOAT(oCollisionDistance, 1000),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_noteblock),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
 /* GROUP A START */
 /* GROUP A END */
 

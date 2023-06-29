@@ -45,3 +45,4 @@
 #include "flipswitch3/geo.inc.c"
 #include "flipswitch1/geo.inc.c"
 #include "flipswitch2/geo.inc.c"
+#include "noteblock/geo.inc.c"

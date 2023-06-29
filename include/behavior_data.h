@@ -545,6 +545,7 @@ extern const BehaviorScript bhvLevelPipe[];
 extern const BehaviorScript bhvAbilityUnlock[];
 extern const BehaviorScript bhvCheckpointFlag[];
 extern const BehaviorScript bhvFlipswitch[];
+extern const BehaviorScript bhvNoteblock[];
 
 /* GROUP A START */
 /* GROUP A END */

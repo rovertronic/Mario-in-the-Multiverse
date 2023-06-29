@@ -116,3 +116,5 @@
 #include "flipswitch1/model.inc.c"
 #include "flipswitch2/model.inc.c"
 #include "flipswitch/collision.inc.c"
+#include "noteblock/collision.inc.c"
+#include "noteblock/model.inc.c"

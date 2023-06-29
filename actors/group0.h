@@ -472,4 +472,12 @@ extern const Gfx white_particle_small_unused_dl[];
 
 
 #include "checkpoint_flag/anim_header.h"
+#include "flipswitch3/geo_header.h"
+
+#include "flipswitch1/geo_header.h"
+
+#include "flipswitch2/geo_header.h"
+
+#include "flipswitch/collision_header.h"
+
 #endif

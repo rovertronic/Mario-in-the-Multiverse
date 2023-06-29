@@ -112,3 +112,7 @@
 #include "checkpoint_flag/model.inc.c"
 #include "checkpoint_flag/anims/data.inc.c"
 #include "checkpoint_flag/anims/table.inc.c"
+#include "flipswitch3/model.inc.c"
+#include "flipswitch1/model.inc.c"
+#include "flipswitch2/model.inc.c"
+#include "flipswitch/collision.inc.c"

@@ -31,3 +31,65 @@ void bhv_checkpoint_flag(void) {
     o->oFaceAngleRoll = sins(o->oTimer*0x900)*o->oVelY;
     o->oVelY *= 0.97f;
 }
+
+//flip switch
+
+#define oSwitchState oHealth
+
+u8 tiles_active = 0;
+u8 tiles_needed = 0;
+u8 tiles_hasmodel_count = 0;
+u8 tiles_star_spawned = FALSE;
+void bhv_flipswitch(void) {
+    if ((tiles_active == tiles_needed) && (o->oAction > 1)) {
+        if (o->oSwitchState == TRUE) {
+            o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_FLIPSWITCH_3];
+            o->oSwitchState = FALSE;
+            tiles_hasmodel_count --;
+        }
+        if ((tiles_hasmodel_count == 0)&&(!tiles_star_spawned)) {
+            tiles_star_spawned = TRUE;
+            spawn_default_star(o->oPosX,o->oPosY+400.0f,o->oPosZ);
+        }
+        return;
+    }
+
+    switch(o->oAction) {
+        case 0://init
+            o->oAction = 1;
+            o->oSwitchState = FALSE;
+            tiles_needed = 0;
+            tiles_active = 0;
+            tiles_hasmodel_count = 0;
+            tiles_star_spawned = FALSE;
+            cur_obj_scale(1.0f + (o->oBehParams2ndByte*0.5f));
+        break;
+        case 1:
+            tiles_needed ++;
+            o->oAction = 2;
+        break;
+        case 2: //mario off
+            if (gMarioObject->platform == o) {
+                cur_obj_play_sound_2(SOUND_GENERAL_BOWSER_KEY_LAND);
+                o->oAction = 3;
+                o->oSwitchState = !o->oSwitchState;
+
+                if (o->oSwitchState) {
+                    tiles_active++;
+                    if (tiles_active != tiles_needed) { //prevent being the 2nd model for 1 frame
+                        o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_FLIPSWITCH_2];
+                    }
+                } else {
+                    tiles_active--;
+                    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_FLIPSWITCH_1];
+                }
+                tiles_hasmodel_count = tiles_active;
+            }
+        break;
+        case 3: //mario on
+            if (gMarioObject->platform != o) {
+                o->oAction = 2;
+            }
+        break;
+    }
+}

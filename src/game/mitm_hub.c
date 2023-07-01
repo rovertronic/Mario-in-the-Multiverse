@@ -79,7 +79,7 @@ u8 hub_star_string[] = {0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,DIALOG_CHAR_TERM
 //Only mess with /* Level */ entry, everything else is pre-configured
 struct mitm_hub_level hub_levels[] = {
           /* Author */      /* Level */  /*Star Flags*/   /*Star Req*/
-    /*G*/ {&author_string_g, LEVEL_BOB,   COURSE_BOB,      0/*0 */ },
+    /*G*/ {&author_string_g, LEVEL_G,   COURSE_BOB,      0/*0 */ },
     /*A*/ {&author_string_a, LEVEL_BOB,   COURSE_WF ,      0/*1 */ },
     /*C*/ {&author_string_c, LEVEL_CCM,   COURSE_JRB,      0/*1 */ },
     /*I*/ {&author_string_i, LEVEL_BOB,   COURSE_CCM,      0/*3 */ },

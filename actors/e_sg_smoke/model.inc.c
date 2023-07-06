@@ -556,8 +556,7 @@ Gfx mat_e_sg_smoke_mat_f3d_layer1[] = {
 	gsDPLoadBlock(6, 0, 0, 2047, 256),
 	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_16b, 8, 0, 1, 0, G_TX_WRAP | G_TX_MIRROR, 6, 0, G_TX_WRAP | G_TX_MIRROR, 5, 0),
 	gsDPSetTileSize(1, 0, 0, 124, 252),
-	gsDPSetPrimColor(0, 0, 127, 127, 127, 255),
-	gsDPSetEnvColor(255, 255, 255, 255),
+	gsDPSetPrimColor(0, 0, 190, 190, 190, 255),
 	gsSPEndDisplayList(),
 };
 

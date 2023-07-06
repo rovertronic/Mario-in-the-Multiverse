@@ -1,6 +1,3 @@
-Lights1 e_sg_piece_mat_f3d_layer1_lights = gdSPDefLights1(
-	0x7F, 0x7F, 0x7F,
-	0xFF, 0xFF, 0xFF, 0x28, 0x28, 0x28);
 
 Gfx e_sg_piece_Smoke2048_ia8_aligner[] = {gsSPEndDisplayList()};
 u8 e_sg_piece_Smoke2048_ia8[] = {
@@ -312,7 +309,7 @@ Gfx mat_e_sg_piece_mat_f3d_layer1[] = {
 	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0),
 	gsDPSetTileSize(0, 0, 0, 124, 252),
 	gsDPSetPrimColor(0, 0, 207, 255, 223, 255),
-	gsSPSetLights1(e_sg_piece_mat_f3d_layer1_lights),
+	//gsSPSetLights1(e_sg_piece_mat_f3d_layer1_lights),
 	gsSPEndDisplayList(),
 };
 

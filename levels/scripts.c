@@ -140,6 +140,7 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_FLIPSWITCH_2,            flipswitch2_geo),
     LOAD_MODEL_FROM_GEO(MODEL_FLIPSWITCH_3,            flipswitch3_geo),
     LOAD_MODEL_FROM_GEO(MODEL_NOTEBLOCK,               noteblock_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_STAR_PIECE,              star_piece_geo),
     FREE_LEVEL_POOL(),
     POP_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),

@@ -118,3 +118,4 @@
 #include "flipswitch/collision.inc.c"
 #include "noteblock/collision.inc.c"
 #include "noteblock/model.inc.c"
+#include "star_piece/model.inc.c"

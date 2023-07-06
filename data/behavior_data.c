@@ -6152,6 +6152,28 @@ const BehaviorScript bhvNoteblock[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvStarPieceSwitch[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW),//--E
+    LOAD_COLLISION_DATA(blue_coin_switch_seg8_collision_08000E98),
+    SET_INT(oIntangibleTimer, 0),//--E
+    SET_HITBOX(/*Radius*/ 120, /*Height*/ 100),//--E
+    SET_INT(oAnimState, 1),
+    SET_HOME(),//prevent fucking the bcs with timeslow
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_star_piece_switch_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvStarPiece[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_star_piece_loop),
+    END_LOOP(),
+};
+
 /* GROUP A START */
 /* GROUP A END */
 

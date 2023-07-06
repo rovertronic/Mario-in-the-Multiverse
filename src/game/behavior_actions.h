@@ -557,6 +557,8 @@ void bhv_rocket_button_group_loop(void);
 void bhv_checkpoint_flag(void);
 void bhv_flipswitch(void);
 void bhv_noteblock(void);
+void bhv_star_piece_switch_loop(void);
+void bhv_star_piece_loop(void);
 
 Gfx *geo_move_mario_part_from_parent(s32 callContext, UNUSED struct GraphNode *node, Mat4 mtx);
 

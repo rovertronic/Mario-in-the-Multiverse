@@ -17,6 +17,7 @@ extern const Gfx blue_coin_switch_seg8_dl_08000D58[];
 extern const Gfx blue_coin_switch_seg8_dl_08000DD0[];
 extern const Gfx blue_coin_switch_seg8_dl_08000E08[];
 extern const Collision blue_coin_switch_seg8_collision_08000E98[];
+extern const Gfx star_switch_dl[];
 
 // bobomb
 extern const GeoLayout black_bobomb_geo[];

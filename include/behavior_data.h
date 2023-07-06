@@ -546,6 +546,8 @@ extern const BehaviorScript bhvAbilityUnlock[];
 extern const BehaviorScript bhvCheckpointFlag[];
 extern const BehaviorScript bhvFlipswitch[];
 extern const BehaviorScript bhvNoteblock[];
+extern const BehaviorScript bhvStarPieceSwitch[];
+extern const BehaviorScript bhvStarPiece[];
 
 /* GROUP A START */
 /* GROUP A END */

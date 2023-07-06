@@ -6178,6 +6178,22 @@ const BehaviorScript bhvStarPiece[] = {
 /* GROUP A END */
 
 /* GROUP B START */
+
+const BehaviorScript bhvConcreteBlock[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST | OBJ_FLAG_E__SG_COLLISION_BREAKABLE)),
+    LOAD_COLLISION_DATA(concrete_block_collision),
+    SET_FLOAT(oCollisionDistance, 1000),
+    CALL_NATIVE(bhv_concrete_block_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_concrete_block_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+    BREAK(),
+};
+
+
+
 /* GROUP B END */
 
 /* GROUP C START */

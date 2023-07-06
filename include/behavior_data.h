@@ -553,6 +553,8 @@ extern const BehaviorScript bhvStarPiece[];
 /* GROUP A END */
 
 /* GROUP B START */
+extern const BehaviorScript bhvConcreteBlock[];
+extern const BehaviorScript bhvBigConcreteBlock[];
 /* GROUP B END */
 
 /* GROUP C START */

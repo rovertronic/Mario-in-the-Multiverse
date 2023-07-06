@@ -463,9 +463,9 @@
             "sound": "29_orchestra_hit"
         },
         "Trumpet": {
-            "release_rate": 208,
+            "release_rate": 67,
             "envelope": "envelope1",
-            "sound": "19_brass"
+            "sound": "17_trumpet"
         },
         "Timpani": {
             "release_rate": 10,
@@ -502,6 +502,15 @@
             "release_rate": 208,
             "envelope": "envelope33",
             "sound": "2F_sleigh_bells"
+        },
+        "Strings Higher": {
+            "release_rate": 15,
+            "normal_range_lo": 27,
+            "normal_range_hi": 46,
+            "envelope": "envelope7",
+            "sound_lo": "23_strings_1",
+            "sound": "24_strings_2",
+            "sound_hi": "49_strings_lq"
         },
         "percussion": [
             {"release_rate": 10, "pan": 62, "envelope": "envelope11", "sound": {"sample": "06_kick_drum_1", "tuning": 0.210224}},
@@ -621,6 +630,7 @@
         "Drump Sample 27",
         "Xylophone",
         "Church Organ",
-        "Bells"
+        "Bells",
+        "Strings Higher"
     ]
 }

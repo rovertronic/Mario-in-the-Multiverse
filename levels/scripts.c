@@ -144,6 +144,7 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_CONCRETE_BLOCK,          concrete_block_geo),
     LOAD_MODEL_FROM_GEO(MODEL_CONCRETE_BLOCK_CRACK1,   concrete_block_crack1_geo),
     LOAD_MODEL_FROM_GEO(MODEL_CONCRETE_BLOCK_CRACK2,   concrete_block_crack2_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_DBP,                     dbp_geo),
     FREE_LEVEL_POOL(),
     POP_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),

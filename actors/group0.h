@@ -493,4 +493,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "concrete_block_crack2/geo_header.h"
 
+#include "dbp/geo_header.h"
+
 #endif

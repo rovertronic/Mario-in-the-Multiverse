@@ -548,6 +548,7 @@ extern const BehaviorScript bhvFlipswitch[];
 extern const BehaviorScript bhvNoteblock[];
 extern const BehaviorScript bhvStarPieceSwitch[];
 extern const BehaviorScript bhvStarPiece[];
+extern const BehaviorScript bhvDashBoosterParticle[];
 
 /* GROUP A START */
 /* GROUP A END */

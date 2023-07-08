@@ -6174,6 +6174,15 @@ const BehaviorScript bhvStarPiece[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvDashBoosterParticle[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BILLBOARD(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_dash_booster_particle),
+    END_LOOP(),
+};
+
 /* GROUP A START */
 /* GROUP A END */
 

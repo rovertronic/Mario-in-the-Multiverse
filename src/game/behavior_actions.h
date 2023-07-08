@@ -559,6 +559,7 @@ void bhv_flipswitch(void);
 void bhv_noteblock(void);
 void bhv_star_piece_switch_loop(void);
 void bhv_star_piece_loop(void);
+void bhv_dash_booster_particle(void);
 
 Gfx *geo_move_mario_part_from_parent(s32 callContext, UNUSED struct GraphNode *node, Mat4 mtx);
 

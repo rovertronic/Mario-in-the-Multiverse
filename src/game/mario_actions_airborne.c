@@ -2456,6 +2456,10 @@ s32 act_knight_jump(struct MarioState *m) {
 s32 act_dash_boost(struct MarioState *m) {
     update_air_without_turn(m);
     
+    if (m->actionTimer%2==0) {
+        spawn_object(m->marioObj,MODEL_DBP,bhvDashBoosterParticle);
+    }
+
     if (m->actionArg == 0) {
         m->forwardVel = 70.0f;
         m->vel[1] = 0.0f;

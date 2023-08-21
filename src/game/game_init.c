@@ -408,9 +408,9 @@ void render_init(void) {
     // Skip incrementing the initial framebuffer index on emulators so that they display immediately as the Gfx task finishes
     // VC probably emulates osViSwapBuffer accurately so instant patch breaks VC compatibility
     // Currently, Ares passes the cache emulation test and has issues with single buffering so disable it there as well.
-    //if (gIsConsole || gIsVC || gCacheEmulated) { // if statement appears to only cause issues
+    if (gIsConsole || gIsVC || gCacheEmulated) { // if statement appears to only cause issues
         sRenderingFramebuffer++;
-    //}
+    }
     gGlobalTimer++;
 }
 

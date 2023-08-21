@@ -46,3 +46,10 @@
 #include "flipswitch1/geo.inc.c"
 #include "flipswitch2/geo.inc.c"
 #include "noteblock/geo.inc.c"
+#include "star_piece/geo.inc.c"
+#include "concrete_block/geo.inc.c"
+
+#include "concrete_block_crack1/geo.inc.c"
+#include "concrete_block_crack2/geo.inc.c"
+
+#include "dbp/geo.inc.c"

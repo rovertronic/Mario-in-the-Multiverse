@@ -546,11 +546,16 @@ extern const BehaviorScript bhvAbilityUnlock[];
 extern const BehaviorScript bhvCheckpointFlag[];
 extern const BehaviorScript bhvFlipswitch[];
 extern const BehaviorScript bhvNoteblock[];
+extern const BehaviorScript bhvStarPieceSwitch[];
+extern const BehaviorScript bhvStarPiece[];
+extern const BehaviorScript bhvDashBoosterParticle[];
 
 /* GROUP A START */
 /* GROUP A END */
 
 /* GROUP B START */
+extern const BehaviorScript bhvConcreteBlock[];
+extern const BehaviorScript bhvBigConcreteBlock[];
 /* GROUP B END */
 
 /* GROUP C START */

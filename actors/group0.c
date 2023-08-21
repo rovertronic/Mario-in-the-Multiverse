@@ -118,3 +118,11 @@
 #include "flipswitch/collision.inc.c"
 #include "noteblock/collision.inc.c"
 #include "noteblock/model.inc.c"
+#include "star_piece/model.inc.c"
+#include "concrete_block/model.inc.c"
+#include "concrete_block/collision.inc.c"
+
+#include "concrete_block_crack1/model.inc.c"
+#include "concrete_block_crack2/model.inc.c"
+
+#include "dbp/model.inc.c"

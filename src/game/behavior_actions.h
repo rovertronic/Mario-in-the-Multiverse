@@ -557,6 +557,9 @@ void bhv_rocket_button_group_loop(void);
 void bhv_checkpoint_flag(void);
 void bhv_flipswitch(void);
 void bhv_noteblock(void);
+void bhv_star_piece_switch_loop(void);
+void bhv_star_piece_loop(void);
+void bhv_dash_booster_particle(void);
 
 Gfx *geo_move_mario_part_from_parent(s32 callContext, UNUSED struct GraphNode *node, Mat4 mtx);
 
@@ -628,3 +631,5 @@ void bhv_marble_init(void);
 void bhv_marble_loop(void);
 void bhv_pt_mb(void);
 void bhv_gadget_aim(void);
+void bhv_concrete_block_init(void);
+void bhv_concrete_block_loop(void);

@@ -598,6 +598,12 @@ extern const BehaviorScript bhvShockRocket[];
 extern const BehaviorScript bhvRocketSmoke[];
 extern const BehaviorScript bhvRocketButton[];
 extern const BehaviorScript bhvRocketButtonGroup[];
+extern const BehaviorScript bhvHoodboomer[];
+extern const BehaviorScript bhvHoodboomerBomb[];
+extern const BehaviorScript bhvBlackSmokeHoodboomer[];
+extern const BehaviorScript bhvPigpot[];
+extern const BehaviorScript bhvRotatingGearDecorative[];
+extern const BehaviorScript bhvGrillOpenableByRocketButton[];
 /* GROUP I END */
 
 /* GROUP J START */

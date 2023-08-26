@@ -8132,6 +8132,8 @@ layer_end
 // MitM Level Sound Effects
 .channelLevel_table:
 sound_ref .sound_level_x_0
+sound_ref .sound_level_i_hoodboomer_death
+sound_ref .sound_level_i_hoodboomer_laugh
 
 .sound_level_x_0:
 chan_setbank 12
@@ -8142,6 +8144,27 @@ chan_end
 .layer_level_x_0:
 layer_note1 39, 0x7f, 127
 layer_end
+
+.sound_level_i_hoodboomer_death:
+chan_setbank 12
+chan_setinstr 1
+chan_setlayer 0, .layer_level_i_hoodboomer_death
+chan_end
+
+.layer_level_i_hoodboomer_death:
+layer_note1 39, 0x49, 127
+layer_end
+
+.sound_level_i_hoodboomer_laugh:
+chan_setbank 12
+chan_setinstr 2
+chan_setlayer 0, .layer_level_i_hoodboomer_laugh
+chan_end
+
+.layer_level_i_hoodboomer_laugh:
+layer_note1 39, 0xC0, 127
+layer_end
+
 
 
 .align 2, 0

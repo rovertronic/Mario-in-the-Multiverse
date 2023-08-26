@@ -623,6 +623,8 @@ enum SoundBank {
 
 /* MitM Level Sound Effects (Channel 11) */
 #define SOUND_MITM_LEVEL_X_0                                      SOUND_ARG_LOAD(SOUND_BANK_MITM_LEVEL, 0x00, 0xFF, SOUND_DISCRETE)
+#define SOUND_MITM_LEVEL_I_HOODBOOMER_DEATH                       SOUND_ARG_LOAD(SOUND_BANK_MITM_LEVEL, 0x01, 0xFF, SOUND_DISCRETE)
+#define SOUND_MITM_LEVEL_I_HOODBOOMER_LAUGH                       SOUND_ARG_LOAD(SOUND_BANK_MITM_LEVEL, 0x02, 0xFF, SOUND_DISCRETE)
 
 
 #endif // SOUNDS_H

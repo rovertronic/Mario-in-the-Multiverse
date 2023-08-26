@@ -9,4 +9,10 @@ extern const LevelScript level_i_entry[];
 
 #include "levels/i/header.inc.h"
 
+#include "levels/i/hoodboomer/geo_header.h"
+
+#include "levels/i/pigpot/geo_header.h"
+
+#include "levels/i/hoodboomer_bomb/geo_header.h"
+
 #endif

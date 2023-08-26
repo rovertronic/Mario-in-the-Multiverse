@@ -1011,12 +1011,18 @@
 #define /*0x0F4*/ oCelebStarIsBowserKey        OBJECT_FIELD_S32(0x1B)
 #define /*0x108*/ oCelebStarDiameterOfRotation OBJECT_FIELD_S32(0x20)
 
-/* Shock Rocket*/
+/* Shock Rocket */
 #define /*0x0F4*/ oPreviousLakituCamMode       OBJECT_FIELD_U32(0x1B)
 
-/* Rocket Button*/
+/* Rocket Button */
 #define /*0x0F4*/ oModelStateON       OBJECT_FIELD_S32(0x1B)
 #define /*0x0F8*/ oModelStateOFF      OBJECT_FIELD_S32(0x1C)
+
+/* Hoodboomer */
+#define /*0x0F4*/ oLaunchingBombCooldown OBJECT_FIELD_S32(0x1B)
+
+/* Hoodboomer Bomb */
+#define /*0x0F4*/ oBombIsLaunched OBJECT_FIELD_S32(0x1B)
 
 /* Star Selector */
 #define /*0x0F4*/ oStarSelectorType  OBJECT_FIELD_S32(0x1B)

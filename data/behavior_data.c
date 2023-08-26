@@ -6329,7 +6329,7 @@ const BehaviorScript bhvRocketSmoke[] = {
 
 const BehaviorScript bhvRocketButton[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW | OBJ_FLAG_E__SG_CUSTOM)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW | OBJ_FLAG_E__SG_CUSTOM)),
     SET_INT(oIntangibleTimer, 0),
     SET_FLOAT(oDrawingDistance, 16000),
     SET_HITBOX(/*Radius*/ 80, /*Height*/ 130),
@@ -6346,6 +6346,78 @@ const BehaviorScript bhvRocketButtonGroup[] = {
         CALL_NATIVE(bhv_rocket_button_group_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvHoodboomer[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW | OBJ_FLAG_E__SG_CUSTOM)),
+    SET_FLOAT(oDrawingDistance, 6000),
+    SET_INT(oDamageOrCoinValue, 3),
+    SET_INT(oHealth, 1),
+    SET_INT(oNumLootCoins, -1),
+    SET_INTERACT_TYPE(INTERACT_DAMAGE),
+    DROP_TO_FLOOR(),
+    SET_HITBOX(/*Radius*/ 80, /*Height*/ 210),
+    BEGIN_LOOP(),
+    CALL_NATIVE(bhv_hoodboomer_loop),
+    SET_INT(oIntangibleTimer, 0),
+    SET_INT(oInteractStatus, 0),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvHoodboomerBomb[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_BREAKABLE)),//--E
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_hoodboomer_bomb_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBlackSmokeHoodboomer[] = {
+    BEGIN(OBJ_LIST_UNIMPORTANT),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BILLBOARD(),
+    SET_FLOAT(oGraphYOffset, 50),
+    SET_INT(oOpacity, 255),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_black_smoke_hoodboomer_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvPigpot[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_E__SG_CUSTOM)),
+    DROP_TO_FLOOR(),
+    SET_INT(oNumLootCoins, 3),
+    SET_INT(oInteractType, INTERACT_GRABBABLE),
+    SET_INT(oInteractionSubtype, INT_SUBTYPE_NOT_GRABBABLE),
+    SET_HITBOX(/*Radius*/ 60, /*Height*/ 50),
+    SET_INT(oIntangibleTimer, 0),
+    SET_FLOAT(oDeathSound, SOUND_GENERAL_BREAK_BOX),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_pigpot_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRotatingGearDecorative[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rotating_gear_decorative),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGrillOpenableByRocketButton[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(metal_box_seg8_collision_08024C28),
+    SET_FLOAT(oCollisionDistance, 500),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_grill_openable_by_rocket_button_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
 /* GROUP I END */
 
 /* GROUP J START */

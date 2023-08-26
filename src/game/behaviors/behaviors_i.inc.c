@@ -227,5 +227,165 @@ void bhv_rocket_button_group_loop(void){
     }
 }
 
+/*********************************Hoodboomer*************************************/
+
+void bhv_hoodboomer_loop(void){
+
+    o->oDeathSound = SOUND_MITM_LEVEL_I_HOODBOOMER_DEATH;
+    obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x800);
+
+    if(o->prevObj == NULL){
+        struct Object *bomb = spawn_object(o, MODEL_HOODBOOMER_BOMB, bhvHoodboomerBomb);
+        o->prevObj = bomb;
+    }
+
+    if(dist_between_objects(o, gMarioObject) < 1500 && o->oLaunchingBombCooldown <= 0){
+        print_text(180, 180, "OUI");
+        //if (cur_obj_init_anim_and_check_if_end(2)) {
+        o->prevObj = NULL;
+        o->oLaunchingBombCooldown = 200;
+        //}
+    }
+
+    if(o->oLaunchingBombCooldown > 0){
+        o->oLaunchingBombCooldown--;
+    }
+
+    if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 2){
+        o->oHealth--;
+        create_sound_spawner(o->oDeathSound);
+        obj_die_if_health_non_positive();
+    }
+
+    if((o->oTimer % 300) == 0){
+        create_sound_spawner(SOUND_MITM_LEVEL_I_HOODBOOMER_LAUGH);
+    }
+
+    if((o->oTimer % 15) == 0){
+        spawn_object(o, MODEL_BURN_SMOKE, bhvBlackSmokeHoodboomer);
+    }
+}
+
+void bhv_black_smoke_hoodboomer_loop(void){
+    if (o->oTimer == 0) {
+        o->oForwardVel = random_float() * 2 + 0.5f;
+        o->oMoveAngleYaw = (o->parentObj->oMoveAngleYaw + 0x7000) + random_float() * 8192.0f;
+        o->oVelY = 8.0f;
+        o->oPosY += 200;
+    }
+    o->oMoveAngleYaw += o->oAngleVelYaw;
+    o->oPosY += o->oVelY;
+    cur_obj_scale(1.0f + (o->oTimer / 64.0f));
+    o->oOpacity -= 4;
+    if (o->oOpacity < 10) {
+        obj_mark_for_deletion(o);
+    }
+}
+
+/**
+ * Hitbox for hoodboomer bomb.
+ */
+static struct ObjectHitbox sHoodboomerBombHitbox = {
+    /* interactType:      */ INTERACT_MR_BLIZZARD,
+    /* downOffset:        */ 15,
+    /* damageOrCoinValue: */ 2,
+    /* health:            */ 99,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 30,
+    /* height:            */ 15,
+    /* hurtboxRadius:     */ 30,
+    /* hurtboxHeight:     */ 15,
+};
+
+static void hoodboomer_bomb_act_held(void){
+    // The position is offset since the monty mole is throwing it with its hand
+    o->oParentRelativePosX = 500.0f;
+    o->oParentRelativePosY = 400.0f;
+    o->oParentRelativePosZ = 0.0f;
+
+    if (o->parentObj->prevObj == NULL) {
+        f32 distToMario = o->oDistanceToMario;
+
+        o->oBombIsLaunched = TRUE;
+        arc_to_goal_pos(&gMarioObject->oPosVec, &o->oPosVec, 60.0f, -4.0f);
+        o->oAction++;
+        o->oMoveFlags = OBJ_MOVE_NONE;
+    }
+}
+
+static void hoodboomer_bomb_act_move(void){
+    cur_obj_update_floor_and_walls();
+
+    if (o->oMoveFlags & (OBJ_MOVE_MASK_ON_GROUND | OBJ_MOVE_ENTERED_WATER)) {
+        cur_obj_spawn_particles(&sMontyMoleRockBreakParticles);
+        obj_mark_for_deletion(o);
+    }
+
+    if (!o->oBombIsLaunched) {
+        cur_obj_move_standard(78);
+    } else {
+        cur_obj_move_using_fvel_and_gravity();
+    }
+}
+
+void bhv_hoodboomer_bomb_loop(void){
+    obj_check_attacks(&sHoodboomerBombHitbox, o->oAction);
+
+    switch (o->oAction) {
+        case 0:
+            hoodboomer_bomb_act_held();
+            break;
+        case 1:
+            hoodboomer_bomb_act_move();
+            break;
+    }
+}
+
+/*********************************PigPot*************************************/
+
+void bhv_pigpot_loop(void){
+    if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 1){
+       obj_explode_and_spawn_coins(46.0f, COIN_TYPE_YELLOW);
+       create_sound_spawner(SOUND_GENERAL_BREAK_BOX);
+    }
+}
+
+/*********************************Misc*************************************/
+
+void bhv_rotating_gear_decorative(void){
+    o->oFaceAnglePitch += (o->oBehParams >> 24) * 5;
+}
+
+/*************************GATE OPEN BY BUTTONS*****************************/
+
+void bhv_grill_openable_by_rocket_button_loop(void){
+    //Handle if a gat can be open by 2 different way
+    s32 firstButtonGroupToCheck;
+    s32 secondButtonGroupToCheck;
+    s32 openingSpeed = ((o->oBehParams >> 8) & 0xFF);
+    s32 openingHeigh = (o->oBehParams & 0xFF) * 10;
+    s32 openingTime = openingHeigh / openingSpeed;
+    switch (o->oAction){
+    //closed
+    case 0:
+        firstButtonGroupToCheck = count_objects_with_behavior_bparam1_action(bhvRocketButtonGroup, o->oBehParams >> 24, ROCKET_BUTTON_GROUP_SUCCESSFUL);
+        secondButtonGroupToCheck = count_objects_with_behavior_bparam1_action(bhvRocketButtonGroup, o->oBehParams2ndByte, ROCKET_BUTTON_GROUP_SUCCESSFUL);
+        if(firstButtonGroupToCheck != 0 || secondButtonGroupToCheck != 0){
+            o->oTimer == 0;
+            o->oAction++;
+        }
+        break;
+    //opening
+    case 1:
+        if(o->oTimer < openingTime){
+            o->oPosY += openingSpeed;
+        }
+        break;
+    //open
+    case 2:
+        //Do nothing
+        break;
+    }
+}
 
 

@@ -12,3 +12,7 @@
 
 
 #include "levels/i/leveldata.inc.c"
+
+#include "levels/i/hoodboomer/model.inc.c"
+#include "levels/i/pigpot/model.inc.c"
+#include "levels/i/hoodboomer_bomb/model.inc.c"

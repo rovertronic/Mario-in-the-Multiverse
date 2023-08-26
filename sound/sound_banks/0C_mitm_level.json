@@ -14,9 +14,21 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "level_X_0"
+        },
+		"inst_level_I_hoodboomer_death": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_hoodboomer_death"
+        },
+		"inst_level_I_hoodboomer_laugh": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_hoodboomer_laugh"
         }
     },
     "instrument_list": [
-        "inst_level_X_0"
+        "inst_level_X_0",
+		"inst_level_I_hoodboomer_death",
+		"inst_level_I_hoodboomer_laugh"
     ]
 }

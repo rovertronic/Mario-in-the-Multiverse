@@ -642,6 +642,9 @@ enum GLOBAL_MODELS {
 /* LEVEL H END */
 
 /* LEVEL I START */
+#define MODEL_HOODBOOMER                0x36        //hoodboomer_geo
+#define MODEL_PIGPOT                    0x37        //pigpot_geo
+#define MODEL_HOODBOOMER_BOMB           0x38        //hoodboomer_bomb
 /* LEVEL I END */
 
 /* LEVEL J START */

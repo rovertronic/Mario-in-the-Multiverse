@@ -604,6 +604,7 @@ enum GLOBAL_MODELS {
     MODEL_CONCRETE_BLOCK_CRACK1,
     MODEL_CONCRETE_BLOCK_CRACK2,
     MODEL_DBP,//Dash Booster Particle
+    MODEL_ATTACHED_ROPE,
 
     // Custom Mario Models
     MODEL_E__MARIO,
@@ -636,6 +637,10 @@ enum GLOBAL_MODELS {
 /* LEVEL F END */
 
 /* LEVEL G START */
+#define MODEL_G_SIR_KIBBLE                      0x150
+#define MODEL_G_STAR_BLOCK                      0x151
+#define MODEL_G_STAR_PROJECTILE                      0x152
+#define MODEL_G_CHECKER_BLOCK_1                      0x153
 /* LEVEL G END */
 
 /* LEVEL H START */

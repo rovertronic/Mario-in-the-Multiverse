@@ -581,6 +581,8 @@ Gfx *geo_snufit_scale_body(s32 callContext, struct GraphNode *node, UNUSED Mat4 
 // Bowser key cutscene
 Gfx *geo_scale_bowser_key(s32 callContext, struct GraphNode *node, UNUSED Mat4 mtx);
 
+Gfx *geo_generate_attached_rope(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
+
 // Water splash
 extern struct WaterDropletParams gShallowWaterSplashDropletParams;
 extern struct WaterDropletParams gShallowWaterWaveDropletParams;
@@ -633,3 +635,19 @@ void bhv_pt_mb(void);
 void bhv_gadget_aim(void);
 void bhv_concrete_block_init(void);
 void bhv_concrete_block_loop(void);
+void bhv_sir_kibble_init(void);
+void bhv_sir_kibble_loop(void);
+void bhv_star_projectile_init(void);
+void bhv_star_projectile_loop(void);
+void bhv_level_g_cutscenes_init(void);
+void bhv_level_g_cutscenes_loop(void);
+void bhv_star_drop_init(void);
+void bhv_star_drop_loop(void);
+void bhv_g_attached_rope_init(void);
+void bhv_g_attached_rope_loop(void);
+void bhv_g_attached_block_init(void);
+void bhv_g_attached_block_loop(void);
+void bhv_star_door_star_init(void);
+void bhv_star_door_star_loop(void);
+void bhv_g_star_door_init(void);
+void bhv_g_star_door_loop(void);

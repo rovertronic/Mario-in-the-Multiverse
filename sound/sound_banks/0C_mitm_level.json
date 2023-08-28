@@ -14,9 +14,15 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "level_X_0"
+        },
+        "inst_level_g_0": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_g_0_stardoor"
         }
     },
     "instrument_list": [
-        "inst_level_X_0"
+        "inst_level_X_0",
+        "inst_level_g_0"
     ]
 }

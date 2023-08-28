@@ -55,6 +55,8 @@
 #include "levels/bowser_2/header.h"
 #include "levels/ttm/header.h"
 
+#include "levels/g/header.h"
+
 #include "make_const_nonconst.h"
 #include "behavior_data.h"
 
@@ -6408,5 +6410,83 @@ const BehaviorScript bhvSlashParticle[] = {
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_slash_particle_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvSirKibble[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
+    LOAD_ANIMATIONS(oAnimations, sir_kibble_anims),
+    CALL_NATIVE(bhv_sir_kibble_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_sir_kibble_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvStarProjectile[] = {
+    BEGIN(OBJ_LIST_DESTRUCTIVE),
+    OR_LONG(oFlags, (OBJ_FLAG_HOLDABLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_BREAKABLE)),//--E
+    DROP_TO_FLOOR(),
+    SET_HOME(),
+    CALL_NATIVE(bhv_star_projectile_init),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_star_projectile_loop),
+    END_LOOP(),
+};
+const BehaviorScript bhvLevelGCutscenes[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_level_g_cutscenes_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_level_g_cutscenes_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvStarDrop[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_star_drop_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_star_drop_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGAttachedRope[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_g_attached_rope_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_attached_rope_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGAttachedBlock[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST)),
+    LOAD_COLLISION_DATA(checker_block_1_collision),
+    SET_FLOAT(oCollisionDistance, 2000),
+    CALL_NATIVE(bhv_g_attached_block_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_attached_block_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvStarDoorStar[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_star_door_star_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_star_door_star_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGStarDoor[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_g_star_door_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_star_door_loop),
     END_LOOP(),
 };

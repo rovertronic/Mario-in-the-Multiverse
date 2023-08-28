@@ -46,6 +46,8 @@ enum SeqId {
     SEQ_MENU_FILE_SELECT,             // 0x21
     SEQ_EVENT_CUTSCENE_LAKITU,        // 0x22 (not in JP)
     SEQ_CUSTOM_PEANUT_PLAINS,
+    SEQ_CUSTOM_KIRBY_BOSS,
+    SEQ_CUSTOM_SAVE_HUT,
     SEQ_COUNT
 };
 

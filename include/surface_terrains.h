@@ -94,7 +94,7 @@ enum SurfaceTypes {
     SURFACE_SWITCH,                     // 0x007A // Surface with no cam collision flag, non-slippery with noise, used by switches and Dorrie
     SURFACE_VANISH_CAP_WALLS,           // 0x007B // Vanish cap walls, pass through them with Vanish Cap
     SURFACE_SQUID_INK,                  // 0x007C // Squid Ink
-    SURFACE_007D,                       // 0x007D // Unused
+    SURFACE_STAR_DOOR_WARP,                       // 0x007D // Starts star door warp
     SURFACE_007E,                       // 0x007E // Unused
     SURFACE_007F,                       // 0x007F // Unused
     SURFACE_0080,                       // 0x0080 // Unused

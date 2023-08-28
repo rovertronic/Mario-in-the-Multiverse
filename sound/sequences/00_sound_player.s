@@ -8132,6 +8132,7 @@ layer_end
 // MitM Level Sound Effects
 .channelLevel_table:
 sound_ref .sound_level_x_0
+sound_ref .sound_level_g_0_stardoor
 
 .sound_level_x_0:
 chan_setbank 12
@@ -8141,6 +8142,16 @@ chan_end
 
 .layer_level_x_0:
 layer_note1 39, 0x7f, 127
+layer_end
+
+.sound_level_g_0_stardoor:
+chan_setbank 12
+chan_setinstr 1
+chan_setlayer 0, .layer_level_g_0
+chan_end
+
+.layer_level_g_0:
+layer_note1 39, 0x40, 127
 layer_end
 
 

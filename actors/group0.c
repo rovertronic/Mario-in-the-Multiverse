@@ -126,3 +126,4 @@
 #include "concrete_block_crack2/model.inc.c"
 
 #include "dbp/model.inc.c"
+#include "attached_rope/model.inc.c"

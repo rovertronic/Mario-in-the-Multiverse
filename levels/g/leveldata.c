@@ -12,3 +12,11 @@
 
 
 #include "levels/g/leveldata.inc.c"
+
+#include "levels/g/sir_kibble/model.inc.c"
+#include "levels/g/sir_kibble/anims/data.inc.c"
+#include "levels/g/sir_kibble/anims/table.inc.c"
+#include "levels/g/star_block/model.inc.c"
+#include "levels/g/star_projectile/model.inc.c"
+#include "levels/g/checker_block_1/model.inc.c"
+#include "levels/g/checker_block_1/collision.inc.c"

@@ -9,6 +9,7 @@ u32 targetable_behavior_list[] = {
     bhvExclamationBox,
     bhvBreakableBox,
     bhvBreakableBoxSmall,
+    bhvMessagePanel,
 };
 
 struct Object *find_nearest_watch_target(void) {
@@ -51,10 +52,13 @@ void bhv_gadget_aim(void) {
             if (target->behavior == segmented_to_virtual(bhvBreakableBox)) {
                 spawn_object(target,MODEL_EXPLOSION,bhvExplosion);
                 target->oAction = BREAKABLE_BOX_ACT_BROKEN;
+                spawn_mist_particles();
+                spawn_triangle_break_particles(30, MODEL_DIRT_ANIMATION, 3.0f, TINY_DIRT_PARTICLE_ANIM_STATE_YELLOW);
+                mark_obj_for_deletion(target);
             } else if (target->behavior == segmented_to_virtual(bhvBreakableBoxSmall)) {
                 spawn_object(target,MODEL_EXPLOSION,bhvExplosion);
                 target->oForwardVel = 30.0f;
-                target->oMoveAngleYaw = target->oAngleToMario;
+                target->oMoveAngleYaw = gMarioState->faceAngle[1];
             } else if (target->behavior == segmented_to_virtual(bhvFloorSwitchGrills)) {
                 target->oAction = PURPLE_SWITCH_ACT_PRESSED;
             } else if (target->behavior == segmented_to_virtual(bhvFloorSwitchAnimatesObject)) {
@@ -76,6 +80,9 @@ void bhv_gadget_aim(void) {
                     target->oGravity = 0.0f;
                     cur_obj_play_sound_2(SOUND_GENERAL_SWITCH_DOOR_OPEN);
                 }
+            } else if (target->behavior == segmented_to_virtual(bhvMessagePanel)) {
+                gMarioState->usedObj = target;
+                set_mario_action(gMarioState, ACT_READING_SIGN, 0);
             }
         }
 

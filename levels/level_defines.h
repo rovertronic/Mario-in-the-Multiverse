@@ -54,3 +54,4 @@ DEFINE_LEVEL("INK_TEST", LEVEL_INK_TEST, COURSE_INK_TEST, ink_test, generic, 200
 DEFINE_LEVEL("X", LEVEL_X, COURSE_X, x, generic, 20000, 0x00, 0x00, 0x00, _, sCamX) 
 DEFINE_LEVEL("G", LEVEL_G, COURSE_BOB, g, generic, 20000, 0x00, 0x00, 0x00, _, sCamG) 
 DEFINE_LEVEL("B", LEVEL_B, COURSE_HMC, B, generic, 20000, 0x00, 0x00, 0x00, _, sCamB) 
+DEFINE_LEVEL("A", LEVEL_A, COURSE_WF, a, generic, 20000, 0x00, 0x00, 0x00, _, sCamA) 

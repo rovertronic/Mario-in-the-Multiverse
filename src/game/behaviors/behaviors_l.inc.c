@@ -4,7 +4,7 @@ void bhv_pt_mb(void) {
     cur_obj_scale(scale);
     o->oCollisionDistance = 500.0f*scale;
 
-    if (gMarioState->action == ACT_KNIGHT_SLIDE) {
+    if ((gMarioState->action == ACT_KNIGHT_SLIDE)||(gMarioState->action == ACT_KNIGHT_JUMP)) {
         //b destroyed
         if (o->oDistanceToMario < 120.0f*scale) {
             spawn_triangle_break_particles(20, MODEL_DIRT_ANIMATION, 3.0f, TINY_DIRT_PARTICLE_ANIM_STATE_YELLOW);

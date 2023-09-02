@@ -49,7 +49,8 @@ const LevelScript level_f_entry[] = {
 		OBJECT(MODEL_BLUE_COIN, -251, 380, 5066, 0, 0, 0, 0x00000000, bhvHiddenBlueCoin),
 		OBJECT(MODEL_BLUE_COIN, -703, -83, 3614, 0, 0, 0, 0x00000000, bhvHiddenBlueCoin),
 		OBJECT(MODEL_BLUE_COIN, -1321, -173, 1928, 0, 0, 0, 0x00000000, bhvHiddenBlueCoin),
-		OBJECT(MODEL_BLUE_COIN, -1860, -171, 343, 0, 0, 0, 0x00000000, bhvHiddenBlueCoin),
+		OBJECT(MODEL_BLUE_COIN, -1774, -172, 550, 0, 0, 0, 0x00000000, bhvHiddenBlueCoin),
+		OBJECT(MODEL_BLUE_COIN, -2243, -172, -755, 0, 0, 0, 0x00000000, bhvHiddenBlueCoin),
 		OBJECT(MODEL_F_BRIEFCASE, -7746, -104, 2566, 0, 0, 0, 0x00000000, bhvBriefcase),
 		OBJECT(MODEL_F_BRIEFCASE, -3971, 646, 5941, 0, 0, 0, 0x00000000, bhvBriefcase),
 		OBJECT(MODEL_F_BRIEFCASE, 9205, 646, 213, 0, 0, 0, 0x00000000, bhvBriefcase),
@@ -90,7 +91,7 @@ const LevelScript level_f_entry[] = {
 		OBJECT(MODEL_NONE, 15309, 577, -1337, 0, 0, 0, (2 << 16), bhvWarp),
 		TERRAIN(f_area_1_collision),
 		MACRO_OBJECTS(f_area_1_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_MATT_MONRO),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
@@ -130,7 +131,7 @@ const LevelScript level_f_entry[] = {
 		OBJECT(MODEL_NONE, 545, 8, -10550, 0, 0, 0, (4 << 16), bhvWarp),
 		TERRAIN(f_area_2_collision),
 		MACRO_OBJECTS(f_area_2_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_INRBIO),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

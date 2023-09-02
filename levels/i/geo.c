@@ -19,3 +19,5 @@
 #include "levels/i/hoodboomer/geo.inc.c"
 #include "levels/i/pigpot/geo.inc.c"
 #include "levels/i/hoodboomer_bomb/geo.inc.c"
+#include "levels/i/windmill/geo.inc.c"
+#include "levels/i/gate/geo.inc.c"

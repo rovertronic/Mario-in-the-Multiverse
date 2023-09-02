@@ -16,3 +16,6 @@
 #include "levels/i/hoodboomer/model.inc.c"
 #include "levels/i/pigpot/model.inc.c"
 #include "levels/i/hoodboomer_bomb/model.inc.c"
+#include "levels/i/windmill/model.inc.c"
+#include "levels/i/gate/model.inc.c"
+#include "levels/i/gate/collision.inc.c"

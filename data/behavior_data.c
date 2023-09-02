@@ -54,6 +54,7 @@
 #include "levels/wf/header.h"
 #include "levels/bowser_2/header.h"
 #include "levels/ttm/header.h"
+#include "levels/i/header.h"
 
 #include "make_const_nonconst.h"
 #include "behavior_data.h"
@@ -6410,7 +6411,7 @@ const BehaviorScript bhvRotatingGearDecorative[] = {
 const BehaviorScript bhvGrillOpenableByRocketButton[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-    LOAD_COLLISION_DATA(metal_box_seg8_collision_08024C28),
+    LOAD_COLLISION_DATA(gate_collision),
     SET_FLOAT(oCollisionDistance, 500),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_grill_openable_by_rocket_button_loop),

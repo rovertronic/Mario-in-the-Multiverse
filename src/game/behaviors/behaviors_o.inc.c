@@ -223,7 +223,7 @@ void bhv_star_piece_loop(void) {
             }
         break;
         case 2: //active
-            if (o->oDistanceToMario < 80.0f) {
+            if (o->oDistanceToMario < 160.0f) {
                 cur_obj_hide();
                 cur_obj_play_sound_2(SOUND_MENU_COLLECT_SECRET+star_pieces_got);
                 star_pieces_got++;

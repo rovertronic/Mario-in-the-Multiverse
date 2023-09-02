@@ -584,6 +584,10 @@ extern const BehaviorScript bhvD[];
 
 /* GROUP F START */
 extern const BehaviorScript bhvGadgetAim[];
+extern const BehaviorScript bhvBriefcase[];
+extern const BehaviorScript bhvFdoor[];
+extern const BehaviorScript bhvKeypad[];
+extern const BehaviorScript bhvFfence[];
 /* GROUP F END */
 
 /* GROUP G START */

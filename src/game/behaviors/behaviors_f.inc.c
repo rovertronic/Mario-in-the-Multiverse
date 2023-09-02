@@ -10,6 +10,8 @@ u32 targetable_behavior_list[] = {
     bhvBreakableBox,
     bhvBreakableBoxSmall,
     bhvMessagePanel,
+    bhvStarPieceSwitch,
+    bhvKeypad,
 };
 
 struct Object *find_nearest_watch_target(void) {
@@ -30,6 +32,7 @@ struct Object *find_nearest_watch_target(void) {
 
 f32 bruh_scale = 1.0f;
 struct Object *last_target = NULL;
+extern u8 star_pieces_got;
 
 void bhv_gadget_aim(void) {
     struct Object *target = find_nearest_watch_target();
@@ -83,11 +86,59 @@ void bhv_gadget_aim(void) {
             } else if (target->behavior == segmented_to_virtual(bhvMessagePanel)) {
                 gMarioState->usedObj = target;
                 set_mario_action(gMarioState, ACT_READING_SIGN, 0);
+            } else if (target->behavior == segmented_to_virtual(bhvStarPieceSwitch)) {
+                if (target->oAction == BLUE_COIN_SWITCH_ACT_IDLE) {
+                    target->oAction = BLUE_COIN_SWITCH_ACT_RECEDING;
+                    // Recede at a rate of 20 units/frame.
+                    target->oVelY = -20.0f;
+                    // Set gravity to 0 so it doesn't accelerate when receding.
+                    target->oGravity = 0.0f;
+                    star_pieces_got = 0;
+                    cur_obj_play_sound_2(SOUND_GENERAL_SWITCH_DOOR_OPEN);
+                }
+            } else if (target->behavior == segmented_to_virtual(bhvKeypad)) {
+                gMarioState->keypad_id = target->oBehParams2ndByte;
+                spawn_object(target,MODEL_EXPLOSION,bhvExplosion);
+                mark_obj_for_deletion(target);
             }
         }
 
     } else {
         cur_obj_hide();
         bruh_scale = 1.0f;
+    }
+}
+
+void bhv_fdoor_loop(void) {
+    switch(o->oAction) {
+        case 0:
+            load_object_collision_model();
+            if (gMarioState->keypad_id == o->oBehParams2ndByte) {
+                o->oAction ++;
+            }
+        break;
+        case 1:
+            o->oFaceAngleYaw += 0x222;
+            if (o->oTimer >= 30) {
+                o->oAction++;
+            }
+        break;
+    }
+}
+
+void bhv_ffence_loop(void) {
+    switch(o->oAction) {
+        case 0:
+            load_object_collision_model();
+            if (gMarioState->keypad_id == 0) {
+                o->oAction ++;
+            }
+        break;
+        case 1:
+            o->oPosY -= 15.0f;
+            if (o->oTimer >= 30) {
+                o->oAction++;
+            }
+        break;
     }
 }

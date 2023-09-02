@@ -1,0 +1,13 @@
+extern const GeoLayout f_briefcase_geo[];
+extern u8 f_briefcase_Gold_accents_rgba16[];
+extern u8 f_briefcase_Black_Leather_i8[];
+extern Vtx f_briefcase_Plane_002_mesh_layer_1_vtx_0[102];
+extern Gfx f_briefcase_Plane_002_mesh_layer_1_tri_0[];
+extern Vtx f_briefcase_Plane_002_mesh_layer_1_vtx_1[139];
+extern Gfx f_briefcase_Plane_002_mesh_layer_1_tri_1[];
+extern Gfx mat_f_briefcase_Gold[];
+extern Gfx mat_revert_f_briefcase_Gold[];
+extern Gfx mat_f_briefcase_Leather[];
+extern Gfx mat_revert_f_briefcase_Leather[];
+extern Gfx f_briefcase_Plane_002_mesh_layer_1[];
+extern Gfx f_briefcase_material_revert_render_settings[];

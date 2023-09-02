@@ -1,6 +1,6 @@
 void scroll_f_dl_visual_mesh_layer_5_vtx_1() {
 	int i = 0;
-	int count = 149;
+	int count = 108;
 	int height = 64 * 0x20;
 
 	static int currentY = 0;

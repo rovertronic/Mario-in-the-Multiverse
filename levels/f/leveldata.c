@@ -12,3 +12,10 @@
 
 
 #include "levels/f/leveldata.inc.c"
+
+#include "levels/f/f_briefcase/model.inc.c"
+#include "levels/f/f_door/model.inc.c"
+#include "levels/f/f_door/collision.inc.c"
+#include "levels/f/f_keypad/model.inc.c"
+#include "levels/f/f_fence/model.inc.c"
+#include "levels/f/f_fence/collision.inc.c"

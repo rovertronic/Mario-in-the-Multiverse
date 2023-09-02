@@ -15,3 +15,8 @@
 
 
 #include "levels/f/geo.inc.c"
+
+#include "levels/f/f_briefcase/geo.inc.c"
+#include "levels/f/f_door/geo.inc.c"
+#include "levels/f/f_keypad/geo.inc.c"
+#include "levels/f/f_fence/geo.inc.c"

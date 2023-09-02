@@ -23,7 +23,7 @@ const GeoLayout f_area_1[] = {
 		GEO_OPEN_NODE(),
 			GEO_CAMERA_FRUSTUM_WITH_FUNC(45.0000, 100, 30000, geo_camera_fov),
 			GEO_OPEN_NODE(),
-				GEO_CAMERA(CAMERA_MODE_8_DIRECTIONS, 0, 0, 0, 0, -140, 0, geo_camera_main),
+				GEO_CAMERA(CAMERA_MODE_8_DIRECTIONS, 0, 0, 0, 0, -125, 0, geo_camera_main),
 				GEO_OPEN_NODE(),
 					GEO_BRANCH(1, f_area_1_geo),
 					GEO_RENDER_OBJ(),

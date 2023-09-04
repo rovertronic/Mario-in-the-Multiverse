@@ -6184,6 +6184,17 @@ const BehaviorScript bhvDashBoosterParticle[] = {
 };
 
 /* GROUP A START */
+extern const struct Animation *const jelly_anims[];
+const BehaviorScript bhvJelly[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY)),
+    LOAD_ANIMATIONS(oAnimations, jelly_anims),
+    CALL_NATIVE(jelly_init),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(jelly_loop),
+    END_LOOP(),
+};
 /* GROUP A END */
 
 /* GROUP B START */

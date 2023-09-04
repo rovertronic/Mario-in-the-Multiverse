@@ -12,3 +12,7 @@
 
 
 #include "levels/a/leveldata.inc.c"
+
+#include "levels/a/jelly/model.inc.c"
+#include "levels/a/jelly/anims/data.inc.c"
+#include "levels/a/jelly/anims/table.inc.c"

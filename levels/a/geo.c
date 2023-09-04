@@ -15,3 +15,5 @@
 
 
 #include "levels/a/geo.inc.c"
+
+#include "levels/a/jelly/geo.inc.c"

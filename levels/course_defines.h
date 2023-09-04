@@ -12,7 +12,7 @@
  */
 DEFINE_COURSE(COURSE_NONE, 0x44444440) // (0)  Course Hub (Castle Grounds)
 DEFINE_COURSE(COURSE_BOB, 0x44444440) // (1)  Bob Omb Battlefield
-DEFINE_COURSE(COURSE_WF, 0x00002040) // (2)  Whomp's Fortress
+DEFINE_COURSE(COURSE_WF, 0x44444440) // (2)  Whomp's Fortress
 DEFINE_COURSE(COURSE_JRB, 0x22222240) // (3)  Jolly Rodger's Bay
 DEFINE_COURSE(COURSE_CCM, 0x00220040) // (4)  Cool Cool Mountain
 DEFINE_COURSE(COURSE_BBH, 0x22222240) // (5)  Big Boo's Haunt

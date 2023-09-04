@@ -551,6 +551,7 @@ extern const BehaviorScript bhvStarPiece[];
 extern const BehaviorScript bhvDashBoosterParticle[];
 
 /* GROUP A START */
+extern const BehaviorScript bhvJelly[];
 /* GROUP A END */
 
 /* GROUP B START */

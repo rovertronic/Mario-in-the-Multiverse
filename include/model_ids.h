@@ -618,6 +618,7 @@ enum GLOBAL_MODELS {
 /* LEVEL INTRO END */
 
 /* LEVEL A START */
+#define MODEL_JELLY                               0x154
 /* LEVEL A END */
 
 /* LEVEL B START */

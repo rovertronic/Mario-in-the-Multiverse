@@ -633,3 +633,5 @@ void bhv_pt_mb(void);
 void bhv_gadget_aim(void);
 void bhv_concrete_block_init(void);
 void bhv_concrete_block_loop(void);
+void jelly_loop(void);
+void jelly_init(void);

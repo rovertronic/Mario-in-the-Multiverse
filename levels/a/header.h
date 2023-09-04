@@ -9,4 +9,8 @@ extern const LevelScript level_a_entry[];
 
 #include "levels/a/header.inc.h"
 
+#include "levels/a/jelly/geo_header.h"
+
+#include "levels/a/jelly/anim_header.h"
+
 #endif

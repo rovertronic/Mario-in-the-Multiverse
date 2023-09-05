@@ -59,7 +59,7 @@ void jelly_loop(void) {
             break;
     }
 
-    if (o->oTimer >= 1) {
+    if (o->oTimer >= 0) {
         obj_scale_xyz(o, 1.0f + ((0.25f - (0.25f * ((f32)o->oTimer) / 20.0f)) * sins(o->oTimer * 0x1000)),
                          1.0f + ((0.4f - (0.4f * ((f32)o->oTimer) / 20.0f)) * sins(o->oTimer * 0x1000 + 0x4000)),
                          1.0f + ((0.25f - (0.25f * ((f32)o->oTimer) / 20.0f)) * sins(o->oTimer * 0x1000)));
@@ -71,16 +71,6 @@ void jelly_loop(void) {
     }
     if (o->oTimer >= 45) {
         o->oTimer = 0;
-    }
-
-    if (o->oInteractStatus & INT_STATUS_INTERACTED) {
-        if (o->oInteractStatus & INT_STATUS_TOUCHED_MARIO) {
-            if (o->oTimer >= 4) {
-                o->oInteractType = INTERACT_BOUNCE_TOP;
-                } else {
-                o->oInteractType = INTERACT_SHOCK;
-                }
-        }
     }
 
     o->oVelX = o->oForwardVel * sins(o->oMoveAngleYaw);

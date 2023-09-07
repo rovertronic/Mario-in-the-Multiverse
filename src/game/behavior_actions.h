@@ -635,3 +635,5 @@ void bhv_concrete_block_init(void);
 void bhv_concrete_block_loop(void);
 void jelly_loop(void);
 void jelly_init(void);
+void jfplatform_loop(void);
+void taxistop_loop(void);

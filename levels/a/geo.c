@@ -17,3 +17,5 @@
 #include "levels/a/geo.inc.c"
 
 #include "levels/a/jelly/geo.inc.c"
+#include "levels/a/jfplatform/geo.inc.c"
+#include "levels/a/taxistop/geo.inc.c"

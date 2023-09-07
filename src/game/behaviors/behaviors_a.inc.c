@@ -61,12 +61,12 @@ void jelly_loop(void) {
 
     if (o->oTimer >= 0) {
         obj_scale_xyz(o, 1.0f + ((0.25f - (0.25f * ((f32)o->oTimer) / 20.0f)) * sins(o->oTimer * 0x1000)),
-                         1.0f + ((0.4f - (0.4f * ((f32)o->oTimer) / 20.0f)) * sins(o->oTimer * 0x1000 + 0x4000)),
+                         1.0f + ((0.4f - (0.4f * ((f32)o->oTimer) / 20.0f)) * coss(o->oTimer * 0x1000 + 0x4000)),
                          1.0f + ((0.25f - (0.25f * ((f32)o->oTimer) / 20.0f)) * sins(o->oTimer * 0x1000)));
     }
     if (o->oTimer >= 30) {
         obj_scale_xyz(o, 1.0f + ((0.2f - (0.2f * ((f32)o->oTimer) / 30.0f)) * sins(o->oTimer * 0x1000)),
-                         1.0f + ((0.3f - (0.3f * ((f32)o->oTimer) / 30.0f)) * sins(o->oTimer * 0x1000 + 0x4000)),
+                         1.0f + ((0.3f - (0.3f * ((f32)o->oTimer) / 30.0f)) * coss(o->oTimer * 0x1000 + 0x4000)),
                          1.0f + ((0.25f - (0.25f * ((f32)o->oTimer) / 30.0f)) * sins(o->oTimer * 0x1000)));
     }
     if (o->oTimer >= 45) {
@@ -77,4 +77,25 @@ void jelly_loop(void) {
     o->oVelZ = o->oForwardVel * coss(o->oMoveAngleYaw);
     o->oPosX += o->oVelX;
     o->oPosZ += o->oVelZ;
+}
+
+// Jellyfish Fields Platform
+
+void jfplatform_loop(void) {
+    o->oVelY = 5 * sins(o->oTimer * 0x222);
+    o->oPosY += o->oVelY;
+}
+
+// Taxi stop
+
+enum TaxistopAnims {
+    TAXISTOP_IDLE,
+    TAXISTOP_PLAY_ANIM
+};
+
+void taxistop_loop(void) {
+    cur_obj_init_animation(TAXISTOP_IDLE);
+    if (gMarioObject->platform) {
+        cur_obj_init_animation(TAXISTOP_PLAY_ANIM);
+    }
 }

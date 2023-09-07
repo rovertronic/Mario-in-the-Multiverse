@@ -27,6 +27,8 @@ const LevelScript level_a_entry[] = {
 	ALLOC_LEVEL_POOL(),
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
 	LOAD_MODEL_FROM_GEO(MODEL_JELLY, jelly_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_JF_PLATFORM, jfplatform_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_TAXISTOP, taxistop_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -41,6 +43,11 @@ const LevelScript level_a_entry[] = {
 		OBJECT(MODEL_JELLY, -2805, -153, 1221, 0, 0, 0, 0x00000000, bhvJelly),
 		OBJECT(MODEL_JELLY, -3766, -198, 269, 0, 0, 0, 0x00000000, bhvJelly),
 		OBJECT(MODEL_JELLY, -4191, -83, -4178, 0, 0, 0, 0x00000000, bhvJelly),
+		OBJECT(MODEL_JF_PLATFORM, -1419, 637, -917, 0, 105, 0, 0x00000000, bhvJellyfishFieldsPlatform),
+		OBJECT(MODEL_JF_PLATFORM, -5459, 583, 1252, 0, -170, 0, 0x00000000, bhvJellyfishFieldsPlatform),
+		OBJECT(MODEL_JF_PLATFORM, -837, 905, 2478, 0, -85, 0, 0x00000000, bhvJellyfishFieldsPlatform),
+		OBJECT(MODEL_JF_PLATFORM, -3206, 583, -2823, 0, 0, 0, 0x00000000, bhvJellyfishFieldsPlatform),
+		OBJECT(MODEL_TAXISTOP, -465, -163, -8055, 0, 0, 0, 0x00000000, bhvTaxiStop),
 		OBJECT(MODEL_LEVEL_PIPE, 1591, -163, 317, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_NONE, 500, 365, 835, 0, -95, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 500, 50, 839, 0, -90, 0, (0x0A << 16), bhvInstantActiveWarp),
@@ -54,7 +61,7 @@ const LevelScript level_a_entry[] = {
 		OBJECT(MODEL_NONE, 53, 164, 1474, 0, 0, 0, (7 << 24), bhvStar),
 		TERRAIN(a_area_1_collision),
 		MACRO_OBJECTS(a_area_1_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_WATER),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

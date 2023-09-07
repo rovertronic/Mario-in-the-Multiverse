@@ -6195,6 +6195,33 @@ const BehaviorScript bhvJelly[] = {
         CALL_NATIVE(jelly_loop),
     END_LOOP(),
 };
+
+extern const Collision jfplatform_collision[];
+const BehaviorScript bhvJellyfishFieldsPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(jfplatform_collision),
+    SET_FLOAT(oDrawingDistance, 8000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(jfplatform_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern const Collision taxistop_collision[];
+extern const struct Animation *const taxistop_anims[];
+const BehaviorScript bhvTaxiStop[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(taxistop_collision),
+    LOAD_ANIMATIONS(oAnimations, taxistop_anims),
+    ANIMATE(0),
+    SCALE(0, 200),
+    BEGIN_LOOP(),
+        CALL_NATIVE(taxistop_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
 /* GROUP A END */
 
 /* GROUP B START */

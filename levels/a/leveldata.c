@@ -20,5 +20,3 @@
 #include "levels/a/jfplatform/collision.inc.c"
 #include "levels/a/taxistop/model.inc.c"
 #include "levels/a/taxistop/collision.inc.c"
-#include "levels/a/taxistop/anims/data.inc.c"
-#include "levels/a/taxistop/anims/table.inc.c"

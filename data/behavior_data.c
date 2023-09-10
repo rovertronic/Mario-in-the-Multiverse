@@ -6209,13 +6209,10 @@ const BehaviorScript bhvJellyfishFieldsPlatform[] = {
 };
 
 extern const Collision taxistop_collision[];
-extern const struct Animation *const taxistop_anims[];
 const BehaviorScript bhvTaxiStop[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_COLLISION_DATA(taxistop_collision),
-    LOAD_ANIMATIONS(oAnimations, taxistop_anims),
-    ANIMATE(0),
     SCALE(0, 200),
     BEGIN_LOOP(),
         CALL_NATIVE(taxistop_loop),

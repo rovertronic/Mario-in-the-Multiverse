@@ -21,6 +21,4 @@ extern const LevelScript level_a_entry[];
 
 #include "levels/a/taxistop/collision_header.h"
 
-#include "levels/a/taxistop/anim_header.h"
-
 #endif

@@ -1,3 +1,5 @@
+#include "src/game/camera.h"
+
 // Jelly
 
 static struct ObjectHitbox sJellyHitbox = {
@@ -88,14 +90,27 @@ void jfplatform_loop(void) {
 
 // Taxi stop
 
-enum TaxistopAnims {
-    TAXISTOP_IDLE,
-    TAXISTOP_PLAY_ANIM
-};
-
 void taxistop_loop(void) {
-    cur_obj_init_animation(TAXISTOP_IDLE);
     if (gMarioObject->platform) {
-        cur_obj_init_animation(TAXISTOP_PLAY_ANIM);
+        o->oAction = 0;
+    } else {
+        o->oAction = 1;
+    }
+    
+    switch (o->oAction) {
+        case 0:
+            gLakituState.curPos[0] = 0;
+            gLakituState.curPos[1] = 0;
+            gLakituState.curPos[2] = 0;
+
+            gCamera->cutscene = 1;
+            
+            if (o->oTimer >= 13) {
+
+            }
+            break;
+        case 1:
+
+            break;
     }
 }

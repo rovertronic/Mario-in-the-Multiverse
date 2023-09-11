@@ -20,6 +20,10 @@ void bhv_g_star_door_loop(void) {
             play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 60, 255, 255, 255);
         }
 
+        if (o->oTimer == 135) {
+            initiate_warp(LEVEL_G, 3, 0x0A, 0);
+        }
+
         gCamera->cutscene = 1;
         gLakituState.goalPos[0] = o->oPosX;
         gLakituState.goalPos[1] = o->oPosY + 200;

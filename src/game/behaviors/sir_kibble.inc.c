@@ -45,7 +45,7 @@ void bhv_sir_kibble_init(void) {
         play_secondary_music(SEQ_CUSTOM_KIRBY_BOSS, 0, 127, 5);
     }
     else {
-        obj_set_hitbox(o, &sSirKibbleHitbox);
+        //obj_set_hitbox(o, &sSirKibbleHitbox);
     }
     cur_obj_init_animation(0);
     o->oGravity = -4.0f;
@@ -53,9 +53,9 @@ void bhv_sir_kibble_init(void) {
 }
 
 void bhv_sir_kibble_loop(void) {
-    obj_update_standard_actions(1.0f);
+    if (obj_update_standard_actions(1.0f)) {
     obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x400);
-    o->oInteractStatus = 0;
+    if (o->oBehParams2ndByte == 1) o->oInteractStatus = 0;
     switch (o->oAction) {
         case SIR_KIBBLE_ACT_CUTSCENE:
             if (o->oTimer > 10) {
@@ -92,7 +92,8 @@ void bhv_sir_kibble_loop(void) {
         } 
     }
     else {
-        obj_handle_attacks(&sSirKibbleHitbox, o->oAction, &sSirKibbleAttackHandlers);
+        obj_handle_attacks(&sSirKibbleHitbox, o->oAction, sSirKibbleAttackHandlers);
+    }
     }
 }
 

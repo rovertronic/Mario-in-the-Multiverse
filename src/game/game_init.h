@@ -64,6 +64,8 @@ extern s8 gEepromProbe;
 extern s8 gSramProbe;
 #endif
 
+#define BP3_ATTACH_ROPE 0xF0
+
 extern void (*gGoddardVblankCallback)(void);
 extern struct Controller *gPlayer1Controller;
 extern struct Controller *gPlayer2Controller;

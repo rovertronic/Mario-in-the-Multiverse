@@ -503,6 +503,10 @@ static s32 bhv_cmd_animate(void) {
 // Command 0x1E: Finds the floor triangle directly under the object and moves the object down to it.
 // Usage: DROP_TO_FLOOR()
 static s32 bhv_cmd_drop_to_floor(void) {
+    if ((o->oFlags & OBJ_FLAG_ATTACHABLE_BY_ROPE) && GET_BPARAM3(o->oBehParams) == 0xF0) {
+        gCurBhvCommand++;
+        return BHV_PROC_CONTINUE;
+    }
     f32 floor = find_floor_height(gCurrentObject->oPosX, gCurrentObject->oPosY + 200.0f, gCurrentObject->oPosZ);
     gCurrentObject->oPosY = floor;
     gCurrentObject->oMoveFlags |= OBJ_MOVE_ON_GROUND;
@@ -927,6 +931,13 @@ void cur_obj_update(void) {
         o->oPrevAction = o->oAction;
     }
 
+    if ((objFlags & OBJ_FLAG_ATTACHABLE_BY_ROPE) && GET_BPARAM3(o->oBehParams) == BP3_ATTACH_ROPE) {
+        if (!o->oRopeObject) {
+            o->oRopeObject = spawn_object_relative(0, 0, 50, 0, o, MODEL_ATTACHED_ROPE, bhvGAttachedRope);
+        }
+        o->oTimer = 0;
+    }
+
     //make other enemies experience generic attack actions in order for the cutter stun to work
     if (o->oAction > 100 && o->behavior != segmented_to_virtual(bhvGoomba) && o->behavior != segmented_to_virtual(bhvKoopa) && o->behavior != segmented_to_virtual(bhvPokey)) {
         obj_update_standard_actions(0);
@@ -961,6 +972,17 @@ void cur_obj_update(void) {
 
     if (objFlags & OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE) {
         obj_update_gfx_pos_and_angle(o);
+    }
+
+    if ((objFlags & OBJ_FLAG_ATTACHABLE_BY_ROPE) && GET_BPARAM3(o->oBehParams) == BP3_ATTACH_ROPE) {
+        if (!o->oRopeObject) {
+            o->oRopeObject = spawn_object_relative(0, 0, 50, 0, o, MODEL_ATTACHED_ROPE, bhvGAttachedRope);
+        }
+        o->oPosX = o->oRopeObject->oPosX;
+        o->oPosY = o->oRopeObject->oPosY - 50;
+        o->oPosZ = o->oRopeObject->oPosZ;
+        o->oForwardVel = 0;
+        o->oVelY = 0;
     }
 
 #if SILHOUETTE

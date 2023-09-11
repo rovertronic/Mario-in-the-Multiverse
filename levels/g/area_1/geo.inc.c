@@ -6,6 +6,7 @@ const GeoLayout g_area_1_geo[] = {
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, g_dl_ignoreCol_mesh_layer_6),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, g_dl_ignoreCol_mesh_layer_4),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, g_dl_ignoreCol_mesh_layer_5),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, g_dl_ignoreCol_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, g_dl_Plane_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, g_dl_Plane_001_mesh_layer_5),
 		GEO_ASM(0, e__shotgun_effects),

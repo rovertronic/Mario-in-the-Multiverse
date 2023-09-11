@@ -641,6 +641,7 @@ enum GLOBAL_MODELS {
 #define MODEL_G_STAR_BLOCK                      0x151
 #define MODEL_G_STAR_PROJECTILE                      0x152
 #define MODEL_G_CHECKER_BLOCK_1                      0x153
+#define MODEL_G_SPRING                      0x154
 /* LEVEL G END */
 
 /* LEVEL H START */

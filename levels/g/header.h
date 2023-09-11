@@ -21,4 +21,8 @@ extern const LevelScript level_g_entry[];
 
 #include "levels/g/checker_block_1/collision_header.h"
 
+#include "levels/g/g_spring/geo_header.h"
+
+#include "levels/g/g_spring/collision_header.h"
+
 #endif

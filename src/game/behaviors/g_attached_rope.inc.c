@@ -76,6 +76,7 @@ void bhv_g_attached_rope_loop(void) {
                 play_sound(SOUND_ABILITY_CUTTER_CATCH, o->header.gfx.cameraToObject);
                 struct Object *cutRope = spawn_object_relative(0, 0, otherObjY - o->oPosY, 0, o, MODEL_ATTACHED_ROPE, bhvGAttachedRope);
                 o->oBehParams = (o->oBehParams & 0xFFFF0000) | (u32)(otherObjY - o->oPosY);
+                o->parentObj->oBehParams = (o->oBehParams & 0xFFFF00FF) | 0x0000;
                 cur_obj_become_intangible();
                 o->oUpdateRopeSize = TRUE;
                 o->oAction = 1;

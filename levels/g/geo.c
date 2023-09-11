@@ -20,3 +20,4 @@
 #include "levels/g/star_block/geo.inc.c"
 #include "levels/g/star_projectile/geo.inc.c"
 #include "levels/g/checker_block_1/geo.inc.c"
+#include "levels/g/g_spring/geo.inc.c"

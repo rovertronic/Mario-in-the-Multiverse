@@ -632,3 +632,4 @@ extern const BehaviorScript bhvGAttachedRope[];
 extern const BehaviorScript bhvGAttachedBlock[];
 extern const BehaviorScript bhvStarDoorStar[];
 extern const BehaviorScript bhvGStarDoor[];
+extern const BehaviorScript bhvGSpring[];

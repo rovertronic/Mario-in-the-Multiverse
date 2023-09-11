@@ -20,3 +20,5 @@
 #include "levels/g/star_projectile/model.inc.c"
 #include "levels/g/checker_block_1/model.inc.c"
 #include "levels/g/checker_block_1/collision.inc.c"
+#include "levels/g/g_spring/model.inc.c"
+#include "levels/g/g_spring/collision.inc.c"

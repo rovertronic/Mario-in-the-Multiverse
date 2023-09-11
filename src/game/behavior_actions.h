@@ -651,3 +651,5 @@ void bhv_star_door_star_init(void);
 void bhv_star_door_star_loop(void);
 void bhv_g_star_door_init(void);
 void bhv_g_star_door_loop(void);
+void bhv_g_spring_init(void);
+void bhv_g_spring_loop(void);

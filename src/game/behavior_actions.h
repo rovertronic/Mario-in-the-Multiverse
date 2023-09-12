@@ -637,3 +637,6 @@ void jelly_loop(void);
 void jelly_init(void);
 void jfplatform_loop(void);
 void taxistop_loop(void);
+void tsboat_loop(void);
+void tiki_box_loop(void);
+void tiki_box_init(void);

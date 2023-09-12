@@ -525,7 +525,7 @@ enum MarioActionFlags {
 #define ACT_READING_SIGN               0x00001308 // (0x108 | ACT_FLAG_STATIONARY | ACT_FLAG_INTANGIBLE)
 #define ACT_JUMBO_STAR_CUTSCENE        0x00001909 // (0x109 | ACT_FLAG_AIR | ACT_FLAG_INTANGIBLE)
 #define ACT_WAITING_FOR_DIALOG         0x0000130A // (0x10A | ACT_FLAG_STATIONARY | ACT_FLAG_INTANGIBLE)
-#define ACT_UNUSED_10B                 0x0000010B // (0x10B)
+#define TAXI_STOP_CUTSCENE             0x0000130B // (0x10B
 #define ACT_UNUSED_10C                 0x0000010C // (0x10C)
 #define ACT_UNUSED_10D                 0x0000010D // (0x10D)
 #define ACT_UNUSED_10E                 0x0000010E // (0x10E)

@@ -1,4 +1,6 @@
 #include "src/game/camera.h"
+#include "src/game/area.h"
+#include "src/game/ability.h"
 
 // Jelly
 
@@ -91,26 +93,90 @@ void jfplatform_loop(void) {
 // Taxi stop
 
 void taxistop_loop(void) {
-    if (gMarioObject->platform) {
-        o->oAction = 0;
+    /*s16 eventTimer = 62;
+
+    if (o->oAction >= 1) {
+        gCamera->cutscene = 1;
     } else {
-        o->oAction = 1;
+        gCamera->cutscene = 0;
     }
     
-    switch (o->oAction) {
+    if (gMarioObject->platform) {
+        gLakituState.curPos[0] = -1021;
+        gLakituState.curPos[1] = 9;
+        gLakituState.curPos[2] = -8046;
+        set_mario_animation(gMarioState, MARIO_ANIM_TRIPLE_JUMP_FLY);
+        approach_f32_asymptotic_bool(&gMarioState->pos[0], o->oPosX, 0.0f);
+        approach_f32_asymptotic_bool(&gMarioState->pos[2], o->oPosZ - (o->oTimer * 2), 0.0f);
+        play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, eventTimer, 255, 255, 255);
+        set_mario_action(gMarioState, TAXI_STOP_CUTSCENE, 0);
+        o->oAction = 1;
+        if (o->oTimer == 60) {
+            initiate_warp(LEVEL_G, 1, 0x0A, 0);
+        }
+    }*/
+}
+
+// Boat for Taxi Stop
+
+void tsboat_loop(void) {
+    
+}
+
+// Tiki Box
+
+struct ObjectHitbox sTikiHitbox = {
+    /* interactType:      */ INTERACT_BREAKABLE,
+    /* downOffset:        */  20,
+    /* damageOrCoinValue: */   0,
+    /* health:            */   1,
+    /* numLootCoins:      */   0,
+    /* radius:            */ 150,
+    /* height:            */ 200,
+    /* hurtboxRadius:     */ 150,
+    /* hurtboxHeight:     */ 200,
+};
+
+void tiki_box_init(void) {
+    o->oGravity = 1.2f;
+    o->oFriction = 0.999f;
+    o->oBuoyancy = 0.9f;
+    o->oOpacity = 150;
+}
+
+void tiki_box_loop(void) {
+    f32 floorY;
+    s32 speed;
+    s16 yaw = o->oMoveAngleYaw;
+    s16 pitch = o->oMoveAnglePitch;
+    
+    obj_set_hitbox(o, &sTikiHitbox);
+
+    floorY = find_floor_height(o->oPosX, o->oPosY, o->oPosZ);
+
+    if (using_ability(ABILITY_BUBBLE_HAT)) {
+        if (cur_obj_was_attacked_or_ground_pounded()) {
+            obj_mark_for_deletion(o);
+            cur_obj_disable_rendering();
+            cur_obj_become_intangible();
+            spawn_mist_particles();
+            create_sound_spawner(SOUND_GENERAL_BREAK_BOX);
+        }
+    }
+
+    o->oVelX = sins(yaw) * (f32) speed;
+    o->oVelY = sins(pitch) * (f32) speed;
+    o->oVelZ = coss(yaw) * (f32) speed;
+
+    switch (o->oBehParams2ndByte) {
         case 0:
-            gLakituState.curPos[0] = 0;
-            gLakituState.curPos[1] = 0;
-            gLakituState.curPos[2] = 0;
-
-            gCamera->cutscene = 1;
-            
-            if (o->oTimer >= 13) {
-
-            }
+            obj_set_model(o, MODEL_TIKI_WOOD);
             break;
         case 1:
-
+            obj_set_model(o, MODEL_TIKI_STONE);
+            break;
+        case 2:
+            obj_set_model(o, MODEL_TIKI_FLOAT);
             break;
     }
 }

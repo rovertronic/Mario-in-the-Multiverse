@@ -6219,6 +6219,31 @@ const BehaviorScript bhvTaxiStop[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+extern const struct Animation *const boat_anims[];
+const BehaviorScript bhvtsBoat[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, boat_anims),
+    ANIMATE(0),
+    SCALE(0, 170),
+    BEGIN_LOOP(),
+        CALL_NATIVE(tsboat_loop),
+    END_LOOP(),
+};
+
+extern const Collision tikibox_collision[];
+const BehaviorScript bhvTikiBox[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(tikibox_collision),
+    CALL_NATIVE(tiki_box_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(tiki_box_loop),
+    END_LOOP(),
+};
+
 /* GROUP A END */
 
 /* GROUP B START */

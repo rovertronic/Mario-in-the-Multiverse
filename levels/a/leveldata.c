@@ -20,3 +20,8 @@
 #include "levels/a/jfplatform/collision.inc.c"
 #include "levels/a/taxistop/model.inc.c"
 #include "levels/a/taxistop/collision.inc.c"
+#include "levels/a/boat/model.inc.c"
+#include "levels/a/boat/anims/data.inc.c"
+#include "levels/a/boat/anims/table.inc.c"
+#include "levels/a/tikibox/model.inc.c"
+#include "levels/a/tikibox/collision.inc.c"

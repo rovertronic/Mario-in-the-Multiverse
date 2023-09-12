@@ -459,7 +459,7 @@ s32 act_jump(struct MarioState *m) {
         return set_mario_action(m, ACT_HM_FLY, 0);
     }
 
-    if (using_ability(ABILITY_BUBBLE_HAT) && m->input & INPUT_A_PRESSED) {
+    if (using_ability(ABILITY_BUBBLE_HAT) && m->input & L_TRIG) {
         return set_mario_action(m, ACT_BUBBLE_HAT_JUMP, 0);
     }
 

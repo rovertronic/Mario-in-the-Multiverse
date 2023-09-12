@@ -621,6 +621,10 @@ enum GLOBAL_MODELS {
 #define MODEL_JELLY                               0x154
 #define MODEL_JF_PLATFORM                         0x155
 #define MODEL_TAXISTOP                            0x156
+#define MODEL_TSBOAT                              0x157
+#define MODEL_TIKI_WOOD                           0x158
+#define MODEL_TIKI_STONE                          0x159
+#define MODEL_TIKI_FLOAT                          0x15A
 /* LEVEL A END */
 
 /* LEVEL B START */

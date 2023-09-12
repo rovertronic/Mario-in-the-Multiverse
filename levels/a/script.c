@@ -29,6 +29,9 @@ const LevelScript level_a_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_JELLY, jelly_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_JF_PLATFORM, jfplatform_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_TAXISTOP, taxistop_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_TSBOAT, boat_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_TIKI_WOOD, tikibox_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_TIKI_STONE, stone_tiki_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -47,7 +50,11 @@ const LevelScript level_a_entry[] = {
 		OBJECT(MODEL_JF_PLATFORM, -5459, 583, 1252, 0, -170, 0, 0x00000000, bhvJellyfishFieldsPlatform),
 		OBJECT(MODEL_JF_PLATFORM, -837, 905, 2478, 0, -85, 0, 0x00000000, bhvJellyfishFieldsPlatform),
 		OBJECT(MODEL_JF_PLATFORM, -3206, 583, -2823, 0, 0, 0, 0x00000000, bhvJellyfishFieldsPlatform),
-		OBJECT(MODEL_TAXISTOP, -465, -163, -8055, 0, 0, 0, 0x00000000, bhvTaxiStop),
+		OBJECT(MODEL_TAXISTOP, -465, -163, -8055, 0, 180, 0, 0x00000000, bhvTaxiStop),
+		OBJECT(MODEL_TSBOAT, -70, -163, -8055, 0, 0, 0, 0x00000000, bhvtsBoat),
+		OBJECT(MODEL_NONE, -5684, -336, 477, 0, 0, 0, (0x0 << 16), bhvTikiBox),
+		OBJECT(MODEL_NONE, -5684, -336, 898, 0, 0, 0, (0x0 << 16), bhvTikiBox),
+		OBJECT(MODEL_NONE, -5684, -336, 98, 0, 0, 0, (0x0 << 16), bhvTikiBox),
 		OBJECT(MODEL_LEVEL_PIPE, 1591, -163, 317, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_NONE, 500, 365, 835, 0, -95, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 500, 50, 839, 0, -90, 0, (0x0A << 16), bhvInstantActiveWarp),

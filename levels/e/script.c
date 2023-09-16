@@ -44,7 +44,6 @@ const LevelScript level_e_entry[] = {
 		WARP_NODE(/*death*/ 0xF1, LEVEL_X, /*this area*/ 0x01, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death entry*/ 0x01, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_ABILITY, -1146, -950, 1211, 0, 0, 0, (ABILITY_E_SHOTGUN << 16), bhvAbilityUnlock),
-		OBJECT(MODEL_ID_03, 0, 400, 600, 0, 0, 0, 0x00000000, bhvE_Caco),
 		OBJECT(MODEL_CHECKPOINT_FLAG, 1439, -950, -1412, 0, 0, 0, (0 << 16), bhvCheckpointFlag),
 		OBJECT(MODEL_CHECKPOINT_FLAG, 1439, -950, -1112, 0, 0, 0, (1 << 16), bhvCheckpointFlag),
 		OBJECT(MODEL_NONE, 400, -1000, -700, 0, 0, 0, 0x00000000, bhvCoinFormation),

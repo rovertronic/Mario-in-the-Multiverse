@@ -12,8 +12,8 @@
 #include "tile_scroll.h"
 #include "game_init.h"
 #include "level_update.h"
-//This is a way of dealing with what I mentioned in #mverse-general
-#define TRANSLATION_IS_WEIRD
+
+#include "ge_translation.h"
 
 
 
@@ -139,31 +139,15 @@ void e__sg_obj_explode(struct Object *obj, s32 count) {
 
 
 
-//--Process
-
-#ifdef TRANSLATION_IS_WEIRD
-#define RENDER_SG_EFFECT(mesh_dl, mul)                              \
-	Mtx *mtx = alloc_display_list(sizeof(Mtx));                     \
-	mtxf[3][0] *= mul; mtxf[3][1] *= mul; mtxf[3][2] *= mul;        \
-	mtxf_to_mtx(mtx, mtxf);                                         \
-	gSPMatrix(dlH++, mtx, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);\
-	gSPDisplayList(dlH++, mesh_dl);                                 \
-	gSPPopMatrix(dlH++, G_MTX_MODELVIEW);                           
-
-#else
-#define RENDER_SG_EFFECT(mesh_dl, unused)                           \
-	Mtx *mtx = alloc_display_list(sizeof(Mtx));                     \
-	mtxf_to_mtx(mtx, mtxf);                                         \
-	gSPMatrix(dlH++, mtx, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);\
-	gSPDisplayList(dlH++, mesh_dl);                                 \
-	gSPPopMatrix(dlH++, G_MTX_MODELVIEW);                           
-#endif
-
-
 
 //--Main
 Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unused) {
 	switch (callContext) {
+	case GEO_CONTEXT_CREATE:
+		dobj_bullets(callContext);//bullets
+		break;
+
+
 	case GEO_CONTEXT_AREA_LOAD:
 		bzero(sSGWallDamageList, (SG_WALL_DAMAGE_MAX * sizeof(struct SGWallDamage)));
 		bzero(sSGSmokeList,      (SG_SMOKE_MAX       * sizeof(struct SGSmoke)));
@@ -173,18 +157,20 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
 			gE_MaxObjsHitPerShot = 8; }
 		else {
 			gE_MaxObjsHitPerShot = 4; }
+
+		dobj_bullets(callContext);//bullets
 	    break;
 
 
 	case GEO_CONTEXT_RENDER:
 	  {
 		s32 update = (!((gTimeStopState & TIME_STOP_ACTIVE) || (gCameraMovementFlags & CAM_MOVE_PAUSE_SCREEN)));
-		Gfx *dlS = alloc_display_list(((1 + (sSGEffectCurrCounts[SG_EFFECT_TYPE_WALL_DAMAGE] * 4))
-									 + (1 + (sSGEffectCurrCounts[SG_EFFECT_TYPE_SMOKE] * 4))
-									 + (1 + (sSGEffectCurrCounts[SG_EFFECT_TYPE_PIECE] * 3))
-									 + (1 + (sSGEffectCurrCounts[SG_EFFECT_TYPE_SPARK] * 3))
-									 + (SG_EFFECT_AMOUNT * 7)
-									 + 1) * sizeof(Gfx));
+		Gfx *dlS = alloc_display_list((((1 + (sSGEffectCurrCounts[SG_EFFECT_TYPE_WALL_DAMAGE] * 4))
+									  + (1 + (sSGEffectCurrCounts[SG_EFFECT_TYPE_SMOKE] * 4))
+									  + (1 + (sSGEffectCurrCounts[SG_EFFECT_TYPE_PIECE] * 3))
+									  + (1 + (sSGEffectCurrCounts[SG_EFFECT_TYPE_SPARK] * 3))
+									  + (SG_EFFECT_AMOUNT * 7)
+									  + 1)  +  1) * sizeof(Gfx));
         Gfx *dlH = dlS;
 		if (dlS == NULL) { return NULL; }
 
@@ -222,7 +208,7 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
 				Vec3s angle = { piece->rX, piece->rY, 0 };
 				mtxf_rotate_zxy_and_translate(mtxf, piece->pos, angle);
 				mtxf_scale_vec3f(mtxf, mtxf, scale);
-				RENDER_SG_EFFECT(e_sg_piece_piece_mesh_tri_0, 2.f)
+				RENDER_GE(e_sg_piece_piece_mesh_tri_0, 2.f)
 			}
 			piece++;
 		}
@@ -249,7 +235,7 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
 				surface_normal_to_vec3f(upDir, wallDamage->surf);
 				mtxf_shadow(mtxf, ((f32 *)(&wallDamage->surf->normal)), wallDamage->pos, scale, ((s32)(scale[0] * 65536.f)));
 				gDPSetEnvColor(dlH++, 0xFF, 0xFF, 0xFF, wallDamage->opacity);
-				RENDER_SG_EFFECT(e_sg_wall_damage_wallDamage_mesh_tri_0, 2.f)
+				RENDER_GE(e_sg_wall_damage_wallDamage_mesh_tri_0, 2.f)
 			}
 			wallDamage++;
 		}
@@ -288,7 +274,7 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
 				Vec3f scale = { smoke->scale, smoke->scale, smoke->scale };
 				mtxf_billboard(mtxf, mtxf, smoke->pos, scale, gLakituState.roll);
 				gDPSetEnvColor(dlH++, 0xFF, 0xFF, 0xFF, ((s32)(sins(smoke->timer) * 127.f)));
-				RENDER_SG_EFFECT(e_sg_smoke_smoke_mesh_tri_0, 1.f)
+				RENDER_GE(e_sg_smoke_smoke_mesh_tri_0, 1.f)
 			}
 			smoke++;
 		}
@@ -314,7 +300,7 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
 				Mat4 mtxf;
 				Vec3f scale = { spark->scale, spark->scale, spark->scale };
 				mtxf_billboard(mtxf, mtxf, spark->pos, scale, gLakituState.roll);
-				RENDER_SG_EFFECT(e_sg_spark_smoke_mesh_tri_0, 1.f)
+				RENDER_GE(e_sg_spark_smoke_mesh_tri_0, 1.f)
 			}
 			spark++;
 		}
@@ -328,6 +314,9 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
 		gSPClearGeometryMode(dlH++, G_TEXTURE_GEN);
 		gDPSetCombineLERP(dlH++, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT);
 		gSPTexture(dlH++, 65535, 65535, 0, 0, 0);
+
+		gSPDisplayList(dlH++, dobj_bullets(callContext));//bullets
+
 		gSPEndDisplayList(dlH);
 
         struct GraphNodeGenerated *graphNode = (struct GraphNodeGenerated *) node;

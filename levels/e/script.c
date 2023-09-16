@@ -1,0 +1,77 @@
+#include <ultra64.h>
+#include "sm64.h"
+#include "behavior_data.h"
+#include "model_ids.h"
+#include "seq_ids.h"
+#include "dialog_ids.h"
+#include "segment_symbols.h"
+#include "level_commands.h"
+
+#include "game/level_update.h"
+
+#include "levels/scripts.h"
+
+
+/* Fast64 begin persistent block [includes] */
+/* Fast64 end persistent block [includes] */
+
+#include "make_const_nonconst.h"
+#include "levels/e/header.h"
+
+/* Fast64 begin persistent block [scripts] */
+/* Fast64 end persistent block [scripts] */
+
+const LevelScript level_e_entry[] = {
+	INIT_LEVEL(),
+	LOAD_YAY0(0x07, _e_segment_7SegmentRomStart, _e_segment_7SegmentRomEnd), 
+	LOAD_YAY0(0x05, _group6_yay0SegmentRomStart, _group6_yay0SegmentRomEnd), 
+	LOAD_RAW(0x0C, _group6_geoSegmentRomStart, _group6_geoSegmentRomEnd), 
+	LOAD_YAY0(0x08, _common0_yay0SegmentRomStart, _common0_yay0SegmentRomEnd), 
+	LOAD_RAW(0x0F, _common0_geoSegmentRomStart, _common0_geoSegmentRomEnd), 
+	ALLOC_LEVEL_POOL(),
+	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
+	JUMP_LINK(script_func_global_1), 
+	JUMP_LINK(script_func_global_7), 
+	LOAD_MODEL_FROM_GEO(MODEL_ID_03, caco_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_ID_04, caco_2_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_ID_05, temp_fire_geo),
+
+	/* Fast64 begin persistent block [level commands] */
+	/* Fast64 end persistent block [level commands] */
+
+	AREA(1, e_area_1),
+		WARP_NODE(/*entry*/ 0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(/*death*/ 0xF1, LEVEL_X, /*this area*/ 0x01, 0x01, WARP_NO_CHECKPOINT),
+		WARP_NODE(/*death entry*/ 0x01, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_ABILITY, -1146, -950, 1211, 0, 0, 0, (ABILITY_E_SHOTGUN << 16), bhvAbilityUnlock),
+		OBJECT(MODEL_ID_03, 0, 400, 600, 0, 0, 0, 0x00000000, bhvE_Caco),
+		OBJECT(MODEL_CHECKPOINT_FLAG, 1439, -950, -1412, 0, 0, 0, (0 << 16), bhvCheckpointFlag),
+		OBJECT(MODEL_CHECKPOINT_FLAG, 1439, -950, -1112, 0, 0, 0, (1 << 16), bhvCheckpointFlag),
+		OBJECT(MODEL_NONE, 400, -1000, -700, 0, 0, 0, 0x00000000, bhvCoinFormation),
+		OBJECT(MODEL_LEVEL_PIPE, 0, -950, 691, 0, 0, 0, 0x00000000, bhvLevelPipe),
+		OBJECT(MODEL_NONE, 0, 365, -365, 0, 0, 0, (0x01 << 16), bhvDeathWarp),
+		OBJECT(MODEL_NONE, 0, 50, -761, 0, 0, 0, (0x0A << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_NONE, 1453, -836, 1474, 0, 0, 0, (0 << 24), bhvStar),
+		OBJECT(MODEL_NONE, 1253, -836, 1474, 0, 0, 0, (1 << 24), bhvStar),
+		OBJECT(MODEL_NONE, 1053, -836, 1474, 0, 0, 0, (2 << 24), bhvStar),
+		OBJECT(MODEL_NONE, 853, -836, 1474, 0, 0, 0, (3 << 24), bhvStar),
+		OBJECT(MODEL_NONE, 653, -836, 1474, 0, 0, 0, (4 << 24), bhvStar),
+		OBJECT(MODEL_NONE, 453, -836, 1474, 0, 0, 0, (5 << 24), bhvStar),
+		OBJECT(MODEL_NONE, 253, -836, 1474, 0, 0, 0, (6 << 24), bhvStar),
+		OBJECT(MODEL_NONE, 53, -836, 1474, 0, 0, 0, (7 << 24), bhvStar),
+		TERRAIN(e_area_1_collision),
+		MACRO_OBJECTS(e_area_1_macro_objs),
+		STOP_MUSIC(0),
+		TERRAIN_TYPE(TERRAIN_STONE),
+		/* Fast64 begin persistent block [area commands] */
+		/* Fast64 end persistent block [area commands] */
+	END_AREA(),
+
+	FREE_LEVEL_POOL(),
+	MARIO_POS(1, 0, 0, 0, 0),
+	CALL(0, lvl_init_or_update),
+	CALL_LOOP(1, lvl_init_or_update),
+	CLEAR_LEVEL(),
+	SLEEP_BEFORE_EXIT(1),
+	EXIT(),
+};

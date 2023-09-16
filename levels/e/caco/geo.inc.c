@@ -1,0 +1,28 @@
+#include "src/game/envfx_snow.h"
+
+const GeoLayout caco_geo[] = {
+	GEO_CULLING_RADIUS(600),
+	GEO_OPEN_NODE(),
+		GEO_NODE_START(),
+		GEO_OPEN_NODE(),
+			GEO_ASM(0, e__geo_caco_eye_color),
+			GEO_SHADOW(1, 128, 300),
+			GEO_OPEN_NODE(),
+				GEO_ANIMATED_PART(LAYER_OPAQUE, 0, 0, 0, caco_b1_dl_mesh_layer_1),
+				GEO_OPEN_NODE(),
+					GEO_DISPLAY_LIST(LAYER_ALPHA, caco_b1_dl_mesh_layer_4),
+					GEO_DISPLAY_LIST(LAYER_OPAQUE, caco_b2_upper_skinned_mesh_layer_1),
+					GEO_ANIMATED_PART(LAYER_OPAQUE, 0, 150, -59, caco_b2_upper_mesh_layer_1),
+					GEO_OPEN_NODE(),
+						GEO_DISPLAY_LIST(LAYER_ALPHA, caco_b2_upper_mesh_layer_4),
+						GEO_DISPLAY_LIST(LAYER_OPAQUE, caco_b3_blink_skinned_mesh_layer_1),
+						GEO_ANIMATED_PART(LAYER_OPAQUE, 0, 42, 137, caco_b3_blink_mesh_layer_1),
+					GEO_CLOSE_NODE(),
+				GEO_CLOSE_NODE(),
+			GEO_CLOSE_NODE(),
+		GEO_CLOSE_NODE(),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, caco_material_revert_render_settings),
+		GEO_DISPLAY_LIST(LAYER_ALPHA, caco_material_revert_render_settings),
+	GEO_CLOSE_NODE(),
+	GEO_END(),
+};

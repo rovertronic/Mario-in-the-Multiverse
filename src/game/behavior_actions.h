@@ -589,9 +589,7 @@ extern struct WaterDropletParams gShallowWaterWaveDropletParams;
 
 //--E
 
-\
-\
-\
+void bhv_e__enemy(void);
 
 
 \
@@ -606,7 +604,7 @@ void bhv_e__d(void);
 
 
 
-\
+Gfx *e__geo_caco_eye_color(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
 \
 \
 

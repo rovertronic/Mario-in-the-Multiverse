@@ -6227,6 +6227,21 @@ const BehaviorScript bhvNitroBox[] = {
 
 /* GROUP E START */
 
+//--Level
+const BehaviorScript bhvE_Caco[] = {
+    BEGIN(OBJ_LIST_PUSHABLE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_E__SG_ENEMY)),
+    SET_INT(oBehParams2ndByte, 0),
+    GOTO(bhvE_Enemy + 1),
+};
+
+const BehaviorScript bhvE_Enemy[] = {//base enemy behavior
+    BEGIN(OBJ_LIST_PUSHABLE),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_e__enemy),
+    END_LOOP(),
+};
+
 
 
 //--Ability

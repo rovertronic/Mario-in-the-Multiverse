@@ -57,6 +57,9 @@ u32 interact_hoot          (struct MarioState *m, u32 interactType, struct Objec
 u32 interact_cap           (struct MarioState *m, u32 interactType, struct Object *obj);
 u32 interact_grabbable     (struct MarioState *m, u32 interactType, struct Object *obj);
 u32 interact_text          (struct MarioState *m, u32 interactType, struct Object *obj);
+//--E
+u32 interact_e__doom_enemy (struct MarioState *m, u32 interactType, struct Object *obj);
+
 
 struct InteractionHandler {
     u32 interactType;
@@ -95,6 +98,8 @@ static struct InteractionHandler sInteractionHandlers[] = {
     { INTERACT_CAP,            interact_cap },
     { INTERACT_GRABBABLE,      interact_grabbable },
     { INTERACT_TEXT,           interact_text },
+    //--E
+    { INTERACT_E__DOOM_ENEMY,  interact_e__doom_enemy },
 };
 
 static u32 sForwardKnockbackActions[][3] = {
@@ -1825,6 +1830,29 @@ u32 interact_text(struct MarioState *m, UNUSED u32 interactType, struct Object *
 
     return interact;
 }
+
+//--E
+u32 interact_e__doom_enemy(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
+    u32 interaction;
+    if ((m->flags & MARIO_METAL_CAP) || (aku_invincibility > 0) || using_ability(ABILITY_KNIGHT)) {
+        interaction = INT_FAST_ATTACK_OR_SHELL; }
+    else {
+        interaction = determine_interaction(m, obj); }
+
+    if (interaction & INT_ATTACK_NOT_FROM_BELOW) {
+#if ENABLE_RUMBLE
+        queue_rumble_data(5, 80);
+#endif
+        attack_object(obj, interaction);
+        bounce_back_from_attack(m, interaction);
+
+        if (interaction & INT_HIT_FROM_ABOVE) {
+            bounce_off_object(m, obj, 30.0f); }
+    }
+
+    return FALSE;
+}
+
 
 void check_kick_or_punch_wall(struct MarioState *m) {
     if (

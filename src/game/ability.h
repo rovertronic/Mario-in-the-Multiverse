@@ -51,7 +51,7 @@ extern u8 ability_slot[4];
 #define E_SGF_LEFT_HAND        (1 << 0)
 #define E_SGF_AIM_MODE         (1 << 1)
 #define E_SGF_AIM_FIRE         (1 << 2)
-#define E_SGF_AIR_SHOT_USED      (1 << 3)
+#define E_SGF_AIR_SHOT_USED    (1 << 3)
 
 extern struct AnimInfo gE_UpperAnimInfo;
 extern u8   gE_UpperAnimType;

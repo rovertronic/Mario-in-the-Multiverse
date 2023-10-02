@@ -6447,6 +6447,19 @@ const BehaviorScript bhvPhysicsMarble[] = {
 /* GROUP N END */
 
 /* GROUP O START */
+extern bhv_o_walker_update(void);
+const BehaviorScript bhvOZombie[] = {
+    BEGIN(OBJ_LIST_PUSHABLE),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    DROP_TO_FLOOR(),
+    //LOAD_ANIMATIONS(oAnimations, goomba_seg8_anims_0801DA4C),
+    SET_HOME(),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 40, /*Gravity*/ -400, /*Bounciness*/ -1, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 0, /*Unused*/ 0, 0),
+    SET_HITBOX(/*Radius*/ 80, /*Height*/ 130),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_o_walker_update),
+    END_LOOP(),
+};
 /* GROUP O END */
 
 const BehaviorScript bhvCutterBlast[] = {

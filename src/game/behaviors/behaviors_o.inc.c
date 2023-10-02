@@ -238,3 +238,34 @@ void bhv_star_piece_loop(void) {
         break;
     }
 }
+
+static struct ObjectHitbox sZombieHitbox = {
+    /* interactType:      */ INTERACT_DAMAGE,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 1,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 60,
+    /* height:            */ 160,
+    /* hurtboxRadius:     */ 60,
+    /* hurtboxHeight:     */ 160,
+};
+
+//zambie
+void bhv_o_walker_update(void) {
+    o->oMoveAngleYaw = o->oAngleToMario;
+    o->oFaceAngleYaw = o->oMoveAngleYaw;
+    o->oForwardVel = 3.0f;
+
+    switch(o->oAction) {
+        case 0: //init
+            obj_set_hitbox(o, &sZombieHitbox);
+        break;
+    }
+
+    o->oIntangibleTimer = 0;
+    o->oInteractStatus = 0;
+    obj_resolve_object_collisions(NULL);
+    cur_obj_update_floor_and_walls();
+    cur_obj_move_standard(78);
+}

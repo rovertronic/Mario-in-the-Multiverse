@@ -281,39 +281,66 @@ static struct ObjectHitbox sZombieHitbox = {
     /* hurtboxHeight:     */ 160,
 };
 
-void walker_check_dmg(void) {
+s32 walker_check_dmg(void) {
     u8 damaged = FALSE;
+    u8 damage_count = 1;
+    o->oInteractType = INTERACT_DAMAGE;
+
+    //mario states where he can kill well
+    if ((gMarioState->action == ACT_ABILITY_AXE_JUMP)||(gMarioState->action == ACT_KNIGHT_SLIDE)||(aku_invincibility>0)) {
+        o->oInteractType = INTERACT_BOUNCE_TOP;
+        damage_count = 3;
+        if (aku_invincibility>0) {
+            damage_count = 1;
+        }
+    }
+    if ((gMarioState->action == ACT_MOVE_PUNCHING)&&(using_ability(ABILITY_CHRONOS))) {
+        o->oInteractType = INTERACT_BOUNCE_TOP;
+        damage_count = 3;
+    }
+    if ((gMarioState->vel[1]>=0.0f)&&(using_ability(ABILITY_BIG_DADDY))) {
+        o->oInteractType = INTERACT_BOUNCE_TOP;
+        damage_count = 3;
+    }
+
     if (o->oShotByShotgun > 0) {
         damaged = TRUE;
         if (o->oShotByShotgun == 2) {
-            o->oHealth -= 10;
+            damage_count = 3;
         }
         o->oShotByShotgun = 0;
     }
+    if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
+        damaged = TRUE;
+    }
 
     if (damaged) {
-        o->oHealth--;
+        o->oHealth-=damage_count;
         if (o->oHealth < 1) {
             o->oAction = 5; //death
         } else {
             o->oAction = 4; //hurt
         }
+        return TRUE;
     }
+
+    return FALSE;
 }
 
 //zambie
 void bhv_o_walker_update(void) {
     f32 walkspeed = 0.0f;
 
-    o->oIntangibleTimer = 0;
-    o->oInteractStatus = 0;
     switch(o->oAction) {
         case 1:
         case 4:
-        obj_resolve_object_collisions(NULL);
+        if (!(o->oInteractStatus & INT_STATUS_ATTACK_MASK)) {
+            obj_resolve_object_collisions_zombie(NULL);
+        }
     }
     cur_obj_update_floor_and_walls();
     cur_obj_move_standard(78);
+
 
     switch(o->oAction) {
         case 0: //init
@@ -357,6 +384,7 @@ void bhv_o_walker_update(void) {
             }
         break;
         case 4: //damaged
+            o->oInteractType = INTERACT_NONE;
             cur_obj_become_intangible();
             if (o->oTimer == 0) {
                 cur_obj_init_animation_with_accel_and_sound(4, 1.0f);
@@ -372,6 +400,7 @@ void bhv_o_walker_update(void) {
         break;
         case 5: //death
             cur_obj_become_intangible();
+            o->oInteractType = INTERACT_NONE;
             if (o->oTimer == 0) {
                 cur_obj_init_animation_with_accel_and_sound(5, 1.0f);
                 o->oPosY += 30.0f;
@@ -386,4 +415,7 @@ void bhv_o_walker_update(void) {
             }
         break;
     }
+
+    o->oIntangibleTimer = 0;
+    o->oInteractStatus = 0;
 }

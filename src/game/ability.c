@@ -50,7 +50,7 @@
 #include "puppylights.h"
 #include "actors/group0.h"
 
-#include "text_strings.h" //IGNORE THIS ERROR, make -j AGAIN
+#include "text_strings.h"
 
 #include "mitm_hub.h"
 #include "ability.h"

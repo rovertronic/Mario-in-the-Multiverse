@@ -55,6 +55,7 @@
 #include "levels/bowser_2/header.h"
 #include "levels/ttm/header.h"
 #include "levels/f/header.h"
+#include "levels/o/header.h"
 
 #include "make_const_nonconst.h"
 #include "behavior_data.h"
@@ -6450,12 +6451,14 @@ const BehaviorScript bhvPhysicsMarble[] = {
 extern bhv_o_walker_update(void);
 const BehaviorScript bhvOZombie[] = {
     BEGIN(OBJ_LIST_PUSHABLE),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
     DROP_TO_FLOOR(),
-    //LOAD_ANIMATIONS(oAnimations, goomba_seg8_anims_0801DA4C),
+    LOAD_ANIMATIONS(oAnimations, o_zombie_anims),
+    ANIMATE(0),
     SET_HOME(),
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 40, /*Gravity*/ -400, /*Bounciness*/ -1, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 0, /*Unused*/ 0, 0),
     SET_HITBOX(/*Radius*/ 80, /*Height*/ 130),
+    //SET_FLOAT(oGraphYOffset, -100),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_o_walker_update),
     END_LOOP(),

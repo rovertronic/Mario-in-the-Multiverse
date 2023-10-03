@@ -14,3 +14,8 @@
 #include "levels/o/leveldata.inc.c"
 
 #include "levels/o/o_zombie1/model.inc.c"
+#include "levels/o/o_zombie/anims/data.inc.c"
+#include "levels/o/o_zombie/anims/table.inc.c"
+#include "levels/o/o_zombie2/model.inc.c"
+#include "levels/o/o_zombie3/model.inc.c"
+#include "levels/o/o_zomblood/model.inc.c"

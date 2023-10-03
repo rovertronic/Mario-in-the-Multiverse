@@ -17,3 +17,6 @@
 #include "levels/o/geo.inc.c"
 
 #include "levels/o/o_zombie1/geo.inc.c"
+#include "levels/o/o_zombie2/geo.inc.c"
+#include "levels/o/o_zombie3/geo.inc.c"
+#include "levels/o/o_zomblood/geo.inc.c"

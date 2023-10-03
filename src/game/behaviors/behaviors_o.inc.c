@@ -239,33 +239,151 @@ void bhv_star_piece_loop(void) {
     }
 }
 
+static struct SpawnParticlesInfo sZombieBlood = {
+    /* behParam:        */ 0,
+    /* count:           */ 10,
+    /* model:           */ MODEL_ZOMBLOOD,
+    /* offsetY:         */ 90,
+    /* forwardVelBase:  */ 4,
+    /* forwardVelRange: */ 4,
+    /* velYBase:        */ 10,
+    /* velYRange:       */ 15,
+    /* gravity:         */ -4,
+    /* dragStrength:    */ 0,
+    /* sizeBase:        */ 4,
+    /* sizeRange:       */ 4,
+};
+
+static struct SpawnParticlesInfo sZombieHeadBlood1 = {
+    /* behParam:        */ 0,
+    /* count:           */ 20,
+    /* model:           */ MODEL_ZOMBLOOD,
+    /* offsetY:         */ 127,
+    /* forwardVelBase:  */ 4,
+    /* forwardVelRange: */ 4,
+    /* velYBase:        */ 10,
+    /* velYRange:       */ 15,
+    /* gravity:         */ -4,
+    /* dragStrength:    */ 0,
+    /* sizeBase:        */ 9,
+    /* sizeRange:       */ 6,
+};
+
 static struct ObjectHitbox sZombieHitbox = {
     /* interactType:      */ INTERACT_DAMAGE,
     /* downOffset:        */ 0,
     /* damageOrCoinValue: */ 1,
-    /* health:            */ 0,
+    /* health:            */ 3,
     /* numLootCoins:      */ 0,
     /* radius:            */ 60,
-    /* height:            */ 160,
+    /* height:            */ 200,
     /* hurtboxRadius:     */ 60,
     /* hurtboxHeight:     */ 160,
 };
 
+void walker_check_dmg(void) {
+    u8 damaged = FALSE;
+    if (o->oShotByShotgun > 0) {
+        damaged = TRUE;
+        if (o->oShotByShotgun == 2) {
+            o->oHealth -= 10;
+        }
+        o->oShotByShotgun = 0;
+    }
+
+    if (damaged) {
+        o->oHealth--;
+        if (o->oHealth < 1) {
+            o->oAction = 5; //death
+        } else {
+            o->oAction = 4; //hurt
+        }
+    }
+}
+
 //zambie
 void bhv_o_walker_update(void) {
-    o->oMoveAngleYaw = o->oAngleToMario;
-    o->oFaceAngleYaw = o->oMoveAngleYaw;
-    o->oForwardVel = 3.0f;
+    f32 walkspeed = 0.0f;
+
+    o->oIntangibleTimer = 0;
+    o->oInteractStatus = 0;
+    switch(o->oAction) {
+        case 1:
+        case 4:
+        obj_resolve_object_collisions(NULL);
+    }
+    cur_obj_update_floor_and_walls();
+    cur_obj_move_standard(78);
 
     switch(o->oAction) {
         case 0: //init
             obj_set_hitbox(o, &sZombieHitbox);
+            o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_O_ZOMBIE_1+(random_u16()%3) ];
+            o->oAction = 1;
+            o->oForwardVel = 0.0f;
+
+            cur_obj_init_animation_with_accel_and_sound(3, 1.0f);
+        break;
+        case 1://walking
+            if (o->oTimer == 0) {
+                o->header.gfx.animInfo.animFrame = random_u16()%48;
+                o->oTimer = random_u16();
+            }
+            o->oMoveAngleYaw = approach_s16_asymptotic(o->oMoveAngleYaw, o->oAngleToMario+(sins(o->oTimer*0x50)*0x1000), 8);
+            o->oFaceAngleYaw = o->oMoveAngleYaw;
+            walkspeed = (sins((o->header.gfx.animInfo.animFrame/50.0f)*65535.0f ) * 1.0f)+4.0f;
+            o->oForwardVel = approach_f32_asymptotic(o->oForwardVel,walkspeed,0.2f);
+
+            if (o->oMoveFlags & OBJ_MOVE_IN_AIR) {
+                o->oAction = 2; //falling
+                cur_obj_init_animation_with_accel_and_sound(1, 2.0f);
+            }
+
+            walker_check_dmg();
+        break;
+        case 2: //falling
+            o->oForwardVel = 2.0f;
+            if (o->oMoveFlags & (OBJ_MOVE_LANDED|OBJ_MOVE_ON_GROUND)) {
+                cur_obj_init_animation_with_accel_and_sound(2, 1.0f);
+                o->oAction = 3; //getting up
+                o->oVelY = 0.0f;
+                cur_obj_play_sound_2(SOUND_GENERAL_SMALL_BOX_LANDING);
+            }
+        break;
+        case 3: //getting up
+            if (o->oTimer >= 30) {
+                o->oAction = 1; //walking
+                cur_obj_init_animation_with_accel_and_sound(3, 1.0f);
+            }
+        break;
+        case 4: //damaged
+            cur_obj_become_intangible();
+            if (o->oTimer == 0) {
+                cur_obj_init_animation_with_accel_and_sound(4, 1.0f);
+                cur_obj_spawn_particles(&sZombieBlood);
+            }
+            o->oForwardVel = -1.0f;
+        
+            if (o->oTimer >= 30) {
+                cur_obj_become_tangible();
+                o->oAction = 1; //walking
+                cur_obj_init_animation_with_accel_and_sound(3, 1.0f);
+            }
+        break;
+        case 5: //death
+            cur_obj_become_intangible();
+            if (o->oTimer == 0) {
+                cur_obj_init_animation_with_accel_and_sound(5, 1.0f);
+                o->oPosY += 30.0f;
+                cur_obj_spawn_particles(&sZombieHeadBlood1);
+                o->oPosY -= 30.0f;
+            }
+
+            o->oForwardVel = 0.0f;
+
+            if (o->oTimer >= 60) {
+                obj_mark_for_deletion(o);
+            }
         break;
     }
-
-    o->oIntangibleTimer = 0;
-    o->oInteractStatus = 0;
-    obj_resolve_object_collisions(NULL);
-    cur_obj_update_floor_and_walls();
-    cur_obj_move_standard(78);
 }

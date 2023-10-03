@@ -17,8 +17,8 @@ struct ObjectHitbox sShockRocketHitbox = {
 };
 
 void shock_rocket_stick_control(void){
-    s16 stickX = gPlayer3Controller->rawStickX;
-    s16 stickY = gPlayer3Controller->rawStickY;
+    s16 stickX = gPlayer1Controller->rawStickX;
+    s16 stickY = gPlayer1Controller->rawStickY;
     if (stickX < 10 && stickX > -10) stickX = 0;
     if (stickY < 10 && stickY > -10) stickY = 0;
     if (find_water_level(o->oPosX, o->oPosZ) > o->oPosY) {

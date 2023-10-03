@@ -14,6 +14,7 @@
 #include "levels/intro/header.h"
 #include "level_update.h"
 #include "ability.h"
+#include "emutest.h"
 
 
 extern u16 sRenderedFramebuffer;
@@ -38,7 +39,7 @@ static u8 checkedFBE = FALSE;
 s32 check_fbe(void) {
 
     if (checkedFBE) return gFBE;
-    else if (!checkedFBE && (gIsConsole || gCacheEmulated)) {
+    else if (!checkedFBE && (gEmulator & (EMU_CONSOLE | EMU_ARES | EMU_SIMPLE64))) {
         checkedFBE = gFBE = TRUE;
         return TRUE;
     }

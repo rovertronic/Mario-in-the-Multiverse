@@ -126,3 +126,6 @@
 #include "concrete_block_crack2/model.inc.c"
 
 #include "dbp/model.inc.c"
+#include "humanoid/model.inc.c"
+#include "humanoid/anims/data.inc.c"
+#include "humanoid/anims/table.inc.c"

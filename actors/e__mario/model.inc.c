@@ -9,11 +9,6 @@
 
 
 
-//--
-/*
-static Lights1 e__mario_light = gdSPDefLights1(
-	0x00, 0x00, 0x00,
-	0xFF, 0xFF, 0xFF, -0x28, 0x28, 0x28 );*/
 
 
 Gfx e__mario_button_ci8_aligner[] = {gsSPEndDisplayList()};

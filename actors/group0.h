@@ -495,4 +495,8 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "dbp/geo_header.h"
 
+#include "humanoid/geo_header.h"
+
+
+#include "humanoid/anim_header.h"
 #endif

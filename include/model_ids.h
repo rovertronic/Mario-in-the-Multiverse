@@ -604,6 +604,7 @@ enum GLOBAL_MODELS {
     MODEL_CONCRETE_BLOCK_CRACK1,
     MODEL_CONCRETE_BLOCK_CRACK2,
     MODEL_DBP,//Dash Booster Particle
+    MODEL_HUMANOID,
 
     // Custom Mario Models
     MODEL_E__MARIO,

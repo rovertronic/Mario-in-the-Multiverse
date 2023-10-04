@@ -70,6 +70,7 @@ const LevelScript level_castle_inside_entry[] = {
 		OBJECT(MODEL_STAR_PIECE, -200, 100, 1572, 0, 94, 0, 0x00000000, bhvStarPiece),
 		OBJECT(MODEL_STAR_PIECE, -200, 150, 1572, 0, 94, 0, 0x00000000, bhvStarPiece),
 		OBJECT(MODEL_STAR_PIECE, -200, 200, 1572, 0, 94, 0, 0x00000000, bhvStarPiece),
+        OBJECT(MODEL_HUMANOID, 365, 0, 2423, 0, 180, 0, 0x00000000, bhvHumanoid),
 
 		OBJECT(MODEL_LEVEL_PIPE, 800, 0, -2600, 0, 0, 0, (0 << 16), bhvLevelPipe),
 		OBJECT(MODEL_LEVEL_PIPE, 800, 0, -2000, 0, 0, 0, (1 << 16), bhvLevelPipe),

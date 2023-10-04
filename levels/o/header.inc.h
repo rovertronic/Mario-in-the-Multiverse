@@ -5,7 +5,7 @@ extern const MacroObject o_area_1_macro_objs[];
 extern Lights1 o_dl_f3dlite_material_lights;
 extern u8 o_dl_koura_ci8[];
 extern u8 o_dl_koura_pal_rgba16[];
-extern Vtx o_dl_Cube_mesh_layer_1_vtx_0[98];
+extern Vtx o_dl_Cube_mesh_layer_1_vtx_0[326];
 extern Gfx o_dl_Cube_mesh_layer_1_tri_0[];
 extern Gfx mat_o_dl_f3dlite_material[];
 extern Gfx mat_revert_o_dl_f3dlite_material[];

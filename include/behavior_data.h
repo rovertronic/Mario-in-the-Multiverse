@@ -625,6 +625,7 @@ extern const BehaviorScript bhvPhysicsMarble[];
 
 /* GROUP O START */
 extern const BehaviorScript bhvOZombie[];
+extern const BehaviorScript bhvOZombieSpawner[];
 /* GROUP O END */
 
 #endif // BEHAVIOR_DATA_H

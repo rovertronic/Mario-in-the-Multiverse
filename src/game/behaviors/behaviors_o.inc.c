@@ -342,9 +342,12 @@ void bhv_o_walker_update(void) {
     u16 view_angle = ABS(o->oAngleToMario-o->oFaceAngleYaw);
     u8 touched_another_zombie = FALSE;
 
+    lv_o_zombie_counting++;
+
     switch(o->oAction) {
         case 1:
         case 4:
+        case 7:
         if (!(o->oInteractStatus & INT_STATUS_ATTACK_MASK)) {
             touched_another_zombie = obj_resolve_object_collisions_zombie(NULL);
         }
@@ -464,10 +467,13 @@ void bhv_o_walker_update(void) {
             walker_check_dmg();
         break;
         case 7: //idle
-            
-            if (((view_angle < 0x2000)&&(o->oDistanceToMario<4000.0f)) ||(o->numCollidedObjs > 0)) {
-                cur_obj_init_animation_with_accel_and_sound(3, 1.0f);
-                o->oAction = 1;
+            o->oForwardVel = 0.0f;
+
+            if (o->oDistanceToMario<4000.0f) {
+                if ((view_angle < 0x2000)||(o->numCollidedObjs > 0)) {
+                    cur_obj_init_animation_with_accel_and_sound(3, 1.0f);
+                    o->oAction = 1;
+                }
             }
 
             walker_check_dmg();
@@ -477,4 +483,30 @@ void bhv_o_walker_update(void) {
 
     o->oIntangibleTimer = 0;
     o->oInteractStatus = 0;
+
+    if (o->oTimer > 0) {
+        if ((o->oPosY < -8000.0f)||(o->oDistanceToMario>7000.0f)) {
+            //despawn if the zombie falls off the map / gets too far from mario
+            obj_mark_for_deletion(o);
+        }
+    }
+}
+
+void bhv_zambie_spawner() {
+    u8 bells_tolling = TRUE;
+
+    u8 zambie_thresh = 25;
+    u16 timer_rand = 100;
+
+    if (bells_tolling) {
+        zambie_thresh = 40;
+        timer_rand = 190;
+    }
+
+    if (o->oTimer > 200) {
+        if ((o->oDistanceToMario>4000.0f)&&(o->oDistanceToMario<7000.0f)&&(lv_o_zombie_counter < zambie_thresh)) {
+            spawn_object(o,MODEL_NONE,bhvOZombie);
+        }
+        o->oTimer = random_u16()%timer_rand;
+    }
 }

@@ -144,5 +144,7 @@ void clear_objects(void);
 void clear_dynamic_surface_references(void);
 void update_objects(UNUSED s32 unused);
 
+extern u8 lv_o_zombie_counter;
+extern u8 lv_o_zombie_counting;
 
 #endif // OBJECT_LIST_PROCESSOR_H

@@ -8138,6 +8138,13 @@ sound_ref .sound_level_e_caco_damage
 sound_ref .sound_level_e_caco_damage2
 sound_ref .sound_level_e_caco_death
 sound_ref .sound_level_e_caco_death2
+sound_ref .sound_o_walker_aggressive_1
+sound_ref .sound_o_walker_aggressive_2
+sound_ref .sound_o_walker_aggressive_3
+sound_ref .sound_o_walker_aggressive_4
+sound_ref .sound_o_walker_die
+sound_ref .sound_o_walker_hit
+sound_ref .sound_o_walker_eat
 
 .sound_level_x_0:
 chan_setbank 12
@@ -8210,9 +8217,55 @@ layer_end
     layer_note1 38, 0x5A, 127
     layer_end
 
+// walker
 
+.sound_o_walker_aggressive_1:
+chan_setbank 12
+chan_setinstr 5
+chan_setlayer 0, .layer_level_o_walker
+chan_end
 
+.sound_o_walker_aggressive_2:
+chan_setbank 12
+chan_setinstr 6
+chan_setlayer 0, .layer_level_o_walker
+chan_end
 
+.sound_o_walker_aggressive_3:
+chan_setbank 12
+chan_setinstr 7
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.sound_o_walker_aggressive_4:
+chan_setbank 12
+chan_setinstr 8
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.sound_o_walker_die:
+chan_setbank 12
+chan_setinstr 9
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.sound_o_walker_hit:
+chan_setbank 12
+chan_setinstr 10
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.sound_o_walker_eat:
+chan_setbank 12
+chan_setinstr 11
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.layer_level_o_walker:
+layer_note1 39, 0x88, 127
+layer_end
+
+//end walker
 
 
 .align 2, 0

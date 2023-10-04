@@ -317,8 +317,10 @@ s32 walker_check_dmg(void) {
     if (damaged) {
         o->oHealth-=damage_count;
         if (o->oHealth < 1) {
+            cur_obj_play_sound_2(SOUND_MITM_LEVEL_O_WALKER_DIE);
             o->oAction = 5; //death
         } else {
+            cur_obj_play_sound_2(SOUND_MITM_LEVEL_O_WALKER_HIT);
             o->oAction = 4; //hurt
         }
         return TRUE;
@@ -327,15 +329,24 @@ s32 walker_check_dmg(void) {
     return FALSE;
 }
 
+s32 zombie_audio_variance[] = {
+    SOUND_MITM_LEVEL_O_WALKER_AGGRO1,
+    SOUND_MITM_LEVEL_O_WALKER_AGGRO2,
+    SOUND_MITM_LEVEL_O_WALKER_AGGRO3,
+    SOUND_MITM_LEVEL_O_WALKER_AGGRO4,
+};
+
 //zambie
 void bhv_o_walker_update(void) {
     f32 walkspeed = 0.0f;
+    u16 view_angle = ABS(o->oAngleToMario-o->oFaceAngleYaw);
+    u8 touched_another_zombie = FALSE;
 
     switch(o->oAction) {
         case 1:
         case 4:
         if (!(o->oInteractStatus & INT_STATUS_ATTACK_MASK)) {
-            obj_resolve_object_collisions_zombie(NULL);
+            touched_another_zombie = obj_resolve_object_collisions_zombie(NULL);
         }
     }
     cur_obj_update_floor_and_walls();
@@ -346,10 +357,11 @@ void bhv_o_walker_update(void) {
         case 0: //init
             obj_set_hitbox(o, &sZombieHitbox);
             o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_O_ZOMBIE_1+(random_u16()%3) ];
-            o->oAction = 1;
+            o->oAction = 7;
             o->oForwardVel = 0.0f;
+            o->oFaceAngleYaw = random_u16();
 
-            cur_obj_init_animation_with_accel_and_sound(3, 1.0f);
+            cur_obj_init_animation_with_accel_and_sound(7, 1.0f);
         break;
         case 1://walking
             if (o->oTimer == 0) {
@@ -361,9 +373,22 @@ void bhv_o_walker_update(void) {
             walkspeed = (sins((o->header.gfx.animInfo.animFrame/50.0f)*65535.0f ) * 1.0f)+4.0f;
             o->oForwardVel = approach_f32_asymptotic(o->oForwardVel,walkspeed,0.2f);
 
+            if ((random_u16()%20)==0) {
+                cur_obj_play_sound_2(zombie_audio_variance[random_u16()%4]);
+            }
+
+            if (o->oDistanceToMario>5000.0f) { //lose sight of mario
+                o->oAction = 7; //idle
+                cur_obj_init_animation_with_accel_and_sound(7, 1.0f);
+            }
+
             if (o->oMoveFlags & OBJ_MOVE_IN_AIR) {
                 o->oAction = 2; //falling
                 cur_obj_init_animation_with_accel_and_sound(1, 2.0f);
+            }
+
+            if (o->oDistanceToMario < 150.0f) {
+                o->oAction = 6; //eating
             }
 
             walker_check_dmg();
@@ -413,6 +438,40 @@ void bhv_o_walker_update(void) {
             if (o->oTimer >= 60) {
                 obj_mark_for_deletion(o);
             }
+        break;
+        case 6: //eating
+            if (o->oTimer == 0) {
+                cur_obj_init_animation_with_accel_and_sound(6, 1.0f);
+            }
+
+            o->oFaceAngleYaw = o->oAngleToMario;
+            o->oForwardVel = 0.0f;
+
+            if (o->oTimer % 20 == 0) {
+                cur_obj_play_sound_2(SOUND_MITM_LEVEL_O_WALKER_EAT);
+            }
+
+            if (o->oTimer > 15) {
+                gMarioState->health -= 4;
+            }
+            
+            if (o->oDistanceToMario > 200.0f) {
+                cur_obj_become_tangible();
+                o->oAction = 1; //walking
+                cur_obj_init_animation_with_accel_and_sound(3, 1.0f);
+            }
+
+            walker_check_dmg();
+        break;
+        case 7: //idle
+            
+            if (((view_angle < 0x2000)&&(o->oDistanceToMario<4000.0f)) ||(o->numCollidedObjs > 0)) {
+                cur_obj_init_animation_with_accel_and_sound(3, 1.0f);
+                o->oAction = 1;
+            }
+
+            walker_check_dmg();
+
         break;
     }
 

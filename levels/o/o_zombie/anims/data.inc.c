@@ -5,3 +5,5 @@
 #include "anim_NewWalk.inc.c"
 #include "anim_damage.inc.c"
 #include "anim_death.inc.c"
+#include "anim_eating.inc.c"
+#include "anim_idlez.inc.c"

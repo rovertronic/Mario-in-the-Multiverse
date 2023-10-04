@@ -5,6 +5,8 @@ const GeoLayout o_area_1_geo[] = {
 	GEO_OPEN_NODE(),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, o_dl_Cube_mesh_layer_1),
 		GEO_ASM(0, e__shotgun_effects),
+		GEO_ASM(0, geo_update_uv_lights),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, o_dl_uvlight_mesh_layer_5),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -31,6 +33,7 @@ const GeoLayout o_area_1[] = {
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, o_dl_material_revert_render_settings),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, o_dl_material_revert_render_settings),
 	GEO_CLOSE_NODE(),
 	GEO_END(),
 };

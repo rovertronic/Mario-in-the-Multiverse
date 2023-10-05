@@ -15,6 +15,26 @@
             "envelope": "envelope0",
             "sound": "level_X_0"
         },
+        "inst_level_e_caco_alert": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_e_caco_alert"
+        },
+        "inst_level_e_caco_alert2": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_e_caco_alert2"
+        },
+        "inst_level_e_caco_damage": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_e_caco_damage"
+        },
+        "inst_level_e_caco_death": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_e_caco_death"
+        },
         "inst_level_g_0": {
             "release_rate": 208,
             "envelope": "envelope0",
@@ -23,6 +43,10 @@
     },
     "instrument_list": [
         "inst_level_X_0",
+        "inst_level_e_caco_alert",
+        "inst_level_e_caco_alert2",
+        "inst_level_e_caco_damage",
+        "inst_level_e_caco_death",
         "inst_level_g_0"
     ]
 }

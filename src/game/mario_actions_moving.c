@@ -1796,9 +1796,9 @@ s32 act_squid(struct MarioState *m){
         case 2: //ink wall move
             if (squid_wall) {
                 wall_angle = atan2s(squid_wall->normal.z,squid_wall->normal.x);
-                intend_x = m->pos[0] + sins(wall_angle+0x4000) * 5.0f * (gPlayer3Controller->rawStickX/10.0f);
-                intend_y = m->pos[1] + (gPlayer3Controller->rawStickY/3.0f);
-                intend_z = m->pos[2] + coss(wall_angle+0x4000) * 5.0f * (gPlayer3Controller->rawStickX/10.0f);
+                intend_x = m->pos[0] + sins(wall_angle+0x4000) * 5.0f * (gPlayer1Controller->rawStickX/10.0f);
+                intend_y = m->pos[1] + (gPlayer1Controller->rawStickY/3.0f);
+                intend_z = m->pos[2] + coss(wall_angle+0x4000) * 5.0f * (gPlayer1Controller->rawStickX/10.0f);
 
                 m->pos[0] = intend_x;
                 m->pos[1] = intend_y;

@@ -73,7 +73,7 @@ const LevelScript level_a_entry[] = {
 		OBJECT(MODEL_NONE, 53, 164, 1474, 0, 0, 0, (7 << 24), bhvStar),
 		TERRAIN(a_area_1_collision),
 		MACRO_OBJECTS(a_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_WATER),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_JELLYFISH_FIELDS),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

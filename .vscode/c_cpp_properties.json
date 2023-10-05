@@ -22,7 +22,8 @@
                 "${workspaceFolder}/include/object_constants.h",
                 "${workspaceFolder}/src/game/object_list_processor.h",
                 "${workspaceFolder}/src/game/interaction.h",
-                "${workspaceFolder}/src/game/level_update.h"
+                "${workspaceFolder}/src/game/level_update.h",
+                "${workspaceFolder}/src/game/obj_behaviors.h"
             ],
             "defines": [
                 "TARGET_N64=1",

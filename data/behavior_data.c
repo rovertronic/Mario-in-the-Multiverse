@@ -6470,6 +6470,6 @@ const BehaviorScript bhvHumanoid[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_ANIMATIONS(oAnimations, humanoid_anims),
-    ANIMATE(0),
+    ANIMATE(1),
     BREAK()
 };

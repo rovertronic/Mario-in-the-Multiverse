@@ -34,6 +34,8 @@ void jelly_loop(void) {
             }
             break;
         case 1:
+            o->oGravity = 0;
+            
             cur_obj_rotate_yaw_toward(o->oAngleToMario, 0x250);
             
             if (cur_obj_check_anim_frame(1)) {
@@ -87,13 +89,6 @@ void jelly_loop(void) {
     if (o->oTimer >= 45) {
         o->oTimer = 0;
     }
-
-    o->oVelX = o->oForwardVel * sins(o->oMoveAngleYaw);
-    o->oVelZ = o->oForwardVel * coss(o->oMoveAngleYaw);
-    o->oPosX += o->oVelX;
-    o->oPosZ += o->oVelZ;
-
-    o->oAngleToMario += o->oVelY; 
 }
 
 // Jellyfish Fields Platform
@@ -107,7 +102,43 @@ void jfplatform_loop(void) {
 
 void taxistop_loop(void)
 {
+    s16 eventTimer = 62;
 
+    switch (o->oBehParams2ndByte)
+    {
+        case 0:
+            gCamera->cutscene = 0;
+            break;
+        case 1:
+            gCamera->cutscene = 1;
+            break;
+    }
+    
+    if (gMarioObject->platform == o)
+    {
+        gCamera->cutscene = 1;
+        set_mario_animation(gMarioState, MARIO_ANIM_IDLE_HEAD_CENTER);
+        play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, eventTimer, 255, 255, 255);
+        set_mario_action(gMarioState, TAXI_STOP_CUTSCENE, 0);
+        if (o->oTimer >= 60)
+        {
+            initiate_warp(LEVEL_G, 1, 0x0A, 0);
+        }
+    } else {
+        gCamera->cutscene = 0;
+    }
+    
+    switch (gCamera->cutscene)
+    {
+        case 0:
+
+            break;
+        case 1:
+            gLakituState.curPos[0] = -2314;
+            gLakituState.curPos[1] = -67;
+            gLakituState.curPos[2] = -15694;
+            break;
+    }
 }
 
 // Boat for Taxi Stop

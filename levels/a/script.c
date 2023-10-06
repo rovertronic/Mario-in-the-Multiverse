@@ -60,6 +60,7 @@ const LevelScript level_a_entry[] = {
 		OBJECT(MODEL_JELLY, -5157, -92, -9989, 0, 0, 0, 0x00000000, bhvJelly),
 		OBJECT(MODEL_JELLY, -4820, -92, -13936, 0, 0, 0, 0x00000000, bhvJelly),
 		OBJECT(MODEL_JELLY, -2804, 541, -13459, 0, 0, 0, 0x00000000, bhvJelly),
+		OBJECT(MODEL_TAXISTOP, -1849, -163, -15200, 0, -50, 0, 0x00000000, bhvTaxiStop),
 		OBJECT(MODEL_LEVEL_PIPE, 1591, -163, 317, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_NONE, 500, 365, 835, 0, -95, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 500, 50, 839, 0, -90, 0, (0x0A << 16), bhvInstantActiveWarp),
@@ -73,7 +74,7 @@ const LevelScript level_a_entry[] = {
 		OBJECT(MODEL_NONE, 53, 164, 1474, 0, 0, 0, (7 << 24), bhvStar),
 		TERRAIN(a_area_1_collision),
 		MACRO_OBJECTS(a_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_JELLYFISH_FIELDS),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_WATER),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

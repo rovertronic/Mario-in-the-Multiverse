@@ -54,6 +54,7 @@
 #include "levels/wf/header.h"
 #include "levels/bowser_2/header.h"
 #include "levels/ttm/header.h"
+#include "levels/f/header.h"
 #include "levels/i/header.h"
 
 #include "make_const_nonconst.h"
@@ -6282,6 +6283,45 @@ const BehaviorScript bhvGadgetAim[] = {
     BILLBOARD(),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_gadget_aim),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBriefcase[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_HITBOX(/*Radius*/ 150, /*Height*/ 100),
+    SET_INT(oIntangibleTimer, 0),
+    BEGIN_LOOP(),
+        ADD_INT(oFaceAngleYaw, 0x100),
+        CALL_NATIVE(bhv_hidden_star_trigger_loop),
+    END_LOOP(),
+};
+
+extern void bhv_fdoor_loop(void);
+const BehaviorScript bhvFdoor[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW),//--E
+    LOAD_COLLISION_DATA(f_door_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_fdoor_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvKeypad[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW),//--E
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+
+extern void bhv_ffence_loop(void);
+const BehaviorScript bhvFfence[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW),//--E
+    LOAD_COLLISION_DATA(f_fence_collision),
+    SET_FLOAT(oDrawingDistance, 25000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ffence_loop),
     END_LOOP(),
 };
 /* GROUP F END */

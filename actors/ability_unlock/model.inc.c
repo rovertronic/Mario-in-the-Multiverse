@@ -866,7 +866,6 @@ Gfx mat_revert_ability_unlock_glow[] = {
 
 Gfx mat_ability_unlock_glow_scroll[] = {
 	gsDPPipeSync(),
-	gsDPSetTextureFilter(G_TF_BILERP),
 	gsDPSetCombineLERP(0, 0, 0, PRIMITIVE, PRIMITIVE, 0, TEXEL0, 0, 0, 0, 0, PRIMITIVE, PRIMITIVE, 0, TEXEL0, 0),
 	gsSPClearGeometryMode(G_CULL_BACK),
 	gsSPTexture(65535, 65535, 0, 0, 1),
@@ -887,6 +886,7 @@ Gfx mat_revert_ability_unlock_glow_scroll[] = {
 
 Gfx ability_unlock_ability_unlock_mesh_layer_4[] = {
 	gsSPDisplayList(ability_unlock_ability_unlock_mesh_layer_4_tri_0),
+	gsDPSetTextureFilter(G_TF_BILERP),
 	gsSPEndDisplayList(),
 };
 

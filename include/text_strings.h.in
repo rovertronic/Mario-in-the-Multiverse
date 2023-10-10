@@ -14,7 +14,7 @@
 #define AUTHOR_C                _("By: Wossil & Chiara")
 #define AUTHOR_D                _("By: JakeDower")
 #define AUTHOR_E                _("By: Dan-GPTV")
-#define AUTHOR_F                _("By: Aesy")
+#define AUTHOR_F                _("By: Aesy (Aeza)")
 #define AUTHOR_G                _("By: CowQuack")
 #define AUTHOR_H                _("By: joopii")
 #define AUTHOR_I                _("By: Drahnokks")
@@ -23,7 +23,7 @@
 #define AUTHOR_L                _("By: luigiman0640")
 #define AUTHOR_M                _("By: Mel")
 #define AUTHOR_N                _("By: MarioCrash")
-#define AUTHOR_O                _("By: Rovert")
+#define AUTHOR_O                _("By: Rovertronic")
 
 #define TEXT_ABILITY_DEFAULT    _("Mario's Cap:\nMario's basic moveset as you know it.")
 #define TEXT_ABILITY_A          _("Bubble Hat: A hat made up of bubbles.\nPress [B] to swing your net while walking.\nPress [A] to do a bubble jump!")

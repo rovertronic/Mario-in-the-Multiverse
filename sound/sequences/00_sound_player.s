@@ -8006,7 +8006,7 @@ chan_end
 
 .sound_ability_e_shotgun3:
 chan_setbank 11
-chan_setinstr 14
+chan_setinstr 13
 chan_setlayer 0, .layer_ability_e_shotgun3
 chan_end
 
@@ -8132,6 +8132,12 @@ layer_end
 // MitM Level Sound Effects
 .channelLevel_table:
 sound_ref .sound_level_x_0
+sound_ref .sound_level_e_caco_alert
+sound_ref .sound_level_e_caco_alert2
+sound_ref .sound_level_e_caco_damage
+sound_ref .sound_level_e_caco_damage2
+sound_ref .sound_level_e_caco_death
+sound_ref .sound_level_e_caco_death2
 sound_ref .sound_level_i_hoodboomer_death
 sound_ref .sound_level_i_hoodboomer_laugh
 
@@ -8144,6 +8150,70 @@ chan_end
 .layer_level_x_0:
 layer_note1 39, 0x7f, 127
 layer_end
+
+
+//caco
+
+.sound_level_e_caco_alert:
+chan_setbank 12
+chan_setinstr 1
+chan_setlayer 0, .layer_level_e_caco_alert
+chan_end
+
+    .sound_level_e_caco_alert2:
+    chan_setbank 12
+    chan_setinstr 2
+    chan_setlayer 0, .layer_level_e_caco_alert
+    chan_end
+
+    .layer_level_e_caco_alert:
+    layer_note1 39, 0x88, 127
+    layer_end
+
+
+.sound_level_e_caco_damage:
+chan_setbank 12
+chan_setinstr 3
+chan_setlayer 0, .layer_level_e_caco_damage
+chan_end
+
+.layer_level_e_caco_damage:
+layer_note1 39, 0x68, 127
+layer_end
+
+    .sound_level_e_caco_damage2:
+    chan_setbank 12
+    chan_setinstr 3
+    chan_setlayer 0, .layer_level_e_caco_damage2
+    chan_end
+
+    .layer_level_e_caco_damage2:
+    layer_note1 38, 0x68, 127
+    layer_end
+    
+
+.sound_level_e_caco_death:
+chan_setbank 12
+chan_setinstr 4
+chan_setlayer 0, .layer_level_e_caco_death
+chan_end
+
+.layer_level_e_caco_death:
+layer_note1 39, 0x5A, 127
+layer_end
+
+    .sound_level_e_caco_death2:
+    chan_setbank 12
+    chan_setinstr 4
+    chan_setlayer 0, .layer_level_e_caco_death2
+    chan_end
+
+    .layer_level_e_caco_death2:
+    layer_note1 38, 0x5A, 127
+    layer_end
+
+
+// hoodboomer
 
 .sound_level_i_hoodboomer_death:
 chan_setbank 12

@@ -57,6 +57,9 @@ u32 interact_hoot          (struct MarioState *m, u32 interactType, struct Objec
 u32 interact_cap           (struct MarioState *m, u32 interactType, struct Object *obj);
 u32 interact_grabbable     (struct MarioState *m, u32 interactType, struct Object *obj);
 u32 interact_text          (struct MarioState *m, u32 interactType, struct Object *obj);
+//--E
+u32 interact_e__doom_enemy (struct MarioState *m, u32 interactType, struct Object *obj);
+
 
 struct InteractionHandler {
     u32 interactType;
@@ -95,16 +98,18 @@ static struct InteractionHandler sInteractionHandlers[] = {
     { INTERACT_CAP,            interact_cap },
     { INTERACT_GRABBABLE,      interact_grabbable },
     { INTERACT_TEXT,           interact_text },
+    //--E
+    { INTERACT_E__DOOM_ENEMY,  interact_e__doom_enemy },
 };
 
-static u32 sForwardKnockbackActions[][3] = {
+ u32 sForwardKnockbackActions[][3] = {//--no longer static (used in bullet system)
 //    Soft                        Normal                 Hard
     { ACT_SOFT_FORWARD_GROUND_KB, ACT_FORWARD_GROUND_KB, ACT_HARD_FORWARD_GROUND_KB }, // Ground
     { ACT_FORWARD_AIR_KB,         ACT_FORWARD_AIR_KB,    ACT_HARD_FORWARD_AIR_KB    }, // Air
     { ACT_FORWARD_WATER_KB,       ACT_FORWARD_WATER_KB,  ACT_FORWARD_WATER_KB       }, // Water
 };
 
-static u32 sBackwardKnockbackActions[][3] = {
+ u32 sBackwardKnockbackActions[][3] = {//--no longer static (used in bullet system)
 //    Soft                         Normal                  Hard
     { ACT_SOFT_BACKWARD_GROUND_KB, ACT_BACKWARD_GROUND_KB, ACT_HARD_BACKWARD_GROUND_KB }, // Ground
     { ACT_BACKWARD_AIR_KB,         ACT_BACKWARD_AIR_KB,    ACT_HARD_BACKWARD_AIR_KB    }, // Air
@@ -447,6 +452,8 @@ u32 mario_check_object_grab(struct MarioState *m) {
             if (facingDYaw >= -0x5555 && facingDYaw <= 0x5555) {
                 m->faceAngle[1] = m->interactObj->oMoveAngleYaw;
                 m->usedObj = m->interactObj;
+                m->pos[1] = m->floorHeight;
+                m->vel[1] = 0.0f;
                 result = set_mario_action(m, ACT_PICKING_UP_BOWSER, 0);
             }
         } else {
@@ -859,6 +866,8 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
         obj->oInteractStatus = INT_STATUS_INTERACTED;
         m->interactObj       = obj;
         m->usedObj           = obj;
+
+        gStarModelLastCollected = obj_get_model_id(obj);
 
 #ifdef GLOBAL_STAR_IDS
         starIndex = (obj->oBehParams >> 24) & 0xFF;
@@ -1754,11 +1763,14 @@ u32 check_read_sign(struct MarioState *m, struct Object *obj) {
         && abs_angle_diff(mario_obj_angle_to_object(m, obj), m->faceAngle[1]) <= SIGN_RANGE
     ) {
 #ifdef DIALOG_INDICATOR
+        struct Object *orangeNumber;
         if (obj->behavior == segmented_to_virtual(bhvSignOnWall)) {
-            spawn_object_relative(ORANGE_NUMBER_A, 0, 180, 32, obj, MODEL_NUMBER, bhvOrangeNumber);
+            orangeNumber = spawn_object_relative(ORANGE_NUMBER_A, 0, 180, 32, obj, MODEL_NUMBER, bhvOrangeNumber);
         } else {
-            spawn_object_relative(ORANGE_NUMBER_A, 0, 160,  8, obj, MODEL_NUMBER, bhvOrangeNumber);
+            orangeNumber = spawn_object_relative(ORANGE_NUMBER_A, 0, 160,  8, obj, MODEL_NUMBER, bhvOrangeNumber);
         }
+        orangeNumber->oHomeX = orangeNumber->oPosX;
+        orangeNumber->oHomeZ = orangeNumber->oPosZ;
 #endif
         if (m->input & READ_MASK) {
 #else
@@ -1789,11 +1801,14 @@ u32 check_npc_talk(struct MarioState *m, struct Object *obj) {
         && abs_angle_diff(mario_obj_angle_to_object(m, obj), m->faceAngle[1]) <= SIGN_RANGE
     ) {
 #ifdef DIALOG_INDICATOR
+        struct Object *orangeNumber;
         if (obj->behavior == segmented_to_virtual(bhvYoshi)) {
-            spawn_object_relative(ORANGE_NUMBER_A, 0, 256, 64, obj, MODEL_NUMBER, bhvOrangeNumber);
+            orangeNumber = spawn_object_relative(ORANGE_NUMBER_A, 0, 256, 64, obj, MODEL_NUMBER, bhvOrangeNumber);
         } else {
-            spawn_object_relative(ORANGE_NUMBER_A, 0, 160,  0, obj, MODEL_NUMBER, bhvOrangeNumber);
+            orangeNumber = spawn_object_relative(ORANGE_NUMBER_A, 0, 160,  0, obj, MODEL_NUMBER, bhvOrangeNumber);
         }
+        orangeNumber->oHomeX = orangeNumber->oPosX;
+        orangeNumber->oHomeZ = orangeNumber->oPosZ;
 #endif
         if (m->input & READ_MASK) {
 #else
@@ -1828,6 +1843,29 @@ u32 interact_text(struct MarioState *m, UNUSED u32 interactType, struct Object *
 
     return interact;
 }
+
+//--E
+u32 interact_e__doom_enemy(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
+    u32 interaction;
+    if ((m->flags & MARIO_METAL_CAP) || (aku_invincibility > 0) || using_ability(ABILITY_KNIGHT)) {
+        interaction = INT_FAST_ATTACK_OR_SHELL; }
+    else {
+        interaction = determine_interaction(m, obj); }
+
+    if (interaction & INT_ATTACK_NOT_FROM_BELOW) {
+#if ENABLE_RUMBLE
+        queue_rumble_data(5, 80);
+#endif
+        attack_object(obj, interaction);
+        bounce_back_from_attack(m, interaction);
+
+        if (interaction & INT_HIT_FROM_ABOVE) {
+            bounce_off_object(m, obj, 30.0f); }
+    }
+
+    return FALSE;
+}
+
 
 void check_kick_or_punch_wall(struct MarioState *m) {
     if (

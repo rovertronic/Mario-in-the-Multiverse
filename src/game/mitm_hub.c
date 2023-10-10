@@ -87,7 +87,7 @@ struct mitm_hub_level hub_levels[] = {
     /*B*/ {&author_string_b, LEVEL_B,     COURSE_HMC,      0/*10*/ },
     /*L*/ {&author_string_l, LEVEL_BOB,   COURSE_LLL,      0/*15*/ },
     /*K*/ {&author_string_k, LEVEL_BOB,   COURSE_SSL,      0/*15*/ },
-    /*E*/ {&author_string_e, LEVEL_BBH,   COURSE_DDD,      0/*20*/ },
+    /*E*/ {&author_string_e, LEVEL_E,     COURSE_DDD,      0/*20*/ },
     /*F*/ {&author_string_f, LEVEL_F  ,   COURSE_SL ,      0/*20*/ },
     /*J*/ {&author_string_j, LEVEL_BOB,   COURSE_WDW,      0/*25*/ },
     /*D*/ {&author_string_d, LEVEL_SSL,   COURSE_TTM,      0/*30*/ },

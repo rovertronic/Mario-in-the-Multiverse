@@ -568,7 +568,8 @@ extern const BehaviorScript bhvNitroBox[];
 
 /* GROUP E START */
 
-
+extern const BehaviorScript bhvE_Caco[];
+extern const BehaviorScript bhvE_Enemy[];
 
 
 extern const BehaviorScript bhvE_RocketBlast[];

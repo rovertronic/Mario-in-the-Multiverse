@@ -1,0 +1,12 @@
+extern const GeoLayout e_area_1_geo[];
+extern const GeoLayout e_area_1[];
+extern const Collision e_area_1_collision[];
+extern const MacroObject e_area_1_macro_objs[];
+extern u8 e_dl_MildDentPatternDepthDeeperShadows_i4[];
+extern u8 e_dl_IRBG_i4[];
+extern Vtx e_dl_Cube_mesh_layer_1_vtx_0[128];
+extern Gfx e_dl_Cube_mesh_layer_1_tri_0[];
+extern Gfx mat_e_dl_Default_layer1[];
+extern Gfx mat_revert_e_dl_Default_layer1[];
+extern Gfx e_dl_Cube_mesh_layer_1[];
+extern Gfx e_dl_material_revert_render_settings[];

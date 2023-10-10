@@ -14,7 +14,7 @@
 #elif defined(EEP16K)
     #define EEPROM_SIZE 0x800
 #else
-    #define EEPROM_SIZE 0x800
+    #define EEPROM_SIZE 0x800//--**
 #endif
 
 #define NUM_SAVE_FILES 4

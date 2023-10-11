@@ -80,8 +80,18 @@ Gfx *geo_skybox_main(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx) 
 
 //course O uv light
 #include "levels/o/header.inc.h"
+Vtx *uv_light_vtx_list[] = {
+    o_dl_uvlight_mesh_layer_5_vtx_0,
+    o_dl_uvlight_mesh_layer_5_vtx_1,
+};
+
+u16 uv_light_vtx_list_sizes[] = {
+    sizeof(o_dl_uvlight_mesh_layer_5_vtx_0),
+    sizeof(o_dl_uvlight_mesh_layer_5_vtx_1),
+};
+
 Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *context) {
-    s32 i, k;
+    s32 i;
     f32 dist;
     s32 light;
     Vtx *vert;
@@ -90,23 +100,24 @@ Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *
     if (callContext == GEO_CONTEXT_RENDER) {
         vec3f_to_vec3s(marioPos, gMarioState->pos);
 
-        vert = segmented_to_virtual(&o_dl_uvlight_mesh_layer_5_vtx_0);
+        for (int j = 0; j<2; j++) {
+            vert = segmented_to_virtual(uv_light_vtx_list[j]);
+            if (using_ability(ABILITY_GADGET_WATCH)) {
+                //uv light on
+                for (i = 0; i < uv_light_vtx_list_sizes[j] / sizeof(o_dl_uvlight_mesh_layer_5_vtx_0[0]); i++) {
+                    dist = sqrtf((marioPos[0] - vert[i].v.ob[0]) * (marioPos[0] - vert[i].v.ob[0]) + (marioPos[2] - vert[i].v.ob[2]) * (marioPos[2] - vert[i].v.ob[2]));
 
-        if (using_ability(ABILITY_GADGET_WATCH)) {
-            //uv light on
-            for (i = 0; i < sizeof(o_dl_uvlight_mesh_layer_5_vtx_0) / sizeof(o_dl_uvlight_mesh_layer_5_vtx_0[0]); i++) {
-                dist = sqrtf((marioPos[0] - vert[i].v.ob[0]) * (marioPos[0] - vert[i].v.ob[0]) + (marioPos[2] - vert[i].v.ob[2]) * (marioPos[2] - vert[i].v.ob[2]));
-
-                light = 255 - (dist/4);
-                if (light < 0) {
-                    light = 0;
+                    light = 255 - (dist/4);
+                    if (light < 0) {
+                        light = 0;
+                    }
+                    vert[i].v.cn[3] = light;
                 }
-                vert[i].v.cn[3] = light;
-            }
-        } else {
-            //uv light off
-            for (i = 0; i < sizeof(o_dl_uvlight_mesh_layer_5_vtx_0) / sizeof(o_dl_uvlight_mesh_layer_5_vtx_0[0]); i++) {
-                vert[i].v.cn[3] = 0;
+            } else {
+                //uv light off
+                for (i = 0; i < uv_light_vtx_list_sizes[j] / sizeof(o_dl_uvlight_mesh_layer_5_vtx_0[0]); i++) {
+                    vert[i].v.cn[3] = 0;
+                }
             }
         }
 

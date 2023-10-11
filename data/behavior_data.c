@@ -6472,6 +6472,20 @@ const BehaviorScript bhvOZombieSpawner[] = {
         CALL_NATIVE(bhv_zambie_spawner),
     END_LOOP(),
 };
+
+extern void bhv_o_tree_init(void);
+const BehaviorScript bhvOTree[] = {
+    BEGIN(OBJ_LIST_POLELIKE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_OPACITY_FROM_CAMERA_DIST)),
+    SET_INT(oInteractType, INTERACT_POLE),
+    SET_HITBOX(/*Radius*/ 80, /*Height*/ 500),
+    SET_INT(oIntangibleTimer, 0),
+    SET_FLOAT(oDrawingDistance, 32000),
+    CALL_NATIVE(bhv_o_tree_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_pole_base_loop),
+    END_LOOP(),
+};
 /* GROUP O END */
 
 const BehaviorScript bhvCutterBlast[] = {

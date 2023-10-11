@@ -485,7 +485,7 @@ void bhv_o_walker_update(void) {
     o->oInteractStatus = 0;
 
     if (o->oTimer > 0) {
-        if ((o->oPosY < -8000.0f)||(o->oDistanceToMario>7000.0f)) {
+        if ((o->oPosY < -8000.0f)||(o->oDistanceToMario>10000.0f)) {
             //despawn if the zombie falls off the map / gets too far from mario
             obj_mark_for_deletion(o);
         }
@@ -493,7 +493,7 @@ void bhv_o_walker_update(void) {
 }
 
 void bhv_zambie_spawner() {
-    u8 bells_tolling = TRUE;
+    u8 bells_tolling = FALSE;
 
     u8 zambie_thresh = 25;
     u16 timer_rand = 100;
@@ -504,9 +504,14 @@ void bhv_zambie_spawner() {
     }
 
     if (o->oTimer > 200) {
-        if ((o->oDistanceToMario>4000.0f)&&(o->oDistanceToMario<7000.0f)&&(lv_o_zombie_counter < zambie_thresh)) {
+        if ((o->oDistanceToMario>4000.0f)&&(o->oDistanceToMario<10000.0f)&&(lv_o_zombie_counter < zambie_thresh)) {
             spawn_object(o,MODEL_NONE,bhvOZombie);
         }
         o->oTimer = random_u16()%timer_rand;
     }
+}
+
+void bhv_o_tree_init(void) {
+    cur_obj_scale(0.9f + (random_float()*0.3f));
+    o->oFaceAngleYaw = random_u16();
 }

@@ -54,14 +54,9 @@ void jelly_loop(void) {
                 o->oAction = 0;
             }
 
-            if (using_ability(ABILITY_BUBBLE_HAT))
-            {
-                if (cur_obj_was_attacked_or_ground_pounded())
+            if (cur_obj_was_attacked_or_ground_pounded())
                 {
                     o->oAction = 2;
-                } else {
-                    o->oAction = 1;
-                }
             }
             break;
         case 2:
@@ -102,43 +97,21 @@ void jfplatform_loop(void) {
 
 void taxistop_loop(void)
 {
-    s16 eventTimer = 62;
-
-    switch (o->oBehParams2ndByte)
-    {
-        case 0:
-            gCamera->cutscene = 0;
-            break;
-        case 1:
-            gCamera->cutscene = 1;
-            break;
-    }
+    s16 timer = 52;
     
     if (gMarioObject->platform == o)
     {
-        gCamera->cutscene = 1;
-        set_mario_animation(gMarioState, MARIO_ANIM_IDLE_HEAD_CENTER);
-        play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, eventTimer, 255, 255, 255);
-        set_mario_action(gMarioState, TAXI_STOP_CUTSCENE, 0);
-        if (o->oTimer >= 60)
+        gLakituState.curPos[0] = 5181;
+        gLakituState.curPos[1] = -3;
+        gLakituState.curPos[2] = -7742;
+
+        if (o->oTimer > 50)
         {
             initiate_warp(LEVEL_G, 1, 0x0A, 0);
         }
-    } else {
-        gCamera->cutscene = 0;
-    }
-    
-    switch (gCamera->cutscene)
-    {
-        case 0:
 
-            break;
-        case 1:
-            gLakituState.curPos[0] = -2314;
-            gLakituState.curPos[1] = -67;
-            gLakituState.curPos[2] = -15694;
-            break;
-    }
+        play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, timer, 0, 0, 0);
+    }   
 }
 
 // Boat for Taxi Stop
@@ -162,10 +135,9 @@ struct ObjectHitbox sTikiHitbox = {
 };
 
 void tiki_box_init(void) {
-    o->oGravity = 1.2f;
-    o->oFriction = 0.999f;
-    o->oBuoyancy = 0.9f;
+    o->oGravity = 1;
     o->oOpacity = 150;
+    obj_set_hitbox(o, &sTikiHitbox);
 }
 
 void tiki_box_loop(void)
@@ -190,8 +162,5 @@ void tiki_box_loop(void)
 
 void king_jellyfish_loop(void)
 {
-    switch (o->oAction)
-    {
-        
-    }
+
 }

@@ -813,7 +813,10 @@ void render_hud(void) {
         }
 
 
-        render_ability_dpad(60,195,(u8)hud_alpha);
+        create_dl_scale_matrix(MENU_MTX_PUSH, 0.75f, 0.75f, 0);
+        render_ability_dpad(60,265,(u8)hud_alpha);
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hud_alpha);
 
         gSPDisplayList(gDisplayListHead++, &hudbar_hudbar_mesh);

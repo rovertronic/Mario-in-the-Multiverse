@@ -207,7 +207,9 @@ s32 edge_intersects_plane(Vec3f intersectionPoint, Vec3f edgePoint1, Vec3f edgeP
 
 /// Check if a mesh's vertices are intersecting a triangle's face.
 void vertices_vs_tri_face(Vec3f vertices[], u32 numVertices, struct TriangleInfo *tri, struct Collision *col) {
-    increment_debug_counter(&pNumVertexChecks, numVertices);
+    //increment_debug_counter(&pNumVertexChecks, numVertices);
+    
+
     for (u32 i = 0; i < numVertices; i++) {
         f32 distance = point_in_plane(vertices[i], tri->vertices[0], tri->normal);
         if (distance <= PENETRATION_MIN_DEPTH || distance >= PENETRATION_MAX_DEPTH) continue;
@@ -215,6 +217,19 @@ void vertices_vs_tri_face(Vec3f vertices[], u32 numVertices, struct TriangleInfo
             add_collision(col, vertices[i], tri->normal, distance);
         }
     }
+}
+
+void vertex_vs_tri_face(Vec3f vertex, struct TriangleInfo *tri, struct Collision *col) {
+    //increment_debug_counter(&pNumVertexChecks, numVertices);
+    
+    f32 distance = point_in_plane(vertex, tri->vertices[0], tri->normal);
+    if (distance <= PENETRATION_MIN_DEPTH || distance >= PENETRATION_MAX_DEPTH) {
+        return;
+    }
+    if (point_is_in_tri(vertex, tri)) {
+        add_collision(col, vertex, tri->normal, distance);
+    }
+    return;
 }
 
 /**
@@ -310,6 +325,18 @@ static struct QuadInfo sCurrentQuads2[50];
 
 /// Transform all the vertices of the current rigid body.
 void calculate_mesh(struct RigidBody *body, Vec3f vertices[], struct TriangleInfo tris[], struct QuadInfo quads[]) {
+
+    //the ball has a 600 unit box of collision detection
+    if (body->mesh->numVertices == 0) {
+        body->minCorner[0] = body->transform[3][0] - 300.0f;
+        body->minCorner[1] = body->transform[3][1] - 300.0f;
+        body->minCorner[2] = body->transform[3][2] - 300.0f;
+        body->maxCorner[0] = body->transform[3][0] + 300.0f;
+        body->maxCorner[1] = body->transform[3][1] + 300.0f;
+        body->maxCorner[2] = body->transform[3][2] + 300.0f;
+        return;
+    }
+
     // Calculate vertices
     vec3f_set(body->minCorner,  1000000.f,  1000000.f,  1000000.f);
     vec3f_set(body->maxCorner, -1000000.f, -1000000.f, -1000000.f);
@@ -317,17 +344,14 @@ void calculate_mesh(struct RigidBody *body, Vec3f vertices[], struct TriangleInf
         Vec3f vertex;
         vec3f_copy(vertex, body->mesh->vertices[i]);
         vec3f_mul(vertex, body->size);
-        //linear_mtxf_mul_vec3f_and_translate(body->transform, vertices[i], vertex);
-        vertices[i][0] = body->transform[3][0] + vertex[0];
-        vertices[i][1] = body->transform[3][1] + vertex[1];
-        vertices[i][2] = body->transform[3][2] + vertex[2];
-
+        linear_mtxf_mul_vec3f_and_translate(body->transform, vertices[i], vertex);       
 
         for (u32 j = 0; j < 3; j++) {
             if (vertices[i][j] < body->minCorner[j]) body->minCorner[j] = vertices[i][j];
             if (vertices[i][j] > body->maxCorner[j]) body->maxCorner[j] = vertices[i][j];
         }
     }
+
     /**
     Vec3f edge1, edge2;
     // Calculate tris
@@ -388,7 +412,15 @@ void body_vs_surface_collision(struct RigidBody *body, struct Surface *tri, stru
     //u32 prevCollisions = col->numPoints;
 
     // Collision detection
-    vertices_vs_tri_face(sCurrentVertices, mesh->numVertices, &triInfo, col);
+    if (body->mesh->numVertices == 0) {
+        Vec3f pos;
+        pos[0] = body->transform[3][0] - (tri->normal.x * 90.0f);
+        pos[1] = body->transform[3][1] - (tri->normal.y * 90.0f);
+        pos[2] = body->transform[3][2] - (tri->normal.z * 90.0f);
+        vertex_vs_tri_face(&pos, &triInfo, col);
+    } else {
+        vertices_vs_tri_face(sCurrentVertices, mesh->numVertices, &triInfo, col);
+    }
 
 /**
     if (col->numPoints - prevCollisions < 4) {

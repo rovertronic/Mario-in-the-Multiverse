@@ -31,7 +31,8 @@ const LevelScript level_a_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_TAXISTOP, taxistop_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_TSBOAT, boat_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_TIKI_WOOD, tikibox_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_TIKI_STONE, stone_tiki_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_TIKI_STONE, stone_tiki_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_TRAMP, tramp_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -40,6 +41,7 @@ const LevelScript level_a_entry[] = {
 		WARP_NODE(/*entry*/ 0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death*/ 0xF1, LEVEL_X, /*this area*/ 0x01, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death entry*/ 0x01, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0x03, LEVEL_A, 0x02, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_ABILITY, -1146, 50, 5451, 0, 0, 0, (ABILITY_BUBBLE_HAT << 16), bhvAbilityUnlock),
 		OBJECT(MODEL_CHECKPOINT_FLAG, 1439, 50, 2828, 0, 0, 0, (0 << 16), bhvCheckpointFlag),
 		OBJECT(MODEL_CHECKPOINT_FLAG, 1439, 50, 3128, 0, 0, 0, (1 << 16), bhvCheckpointFlag),
@@ -61,6 +63,7 @@ const LevelScript level_a_entry[] = {
 		OBJECT(MODEL_JELLY, -4820, -92, -9696, 0, 0, 0, 0x00000000, bhvJelly),
 		OBJECT(MODEL_JELLY, -2804, 541, -9219, 0, 0, 0, 0x00000000, bhvJelly),
 		OBJECT(MODEL_TAXISTOP, 5180, -163, -7061, 0, -90, 0, 0x00000000, bhvTaxiStop),
+		OBJECT(MODEL_NONE, -6360, -222, 4723, 0, 0, 0, (0x03 << 16), bhvWarp),
 		OBJECT(MODEL_LEVEL_PIPE, 1591, -163, 4557, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_NONE, 500, 365, 5075, 0, -95, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 500, 50, 5079, 0, -90, 0, (0x0A << 16), bhvInstantActiveWarp),
@@ -76,6 +79,18 @@ const LevelScript level_a_entry[] = {
 		MACRO_OBJECTS(a_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_WATER),
 		TERRAIN_TYPE(TERRAIN_STONE),
+		/* Fast64 begin persistent block [area commands] */
+		/* Fast64 end persistent block [area commands] */
+	END_AREA(),
+
+	AREA(2, a_area_2),
+		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_NONE, -3612, 205, -1326, 0, 90, 0, (0x0A << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_TRAMP, -231, -242, -1882, 0, 0, 0, 0x00000000, bhvTramp),
+		TERRAIN(a_area_2_collision),
+		MACRO_OBJECTS(a_area_2_macro_objs),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_WATER),
+		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),

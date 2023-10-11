@@ -29,4 +29,8 @@ extern const LevelScript level_a_entry[];
 
 #include "levels/a/tikibox/collision_header.h"
 
+#include "levels/a/tramp/geo_header.h"
+
+#include "levels/a/tramp/collision_header.h"
+
 #endif

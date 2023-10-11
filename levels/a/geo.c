@@ -21,3 +21,4 @@
 #include "levels/a/taxistop/geo.inc.c"
 #include "levels/a/boat/geo.inc.c"
 #include "levels/a/tikibox/geo.inc.c"
+#include "levels/a/tramp/geo.inc.c"

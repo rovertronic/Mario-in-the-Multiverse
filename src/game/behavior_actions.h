@@ -640,3 +640,4 @@ void taxistop_loop(void);
 void tsboat_loop(void);
 void tiki_box_loop(void);
 void tiki_box_init(void);
+void trampoline_loop(void);

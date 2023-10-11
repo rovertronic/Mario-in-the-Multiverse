@@ -6244,6 +6244,17 @@ const BehaviorScript bhvTikiBox[] = {
     END_LOOP(),
 };
 
+extern const Collision tramp_collision[];
+const BehaviorScript bhvTramp[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(tramp_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(trampoline_loop),
+    END_LOOP(), 
+};
+
 /* GROUP A END */
 
 /* GROUP B START */

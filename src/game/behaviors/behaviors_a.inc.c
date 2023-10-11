@@ -1,11 +1,13 @@
 #include "src/game/camera.h"
 #include "src/game/area.h"
 #include "src/game/ability.h"
+#include "src/game/mario_actions_airborne.h"
+#include "src/game/mario.h"
 
 // Jelly
 
 static struct ObjectHitbox sJellyHitbox = {
-    /* interactType:      */ INTERACT_DAMAGE,
+    /* interactType:      */ INTERACT_BOUNCE_TOP,
     /* downOffset:        */ 0,
     /* damageOrCoinValue: */ 1,
     /* health:            */ 1,
@@ -141,8 +143,14 @@ void tiki_box_init(void) {
 }
 
 void tiki_box_loop(void)
-{
-    object_step();
+{   
+    if (cur_obj_was_attacked_or_ground_pounded())
+    {
+        obj_mark_for_deletion(o);
+        obj_explode_and_spawn_coins(8, COIN_TYPE_YELLOW);
+        obj_spawn_loot_yellow_coins(o, 4, 10);
+    }
+    
     
     switch (o->oBehParams2ndByte)
     {
@@ -163,4 +171,17 @@ void tiki_box_loop(void)
 void king_jellyfish_loop(void)
 {
 
+}
+
+// Trampoline
+
+void trampoline_loop(void)
+{
+    f32 jumpVel = 90.0f;
+    
+    if (gMarioObject->platform == o)
+    {
+        gMarioState->vel[1] = jumpVel;
+        return set_mario_action(gMarioState, ACT_SPECIAL_TRIPLE_JUMP, 0);
+    }
 }

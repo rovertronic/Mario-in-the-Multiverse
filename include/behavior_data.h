@@ -556,6 +556,7 @@ extern const BehaviorScript bhvJellyfishFieldsPlatform[];
 extern const BehaviorScript bhvTaxiStop[];
 extern const BehaviorScript bhvtsBoat[];
 extern const BehaviorScript bhvTikiBox[];
+extern const BehaviorScript bhvTramp[];
 /* GROUP A END */
 
 /* GROUP B START */

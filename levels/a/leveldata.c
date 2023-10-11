@@ -25,3 +25,5 @@
 #include "levels/a/boat/anims/table.inc.c"
 #include "levels/a/tikibox/model.inc.c"
 #include "levels/a/tikibox/collision.inc.c"
+#include "levels/a/tramp/model.inc.c"
+#include "levels/a/tramp/collision.inc.c"

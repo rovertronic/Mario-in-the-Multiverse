@@ -19,6 +19,15 @@
 #include "actors/common1.h"
 #include "actors/common1.h"
 #include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
 
 /* Fast64 begin persistent block [includes] */
 #include "actors/common1.h"
@@ -44,6 +53,9 @@ const LevelScript level_g_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_G_STAR_PROJECTILE, star_projectile_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_G_CHECKER_BLOCK_1, checker_block_1_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_G_SPRING, g_spring_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_G_CUT_ROCK, g_cut_rock_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_G_CUT_ROCK2, g_cut_rock2_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_G_CUT_ROCK3, g_cut_rock3_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -104,6 +116,12 @@ const LevelScript level_g_entry[] = {
 		WARP_NODE(0x0B, LEVEL_G, 0x04, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_BLUE_COIN, 566, -682, 2558, 0, 0, 0, 0x0000F000, bhvBlueCoinJumping),
 		OBJECT(MODEL_BLUE_COIN, 995, 1316, -5264, 0, 0, 0, 0x0000F000, bhvBlueCoinJumping),
+		OBJECT(MODEL_PURPLE_SWITCH, -2997, 2763, -7245, 0, -30, 0, 0x00000000, bhvGCannonSwitch),
+		OBJECT(MODEL_PURPLE_SWITCH, -1972, 2763, -7398, 0, 59, 0, 0x00000000, bhvGCannonSwitch),
+		OBJECT(MODEL_PURPLE_SWITCH, -2628, 2763, -8792, 0, 180, 0, 0x00000000, bhvGCannonSwitch),
+		OBJECT(MODEL_G_CUT_ROCK, -2643, 4582, -8783, 0, 0, 0, (240 << 8), bhvGCutRock),
+		OBJECT(MODEL_G_CUT_ROCK2, -2997, 3800, -7245, 0, 89, 0, (240 << 8), bhvGCutRock),
+		OBJECT(MODEL_G_CUT_ROCK3, -1968, 4945, -7402, 0, 89, 0, (240 << 8), bhvGCutRock),
 		OBJECT(MODEL_NONE, 2212, -1780, -10226, 0, 0, 0, (11 << 16), bhvWarp),
 		OBJECT(MODEL_LEVEL_PIPE, 909, 981, 219, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_GOOMBA, -496, -2108, 11816, 0, 0, 0, 0x00000000, bhvGoomba),
@@ -127,12 +145,17 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_RED_COIN, 2738, 1662, 168, 0, 14, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_RED_COIN, 3977, 884, -1140, 0, 14, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_RED_COIN, 2237, 758, 2273, 0, 14, 0, 0x00000000, bhvRedCoin),
-		OBJECT(MODEL_G_SPRING, -328, -2439, 8837, 0, 0, 0, 0x00000000, bhvGSpring),
-		OBJECT(MODEL_G_SPRING, -300, -2452, 3608, 0, 0, 0, 0x00000000, bhvGSpring),
-		OBJECT(MODEL_G_SPRING, 3833, 3088, -3208, 0, 0, 0, 0x00000000, bhvGSpring),
-		OBJECT(MODEL_G_SPRING, 1766, 975, -674, 0, 0, 0, 0x00000000, bhvGSpring),
-		OBJECT(MODEL_G_SPRING, -2137, 1080, -1383, 0, 0, 0, 0x00000000, bhvGSpring),
+		OBJECT(MODEL_G_SPRING, -328, -2439, 8837, 0, 0, 0, (19 << 16), bhvGSpring),
+		OBJECT(MODEL_G_SPRING, -300, -2452, 3608, 0, 0, 0, (30 << 16), bhvGSpring),
+		OBJECT(MODEL_G_SPRING, 3833, 3088, -3208, 0, 0, 0, (17 << 16), bhvGSpring),
+		OBJECT(MODEL_G_SPRING, 1766, 975, -674, 0, 0, 0, (18 << 16), bhvGSpring),
+		OBJECT(MODEL_G_SPRING, -1382, 2763, -6505, 0, 42, 0, (17 << 16), bhvGSpring),
+		OBJECT(MODEL_G_SPRING, -1816, 3525, -6825, 0, 42, 0, (17 << 16), bhvGSpring),
+		OBJECT(MODEL_G_SPRING, -1351, 3674, -7555, 0, 42, 0, (17 << 16), bhvGSpring),
+		OBJECT(MODEL_G_SPRING, -1863, 4049, -7568, 0, 42, 0, (17 << 16), bhvGSpring),
+		OBJECT(MODEL_G_SPRING, -2189, 4487, -6949, 0, 42, 0, (17 << 16), bhvGSpring),
 		OBJECT(MODEL_NONE, 559, 745, 2055, 0, 0, 0, (0 << 24), bhvStar),
+		OBJECT(MODEL_NONE, 5818, 5204, -2822, 0, 0, 0, (2 << 24), bhvStar),
 		TERRAIN(g_area_3_collision),
 		MACRO_OBJECTS(g_area_3_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_CUSTOM_PEANUT_PLAINS),

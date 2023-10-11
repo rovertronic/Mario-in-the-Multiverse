@@ -1780,6 +1780,19 @@ const BehaviorScript bhvFloorSwitchHardcodedModel[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvGCannonSwitch[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    // Floor switch - common:
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW)),//--E
+    LOAD_COLLISION_DATA(purple_switch_seg8_collision_0800C7A8),
+    SET_INT(oIntangibleTimer, 0),//--E
+    SET_HITBOX(/*Radius*/ 160, /*Height*/ 100),//--E
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_cannon_switch_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvFloorSwitchHiddenObjects[] = {
     BEGIN(OBJ_LIST_SURFACE),
     SET_INT(oBehParams2ndByte, PURPLE_SWITCH_BP_REVEAL_HIDDEN),
@@ -6553,6 +6566,17 @@ const BehaviorScript bhvGSpring[] = {
     CALL_NATIVE(bhv_g_spring_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_g_spring_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGCutRock[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ATTACHABLE_BY_ROPE)),
+    LOAD_COLLISION_DATA(g_cut_rock_collision),
+    CALL_NATIVE(bhv_g_cut_rock_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_cut_rock_loop),
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };

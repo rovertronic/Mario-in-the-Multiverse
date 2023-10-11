@@ -22,3 +22,7 @@
 #include "levels/g/checker_block_1/collision.inc.c"
 #include "levels/g/g_spring/model.inc.c"
 #include "levels/g/g_spring/collision.inc.c"
+#include "levels/g/g_cut_rock/model.inc.c"
+#include "levels/g/g_cut_rock/collision.inc.c"
+#include "levels/g/g_cut_rock2/model.inc.c"
+#include "levels/g/g_cut_rock3/model.inc.c"

@@ -1,4 +1,5 @@
 #include "actors/attached_rope/geo_header.h"
+#include "src/game/geo_misc.h"
 
 #define ATTACHABLE_ROPE_DONT_CHECK_CEIL 1
 

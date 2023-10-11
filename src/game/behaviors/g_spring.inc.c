@@ -20,9 +20,9 @@ void bhv_g_spring_loop(void) {
             if (o->oTimer == 15) {
                 o->oAction = G_SPRING_ACTION_COOLDOWN;
             }
-            if (o->oTimer == 8 && gMarioObject->platform == o) {
+            if (o->oTimer == 2 && gMarioObject->platform == o) {
                 gMarioState->action = ACT_TRIPLE_JUMP;
-                gMarioState->vel[1] = 85.0f;
+                gMarioState->vel[1] = 5 * o->oBehParams2ndByte;
                 cur_obj_play_sound_2(SOUND_GENERAL_CRAZY_BOX_BOING_SLOW);
             }
         break;

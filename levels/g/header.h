@@ -25,4 +25,12 @@ extern const LevelScript level_g_entry[];
 
 #include "levels/g/g_spring/collision_header.h"
 
+#include "levels/g/g_cut_rock/geo_header.h"
+
+#include "levels/g/g_cut_rock/collision_header.h"
+
+#include "levels/g/g_cut_rock2/geo_header.h"
+
+#include "levels/g/g_cut_rock3/geo_header.h"
+
 #endif

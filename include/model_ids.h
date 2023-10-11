@@ -651,6 +651,9 @@ enum {
 #define MODEL_G_STAR_PROJECTILE                      0x152
 #define MODEL_G_CHECKER_BLOCK_1                      0x153
 #define MODEL_G_SPRING                      0x154
+#define MODEL_G_CUT_ROCK                      0x155
+#define MODEL_G_CUT_ROCK2                      0x156
+#define MODEL_G_CUT_ROCK3                      0x157
 /* LEVEL G END */
 
 /* LEVEL H START */

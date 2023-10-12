@@ -443,6 +443,7 @@ void geo_process_master_list_sub(struct GraphNodeMasterList *node) {
     gSPMatrix(gDisplayListHead++, &identityMatrixWorldScale, G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
     if (surfaceView) visual_surface_loop();
 #endif
+    render_collision_points();
 }
 
 /**

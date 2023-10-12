@@ -232,6 +232,39 @@ void vertex_vs_tri_face(Vec3f vertex, struct TriangleInfo *tri, struct Collision
     return;
 }
 
+#define vec3f_mag(a) sqrtf(vec3f_dot(a, a))
+
+void ball_vs_corner(Vec3f center, f32 size, Vec3f corner, struct Collision *col) {
+    // Check if closest point is within ball
+    Vec3f dist;
+    vec3f_diff(dist, center, corner);
+    f32 distMag = vec3f_mag(dist);
+    if (distMag > size) return;
+    vec3f_normalize(dist);
+
+    // Find collision point
+    Vec3f colPoint;
+    vec3f_scale(colPoint, dist, -size);
+    vec3f_add(colPoint, center);
+
+    add_collision(col, colPoint, dist, size - distMag);
+}
+
+void ball_vs_edge(Vec3f center, f32 size, Vec3f edge1, Vec3f edge2, struct Collision *col) {
+    // Determine closest point on edge to center of ball
+    Vec3f ab, ap;
+
+    vec3f_diff(ab, edge2, edge1);
+    vec3f_diff(ap, center, edge1);
+    f32 t = vec3f_dot(ab, ap) / vec3f_dot(ab, ab);
+    if (t < 0.f || t > 1.f) return;
+    Vec3f closestPoint;
+    vec3f_scale(closestPoint, ab, t);
+    vec3f_add(closestPoint, edge1);
+
+    ball_vs_corner(center, size, closestPoint, col);
+}
+
 /**
 /// Check if a mesh's vertices are intersecting a quad's face.
 void vertices_vs_quad_face(Vec3f vertices[], u32 numVertices, struct QuadInfo *quad, struct Collision *col) {
@@ -422,6 +455,14 @@ void body_vs_surface_collision(struct RigidBody *body, struct Surface *tri, stru
         vertices_vs_tri_face(sCurrentVertices, mesh->numVertices, &triInfo, col);
     }
 
+
+    ball_vs_edge(body->centerOfMass, 90.f, triInfo.vertices[0], triInfo.vertices[1], col);
+    ball_vs_edge(body->centerOfMass, 90.f, triInfo.vertices[1], triInfo.vertices[2], col);
+    ball_vs_edge(body->centerOfMass, 90.f, triInfo.vertices[2], triInfo.vertices[0], col);
+
+    ball_vs_corner(body->centerOfMass, 90.f, triInfo.vertices[0], col);
+    ball_vs_corner(body->centerOfMass, 90.f, triInfo.vertices[1], col);
+    ball_vs_corner(body->centerOfMass, 90.f, triInfo.vertices[2], col);
 /**
     if (col->numPoints - prevCollisions < 4) {
         for (u32 i = 0; i < 3; i++) {
@@ -560,7 +601,7 @@ void rigid_body_collision_impulse(struct RigidBody *body1, Vec3f hitPoint, Vec3f
         f32 kTangent = body1InvMass + vec3f_dot(tangent, temp1_1);
 
         f32 maxPt = FRICTION * dPn;
-        f32 dPt = CLAMP((-vt / kTangent), -maxPt, maxPt);
+        f32 dPt = CLAMP(((-vt + bias) / kTangent), -maxPt, maxPt);
 
         vec3f_scale(P, tangent, dPt);
 
@@ -570,6 +611,7 @@ void rigid_body_collision_impulse(struct RigidBody *body1, Vec3f hitPoint, Vec3f
         linear_mtxf_mul_vec3f(body1->invInertia, temp1_2, temp1_1);
         vec3f_add(body1Angular, temp1_2);
     }
+
 
     vec3f_add(body1->linearVel, body1Linear);
     vec3f_add(body1->linearDisplacement, body1Linear);
@@ -861,4 +903,61 @@ void do_rigid_body_step(void) {
             rigid_body_update_obj(&gRigidBodies[i]);
         }
     }
+}
+
+static const Vtx vertex_collision_point[] = {
+    {{{  -40,   0, 0}, 0, {     0,      0}, {0xff, 0xff, 0xff, 0xff}}},
+    {{{   40,   0, 0}, 0, {     0,      0}, {0xff, 0xff, 0xff, 0xff}}},
+    {{{    0, 150, 0}, 0, {     0,      0}, {0xff, 0xff, 0xff, 0xff}}},
+
+    {{{       0,      0,    -40}, 0, {     0,      0}, {0xff, 0xff, 0xff, 0xff}}},
+    {{{       0,      0,     40}, 0, {     0,      0}, {0xff, 0xff, 0xff, 0xff}}},
+    {{{       0,     150,     0}, 0, {     0,      0}, {0xff, 0xff, 0xff, 0xff}}},
+};
+
+static const Gfx dl_draw_collision_point_start[] = {
+    gsSPClearGeometryMode(G_LIGHTING | G_CULL_BACK),
+    gsDPSetEnvColor(255,0,0,255),
+    gsDPSetCombineMode(G_CC_FADE, G_CC_FADE),
+    gsDPSetRenderMode(G_RM_XLU_SURF, G_RM_XLU_SURF2),
+    gsSPEndDisplayList(),
+};
+
+static const Gfx dl_draw_collision_point[] = {
+    gsSPVertex(vertex_collision_point, 6, 0),
+    gsSP1Triangle( 0,  1,  2, 0x0),
+    gsSP1Triangle( 3,  4,  5, 0x0),
+    gsSPEndDisplayList(),
+};
+
+static const Gfx dl_draw_collision_point_end[] = {
+    gsSPSetGeometryMode(G_LIGHTING | G_CULL_BACK),
+    gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2),
+    gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
+    gsSPEndDisplayList(),
+};
+
+static void render_collision_point(struct CollisionPoint *point) {
+    Mtx *mtx = alloc_display_list(sizeof(Mtx));
+    Mat4 mtxf;
+    Vec3f pos;
+    vec3f_copy(pos, point->point);
+    vec3_mul_val(pos, WORLD_SCALE);
+    mtxf_align_terrain_normal(mtxf, point->normal, pos, 0);
+    mtxf_to_mtx(mtx, mtxf);
+    gSPMatrix(gDisplayListHead++, mtx, (G_MTX_MODELVIEW | G_MTX_PUSH));
+    gSPDisplayList(gDisplayListHead++, dl_draw_collision_point);
+    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+}
+
+void render_collision_points(void) {
+    gSPDisplayList(gDisplayListHead++, dl_draw_collision_point_start);
+    for (u32 i = 0; i < gNumCollisions; i++) {
+        struct Collision *col = &gCollisions[i];
+
+        for (u32 j = 0; j < col->numPoints; j++) {
+            render_collision_point(&col->points[j]);
+        }
+    }
+    gSPDisplayList(gDisplayListHead++, dl_draw_collision_point_end);
 }

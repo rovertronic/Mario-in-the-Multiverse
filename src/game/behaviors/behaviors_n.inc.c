@@ -24,8 +24,9 @@ static struct ObjectHitbox sMarbleHitbox = {
 };
 
 void bhv_marble_init(void) {
-    struct RigidBody *body = allocate_rigid_body_from_object(o, &Ball_Mesh, 1.0f, ball_Size, FALSE);
+    struct RigidBody *body = allocate_rigid_body_from_object(o, &Ball_Mesh, 1.f, ball_Size, FALSE);
     vec3f_copy(body->linearVel,gMarioState->vel);
+    if (gMarioState->floor->normal.y > 0.99f) body->asleep = TRUE;
 }
 
 u8 underwater = FALSE;
@@ -45,8 +46,11 @@ void bhv_marble_loop(void) {
         //rigid_body_add_force(o->rigidBody, push_position, move_force, TRUE);
     //}
 
-    o->rigidBody->asleep = FALSE;
-    vec3f_add(o->rigidBody->linearVel, move_force);
+    if (gMarioState->intendedMag > 2.f || gMarioState->floor->normal.y < 0.99f) {
+        o->rigidBody->asleep = FALSE;
+        o->rigidBody->motion = 10.f;
+        vec3f_add(o->rigidBody->linearVel, move_force);
+    }
 
     struct Surface *floor;
     f32 water_level = find_water_level_and_floor(o->oPosX,o->oPosY,o->oPosZ, &floor);

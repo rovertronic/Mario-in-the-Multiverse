@@ -26,3 +26,5 @@
 #include "levels/g/g_cut_rock/collision.inc.c"
 #include "levels/g/g_cut_rock2/model.inc.c"
 #include "levels/g/g_cut_rock3/model.inc.c"
+#include "levels/g/g_cannon/collision.inc.c"
+#include "levels/g/g_cannon/model.inc.c"

@@ -640,3 +640,5 @@ extern const BehaviorScript bhvPhysicsMarble[];
 /* GROUP O END */
 
 #endif // BEHAVIOR_DATA_H
+
+extern const BehaviorScript bhvGCannon[];

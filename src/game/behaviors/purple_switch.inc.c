@@ -104,6 +104,10 @@ void bhv_g_cannon_switch_loop(void) {
                 && lateral_dist_between_objects(o, rock) < 127.5f
             ) || (o->oShotByShotgun == 2)) {//--E
                 o->oAction = PURPLE_SWITCH_ACT_PRESSED;
+                struct Object *cannon = cur_obj_find_nearest_object_with_behavior(bhvGCannon, &dist);
+                if (cannon) {
+                    cannon->oNumSwitchesLeft -= 1;
+                }
             }
             break;
 

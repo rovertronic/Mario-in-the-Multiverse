@@ -655,3 +655,5 @@ void bhv_g_spring_init(void);
 void bhv_g_spring_loop(void);
 void bhv_g_cut_rock_init(void);
 void bhv_g_cut_rock_loop(void);
+void bhv_g_cannon_init(void);
+void bhv_g_cannon_loop(void);

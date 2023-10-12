@@ -12,6 +12,8 @@ const GeoLayout g_area_3_geo[] = {
 		GEO_DISPLAY_LIST(LAYER_ALPHA, g_dl_Plane_008_mesh_layer_4),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 3319, 1035, 1125, 0, 44, 0, g_dl_Plane_009_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -1331, 1017, -2248, 0, 53, 0, g_dl_Plane_010_mesh_layer_1),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -3042, 2838, -6690, 0, 53, 0, g_dl_Plane_011_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, g_dl_Plane_013_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -22,7 +24,7 @@ const GeoLayout g_area_3[] = {
 		GEO_OPEN_NODE(),
 			GEO_NODE_ORTHO(100.0000),
 			GEO_OPEN_NODE(),
-				GEO_BACKGROUND(BACKGROUND_OCEAN_SKY, geo_skybox_main),
+				GEO_BACKGROUND(BACKGROUND_PURPLE_SKY, geo_skybox_main),
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),
 		GEO_ZBUFFER(1),

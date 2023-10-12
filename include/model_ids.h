@@ -654,6 +654,7 @@ enum {
 #define MODEL_G_CUT_ROCK                      0x155
 #define MODEL_G_CUT_ROCK2                      0x156
 #define MODEL_G_CUT_ROCK3                      0x157
+#define MODEL_G_CANNON                      0x158
 /* LEVEL G END */
 
 /* LEVEL H START */

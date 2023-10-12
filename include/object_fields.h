@@ -1272,6 +1272,8 @@
 //Attached Rope
 #define /*0x0F4*/ oUpdateRopeSize OBJECT_FIELD_S32(0x1B)
 
+//G Cannon
+#define /*0x0F4*/ oNumSwitchesLeft OBJECT_FIELD_S32(0x1B)
 
 /*Custom general defines:
 

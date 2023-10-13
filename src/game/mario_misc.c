@@ -184,6 +184,11 @@ void bhv_toad_message_loop(void) {
                 break;
         }
     }
+
+    if(obj_has_behavior(o, bhvFallingToad)){
+        cur_obj_update_floor_and_walls();
+        object_step();
+    }
 }
 
 void bhv_toad_message_init(void) {

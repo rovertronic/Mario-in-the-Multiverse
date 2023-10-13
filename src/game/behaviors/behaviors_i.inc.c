@@ -209,7 +209,7 @@ void bhv_rocket_button_loop(void) {
     o->oShotByShotgun = 0;
 }
 
-void bhv_rocket_button_group_init(void){
+void bhv_rocket_button_init(void){
     //if Bparam 3 is set, change the model ID for the ON state
     o->oModelStateON = ((o->oBehParams >> 8) & 0xFF);
     if (o->oModelStateON == 0) o->oModelStateON = MODEL_ROCKET_BUTTON_ON;
@@ -471,6 +471,72 @@ void bhv_plum_loop(void) {
     }
 
     o->oInteractStatus = INT_STATUS_NONE;
+}
+
+/*************************SAVING TOAD FROM CAGES*****************************/
+
+void bhv_caged_toad_loop(){
+    struct Object *freeToadObj = NULL;
+
+    if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 2){
+        spawn_mist_particles_variable(0, 0, 46.0f);
+        spawn_triangle_break_particles(30, MODEL_DIRT_ANIMATION, 3.0f, TINY_DIRT_PARTICLE_ANIM_STATE_YELLOW);
+        obj_mark_for_deletion(o);
+        create_sound_spawner(SOUND_GENERAL_BREAK_BOX);
+        freeToadObj = spawn_object_abs_with_rot(o, 0, MODEL_TOAD, bhvFallingToad, o->oPosX, o->oPosY, o->oPosZ, 0, 0, 0);
+        freeToadObj->oToadMessageDialogId = GET_BPARAM1(o->oBehParams);
+        freeToadObj->oToadMessageRecentlyTalked = FALSE;
+        freeToadObj->oToadMessageState = 0;
+        freeToadObj->oOpacity = 81;
+        gRedCoinsCollected++;
+    }
+
+    o->oPosY += 10.0f * coss(1000 * o->oTimer);
+
+    if((o->oTimer % 245) == 0 && o->oDistanceToMario < 5000){
+        create_sound_spawner(SOUND_MITM_LEVEL_I_TOAD_HELP);
+    }
+
+    o->oInteractStatus = INT_STATUS_NONE;
+}
+
+void bhv_caged_toad_star_init(void) {
+    //Using red coin counter to count freed toad
+    struct Object *starObj = NULL;
+
+    spawn_object(o, MODEL_TRANSPARENT_STAR, bhvRedCoinStarMarker);
+    
+    s16 numCagedToadsRemaining = count_objects_with_behavior(bhvCagedToad);
+    if (numCagedToadsRemaining == 0) {
+        starObj = spawn_object_abs_with_rot(o, 0, MODEL_STAR, bhvStar, o->oPosX, o->oPosY, o->oPosZ, 0, 0, 0);
+        starObj->oBehParams = o->oBehParams;
+        o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+    }
+    o->oHiddenStarTriggerTotal = numCagedToadsRemaining + gRedCoinsCollected;
+    o->oHiddenStarTriggerCounter = o->oHiddenStarTriggerTotal - numCagedToadsRemaining;
+    
+}
+
+void bhv_bhv_caged_toad_star_loop(void) {
+    s16 numCagedToadsRemaining = count_objects_with_behavior(bhvCagedToad);
+    o->oHiddenStarTriggerCounter = o->oHiddenStarTriggerTotal - numCagedToadsRemaining;
+    gRedCoinsCollected = o->oHiddenStarTriggerCounter;
+
+    switch (o->oAction) {
+        case HIDDEN_STAR_ACT_INACTIVE:
+            if (o->oHiddenStarTriggerCounter == o->oHiddenStarTriggerTotal) {
+                o->oAction = HIDDEN_STAR_ACT_ACTIVE;
+            }
+            break;
+
+        case HIDDEN_STAR_ACT_ACTIVE:
+            if (o->oTimer > 2) {
+                spawn_red_coin_cutscene_star(o->oPosX, o->oPosY, o->oPosZ);
+                spawn_mist_particles();
+                o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+            }
+            break;
+    }
 }
 
 

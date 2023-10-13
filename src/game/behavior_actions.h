@@ -554,7 +554,7 @@ void bhv_volcano_trap_loop(void);
 void bhv_shock_rocket_loop(void);
 void bhv_rocket_smoke_init(void);
 void bhv_rocket_button_loop(void);
-void bhv_rocket_button_group_init(void);
+void bhv_rocket_button_init(void);
 void bhv_rocket_button_group_loop(void);
 void bhv_hoodboomer_loop(void);
 void bhv_hoodboomer_bomb_loop(void);
@@ -564,6 +564,9 @@ void bhv_rotating_gear_decorative(void);
 void bhv_grill_openable_by_rocket_button_loop(void);
 void bhv_wooden_lever_loop(void);
 void bhv_plum_loop(void);
+void bhv_caged_toad_loop(void);
+void bhv_caged_toad_star_init(void);
+void bhv_bhv_caged_toad_star_loop(void);
 // I End //
 void bhv_checkpoint_flag(void);
 void bhv_flipswitch(void);

@@ -21,3 +21,4 @@
 #include "levels/i/gate/collision.inc.c"
 #include "levels/i/wooden_lever/model.inc.c"
 #include "levels/i/plum/model.inc.c"
+#include "levels/i/caged_toad/model.inc.c"

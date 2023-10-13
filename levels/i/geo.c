@@ -23,3 +23,4 @@
 #include "levels/i/gate/geo.inc.c"
 #include "levels/i/wooden_lever/geo.inc.c"
 #include "levels/i/plum/geo.inc.c"
+#include "levels/i/caged_toad/geo.inc.c"

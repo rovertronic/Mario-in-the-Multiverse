@@ -44,12 +44,18 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "level_I_hoodboomer_laugh"
+        },
+        "inst_level_I_toad_help": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_toad_help"
         }
     },
     "instrument_list": [
         "inst_level_X_0",
-		"inst_level_I_hoodboomer_death",
+        "inst_level_I_hoodboomer_death",
 		"inst_level_I_hoodboomer_laugh",
+        "inst_level_I_toad_help",
         "inst_level_e_caco_alert",
         "inst_level_e_caco_alert2",
         "inst_level_e_caco_damage",

@@ -114,7 +114,7 @@ extern Vtx i_dl_room1_geo__mesh_layer_1_vtx_4[444];
 extern Gfx i_dl_room1_geo__mesh_layer_1_tri_4[];
 extern Vtx i_dl_room1_geo__mesh_layer_1_vtx_5[144];
 extern Gfx i_dl_room1_geo__mesh_layer_1_tri_5[];
-extern Vtx i_dl_room1_geo__mesh_layer_1_vtx_6[89];
+extern Vtx i_dl_room1_geo__mesh_layer_1_vtx_6[91];
 extern Gfx i_dl_room1_geo__mesh_layer_1_tri_6[];
 extern Vtx i_dl_room1_geo__mesh_layer_1_vtx_7[177];
 extern Gfx i_dl_room1_geo__mesh_layer_1_tri_7[];

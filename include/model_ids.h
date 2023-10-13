@@ -658,6 +658,7 @@ enum {
 #define MODEL_GATE                      0x3A        //gate_geo
 #define MODEL_WOODEN_LEVER              0x3B        //wooden_lever_geo
 #define MODEL_PLUM                      0x3C        //plum
+#define MODEL_CAGED_TOAD                0x3D        //caged_toad
 /* LEVEL I END */
 
 /* LEVEL J START */

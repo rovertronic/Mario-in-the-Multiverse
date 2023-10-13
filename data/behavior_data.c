@@ -6390,7 +6390,7 @@ const BehaviorScript bhvRocketButton[] = {
     SET_FLOAT(oDrawingDistance, 16000),
     SET_HITBOX(/*Radius*/ 80, /*Height*/ 130),
     SET_FLOAT(oGraphYOffset, 65),
-    CALL_NATIVE(bhv_rocket_button_group_init),
+    CALL_NATIVE(bhv_rocket_button_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_rocket_button_loop),
     END_LOOP(),
@@ -6491,7 +6491,7 @@ const BehaviorScript bhvWoodenLever[] = {
 
 const BehaviorScript bhvPlum[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_HOLDABLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    OR_LONG(oFlags, (OBJ_FLAG_HOLDABLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     SET_INT(oInteractType, INTERACT_GRABBABLE),
     SET_HITBOX(/*Radius*/ 80, /*Height*/ 100),
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ 100, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 0, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
@@ -6502,6 +6502,42 @@ const BehaviorScript bhvPlum[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvCagedToad[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_CUSTOM)),
+    SET_HITBOX(/*Radius*/ 120, /*Height*/ 200),
+    SET_INT(oIntangibleTimer, 0),
+    SET_FLOAT(oDrawingDistance, 16000),
+    SET_FLOAT(oGraphYOffset, 60),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_caged_toad_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvFallingToad[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, toad_seg6_anims_0600FB58),
+    ANIMATE(TOAD_ANIM_WEST_WAVING_BOTH_ARMS),
+    SET_INTERACT_TYPE(INTERACT_TEXT),
+    SET_HITBOX(/*Radius*/ 80, /*Height*/ 100),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ 100, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 0, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    SET_INT(oIntangibleTimer, 0),
+    CALL_NATIVE(bhv_init_room),
+    CALL_NATIVE(bhv_toad_message_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_toad_message_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvHiddenCagedToadsStar[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_caged_toad_star_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_bhv_caged_toad_star_loop),
+    END_LOOP(),
+};
 /* GROUP I END */
 
 /* GROUP J START */

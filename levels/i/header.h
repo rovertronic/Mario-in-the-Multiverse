@@ -25,4 +25,6 @@ extern const LevelScript level_i_entry[];
 
 #include "levels/i/plum/geo_header.h"
 
+#include "levels/i/caged_toad/geo_header.h"
+
 #endif

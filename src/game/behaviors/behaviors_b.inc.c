@@ -13,7 +13,7 @@
     };
 
 void bhv_concrete_block_init(void){
-    f32 Scale = GET_BPARAM2(o->oBehParams);; 
+    f32 Scale = GET_BPARAM2(o->oBehParams);
     sConcreteBlockHitbox.radius = 150 + (Scale/100.0);
     sConcreteBlockHitbox.height = 200 + (Scale/100.0) - 3;
     sConcreteBlockHitbox.hurtboxHeight = 200 + (Scale/100.0) - 3;

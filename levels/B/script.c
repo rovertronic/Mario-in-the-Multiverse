@@ -26,6 +26,7 @@ const LevelScript level_B_entry[] = {
 	LOAD_YAY0(0x7, _B_segment_7SegmentRomStart, _B_segment_7SegmentRomEnd), 
 	ALLOC_LEVEL_POOL(),
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
+	LOAD_MODEL_FROM_GEO(MODEL_BIG_DADDY, bigdaddy_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -54,7 +55,7 @@ const LevelScript level_B_entry[] = {
 		TERRAIN(B_area_1_collision),
 		MACRO_OBJECTS(B_area_1_macro_objs),
 		STOP_MUSIC(0),
-		TERRAIN_TYPE(TERRAIN_STONE),
+		TERRAIN_TYPE(TERRAIN_WATER),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),

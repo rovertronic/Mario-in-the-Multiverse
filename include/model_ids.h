@@ -619,6 +619,7 @@ enum GLOBAL_MODELS {
 /* LEVEL A END */
 
 /* LEVEL B START */
+#define MODEL_BIG_DADDY                          0x151
 /* LEVEL B END */
 
 /* LEVEL C START */

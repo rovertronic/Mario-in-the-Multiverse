@@ -12,3 +12,5 @@
 
 
 #include "levels/B/leveldata.inc.c"
+
+#include "levels/B/bigdaddy/model.inc.c"

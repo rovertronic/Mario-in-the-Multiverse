@@ -4990,6 +4990,9 @@ void start_cutscene(struct Camera *c, u8 cutscene) {
  * @return the victory cutscene to use
  */
 s32 determine_dance_cutscene(UNUSED struct Camera *c) {
+#ifdef NON_STOP_STARS
+    return CUTSCENE_DANCE_DEFAULT;
+#else
     u8 cutscene = CUTSCENE_NONE;
     u8 cutsceneIndex = 0;
     u8 starIndex = (gLastCompletedStarNum - 1) / 2;
@@ -5012,6 +5015,7 @@ s32 determine_dance_cutscene(UNUSED struct Camera *c) {
     }
     cutscene = sDanceCutsceneTable[cutsceneIndex];
     return cutscene;
+#endif
 }
 
 /**
@@ -6251,6 +6255,12 @@ struct CameraTrigger sCamB[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger sCamA[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamF[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamE[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger *sCameraTriggers[LEVEL_COUNT + 1] = {
@@ -10609,7 +10619,7 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // TTM            | Unused
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // Unused         | Unused
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), 
-	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 0), 
+    ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0),
 };
 
 STATIC_ASSERT(ARRAY_COUNT(sZoomOutAreaMasks) - 1 == LEVEL_MAX / 2, "Make sure you edit sZoomOutAreaMasks when adding / removing courses.");

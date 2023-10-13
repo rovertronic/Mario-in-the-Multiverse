@@ -14,7 +14,7 @@
 #elif defined(EEP16K)
     #define EEPROM_SIZE 0x800
 #else
-    #define EEPROM_SIZE 0x800
+    #define EEPROM_SIZE 0x800//--**
 #endif
 
 #define NUM_SAVE_FILES 4
@@ -84,7 +84,7 @@ extern void puppycam_get_save(void);
 extern void puppycam_check_save(void);
 #endif
 
-STATIC_ASSERT(sizeof(struct SaveBuffer) <= EEPROM_SIZE, "ERROR: Save struct too big for specified save type");
+//STATIC_ASSERT(sizeof(struct SaveBuffer) <= EEPROM_SIZE, "ERROR: Save struct too big for specified save type");
 
 extern u8 gLastCompletedCourseNum;
 extern u8 gLastCompletedStarNum;

@@ -1876,7 +1876,10 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 
     if (gMarioState->action) {
 #ifdef ENABLE_DEBUG_FREE_MOVE
-        if (gPlayer1Controller->buttonDown & U_JPAD && !(gPlayer1Controller->buttonDown & L_TRIG)) {
+        if (
+            (gMarioState->controller->buttonDown & U_JPAD) &&
+            !(gMarioState->controller->buttonDown & L_TRIG)
+        ) {
             set_camera_mode(gMarioState->area->camera, CAMERA_MODE_8_DIRECTIONS, 1);
             set_mario_action(gMarioState, ACT_DEBUG_FREE_MOVE, 0);
         }
@@ -2217,6 +2220,7 @@ void init_mario(void) {
     gMarioState->framesSinceB = 0xFF;
 
     gMarioState->invincTimer = 0;
+    gMarioState->keypad_id = -1;
 
     if (save_file_get_flags()
         & (SAVE_FLAG_CAP_ON_GROUND | SAVE_FLAG_CAP_ON_KLEPTO | SAVE_FLAG_CAP_ON_UKIKI
@@ -2273,6 +2277,7 @@ void init_mario(void) {
     vec3f_copy(gMarioState->marioObj->header.gfx.pos, gMarioState->pos);
     vec3s_set(gMarioState->marioObj->header.gfx.angle, 0, gMarioState->faceAngle[1], 0);
 
+    /*
     Vec3s capPos;
     if (save_file_get_cap_pos(capPos)) {
         struct Object *capObject = spawn_object(gMarioState->marioObj, MODEL_MARIOS_CAP, bhvNormalCap);
@@ -2281,6 +2286,7 @@ void init_mario(void) {
         capObject->oForwardVel = 0;
         capObject->oMoveAngleYaw = 0;
     }
+    */
 
     //--E | No first-frame gun position
     e__set_upper_anim(gMarioState, 2);
@@ -2298,12 +2304,8 @@ void init_mario_from_save_file(void) {
     gMarioState->spawnInfo = &gPlayerSpawnInfos[0];
     gMarioState->statusForCamera = &gPlayerCameraState[0];
     gMarioState->marioBodyState = &gBodyStates[0];
+    gMarioState->controller = &gControllers[0];
     gMarioState->animList = &gMarioAnimsBuf;
-    if (gIsConsole && __osControllerTypes[1] == CONT_TYPE_GCN) {
-        gMarioState->controller = &gControllers[1];
-    } else {
-        gMarioState->controller = &gControllers[0];
-    }
 
     gMarioState->numCoins = 0;
     gMarioState->numStars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);

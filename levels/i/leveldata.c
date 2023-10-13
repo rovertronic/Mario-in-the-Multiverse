@@ -19,3 +19,4 @@
 #include "levels/i/windmill/model.inc.c"
 #include "levels/i/gate/model.inc.c"
 #include "levels/i/gate/collision.inc.c"
+#include "levels/i/wooden_lever/model.inc.c"

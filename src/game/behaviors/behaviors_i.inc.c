@@ -388,4 +388,26 @@ void bhv_grill_openable_by_rocket_button_loop(void){
     }
 }
 
+/*************************WOODEN LEVER*****************************/
+
+void bhv_wooden_lever_loop(void){
+    switch (o->oAction) {
+            //wait
+            case 0:
+                break;
+            //activated
+            case 1:
+                o->oAngleVelRoll = -0x100;
+                if (o->oTimer > 63) {
+                    o->oAction++;
+                }
+                cur_obj_play_sound_1(SOUND_ENV_ELEVATOR2);
+                cur_obj_rotate_face_angle_using_vel();
+                break;
+            //wait but can't be activated anymore
+            case 2:
+                break;
+        }
+}
+
 

@@ -21,3 +21,4 @@
 #include "levels/i/hoodboomer_bomb/geo.inc.c"
 #include "levels/i/windmill/geo.inc.c"
 #include "levels/i/gate/geo.inc.c"
+#include "levels/i/wooden_lever/geo.inc.c"

@@ -550,6 +550,7 @@ void bhv_intro_scene_loop(void);
 void bhv_dust_smoke_loop(void);
 void bhv_yoshi_loop(void);
 void bhv_volcano_trap_loop(void);
+// I Start //
 void bhv_shock_rocket_loop(void);
 void bhv_rocket_smoke_init(void);
 void bhv_rocket_button_loop(void);
@@ -561,6 +562,8 @@ void bhv_black_smoke_hoodboomer_loop(void);
 void bhv_pigpot_loop(void);
 void bhv_rotating_gear_decorative(void);
 void bhv_grill_openable_by_rocket_button_loop(void);
+void bhv_wooden_lever_loop(void);
+// I End //
 void bhv_checkpoint_flag(void);
 void bhv_flipswitch(void);
 void bhv_noteblock(void);

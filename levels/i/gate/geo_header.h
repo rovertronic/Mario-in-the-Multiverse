@@ -5,7 +5,7 @@ extern u8 gate_metal1_ci8[];
 extern u8 gate_metal1_pal_rgba16[];
 extern u8 gate_metal_bar_ci8[];
 extern u8 gate_metal_bar_pal_rgba16[];
-extern Vtx gate_gate_mesh_layer_1_vtx_0[88];
+extern Vtx gate_gate_mesh_layer_1_vtx_0[82];
 extern Gfx gate_gate_mesh_layer_1_tri_0[];
 extern Vtx gate_gate_mesh_layer_1_vtx_1[22];
 extern Gfx gate_gate_mesh_layer_1_tri_1[];

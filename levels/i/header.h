@@ -21,4 +21,6 @@ extern const LevelScript level_i_entry[];
 
 #include "levels/i/gate/collision_header.h"
 
+#include "levels/i/wooden_lever/geo_header.h"
+
 #endif

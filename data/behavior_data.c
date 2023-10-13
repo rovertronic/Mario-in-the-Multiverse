@@ -6414,9 +6414,9 @@ const BehaviorScript bhvHoodboomer[] = {
     DROP_TO_FLOOR(),
     SET_HITBOX(/*Radius*/ 80, /*Height*/ 210),
     BEGIN_LOOP(),
-    CALL_NATIVE(bhv_hoodboomer_loop),
-    SET_INT(oIntangibleTimer, 0),
-    SET_INT(oInteractStatus, 0),
+        CALL_NATIVE(bhv_hoodboomer_loop),
+        SET_INT(oIntangibleTimer, 0),
+        SET_INT(oInteractStatus, 0),
     END_LOOP(),
 };
 
@@ -6471,6 +6471,21 @@ const BehaviorScript bhvGrillOpenableByRocketButton[] = {
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_grill_openable_by_rocket_button_loop),
         CALL_NATIVE(load_object_collision_model),
+        SET_INT(oIntangibleTimer, 0),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvWoodenLever[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    DROP_TO_FLOOR(),
+    SET_INT(oIntangibleTimer, 0),
+    SET_INT(oInteractType, INTERACT_GRABBABLE),
+    SET_INT(oInteractionSubtype, INT_SUBTYPE_NOT_GRABBABLE),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 110),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_wooden_lever_loop),
+        SET_INT(oInteractStatus, INT_STATUS_NONE),
     END_LOOP(),
 };
 
@@ -6486,7 +6501,6 @@ const BehaviorScript bhvDragonite[] = {
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_dragonite_loop),
     END_LOOP(),
-
 };
 /* GROUP J END */
 

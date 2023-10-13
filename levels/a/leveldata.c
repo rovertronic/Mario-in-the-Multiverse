@@ -27,3 +27,7 @@
 #include "levels/a/tikibox/collision.inc.c"
 #include "levels/a/tramp/model.inc.c"
 #include "levels/a/tramp/collision.inc.c"
+#include "levels/a/floating_checker_platform/model.inc.c"
+#include "levels/a/floating_checker_platform/collision.inc.c"
+#include "levels/a/floating_checker_platform/anims/data.inc.c"
+#include "levels/a/floating_checker_platform/anims/table.inc.c"

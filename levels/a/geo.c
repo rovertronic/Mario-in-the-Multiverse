@@ -22,3 +22,4 @@
 #include "levels/a/boat/geo.inc.c"
 #include "levels/a/tikibox/geo.inc.c"
 #include "levels/a/tramp/geo.inc.c"
+#include "levels/a/floating_checker_platform/geo.inc.c"

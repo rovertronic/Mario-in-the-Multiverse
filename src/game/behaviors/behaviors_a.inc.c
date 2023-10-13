@@ -95,6 +95,33 @@ void jfplatform_loop(void) {
     o->oPosY += o->oVelY;
 }
 
+// Floating Checker Platform
+
+enum checkerAnims
+{
+    ANIM_C_MAIN,
+};
+
+void fcp_loop(void)
+{
+    cur_obj_init_animation(ANIM_C_MAIN);
+    o->oPosY += o->oVelY;
+
+    switch (o->oBehParams2ndByte)
+    {
+        case 0:
+            o->oVelY = 5 * sins(o->oTimer * 0x122);
+            break;
+        case 1:
+            o->oVelY = 5 * sins(o->oTimer * 0x222);
+            break;
+        case 2:
+            o->oVelY = 9 * sins(o->oTimer * 0x300);
+            break;
+    }
+}
+
+
 // Taxi stop
 
 void taxistop_loop(void)
@@ -103,16 +130,25 @@ void taxistop_loop(void)
     
     if (gMarioObject->platform == o)
     {
+        o->oAction = 1;
         gLakituState.curPos[0] = 5181;
         gLakituState.curPos[1] = -3;
         gLakituState.curPos[2] = -7742;
 
-        if (o->oTimer > 50)
-        {
-            initiate_warp(LEVEL_G, 1, 0x0A, 0);
-        }
-
         play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, timer, 0, 0, 0);
+    }
+
+    switch (o->oAction)
+    {
+        case 0:
+
+            break;
+        case 1:
+            if (o->oTimer >= 50)
+            {
+                initiate_warp(LEVEL_A, 2, 0x0A, 0);
+            }
+            break;
     }   
 }
 
@@ -170,18 +206,63 @@ void tiki_box_loop(void)
 
 void king_jellyfish_loop(void)
 {
+    switch (o->oAction)
+    {
 
+    }
 }
 
 // Trampoline
 
+struct ObjectHitbox sTrampHitbox = {
+    /* interactType:      */ INTERACT_NONE,
+    /* downOffset:        */  20,
+    /* damageOrCoinValue: */   0,
+    /* health:            */   1,
+    /* numLootCoins:      */   0,
+    /* radius:            */ 250,
+    /* height:            */ 300,
+    /* hurtboxRadius:     */ 250,
+    /* hurtboxHeight:     */ 300,
+};
+
+
 void trampoline_loop(void)
 {
-    f32 jumpVel = 90.0f;
-    
+    f32 yVel = 90.0f;
+    f32 fVel = 50.0f;
+
+    switch (o->oAction)
+    {
+        case 0:
+            cur_obj_scale(1.0f);
+            break;
+        case 1:
+            if (o->oTimer >= 0) {
+                obj_scale_xyz(o, 1.0f + ((0.25f - (0.25f * ((f32)o->oTimer) / 20.0f)) * sins(o->oTimer * 0x1000)),
+                         1.0f + ((0.4f - (0.4f * ((f32)o->oTimer) / 20.0f)) * coss(o->oTimer * 0x1000 + 0x4000)),
+                         1.0f + ((0.25f - (0.25f * ((f32)o->oTimer) / 20.0f)) * sins(o->oTimer * 0x1000)));
+            }
+            if (o->oTimer >= 22.5f) {
+                obj_scale_xyz(o, 1.0f + ((0.2f - (0.2f * ((f32)o->oTimer) / 30.0f)) * sins(o->oTimer * 0x1000)),
+                         1.0f + ((0.3f - (0.3f * ((f32)o->oTimer) / 30.0f)) * coss(o->oTimer * 0x1000 + 0x4000)),
+                         1.0f + ((0.25f - (0.25f * ((f32)o->oTimer) / 30.0f)) * sins(o->oTimer * 0x1000)));
+            }
+            if (o->oTimer >= 45) {
+                
+            }
+            break;
+    }
+
     if (gMarioObject->platform == o)
     {
-        gMarioState->vel[1] = jumpVel;
+        o->oAction = 1;
+        gMarioState->vel[1] = yVel;
+        gMarioState->faceAngle[1] = gMarioState->intendedYaw;
+        gMarioState->forwardVel = fVel;
         return set_mario_action(gMarioState, ACT_SPECIAL_TRIPLE_JUMP, 0);
+    } else if (o->oTimer >= 45)
+    {
+        o->oAction = 0;
     }
 }

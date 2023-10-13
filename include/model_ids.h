@@ -626,6 +626,7 @@ enum GLOBAL_MODELS {
 #define MODEL_TIKI_STONE                          0x159
 #define MODEL_TIKI_FLOAT                          0x15A
 #define MODEL_TRAMP                               0x15B
+#define MODEL_FLOATING_CHECKER_PLATFORM           0x15C
 /* LEVEL A END */
 
 /* LEVEL B START */

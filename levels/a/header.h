@@ -33,4 +33,10 @@ extern const LevelScript level_a_entry[];
 
 #include "levels/a/tramp/collision_header.h"
 
+#include "levels/a/floating_checker_platform/geo_header.h"
+
+#include "levels/a/floating_checker_platform/collision_header.h"
+
+#include "levels/a/floating_checker_platform/anim_header.h"
+
 #endif

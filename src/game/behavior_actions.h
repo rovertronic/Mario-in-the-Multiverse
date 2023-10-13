@@ -380,6 +380,7 @@ void bhv_hidden_red_coin_star_init(void);
 void bhv_hidden_red_coin_star_loop(void);
 void bhv_red_coin_init(void);
 void bhv_red_coin_loop(void);
+void bhv_bowser_course_red_coin_star_init(void);
 void bhv_bowser_course_red_coin_star_loop(void);
 void bhv_hidden_star_init(void);
 void bhv_hidden_star_loop(void);
@@ -557,6 +558,9 @@ void bhv_rocket_button_group_loop(void);
 void bhv_checkpoint_flag(void);
 void bhv_flipswitch(void);
 void bhv_noteblock(void);
+void bhv_star_piece_switch_loop(void);
+void bhv_star_piece_loop(void);
+void bhv_dash_booster_particle(void);
 
 Gfx *geo_move_mario_part_from_parent(s32 callContext, UNUSED struct GraphNode *node, Mat4 mtx);
 
@@ -586,9 +590,7 @@ extern struct WaterDropletParams gShallowWaterWaveDropletParams;
 
 //--E
 
-\
-\
-\
+void bhv_e__enemy(void);
 
 
 \
@@ -603,7 +605,7 @@ void bhv_e__d(void);
 
 
 
-\
+Gfx *e__geo_caco_eye_color(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
 \
 \
 

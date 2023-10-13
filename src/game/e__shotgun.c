@@ -461,7 +461,15 @@ static void e__shotgun_object_collision(Vec3f shotOrig, Vec3f dirNorm, f32 collP
 
                         e__sg_obj_shot_sparks(obj);//effect
 
-                        if ((obj->oHealth <= 1) || (obj->oHealth == 2048)) {
+                        if (gCurrLevelNum == LEVEL_E) {//maybe find a better method later
+                            if (obj->oShotByShotgun == 2) {
+                                obj->oHealth -= 3; }
+                            else if (obj->oShotByShotgun == 1) {
+                                obj->oHealth -= (3 - (((random_u16() % 3) == 0))); }
+                        } else {
+                            obj->oHealth--; }
+
+                        if ((obj->oHealth <= 0) || (obj->oHealth == (2048 - 1))) {
                             obj_spawn_loot_yellow_coins(obj, obj->oNumLootCoins, 20.f);
 
                             if (obj->oFlags & OBJ_FLAG_E__SG_ENEMY) {
@@ -508,11 +516,11 @@ static void e__shotgun_object_collision(Vec3f shotOrig, Vec3f dirNorm, f32 collP
                             }
 
                             obj->activeFlags = 0;
+                        } else if (gCurrLevelNum == LEVEL_E) {//maybe find a better method later
+                            obj->oVelX = (dirNorm[0] * 50.f);
+                            obj->oVelZ = (dirNorm[2] * 50.f);
                         } else {
-                            obj->oHealth--;
-                            obj->header.gfx.animInfo.animFrame = 0;
-                            e__push_obj(obj, dirNorm, 50.f);
-                        }
+                            e__push_obj(obj, dirNorm, 50.f); }
                     }
 
 
@@ -596,10 +604,10 @@ static struct Surface *e__shotgun_raycast(Vec3f orig, Vec3f dir, Vec3f dirNorm, 
                 if (notShot) {
                     if ((obj->oHealth <= 1) || (obj->oHealth == 2048)) {
                         s32 size = ((s32)(sqrtf(sqr(obj->hitboxRadius) + sqr(obj->hitboxHeight))));
-                        obj->oPosY += (o->hitboxHeight * 0.5f);
+                        obj->oPosY += (obj->hitboxHeight * 0.5f);
                         e__sg_obj_explode(obj, (size / 30));//effect
 
-                        set_camera_shake_from_point(SHAKE_POS_MEDIUM, o->oPosX, o->oPosY, o->oPosZ);
+                        set_camera_shake_from_point(SHAKE_POS_MEDIUM, obj->oPosX, obj->oPosY, obj->oPosZ);
                         play_sound(SOUND_GENERAL_WALL_EXPLOSION, obj->header.gfx.cameraToObject);
                         obj->activeFlags = 0;
                     } else {
@@ -727,15 +735,17 @@ void e__fire_shotgun_air(void) {//--**combine with e__fire_shotgun later
     if (using_ability(ABILITY_E_SHOTGUN)) {
         struct MarioState *m = gMarioState;
         if (mario_is_in_air_action()) {
-            if (gPlayer1Controller->buttonPressed & L_TRIG) {
-                if (m->numGlobalCoins) {
-                    m->numGlobalCoins--; }
-                else {
-                    gE_ShotgunTimer = 26;
-                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
-                    return;
-                }                
+            if (gPlayer1Controller->buttonPressed & L_TRIG) {            
                 if (!(gE_ShotgunFlags & E_SGF_AIR_SHOT_USED)) {
+                    gE_ShotgunFlags |= E_SGF_AIR_SHOT_USED;
+                    if (m->numGlobalCoins) {
+                        m->numGlobalCoins--; }
+                    else {
+                        gE_ShotgunTimer = 26;
+                        play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                        return;
+                    }    
+
                     e__set_upper_anim(m, 2);
                     gE_UpperAnimInfo.animFrame = 0;
 
@@ -750,7 +760,6 @@ void e__fire_shotgun_air(void) {//--**combine with e__fire_shotgun later
                     else {
                         m->vel[1] += 10.f; }
                     m->flags        &= ~MARIO_JUMPING;
-                    gE_ShotgunFlags |= E_SGF_AIR_SHOT_USED;
 
                     //shot
                     Vec3f shotPos = { (m->pos[0] + (sins(m->faceAngle[1]) * E_SG_SHOT_Y_OFFSET)),

@@ -1,0 +1,15 @@
+extern const GeoLayout f_door_geo[];
+extern u8 f_door_metal_cabinet_empty_ci4[];
+extern u8 f_door_metal_cabinet_empty_pal_rgba16[];
+extern u8 f_door_metal_cabinet_ci8[];
+extern u8 f_door_metal_cabinet_pal_rgba16[];
+extern Vtx f_door_Door___keypad_mesh_layer_1_vtx_0[24];
+extern Gfx f_door_Door___keypad_mesh_layer_1_tri_0[];
+extern Vtx f_door_Door___keypad_mesh_layer_1_vtx_1[8];
+extern Gfx f_door_Door___keypad_mesh_layer_1_tri_1[];
+extern Gfx mat_f_door_clean_metal_cabinet_002[];
+extern Gfx mat_revert_f_door_clean_metal_cabinet_002[];
+extern Gfx mat_f_door_Metal_cabinet_004[];
+extern Gfx mat_revert_f_door_Metal_cabinet_004[];
+extern Gfx f_door_Door___keypad_mesh_layer_1[];
+extern Gfx f_door_material_revert_render_settings[];

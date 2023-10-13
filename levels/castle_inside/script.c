@@ -28,8 +28,12 @@ const LevelScript level_castle_inside_entry[] = {
 	LOAD_YAY0_TEXTURE(0x09, _inside_yay0SegmentRomStart, _inside_yay0SegmentRomEnd), 
 	LOAD_YAY0(0x06, _group15_yay0SegmentRomStart, _group15_yay0SegmentRomEnd), 
 	LOAD_RAW(0x0D, _group15_geoSegmentRomStart, _group15_geoSegmentRomEnd), 
+	LOAD_YAY0(        /*seg*/ 0x08, _common0_yay0SegmentRomStart, _common0_yay0SegmentRomEnd),
+    LOAD_RAW(         /*seg*/ 0x0F, _common0_geoSegmentRomStart,  _common0_geoSegmentRomEnd),
+
 	ALLOC_LEVEL_POOL(),
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
+	JUMP_LINK(script_func_global_1),
 	JUMP_LINK(script_func_global_16), 
 	LOAD_MODEL_FROM_GEO(MODEL_CASTLE_BOWSER_TRAP, castle_geo_000F18), 
 	LOAD_MODEL_FROM_GEO(MODEL_CASTLE_WATER_LEVEL_PILLAR, castle_geo_001940), 
@@ -60,6 +64,12 @@ const LevelScript level_castle_inside_entry[] = {
 												   /*0 is BehParam2*/
 		OBJECT(MODEL_NITRO_BOX, -601, 0, 1572, 0, 94, 0, 0x00000000, bhvNitroBox),
 		OBJECT(MODEL_ROCKET_BUTTON_OFF, -601, 0, 1061, 0, 87, 0, 0x01300000, bhvRocketButton),
+		OBJECT(MODEL_BLUE_COIN_SWITCH, 0, 0, 1572, 0, 94, 0, 0x00000000, bhvStarPieceSwitch),
+		OBJECT(MODEL_STAR_PIECE, -200, 0, 1572, 0, 94, 0, 0x00000000, bhvStarPiece),
+		OBJECT(MODEL_STAR_PIECE, -200, 50, 1572, 0, 94, 0, 0x00000000, bhvStarPiece),
+		OBJECT(MODEL_STAR_PIECE, -200, 100, 1572, 0, 94, 0, 0x00000000, bhvStarPiece),
+		OBJECT(MODEL_STAR_PIECE, -200, 150, 1572, 0, 94, 0, 0x00000000, bhvStarPiece),
+		OBJECT(MODEL_STAR_PIECE, -200, 200, 1572, 0, 94, 0, 0x00000000, bhvStarPiece),
 
 		OBJECT(MODEL_LEVEL_PIPE, 800, 0, -2600, 0, 0, 0, (0 << 16), bhvLevelPipe),
 		OBJECT(MODEL_LEVEL_PIPE, 800, 0, -2000, 0, 0, 0, (1 << 16), bhvLevelPipe),

@@ -108,3 +108,133 @@ void bhv_noteblock(void) {
         gMarioStates[0].vel[1] = 95.0f;
     }
 }
+
+//star piece switch
+
+u8 star_pieces_got = 0;
+void bhv_star_piece_switch_loop(void) {
+    // The switch's model is 1/3 size.
+    cur_obj_scale(3.0f);
+
+    switch (o->oAction) {
+        case BLUE_COIN_SWITCH_ACT_IDLE:
+            // If Mario is on the switch and has ground-pounded,
+            // recede and get ready to start ticking.
+            if (((gMarioObject->platform == o) && (gMarioStates[0].action == ACT_GROUND_POUND_LAND))
+                || (o->oShotByShotgun == 2)) {//--E
+                //set star pieces got to 0
+                star_pieces_got = 0;
+                // Set to BLUE_COIN_SWITCH_ACT_RECEDING
+                o->oAction = BLUE_COIN_SWITCH_ACT_RECEDING;
+                // Recede at a rate of 16 units/frame.
+                o->oVelY = -16.0f;
+
+                // Set gravity to 0 so it doesn't accelerate when receding.
+                o->oGravity = 0.0f;
+
+                cur_obj_play_sound_2(SOUND_GENERAL_SWITCH_DOOR_OPEN);
+            }
+            o->oShotByShotgun = 0;//--E
+
+            // Have collision
+            load_object_collision_model();
+
+            break;
+
+        case BLUE_COIN_SWITCH_ACT_RECEDING:
+            // Recede for 6 frames before going invisible and ticking.
+            // This is probably an off-by-one error, since the switch is 100 units tall
+            // and recedes at 20 units/frame, which means it will fully recede after 5 frames.
+
+            if (o->oTimer > 3) {
+
+                // Set to BLUE_COIN_SWITCH_ACT_TICKING
+                o->oAction = BLUE_COIN_SWITCH_ACT_TICKING;
+
+                // ???
+                o->oVelY    = 0.0f;
+                o->oGravity = 0.0f;
+
+                // Spawn particles. There's a function that calls this same function
+                // with the same arguments, spawn_mist_particles, why didn't they just call that?
+                spawn_mist_particles_variable(0, 0, 46.0f);
+            } else {
+                // Have collision while receding
+                load_object_collision_model();
+                // Recede
+                cur_obj_move_using_fvel_and_gravity();
+            }
+
+            break;
+
+        case BLUE_COIN_SWITCH_ACT_TICKING:
+            // Tick faster when the blue coins start blinking
+            if (o->oTimer < 200) {
+                play_sound(SOUND_GENERAL2_SWITCH_TICK_FAST, gGlobalSoundSource);
+            } else {
+                play_sound(SOUND_GENERAL2_SWITCH_TICK_SLOW, gGlobalSoundSource);
+            }
+
+            if (star_pieces_got > 4) {//if (cur_obj_nearest_object_with_behavior(bhvHiddenBlueCoin) == NULL) {
+                spawn_default_star(o->oPosX,o->oPosY+400.0f,o->oPosZ);
+                spawn_mist_particles_variable(0, 0, 46.0f);
+                obj_mark_for_deletion(o);
+            // Set to BLUE_COIN_SWITCH_ACT_EXTENDING after the coins unload after the 240-frame timer expires.
+            } else if (o->oTimer > 240) {
+                o->oAction  = BLUE_COIN_SWITCH_ACT_EXTENDING;
+                o->oVelY    = 16.0f;
+                o->oGravity =  0.0f;
+            }
+            load_object_collision_model();
+            break;
+        case BLUE_COIN_SWITCH_ACT_EXTENDING:
+            if (o->oTimer > 3) {
+                // Set to BLUE_COIN_SWITCH_ACT_IDLE
+                o->oAction = BLUE_COIN_SWITCH_ACT_IDLE;
+                o->oPosY = o->oHomeY; //thy be no evil shenanigans
+            } else {
+                // Have collision while extending
+                load_object_collision_model();
+                // Extend
+                cur_obj_move_using_fvel_and_gravity();
+            }
+            break;
+    }
+}
+
+//star piece.
+void bhv_star_piece_loop(void) {
+    struct Object *sps;
+
+    o->oFaceAngleYaw += 0x400;
+    o->oPosY = o->oHomeY + 20.0f + (sins(o->oTimer*0x500)*20.0f);
+
+    sps = cur_obj_nearest_object_with_behavior(bhvStarPieceSwitch);
+
+    switch(o->oAction) {
+        case 0: // init
+            cur_obj_hide();
+            o->oAction = 1;
+        break;
+        case 1: //waiting
+            if (sps && sps->oAction == BLUE_COIN_SWITCH_ACT_TICKING) {
+                o->oAction = 2;
+                cur_obj_unhide();
+            }
+        break;
+        case 2: //active
+            if (o->oDistanceToMario < 160.0f) {
+                cur_obj_hide();
+                cur_obj_play_sound_2(SOUND_MENU_COLLECT_SECRET+star_pieces_got);
+                star_pieces_got++;
+                o->oAction = 3;
+            }
+
+        case 3: //collected
+            if (sps && (sps->oAction == BLUE_COIN_SWITCH_ACT_EXTENDING || sps->oAction == BLUE_COIN_SWITCH_ACT_IDLE)) {
+                cur_obj_hide();
+                o->oAction = 1;
+            }
+        break;
+    }
+}

@@ -657,6 +657,7 @@ enum {
 #define MODEL_WINDMILL                  0x39        //windmill_geo
 #define MODEL_GATE                      0x3A        //gate_geo
 #define MODEL_WOODEN_LEVER              0x3B        //wooden_lever_geo
+#define MODEL_PLUM                      0x3C        //plum
 /* LEVEL I END */
 
 /* LEVEL J START */

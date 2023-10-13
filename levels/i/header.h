@@ -23,4 +23,6 @@ extern const LevelScript level_i_entry[];
 
 #include "levels/i/wooden_lever/geo_header.h"
 
+#include "levels/i/plum/geo_header.h"
+
 #endif

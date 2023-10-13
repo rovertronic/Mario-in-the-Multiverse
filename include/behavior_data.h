@@ -610,6 +610,7 @@ extern const BehaviorScript bhvPigpot[];
 extern const BehaviorScript bhvRotatingGearDecorative[];
 extern const BehaviorScript bhvGrillOpenableByRocketButton[];
 extern const BehaviorScript bhvWoodenLever[];
+extern const BehaviorScript bhvPlum[];
 /* GROUP I END */
 
 /* GROUP J START */

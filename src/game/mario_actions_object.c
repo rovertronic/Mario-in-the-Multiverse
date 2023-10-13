@@ -265,7 +265,7 @@ s32 act_picking_up(struct MarioState *m) {
     }
 
     if (m->actionState == ACT_STATE_PICKING_UP_HOLDING) {
-        if (m->heldObj->oInteractionSubtype & INT_SUBTYPE_GRABS_MARIO) {
+        if (m->heldObj->oInteractionSubtype & INT_SUBTYPE_GRABS_MARIO || obj_has_behavior(m->heldObj, bhvPlum)) {
             m->marioBodyState->grabPos = GRAB_POS_HEAVY_OBJ;
             set_mario_animation(m, MARIO_ANIM_GRAB_HEAVY_OBJECT);
             if (is_anim_at_end(m)) {

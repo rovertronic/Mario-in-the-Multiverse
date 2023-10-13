@@ -32,18 +32,14 @@ const LevelScript level_i_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_WINDMILL, windmill_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_GATE, gate_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_WOODEN_LEVER, wooden_lever_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_PLUM, plum_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_HOODBOOMER, hoodboomer_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_HOODBOOMER_BOMB, hoodboomer_bomb_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_PIGPOT, pigpot_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_WINDMILL, windmill_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_GATE, gate_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_WOODEN_LEVER, wooden_lever_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_HOODBOOMER, hoodboomer_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_HOODBOOMER_BOMB, hoodboomer_bomb_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_PIGPOT, pigpot_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_WINDMILL, windmill_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_GATE, gate_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_WOODEN_LEVER, wooden_lever_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_PLUM, plum_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	LOAD_MODEL_FROM_GEO(MODEL_HOODBOOMER, hoodboomer_geo),
@@ -52,6 +48,7 @@ const LevelScript level_i_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_WINDMILL, windmill_geo),
 	LOAD_MODEL_FROM_GEO(MODEL_GATE, gate_geo),
 	LOAD_MODEL_FROM_GEO(MODEL_WOODEN_LEVER, wooden_lever_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_PLUM, plum_geo),
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, i_area_1),
@@ -73,6 +70,7 @@ const LevelScript level_i_entry[] = {
 		OBJECT(MODEL_WOODEN_LEVER, -1343, -202, 2200, 0, 0, 0, 0x00000000, bhvWoodenLever),
 		OBJECT(MODEL_PIGPOT, -1250, 0, -880, 0, 31, 0, 0x00000000, bhvPigpot),
 		OBJECT(MODEL_PIGPOT, -992, 0, -1257, 0, -6, 0, 0x00000000, bhvPigpot),
+		OBJECT(MODEL_PLUM, 910, 680, -4032, 0, 0, 0, 0x00000000, bhvPlum),
 		OBJECT(MODEL_NONE, 15978, -926, 3165, 0, 0, 0, (1 << 24), bhvStar),
 		OBJECT(MODEL_NONE, 15778, -926, 3165, 0, 0, 0, (2 << 24), bhvStar),
 		OBJECT(MODEL_NONE, 15578, -926, 3165, 0, 0, 0, (3 << 24), bhvStar),

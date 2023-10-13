@@ -410,4 +410,67 @@ void bhv_wooden_lever_loop(void){
         }
 }
 
+/*************************PLUM*****************************/
+
+
+void plum_released_loop(void) {
+    o->oBreakableBoxSmallFramesSinceReleased++;
+
+    // Begin flashing
+    if (o->oBreakableBoxSmallFramesSinceReleased > 810) {
+        COND_BIT((o->oBreakableBoxSmallFramesSinceReleased & 0x1), o->header.gfx.node.flags, GRAPH_RENDER_INVISIBLE);
+    }
+
+    // Despawn, and create a corkbox respawner
+    if (o->oBreakableBoxSmallFramesSinceReleased > 900) {
+        create_respawner(MODEL_PLUM, bhvPlum, 100);
+        o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+    }
+}
+
+void plum_idle_loop(void) {
+    cur_obj_update_floor_and_walls();
+    o->oVelY -= o->oGravity;
+
+    switch (o->oAction) {
+        case BREAKABLE_BOX_SMALL_ACT_MOVE:
+            if (object_step() == OBJ_COL_FLAG_GROUNDED) {
+                o->oForwardVel = 0.0f;
+                cur_obj_play_sound_2(SOUND_GENERAL_SMALL_BOX_LANDING);
+            }
+            break;
+
+        case OBJ_ACT_DEATH_PLANE_DEATH:
+            o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+            create_respawner(MODEL_PLUM, bhvPlum, 100);
+            break;
+    }
+
+    if (o->oBreakableBoxSmallReleased == TRUE) {
+        plum_released_loop();
+    }
+}
+
+void bhv_plum_loop(void) {
+    switch (o->oHeldState) {
+        case HELD_FREE:
+            plum_idle_loop();
+            break;
+
+        case HELD_HELD:
+            cur_obj_disable_rendering();
+            cur_obj_become_intangible();
+            break;
+
+        case HELD_THROWN:
+        case HELD_DROPPED:
+            cur_obj_get_thrown_or_placed(18.0f, 46.0f, 0);
+            o->oBreakableBoxSmallFramesSinceReleased = 0;
+            o->oBreakableBoxSmallReleased = TRUE;
+            break;
+    }
+
+    o->oInteractStatus = INT_STATUS_NONE;
+}
+
 

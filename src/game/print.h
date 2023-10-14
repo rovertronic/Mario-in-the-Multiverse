@@ -16,6 +16,7 @@ enum PrintfGlyphs {
     GLYPH_QUESTION_MARK   = 38,
     GLYPH_AMPERSAND       = 39,
     GLYPH_PERCENT         = 40,
+    GLYPH_SLASH           = 41,
     GLYPH_MINUS           = 47,
     GLYPH_MULTIPLY        = 48,
     GLYPH_COIN            = 49,

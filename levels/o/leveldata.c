@@ -20,3 +20,4 @@
 #include "levels/o/o_zombie3/model.inc.c"
 #include "levels/o/o_zomblood/model.inc.c"
 #include "levels/o/o_tree/model.inc.c"
+#include "levels/o/o_uvstar/model.inc.c"

@@ -21,4 +21,6 @@ extern const LevelScript level_o_entry[];
 
 #include "levels/o/o_tree/geo_header.h"
 
+#include "levels/o/o_uvstar/geo_header.h"
+
 #endif

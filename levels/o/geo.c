@@ -21,3 +21,4 @@
 #include "levels/o/o_zombie3/geo.inc.c"
 #include "levels/o/o_zomblood/geo.inc.c"
 #include "levels/o/o_tree/geo.inc.c"
+#include "levels/o/o_uvstar/geo.inc.c"

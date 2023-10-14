@@ -6486,6 +6486,19 @@ const BehaviorScript bhvOTree[] = {
         CALL_NATIVE(bhv_pole_base_loop),
     END_LOOP(),
 };
+
+extern void bhv_hidden_by_uv(void);
+const BehaviorScript bhvOuvstar[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_HITBOX(/*Radius*/ 150, /*Height*/ 100),
+    SET_INT(oIntangibleTimer, 0),
+    BEGIN_LOOP(),
+        ADD_INT(oFaceAngleYaw, 0x200),
+        CALL_NATIVE(bhv_hidden_star_trigger_loop),
+        CALL_NATIVE(bhv_hidden_by_uv),
+    END_LOOP(),
+};
 /* GROUP O END */
 
 const BehaviorScript bhvCutterBlast[] = {

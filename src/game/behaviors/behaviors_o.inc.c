@@ -515,3 +515,11 @@ void bhv_o_tree_init(void) {
     cur_obj_scale(0.9f + (random_float()*0.3f));
     o->oFaceAngleYaw = random_u16();
 }
+
+void bhv_hidden_by_uv(void) {
+    if (using_ability(ABILITY_GADGET_WATCH)) {
+        cur_obj_unhide();
+    } else {
+        cur_obj_hide();
+    }
+}

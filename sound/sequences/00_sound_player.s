@@ -8152,7 +8152,7 @@ layer_end
 
 .sound_level_g_0_stardoor:
 chan_setbank 12
-chan_setinstr 1
+chan_setinstr 5
 chan_setlayer 0, .layer_level_g_0
 chan_end
 

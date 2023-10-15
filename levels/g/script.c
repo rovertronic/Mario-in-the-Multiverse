@@ -36,6 +36,25 @@
 #include "actors/common1.h"
 #include "actors/common1.h"
 #include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
 
 /* Fast64 begin persistent block [includes] */
 #include "actors/common1.h"
@@ -132,7 +151,7 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_G_CUT_ROCK, -2643, 4582, -8783, 0, 0, 0, (240 << 8), bhvGCutRock),
 		OBJECT(MODEL_G_CUT_ROCK2, -2997, 3459, -7245, 0, 89, 0, (240 << 8), bhvGCutRock),
 		OBJECT(MODEL_G_CUT_ROCK3, -1968, 4732, -7402, 0, 89, 0, (240 << 8), bhvGCutRock),
-		OBJECT(MODEL_NONE, 2212, -1780, -10226, 0, 0, 0, (11 << 16), bhvWarp),
+		OBJECT(MODEL_NONE, 2212, -1780, -10226, 0, 0, 0, (70 << 24) | (11 << 16), bhvWarp),
 		OBJECT(MODEL_LEVEL_PIPE, 909, 981, 219, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_GOOMBA, -496, -2108, 11816, 0, 0, 0, 0x00000000, bhvGoomba),
 		OBJECT(MODEL_GOOMBA, 300, -2348, 10492, 0, 0, 0, 0x00000000, bhvGoomba),
@@ -156,7 +175,7 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_RED_COIN, 3977, 884, -1140, 0, 14, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_RED_COIN, 2237, 758, 2273, 0, 14, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_G_SPRING, -328, -2439, 8837, 0, 0, 0, (19 << 16), bhvGSpring),
-		OBJECT(MODEL_G_SPRING, -300, -2452, 3608, 0, 0, 0, (30 << 16), bhvGSpring),
+		OBJECT(MODEL_G_SPRING, -300, -2452, 3608, 0, 0, 0, (26 << 16), bhvGSpring),
 		OBJECT(MODEL_G_SPRING, 3833, 3088, -3208, 0, 0, 0, (17 << 16), bhvGSpring),
 		OBJECT(MODEL_G_SPRING, 1766, 975, -674, 0, 0, 0, (18 << 16), bhvGSpring),
 		OBJECT(MODEL_G_SPRING, -1382, 2763, -6505, 0, 42, 0, (17 << 16), bhvGSpring),
@@ -181,7 +200,8 @@ const LevelScript level_g_entry[] = {
 		WARP_NODE(0xF0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0B, LEVEL_G, 0x04, 0x0A, WARP_NO_CHECKPOINT),
-		OBJECT(MODEL_NONE, 1898, 653, -489, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_ABILITY_SIGN, 7235, 808, 15721, 0, -49, 0, (5 << 16), bhvStaticObject),
+		OBJECT(MODEL_NONE, 2222, 3807, 21692, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		TERRAIN(g_area_4_collision),
 		MACRO_OBJECTS(g_area_4_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_CUSTOM_CRYSTAL_FIELD),

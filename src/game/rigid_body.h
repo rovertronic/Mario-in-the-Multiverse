@@ -4,20 +4,20 @@
 #include "macros.h"
 #include "engine/math_util.h"
 
-#define DAMPING 1.0f
+#define DAMPING 0.999f
 
-#define SLEEP_DETECTION_BIAS 0.9f
+#define SLEEP_DETECTION_BIAS 0.8f
 #define SLEEP_DETECTION_THRESHOLD 3.f
 
-#define PENETRATION_BIAS 0.1f
+#define PENETRATION_BIAS 0.8f
 #define PENETRATION_MIN_DEPTH 0.f
-#define PENETRATION_MAX_DEPTH 20.f
+#define PENETRATION_MAX_DEPTH 50.f
 
 #define GRAVITY_FORCE -4.f
-#define FRICTION 1.0f
+#define FRICTION 0.9f
 
 #define NUM_RIGID_BODY_STEPS 2
-#define NUM_IMPULSE_ITERATIONS 1
+#define NUM_IMPULSE_ITERATIONS 2
 
 #define MAX_RIGID_BODIES 1
 

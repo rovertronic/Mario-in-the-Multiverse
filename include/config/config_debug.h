@@ -36,12 +36,12 @@
 /**
  * Enables debug free move (D-pad up to enter, A to exit).
  */
-//#define ENABLE_DEBUG_FREE_MOVE
+#define ENABLE_DEBUG_FREE_MOVE
 
 /**
  * Enables a custom, enhanced performance profiler. (Enables PUPPYPRINT by default in config_safeguards).
  */
-// #define PUPPYPRINT_DEBUG
+ #define PUPPYPRINT_DEBUG
 
 /**
  * Uses cycles instead of microseconds in Puppyprint debug output.

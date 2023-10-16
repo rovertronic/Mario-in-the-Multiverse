@@ -1,0 +1,10 @@
+extern const GeoLayout star_block_geo[];
+extern Lights1 star_block_f3dlite_material_009_lights;
+extern u8 star_block_starblock_ci4[];
+extern u8 star_block_starblock_pal_rgba16[];
+extern Vtx star_block_Cube_mesh_layer_1_vtx_0[24];
+extern Gfx star_block_Cube_mesh_layer_1_tri_0[];
+extern Gfx mat_star_block_f3dlite_material_009[];
+extern Gfx mat_revert_star_block_f3dlite_material_009[];
+extern Gfx star_block_Cube_mesh_layer_1[];
+extern Gfx star_block_material_revert_render_settings[];

@@ -53,3 +53,4 @@
 #include "concrete_block_crack2/geo.inc.c"
 
 #include "dbp/geo.inc.c"
+#include "attached_rope/geo.inc.c"

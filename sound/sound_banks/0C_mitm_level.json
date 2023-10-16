@@ -69,6 +69,11 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "o_walker_eat"
+        },
+        "inst_level_g_0": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_g_0_stardoor"
         }
     },
     "instrument_list": [
@@ -84,6 +89,8 @@
         "inst_o_walker_aggressive_4",
         "inst_o_walker_die",
         "inst_o_walker_hit",
-        "inst_o_walker_eat"
+        "inst_o_walker_eat",
+        
+        "inst_level_g_0"
     ]
 }

@@ -8141,6 +8141,7 @@ sound_ref .sound_level_e_caco_death2
 sound_ref .sound_level_g_0_stardoor
 sound_ref .sound_level_i_hoodboomer_death
 sound_ref .sound_level_i_hoodboomer_laugh
+sound_ref .sound_level_i_toad_help
 
 .sound_level_x_0:
 chan_setbank 12
@@ -8228,7 +8229,7 @@ layer_end
 
 .sound_level_i_hoodboomer_death:
 chan_setbank 12
-chan_setinstr 1
+chan_setinstr 6
 chan_setlayer 0, .layer_level_i_hoodboomer_death
 chan_end
 
@@ -8238,7 +8239,7 @@ chan_end
 
 .sound_level_i_hoodboomer_laugh:
 chan_setbank 12
-chan_setinstr 2
+chan_setinstr 7
 chan_setlayer 0, .layer_level_i_hoodboomer_laugh
 chan_end
 
@@ -8250,7 +8251,7 @@ chan_end
 
 .sound_level_i_toad_help:
 chan_setbank 12
-chan_setinstr 3
+chan_setinstr 8
 chan_setlayer 0, .layer_level_i_toad_help
 chan_end
 

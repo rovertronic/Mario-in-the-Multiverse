@@ -5634,6 +5634,15 @@ const BehaviorScript bhvRecoveryHeart[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvAbilityRecoveryHeart[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_init_room),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ability_heart_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvWaterBombCannon[] = {
     BEGIN(OBJ_LIST_DEFAULT),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),

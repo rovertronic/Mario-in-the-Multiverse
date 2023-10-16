@@ -498,6 +498,7 @@ void bhv_animates_on_floor_switch_press_loop(void);
 void bhv_activated_back_and_forth_platform_init(void);
 void bhv_activated_back_and_forth_platform_update(void);
 void bhv_recovery_heart_loop(void);
+void bhv_ability_heart_loop(void);
 void bhv_water_bomb_cannon_loop(void);
 void bhv_bubble_cannon_barrel_loop(void);
 void bhv_unagi_init(void);

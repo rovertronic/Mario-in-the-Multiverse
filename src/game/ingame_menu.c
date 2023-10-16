@@ -1596,7 +1596,7 @@ void print_animated_red_coin(s16 x, s16 y) {
 void print_toad_token(s16 x, s16 y) {
     u8 strToadCount[2];
     u8 strToadTotal[2];
-    u8 textSymStar[] = { GLYPH_MARIO_HEAD, GLYPH_SPACE };
+    u8 textSymStar[] = { GLYPH_TOAD_HEAD, GLYPH_SPACE };
     u8 textSymSeparator[] = { GLYPH_SLASH, GLYPH_SPACE };
 
     if (gRedCoinsCollected != 0) {

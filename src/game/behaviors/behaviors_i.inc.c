@@ -473,6 +473,27 @@ void bhv_plum_loop(void) {
     o->oInteractStatus = INT_STATUS_NONE;
 }
 
+void bhv_plum_bucket_loop() {
+    f32 dist;
+    struct Object *plum = cur_obj_find_nearest_object_with_behavior(bhvPlum, &dist);
+    
+
+    switch(o->oAction){
+        //wait for plum
+        case 0:
+            if(plum != NULL && dist < 300.0f){
+                obj_mark_for_deletion(plum);
+                spawn_default_star(gMarioObject->oPosX, gMarioObject->oPosY + 280.0f, gMarioObject->oPosZ);
+                o->oAction++;
+            }
+            break;
+        //do nothing
+        case 1:
+            break;
+    }
+    o->oInteractStatus = INT_STATUS_NONE;
+}
+
 /*************************SAVING TOAD FROM CAGES*****************************/
 
 void bhv_caged_toad_loop(){

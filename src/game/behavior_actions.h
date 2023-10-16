@@ -564,6 +564,7 @@ void bhv_rotating_gear_decorative(void);
 void bhv_grill_openable_by_rocket_button_loop(void);
 void bhv_wooden_lever_loop(void);
 void bhv_plum_loop(void);
+void bhv_plum_bucket_loop(void);
 void bhv_caged_toad_loop(void);
 void bhv_caged_toad_star_init(void);
 void bhv_bhv_caged_toad_star_loop(void);

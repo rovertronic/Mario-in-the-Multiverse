@@ -611,6 +611,7 @@ extern const BehaviorScript bhvRotatingGearDecorative[];
 extern const BehaviorScript bhvGrillOpenableByRocketButton[];
 extern const BehaviorScript bhvWoodenLever[];
 extern const BehaviorScript bhvPlum[];
+extern const BehaviorScript bhvPlumBucket[];
 extern const BehaviorScript bhvCagedToad[];
 extern const BehaviorScript bhvFallingToad[];
 extern const BehaviorScript bhvHiddenCagedToadsStar[];

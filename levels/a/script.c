@@ -34,6 +34,7 @@ const LevelScript level_a_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_TIKI_STONE, stone_tiki_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_TRAMP, tramp_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_FLOATING_CHECKER_PLATFORM, floating_checker_platform_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_KING_JELLY, kingjelly_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -83,7 +84,7 @@ const LevelScript level_a_entry[] = {
 		OBJECT(MODEL_NONE, 53, 164, 8906, 0, 0, 0, (7 << 24), bhvStar),
 		TERRAIN(a_area_1_collision),
 		MACRO_OBJECTS(a_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_WATER),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_JELLYFISH_FIELDS),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
@@ -118,9 +119,14 @@ const LevelScript level_a_entry[] = {
 	END_AREA(),
 
 	AREA(3, a_area_3),
+		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0x09, LEVEL_A, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_NONE, 3212, 75, -11, 0, 0, 0, (0x09 << 16), bhvWarp),
+		OBJECT(MODEL_NONE, 2264, 0, -11, 0, 90, 0, (0x0A << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_KING_JELLY, 0, 505, -41, 0, 0, 0, 0x00000000, bhvKingJelly),
 		TERRAIN(a_area_3_collision),
 		MACRO_OBJECTS(a_area_3_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_WATER),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

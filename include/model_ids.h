@@ -627,6 +627,7 @@ enum GLOBAL_MODELS {
 #define MODEL_TIKI_FLOAT                          0x15A
 #define MODEL_TRAMP                               0x15B
 #define MODEL_FLOATING_CHECKER_PLATFORM           0x15C
+#define MODEL_KING_JELLY                          0x15D
 /* LEVEL A END */
 
 /* LEVEL B START */

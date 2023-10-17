@@ -31,3 +31,6 @@
 #include "levels/a/floating_checker_platform/collision.inc.c"
 #include "levels/a/floating_checker_platform/anims/data.inc.c"
 #include "levels/a/floating_checker_platform/anims/table.inc.c"
+#include "levels/a/kingjelly/model.inc.c"
+#include "levels/a/kingjelly/anims/data.inc.c"
+#include "levels/a/kingjelly/anims/table.inc.c"

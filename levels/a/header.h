@@ -39,4 +39,8 @@ extern const LevelScript level_a_entry[];
 
 #include "levels/a/floating_checker_platform/anim_header.h"
 
+#include "levels/a/kingjelly/geo_header.h"
+
+#include "levels/a/kingjelly/anim_header.h"
+
 #endif

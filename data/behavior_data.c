@@ -6273,6 +6273,25 @@ const BehaviorScript bhvFloatingCheckerPlatform[] = {
     END_LOOP(),
 };
 
+extern const struct Animation *const kingjelly_anims[];
+const BehaviorScript bhvKingJelly[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SCALE(0, 400),
+    ANIMATE(0),
+    LOAD_ANIMATIONS(oAnimations, kingjelly_anims),
+    BEGIN_LOOP(),
+        CALL_NATIVE(king_jellyfish_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvKingJellySHock[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(),
+};
+
 /* GROUP A END */
 
 /* GROUP B START */

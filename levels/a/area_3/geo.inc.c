@@ -7,6 +7,7 @@ const GeoLayout a_area_3_geo[] = {
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 126, -826, 11, a_dl_Circle_020_mesh_layer_5),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 126, -826, 11, a_dl_Circle_021_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 126, -826, 11, a_dl_Circle_022_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 0, 0, -41, a_dl_Circle_023_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -24,7 +25,7 @@ const GeoLayout a_area_3[] = {
 		GEO_OPEN_NODE(),
 			GEO_CAMERA_FRUSTUM_WITH_FUNC(45.0000, 100, 30000, geo_camera_fov),
 			GEO_OPEN_NODE(),
-				GEO_CAMERA(CAMERA_MODE_8_DIRECTIONS, 16811, 0, 39831, 16811, -100, 39831, geo_camera_main),
+				GEO_CAMERA(CAMERA_MODE_FREE_ROAM, 16811, 0, 39831, 16811, -100, 39831, geo_camera_main),
 				GEO_OPEN_NODE(),
 					GEO_BRANCH(1, a_area_3_geo),
 					GEO_RENDER_OBJ(),

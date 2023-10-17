@@ -144,9 +144,10 @@ void taxistop_loop(void)
 
             break;
         case 1:
+            o->oTimer++;
             if (o->oTimer >= 50)
             {
-                initiate_warp(LEVEL_A, 2, 0x0A, 0);
+                initiate_warp(LEVEL_A, 3, 0x0A, 0);
             }
             break;
     }   
@@ -180,14 +181,20 @@ void tiki_box_init(void) {
 
 void tiki_box_loop(void)
 {   
-    if (cur_obj_was_attacked_or_ground_pounded())
+    if (using_ability(ABILITY_BUBBLE_HAT))
     {
-        obj_mark_for_deletion(o);
-        obj_explode_and_spawn_coins(8, COIN_TYPE_YELLOW);
-        obj_spawn_loot_yellow_coins(o, 4, 10);
+        if (cur_obj_was_attacked_or_ground_pounded())
+        {
+            obj_mark_for_deletion(o);
+            obj_explode_and_spawn_coins(8, COIN_TYPE_YELLOW);
+            obj_spawn_loot_yellow_coins(o, 4, 10);
+            if (o->oTimer >= 5)
+            {
+                o->oInteractStatus = 0;
+            }
+        }
     }
-    
-    
+
     switch (o->oBehParams2ndByte)
     {
         case 0:
@@ -204,11 +211,50 @@ void tiki_box_loop(void)
 
 // King Jellyfish
 
-void king_jellyfish_loop(void)
+enum kingJellyAnims 
 {
+    ANIM_KING_JELLY_TURN,
+};
+
+void king_jellyfish_shock_throw(void)
+{
+    s16 yaw = 0x300;
+    f32 fVel = 6.0f;
+
+    o->oAction = 0;
+
+    if (o->oInteractStatus & INT_STATUS_INTERACTED && INT_STATUS_ATTACKED_MARIO)
+    {
+        return set_mario_action(gMarioState, ACT_SHOCKED, 0);
+    }
+    
     switch (o->oAction)
     {
+        case 0:
+            cur_obj_rotate_yaw_toward(o->oAngleToMario, yaw);
+            o->oForwardVel = fVel;
+            break;
+        case 1:
+            obj_mark_for_deletion(o);
+            cur_obj_disable_rendering();
+            cur_obj_become_intangible();
+            obj_spawn_loot_yellow_coins(o, 1, 7);
+            break;
+    }
+}
 
+void king_jellyfish_loop(void)
+{
+    struct Object *kjs;
+
+    kjs = cur_obj_nearest_object_with_behavior();
+    
+    switch (o->oAction)
+    {
+        case 0:
+            cur_obj_init_animation(ANIM_KING_JELLY_TURN);
+            cur_obj_rotate_yaw_toward(o->oAngleToMario, 0x800);
+            break;
     }
 }
 

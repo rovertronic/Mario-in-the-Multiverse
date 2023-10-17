@@ -692,12 +692,6 @@ s32 act_star_dance(struct MarioState *m) {
     return FALSE;
 }
 
-s32 act_mario_hop_on_taxi(struct MarioState *m) {
-    vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
-    vec3s_set(m->marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
-    return FALSE;
-}
-
 s32 act_star_dance_water(struct MarioState *m) {
     m->faceAngle[1] = m->area->camera->yaw;
     set_mario_animation(m, m->actionState == ACT_STATE_STAR_DANCE_RETURN ? MARIO_ANIM_RETURN_FROM_WATER_STAR_DANCE
@@ -2762,7 +2756,6 @@ s32 mario_execute_cutscene_action(struct MarioState *m) {
         case ACT_FEET_STUCK_IN_GROUND:       cancel = act_feet_stuck_in_ground(m);       break;
         case ACT_PUTTING_ON_CAP:             cancel = act_putting_on_cap(m);             break;
         case ACT_ENTER_HUB_PIPE:             cancel = act_enter_hub_pipe(m);             break;
-        case TAXI_STOP_CUTSCENE:             cancel = act_mario_hop_on_taxi(m);          break;
     }
     /* clang-format on */
 

@@ -40,5 +40,6 @@
     "25_custom_peanut_plains": ["0E_extended_bank"],
     "26_custom_kirby_boss": ["0E_extended_bank"],
     "27_custom_save_hut": ["0E_extended_bank"],
-    "28_custom_crystal_field": ["0E_extended_bank"]
+    "28_custom_crystal_field": ["0E_extended_bank"],
+    "29_jellyfish_fields": ["15"]
 }

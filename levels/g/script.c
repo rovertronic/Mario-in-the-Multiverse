@@ -63,6 +63,25 @@
 #include "actors/common1.h"
 #include "actors/common1.h"
 #include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
 
 /* Fast64 begin persistent block [includes] */
 #include "actors/common1.h"
@@ -215,11 +234,20 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_NONE, 572, 3771, 9757, 0, -79, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_ABILITY_SIGN, 7235, 808, 15721, 0, -49, 0, (5 << 16), bhvStaticObject),
 		OBJECT(MODEL_NONE, 2222, 3807, 21692, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
-		OBJECT(MODEL_G_SPRING, -1533, 796, 20288, 0, 0, 0, (17 << 16), bhvGSpring),
-		OBJECT(MODEL_G_SPRING, -1527, 1748, 19533, 0, 0, 0, (17 << 16), bhvGSpring),
-		OBJECT(MODEL_G_SPRING, -2861, 2697, 20586, 0, 0, 0, (17 << 16), bhvGSpring),
-		OBJECT(MODEL_G_SPRING, -2321, 1689, 20482, 0, 0, 0, (17 << 16), bhvGSpring),
-		OBJECT(MODEL_G_SPRING, -1701, 2483, 19050, 0, 0, 0, (17 << 16), bhvGSpring),
+		OBJECT(MODEL_G_SPRING, -1533, 796, 20288, 0, 0, 0, (18 << 16), bhvGSpring),
+		OBJECT(MODEL_G_SPRING, -1527, 1748, 19533, 0, 0, 0, (19 << 16), bhvGSpring),
+		OBJECT(MODEL_G_SPRING, -2861, 2697, 20586, 0, 0, 0, (18 << 16), bhvGSpring),
+		OBJECT(MODEL_G_SPRING, -2321, 1689, 20482, 0, 0, 0, (19 << 16), bhvGSpring),
+		OBJECT(MODEL_G_SPRING, -1701, 2483, 19050, 0, 0, 0, (18 << 16), bhvGSpring),
+		OBJECT(MODEL_G_SPRING, -1022, 796, 19710, 0, 0, 0, (18 << 16), bhvGSpring),
+		OBJECT(MODEL_G_SPRING, -13955, 446, 17084, 0, 0, 0, (16 << 16), bhvGSpring),
+		OBJECT(MODEL_G_SPRING, -10873, 446, 11965, 0, 0, 0, (20 << 16), bhvGSpring),
+		OBJECT(MODEL_STAR_PIECE, -13496, 1313, 17125, 0, 21, 0, 0x00000000, bhvStarPiece),
+		OBJECT(MODEL_BLUE_COIN_SWITCH, -10685, 538, 14630, 0, 21, 0, (4 << 24) | (90 << 16), bhvStarPieceSwitch),
+		OBJECT(MODEL_STAR_PIECE, -14934, 1272, 14182, 0, 21, 0, 0x00000000, bhvStarPiece),
+		OBJECT(MODEL_STAR_PIECE, -10892, 1555, 11939, 0, 21, 0, 0x00000000, bhvStarPiece),
+		OBJECT(MODEL_STAR_PIECE, -10815, 818, 17301, 0, 21, 0, 0x00000000, bhvStarPiece),
+		OBJECT(MODEL_STAR_PIECE, -12868, 827, 11945, 0, 21, 0, 0x00000000, bhvStarPiece),
 		TERRAIN(g_area_4_collision),
 		MACRO_OBJECTS(g_area_4_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_CUSTOM_CRYSTAL_FIELD),

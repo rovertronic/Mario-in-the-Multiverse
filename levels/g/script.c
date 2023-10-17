@@ -82,6 +82,7 @@
 #include "actors/common1.h"
 #include "actors/common1.h"
 #include "actors/common1.h"
+#include "actors/common1.h"
 
 /* Fast64 begin persistent block [includes] */
 #include "actors/common1.h"
@@ -232,6 +233,7 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_ABILITY_HEART, -4490, 4767, 9773, 0, -49, 0, 0x00000000, bhvAbilityRecoveryHeart),
 		OBJECT(MODEL_NONE, 3940, 3804, 9693, 0, -91, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_NONE, 572, 3771, 9757, 0, -79, 0, 0x00000000, bhvCoinFormation),
+		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, 0x00000000, bhvGreatCaveOffensiveController),
 		OBJECT(MODEL_ABILITY_SIGN, 7235, 808, 15721, 0, -49, 0, (5 << 16), bhvStaticObject),
 		OBJECT(MODEL_NONE, 2222, 3807, 21692, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_G_SPRING, -1533, 796, 20288, 0, 0, 0, (18 << 16), bhvGSpring),

@@ -247,7 +247,7 @@ void king_jellyfish_loop(void)
 {
     struct Object *kjs;
 
-    kjs = cur_obj_nearest_object_with_behavior();
+    kjs = cur_obj_nearest_object_with_behavior(bhvKingJellySHock);
     
     switch (o->oAction)
     {

@@ -642,3 +642,4 @@ void tiki_box_init(void);
 void trampoline_loop(void);
 void fcp_loop(void);
 void king_jellyfish_loop(void);
+void king_jellyfish_shock_throw(void);

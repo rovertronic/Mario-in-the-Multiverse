@@ -6289,7 +6289,8 @@ const BehaviorScript bhvKingJellySHock[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     BEGIN_LOOP(),
-        CALL_NATIVE(),
+        CALL_NATIVE(king_jellyfish_shock_throw),
+    END_LOOP(),
 };
 
 /* GROUP A END */

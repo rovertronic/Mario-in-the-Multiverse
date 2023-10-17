@@ -324,6 +324,16 @@ static struct Surface *find_ceil_from_list(struct SurfaceNode *surfaceNode, s32 
             continue;
         }
 
+        if (type == SURFACE_VANISH_FLOOR && o != NULL) {
+            // If an object can pass through a vanish cap wall, pass through.
+                if (o->activeFlags & ACTIVE_FLAG_MOVE_THROUGH_GRATE) continue;
+                // If Mario has a vanish cap, pass through the vanish cap wall.
+                if (o == gMarioObject && gMarioState->flags & MARIO_VANISH_CAP) continue;
+
+                if (phasewalk_state > 0) continue;
+
+        }
+
         // Check that the point is within the triangle bounds
         if (!check_within_ceil_triangle_bounds(x, z, surf, 1.5f)) continue;
 
@@ -459,6 +469,16 @@ static struct Surface *find_floor_from_list(struct SurfaceNode *surfaceNode, s32
             }
         } else if (type == SURFACE_CAMERA_BOUNDARY) {
             continue; // If we are not checking for the camera, ignore camera only floors.
+        }
+
+        if (type == SURFACE_VANISH_FLOOR && o != NULL) {
+            // If an object can pass through a vanish cap wall, pass through.
+                if (o->activeFlags & ACTIVE_FLAG_MOVE_THROUGH_GRATE) continue;
+                // If Mario has a vanish cap, pass through the vanish cap wall.
+                if (o == gMarioObject && gMarioState->flags & MARIO_VANISH_CAP) continue;
+
+                if (phasewalk_state > 0) continue;
+
         }
 
         // Exclude all floors above the point.

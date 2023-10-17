@@ -1,0 +1,15 @@
+extern const GeoLayout g_spring_geo[];
+extern Lights1 g_spring_f3dlite_material_019_lights;
+extern Lights1 g_spring_f3dlite_material_020_lights;
+extern u8 g_spring_springcoil_ci4[];
+extern u8 g_spring_springcoil_pal_rgba16[];
+extern Vtx g_spring_Circle_003_mesh_layer_1_vtx_0[16];
+extern Gfx g_spring_Circle_003_mesh_layer_1_tri_0[];
+extern Vtx g_spring_Circle_003_mesh_layer_4_vtx_0[20];
+extern Gfx g_spring_Circle_003_mesh_layer_4_tri_0[];
+extern Gfx mat_g_spring_f3dlite_material_019[];
+extern Gfx mat_g_spring_f3dlite_material_020[];
+extern Gfx mat_revert_g_spring_f3dlite_material_020[];
+extern Gfx g_spring_Circle_003_mesh_layer_1[];
+extern Gfx g_spring_Circle_003_mesh_layer_4[];
+extern Gfx g_spring_material_revert_render_settings[];

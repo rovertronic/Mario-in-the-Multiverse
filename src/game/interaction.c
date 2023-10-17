@@ -768,6 +768,11 @@ void reset_mario_pitch(struct MarioState *m) {
 }
 
 u32 interact_coin(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
+
+    if (GET_BPARAM3(obj->oBehParams) == 0xF0) {
+        return FALSE;
+    }
+
     gMarioState->numGlobalCoins += obj->oDamageOrCoinValue;
     if (gMarioState->numGlobalCoins > 999) {gMarioState->numGlobalCoins = 999;} //CLAMP
 

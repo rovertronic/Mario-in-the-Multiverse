@@ -642,6 +642,7 @@ extern const BehaviorScript bhvOZombie[];
 extern const BehaviorScript bhvOZombieSpawner[];
 extern const BehaviorScript bhvOTree[];
 extern const BehaviorScript bhvOuvstar[];
+extern const BehaviorScript bhvOlift[];
 /* GROUP O END */
 
 #endif // BEHAVIOR_DATA_H

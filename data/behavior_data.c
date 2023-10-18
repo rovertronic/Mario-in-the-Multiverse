@@ -6523,6 +6523,19 @@ const BehaviorScript bhvOuvstar[] = {
         CALL_NATIVE(bhv_hidden_by_uv),
     END_LOOP(),
 };
+
+extern void bhv_o_lift(void);
+const BehaviorScript bhvOlift[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(o_lift_collision),
+    SET_FLOAT(oDrawingDistance, 16000),
+    SET_FLOAT(oCollisionDistance, 800),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_o_lift),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
 /* GROUP O END */
 
 const BehaviorScript bhvCutterBlast[] = {

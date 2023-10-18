@@ -523,3 +523,33 @@ void bhv_hidden_by_uv(void) {
         cur_obj_hide();
     }
 }
+
+void bhv_o_lift(void) {
+    struct Object *rocketbutton = cur_obj_nearest_object_with_behavior(bhvRocketButton);
+    switch(o->oAction) {
+        case 0:
+            o->oHomeY = o->oPosY;
+            if ((rocketbutton) && (rocketbutton->oAction > 0)) {
+                play_puzzle_jingle();
+                o->oAction++;
+                o->oPosY -= 3800.0f;
+            }
+        break;
+        case 1:
+            if (gMarioObject->platform == o) {
+                o->oAction = 2;
+            }
+        break;
+        case 2:
+            if (o->oPosY < o->oHomeY) {
+                o->oPosY += 40.0f;
+                cur_obj_play_sound_1(SOUND_ENV_ELEVATOR1);
+            } else {
+                if (rocketbutton) {
+                    o->oAction = 0;
+                    rocketbutton->oAction = 0;
+                }
+            }
+        break;
+    }
+}

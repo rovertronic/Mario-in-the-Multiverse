@@ -21,3 +21,5 @@
 #include "levels/o/o_zomblood/model.inc.c"
 #include "levels/o/o_tree/model.inc.c"
 #include "levels/o/o_uvstar/model.inc.c"
+#include "levels/o/o_lift/model.inc.c"
+#include "levels/o/o_lift/collision.inc.c"

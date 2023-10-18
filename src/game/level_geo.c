@@ -83,13 +83,15 @@ Gfx *geo_skybox_main(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx) 
 Vtx *uv_light_vtx_list[] = {
     o_dl_zuvlight_mesh_layer_5_vtx_0,
     o_dl_zuvlight_mesh_layer_5_vtx_1,
-    o_dl_zuvlight_mesh_layer_5_vtx_2
+    o_dl_zuvlight_mesh_layer_5_vtx_2,
+    o_dl_zuvlight_mesh_layer_5_vtx_3
 };
 
 u16 uv_light_vtx_list_sizes[] = {
     sizeof(o_dl_zuvlight_mesh_layer_5_vtx_0),
     sizeof(o_dl_zuvlight_mesh_layer_5_vtx_1),
     sizeof(o_dl_zuvlight_mesh_layer_5_vtx_2),
+    sizeof(o_dl_zuvlight_mesh_layer_5_vtx_3),
 };
 
 Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *context) {
@@ -102,7 +104,7 @@ Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *
     if (callContext == GEO_CONTEXT_RENDER) {
         vec3f_to_vec3s(marioPos, gMarioState->pos);
 
-        for (int j = 0; j<3; j++) {
+        for (int j = 0; j<4; j++) {
             vert = segmented_to_virtual(uv_light_vtx_list[j]);
             if (using_ability(ABILITY_GADGET_WATCH)) {
                 //uv light on

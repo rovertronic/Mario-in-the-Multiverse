@@ -23,4 +23,8 @@ extern const LevelScript level_o_entry[];
 
 #include "levels/o/o_uvstar/geo_header.h"
 
+#include "levels/o/o_lift/geo_header.h"
+
+#include "levels/o/o_lift/collision_header.h"
+
 #endif

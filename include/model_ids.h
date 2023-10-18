@@ -686,6 +686,7 @@ enum {
 #define MODEL_ZOMBLOOD   0x154
 #define MODEL_O_TREE     0x155
 #define MODEL_O_UVSTAR   0x156
+#define MODEL_O_LIFT     0x157
 /* LEVEL O END */
 
 #endif // MODEL_IDS_H

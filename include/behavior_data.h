@@ -659,3 +659,4 @@ extern const BehaviorScript bhvPhysicsMarble[];
 #endif // BEHAVIOR_DATA_H
 
 extern const BehaviorScript bhvGCannon[];
+extern const BehaviorScript bhvGreatCaveOffensiveController[];

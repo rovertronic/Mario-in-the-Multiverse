@@ -169,7 +169,7 @@ void bhv_star_piece_switch_loop(void) {
 
         case BLUE_COIN_SWITCH_ACT_TICKING:
             // Tick faster when the blue coins start blinking
-            if (o->oTimer < 200) {
+            if (o->oTimer < (o->oBehParams2ndByte == 0 ? 200 : (o->oBehParams2ndByte * 10) - 40)) {
                 play_sound(SOUND_GENERAL2_SWITCH_TICK_FAST, gGlobalSoundSource);
             } else {
                 play_sound(SOUND_GENERAL2_SWITCH_TICK_SLOW, gGlobalSoundSource);
@@ -180,7 +180,7 @@ void bhv_star_piece_switch_loop(void) {
                 spawn_mist_particles_variable(0, 0, 46.0f);
                 obj_mark_for_deletion(o);
             // Set to BLUE_COIN_SWITCH_ACT_EXTENDING after the coins unload after the 240-frame timer expires.
-            } else if (o->oTimer > 240) {
+            } else if (o->oTimer > (o->oBehParams2ndByte == 0 ? 240 : o->oBehParams2ndByte * 10)) {
                 o->oAction  = BLUE_COIN_SWITCH_ACT_EXTENDING;
                 o->oVelY    = 16.0f;
                 o->oGravity =  0.0f;

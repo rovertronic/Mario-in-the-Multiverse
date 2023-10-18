@@ -674,3 +674,5 @@ void bhv_g_cut_rock_init(void);
 void bhv_g_cut_rock_loop(void);
 void bhv_g_cannon_init(void);
 void bhv_g_cannon_loop(void);
+void bhv_great_cave_offensive_controller_init(void);
+void bhv_great_cave_offensive_controller_loop(void);

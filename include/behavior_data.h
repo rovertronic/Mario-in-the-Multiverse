@@ -629,6 +629,10 @@ extern const BehaviorScript bhvPlumBucket[];
 extern const BehaviorScript bhvCagedToad[];
 extern const BehaviorScript bhvFallingToad[];
 extern const BehaviorScript bhvHiddenCagedToadsStar[];
+extern const BehaviorScript bhvPlankAttachedToRope[];
+extern const BehaviorScript bhvBarrierAttachedToRope[];
+extern const BehaviorScript bhvFunkyShell[];
+
 /* GROUP I END */
 
 /* GROUP J START */

@@ -412,7 +412,6 @@ void bhv_wooden_lever_loop(void){
 
 /*************************PLUM*****************************/
 
-
 void plum_released_loop(void) {
     o->oBreakableBoxSmallFramesSinceReleased++;
 
@@ -424,25 +423,35 @@ void plum_released_loop(void) {
     // Despawn, and create a corkbox respawner
     if (o->oBreakableBoxSmallFramesSinceReleased > 900) {
         create_respawner(MODEL_PLUM, bhvPlum, 100);
+        stop_plum_music();
         o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
     }
 }
 
 void plum_idle_loop(void) {
+    s16 collisionFlags;
     cur_obj_update_floor_and_walls();
     o->oVelY -= o->oGravity;
 
     switch (o->oAction) {
         case BREAKABLE_BOX_SMALL_ACT_MOVE:
-            if (object_step() == OBJ_COL_FLAG_GROUNDED) {
+            collisionFlags = object_step();
+            if (collisionFlags == OBJ_COL_FLAG_GROUNDED) {
                 o->oForwardVel = 0.0f;
                 cur_obj_play_sound_2(SOUND_GENERAL_SMALL_BOX_LANDING);
+            }
+            if (collisionFlags == OBJ_COL_FLAG_UNDERWATER){
+                spawn_mist_particles_with_sound(SOUND_OBJ_DEFAULT_DEATH);
+                create_respawner(MODEL_PLUM, bhvPlum, 100);
+                stop_plum_music();
+                
             }
             break;
 
         case OBJ_ACT_DEATH_PLANE_DEATH:
             o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
             create_respawner(MODEL_PLUM, bhvPlum, 100);
+            stop_plum_music();
             break;
     }
 
@@ -460,6 +469,8 @@ void bhv_plum_loop(void) {
         case HELD_HELD:
             cur_obj_disable_rendering();
             cur_obj_become_intangible();
+            //if music not playing
+            play_plum_music();
             break;
 
         case HELD_THROWN:
@@ -473,7 +484,7 @@ void bhv_plum_loop(void) {
     o->oInteractStatus = INT_STATUS_NONE;
 }
 
-void bhv_plum_bucket_loop() {
+void bhv_plum_bucket_loop(void) {
     f32 dist;
     struct Object *plum = cur_obj_find_nearest_object_with_behavior(bhvPlum, &dist);
     
@@ -482,6 +493,7 @@ void bhv_plum_bucket_loop() {
         //wait for plum
         case 0:
             if(plum != NULL && dist < 300.0f){
+                stop_plum_music();
                 obj_mark_for_deletion(plum);
                 spawn_default_star(gMarioObject->oPosX, gMarioObject->oPosY + 280.0f, gMarioObject->oPosZ);
                 o->oAction++;
@@ -492,6 +504,52 @@ void bhv_plum_bucket_loop() {
             break;
     }
     o->oInteractStatus = INT_STATUS_NONE;
+}
+
+void bhv_plank_attached_to_rope_loop(void) {
+    s16 collisionFlags = 0;
+
+    switch (o->oAction){
+    case 0:
+        //rope cuted
+        if(GET_BPARAM3(o->oBehParams) == 0){
+            o->oAction++;
+            }
+        break;
+    case 1:
+        //fall
+        o->oPosY -= o->oGravity;
+        object_step();
+        if(o->oTimer > 25){
+            o->oAction++;
+            cur_obj_play_sound_2(SOUND_GENERAL_SMALL_BOX_LANDING);
+        }
+        break;
+    case 2:
+        break;
+    }
+}
+
+void bhv_barrier_attached_to_rope_loop(void) {
+    s16 collisionFlags = 0;
+    o->oVelY -= o->oGravity;
+
+    switch (o->oAction){
+    case 0:
+        //rope cuted
+        if(GET_BPARAM3(o->oBehParams) == 0){
+            o->oF4 = o->oFaceAngleYaw;
+            o->oAction++;
+            }
+        break;
+    case 1:
+        //fall
+        o->oFaceAngleYaw = o->oF4;
+        if(object_step() == OBJ_COL_FLAG_GROUNDED){
+            cur_obj_play_sound_2(SOUND_GENERAL_SMALL_BOX_LANDING);
+        }
+        break;
+    }
 }
 
 /*************************SAVING TOAD FROM CAGES*****************************/
@@ -558,6 +616,59 @@ void bhv_bhv_caged_toad_star_loop(void) {
             }
             break;
     }
+}
+
+/*************************FUNKY SHELL*****************************/
+
+struct ObjectHitbox sFunkyShellHitbox = {
+    .interactType      = INTERACT_KOOPA_SHELL,
+    .downOffset        = 0,
+    .damageOrCoinValue = 4,
+    .health            = 1,
+    .numLootCoins      = 1,
+    .radius            = 50,
+    .height            = 50,
+    .hurtboxRadius     = 50,
+    .hurtboxHeight     = 50,
+};
+
+void bhv_funky_shell_loop(void) {
+    struct Surface *floor;
+
+    obj_set_hitbox(o, &sFunkyShellHitbox);
+    cur_obj_scale(1.0f);
+
+    switch (o->oAction) {
+        case KOOPA_SHELL_ACT_MARIO_NOT_RIDING:
+            cur_obj_update_floor_and_walls();
+            cur_obj_if_hit_wall_bounce_away();
+
+            if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+                o->oAction = KOOPA_SHELL_ACT_MARIO_RIDING;
+            }
+
+            o->oFaceAngleYaw += 0x1000;
+            cur_obj_move_standard(-20);
+            koopa_shell_spawn_sparkles(10.0f);
+            check_shell_despawn();
+            break;
+
+        case KOOPA_SHELL_ACT_MARIO_RIDING:
+            obj_copy_pos(o, gMarioObject);
+            floor = cur_obj_update_floor_height_and_get_floor();
+            koopa_shell_spawn_sparkles(10.0f);
+
+            o->oFaceAngleYaw = gMarioObject->oMoveAngleYaw;
+
+            if (o->oInteractStatus & INT_STATUS_STOP_RIDING) {
+                obj_mark_for_deletion(o);
+                spawn_mist_particles();
+                o->oAction = KOOPA_SHELL_ACT_MARIO_NOT_RIDING;
+            }
+            break;
+    }
+
+    o->oInteractStatus = INT_STATUS_NONE;
 }
 
 

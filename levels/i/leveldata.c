@@ -22,3 +22,7 @@
 #include "levels/i/wooden_lever/model.inc.c"
 #include "levels/i/plum/model.inc.c"
 #include "levels/i/caged_toad/model.inc.c"
+#include "levels/i/plank_rope/model.inc.c"
+#include "levels/i/plank_rope/collision.inc.c"
+#include "levels/i/barrier_rope/collision.inc.c"
+#include "levels/i/barrier_rope/model.inc.c"

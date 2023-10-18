@@ -670,6 +670,8 @@ enum {
 #define MODEL_WOODEN_LEVER              0x3B        //wooden_lever_geo
 #define MODEL_PLUM                      0x3C        //plum
 #define MODEL_CAGED_TOAD                0x3D        //caged_toad
+#define MODEL_PLANK_ROPE                0x3E        //plank_rope_geo
+#define MODEL_BARRIER_ROPE              0x3F        //barrier_rope_geo
 /* LEVEL I END */
 
 /* LEVEL J START */

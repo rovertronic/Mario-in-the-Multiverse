@@ -8,6 +8,7 @@ const GeoLayout g_area_4_geo[] = {
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_ALPHA, g_dl_f3dlite_material_041Mesh_mesh_layer_4),
 		GEO_CLOSE_NODE(),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, g_dl_f3dlite_material_048Mesh_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, g_dl_Plane_003_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, g_dl_Plane_003_mesh_layer_4),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, g_dl_Plane_016_mesh_layer_4),

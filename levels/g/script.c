@@ -82,6 +82,11 @@
 #include "actors/common1.h"
 #include "actors/common1.h"
 #include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
 
 /* Fast64 begin persistent block [includes] */
 #include "actors/common1.h"
@@ -230,10 +235,19 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_ABILITY_HEART, 9624, 2752, 10003, 0, -49, 0, 0x00000000, bhvAbilityRecoveryHeart),
 		OBJECT(MODEL_ABILITY_HEART, -767, 3804, 9681, 0, -49, 0, 0x00000000, bhvAbilityRecoveryHeart),
 		OBJECT(MODEL_ABILITY_HEART, -4490, 4767, 9773, 0, -49, 0, 0x00000000, bhvAbilityRecoveryHeart),
+		OBJECT(MODEL_ROCKET_BUTTON_OFF, -18366, -338, 2664, -90, 0, 0, 0x00000000, bhvRocketButton),
+		OBJECT(MODEL_ROCKET_BUTTON_OFF, -17899, 285, 9501, -90, 0, 0, 0x00000000, bhvRocketButton),
+		OBJECT(MODEL_ROCKET_BUTTON_OFF, -8893, 693, -1008, -90, 0, 0, 0x00000000, bhvRocketButton),
+		OBJECT(MODEL_ROCKET_BUTTON_OFF, -14595, -831, 8162, 0, -180, 0, 0x00000000, bhvRocketButton),
+		OBJECT(MODEL_ROCKET_BUTTON_OFF, -10541, 1997, 5705, 0, -90, 0, 0x00000000, bhvRocketButton),
 		OBJECT(MODEL_NONE, 3940, 3804, 9693, 0, -91, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_NONE, 572, 3771, 9757, 0, -79, 0, 0x00000000, bhvCoinFormation),
+		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, 0x00000000, bhvGreatCaveOffensiveController),
 		OBJECT(MODEL_ABILITY_SIGN, 7235, 808, 15721, 0, -49, 0, (5 << 16), bhvStaticObject),
+		OBJECT(MODEL_ABILITY_SIGN, -13876, 237, 8376, 0, -40, 0, (4 << 16), bhvStaticObject),
+		OBJECT(MODEL_NONE, -14374, 535, 1562, 0, 21, 0, (6 << 24), bhvGCOStar),
 		OBJECT(MODEL_NONE, 2222, 3807, 21692, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_NONE, -14374, 345, 1562, 0, 21, 0, 0x00000000, bhvRocketButtonGroup),
 		OBJECT(MODEL_G_SPRING, -1533, 796, 20288, 0, 0, 0, (18 << 16), bhvGSpring),
 		OBJECT(MODEL_G_SPRING, -1527, 1748, 19533, 0, 0, 0, (19 << 16), bhvGSpring),
 		OBJECT(MODEL_G_SPRING, -2861, 2697, 20586, 0, 0, 0, (18 << 16), bhvGSpring),
@@ -248,9 +262,10 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_STAR_PIECE, -10892, 1555, 11939, 0, 21, 0, 0x00000000, bhvStarPiece),
 		OBJECT(MODEL_STAR_PIECE, -10815, 818, 17301, 0, 21, 0, 0x00000000, bhvStarPiece),
 		OBJECT(MODEL_STAR_PIECE, -12868, 827, 11945, 0, 21, 0, 0x00000000, bhvStarPiece),
+		OBJECT(MODEL_STAR, -6556, 6991, 9637, 0, 21, 0, (5 << 24), bhvStar),
 		TERRAIN(g_area_4_collision),
 		MACRO_OBJECTS(g_area_4_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_CUSTOM_CRYSTAL_FIELD),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_CUSTOM_MARX),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

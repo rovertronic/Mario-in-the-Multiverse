@@ -4620,6 +4620,15 @@ const BehaviorScript bhvHiddenStar[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvGCOStar[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_gco_star_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_gco_star_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvHiddenStarTrigger[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
@@ -6598,5 +6607,14 @@ const BehaviorScript bhvGCannon[] = {
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_g_cannon_loop),
         CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGreatCaveOffensiveController[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_great_cave_offensive_controller_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_great_cave_offensive_controller_loop),
     END_LOOP(),
 };

@@ -607,6 +607,7 @@ extern const BehaviorScript bhvStarDoorStar[];
 extern const BehaviorScript bhvGStarDoor[];
 extern const BehaviorScript bhvGSpring[];
 extern const BehaviorScript bhvGCutRock[];
+extern const BehaviorScript bhvGCOStar[];
 /* GROUP G END */
 
 /* GROUP H START */
@@ -643,3 +644,4 @@ extern const BehaviorScript bhvPhysicsMarble[];
 #endif // BEHAVIOR_DATA_H
 
 extern const BehaviorScript bhvGCannon[];
+extern const BehaviorScript bhvGreatCaveOffensiveController[];

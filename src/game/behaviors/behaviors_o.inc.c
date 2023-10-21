@@ -341,6 +341,7 @@ void bhv_o_walker_update(void) {
     f32 walkspeed = 0.0f;
     u16 view_angle = ABS(o->oAngleToMario-o->oFaceAngleYaw);
     u8 touched_another_zombie = FALSE;
+    u32 is_underwater = (o->oMoveFlags & (OBJ_MOVE_UNDERWATER_OFF_GROUND|OBJ_MOVE_UNDERWATER_ON_GROUND));
 
     lv_o_zombie_counting++;
 
@@ -370,11 +371,21 @@ void bhv_o_walker_update(void) {
             if (o->oTimer == 0) {
                 o->header.gfx.animInfo.animFrame = random_u16()%48;
                 o->oTimer = random_u16();
+                if (is_underwater) {
+                    cur_obj_init_animation_with_accel_and_sound(1, 2.0f);
+                }
             }
             o->oMoveAngleYaw = approach_s16_asymptotic(o->oMoveAngleYaw, o->oAngleToMario+(sins(o->oTimer*0x50)*0x1000), 8);
             o->oFaceAngleYaw = o->oMoveAngleYaw;
             walkspeed = (sins((o->header.gfx.animInfo.animFrame/50.0f)*65535.0f ) * 1.0f)+4.0f;
             o->oForwardVel = approach_f32_asymptotic(o->oForwardVel,walkspeed,0.2f);
+
+            if ((is_underwater)&&(gMarioState->pos[1] > o->oPosY)&&(o->oVelY < 15.0f)) {
+                if (o->oVelY < 5.0f) {
+                    o->oVelY = 5.0f;
+                }
+                o->oVelY += 0.8f;
+            }
 
             if ((random_u16()%20)==0) {
                 cur_obj_play_sound_2(zombie_audio_variance[random_u16()%4]);
@@ -385,7 +396,7 @@ void bhv_o_walker_update(void) {
                 cur_obj_init_animation_with_accel_and_sound(7, 1.0f);
             }
 
-            if (o->oMoveFlags & OBJ_MOVE_IN_AIR) {
+            if ((o->oMoveFlags & OBJ_MOVE_IN_AIR) && (!is_underwater)) {
                 o->oAction = 2; //falling
                 cur_obj_init_animation_with_accel_and_sound(1, 2.0f);
             }
@@ -403,6 +414,9 @@ void bhv_o_walker_update(void) {
                 o->oAction = 3; //getting up
                 o->oVelY = 0.0f;
                 cur_obj_play_sound_2(SOUND_GENERAL_SMALL_BOX_LANDING);
+            }
+            if (is_underwater) {
+                o->oAction = 1;
             }
         break;
         case 3: //getting up

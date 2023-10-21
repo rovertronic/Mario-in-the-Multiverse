@@ -27,4 +27,6 @@ extern const LevelScript level_o_entry[];
 
 #include "levels/o/o_lift/collision_header.h"
 
+#include "levels/o/o_spooky_sky/header.h"
+
 #endif

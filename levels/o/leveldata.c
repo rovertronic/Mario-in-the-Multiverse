@@ -23,3 +23,4 @@
 #include "levels/o/o_uvstar/model.inc.c"
 #include "levels/o/o_lift/model.inc.c"
 #include "levels/o/o_lift/collision.inc.c"
+#include "levels/o/o_spooky_sky/model.inc.c"

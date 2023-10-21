@@ -80,11 +80,14 @@ Gfx *geo_skybox_main(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx) 
 
 //course O uv light
 #include "levels/o/header.inc.h"
+extern Gfx o_spooky_sky_Sphere_001_mesh[];
+
 Vtx *uv_light_vtx_list[] = {
     o_dl_zuvlight_mesh_layer_5_vtx_0,
     o_dl_zuvlight_mesh_layer_5_vtx_1,
     o_dl_zuvlight_mesh_layer_5_vtx_2,
-    o_dl_zuvlight_mesh_layer_5_vtx_3
+    o_dl_zuvlight_mesh_layer_5_vtx_3,
+    o_dl_zuvlight_mesh_layer_5_vtx_4,
 };
 
 u16 uv_light_vtx_list_sizes[] = {
@@ -92,8 +95,11 @@ u16 uv_light_vtx_list_sizes[] = {
     sizeof(o_dl_zuvlight_mesh_layer_5_vtx_1),
     sizeof(o_dl_zuvlight_mesh_layer_5_vtx_2),
     sizeof(o_dl_zuvlight_mesh_layer_5_vtx_3),
+    sizeof(o_dl_zuvlight_mesh_layer_5_vtx_4),
 };
 
+Gfx cool_display_list[4];
+Mtx cool_matrix;
 Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *context) {
     s32 i;
     f32 dist;
@@ -104,7 +110,7 @@ Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *
     if (callContext == GEO_CONTEXT_RENDER) {
         vec3f_to_vec3s(marioPos, gMarioState->pos);
 
-        for (int j = 0; j<4; j++) {
+        for (int j = 0; j<5; j++) {
             vert = segmented_to_virtual(uv_light_vtx_list[j]);
             if (using_ability(ABILITY_GADGET_WATCH)) {
                 //uv light on
@@ -125,6 +131,15 @@ Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *
                     vert[i].v.cn[3] = 0;
                 }
             }
+
+            guTranslate(&cool_matrix, gLakituState.curPos[0], gLakituState.curPos[1], gLakituState.curPos[2]);
+
+            gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+            gSPDisplayList(&cool_display_list[1], segmented_to_virtual(o_spooky_sky_Sphere_001_mesh));
+            gSPPopMatrix(&cool_display_list[2], G_MTX_MODELVIEW);
+            gSPEndDisplayList(&cool_display_list[3]);
+
+            geo_append_display_list(cool_display_list, LAYER_FORCE);
         }
 
     }

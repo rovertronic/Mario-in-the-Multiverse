@@ -572,7 +572,7 @@ void bhv_caged_toad_loop(){
 
     o->oPosY += 10.0f * coss(1000 * o->oTimer);
 
-    if((o->oTimer % 245) == 0 && o->oDistanceToMario < 5000){
+    if((o->oTimer % 400) == 0 && o->oDistanceToMario < 5000){
         create_sound_spawner(SOUND_MITM_LEVEL_I_TOAD_HELP);
     }
 
@@ -609,8 +609,8 @@ void bhv_bhv_caged_toad_star_loop(void) {
             break;
 
         case HIDDEN_STAR_ACT_ACTIVE:
-            if (o->oTimer > 2) {
-                spawn_red_coin_cutscene_star(o->oPosX, o->oPosY, o->oPosZ);
+            if (o->oTimer > 50) {
+                bhv_spawn_star_no_level_exit_at_object(GET_BPARAM1(o->oBehParams), gMarioObject);
                 spawn_mist_particles();
                 o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
             }
@@ -644,6 +644,9 @@ void bhv_funky_shell_loop(void) {
             cur_obj_if_hit_wall_bounce_away();
 
             if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+                o->oPreviousLakituCamMode = gLakituState.mode;
+                gLakituState.mode = CAMERA_MODE_FUNKY_BOARD;
+                gMarioState->faceAngle[1] = 0x8000;
                 o->oAction = KOOPA_SHELL_ACT_MARIO_RIDING;
             }
 
@@ -658,9 +661,11 @@ void bhv_funky_shell_loop(void) {
             floor = cur_obj_update_floor_height_and_get_floor();
             koopa_shell_spawn_sparkles(10.0f);
 
+            //align with mario
             o->oFaceAngleYaw = gMarioObject->oMoveAngleYaw;
 
             if (o->oInteractStatus & INT_STATUS_STOP_RIDING) {
+                gLakituState.mode = o->oPreviousLakituCamMode;
                 obj_mark_for_deletion(o);
                 spawn_mist_particles();
                 o->oAction = KOOPA_SHELL_ACT_MARIO_NOT_RIDING;

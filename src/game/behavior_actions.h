@@ -3,6 +3,7 @@
 
 void spawn_mist_particles_variable(s32 count, s32 offsetY, f32 size);
 void bhv_spawn_star_no_level_exit(u32 params);
+void bhv_spawn_star_no_level_exit_at_object(u32 params, struct Object *obj);
 void bhv_door_rendering_loop(void);
 void spawn_triangle_break_particles(s16 numTris, s16 triModel, f32 triSize, s16 triAnimState);
 
@@ -572,6 +573,7 @@ void bhv_barrier_attached_to_rope_loop(void);
 void bhv_caged_toad_loop(void);
 void bhv_caged_toad_star_init(void);
 void bhv_bhv_caged_toad_star_loop(void);
+void bhv_funky_shell_loop(void);
 // I End //
 void bhv_checkpoint_flag(void);
 void bhv_flipswitch(void);

@@ -2795,6 +2795,67 @@ void mode_shock_rocket_camera(struct Camera *c) {
 
 }
 
+#define X 0
+#define Y 1
+#define Z 2
+#define STICK_QUI_MARCHE_A_0_DEGRES     0
+#define STICK_QUI_MARCHE_A_90_DEGRES    1
+#define STICK_QUI_MARCHE_A_180_DEGRES   2
+#define STICK_QUI_MARCHE_A_270_DEGRES   3
+ 
+#define LE_SENSE_DE_LA_MAP_EST_ENTRE_GUILLEMENT_NORMAL     -1
+#define LE_SENSE_DE_LA_MAP_EST_ENTRE_GUILLEMENT_A_L_ENVERS 1
+ 
+ 
+ 
+#define SCROLLING_AXE   X       // l'axe du scroll
+#define AXE_Y           Y       // l'axe gravitationnel
+#define OFFSET_AXE       Z       // l'axe qui suit la course
+#define REVERSE         LE_SENSE_DE_LA_MAP_EST_ENTRE_GUILLEMENT_NORMAL  // permet de définir le sense auquel doit regarder la cam de mario
+#define YAW             STICK_QUI_MARCHE_A_0_DEGRES // permet de faire correspondre le stick à la cam
+ 
+#define MAX_OFSET_Y          800   // offset max de Y
+#define MAX_OFSET_SCROLL     800   // offset max du scoll
+#define ORIGINAL_OFFSET_Y    600   // offset normal que nous avons sur Y
+
+void mode_funky_board_camera(struct Camera *c) {
+    struct MarioState *m = &gMarioState[0];
+ 
+    f32 speedscrolling = 18; // la vitesse de scrolling
+    f32 speedY = 12;    // la vitesse de la cam sur l'axe Y
+ 
+    if(absi(c->pos[SCROLLING_AXE]  - m->pos[SCROLLING_AXE]) < speedscrolling){ // si la pose de la cam sur l'axe du scroll est inférieur à la vitesse de scroll alors la position de la cam est sur la position de mario 
+        c->pos[SCROLLING_AXE] = m->pos[SCROLLING_AXE];
+    }else if(absi(c->pos[SCROLLING_AXE] - m->pos[SCROLLING_AXE]) > MAX_OFSET_SCROLL){   // une limite à l'offset du scroll
+        c->pos[SCROLLING_AXE] = m->pos[SCROLLING_AXE] + MAX_OFSET_SCROLL * (c->pos[SCROLLING_AXE] > m->pos[SCROLLING_AXE] ? 1 : -1);
+ 
+    }else{ // sinon la cam se dirige vers sa position target
+        c->pos[SCROLLING_AXE] += speedscrolling * (c->pos[SCROLLING_AXE] > m->pos[SCROLLING_AXE] ? -1 : 1);
+    }
+ 
+ 
+    c->pos[AXE_Y] -= ORIGINAL_OFFSET_Y; // c'est un offset général et je fais cela pour faciliter les calculs
+    if((c->pos[AXE_Y] - m->pos[AXE_Y]) < speedY){ // puis c'est pareil que pour le scroll 
+        c->pos[AXE_Y] = m->pos[AXE_Y];
+    }else if(absi(c->pos[AXE_Y] - m->pos[AXE_Y]) > MAX_OFSET_Y){
+        c->pos[AXE_Y] = m->pos[AXE_Y] + MAX_OFSET_Y * (c->pos[AXE_Y] > m->pos[AXE_Y] ? 1 : -1);
+ 
+    }else{
+        c->pos[AXE_Y] += speedY * (c->pos[AXE_Y] > m->pos[AXE_Y] ? -1 : 1);
+    }
+    c->pos[AXE_Y] += ORIGINAL_OFFSET_Y;
+ 
+ 
+    c->pos[OFFSET_AXE] = m->pos[OFFSET_AXE] -1700 * REVERSE ; // c'est pour inverser de 180 degrès la cam
+    c->yaw = 0x4000 * YAW + (0x400 * REVERSE) ; // le plus 0x400 c'est pour que cela soit plus précis et sinon c'est pour que le stick corresponde à la pos de la cam
+ 
+    c->focus[0] = m->pos[0] ;
+    c->focus[1] = m->pos[1] ;
+    c->focus[2] = m->pos[2] ; 
+ 
+    // le focus pointe toujours vers mario
+}
+
 /**
  * Cause Lakitu to fly to the next Camera position and focus over a number of frames.
  *
@@ -3142,6 +3203,10 @@ void update_camera(struct Camera *c) {
                 case CAMERA_MODE_SHOCK_ROCKET:
                     mode_shock_rocket_camera(c);
                     break;
+                    
+                case CAMERA_MODE_FUNKY_BOARD:
+                    mode_funky_board_camera(c);
+                    break;
 
                 default:
                     mode_mario_camera(c);
@@ -3216,6 +3281,9 @@ void update_camera(struct Camera *c) {
 
                 case CAMERA_MODE_SHOCK_ROCKET:
                     mode_shock_rocket_camera(c);
+                    break;
+                case CAMERA_MODE_FUNKY_BOARD:
+                    mode_funky_board_camera(c);
                     break;
             }
         }
@@ -10620,7 +10688,7 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // Unused         | Unused
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), 
-	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 1, 0), 
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 1, 1), 
 };
 
 STATIC_ASSERT(ARRAY_COUNT(sZoomOutAreaMasks) - 1 == LEVEL_MAX / 2, "Make sure you edit sZoomOutAreaMasks when adding / removing courses.");

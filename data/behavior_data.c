@@ -6542,7 +6542,7 @@ const BehaviorScript bhvCagedToad[] = {
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_BREAKABLE)),
     SET_HITBOX(/*Radius*/ 120, /*Height*/ 200),
     SET_INT(oIntangibleTimer, 0),
-    SET_FLOAT(oDrawingDistance, 16000),
+    SET_FLOAT(oDrawingDistance, 8000),
     SET_FLOAT(oGraphYOffset, 60),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_caged_toad_loop),
@@ -6595,7 +6595,7 @@ const BehaviorScript bhvFunkyShell[] = {
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)), //! Silhouette doesn't show up in-game, due to combiner modes.
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
     BEGIN_LOOP(),
-        CALL_NATIVE(bhv_koopa_shell_loop),
+        CALL_NATIVE(bhv_funky_shell_loop),
     END_LOOP(),
 };
 

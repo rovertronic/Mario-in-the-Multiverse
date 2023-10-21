@@ -14,8 +14,8 @@ COURSE_ACTS(COURSE_JRB, _(" 3 JOLLY ROGER BAY"),
        _("RED COINS ON THE SHIP AFLOAT")  , _("BLAST TO THE STONE PILLAR")     , _("THROUGH THE JET STREAM"))
 
 COURSE_ACTS(COURSE_CCM, _(" 4 MUSHROOM HAVOC"),
-       _("SLIP SLIDIN' AWAY")             , _("LI'L PENGUIN LOST")             , _("BIG PENGUIN RACE"),
-       _("FROSTY SLIDE FOR 8 RED COINS")  , _("SNOWMAN'S LOST HIS HEAD")       , _("WALL KICKS WILL WORK"))
+       _("SHOCK ROCKET CHALLENGE")             , _("???")             , _("SAVE THE CAGED TOADS"),
+       _("GADGET GATE")  , _("SLICED PLUM")       , _("???"))
 
 COURSE_ACTS(COURSE_BBH, _(" 5 BIG BOO'S HAUNT"),
        _("GO ON A GHOST HUNT")            , _("RIDE BIG BOO'S MERRY-GO-ROUND") , _("SECRET OF THE HAUNTED BOOKS"),

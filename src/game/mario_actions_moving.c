@@ -383,43 +383,54 @@ void update_shell_speed(struct MarioState *m) {
     f32 maxTargetSpeed;
     f32 targetSpeed;
 
-    if (m->floorHeight < m->waterLevel) {
-        set_mario_floor(m, &gWaterSurfacePseudoFloor, m->waterLevel);
-        m->floor->originOffset = -m->waterLevel;
-        // m->floor->originOffset = m->waterLevel; //! (Original code) Negative origin offset
-    }
+    //Special Speed and command for Funky Shell
+    if(obj_has_behavior(m->riddenObj, bhvFunkyShell)){
+            //force progression on Z axis
+            m->forwardVel = 55.0f;
+            m->faceAngle[1] = 0x8000;
 
-    if (m->floor != NULL && m->floor->type == SURFACE_SLOW) {
-        maxTargetSpeed = 48.0f;
+            m->vel[0] = 0.0f;
+            m->vel[1] = 0.0f;
+            m->vel[2] = m->forwardVel * coss(m->faceAngle[1]);
     } else {
-        maxTargetSpeed = 64.0f;
-    }
+        if (m->floorHeight < m->waterLevel) {
+            set_mario_floor(m, &gWaterSurfacePseudoFloor, m->waterLevel);
+            m->floor->originOffset = -m->waterLevel;
+            // m->floor->originOffset = m->waterLevel; //! (Original code) Negative origin offset
+        }
 
-    targetSpeed = m->intendedMag * 2.0f;
-    if (targetSpeed > maxTargetSpeed) {
-        targetSpeed = maxTargetSpeed;
-    }
-    if (targetSpeed < 24.0f) {
-        targetSpeed = 24.0f;
-    }
+        if (m->floor != NULL && m->floor->type == SURFACE_SLOW) {
+            maxTargetSpeed = 48.0f;
+        } else {
+            maxTargetSpeed = 64.0f;
+        }
 
-    if (m->forwardVel <= 0.0f) {
-        m->forwardVel += 1.1f;
-    } else if (m->forwardVel <= targetSpeed) {
-        m->forwardVel += 1.1f - m->forwardVel / 58.0f;
-    } else if (m->floor->normal.y >= 0.95f) {
-        m->forwardVel -= 1.0f;
+        targetSpeed = m->intendedMag * 2.0f;
+        if (targetSpeed > maxTargetSpeed) {
+            targetSpeed = maxTargetSpeed;
+        }
+        if (targetSpeed < 24.0f) {
+            targetSpeed = 24.0f;
+        }
+
+        if (m->forwardVel <= 0.0f) {
+            m->forwardVel += 1.1f;
+        } else if (m->forwardVel <= targetSpeed) {
+            m->forwardVel += 1.1f - m->forwardVel / 58.0f;
+        } else if (m->floor->normal.y >= 0.95f) {
+            m->forwardVel -= 1.0f;
+        }
+
+        //! No backward speed cap (shell hyperspeed)
+        if (m->forwardVel > 64.0f) {
+            m->forwardVel = 64.0f;
+        }
+
+        m->faceAngle[1] =
+            m->intendedYaw - approach_s32((s16)(m->intendedYaw - m->faceAngle[1]), 0, 0x800, 0x800);
+
+        apply_slope_accel(m);
     }
-
-    //! No backward speed cap (shell hyperspeed)
-    if (m->forwardVel > 64.0f) {
-        m->forwardVel = 64.0f;
-    }
-
-    m->faceAngle[1] =
-        m->intendedYaw - approach_s32((s16)(m->intendedYaw - m->faceAngle[1]), 0, 0x800, 0x800);
-
-    apply_slope_accel(m);
 }
 
 s32 apply_slope_decel(struct MarioState *m, f32 decelCoef) {

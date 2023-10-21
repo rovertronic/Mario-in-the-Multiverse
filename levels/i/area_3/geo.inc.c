@@ -3,8 +3,8 @@
 const GeoLayout i_area_3_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -3790, 1251, -2353, 90, 0, -90, i_dl_plum_bucket_mesh_layer_1),
-		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -6429, 564, 1803, i_dl_plum_section_mesh_layer_1),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -7950, 730, -1105, 90, 0, -90, i_dl_plum_bucket_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -10589, 43, 3050, i_dl_plum_section_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

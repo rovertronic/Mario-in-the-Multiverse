@@ -24,3 +24,5 @@
 #include "levels/o/o_lift/model.inc.c"
 #include "levels/o/o_lift/collision.inc.c"
 #include "levels/o/o_spooky_sky/model.inc.c"
+#include "levels/o/o_garage/model.inc.c"
+#include "levels/o/o_garage/collision.inc.c"

@@ -1,6 +1,6 @@
 void scroll_o_dl_viscol_mesh_layer_1_vtx_2() {
 	int i = 0;
-	int count = 91;
+	int count = 174;
 	int width = 256 * 0x20;
 	int height = 256 * 0x20;
 

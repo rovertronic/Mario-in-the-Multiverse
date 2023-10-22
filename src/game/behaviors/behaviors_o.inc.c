@@ -504,6 +504,11 @@ void bhv_o_walker_update(void) {
             obj_mark_for_deletion(o);
         }
     }
+
+    if ((o->oFloorType == SURFACE_INSTANT_QUICKSAND)&&(o->oMoveFlags & (OBJ_MOVE_LANDED|OBJ_MOVE_ON_GROUND))) {
+        create_sound_spawner(SOUND_ACTION_WATER_PLUNGE);
+        obj_mark_for_deletion(o);
+    }
 }
 
 void bhv_zambie_spawner() {
@@ -565,5 +570,18 @@ void bhv_o_lift(void) {
                 }
             }
         break;
+    }
+}
+
+void bhv_o_garage(void) {
+    o->oPosY += o->oVelY;
+    o->oVelY -= 2.0f;
+
+    if (o->oPosY < o->oHomeY-900.0f) {
+        o->oPosY = o->oHomeY-900.0f;
+        if (o->oAction == 0) {
+            cur_obj_play_sound_2( SOUND_GENERAL_ELEVATOR_LAND);
+            o->oAction++;
+        }
     }
 }

@@ -6536,6 +6536,20 @@ const BehaviorScript bhvOlift[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+extern void bhv_o_garage(void);
+const BehaviorScript bhvOgarage[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(o_garage_collision),
+    SET_FLOAT(oDrawingDistance, 32000),
+    SET_FLOAT(oCollisionDistance, 800),
+    SET_HOME(),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_ATTACHABLE_BY_ROPE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_o_garage),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
 /* GROUP O END */
 
 const BehaviorScript bhvCutterBlast[] = {

@@ -17,6 +17,7 @@ const GeoLayout o_area_1_geo[] = {
 			GEO_DISPLAY_LIST(LAYER_OPAQUE, o_dl_visual_mesh_layer_1),
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, o_dl_visual_mesh_layer_6),
 			GEO_DISPLAY_LIST(LAYER_ALPHA, o_dl_visual_mesh_layer_4),
+			GEO_DISPLAY_LIST(LAYER_OPAQUE_DECAL, o_dl_visual_mesh_layer_2),
 		GEO_CLOSE_NODE(),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, o_dl_zuvlight_mesh_layer_5),
 	GEO_CLOSE_NODE(),

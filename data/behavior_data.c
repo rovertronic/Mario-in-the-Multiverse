@@ -55,6 +55,7 @@
 #include "levels/bowser_2/header.h"
 #include "levels/ttm/header.h"
 #include "levels/f/header.h"
+#include "levels/B/header.h"
 
 #include "make_const_nonconst.h"
 #include "behavior_data.h"
@@ -6202,6 +6203,49 @@ const BehaviorScript bhvConcreteBlock[] = {
     BREAK(),
 };
 
+const BehaviorScript bhvBioshockFloaty[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(floaty_collision),
+    SET_FLOAT(oFloatingPlatformHeightOffset, 64),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_floating_platform_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGauge[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_BREAKABLE),
+    LOAD_COLLISION_DATA(gauge_collision),
+    LOAD_ANIMATIONS(oAnimations, gauge_anims),
+    ANIMATE(0),
+    CALL_NATIVE(bhv_gauge_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_gauge_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvWaterfallHidden[] = {
+    BEGIN(OBJ_LIST_PUSHABLE),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE )),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_waterfall_hidden_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvWaterfall[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE )),
+    LOAD_COLLISION_DATA(waterfall_collision),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_waterfall_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
 
 
 /* GROUP B END */

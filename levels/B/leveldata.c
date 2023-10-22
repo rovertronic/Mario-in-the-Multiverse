@@ -14,3 +14,12 @@
 #include "levels/B/leveldata.inc.c"
 
 #include "levels/B/bigdaddy/model.inc.c"
+#include "levels/B/floaty/model.inc.c"
+#include "levels/B/floaty/collision.inc.c"
+#include "levels/B/little_sister/model.inc.c"
+#include "levels/B/gauge/model.inc.c"
+#include "levels/B/gauge/anims/data.inc.c"
+#include "levels/B/gauge/anims/table.inc.c"
+#include "levels/B/gauge/collision.inc.c"
+#include "levels/B/waterfall/model.inc.c"
+#include "levels/B/waterfall/collision.inc.c"

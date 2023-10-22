@@ -2919,7 +2919,7 @@ void update_lakitu(struct Camera *c) {
     f32 distToFloor;
     s16 newYaw;
 
-    if (c->pos[1] < check_water_height){
+    if (c->pos[1] < find_water_level(c->pos[0], c->pos[2])){
         cam_submerged = TRUE;
     } else {
         cam_submerged = FALSE;

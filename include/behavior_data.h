@@ -556,6 +556,10 @@ extern const BehaviorScript bhvDashBoosterParticle[];
 /* GROUP B START */
 extern const BehaviorScript bhvConcreteBlock[];
 extern const BehaviorScript bhvBigConcreteBlock[];
+extern const BehaviorScript bhvBioshockFloaty[];
+extern const BehaviorScript bhvGauge[];
+extern const BehaviorScript bhvWaterfall[];
+extern const BehaviorScript bhvWaterfallHidden[];
 /* GROUP B END */
 
 /* GROUP C START */

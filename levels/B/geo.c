@@ -17,3 +17,7 @@
 #include "levels/B/geo.inc.c"
 
 #include "levels/B/bigdaddy/geo.inc.c"
+#include "levels/B/floaty/geo.inc.c"
+#include "levels/B/little_sister/geo.inc.c"
+#include "levels/B/gauge/geo.inc.c"
+#include "levels/B/waterfall/geo.inc.c"

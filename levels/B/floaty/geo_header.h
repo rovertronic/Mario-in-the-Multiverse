@@ -1,0 +1,10 @@
+extern const GeoLayout floaty_geo[];
+extern Lights1 floaty_wood_floaty_lights;
+extern u8 floaty_wood_floor_ci4_ci4[];
+extern u8 floaty_wood_floor_ci4_pal_rgba16[];
+extern Vtx floaty_floaty_001_mesh_layer_1_vtx_0[54];
+extern Gfx floaty_floaty_001_mesh_layer_1_tri_0[];
+extern Gfx mat_floaty_wood_floaty[];
+extern Gfx mat_revert_floaty_wood_floaty[];
+extern Gfx floaty_floaty_001_mesh_layer_1[];
+extern Gfx floaty_material_revert_render_settings[];

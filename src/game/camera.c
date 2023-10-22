@@ -2850,7 +2850,7 @@ void mode_funky_board_camera(struct Camera *c) {
     c->yaw = 0x4000 * YAW + (0x400 * REVERSE) ; // le plus 0x400 c'est pour que cela soit plus précis et sinon c'est pour que le stick corresponde à la pos de la cam
  
     c->focus[0] = m->pos[0] ;
-    c->focus[1] = m->pos[1] ;
+    c->focus[1] = m->pos[1] + 200.0f ;
     c->focus[2] = m->pos[2] ; 
  
     // le focus pointe toujours vers mario

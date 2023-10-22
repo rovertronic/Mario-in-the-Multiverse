@@ -118,17 +118,17 @@ const LevelScript level_i_entry[] = {
 		OBJECT(MODEL_NONE, 2120, -816, 9254, 0, 0, 0, (2 << 16), bhvOpenableGrill),
 		TERRAIN(i_area_3_collision),
 		MACRO_OBJECTS(i_area_3_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_CLEARLEAF_FOREST),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
 
 	AREA(4, i_area_4),
+		INSTANT_WARP(0x00/*instant from section 1 to 2*/, 0x04, 11253, 137, 43412),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		OBJECT(MODEL_CHECKPOINT_FLAG, 303, 0, 23471, 0, 0, 0, 0x00000000, bhvCheckpointFlag),
-		OBJECT(MODEL_KOOPA_SHELL, 0, 0, 22496, 0, 0, 0, 0x00000000, bhvFunkyShell),
-		OBJECT(MODEL_NONE, 0, 403, 23423, 0, 0, 0, (10 << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_KOOPA_SHELL, 0, 0, 21533, 0, 0, 0, 0x00000000, bhvFunkyShell),
+		OBJECT(MODEL_NONE, 0, 725, 21532, 0, -180, 0, (10 << 16), bhvInstantActiveWarp),
 		TERRAIN(i_area_4_collision),
 		MACRO_OBJECTS(i_area_4_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_SLIDE),

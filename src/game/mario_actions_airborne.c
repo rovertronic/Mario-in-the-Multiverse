@@ -280,6 +280,7 @@ void update_air_funky_shell(struct MarioState *m) {
         m->slideVelZ += sidewaysSpeed * coss(m->faceAngle[1] + 0x4000);
 
         m->vel[0] = m->slideVelX;
+        m->vel[1] -= 1.7f;
         m->vel[2] = m->slideVelZ;
 
         intendedMag = 0;

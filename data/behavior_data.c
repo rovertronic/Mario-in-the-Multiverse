@@ -6599,6 +6599,24 @@ const BehaviorScript bhvFunkyShell[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvSkrinkingBlackDoorSpawner[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_skrinking_black_door_spawner),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvSkrinkingBlackDoor[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    SET_FLOAT(oDrawingDistance, 3000),
+    SET_FLOAT(oFloatF4, 1.0f),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_skrinking_black_door),
+    END_LOOP(),
+};
+
 /* GROUP I END */
 
 /* GROUP J START */

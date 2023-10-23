@@ -1365,7 +1365,7 @@ s32 act_riding_shell_ground(struct MarioState *m) {
         return set_mario_action(m, ACT_RIDING_SHELL_JUMP, 0);
     }
 
-    if (m->input & INPUT_Z_PRESSED) {
+    if (!obj_has_behavior(m->riddenObj, bhvFunkyShell) && m->input & INPUT_Z_PRESSED) {
         mario_stop_riding_object(m);
         if (m->forwardVel < 24.0f) {
             mario_set_forward_vel(m, 24.0f);

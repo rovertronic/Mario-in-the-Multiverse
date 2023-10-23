@@ -282,7 +282,7 @@ extern Vtx i_dl_Plane_mesh_layer_5_vtx_1[192];
 extern Gfx i_dl_Plane_mesh_layer_5_tri_1[];
 extern Vtx i_dl_Plane_mesh_layer_5_vtx_2[12];
 extern Gfx i_dl_Plane_mesh_layer_5_tri_2[];
-extern Vtx i_dl_Plane_mesh_layer_5_vtx_3[20];
+extern Vtx i_dl_Plane_mesh_layer_5_vtx_3[80];
 extern Gfx i_dl_Plane_mesh_layer_5_tri_3[];
 extern Vtx i_dl_Plane_mesh_layer_5_vtx_4[12];
 extern Gfx i_dl_Plane_mesh_layer_5_tri_4[];

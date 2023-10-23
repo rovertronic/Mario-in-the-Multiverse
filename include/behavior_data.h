@@ -632,6 +632,8 @@ extern const BehaviorScript bhvHiddenCagedToadsStar[];
 extern const BehaviorScript bhvPlankAttachedToRope[];
 extern const BehaviorScript bhvBarrierAttachedToRope[];
 extern const BehaviorScript bhvFunkyShell[];
+extern const BehaviorScript bhvSkrinkingBlackDoorSpawner[];
+extern const BehaviorScript bhvSkrinkingBlackDoor[];
 
 /* GROUP I END */
 

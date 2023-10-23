@@ -2806,8 +2806,6 @@ void mode_shock_rocket_camera(struct Camera *c) {
 #define LE_SENSE_DE_LA_MAP_EST_ENTRE_GUILLEMENT_NORMAL     -1
 #define LE_SENSE_DE_LA_MAP_EST_ENTRE_GUILLEMENT_A_L_ENVERS 1
  
- 
- 
 #define SCROLLING_AXE   X       // l'axe du scroll
 #define AXE_Y           Y       // l'axe gravitationnel
 #define OFFSET_AXE       Z       // l'axe qui suit la course
@@ -2837,10 +2835,10 @@ void mode_funky_board_camera(struct Camera *c) {
     c->pos[AXE_Y] -= ORIGINAL_OFFSET_Y; // c'est un offset général et je fais cela pour faciliter les calculs
     if((c->pos[AXE_Y] - m->pos[AXE_Y]) < speedY){ // puis c'est pareil que pour le scroll 
         c->pos[AXE_Y] = m->pos[AXE_Y];
-    }else if(absi(c->pos[AXE_Y] - m->pos[AXE_Y]) > MAX_OFSET_Y){
+    } else if(absi(c->pos[AXE_Y] - m->pos[AXE_Y]) > MAX_OFSET_Y){
         c->pos[AXE_Y] = m->pos[AXE_Y] + MAX_OFSET_Y * (c->pos[AXE_Y] > m->pos[AXE_Y] ? 1 : -1);
  
-    }else{
+    } else{
         c->pos[AXE_Y] += speedY * (c->pos[AXE_Y] > m->pos[AXE_Y] ? -1 : 1);
     }
     c->pos[AXE_Y] += ORIGINAL_OFFSET_Y;
@@ -2850,7 +2848,7 @@ void mode_funky_board_camera(struct Camera *c) {
     c->yaw = 0x4000 * YAW + (0x400 * REVERSE) ; // le plus 0x400 c'est pour que cela soit plus précis et sinon c'est pour que le stick corresponde à la pos de la cam
  
     c->focus[0] = m->pos[0] ;
-    c->focus[1] = m->pos[1] + 200.0f ;
+    c->focus[1] = m->pos[1] + 200.0f; //offset to look more far away
     c->focus[2] = m->pos[2] ; 
  
     // le focus pointe toujours vers mario

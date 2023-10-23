@@ -26,3 +26,4 @@
 #include "levels/i/caged_toad/geo.inc.c"
 #include "levels/i/plank_rope/geo.inc.c"
 #include "levels/i/barrier_rope/geo.inc.c"
+#include "levels/i/black_panel/geo.inc.c"

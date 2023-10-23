@@ -35,4 +35,6 @@ extern const LevelScript level_i_entry[];
 
 #include "levels/i/barrier_rope/geo_header.h"
 
+#include "levels/i/black_panel/geo_header.h"
+
 #endif

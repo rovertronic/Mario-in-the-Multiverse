@@ -43,6 +43,7 @@ const LevelScript level_i_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_CAGED_TOAD, caged_toad_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_PLANK_ROPE, plank_rope_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BARRIER_ROPE, barrier_rope_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BLACK_PANEL, black_panel_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -127,8 +128,10 @@ const LevelScript level_i_entry[] = {
 	AREA(4, i_area_4),
 		INSTANT_WARP(0x00/*instant from section 1 to 2*/, 0x04, 11253, 137, 43412),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_NONE, 11239, 360, 23121, 0, 0, 0, 0x00000000, bhvSkrinkingBlackDoorSpawner),
 		OBJECT(MODEL_KOOPA_SHELL, 0, 0, 21533, 0, 0, 0, 0x00000000, bhvFunkyShell),
 		OBJECT(MODEL_NONE, 0, 725, 21532, 0, -180, 0, (10 << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_STAR, 11258, 0, -6479, 0, 0, 0, (6 << 24), bhvStar),
 		TERRAIN(i_area_4_collision),
 		MACRO_OBJECTS(i_area_4_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_SLIDE),

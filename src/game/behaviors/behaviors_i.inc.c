@@ -676,4 +676,35 @@ void bhv_funky_shell_loop(void) {
     o->oInteractStatus = INT_STATUS_NONE;
 }
 
+#define OFFSET_FROM_CENTER 900
+
+void bhv_skrinking_black_door_spawner(void) {
+    switch(o->oAction){
+        //spawn 4 panel
+        case 0:
+            spawn_object_relative(0, -OFFSET_FROM_CENTER, -OFFSET_FROM_CENTER, 0, o, MODEL_BLACK_PANEL, bhvSkrinkingBlackDoor);
+            spawn_object_relative(0, OFFSET_FROM_CENTER, OFFSET_FROM_CENTER, 0, o, MODEL_BLACK_PANEL, bhvSkrinkingBlackDoor);
+            spawn_object_relative(0, -OFFSET_FROM_CENTER, OFFSET_FROM_CENTER, 0, o, MODEL_BLACK_PANEL, bhvSkrinkingBlackDoor);
+            spawn_object_relative(0, OFFSET_FROM_CENTER, -OFFSET_FROM_CENTER, 0, o, MODEL_BLACK_PANEL, bhvSkrinkingBlackDoor);
+            o->oAction++;
+            break;
+        //wait for mario
+        case 1:
+            if(o->oDistanceToMario < 2000){
+                o->oAction++;
+            }
+            break;
+    } 
+}
+
+void bhv_skrinking_black_door(void) {
+    if(o->parentObj->oAction == 2){
+        o->oFloatF4 -= 0.05f;
+        cur_obj_scale(o->oFloatF4);
+        if(o->oFloatF4 <= 0.0f){
+            obj_mark_for_deletion(o);
+        }
+    }
+}
+
 

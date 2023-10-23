@@ -26,3 +26,4 @@
 #include "levels/i/plank_rope/collision.inc.c"
 #include "levels/i/barrier_rope/collision.inc.c"
 #include "levels/i/barrier_rope/model.inc.c"
+#include "levels/i/black_panel/model.inc.c"

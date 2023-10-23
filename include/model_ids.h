@@ -672,6 +672,7 @@ enum {
 #define MODEL_CAGED_TOAD                0x3D        //caged_toad
 #define MODEL_PLANK_ROPE                0x3E        //plank_rope_geo
 #define MODEL_BARRIER_ROPE              0x3F        //barrier_rope_geo
+#define MODEL_BLACK_PANEL               0x40        //black_panel_geo
 /* LEVEL I END */
 
 /* LEVEL J START */

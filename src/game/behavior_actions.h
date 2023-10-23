@@ -574,6 +574,8 @@ void bhv_caged_toad_loop(void);
 void bhv_caged_toad_star_init(void);
 void bhv_bhv_caged_toad_star_loop(void);
 void bhv_funky_shell_loop(void);
+void bhv_skrinking_black_door_spawner(void);
+void bhv_skrinking_black_door(void);
 // I End //
 void bhv_checkpoint_flag(void);
 void bhv_flipswitch(void);

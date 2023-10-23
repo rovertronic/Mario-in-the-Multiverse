@@ -362,10 +362,13 @@ void bhv_o_walker_update(void) {
             obj_set_hitbox(o, &sZombieHitbox);
             o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_O_ZOMBIE_1+(random_u16()%3) ];
             o->oAction = 7;
+            cur_obj_init_animation_with_accel_and_sound(7, 1.0f);
+            if (o->oBehParams2ndByte == 1) {
+                o->oAction = 1;
+                cur_obj_init_animation_with_accel_and_sound(3, 1.0f);
+            }
             o->oForwardVel = 0.0f;
             o->oFaceAngleYaw = random_u16();
-
-            cur_obj_init_animation_with_accel_and_sound(7, 1.0f);
         break;
         case 1://walking
             if (o->oTimer == 0) {
@@ -391,7 +394,7 @@ void bhv_o_walker_update(void) {
                 cur_obj_play_sound_2(zombie_audio_variance[random_u16()%4]);
             }
 
-            if (o->oDistanceToMario>5000.0f) { //lose sight of mario
+            if ((o->oDistanceToMario>5000.0f)&&(o->oBehParams2ndByte!=1)) { //lose sight of mario
                 o->oAction = 7; //idle
                 cur_obj_init_animation_with_accel_and_sound(7, 1.0f);
             }
@@ -512,19 +515,18 @@ void bhv_o_walker_update(void) {
 }
 
 void bhv_zambie_spawner() {
-    u8 bells_tolling = FALSE;
-
     u8 zambie_thresh = 25;
     u16 timer_rand = 100;
 
-    if (bells_tolling) {
-        zambie_thresh = 40;
-        timer_rand = 190;
+    if (o->oBehParams2ndByte==1) {
+        zambie_thresh = 30;
+        timer_rand = 195;
     }
 
     if (o->oTimer > 200) {
         if ((o->oDistanceToMario>4000.0f)&&(o->oDistanceToMario<10000.0f)&&(lv_o_zombie_counter < zambie_thresh)) {
-            spawn_object(o,MODEL_NONE,bhvOZombie);
+            struct Object * zambie = spawn_object(o,MODEL_NONE,bhvOZombie);
+            zambie->oBehParams2ndByte = o->oBehParams2ndByte;
         }
         o->oTimer = random_u16()%timer_rand;
     }

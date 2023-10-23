@@ -656,6 +656,13 @@ enum {
 #define MODEL_G_CUT_ROCK2                      0x156
 #define MODEL_G_CUT_ROCK3                      0x157
 #define MODEL_G_CANNON                      0x158
+#define MODEL_MARX                      0x159
+#define MODEL_G_MARX_CUTTER                      0x15A
+#define MODEL_G_MARX_SEED                      0x15B
+#define MODEL_G_MARX_THORNS                     0x15C
+#define MODEL_G_MARX_HALF_LEFT              0x15D
+#define MODEL_G_MARX_HALF_RIGHT              0x15E
+#define MODEL_G_MARX_BLACK_HOLE              0x15F
 /* LEVEL G END */
 
 /* LEVEL H START */

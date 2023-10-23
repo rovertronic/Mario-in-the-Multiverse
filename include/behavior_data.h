@@ -645,3 +645,10 @@ extern const BehaviorScript bhvPhysicsMarble[];
 
 extern const BehaviorScript bhvGCannon[];
 extern const BehaviorScript bhvGreatCaveOffensiveController[];
+extern const BehaviorScript bhvGMarx[];
+extern const BehaviorScript bhvGMarxCutter[];
+extern const BehaviorScript bhvGMarxSeed[];
+extern const BehaviorScript bhvGMarxVine[];
+extern const BehaviorScript bhvGMarxThornSegment[];
+extern const BehaviorScript bhvGMarxHalf[];
+extern const BehaviorScript bhvGMarxBlackHole[];

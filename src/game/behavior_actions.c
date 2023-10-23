@@ -246,3 +246,4 @@ void set_obj_anim_with_accel_and_sound(s16 frame1, s16 frame2, s32 sound) {
 #include "behaviors/g_cut_rock.inc.c"
 #include "behaviors/g_cannon.inc.c"
 #include "behaviors/great_cave_offensive_controller.inc.c"
+#include "behaviors/g_marx.inc.c"

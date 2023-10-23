@@ -1863,7 +1863,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
     if (gPlayer1Controller->buttonPressed & D_JPAD) {
-        initiate_warp(LEVEL_G, 4, 0x0A, 0);
+        initiate_warp(LEVEL_G, 5, 0x0A, 0);
     }
 
     // Updates once per frame:

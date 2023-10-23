@@ -1,0 +1,10 @@
+extern const GeoLayout g_marx_seed_geo[];
+extern u8 g_marx_seed_marxbud_ci8[];
+extern u8 g_marx_seed_marxbud_pal_rgba16[];
+extern Vtx g_marx_seed_Plane_001_mesh_layer_4_vtx_cull[8];
+extern Vtx g_marx_seed_Plane_001_mesh_layer_4_vtx_0[4];
+extern Gfx g_marx_seed_Plane_001_mesh_layer_4_tri_0[];
+extern Gfx mat_g_marx_seed_f3dlite_material_018[];
+extern Gfx mat_revert_g_marx_seed_f3dlite_material_018[];
+extern Gfx g_marx_seed_Plane_001_mesh_layer_4[];
+extern Gfx g_marx_seed_material_revert_render_settings[];

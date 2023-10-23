@@ -6618,3 +6618,72 @@ const BehaviorScript bhvGreatCaveOffensiveController[] = {
         CALL_NATIVE(bhv_great_cave_offensive_controller_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvGMarx[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
+    LOAD_ANIMATIONS(oAnimations, marx_anims),
+    CALL_NATIVE(bhv_g_marx_init),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxCutter[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_g_marx_cutter_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_cutter_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxSeed[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BILLBOARD(),
+    CALL_NATIVE(bhv_g_marx_seed_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_seed_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxVine[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BILLBOARD(),
+    CALL_NATIVE(bhv_g_marx_vine_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_vine_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxThornSegment[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BILLBOARD(),
+    CALL_NATIVE(bhv_g_marx_thorn_segment_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_thorn_segment_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxHalf[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_g_marx_half_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_half_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxBlackHole[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BILLBOARD(),
+    CALL_NATIVE(bhv_g_marx_black_hole_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_black_hole_loop),
+    END_LOOP(),
+};

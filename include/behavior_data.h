@@ -644,6 +644,8 @@ extern const BehaviorScript bhvOTree[];
 extern const BehaviorScript bhvOuvstar[];
 extern const BehaviorScript bhvOlift[];
 extern const BehaviorScript bhvOgarage[];
+extern const BehaviorScript bhvOspeaker[];
+extern const BehaviorScript bhvOeasystreetcontroller[];
 /* GROUP O END */
 
 #endif // BEHAVIOR_DATA_H

@@ -33,4 +33,12 @@ extern const LevelScript level_o_entry[];
 
 #include "levels/o/o_garage/collision_header.h"
 
+#include "levels/o/o_speaker_1/geo_header.h"
+
+#include "levels/o/o_speaker_2/geo_header.h"
+
+#include "levels/o/o_speaker_3/geo_header.h"
+
+#include "levels/o/o_flame/geo_header.h"
+
 #endif

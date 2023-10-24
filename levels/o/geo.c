@@ -24,3 +24,7 @@
 #include "levels/o/o_uvstar/geo.inc.c"
 #include "levels/o/o_lift/geo.inc.c"
 #include "levels/o/o_garage/geo.inc.c"
+#include "levels/o/o_speaker_1/geo.inc.c"
+#include "levels/o/o_speaker_2/geo.inc.c"
+#include "levels/o/o_speaker_3/geo.inc.c"
+#include "levels/o/o_flame/geo.inc.c"

@@ -10,8 +10,8 @@ void scroll_o_spooky_sky_Sphere_001_mesh_vtx_0() {
 	int deltaY;
 	Vtx *vertices = segmented_to_virtual(o_spooky_sky_Sphere_001_mesh_vtx_0);
 
-	deltaX = (int)(0.5 * 0x20) % width;
-	deltaY = (int)(0.15000000596046448 * 0x20) % height;
+	deltaX = (int)(0.20000000298023224 * 0x20) % width;
+	deltaY = (int)(0.05000000074505806 * 0x20) % height;
 
 	if (absi(currentX) > width) {
 		deltaX -= (int)(absi(currentX) / width) * width * signum_positive(deltaX);
@@ -31,8 +31,8 @@ void scroll_gfx_mat_o_spooky_sky_dark_skybox_layer1() {
 	Gfx *mat = segmented_to_virtual(mat_o_spooky_sky_dark_skybox_layer1);
 
 
-	shift_t_down(mat, 13, PACK_TILESIZE(0, 1));
-	shift_s(mat, 15, PACK_TILESIZE(0, 1));
+	shift_t_down(mat, 12, PACK_TILESIZE(0, 1));
+	shift_s(mat, 14, PACK_TILESIZE(0, 1));
 
 };
 

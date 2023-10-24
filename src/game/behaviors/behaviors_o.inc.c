@@ -63,6 +63,7 @@ void bhv_flipswitch(void) {
             tiles_hasmodel_count = 0;
             tiles_star_spawned = FALSE;
             cur_obj_scale(1.0f + (o->oBehParams2ndByte*0.5f));
+            load_object_static_model();
         break;
         case 1:
             tiles_needed ++;
@@ -399,7 +400,7 @@ void bhv_o_walker_update(void) {
                 cur_obj_init_animation_with_accel_and_sound(7, 1.0f);
             }
 
-            if ((o->oMoveFlags & OBJ_MOVE_IN_AIR) && (!is_underwater)) {
+            if ((o->oMoveFlags & OBJ_MOVE_IN_AIR) && (!is_underwater) && (o->oFloorHeight < o->oPosY-10.0f)) {
                 o->oAction = 2; //falling
                 cur_obj_init_animation_with_accel_and_sound(1, 2.0f);
             }
@@ -514,11 +515,18 @@ void bhv_o_walker_update(void) {
     }
 }
 
+u8 speakers_shot = 0;
+u8 easystreet_mission_state = 0;
+
 void bhv_zambie_spawner() {
     u8 zambie_thresh = 25;
     u16 timer_rand = 100;
 
     if (o->oBehParams2ndByte==1) {
+        if (easystreet_mission_state != 2) {
+            //don't spawn zombies til easy street starts playing
+            return;
+        }
         zambie_thresh = 30;
         timer_rand = 195;
     }
@@ -586,4 +594,86 @@ void bhv_o_garage(void) {
             o->oAction++;
         }
     }
+}
+
+void bhv_o_speaker(void) {
+    switch(o->oAction) {
+        case 0: //init
+            o->oAction++;
+            o->oInteractType = INTERACT_BOUNCE_TOP;
+            o->oVelY = 0.0f;
+        break;
+        case 1://wait to play
+            if (easystreet_mission_state == 2) {
+                o->oAction++;
+            }
+        break;
+        case 2://playing
+            cur_obj_scale( 1.0f + sins(o->oTimer*0x1000)*0.1f );
+
+            if (easystreet_mission_state < 2) {
+                //stop sound
+                o->oAction--;
+            }
+
+            if ((o->oShotByShotgun > 0)||(o->oInteractStatus & INT_STATUS_WAS_ATTACKED)) {
+                speakers_shot++;
+                o->oAction++;
+                o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_O_SPEAKER_2];
+                o->oVelY = 10.0f;
+                o->oMoveAngleYaw = o->oFaceAngleYaw-0x4000;
+
+                struct Object *other_half = spawn_object(o,MODEL_O_SPEAKER_3,bhvOspeaker);
+                other_half->oAction = 3;
+                other_half->oVelY = 10.0f;
+                other_half->oMoveAngleYaw = o->oFaceAngleYaw+0x4000;
+            }
+        break;
+        case 3://destroyed
+            o->oPosY += o->oVelY;
+            o->oVelY -= 2.0f;
+
+            o->oPosX += sins(o->oMoveAngleYaw)*20.0f;
+            o->oPosZ += coss(o->oMoveAngleYaw)*20.0f;
+
+            if (o->oTimer > 50) {
+                obj_mark_for_deletion(o);
+            }
+        break;
+    }
+    o->oInteractStatus = 0;
+    o->oIntangibleTimer = 0;
+}
+
+void bhv_o_easystreet_mission_controller(void) {
+    switch(o->oAction) {
+        case 0://init
+            speakers_shot = 0;
+            o->oAction++;
+        break;
+        case 1://wait for easy street mission to begin
+            if ((gMarioState->pos[1] < o->oPosY)&&(o->oDistanceToMario<6700.0f)) {
+                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_O_EASYSTREET), 0);
+                o->oAction++;
+            }
+        break;
+        case 2://easy street playing
+            if (gMarioState->pos[1] > o->oPosY) { //mario left
+                stop_background_music(SEQUENCE_ARGS(4, SEQ_O_EASYSTREET));
+                o->oAction = 1;
+            }
+            if (speakers_shot == 7) {
+                stop_background_music(SEQUENCE_ARGS(4, SEQ_O_EASYSTREET));
+                o->oAction++;
+            }
+        break;
+        case 3://mission end
+            if (o->oTimer > 30) {
+                spawn_default_star(o->oPosX,o->oPosY-1400.0f,o->oPosZ);
+                o->oAction++;
+            }
+        break;
+    }
+
+    easystreet_mission_state = o->oAction;
 }

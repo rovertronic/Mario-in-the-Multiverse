@@ -26,3 +26,7 @@
 #include "levels/o/o_spooky_sky/model.inc.c"
 #include "levels/o/o_garage/model.inc.c"
 #include "levels/o/o_garage/collision.inc.c"
+#include "levels/o/o_speaker_1/model.inc.c"
+#include "levels/o/o_speaker_2/model.inc.c"
+#include "levels/o/o_speaker_3/model.inc.c"
+#include "levels/o/o_flame/model.inc.c"

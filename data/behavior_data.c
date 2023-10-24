@@ -6158,9 +6158,7 @@ const BehaviorScript bhvFlipswitch[] = {
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
     LOAD_COLLISION_DATA(flipswitch_collision),
     SET_FLOAT(oDrawingDistance, 20000),
-    SET_FLOAT(oCollisionDistance, 20000),
     BEGIN_LOOP(),
-        CALL_NATIVE(load_object_collision_model),
         CALL_NATIVE(bhv_flipswitch),
     END_LOOP(),
 };
@@ -6548,6 +6546,27 @@ const BehaviorScript bhvOgarage[] = {
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_o_garage),
         CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void bhv_o_speaker(void);
+const BehaviorScript bhvOspeaker[] = {
+    BEGIN(OBJ_LIST_PUSHABLE),
+    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM),
+    SET_HITBOX(/*Radius*/ 200, /*Height*/ 200),
+    SET_FLOAT(oGraphYOffset, 100),
+    SET_INT(oIntangibleTimer, 0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_o_speaker),
+    END_LOOP(),
+};
+
+extern void bhv_o_easystreet_mission_controller(void);
+const BehaviorScript bhvOeasystreetcontroller[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_o_easystreet_mission_controller),
     END_LOOP(),
 };
 /* GROUP O END */

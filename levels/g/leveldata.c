@@ -37,3 +37,4 @@
 #include "levels/g/g_marx_right_half/model.inc.c"
 #include "levels/g/g_marx_left_half/model.inc.c"
 #include "levels/g/g_marx_black_hole/model.inc.c"
+#include "levels/g/g_marx_arrow/model.inc.c"

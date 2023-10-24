@@ -652,3 +652,4 @@ extern const BehaviorScript bhvGMarxVine[];
 extern const BehaviorScript bhvGMarxThornSegment[];
 extern const BehaviorScript bhvGMarxHalf[];
 extern const BehaviorScript bhvGMarxBlackHole[];
+extern const BehaviorScript bhvGMarxArrow[];

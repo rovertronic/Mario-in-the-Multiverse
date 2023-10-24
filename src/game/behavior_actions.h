@@ -676,3 +676,5 @@ void bhv_g_marx_half_init(void);
 void bhv_g_marx_half_loop(void);
 void bhv_g_marx_black_hole_init(void);
 void bhv_g_marx_black_hole_loop(void);
+void bhv_g_marx_arrow_init(void);
+void bhv_g_marx_arrow_loop(void);

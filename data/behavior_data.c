@@ -6687,3 +6687,12 @@ const BehaviorScript bhvGMarxBlackHole[] = {
         CALL_NATIVE(bhv_g_marx_black_hole_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvGMarxArrow[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
+    CALL_NATIVE(bhv_g_marx_arrow_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_arrow_loop),
+    END_LOOP(),
+};

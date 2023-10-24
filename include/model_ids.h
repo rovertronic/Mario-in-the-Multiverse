@@ -663,6 +663,7 @@ enum {
 #define MODEL_G_MARX_HALF_LEFT              0x15D
 #define MODEL_G_MARX_HALF_RIGHT              0x15E
 #define MODEL_G_MARX_BLACK_HOLE              0x15F
+#define MODEL_G_MARX_ARROW              0x160
 /* LEVEL G END */
 
 /* LEVEL H START */

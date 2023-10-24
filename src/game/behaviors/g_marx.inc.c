@@ -19,8 +19,9 @@ void marx_act_cutscene(void) {
 void marx_act_idle_flight(void) {
     obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x400);
     if (o->oTimer == 60) {
-        switch (random_u16() % 3) {
-            case 0: o->oAction = MARX_ACT_BLACK_HOLE;
+        switch (random_u16() % 1) {
+            case 0: o->oAction = MARX_ACT_ARROWS;
+            o->oHomeY = gMarioState->pos[1];
             break;
             case 1: o->oAction = MARX_ACT_BLACK_HOLE;
             break;
@@ -153,6 +154,37 @@ void marx_act_black_hole(void) {
     }
 }
 
+void marx_act_arrows(void) {
+    switch (o->oSubAction) {
+        case 0:
+            o->oPosY = approach_f32_asymptotic(o->oPosY, o->oHomeY, 0.04f);
+            cur_obj_init_animation(4);
+            if (o->oTimer == 30) {
+                o->oSubAction++;
+                o->oTimer = 0;
+            }
+        break;
+        case 1:
+            if (o->oTimer < 20) {
+                obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x400);
+            }
+            if (o->oTimer == 30) {
+                o->oSubAction++;
+                o->oTimer = 0;
+            }
+        break;
+        case 2:;
+            f32 arrowX = 50 * sins(o->oFaceAngleYaw);
+            f32 arrowZ = 50 * coss(o->oFaceAngleYaw);
+            f32 offset = random_u16() % 400 - 200;
+            arrowX += offset * coss(o->oFaceAngleYaw);
+            arrowZ += offset * sins(o->oFaceAngleYaw);
+            struct Object *arrow = spawn_object_relative(0, arrowX, random_u16() % 400 - 200, arrowZ, o, MODEL_G_MARX_ARROW, bhvGMarxArrow);
+            obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x100);
+        break;
+    }
+}
+
 void bhv_g_marx_init(void) {
     
 }
@@ -176,6 +208,9 @@ void bhv_g_marx_loop(void) {
         break;
         case MARX_ACT_BLACK_HOLE:
             marx_act_black_hole();
+        break;
+        case MARX_ACT_ARROWS:
+            marx_act_arrows();
         break;
     }
 }
@@ -314,10 +349,10 @@ void bhv_g_marx_black_hole_loop(void) {
             gLakituState.goalPos[2] = approach_s16_symmetric(gLakituState.goalPos[2], o->oPosZ, 20);
 
             if (o->oTimer == 5) {
-                play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 15, 0x00, 0x00, 0x00);
+                play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 20, 0x00, 0x00, 0x00);
             }
 
-            if (o->oTimer == 20) {
+            if (o->oTimer == 30) {
                 gMarioState->pos[0] = 0;
                 gMarioState->pos[1] = -1200;
                 gMarioState->pos[2] = 0;
@@ -330,6 +365,7 @@ void bhv_g_marx_black_hole_loop(void) {
                 o->oSubAction++;
                 gMarioState->action = ACT_CUTSCENE_CONTROLLED;
                 play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 2, 0x00, 0x00, 0x00);
+                o->oTimer = 0;
             }
 
 
@@ -353,7 +389,7 @@ void bhv_g_marx_black_hole_loop(void) {
                 break;
             }
 
-            if (o->oTimer == 80) {
+            if (o->oTimer == 60) {
                 gMarioState->pos[0] = 0;
                 gMarioState->pos[1] = 500;
                 gMarioState->pos[2] = 0;
@@ -369,6 +405,16 @@ void bhv_g_marx_black_hole_loop(void) {
                 obj_mark_for_deletion(o);
             }
         break;
+    }
+}
+
+void bhv_g_marx_arrow_init(void) {
+    o->oForwardVel = 120.0f;
+}
+
+void bhv_g_marx_arrow_loop(void) {
+    if (o->oTimer == 30) {
+        obj_mark_for_deletion(o);
     }
 }
 

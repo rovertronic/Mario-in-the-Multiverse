@@ -86,6 +86,16 @@ void jelly_loop(void) {
     if (o->oTimer >= 45) {
         o->oTimer = 0;
     }
+
+    switch (o->oBehParams2ndByte)
+    {
+        case 0:
+            cur_obj_set_model(MODEL_JELLY);
+            break;
+        case 1:
+            cur_obj_set_model(MODEL_JELLYS);
+            break;
+    }
 }
 
 // Jellyfish Fields Platform
@@ -147,7 +157,7 @@ void taxistop_loop(void)
             o->oTimer++;
             if (o->oTimer >= 50)
             {
-                initiate_warp(LEVEL_A, 3, 0x0A, 0);
+                initiate_warp(LEVEL_A, 4, 0x0A, 0);
             }
             break;
     }   
@@ -211,51 +221,11 @@ void tiki_box_loop(void)
 
 // King Jellyfish
 
-enum kingJellyAnims 
+void king_jellyfish_shoot_shock(void)
 {
-    ANIM_KING_JELLY_TURN,
-};
+    struct Object *shock;
 
-void king_jellyfish_shock_throw(void)
-{
-    s16 yaw = 0x300;
-    f32 fVel = 6.0f;
 
-    o->oAction = 0;
-
-    if (o->oInteractStatus & INT_STATUS_INTERACTED && INT_STATUS_ATTACKED_MARIO)
-    {
-        return set_mario_action(gMarioState, ACT_SHOCKED, 0);
-    }
-    
-    switch (o->oAction)
-    {
-        case 0:
-            cur_obj_rotate_yaw_toward(o->oAngleToMario, yaw);
-            o->oForwardVel = fVel;
-            break;
-        case 1:
-            obj_mark_for_deletion(o);
-            cur_obj_disable_rendering();
-            cur_obj_become_intangible();
-            obj_spawn_loot_yellow_coins(o, 1, 7);
-            break;
-    }
-}
-
-void king_jellyfish_loop(void)
-{
-    struct Object *kjs;
-
-    kjs = cur_obj_nearest_object_with_behavior(bhvKingJellySHock);
-    
-    switch (o->oAction)
-    {
-        case 0:
-            cur_obj_init_animation(ANIM_KING_JELLY_TURN);
-            cur_obj_rotate_yaw_toward(o->oAngleToMario, 0x800);
-            break;
-    }
 }
 
 // Trampoline

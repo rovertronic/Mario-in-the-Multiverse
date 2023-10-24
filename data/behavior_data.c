@@ -6303,15 +6303,17 @@ const BehaviorScript bhvKingJelly[] = {
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     SCALE(0, 400),
     ANIMATE(0),
+    CALL_NATIVE(king_jellyfish_init),
     LOAD_ANIMATIONS(oAnimations, kingjelly_anims),
     BEGIN_LOOP(),
         CALL_NATIVE(king_jellyfish_loop),
     END_LOOP(),
 };
 
-const BehaviorScript bhvKingJellySHock[] = {
+const BehaviorScript bhvKingJellyShock[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SCALE(0, 120),
     BEGIN_LOOP(),
         CALL_NATIVE(king_jellyfish_shock_throw),
     END_LOOP(),

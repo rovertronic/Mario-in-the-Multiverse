@@ -34,3 +34,6 @@
 #include "levels/a/kingjelly/model.inc.c"
 #include "levels/a/kingjelly/anims/data.inc.c"
 #include "levels/a/kingjelly/anims/table.inc.c"
+#include "levels/a/kingjellyshock/model.inc.c"
+#include "levels/a/bh_red_button/model.inc.c"
+#include "levels/a/jellys/model.inc.c"

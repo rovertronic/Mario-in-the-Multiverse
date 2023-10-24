@@ -24,3 +24,6 @@
 #include "levels/a/tramp/geo.inc.c"
 #include "levels/a/floating_checker_platform/geo.inc.c"
 #include "levels/a/kingjelly/geo.inc.c"
+#include "levels/a/kingjellyshock/geo.inc.c"
+#include "levels/a/bh_red_button/geo.inc.c"
+#include "levels/a/jellys/geo.inc.c"

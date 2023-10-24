@@ -10,6 +10,7 @@ const GeoLayout a_area_2_geo[] = {
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 629, -633, -1065, a_dl_Cone_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -3720, 247, -1348, a_dl_Plane_034_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 3149, -739, 1750, a_dl_Plane_036_mesh_layer_5),
+		GEO_ASM(0, e__shotgun_effects),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

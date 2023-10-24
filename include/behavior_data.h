@@ -560,7 +560,7 @@ extern const BehaviorScript bhvTikiBox[];
 extern const BehaviorScript bhvTramp[];
 extern const BehaviorScript bhvFloatingCheckerPlatform[];
 extern const BehaviorScript bhvKingJelly[];
-extern const BehaviorScript bhvKingJellySHock[];
+extern const BehaviorScript bhvKingJellyShock[];
 /* GROUP A END */
 
 /* GROUP B START */

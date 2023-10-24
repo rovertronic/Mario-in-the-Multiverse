@@ -647,6 +647,7 @@ void trampoline_loop(void);
 void fcp_loop(void);
 void king_jellyfish_loop(void);
 void king_jellyfish_shock_throw(void);
+void king_jellyfish_init(void);
 void bhv_sir_kibble_init(void);
 void bhv_sir_kibble_loop(void);
 void bhv_star_projectile_init(void);

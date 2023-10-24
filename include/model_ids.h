@@ -630,6 +630,9 @@ enum GLOBAL_MODELS {
 #define MODEL_TRAMP                               0x15B
 #define MODEL_FLOATING_CHECKER_PLATFORM           0x15C
 #define MODEL_KING_JELLY                          0x15D
+#define MODEL_KING_JELLY_SHOCK                    0x15E
+#define MODEL_BUBBLENET_RED_BUTTON                0x15F
+#define MODEL_JELLYS                              0x160
 /* LEVEL A END */
 
 /* LEVEL B START */

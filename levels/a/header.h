@@ -43,4 +43,10 @@ extern const LevelScript level_a_entry[];
 
 #include "levels/a/kingjelly/anim_header.h"
 
+#include "levels/a/kingjellyshock/geo_header.h"
+
+#include "levels/a/bh_red_button/geo_header.h"
+
+#include "levels/a/jellys/geo_header.h"
+
 #endif

@@ -8,6 +8,7 @@ const GeoLayout a_area_3_geo[] = {
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 126, -826, 11, a_dl_Circle_021_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 126, -826, 11, a_dl_Circle_022_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 0, 0, -41, a_dl_Circle_023_mesh_layer_1),
+		GEO_ASM(0, e__shotgun_effects),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

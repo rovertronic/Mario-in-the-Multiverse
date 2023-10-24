@@ -17,13 +17,16 @@ void marx_act_cutscene(void) {
 }
 
 void marx_act_idle_flight(void) {
+    if (o->oTimer == 0) {
+        cur_obj_init_animation(0);
+    }
     obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x400);
     if (o->oTimer == 60) {
-        switch (random_u16() % 1) {
+        switch (random_u16() % 3) {
             case 0: o->oAction = MARX_ACT_ARROWS;
             o->oHomeY = gMarioState->pos[1];
             break;
-            case 1: o->oAction = MARX_ACT_BLACK_HOLE;
+            case 1: o->oAction = MARX_ACT_TELEPORT;
             break;
             case 2: o->oAction = MARX_ACT_BLACK_HOLE;
             break;
@@ -64,6 +67,25 @@ void marx_act_fly_across(void) {
     }
 
     cur_obj_move_xz_using_fvel_and_yaw();
+}
+
+void marx_act_teleport(void) {
+    if (o->oTimer % 20 == 0) {
+        cur_obj_init_animation(2);
+        o->header.gfx.animInfo.animFrame = 0;
+        o->oSubAction++;
+        if (o->oSubAction < 6) {
+            o->oMarxTeleportTimer = 0;
+            o->oMarxTeleportX = (random_u16() % 1000) - 500;
+            o->oMarxTeleportY = (random_u16() % 300) + gMarioState->pos[1] + 100;
+            o->oMarxTeleportZ = (random_u16() % 1000) - 500;
+        }
+        else {
+            o->oAction = MARX_ACT_IDLE_FLIGHT;
+            cur_obj_init_animation(0);
+        }
+        
+    }
 }
 
 void marx_act_cutter(void) {
@@ -141,7 +163,6 @@ void marx_act_black_hole(void) {
             
         break;
         case 1:
-            cur_obj_disable_rendering();
 
             if (o->oTimer == 20) {
                 spawn_object_relative(0, 0, 0, 0, o, MODEL_G_MARX_BLACK_HOLE, bhvGMarxBlackHole);
@@ -149,8 +170,30 @@ void marx_act_black_hole(void) {
 
             if (o->oTimer == 110 && gMarioState->action != ACT_CUTSCENE_CONTROLLED && gMarioState->action != ACT_HARD_BACKWARD_AIR_KB) {
                 o->oAction = MARX_ACT_IDLE_FLIGHT;
-                cur_obj_enable_rendering();
+                o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_MARX];
+                o->oMarxTeleportTimer = 7;
+                o->oMarxTeleportX = o->oPosX;
+                o->oMarxTeleportY = o->oPosY;
+                o->oMarxTeleportZ = o->oPosZ;
             }
+
+            if (gMarioState->action == ACT_CUTSCENE_CONTROLLED) {
+                o->oPosX = 500;
+                o->oPosY = 700;
+                o->oPosZ = 0;
+                o->oSubAction++;
+                o->oTimer = 0;
+            }
+        break;
+        case 2:
+            if (o->oTimer == 30) {
+                o->oMarxTeleportTimer = 7;
+                o->oMarxTeleportX = 500;
+                o->oMarxTeleportY = 700;
+                o->oMarxTeleportZ = 0;
+                o->oAction = MARX_ACT_IDLE_FLIGHT;
+            }
+        break;
     }
 }
 
@@ -158,6 +201,8 @@ void marx_act_arrows(void) {
     switch (o->oSubAction) {
         case 0:
             o->oPosY = approach_f32_asymptotic(o->oPosY, o->oHomeY, 0.04f);
+            gSecondCameraFocus = o;
+            set_camera_mode(gMarioState->area->camera, CAMERA_MODE_BOSS_FIGHT, 1);
             cur_obj_init_animation(4);
             if (o->oTimer == 30) {
                 o->oSubAction++;
@@ -181,12 +226,66 @@ void marx_act_arrows(void) {
             arrowZ += offset * sins(o->oFaceAngleYaw);
             struct Object *arrow = spawn_object_relative(0, arrowX, random_u16() % 400 - 200, arrowZ, o, MODEL_G_MARX_ARROW, bhvGMarxArrow);
             obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x100);
+
+            if (o->oTimer == 90) {
+                o->oSubAction++;
+                o->oForwardVel = 20;
+                o->oVelY = 4;
+                cur_obj_init_animation(1);
+                o->oTimer = 0;
+            }
+        break;
+        case 3:
+            set_camera_mode(gMarioState->area->camera, CAMERA_MODE_8_DIRECTIONS, 1);
+            o->oVelY += 1;
+            o->oForwardVel += 2;
+
+            o->oPosY += o->oVelY;
+            cur_obj_move_xz_using_fvel_and_yaw();
+
+            if (o->oTimer == 60) {
+                o->oAction = MARX_ACT_IDLE_FLIGHT;
+                o->oMarxTeleportTimer = 7;
+                o->oMarxTeleportX = 0;
+                o->oMarxTeleportY = 700;
+                o->oMarxTeleportZ = 0;
+                o->oForwardVel = 0;
+                o->oVelY = 0;
+            }
         break;
     }
 }
 
+void marx_generic_teleport(void) {
+    o->oMarxTeleportTimer++;
+    if (o->oMarxTeleportTimer < 8) {
+    obj_scale_xyz(o, (f32)(8 - (o->oMarxTeleportTimer)) / 8.0f, 
+        (f32)((o->oMarxTeleportTimer) + 8) / 8.0f, 
+        (f32)(8 - (o->oMarxTeleportTimer)) / 8.0f);
+    }
+
+    if (o->oMarxTeleportTimer == 8) {
+        o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_NONE];
+        o->oPosX = o->oMarxTeleportX;
+        o->oPosY = o->oMarxTeleportY;
+        o->oPosZ = o->oMarxTeleportZ;
+    }
+
+    if (o->oMarxTeleportTimer > 10) {
+        o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_MARX];
+    obj_scale_xyz(o, (f32)((o->oMarxTeleportTimer - 10)) / 8.0f, 
+        (f32)(16 - (o->oMarxTeleportTimer - 10)) / 8.0f, 
+        (f32)((o->oMarxTeleportTimer - 10)) / 8.0f);
+    }
+
+    if (o->oMarxTeleportTimer == 18) {
+       o->oMarxTeleportTimer = -1;
+       cur_obj_scale(1.0f);
+    }
+}
+
 void bhv_g_marx_init(void) {
-    
+    o->oMarxTeleportTimer = -1;
 }
 
 void bhv_g_marx_loop(void) {
@@ -200,6 +299,9 @@ void bhv_g_marx_loop(void) {
         case MARX_ACT_FLY_ACROSS:
             marx_act_fly_across();
         break;
+        case MARX_ACT_TELEPORT:
+            marx_act_teleport();
+        break;
         case MARX_ACT_CUTTER:
             marx_act_cutter();
         break;
@@ -212,6 +314,10 @@ void bhv_g_marx_loop(void) {
         case MARX_ACT_ARROWS:
             marx_act_arrows();
         break;
+    }
+
+    if (o->oMarxTeleportTimer > -1) {
+        marx_generic_teleport();
     }
 }
 
@@ -323,7 +429,7 @@ void bhv_g_marx_black_hole_loop(void) {
             gMarioState->pos[0] = (o->oPosX - gMarioState->pos[0] > 0 ? CLAMP(gMarioState->pos[0] + (12000.0f / o->oDistanceToMario), -32000, o->oPosX) : CLAMP(gMarioState->pos[0] + -(12000.0f / o->oDistanceToMario), o->oPosX, 32000));
             gMarioState->pos[2] = (o->oPosZ - gMarioState->pos[2] > 0 ? CLAMP(gMarioState->pos[2] + (12000.0f / o->oDistanceToMario), -32000, o->oPosZ) : CLAMP(gMarioState->pos[2] + -(12000.0f / o->oDistanceToMario), o->oPosZ, 32000));
 
-            if (o->oDistanceToMario < 700.0f) {
+            if (o->oDistanceToMario < 500.0f) {
                 o->oSubAction++;
                 gMarioState->action = ACT_HARD_BACKWARD_AIR_KB;
                 gMarioState->faceAngle[1] = 0x8000 + obj_angle_to_object(gMarioObject, o);

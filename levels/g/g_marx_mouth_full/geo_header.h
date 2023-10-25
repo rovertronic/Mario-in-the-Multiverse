@@ -54,7 +54,7 @@ extern Gfx g_marx_mouth_full_Cube_003_mesh_layer_1_tri_11[];
 extern Vtx g_marx_mouth_full_Cube_003_mesh_layer_1_vtx_12[81];
 extern Gfx g_marx_mouth_full_Cube_003_mesh_layer_1_tri_12[];
 extern Vtx g_marx_mouth_full_Cube_003_mesh_layer_4_vtx_cull[8];
-extern Vtx g_marx_mouth_full_Cube_003_mesh_layer_4_vtx_0[58];
+extern Vtx g_marx_mouth_full_Cube_003_mesh_layer_4_vtx_0[62];
 extern Gfx g_marx_mouth_full_Cube_003_mesh_layer_4_tri_0[];
 extern Gfx mat_g_marx_mouth_full_f3dlite_material[];
 extern Gfx mat_g_marx_mouth_full_f3dlite_material_011[];

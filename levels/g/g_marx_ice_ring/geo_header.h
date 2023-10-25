@@ -1,0 +1,10 @@
+extern const GeoLayout g_marx_ice_ring_geo[];
+extern u8 g_marx_ice_ring_marxlaser_ci4[];
+extern u8 g_marx_ice_ring_marxlaser_pal_rgba16[];
+extern Vtx g_marx_ice_ring_Circle_002_mesh_layer_1_vtx_cull[8];
+extern Vtx g_marx_ice_ring_Circle_002_mesh_layer_1_vtx_0[46];
+extern Gfx g_marx_ice_ring_Circle_002_mesh_layer_1_tri_0[];
+extern Gfx mat_g_marx_ice_ring_f3dlite_material_029[];
+extern Gfx mat_revert_g_marx_ice_ring_f3dlite_material_029[];
+extern Gfx g_marx_ice_ring_Circle_002_mesh_layer_1[];
+extern Gfx g_marx_ice_ring_material_revert_render_settings[];

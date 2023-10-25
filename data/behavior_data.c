@@ -6696,3 +6696,31 @@ const BehaviorScript bhvGMarxArrow[] = {
         CALL_NATIVE(bhv_g_marx_arrow_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvGMarxBodyLaser[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
+    CALL_NATIVE(bhv_g_marx_body_laser_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_body_laser_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxLaser[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_g_marx_laser_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_laser_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxIceBomb[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BILLBOARD(),
+    CALL_NATIVE(bhv_g_marx_ice_bomb_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_ice_bomb_loop),
+    END_LOOP(),
+};

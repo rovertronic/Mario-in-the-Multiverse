@@ -22,11 +22,11 @@ void marx_act_idle_flight(void) {
     }
     obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x400);
     if (o->oTimer == 60) {
-        switch (random_u16() % 3) {
+        switch (1) {
             case 0: o->oAction = MARX_ACT_ARROWS;
             o->oHomeY = gMarioState->pos[1];
             break;
-            case 1: o->oAction = MARX_ACT_TELEPORT;
+            case 1: o->oAction = MARX_ACT_ICE_BOMB;
             break;
             case 2: o->oAction = MARX_ACT_BLACK_HOLE;
             break;
@@ -225,7 +225,7 @@ void marx_act_arrows(void) {
             arrowX += offset * coss(o->oFaceAngleYaw);
             arrowZ += offset * sins(o->oFaceAngleYaw);
             struct Object *arrow = spawn_object_relative(0, arrowX, random_u16() % 400 - 200, arrowZ, o, MODEL_G_MARX_ARROW, bhvGMarxArrow);
-            obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x100);
+            obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x50);
 
             if (o->oTimer == 90) {
                 o->oSubAction++;
@@ -249,6 +249,109 @@ void marx_act_arrows(void) {
                 o->oMarxTeleportX = 0;
                 o->oMarxTeleportY = 700;
                 o->oMarxTeleportZ = 0;
+                o->oForwardVel = 0;
+                o->oVelY = 0;
+            }
+        break;
+    }
+}
+
+void marx_act_laser(void) {
+    switch (o->oSubAction) {
+        case 0:
+            //o->oMarxLaserBody = spawn_object(o, MODEL_G_MARX_MOUTH_FULL, bhvGMarxBodyLaser);
+            //o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_NONE];
+            o->oSubAction++;
+        break;
+        case 1:
+            o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_G_MARX_MOUTH_FULL];
+            obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x400);
+            //o->oMarxLaserBody->oFaceAngleYaw = o->oFaceAngleYaw;
+            o->oPosX += (random_u16() % 3) - 1.5f;
+            o->oPosY += (random_u16() % 3) - 1.5f;
+            o->oPosZ += (random_u16() % 3) - 1.5f;
+            cur_obj_scale(1 + ((f32)o->oTimer)/90.0f + (0.1f * sins(random_u16())));
+            if (o->oTimer == 45) {
+                o->oSubAction++;
+                o->oTimer = 0;
+            }
+        break;
+        case 2:
+        cur_obj_scale(1.5f);
+        o->oPosX += (random_u16() % 6) - 3;
+            o->oPosY += (random_u16() % 6) - 3;
+            o->oPosZ += (random_u16() % 6) - 3;
+            if (o->oTimer == 18) {
+                o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_G_MARX_MOUTH_OPEN];
+                o->oForwardVel = -150;
+                spawn_object_relative(0, 0, 0, 0, o, MODEL_G_MARX_LASER, bhvGMarxLaser);
+                o->oSubAction++;
+                o->oTimer = 0;
+            }
+        break;
+        case 3:
+            cur_obj_move_xz_using_fvel_and_yaw();
+            if (o->oTimer < 5) {
+                cur_obj_scale(1.5f - ((f32)(o->oTimer) / 10.0f));
+            }
+            else {
+                cur_obj_scale(1.0f);
+            }
+            if (o->oTimer == 30) {
+                //obj_mark_for_deletion(o->oMarxLaserBody);
+                o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_NONE];
+            }
+
+            if (o->oTimer == 120) {
+                o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_MARX];
+                o->oAction = MARX_ACT_IDLE_FLIGHT;
+                o->oMarxTeleportTimer = 7;
+                o->oMarxTeleportX = 0;
+                o->oMarxTeleportY = 700;
+                o->oMarxTeleportZ = 0;
+                o->oForwardVel = 0;
+                o->oVelY = 0;
+            }
+        break;
+    }
+}
+
+void marx_act_ice_bomb(void) {
+    switch (o->oSubAction) {
+        case 0:
+            //o->oMarxLaserBody = spawn_object(o, MODEL_G_MARX_MOUTH_FULL, bhvGMarxBodyLaser);
+            //o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_NONE];
+            o->oPosY += 300;
+            o->oSubAction++;
+        break;
+        case 1:
+            o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_G_MARX_MOUTH_FULL];
+            if (o->oTimer == 45) {
+                o->oSubAction++;
+                o->oTimer = 0;
+                spawn_object_relative(0, 0, -40, 0, o, MODEL_G_MARX_ICE_BOMB, bhvGMarxIceBomb);
+            }
+        break;
+        case 2:
+            o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_G_MARX_MOUTH_OPEN];
+            o->oFaceAnglePitch = 0x1000;
+            if (o->oTimer == 18) {
+                o->oSubAction++;
+                o->oTimer = 0;
+            }
+        break;
+        case 3:
+            if (o->oTimer == 3) {
+                o->oMarxTeleportTimer = 0;
+                
+                o->oMarxTeleportX = 0;
+                o->oMarxTeleportY = 700;
+                o->oMarxTeleportZ = 0;
+            }
+            o->oFaceAnglePitch = 0;
+            if (o->oTimer == 10) {
+                o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_MARX];
+                o->oAction = MARX_ACT_IDLE_FLIGHT;
                 o->oForwardVel = 0;
                 o->oVelY = 0;
             }
@@ -313,6 +416,12 @@ void bhv_g_marx_loop(void) {
         break;
         case MARX_ACT_ARROWS:
             marx_act_arrows();
+        break;
+        case MARX_ACT_LASER:
+            marx_act_laser();
+        break;
+        case MARX_ACT_ICE_BOMB:
+            marx_act_ice_bomb();
         break;
     }
 
@@ -521,6 +630,63 @@ void bhv_g_marx_arrow_init(void) {
 void bhv_g_marx_arrow_loop(void) {
     if (o->oTimer == 30) {
         obj_mark_for_deletion(o);
+    }
+}
+
+void bhv_g_marx_body_laser_init(void) {
+   
+}
+
+void bhv_g_marx_body_laser_loop(void) {
+    o->oPosX = o->parentObj->oPosX;
+    o->oPosY = o->parentObj->oPosY;
+    o->oPosZ = o->parentObj->oPosZ;
+}
+
+void bhv_g_marx_laser_init(void) {
+   
+}
+
+void bhv_g_marx_laser_loop(void) {
+    o->oPosX = o->parentObj->oPosX;
+    o->oPosY = o->parentObj->oPosY;
+    o->oPosZ = o->parentObj->oPosZ;
+
+    if (o->oTimer < 10) {
+        obj_scale_xyz(o, 1.5f, 1.5f, 4.0f);
+    }
+    else {
+        obj_scale_xyz(o, 1.5f - (((f32)o->oTimer - 10.0f) / 40.0f), 1.5f - (((f32)o->oTimer - 10.0f) / 45.0f), 4.0f);
+    }
+
+    if (o->oTimer == 69) {
+        obj_mark_for_deletion(o);
+    }
+}
+
+void bhv_g_marx_ice_bomb_init(void) {
+    o->oVelY = -10;
+}
+
+void bhv_g_marx_ice_bomb_loop(void) {
+    if (o->oAction == 0) {
+    o->oVelY -= 1;
+    o->oPosY += o->oVelY;
+
+    if (o->oPosY <= gMarioState->pos[1]) {
+        o->oAction++;
+        cur_obj_set_model(MODEL_G_MARX_ICE_RING);
+        obj_scale_xyz(o, 0.2f, 1.0f, 0.2f);
+        o->header.gfx.node.flags &= ~(GRAPH_RENDER_BILLBOARD);
+    }
+    }
+    else {
+        o->oVelY = 0;
+        obj_scale_xyz(o, 0.2f + ((f32)o->oTimer / 10), 1.0f, 0.2f + ((f32)o->oTimer / 10));
+
+        if (o->oTimer == 30) {
+            obj_mark_for_deletion(o);
+        }
     }
 }
 

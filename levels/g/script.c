@@ -128,6 +128,11 @@ const LevelScript level_g_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_HALF_RIGHT, g_marx_right_half_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_BLACK_HOLE, g_marx_black_hole_geo),
 	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_ARROW, g_marx_arrow_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_MOUTH_FULL, g_marx_mouth_full_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_MOUTH_OPEN, g_marx_mouth_open_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_LASER, g_marx_laser_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_ICE_BOMB, g_marx_ice_bomb_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_ICE_RING, g_marx_ice_ring_geo),
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */

@@ -23,10 +23,9 @@ void marx_act_idle_flight(void) {
     obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x400);
     if (o->oTimer == 60) {
         switch (random_u16() % 3) {
-            case 0: o->oAction = MARX_ACT_ARROWS;
-            o->oHomeY = gMarioState->pos[1];
+            case 0: o->oAction = MARX_ACT_CUTTER;
             break;
-            case 1: o->oAction = MARX_ACT_TELEPORT;
+            case 1: o->oAction = MARX_ACT_THORNS;
             break;
             case 2: o->oAction = MARX_ACT_BLACK_HOLE;
             break;
@@ -144,6 +143,19 @@ void marx_act_thorns(void) {
                 o->oSubAction++;
             }
         break;
+        case 3:
+            switch (random_u16() % 3) {
+                case 0: o->oAction = MARX_ACT_ARROWS;
+                        o->oHomeY = gMarioState->pos[1] + 200;
+                break;
+                case 1:
+                    o->oAction = MARX_ACT_LASER;
+                break;
+                case 2:
+                    o->oAction = MARX_ACT_TELEPORT;
+                break;
+            }
+        break;
     }
     o->oPosY += o->oVelY;
 }
@@ -200,6 +212,13 @@ void marx_act_black_hole(void) {
 void marx_act_arrows(void) {
     switch (o->oSubAction) {
         case 0:
+            u16 randomAngle = random_u16();
+            o->oPosX = 600*sins(randomAngle);
+            o->oPosZ = 600*coss(randomAngle);
+            o->oPosY = 0;
+            o->oSubAction++;
+        break;
+        case 1:
             o->oPosY = approach_f32_asymptotic(o->oPosY, o->oHomeY, 0.04f);
             gSecondCameraFocus = o;
             set_camera_mode(gMarioState->area->camera, CAMERA_MODE_BOSS_FIGHT, 1);
@@ -209,7 +228,7 @@ void marx_act_arrows(void) {
                 o->oTimer = 0;
             }
         break;
-        case 1:
+        case 2:
             if (o->oTimer < 20) {
                 obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x400);
             }
@@ -218,7 +237,7 @@ void marx_act_arrows(void) {
                 o->oTimer = 0;
             }
         break;
-        case 2:;
+        case 3:;
             f32 arrowX = 50 * sins(o->oFaceAngleYaw);
             f32 arrowZ = 50 * coss(o->oFaceAngleYaw);
             f32 offset = random_u16() % 400 - 200;
@@ -235,7 +254,7 @@ void marx_act_arrows(void) {
                 o->oTimer = 0;
             }
         break;
-        case 3:
+        case 4:
             set_camera_mode(gMarioState->area->camera, CAMERA_MODE_8_DIRECTIONS, 1);
             o->oVelY += 1;
             o->oForwardVel += 2;

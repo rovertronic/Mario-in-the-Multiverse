@@ -653,3 +653,6 @@ extern const BehaviorScript bhvGMarxThornSegment[];
 extern const BehaviorScript bhvGMarxHalf[];
 extern const BehaviorScript bhvGMarxBlackHole[];
 extern const BehaviorScript bhvGMarxArrow[];
+extern const BehaviorScript bhvGMarxBodyLaser[];
+extern const BehaviorScript bhvGMarxLaser[];
+extern const BehaviorScript bhvGMarxIceBomb[];

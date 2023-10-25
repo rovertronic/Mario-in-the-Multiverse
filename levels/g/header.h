@@ -57,4 +57,12 @@ extern const LevelScript level_g_entry[];
 
 #include "levels/g/g_marx_mouth_full/geo_header.h"
 
+#include "levels/g/g_marx_mouth_open/geo_header.h"
+
+#include "levels/g/g_marx_laser/geo_header.h"
+
+#include "levels/g/g_marx_ice_bomb/geo_header.h"
+
+#include "levels/g/g_marx_ice_ring/geo_header.h"
+
 #endif

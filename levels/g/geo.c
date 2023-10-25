@@ -34,3 +34,7 @@
 #include "levels/g/g_marx_black_hole/geo.inc.c"
 #include "levels/g/g_marx_arrow/geo.inc.c"
 #include "levels/g/g_marx_mouth_full/geo.inc.c"
+#include "levels/g/g_marx_mouth_open/geo.inc.c"
+#include "levels/g/g_marx_laser/geo.inc.c"
+#include "levels/g/g_marx_ice_bomb/geo.inc.c"
+#include "levels/g/g_marx_ice_ring/geo.inc.c"

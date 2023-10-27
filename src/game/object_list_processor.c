@@ -658,6 +658,9 @@ void clear_dynamic_surface_references(void) {
 
 #include "rigid_body.h"
 
+u8 lv_o_zombie_counter = 0;
+u8 lv_o_zombie_counting= 0;
+
 /**
  * Update all objects. This includes script execution, object collision detection,
  * and object surface management.
@@ -719,4 +722,9 @@ void update_objects(UNUSED s32 unused) {
     gPrevFrameObjectCount = gObjectCounter;
     // Set the recorded behaviour time, minus the difference between the snapshotted collision time and the actual collision time.
     profiler_update(PROFILER_TIME_BEHAVIOR_AFTER_MARIO, profiler_get_delta(PROFILER_DELTA_COLLISION) - firstPoint);
+
+    if (ability_chronos_frame_can_progress()) {
+        lv_o_zombie_counter = lv_o_zombie_counting;
+        lv_o_zombie_counting = 0;
+    }
 }

@@ -121,6 +121,7 @@ void bhv_tree_snow_or_leaf_loop(void);
 void bhv_piranha_plant_bubble_loop(void);
 void bhv_piranha_plant_waking_bubbles_loop(void);
 void bhv_purple_switch_loop(void);
+void bhv_g_cannon_switch_loop(void);
 void bhv_hidden_object_loop(void);
 void bhv_breakable_box_loop(void);
 void bhv_pushable_loop(void);
@@ -497,6 +498,7 @@ void bhv_animates_on_floor_switch_press_loop(void);
 void bhv_activated_back_and_forth_platform_init(void);
 void bhv_activated_back_and_forth_platform_update(void);
 void bhv_recovery_heart_loop(void);
+void bhv_ability_heart_loop(void);
 void bhv_water_bomb_cannon_loop(void);
 void bhv_bubble_cannon_barrel_loop(void);
 void bhv_unagi_init(void);
@@ -582,6 +584,8 @@ Gfx *geo_snufit_scale_body(s32 callContext, struct GraphNode *node, UNUSED Mat4 
 // Bowser key cutscene
 Gfx *geo_scale_bowser_key(s32 callContext, struct GraphNode *node, UNUSED Mat4 mtx);
 
+Gfx *geo_generate_attached_rope(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
+
 // Water splash
 extern struct WaterDropletParams gShallowWaterSplashDropletParams;
 extern struct WaterDropletParams gShallowWaterWaveDropletParams;
@@ -632,3 +636,27 @@ void bhv_pt_mb(void);
 void bhv_gadget_aim(void);
 void bhv_concrete_block_init(void);
 void bhv_concrete_block_loop(void);
+void bhv_sir_kibble_init(void);
+void bhv_sir_kibble_loop(void);
+void bhv_star_projectile_init(void);
+void bhv_star_projectile_loop(void);
+void bhv_level_g_cutscenes_init(void);
+void bhv_level_g_cutscenes_loop(void);
+void bhv_star_drop_init(void);
+void bhv_star_drop_loop(void);
+void bhv_g_attached_rope_init(void);
+void bhv_g_attached_rope_loop(void);
+void bhv_g_attached_block_init(void);
+void bhv_g_attached_block_loop(void);
+void bhv_star_door_star_init(void);
+void bhv_star_door_star_loop(void);
+void bhv_g_star_door_init(void);
+void bhv_g_star_door_loop(void);
+void bhv_g_spring_init(void);
+void bhv_g_spring_loop(void);
+void bhv_g_cut_rock_init(void);
+void bhv_g_cut_rock_loop(void);
+void bhv_g_cannon_init(void);
+void bhv_g_cannon_loop(void);
+void bhv_great_cave_offensive_controller_init(void);
+void bhv_great_cave_offensive_controller_loop(void);

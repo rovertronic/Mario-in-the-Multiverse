@@ -554,9 +554,11 @@
         "Strings Ensemble": {
             "release_rate": 24,
             "normal_range_lo": 42,
+            "normal_range_hi": 50,
             "envelope": "envelope34",
             "sound_lo": "14_strings_5",
-            "sound": "15_strings_4"
+            "sound": "15_strings_4",
+            "sound_hi": "49_strings_lq"
         },
         "Trumpet": {
             "release_rate": 67,

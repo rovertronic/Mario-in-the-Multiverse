@@ -15,3 +15,13 @@
 
 
 #include "levels/g/geo.inc.c"
+
+#include "levels/g/sir_kibble/geo.inc.c"
+#include "levels/g/star_block/geo.inc.c"
+#include "levels/g/star_projectile/geo.inc.c"
+#include "levels/g/checker_block_1/geo.inc.c"
+#include "levels/g/g_spring/geo.inc.c"
+#include "levels/g/g_cut_rock/geo.inc.c"
+#include "levels/g/g_cut_rock2/geo.inc.c"
+#include "levels/g/g_cut_rock3/geo.inc.c"
+#include "levels/g/g_cannon/geo.inc.c"

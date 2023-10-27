@@ -91,6 +91,10 @@
 #include "actors/common1.h"
 #include "actors/common1.h"
 #include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
 
 /* Fast64 begin persistent block [includes] */
 #include "actors/common1.h"
@@ -126,13 +130,13 @@ const LevelScript level_g_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_THORNS, g_marx_thorn_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_HALF_LEFT, g_marx_left_half_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_HALF_RIGHT, g_marx_right_half_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_BLACK_HOLE, g_marx_black_hole_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_ARROW, g_marx_arrow_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_MOUTH_FULL, g_marx_mouth_full_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_MOUTH_OPEN, g_marx_mouth_open_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_LASER, g_marx_laser_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_ICE_BOMB, g_marx_ice_bomb_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_ICE_RING, g_marx_ice_ring_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_BLACK_HOLE, g_marx_black_hole_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_ARROW, g_marx_arrow_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_MOUTH_FULL, g_marx_mouth_full_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_MOUTH_OPEN, g_marx_mouth_open_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_LASER, g_marx_laser_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_ICE_BOMB, g_marx_ice_bomb_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_ICE_RING, g_marx_ice_ring_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -140,8 +144,9 @@ const LevelScript level_g_entry[] = {
 	AREA(1, g_area_1),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(0xF1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF1, LEVEL_G, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0B, LEVEL_G, 0x02, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_CHECKPOINT_FLAG, -10084, 3308, -12948, 0, 0, 0, (0 << 16), bhvCheckpointFlag),
 		MARIO_POS(0x01, -180, -1155, 304, -1246),
 		OBJECT(MODEL_NONE, 0, 365, -365, 0, 0, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, -1155, 354, -1415, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
@@ -160,7 +165,7 @@ const LevelScript level_g_entry[] = {
 	AREA(2, g_area_2),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF0, LEVEL_G, 0x01, 0x01, WARP_NO_CHECKPOINT),
-		WARP_NODE(0xF1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF1, LEVEL_G, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_G_CHECKER_BLOCK_1, 36, 569, -1576, 0, 0, 0, 0x0000F000, bhvGAttachedBlock),
 		OBJECT(MODEL_NONE, 148, -253, -309, 0, 0, 0, 0x00000000, bhvLevelGCutscenes),
 		OBJECT(MODEL_NONE, 229, -258, -643, 0, 0, 0, (1 << 16), bhvLevelGCutscenes),
@@ -189,7 +194,7 @@ const LevelScript level_g_entry[] = {
 	AREA(3, g_area_3),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(0xF1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF1, LEVEL_G, 0x03, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0B, LEVEL_G, 0x04, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_BLUE_COIN, 566, -682, 2558, 0, 0, 0, 0x0000F000, bhvBlueCoinJumping),
 		OBJECT(MODEL_BLUE_COIN, 995, 1316, -5264, 0, 0, 0, 0x0000F000, bhvBlueCoinJumping),
@@ -197,6 +202,8 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_PURPLE_SWITCH, -2997, 2763, -7245, 0, -30, 0, 0x00000000, bhvGCannonSwitch),
 		OBJECT(MODEL_PURPLE_SWITCH, -1972, 2763, -7398, 0, 59, 0, 0x00000000, bhvGCannonSwitch),
 		OBJECT(MODEL_PURPLE_SWITCH, -2628, 2763, -8792, 0, 180, 0, 0x00000000, bhvGCannonSwitch),
+		OBJECT(MODEL_CHECKPOINT_FLAG, 210, 981, 202, 0, 0, 0, (0 << 16), bhvCheckpointFlag),
+		OBJECT(MODEL_CHECKPOINT_FLAG, 410, 2763, -6702, 0, 0, 0, (1 << 16), bhvCheckpointFlag),
 		OBJECT(MODEL_G_CUT_ROCK, -2643, 4582, -8783, 0, 0, 0, (240 << 8), bhvGCutRock),
 		OBJECT(MODEL_G_CUT_ROCK2, -2997, 3459, -7245, 0, 89, 0, (240 << 8), bhvGCutRock),
 		OBJECT(MODEL_G_CUT_ROCK3, -1968, 4732, -7402, 0, 89, 0, (240 << 8), bhvGCutRock),
@@ -247,7 +254,7 @@ const LevelScript level_g_entry[] = {
 	AREA(4, g_area_4),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(0xF1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF1, LEVEL_BOB, 0x04, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0B, LEVEL_G, 0x04, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_ABILITY_HEART, 9624, 2752, 10003, 0, -49, 0, 0x00000000, bhvAbilityRecoveryHeart),
 		OBJECT(MODEL_ABILITY_HEART, -767, 3804, 9681, 0, -49, 0, 0x00000000, bhvAbilityRecoveryHeart),
@@ -257,6 +264,8 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_ROCKET_BUTTON_OFF, -8893, 693, -1008, -90, 0, 0, 0x00000000, bhvRocketButton),
 		OBJECT(MODEL_ROCKET_BUTTON_OFF, -14595, -831, 8162, 0, -180, 0, 0x00000000, bhvRocketButton),
 		OBJECT(MODEL_ROCKET_BUTTON_OFF, -10541, 1997, 5705, 0, -90, 0, 0x00000000, bhvRocketButton),
+		OBJECT(MODEL_CHECKPOINT_FLAG, -9161, 446, 14013, 0, 0, 0, (0 << 16), bhvCheckpointFlag),
+		OBJECT(MODEL_CHECKPOINT_FLAG, 8229, 2614, 10639, 0, 0, 0, (1 << 16), bhvCheckpointFlag),
 		OBJECT(MODEL_NONE, 3940, 3804, 9693, 0, -91, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_NONE, 572, 3771, 9757, 0, -79, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, 0x00000000, bhvGreatCaveOffensiveController),

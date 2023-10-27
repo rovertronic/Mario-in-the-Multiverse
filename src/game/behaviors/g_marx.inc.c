@@ -122,7 +122,7 @@ void marx_act_thorns(void) {
         case 0:
             o->oSubAction++;
             cur_obj_init_animation(3);
-            set_camera_mode(gMarioState->area->camera, CAMERA_MODE_8_DIRECTIONS, 1);
+            gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
         break;
         case 1:
             if (o->oTimer == 18) {
@@ -174,7 +174,7 @@ void marx_act_black_hole(void) {
             if (cur_obj_check_if_at_animation_end()) {
                 o->oSubAction++;
                 gSecondCameraFocus = o;
-            set_camera_mode(gMarioState->area->camera, CAMERA_MODE_BOSS_FIGHT, 1);
+            gLakituState.mode = CAMERA_MODE_MARX_FIGHT;
                 o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_NONE];
                 spawn_object_relative(0, 0, 0, 0, o, MODEL_G_MARX_HALF_LEFT, bhvGMarxHalf);
                 spawn_object_relative(1, 0, 0, 0, o, MODEL_G_MARX_HALF_RIGHT, bhvGMarxHalf);
@@ -239,7 +239,7 @@ void marx_act_arrows(void) {
         case 1:
             o->oPosY = approach_f32_asymptotic(o->oPosY, o->oHomeY, 0.08f);
             gSecondCameraFocus = o;
-            set_camera_mode(gMarioState->area->camera, CAMERA_MODE_BOSS_FIGHT, 1);
+            gLakituState.mode = CAMERA_MODE_MARX_FIGHT;
             cur_obj_init_animation(4);
             if (o->oTimer == 30) {
                 o->oSubAction++;
@@ -273,7 +273,7 @@ void marx_act_arrows(void) {
             }
         break;
         case 4:
-            set_camera_mode(gMarioState->area->camera, CAMERA_MODE_8_DIRECTIONS, 1);
+            gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
             o->oVelY += 1;
             o->oForwardVel += 2;
 
@@ -296,7 +296,8 @@ void marx_act_arrows(void) {
 void marx_act_laser(void) {
     switch (o->oSubAction) {
         case 0:;
-            //set_camera_mode(gMarioState->area->camera, CAMERA_MODE_BOSS_FIGHT, 1);
+            gSecondCameraFocus = o;
+            gLakituState.mode = CAMERA_MODE_MARX_FIGHT;
             u16 randomAngle = random_u16();
             o->oMarxTeleportX = 1200*sins(randomAngle);
             o->oMarxTeleportZ = 1200*coss(randomAngle);
@@ -315,7 +316,6 @@ void marx_act_laser(void) {
             if (o->oTimer == 45) {
                 o->oSubAction++;
                 o->oTimer = 0;
-                set_camera_mode(gMarioState->area->camera, CAMERA_MODE_8_DIRECTIONS, 1);
             }
         break;
         case 2:
@@ -343,6 +343,7 @@ void marx_act_laser(void) {
             if (o->oTimer == 30) {
                 //obj_mark_for_deletion(o->oMarxLaserBody);
                 o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_NONE];
+                gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
             }
 
             if (o->oTimer == 120) {

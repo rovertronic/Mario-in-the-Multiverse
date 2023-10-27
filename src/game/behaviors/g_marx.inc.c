@@ -1,3 +1,5 @@
+#include "src/game/area.h"
+
 enum MarxActions {
     MARX_ACT_CUTSCENE,
     MARX_ACT_IDLE_FLIGHT,
@@ -12,8 +14,68 @@ enum MarxActions {
     MARX_ACT_SHADOW_BURST,
 };
 
+static struct ObjectHitbox sMarxHitbox = {
+    /* interactType:      */ INTERACT_NONE,
+    /* downOffset:        */ 50,
+    /* damageOrCoinValue: */ 1,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 130,
+    /* height:            */ 200,
+    /* hurtboxRadius:     */ 120,
+    /* hurtboxHeight:     */ 110,
+};
+
+static struct ObjectHitbox sMarxCutterHitbox = {
+    /* interactType:      */ INTERACT_DAMAGE,
+    /* downOffset:        */ 50,
+    /* damageOrCoinValue: */ 2,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 110,
+    /* height:            */ 110,
+    /* hurtboxRadius:     */ 100,
+    /* hurtboxHeight:     */ 100,
+};
+static struct ObjectHitbox sMarxThornsHitbox = {
+    /* interactType:      */ INTERACT_DAMAGE,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 2,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 150,
+    /* height:            */ 300,
+    /* hurtboxRadius:     */ 140,
+    /* hurtboxHeight:     */ 290,
+};
+static struct ObjectHitbox sMarxArrowHitbox = {
+    /* interactType:      */ INTERACT_DAMAGE,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 1,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 60,
+    /* height:            */ 120,
+    /* hurtboxRadius:     */ 40,
+    /* hurtboxHeight:     */ 80,
+};
+
 void marx_act_cutscene(void) {
-    o->oAction = 1;
+    if (o->oTimer == 120) {
+        o->oAction = MARX_ACT_IDLE_FLIGHT;
+        o->oMarxTeleportTimer = 7;
+                        o->oMarxTeleportX = o->oPosX;
+                        o->oMarxTeleportY = o->oPosY;
+                        o->oMarxTeleportZ = o->oPosZ;
+                        cur_obj_unhide();
+                        cur_obj_become_tangible();
+                        gMarxArenaScroll = 1.0f;
+    }
+    else {
+        cur_obj_hide();
+        cur_obj_become_intangible();
+        gMarxArenaScroll = (f32)o->oTimer / 120.0f;
+    }
 }
 
 void marx_act_idle_flight(void) {
@@ -21,19 +83,30 @@ void marx_act_idle_flight(void) {
         cur_obj_init_animation(0);
     }
     obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x400);
-    if (o->oTimer == 60) {
-        switch (random_u16() % 5) {
-            case 0: o->oAction = MARX_ACT_CUTTER;
-            break;
-            case 1: o->oAction = MARX_ACT_THORNS;
-            break;
-            case 2: o->oAction = MARX_ACT_BLACK_HOLE;
-            break;
-            case 3: o->oAction = MARX_ACT_ICE_BOMB;
-            break;
-            case 4: o->oAction = MARX_ACT_FLY_ACROSS;
-            break;
+    if (o->oTimer == 30) {
+        u8 newAttack = 0;
+        while (newAttack == 0) {
+            switch (random_u16() % 6) {
+                case 0: o->oAction = MARX_ACT_CUTTER;
+                break;
+                case 1: o->oAction = MARX_ACT_THORNS;
+                break;
+                case 2: o->oAction = MARX_ACT_BLACK_HOLE;
+                break;
+                case 3: o->oAction = MARX_ACT_ICE_BOMB;
+                break;
+                case 4: o->oAction = MARX_ACT_FLY_ACROSS;
+                break;
+                case 5: o->oAction = MARX_ACT_CUTTER;
+                break;
+            }
+
+            if (o->oAction != o->oMarxLastAttack) {
+                newAttack = 1;
+            }
         }
+
+        o->oMarxLastAttack = o->oAction;
         
     }
 }
@@ -42,9 +115,7 @@ void marx_act_idle_flight(void) {
 void marx_act_fly_across(void) {
     switch (o->oSubAction) {
         case 0:
-            if (o->oTimer == 30) {
-                o->oSubAction++;
-            }
+            o->oSubAction++;
         break;
         case 1:
             if (cur_obj_check_if_at_animation_end()) {
@@ -150,7 +221,7 @@ void marx_act_thorns(void) {
             }
         break;
         case 3:
-        if (o->oTimer == 90) {
+        if (o->oTimer == 150) {
             switch (random_u16() % 3) {
                 case 0: o->oAction = MARX_ACT_ARROWS;
                         o->oHomeY = gMarioState->pos[1] + 200;
@@ -216,11 +287,12 @@ void marx_act_black_hole(void) {
             }
         break;
         case 2:
-            if (o->oTimer == 30) {
+            if (o->oTimer == 80) {
                 o->oMarxTeleportTimer = 7;
                 o->oMarxTeleportX = 500;
                 o->oMarxTeleportY = 700;
                 o->oMarxTeleportZ = 0;
+                cur_obj_init_animation(0);
                 o->oAction = MARX_ACT_IDLE_FLIGHT;
             }
         break;
@@ -432,8 +504,80 @@ void marx_generic_teleport(void) {
     }
 }
 
+s16 get_marx_damage_from_mario_attack(void) {
+    switch (gMarioState->abilityId) {
+        case ABILITY_CUTTER:;
+            if (gMarioState->action == ACT_CUTTER_DASH) {
+                return 8;
+            }
+            if (gMarioState->action == ACT_DIVE) {
+                return 5;
+            }
+            if (gMarioState->action == ACT_FINAL_CUTTER_SEQUENCE) {
+                if (gMarioState->actionArg == 0 && gMarioState->actionTimer == 0) {
+                    return 4;
+                }
+                if (gMarioState->actionArg == 1 && gMarioState->actionTimer == 1) {
+                    return 4;
+                }
+                if (gMarioState->actionArg == 2 && gMarioState->actionTimer == 4) {
+                    return 10;
+                }
+            }
+        break;
+        case ABILITY_BUBBLE_HAT:;
+            if (gMarioState->action == ACT_BUBBLE_HAT_ATTACK) {
+                return 5;
+            }
+            if (gMarioState->action == ACT_BUBBLE_HAT_JUMP) {
+                return 4;
+            }
+        break;
+        case ABILITY_KNIGHT:;
+            if (gMarioState->action == ACT_KNIGHT_JUMP || gMarioState->action == ACT_KNIGHT_SLIDE) {
+                return 8;
+            }
+        break;
+        case ABILITY_CHRONOS:;
+            if (gMarioState->action == ACT_MOVE_PUNCHING || gMarioState->action == ACT_PUNCHING) {
+                return 5;
+            }
+        break;
+        case ABILITY_ESTEEMED_MORTAL:;
+            if (gMarioState->action == ACT_ABILITY_AXE_JUMP) {
+                return 4;
+            }
+        break;
+        case ABILITY_MARBLE:;
+            return 2;
+        break;
+        default:
+            if (gMarioState->action & ACT_FLAG_ATTACKING) {
+                return 3;
+            }
+        break;
+    }
+    return 0;
+}
+
+s16 get_marx_damage_from_object(struct Object *obj) {
+    if (obj_has_behavior(obj, bhvCutterBlade)) {
+        return 4;
+    }
+    else if (obj_has_behavior(obj, bhvShockRocket)) {
+        obj->oAction = 2;
+        return 16;
+    }
+    return 0;
+}
+
 void bhv_g_marx_init(void) {
     o->oMarxTeleportTimer = -1;
+    obj_set_hitbox(o, &sMarxHitbox);
+    o->oMarxInvincibilityTimer = 0;
+    o->oInteractStatus = 0;
+    o->oMarxHealth = 100;
+    spawn_object_relative(0, 0, 0, 0, o, MODEL_YELLOW_COIN, bhvSingleCoinGetsSpawned);
 }
 
 void bhv_g_marx_loop(void) {
@@ -470,15 +614,59 @@ void bhv_g_marx_loop(void) {
         break;
     }
 
+    print_text_fmt_int(100, 100, "%d", o->oMarxHealth);
+
     if (o->oMarxTeleportTimer > -1) {
         marx_generic_teleport();
     }
+
+    if (o->oMarxInvincibilityTimer == 0) {
+        o->oInteractStatus = 0;
+    }
+    else {
+        o->oMarxInvincibilityTimer--;
+    }
+
+    if (o->oInteractStatus == 0) {
+        if (o->oShotByShotgun) {
+            o->oMarxHealth -= 10;
+            o->oShotByShotgun = 0;
+            o->oMarxInvincibilityTimer = 20;
+        }
+
+        for (int i = 0; i < o->numCollidedObjs; i++) {
+            struct Object *other = o->collidedObjs[i];
+            if (other->parentObj && other->parentObj != o) {
+                if (other == gMarioObject) {
+                    s16 damageValue = get_marx_damage_from_mario_attack();
+                    if (damageValue > 0) {
+                        o->oMarxInvincibilityTimer = 20;
+                        o->oMarxHealth -= damageValue;
+                        o->oInteractStatus = INT_STATUS_WAS_ATTACKED;
+                    }
+                    push_mario_out_of_object(gMarioState, o, 5.0f);
+                }
+                else {
+                    s16 damageValue = get_marx_damage_from_object(other);
+                    if (damageValue > 0) {
+                        o->oMarxInvincibilityTimer = 20;
+                        o->oMarxHealth -= damageValue;
+                        o->oInteractStatus = INT_STATUS_WAS_ATTACKED;
+                    }
+                }
+            }
+        }
+    }
+
+    //this is so the shotgun doesnt annihilate marx lol
+    o->oHealth = 20;
 }
 
 void bhv_g_marx_cutter_init(void) {
     o->oMoveAngleYaw = o->parentObj->oFaceAngleYaw + (o->oBehParams2ndByte % 2 == 0 ? 0x2000 : -0x2000);
     o->oVelY = (o->oBehParams2ndByte / 2 == 0 ? 15 : -15);
     o->oForwardVel = 60;
+    obj_set_hitbox(o, &sMarxCutterHitbox);
 }
 
 void bhv_g_marx_cutter_loop(void) {
@@ -486,6 +674,7 @@ void bhv_g_marx_cutter_loop(void) {
     o->oPosY += o->oVelY;
     o->oFaceAngleYaw += 0x2000;
     o->oForwardVel -= 2;
+    o->oInteractStatus = 0;
     o->oVelY += (o->oBehParams2ndByte / 2 == 0 ? -0.5f : 0.5f);
     if (o->oTimer == 60) {
         obj_mark_for_deletion(o);
@@ -509,7 +698,6 @@ void bhv_g_marx_seed_loop(void) {
 }
 
 void bhv_g_marx_vine_init(void) {
-
 }
 
 void bhv_g_marx_vine_loop(void) {
@@ -534,13 +722,14 @@ void bhv_g_marx_vine_loop(void) {
 }
 
 void bhv_g_marx_thorn_segment_init(void) {
-
+    obj_set_hitbox(o, &sMarxThornsHitbox);
 }
 
 void bhv_g_marx_thorn_segment_loop(void) {
     if (o->oTimer == 20) {
         obj_mark_for_deletion(o);
     }
+    o->oInteractStatus = 0;
 }
 
 void bhv_g_marx_half_init(void) {
@@ -670,6 +859,7 @@ void bhv_g_marx_black_hole_loop(void) {
 
 void bhv_g_marx_arrow_init(void) {
     o->oForwardVel = 120.0f;
+    obj_set_hitbox(o, &sMarxArrowHitbox);
 }
 
 void bhv_g_marx_arrow_loop(void) {

@@ -25,7 +25,7 @@ const LevelScript level_m_entry[] = {
 	INIT_LEVEL(),
 	LOAD_YAY0(0x7, _m_segment_7SegmentRomStart, _m_segment_7SegmentRomEnd), 
 	ALLOC_LEVEL_POOL(),
-	MARIO(MODEL_MARIO, 0x00000001, bhvMario),
+	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */

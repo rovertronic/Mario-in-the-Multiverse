@@ -34,6 +34,8 @@ const LevelScript level_m_entry[] = {
 		WARP_NODE(0x0A, LEVEL_M, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF0, LEVEL_M, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF1, LEVEL_M, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0x20, LEVEL_M, 0x04, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_NONE, 1100, 2800, 9800, 0, 0, 0, 0x20000000, bhvWarp),
 		MARIO_POS(0x01, 0, 0, 2600, 11000),
 		TERRAIN(m_area_1_collision),
 		MACRO_OBJECTS(m_area_1_macro_objs),
@@ -43,8 +45,20 @@ const LevelScript level_m_entry[] = {
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
 
+	AREA(4, m_area_4),
+		WARP_NODE(0x0A, LEVEL_M, 0x04, 0x0A, WARP_NO_CHECKPOINT),
+		MARIO_POS(0x01, 0, 0, -6800, -15800),
+		TERRAIN(m_area_4_collision),
+		ROOMS(m_area_4_collision_rooms),
+		MACRO_OBJECTS(m_area_4_macro_objs),
+		STOP_MUSIC(0),
+		TERRAIN_TYPE(TERRAIN_GRASS),
+		/* Fast64 begin persistent block [area commands] */
+		/* Fast64 end persistent block [area commands] */
+	END_AREA(),
+
 	FREE_LEVEL_POOL(),
-	MARIO_POS(0x01, 0, 0, 2600, 11000),
+	MARIO_POS(0x01, 0, 0, -6800, -15800),
 	CALL(0, lvl_init_or_update),
 	CALL_LOOP(1, lvl_init_or_update),
 	CLEAR_LEVEL(),

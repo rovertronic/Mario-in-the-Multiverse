@@ -27,4 +27,8 @@ extern const LevelScript level_B_entry[];
 
 #include "levels/B/waterfall/collision_header.h"
 
+#include "levels/B/debris/collision_header.h"
+
+#include "levels/B/debris/geo_header.h"
+
 #endif

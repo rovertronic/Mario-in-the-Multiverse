@@ -100,8 +100,15 @@ void bhv_waterfall_loop(void){
         } else {
             o->oPosY = (o->oHomeY + 1052.0f);
         }
-
 }
-
+void bhv_debris_init(void){
+    //o->oTimer = random_u16()%120;
+    o->oAction = 0;
+    //o->oFaceAnglePitch  = (random_sign() * random_u16()%0x15);
+}
+void bhv_debris_loop(void){
+    o->oFaceAngleYaw += 0x100;
+    o->oMoveAngleYaw = o->oFaceAngleYaw;
+}
 
 

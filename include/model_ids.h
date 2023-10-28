@@ -626,6 +626,7 @@ enum GLOBAL_MODELS {
 #define MODEL_LITTLE_SISTER                      0x153
 #define MODEL_GAUGE                              0x154
 #define MODEL_WATERFALL                          0x155
+#define MODEL_DEBRIS                             0x156
 /* LEVEL B END */
 
 /* LEVEL C START */

@@ -1,6 +1,6 @@
 void scroll_B_dl_Cube_001_mesh_layer_7_vtx_1() {
 	int i = 0;
-	int count = 8;
+	int count = 14;
 	int width = 128 * 0x20;
 
 	static int currentX = 0;
@@ -21,33 +21,12 @@ void scroll_B_dl_Cube_001_mesh_layer_7_vtx_1() {
 
 void scroll_B_dl_Cube_001_mesh_layer_5_vtx_0() {
 	int i = 0;
-	int count = 121;
-	int height = 64 * 0x20;
-
-	static int currentY = 0;
-	int deltaY;
-	Vtx *vertices = segmented_to_virtual(B_dl_Cube_001_mesh_layer_5_vtx_0);
-
-	deltaY = (int)(-0.25 * 0x20) % height;
-
-	if (absi(currentY) > height) {
-		deltaY -= (int)(absi(currentY) / height) * height * signum_positive(deltaY);
-	}
-
-	for (i = 0; i < count; i++) {
-		vertices[i].n.tc[1] += deltaY;
-	}
-	currentY += deltaY;
-}
-
-void scroll_B_dl_Cube_001_mesh_layer_5_vtx_1() {
-	int i = 0;
 	int count = 8;
 	int height = 64 * 0x20;
 
 	static int currentY = 0;
 	int deltaY;
-	Vtx *vertices = segmented_to_virtual(B_dl_Cube_001_mesh_layer_5_vtx_1);
+	Vtx *vertices = segmented_to_virtual(B_dl_Cube_001_mesh_layer_5_vtx_0);
 
 	deltaY = (int)(-0.25 * 0x20) % height;
 
@@ -103,16 +82,16 @@ void scroll_B_dl_Cube_002_mesh_layer_7_vtx_0() {
 	currentX += deltaX;
 }
 
-void scroll_B_dl_Cube_003_mesh_layer_5_vtx_0() {
+void scroll_B_dl_Cube_009_mesh_layer_5_vtx_0() {
 	int i = 0;
-	int count = 55;
+	int count = 123;
 	int height = 64 * 0x20;
 
 	static int currentY = 0;
 	int deltaY;
-	Vtx *vertices = segmented_to_virtual(B_dl_Cube_003_mesh_layer_5_vtx_0);
+	Vtx *vertices = segmented_to_virtual(B_dl_Cube_009_mesh_layer_5_vtx_0);
 
-	deltaY = (int)(3.0 * 0x20) % height;
+	deltaY = (int)(-0.25 * 0x20) % height;
 
 	if (absi(currentY) > height) {
 		deltaY -= (int)(absi(currentY) / height) * height * signum_positive(deltaY);
@@ -134,20 +113,11 @@ void scroll_gfx_mat_B_dl_water_2_layer7() {
 
 };
 
-void scroll_gfx_mat_B_dl_waterfall_layer5() {
-	Gfx *mat = segmented_to_virtual(mat_B_dl_waterfall_layer5);
-
-	shift_t(mat, 19, PACK_TILESIZE(0, 4));
-
-};
-
 void scroll_B() {
 	scroll_B_dl_Cube_001_mesh_layer_7_vtx_1();
 	scroll_B_dl_Cube_001_mesh_layer_5_vtx_0();
-	scroll_B_dl_Cube_001_mesh_layer_5_vtx_1();
 	scroll_B_dl_Cube_002_mesh_layer_5_vtx_0();
 	scroll_B_dl_Cube_002_mesh_layer_7_vtx_0();
-	scroll_B_dl_Cube_003_mesh_layer_5_vtx_0();
+	scroll_B_dl_Cube_009_mesh_layer_5_vtx_0();
 	scroll_gfx_mat_B_dl_water_2_layer7();
-	scroll_gfx_mat_B_dl_waterfall_layer5();
 };

@@ -23,3 +23,5 @@
 #include "levels/B/gauge/collision.inc.c"
 #include "levels/B/waterfall/model.inc.c"
 #include "levels/B/waterfall/collision.inc.c"
+#include "levels/B/debris/collision.inc.c"
+#include "levels/B/debris/model.inc.c"

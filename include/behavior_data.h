@@ -560,6 +560,7 @@ extern const BehaviorScript bhvBioshockFloaty[];
 extern const BehaviorScript bhvGauge[];
 extern const BehaviorScript bhvWaterfall[];
 extern const BehaviorScript bhvWaterfallHidden[];
+extern const BehaviorScript bhvDebris[];
 /* GROUP B END */
 
 /* GROUP C START */

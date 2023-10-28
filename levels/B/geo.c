@@ -21,3 +21,4 @@
 #include "levels/B/little_sister/geo.inc.c"
 #include "levels/B/gauge/geo.inc.c"
 #include "levels/B/waterfall/geo.inc.c"
+#include "levels/B/debris/geo.inc.c"

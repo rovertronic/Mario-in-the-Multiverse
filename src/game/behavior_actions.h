@@ -636,3 +636,5 @@ void bhv_gauge_init(void);
 void bhv_gauge_loop(void);
 void bhv_waterfall_hidden_loop(void);
 void bhv_waterfall_loop(void);
+void bhv_debris_init(void);
+void bhv_debris_loop(void);

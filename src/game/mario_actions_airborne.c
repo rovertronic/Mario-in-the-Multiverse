@@ -2351,7 +2351,13 @@ s32 act_hm_fly(struct MarioState *m){
     if (m->pos[1] + 300.0f > m->ceilHeight){
         return set_mario_action(m, ACT_FREEFALL, 0);
     }
-    
+
+    if (m->actionTimer >= 10 && m->input & INPUT_A_PRESSED && gCurrLevelNum == LEVEL_J && gCurrentArea->index == 7){
+        m->usedObj->oAction = 4;
+        m->usedObj->oTimer = 0;
+        play_sound(SOUND_OBJ_POUNDING_CANNON, m->marioObj->header.gfx.cameraToObject);
+        return set_mario_action(m, ACT_FREEFALL, 0);
+    }
     
     if (m->actionTimer >= 10 && (m->input & INPUT_A_PRESSED)){
         return set_mario_action(m, ACT_FREEFALL, 0);

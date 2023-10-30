@@ -665,6 +665,26 @@ enum {
 /* LEVEL I END */
 
 /* LEVEL J START */
+#define MODEL_J_FALLING_PLATFORM                0x150
+#define MODEL_J_TILTY_HEXAGON                   0x151
+#define MODEL_J_SKARMORY                        0x152
+#define MODEL_J_YOUNGSTER                       0x153
+#define MODEL_J_SPINARAK                        0x154
+#define MODEL_J_GEODUDE                         0x155
+#define MODEL_BERRY                             0x156
+#define MODEL_J_HOOH                            0x157
+#define MODEL_J_HOOH_ROCK                       0x158
+#define MODEL_J_MILTANK                         0x159
+#define MODEL_J_GASTLY                          0x160
+#define MODEL_J_HAUNTER                         0x161
+#define MODEL_J_GENGAR                          0x162
+#define MODEL_J_ELDER                           0x163
+#define MODEL_J_KIMONO_GIRL                     0x164
+#define MODEL_J_MORTY                           0x165
+#define MODEL_J_COWGIRL                         0x166
+#define MODEL_J_SENTRET                         0x167
+#define MODEL_J_SKIPLOOM                        0x168
+#define MODEL_J_GRAVELER                 0x39
 /* LEVEL J END */
 
 /* LEVEL K START */

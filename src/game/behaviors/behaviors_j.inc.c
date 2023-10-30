@@ -1,45 +1,190 @@
+#define DRAGONITE_ACT_ABILITY 0
+#define DRAGONITE_ACT_RESTING 1
+#define DRAGONITE_ACT_GETTING_UP 2
+#define DRAGONITE_ACT_DESPAWNING 3
+#define DRAGONITE_ACT_EXTREME_SPEED 4
+
+static struct ObjectHitbox sDragoniteHitbox = {
+    /* interactType:      */ INTERACT_IGLOO_BARRIER,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 0,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 200,
+    /* height:            */ 200,
+    /* hurtboxRadius:     */ 200,
+    /* hurtboxHeight:     */ 200,
+};
+
+static struct ObjectHitbox sDragoniteESHitbox = {
+    /* interactType:      */ INTERACT_NONE,
+    /* downOffset:        */ 100,
+    /* damageOrCoinValue: */ 0,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 150,
+    /* height:            */ 200,
+    /* hurtboxRadius:     */ 150,
+    /* hurtboxHeight:     */ 200,
+};
+
+struct ObjectHitbox sBerryHitbox = {
+    /* interactType:      */ INTERACT_GRABBABLE,
+    /* downOffset:        */ 20,
+    /* damageOrCoinValue: */ 0,
+    /* health:            */ 1,
+    /* numLootCoins:      */ 3,//--E
+    /* radius:            */ 150,
+    /* height:            */ 250,
+    /* hurtboxRadius:     */ 150,
+    /* hurtboxHeight:     */ 250,
+};
+
 void bhv_dragonite_init(void){
-    obj_scale_xyz(o, 0.0f, 0.0f, 0.0f);
-    spawn_mist_particles_variable(0, 0, 30.0f);
+    if (o->oBehParams2ndByte == 0){
+        obj_scale_xyz(o, 0.0f, 0.0f, 0.0f);
+        spawn_mist_particles_variable(0, 0, 30.0f);
+        cur_obj_init_animation(0);
+    } else {
+        ///IF (1), DESPAWN IF YOU HAVE THE ABILITY UNLOCKED
+        o->oAction = DRAGONITE_ACT_RESTING;
+        obj_scale_xyz(o, 0.8f,0.8f,0.8f);
+        obj_set_hitbox(o, &sDragoniteHitbox);
+        cur_obj_init_animation(1);
+        o->oGraphYOffset = 20.0f;
+    }
 }
+
+extern void spawn_no_exit_star(f32, f32, f32);
 
 void bhv_dragonite_loop(void){
     f32 xScale = o->header.gfx.scale[0];
     f32 yScale = o->header.gfx.scale[1];
     f32 zScale = o->header.gfx.scale[2];
     f32 maxScale = 0.8f;
-    obj_set_pos(o, gMarioState->pos[0], gMarioState->pos[1] + 156.0f, gMarioState->pos[2]);
-    o->oFaceAngleYaw = gMarioState->faceAngle[1];
-    o->oFaceAnglePitch = 0.0f;
+    f32 dist;
+    struct Object *berryObj = cur_obj_find_nearest_object_with_behavior(bhvBerry, &dist);
 
-    if (ability_chronos_frame_can_progress()) {
-        if (gMarioState->action != ACT_HM_FLY) {
-            if (yScale > 0.0f) {
-                yScale -= 0.15f;
-            }
-            if (xScale > 0.0f) {
-                xScale -= 0.15f;
-            }
-            if (zScale > 0.0f) {
-                zScale -= 0.15f;
-            }
-            if (yScale <= 0.0f) {
-                obj_mark_for_deletion(o);
+    switch(o->oAction){
+        case DRAGONITE_ACT_ABILITY:
+            obj_set_pos(o, gMarioState->pos[0], gMarioState->pos[1] + 156.0f, gMarioState->pos[2]);
+            o->oFaceAngleYaw = gMarioState->faceAngle[1];
+            o->oFaceAnglePitch = 0.0f;
+
+            if (ability_chronos_frame_can_progress()) {
+                if (gMarioState->action != ACT_HM_FLY) {
+                    if (yScale > 0.0f) {
+                        yScale -= 0.15f;
+                    }
+                    if (xScale > 0.0f) {
+                        xScale -= 0.15f;
+                    }
+                    if (zScale > 0.0f) {
+                        zScale -= 0.15f;
+                    }
+                    if (yScale <= 0.0f) {
+                        obj_mark_for_deletion(o);
+                    }
+
+                } else {
+                    if (yScale < maxScale) {
+                        yScale += 0.15f;
+                        xScale += 0.15f;
+                        zScale += 0.15f;
+                    }
+                    if (yScale > maxScale){
+                        yScale = maxScale;
+                        xScale = maxScale;
+                        zScale = maxScale;
+                    }
+                }
+
+                obj_scale_xyz(o, xScale, yScale, zScale);
             }
 
-        } else {
-            if (yScale < maxScale) {
-                yScale += 0.15f;
-                xScale += 0.15f;
-                zScale += 0.15f;
-            }
-            if (yScale > maxScale){
-                yScale = maxScale;
-                xScale = maxScale;
-                zScale = maxScale;
-            }
-        }
+            break;
 
-        obj_scale_xyz(o, xScale, yScale, zScale);
+        case DRAGONITE_ACT_RESTING:
+            o->oAnimState = DRAGONITE_ANIM_STATE_EYES_CLOSED;
+            if (berryObj != NULL && dist < 300.0f && berryObj->oHeldState != HELD_FREE){
+                o->oAction = DRAGONITE_ACT_GETTING_UP;
+                cur_obj_init_animation(2);
+            }
+            break;
+
+        case DRAGONITE_ACT_GETTING_UP:
+            o->oAnimState = DRAGONITE_ANIM_STATE_EYES_OPEN;
+            if (cur_obj_check_if_near_animation_end()){
+                o->oAction = DRAGONITE_ACT_DESPAWNING;
+                cur_obj_init_animation(3);
+                o->oTimer = 0;
+            }
+            break;
+        case DRAGONITE_ACT_DESPAWNING:
+            if (o->oTimer == 10){
+                spawn_no_exit_star(0.0f, 749.0f, -1762.0f);
+            }
+
+            if (o->oTimer > 30) {
+                yScale -= 0.05f;
+                xScale -= 0.05f;
+                zScale -= 0.05f;
+
+                obj_scale_xyz(o, xScale, yScale, zScale);
+
+                if (yScale <= 0.0f){
+                    spawn_mist_particles();
+                    spawn_object_relative(ABILITY_HM_FLY, 0, 50, 0, o, MODEL_ABILITY, bhvAbilityUnlock);
+                    o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+                }
+            }
+            break;
+        
+        case DRAGONITE_ACT_EXTREME_SPEED:
+            o->oForwardVel = 75.0f;
+            gMarioState->canHMFly = FALSE;
+            obj_set_hitbox(o, &sDragoniteESHitbox);
+            cur_obj_init_animation(4);
+            cur_obj_move_xz_using_fvel_and_yaw();
+            
+            if (o->oTimer >= 60 || o->oInteractStatus == INT_STATUS_INTERACTED){
+                yScale -= 0.05f;
+                xScale -= 0.05f;
+                zScale -= 0.05f;
+
+                obj_scale_xyz(o, xScale, yScale, zScale);
+
+                if (yScale <= 0.0f){
+                    spawn_mist_particles();
+                    o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+                }
+            }
+            break;
+            
+    }
+}
+
+
+void bhv_berry_loop(void){
+    f32 dist;
+    struct Object *DragoniteObj = cur_obj_find_nearest_object_with_behavior(bhvDragonite, &dist);
+    switch(o->oHeldState) {
+        case HELD_FREE:
+        break;
+        case HELD_HELD:
+        cur_obj_unrender_set_action_and_anim(0, 0);
+        obj_copy_pos(o, gMarioObject);
+        break;
+        case HELD_THROWN:
+        cur_obj_get_thrown_or_placed(10.0f, 10.0f, 0);
+        break;
+        case HELD_DROPPED:
+        cur_obj_get_dropped();
+        break;
+    }
+
+    if (DragoniteObj->oAction == DRAGONITE_ACT_DESPAWNING){
+        gMarioState->action = ACT_IDLE;
+        o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
     }
 }

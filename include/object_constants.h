@@ -611,6 +611,11 @@ enum oSubActionBowserActQuickJump { // BOWSER_ACT_QUICK_JUMP
     BOWSER_SUB_ACT_QUICK_JUMP_STOP
 };
 
+/* Dragonite */
+    /* oAnimState */
+        #define DRAGONITE_ANIM_STATE_EYES_OPEN                     OBJ_BLINKING_ANIM_STATE_EYES_OPEN
+        #define DRAGONITE_ANIM_STATE_EYES_CLOSED                   OBJ_BLINKING_ANIM_STATE_EYES_CLOSED
+
 /* Bowser BITS Platform */
     /* oAction */
     #define BOWSER_BITS_PLAT_ACT_START                      0x0

@@ -590,6 +590,11 @@
 #define /*0x108*/ oFlyGuyTargetRoll       OBJECT_FIELD_S32(0x20)
 #define /*0x10C*/ oFlyGuyScaleVel         OBJECT_FIELD_F32(0x21)
 
+/* Geodude */
+#define /*0x0F4*/ oGeodudeWalkTimer       OBJECT_FIELD_S32(0x1B)
+#define /*0x0F8*/ oGeodudeTargetYaw        OBJECT_FIELD_F32(0x1C)
+#define /*0x0FC*/ oGeodudeTurningAwayFromWall OBJECT_FIELD_S32(0x1D)
+
 /* Grand Star */
 #define /*0x108*/ oGrandStarArcTime OBJECT_FIELD_S32(0x20)
 
@@ -628,6 +633,9 @@
 
 /* Hidden Object */
 #define /*0x0F4*/ oHiddenObjectSwitchObj OBJECT_FIELD_OBJ(0x1B)
+
+/* Hooh */
+#define /*0x0F4*/ oHomeAngleToMario     OBJECT_FIELD_S32(0x1B)
 
 /* Hoot */
 #define /*0x0F4*/ oHootAvailability     OBJECT_FIELD_S32(0x1B)
@@ -760,6 +768,12 @@
 #define /*0x088*/ oMerryGoRoundBooManagerNumBoosKilled  OBJECT_FIELD_S32(0x00)
 #define /*0x0FC*/ oMerryGoRoundBooManagerNumBoosSpawned OBJECT_FIELD_S32(0x1D)
 
+/*Miltank*/
+#define oInPen                            OBJECT_FIELD_S32(0x1B)
+
+/*Miltank Star*/
+#define oMiltankInPen                     OBJECT_FIELD_S32(0x1B)
+
 /* Mips */
 #define /*0x0F4*/ oMipsStarStatus         OBJECT_FIELD_S32(0x1B)
 #define /*0x0F8*/ oMipsStartWaypointIndex OBJECT_FIELD_S32(0x1C)
@@ -795,6 +809,8 @@
 #define /*0x108*/ oMrIParticleTimerTarget OBJECT_FIELD_S32(0x20)
 #define /*0x10C*/ oMrIScale               OBJECT_FIELD_F32(0x21)
 #define /*0x110*/ oMrIBlinking            OBJECT_FIELD_S32(0x22)
+/* NPC */
+#define /*0x0F8*/ oNPCHasTalkedToMario OBJECT_FIELD_S32(0x1C)
 
 /* Object Respawner */
 #define /*0x0F4*/ oRespawnerModelToRespawn    OBJECT_FIELD_S32(0x1B)
@@ -821,6 +837,10 @@
 #define /*0x1AE*/ oRacingPenguinMarioWon               OBJECT_FIELD_S16(0x49, 1)
 #define /*0x1B0*/ oRacingPenguinReachedBottom          OBJECT_FIELD_S16(0x4A, 0)
 #define /*0x1B2*/ oRacingPenguinMarioCheated           OBJECT_FIELD_S16(0x4A, 1)
+
+/* Sentret */
+#define /*0x0F8*/ oSentretTargetYaw        OBJECT_FIELD_F32(0x1B)
+#define /*0x0F8*/ oSentretWalkTimer        OBJECT_FIELD_F32(0x1C)
 
 /* Small Penguin */
 #define /*0x088*/ oSmallPenguinReturnedToMother    OBJECT_FIELD_S32(0x00)

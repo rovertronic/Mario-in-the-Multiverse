@@ -905,6 +905,11 @@ void obj_spit_fire(s16 relativePosX, s16 relativePosY, s16 relativePosZ, f32 sca
 #include "behaviors/bubba.inc.c"
 #include "behaviors/sir_kibble.inc.c"
 
+#include "behaviors/geodude.inc.c"
+#include "behaviors/hooh.inc.c"
+#include "behaviors/miltank.inc.c"
+#include "behaviors/sentret.inc.c"
+
 #include "behaviors/behaviors_a.inc.c"
 #include "behaviors/behaviors_b.inc.c"
 #include "behaviors/behaviors_c.inc.c"

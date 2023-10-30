@@ -1,0 +1,38 @@
+#include <ultra64.h>
+#include "sm64.h"
+#include "geo_commands.h"
+
+#include "game/level_geo.h"
+#include "game/geo_misc.h"
+#include "game/camera.h"
+#include "game/moving_texture.h"
+#include "game/screen_transition.h"
+#include "game/paintings.h"
+
+#include "make_const_nonconst.h"
+
+#include "levels/J/header.h"
+
+
+#include "levels/J/geo.inc.c"
+
+#include "levels/J/falling_platform/geo.inc.c"
+#include "levels/J/spinarak/geo.inc.c"
+#include "levels/J/tilty_hexagon/geo.inc.c"
+#include "levels/J/graveler/geo.inc.c"
+#include "levels/J/skarmory/geo.inc.c"
+#include "levels/J/youngster/geo.inc.c"
+#include "levels/J/geodude/geo.inc.c"
+#include "levels/J/berry/geo.inc.c"
+#include "levels/J/hooh/geo.inc.c"
+#include "levels/J/hooh_rock/geo.inc.c"
+#include "levels/J/miltank/geo.inc.c"
+#include "levels/J/gastly/geo.inc.c"
+#include "levels/J/haunter/geo.inc.c"
+#include "levels/J/gengar/geo.inc.c"
+#include "levels/J/elder/geo.inc.c"
+#include "levels/j/kimono_girl/geo.inc.c"
+#include "levels/J/morty/geo.inc.c"
+#include "levels/J/cowgirl/geo.inc.c"
+#include "levels/J/sentret/geo.inc.c"
+#include "levels/J/skiploom/geo.inc.c"

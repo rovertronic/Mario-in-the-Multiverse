@@ -2919,7 +2919,7 @@ void update_lakitu(struct Camera *c) {
     f32 distToFloor;
     s16 newYaw;
 
-    if (c->pos[1] < check_water_height){
+    if (c->pos[1] < find_water_level(c->pos[0], c->pos[2])){
         cam_submerged = TRUE;
     } else {
         cam_submerged = FALSE;
@@ -6258,6 +6258,9 @@ struct CameraTrigger sCamF[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger sCamE[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamJ[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger *sCameraTriggers[LEVEL_COUNT + 1] = {
@@ -10617,7 +10620,7 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // Unused         | Unused
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), 
-	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 0, 0), 
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
 };
 
 STATIC_ASSERT(ARRAY_COUNT(sZoomOutAreaMasks) - 1 == LEVEL_MAX / 2, "Make sure you edit sZoomOutAreaMasks when adding / removing courses.");

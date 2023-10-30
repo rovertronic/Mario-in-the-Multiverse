@@ -634,6 +634,9 @@ extern const BehaviorScript bhvBarrierAttachedToRope[];
 extern const BehaviorScript bhvFunkyShell[];
 extern const BehaviorScript bhvSkrinkingBlackDoorSpawner[];
 extern const BehaviorScript bhvSkrinkingBlackDoor[];
+extern const BehaviorScript bhvRotatingFunkyPlatform[];
+extern const BehaviorScript bhvMovingFunkyPlatform[];
+extern const BehaviorScript bhvOpeningWall[];
 
 /* GROUP I END */
 

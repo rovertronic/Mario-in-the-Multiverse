@@ -11,7 +11,7 @@ struct OpenableGrill {
 struct OpenableGrill gOpenableGrills[] = {
     { 320, MODEL_BOB_BARS_GRILLS, bob_seg7_collision_gate },
     { 410, MODEL_HMC_RED_GRILLS,  hmc_seg7_collision_grill_door },
-    { 600, MODEL_METAL_BOX/*MODEL_LEVEL_I_WOODEN_GATE*/, metal_box_seg8_collision_08024C28/*wooden_gate_collision*/}
+    { 480, MODEL_METAL_BOX/*MODEL_LEVEL_I_WOODEN_GATE*/, metal_box_seg8_collision_08024C28/*wooden_gate_collision*/}
 };
 
 void bhv_openable_cage_door_loop(void) {

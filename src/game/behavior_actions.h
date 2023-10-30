@@ -566,6 +566,7 @@ void bhv_pigpot_loop(void);
 void bhv_rotating_gear_decorative(void);
 void bhv_grill_openable_by_rocket_button_loop(void);
 void bhv_wooden_lever_loop(void);
+void bhv_opening_wall_loop(void);
 void bhv_plum_loop(void);
 void bhv_plum_bucket_loop(void);
 void bhv_plank_attached_to_rope_loop(void);
@@ -576,6 +577,8 @@ void bhv_bhv_caged_toad_star_loop(void);
 void bhv_funky_shell_loop(void);
 void bhv_skrinking_black_door_spawner(void);
 void bhv_skrinking_black_door(void);
+void bhv_rotating_funky_platform(void);
+void bhv_moving_funky_platform(void);
 // I End //
 void bhv_checkpoint_flag(void);
 void bhv_flipswitch(void);

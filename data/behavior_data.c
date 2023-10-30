@@ -6617,6 +6617,39 @@ const BehaviorScript bhvSkrinkingBlackDoor[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvRotatingFunkyPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    LOAD_COLLISION_DATA(funky_road_collision),
+    SET_FLOAT(oDrawingDistance, 5000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rotating_funky_platform),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvMovingFunkyPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    LOAD_COLLISION_DATA(funky_road_collision),
+    SET_FLOAT(oDrawingDistance, 25000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_moving_funky_platform),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvOpeningWall[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(opening_wall_collision),
+    SET_FLOAT(oDrawingDistance, 5000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_opening_wall_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
 /* GROUP I END */
 
 /* GROUP J START */

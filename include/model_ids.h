@@ -673,6 +673,8 @@ enum {
 #define MODEL_PLANK_ROPE                0x3E        //plank_rope_geo
 #define MODEL_BARRIER_ROPE              0x3F        //barrier_rope_geo
 #define MODEL_BLACK_PANEL               0x40        //black_panel_geo
+#define MODEL_FUNKY_ROAD                0x41        //funky_road_geo
+#define MODEL_OPENING_WALL              0x42        //opening_wall_geo
 /* LEVEL I END */
 
 /* LEVEL J START */

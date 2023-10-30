@@ -37,4 +37,12 @@ extern const LevelScript level_i_entry[];
 
 #include "levels/i/black_panel/geo_header.h"
 
+#include "levels/i/funky_road/geo_header.h"
+
+#include "levels/i/funky_road/collision_header.h"
+
+#include "levels/i/opening_wall/geo_header.h"
+
+#include "levels/i/opening_wall/collision_header.h"
+
 #endif

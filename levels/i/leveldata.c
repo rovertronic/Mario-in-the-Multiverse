@@ -27,3 +27,7 @@
 #include "levels/i/barrier_rope/collision.inc.c"
 #include "levels/i/barrier_rope/model.inc.c"
 #include "levels/i/black_panel/model.inc.c"
+#include "levels/i/funky_road/model.inc.c"
+#include "levels/i/funky_road/collision.inc.c"
+#include "levels/i/opening_wall/model.inc.c"
+#include "levels/i/opening_wall/collision.inc.c"

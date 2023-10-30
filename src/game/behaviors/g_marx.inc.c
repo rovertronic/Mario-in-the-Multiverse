@@ -86,7 +86,7 @@ void marx_act_idle_flight(void) {
     if (o->oTimer == 30) {
         u8 newAttack = 0;
         while (newAttack == 0) {
-            switch (random_u16() % 6) {
+            switch (/*random_u16() % 6*/ 3) {
                 case 0: o->oAction = MARX_ACT_CUTTER;
                 break;
                 case 1: o->oAction = MARX_ACT_THORNS;
@@ -101,9 +101,9 @@ void marx_act_idle_flight(void) {
                 break;
             }
 
-            if (o->oAction != o->oMarxLastAttack) {
+            //if (o->oAction != o->oMarxLastAttack) {
                 newAttack = 1;
-            }
+            //}
         }
 
         o->oMarxLastAttack = o->oAction;
@@ -188,6 +188,24 @@ void marx_act_cutter(void) {
     }
 }
 
+void find_valid_seed_position(Vec3f pos) {
+    u8 posIterations = 0;
+    f32 posX = 0;
+    f32 posZ = 0;
+
+    while (posIterations < 10) {
+        f32 posX = gMarioState->pos[0] + ((random_u16() % 1200) - 600);
+        f32 posZ = gMarioState->pos[2] + ((random_u16() % 1200) - 600);
+
+        if (find_floor_height(posX, gMarioState->pos[1] + 200, posZ) > -10000) {
+            posIterations = 10;
+        }
+        posIterations++;
+    }
+
+    vec3f_set(pos, posX, 0, posZ);
+}
+
 void marx_act_thorns(void) {
     switch (o->oSubAction) {
         case 0:
@@ -212,7 +230,9 @@ void marx_act_thorns(void) {
             o->oVelY = 0;
 
             if (o->oTimer % 18 == 1) {
-                spawn_object_abs_with_rot(o, 0, MODEL_G_MARX_SEED, bhvGMarxSeed, gMarioState->pos[0], gMarioState->pos[1] + 1000, gMarioState->pos[2], 0, 0, 0);
+                Vec3f spawnPos;
+                find_valid_seed_position(spawnPos);
+                spawn_object_abs_with_rot(o, 0, MODEL_G_MARX_SEED, bhvGMarxSeed, spawnPos[0], gMarioState->pos[1] + 1000, spawnPos[2], 0, 0, 0);
             }
 
             if (o->oTimer == 91) {
@@ -274,6 +294,7 @@ void marx_act_black_hole(void) {
                     break;
                     case 2:
                         o->oAction = MARX_ACT_ARROWS;
+                        o->oHomeY = gMarioState->pos[1] + 200;
                     break;
                 }
             }
@@ -303,10 +324,11 @@ void marx_act_arrows(void) {
     switch (o->oSubAction) {
         case 0:;
             u16 randomAngle = random_u16();
-            o->oPosX = 1200*sins(randomAngle);
-            o->oPosZ = 1200*coss(randomAngle);
+            o->oPosX = 1500*sins(randomAngle);
+            o->oPosZ = 1500*coss(randomAngle);
             o->oPosY = 0;
             o->oSubAction++;
+            obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x800);
         break;
         case 1:
             o->oPosY = approach_f32_asymptotic(o->oPosY, o->oHomeY, 0.08f);
@@ -320,7 +342,7 @@ void marx_act_arrows(void) {
         break;
         case 2:
             if (o->oTimer < 20) {
-                obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x400);
+                obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x600);
             }
             if (o->oTimer == 30) {
                 o->oSubAction++;
@@ -918,6 +940,20 @@ void bhv_g_marx_ice_bomb_loop(void) {
     else {
         o->oVelY = 0;
         obj_scale_xyz(o, 0.2f + ((f32)o->oTimer / 10), 1.0f, 0.2f + ((f32)o->oTimer / 10));
+
+        // Scale shockwave as the timer goes on
+    o->oBowserShockWaveScale = (f32)o->oTimer;
+
+    // If object times is less than 70 frame and Mario is not in the air...
+    if (!mario_is_in_air_action()) {
+        // ..define distance values depending of the scale multiplied by hit points
+        f32 distMin1 = o->oBowserShockWaveScale * 101.0f;
+        f32 distMax1 = o->oBowserShockWaveScale * 141.0f;
+        // If Mario is in between distMin and distMax values, shock him
+        if ((distMin1 < o->oDistanceToMario && o->oDistanceToMario < distMax1)) {
+            gMarioState->action = ACT_BACKWARD_GROUND_KB;
+        }
+    }
 
         if (o->oTimer == 30) {
             obj_mark_for_deletion(o);

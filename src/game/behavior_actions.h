@@ -684,3 +684,5 @@ void bhv_g_marx_laser_init(void);
 void bhv_g_marx_laser_loop(void);
 void bhv_g_marx_ice_bomb_init(void);
 void bhv_g_marx_ice_bomb_loop(void);
+void bhv_g_marx_black_hole_effect_init(void);
+void bhv_g_marx_black_hole_effect_loop(void);

@@ -1,0 +1,9 @@
+extern const GeoLayout g_marx_black_hole_effect_geo[];
+extern Lights1 g_marx_black_hole_effect_f3dlite_material_026_lights;
+extern u8 g_marx_black_hole_effect_shiny_ia8[];
+extern Vtx g_marx_black_hole_effect_Sphere_mesh_layer_5_vtx_cull[8];
+extern Vtx g_marx_black_hole_effect_Sphere_mesh_layer_5_vtx_0[119];
+extern Gfx g_marx_black_hole_effect_Sphere_mesh_layer_5_tri_0[];
+extern Gfx mat_g_marx_black_hole_effect_f3dlite_material_026[];
+extern Gfx g_marx_black_hole_effect_Sphere_mesh_layer_5[];
+extern Gfx g_marx_black_hole_effect_material_revert_render_settings[];

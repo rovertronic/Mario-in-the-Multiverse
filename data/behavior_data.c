@@ -6724,3 +6724,12 @@ const BehaviorScript bhvGMarxIceBomb[] = {
         CALL_NATIVE(bhv_g_marx_ice_bomb_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvGMarxBlackHoleEffect[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_g_marx_black_hole_effect_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_black_hole_effect_loop),
+    END_LOOP(),
+};

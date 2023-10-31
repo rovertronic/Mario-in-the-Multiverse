@@ -124,6 +124,13 @@ void scroll_gfx_mat_g_dl_cozieswater_001_layer5_area1() {
 
 };
 
+void scroll_gfx_mat_g_dl_f3dlite_material_058_layer5() {
+	Gfx *mat = segmented_to_virtual(mat_g_dl_f3dlite_material_058_layer5);
+
+	shift_s(mat, 15, PACK_TILESIZE(0, 1));
+
+};
+
 void scroll_g() {
 	scroll_g_dl_Circle_006_mesh_layer_1_vtx_0();
 	scroll_g_dl_Circle_006_mesh_layer_1_vtx_1();
@@ -131,4 +138,5 @@ void scroll_g() {
 	scroll_g_dl_Circle_006_mesh_layer_1_vtx_3();
 	scroll_g_dl_Circle_006_mesh_layer_4_vtx_0();
 	scroll_gfx_mat_g_dl_cozieswater_001_layer5_area1();
+	scroll_gfx_mat_g_dl_f3dlite_material_058_layer5();
 };

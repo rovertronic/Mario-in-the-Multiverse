@@ -43,3 +43,4 @@
 #include "levels/g/g_marx_laser/model.inc.c"
 #include "levels/g/g_marx_ice_bomb/model.inc.c"
 #include "levels/g/g_marx_ice_ring/model.inc.c"
+#include "levels/g/g_marx_black_hole_effect/model.inc.c"

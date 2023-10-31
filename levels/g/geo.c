@@ -38,3 +38,4 @@
 #include "levels/g/g_marx_laser/geo.inc.c"
 #include "levels/g/g_marx_ice_bomb/geo.inc.c"
 #include "levels/g/g_marx_ice_ring/geo.inc.c"
+#include "levels/g/g_marx_black_hole_effect/geo.inc.c"

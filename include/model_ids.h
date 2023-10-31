@@ -669,6 +669,7 @@ enum {
 #define MODEL_G_MARX_LASER              0x163
 #define MODEL_G_MARX_ICE_BOMB              0x164
 #define MODEL_G_MARX_ICE_RING              0x165
+#define MODEL_G_MARX_BLACK_HOLE_EFFECT              0x166
 /* LEVEL G END */
 
 /* LEVEL H START */

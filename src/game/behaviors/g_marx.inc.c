@@ -798,7 +798,7 @@ void bhv_g_marx_half_loop(void) {
 }
 
 void bhv_g_marx_black_hole_init(void) {
-
+    spawn_object_relative(0, 0, 0, 0, o, MODEL_G_MARX_BLACK_HOLE_EFFECT, bhvGMarxBlackHoleEffect);
 }
 
 void bhv_g_marx_black_hole_loop(void) {
@@ -1027,6 +1027,17 @@ void bhv_g_marx_ice_bomb_loop(void) {
         if (o->oTimer == 30) {
             obj_mark_for_deletion(o);
         }
+    }
+}
+
+void bhv_g_marx_black_hole_effect_init(void) {
+    cur_obj_scale(30.0f);
+}
+
+void bhv_g_marx_black_hole_effect_loop(void) {
+    cur_obj_scale(30.0f / (1.0f + ((f32)o->oTimer / 12.0f)));
+    if (o->oTimer == 90) {
+        obj_mark_for_deletion(o);
     }
 }
 

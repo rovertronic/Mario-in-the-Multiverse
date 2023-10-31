@@ -8139,6 +8139,16 @@ sound_ref .sound_level_e_caco_damage2
 sound_ref .sound_level_e_caco_death
 sound_ref .sound_level_e_caco_death2
 sound_ref .sound_level_g_0_stardoor
+sound_ref .sound_marxlaugh1
+sound_ref .sound_marxlaugh2
+sound_ref .sound_marxlaugh3
+sound_ref .sound_marxlaugh4
+sound_ref .sound_marxarrows
+sound_ref .sound_marxblackhole
+sound_ref .sound_marxcutter
+sound_ref .sound_marxlaser
+sound_ref .sound_marxscream
+sound_ref .sound_marxteleport
 
 .sound_level_x_0:
 chan_setbank 12
@@ -8156,10 +8166,78 @@ chan_setinstr 5
 chan_setlayer 0, .layer_level_g_0
 chan_end
 
+.sound_marxlaugh1:
+chan_setbank 12
+chan_setinstr 6
+chan_setlayer 0, .layer_level_g_0
+chan_end
+
+.sound_marxlaugh2:
+chan_setbank 12
+chan_setinstr 7
+chan_setlayer 0, .layer_level_g_0
+chan_end
+
+.sound_marxlaugh3:
+chan_setbank 12
+chan_setinstr 8
+chan_setlayer 0, .layer_level_g_0
+chan_end
+
+.sound_marxlaugh4:
+chan_setbank 12
+chan_setinstr 9
+chan_setlayer 0, .layer_level_g_0
+chan_end
+
+.sound_marxarrows:
+chan_setbank 12
+chan_setinstr 10
+chan_setlayer 0, .layer_level_g_long
+chan_end
+
+.sound_marxblackhole:
+chan_setbank 12
+chan_setinstr 11
+chan_setlayer 0, .layer_level_g_long
+chan_end
+
+.sound_marxcutter:
+chan_setbank 12
+chan_setinstr 12
+chan_setlayer 0, .layer_level_g_0
+chan_end
+
+.sound_marxlaser:
+chan_setbank 12
+chan_setinstr 13
+chan_setlayer 0, .layer_level_g_long
+chan_end
+
+.sound_marxscream:
+chan_setbank 12
+chan_setinstr 14
+chan_setlayer 0, .layer_level_g_long
+chan_end
+
+.sound_marxteleport:
+chan_setbank 12
+chan_setinstr 15
+chan_setlayer 0, .layer_level_g_teleport
+chan_end
+
+
 .layer_level_g_0:
 layer_note1 39, 0x40, 127
 layer_end
 
+.layer_level_g_teleport:
+layer_note1 39, 0x40, 127
+layer_end
+
+.layer_level_g_long:
+layer_note1 39, 0x150, 127
+layer_end
 
 //caco
 

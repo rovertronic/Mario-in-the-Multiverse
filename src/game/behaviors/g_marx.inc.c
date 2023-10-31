@@ -1,4 +1,5 @@
 #include "src/game/area.h"
+#include "include/sounds.h"
 
 enum MarxActions {
     MARX_ACT_CUTSCENE,
@@ -62,6 +63,7 @@ static struct ObjectHitbox sMarxArrowHitbox = {
 
 void marx_act_cutscene(void) {
     if (o->oTimer == 120) {
+        cur_obj_play_sound_2(SOUND_MITM_LEVEL_G_MARX_TELEPORT);
         o->oAction = MARX_ACT_IDLE_FLIGHT;
         o->oMarxTeleportTimer = 7;
                         o->oMarxTeleportX = o->oPosX;
@@ -116,12 +118,14 @@ void marx_act_fly_across(void) {
     switch (o->oSubAction) {
         case 0:
             o->oSubAction++;
+            cur_obj_play_sound_1(SOUND_MITM_LEVEL_G_MARX_LAUGH_1);
         break;
         case 1:
             if (cur_obj_check_if_at_animation_end()) {
                 cur_obj_init_animation(1);
                 o->oTimer = 0;
                 o->oSubAction++;
+                cur_obj_play_sound_1(SOUND_MITM_LEVEL_G_MARX_LAUGH_3);
             }
         break;
         case 2:
@@ -153,6 +157,7 @@ void marx_act_teleport(void) {
             o->oMarxTeleportX = (random_u16() % 1000) - 500;
             o->oMarxTeleportY = (random_u16() % 300) + gMarioState->pos[1] + 100;
             o->oMarxTeleportZ = (random_u16() % 1000) - 500;
+            cur_obj_play_sound_1(SOUND_MITM_LEVEL_G_MARX_TELEPORT);
         }
         else {
             o->oAction = MARX_ACT_IDLE_FLIGHT;
@@ -166,6 +171,7 @@ void marx_act_cutter(void) {
     switch (o->oSubAction) {
         case 0:
             cur_obj_init_animation(2);
+            
             o->oSubAction++;
         break;
         case 1:
@@ -179,6 +185,7 @@ void marx_act_cutter(void) {
                 for (int i = 0; i < 4; i++) {
                     spawn_object_relative(i, 0, 0, 10, o, MODEL_G_MARX_CUTTER, bhvGMarxCutter);
                 }
+                cur_obj_play_sound_1(SOUND_MITM_LEVEL_G_MARX_CUTTER);
             }
             if (cur_obj_check_if_at_animation_end()) {
                 cur_obj_init_animation(0);
@@ -194,6 +201,7 @@ void marx_act_thorns(void) {
             o->oSubAction++;
             cur_obj_init_animation(3);
             gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
+            cur_obj_play_sound_1(SOUND_MITM_LEVEL_G_MARX_LAUGH_2);
         break;
         case 1:
             if (o->oTimer == 18) {
@@ -242,6 +250,9 @@ void marx_act_thorns(void) {
 void marx_act_black_hole(void) {
     switch (o->oSubAction) {
         case 0:
+            if (o->oTimer == 0) {
+                cur_obj_play_sound_1(SOUND_MITM_LEVEL_G_MARX_LAUGH_4);
+            }
             if (cur_obj_check_if_at_animation_end()) {
                 o->oSubAction++;
                 gSecondCameraFocus = o;
@@ -257,6 +268,7 @@ void marx_act_black_hole(void) {
 
             if (o->oTimer == 20) {
                 spawn_object_relative(0, 0, 0, 0, o, MODEL_G_MARX_BLACK_HOLE, bhvGMarxBlackHole);
+                cur_obj_play_sound_1(SOUND_MITM_LEVEL_G_MARX_BLACK_HOLE);
             }
 
             if (o->oTimer == 150 && gMarioState->action != ACT_CUTSCENE_CONTROLLED && gMarioState->action != ACT_HARD_BACKWARD_AIR_KB) {
@@ -268,6 +280,7 @@ void marx_act_black_hole(void) {
                         o->oMarxTeleportX = o->oPosX;
                         o->oMarxTeleportY = o->oPosY;
                         o->oMarxTeleportZ = o->oPosZ;
+                        cur_obj_play_sound_1(SOUND_MITM_LEVEL_G_MARX_TELEPORT);
                     break;
                     case 1:
                         o->oAction = MARX_ACT_LASER;
@@ -294,6 +307,7 @@ void marx_act_black_hole(void) {
                 o->oMarxTeleportZ = 0;
                 cur_obj_init_animation(0);
                 o->oAction = MARX_ACT_IDLE_FLIGHT;
+                cur_obj_play_sound_1(SOUND_MITM_LEVEL_G_MARX_TELEPORT);
             }
         break;
     }
@@ -325,6 +339,7 @@ void marx_act_arrows(void) {
             if (o->oTimer == 30) {
                 o->oSubAction++;
                 o->oTimer = 0;
+                cur_obj_play_sound_1(SOUND_MITM_LEVEL_G_MARX_ARROWS);
             }
         break;
         case 3:;
@@ -360,6 +375,7 @@ void marx_act_arrows(void) {
                 o->oMarxTeleportZ = 0;
                 o->oForwardVel = 0;
                 o->oVelY = 0;
+                cur_obj_play_sound_1(SOUND_MITM_LEVEL_G_MARX_TELEPORT);
             }
         break;
     }
@@ -376,6 +392,7 @@ void marx_act_laser(void) {
             o->oMarxTeleportY = gMarioState->pos[1] + 200;
             o->oMarxTeleportTimer = 7;
             o->oSubAction++;
+            cur_obj_play_sound_1(SOUND_MITM_LEVEL_G_MARX_TELEPORT);
         break;
         case 1:
             o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_G_MARX_MOUTH_FULL];
@@ -396,7 +413,7 @@ void marx_act_laser(void) {
             o->oPosY += (random_u16() % 6) - 3;
             o->oPosZ += (random_u16() % 6) - 3;
             if (o->oTimer == 18) {
-
+                cur_obj_play_sound_1(SOUND_MITM_LEVEL_G_MARX_LASER);
                 o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_G_MARX_MOUTH_OPEN];
                 o->oForwardVel = -150;
                 spawn_object_relative(0, 0, 0, 0, o, MODEL_G_MARX_LASER, bhvGMarxLaser);
@@ -427,6 +444,7 @@ void marx_act_laser(void) {
                 o->oMarxTeleportZ = 0;
                 o->oForwardVel = 0;
                 o->oVelY = 0;
+                cur_obj_play_sound_2(SOUND_MITM_LEVEL_G_MARX_TELEPORT);
             }
         break;
     }
@@ -437,7 +455,7 @@ void marx_act_ice_bomb(void) {
         case 0:
             //o->oMarxLaserBody = spawn_object(o, MODEL_G_MARX_MOUTH_FULL, bhvGMarxBodyLaser);
             //o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_NONE];
-            
+            cur_obj_play_sound_1(SOUND_MITM_LEVEL_G_MARX_LAUGH_3);
             o->oSubAction++;
         break;
         case 1:
@@ -460,7 +478,7 @@ void marx_act_ice_bomb(void) {
         case 3:
             if (o->oTimer == 3) {
                 o->oMarxTeleportTimer = 0;
-                
+                cur_obj_play_sound_1(SOUND_MITM_LEVEL_G_MARX_TELEPORT);
                 o->oMarxTeleportX = 0;
                 o->oMarxTeleportY = 700;
                 o->oMarxTeleportZ = 0;
@@ -878,6 +896,21 @@ void bhv_g_marx_body_laser_loop(void) {
     o->oPosZ = o->parentObj->oPosZ;
 }
 
+s8 point_inside_xz_tri(Vec3f marioPos, Vec3f a, Vec3f b, Vec3f c) {
+    int a_mario_x = marioPos[0] - a[0];
+    int a_mario_z = marioPos[2] - a[2];
+
+    s8 mario_a_b = (b[0] - a[0]) * a_mario_z - (b[2] - a[2]) * a_mario_x > 0;
+
+    if ((c[0] - a[0]) * a_mario_z - (c[2] - a[2]) * a_mario_x > 0 == mario_a_b)
+        return FALSE;
+
+    if ((c[0] - b[0]) * (marioPos[2] - b[2]) - (c[2] - b[2]) * (marioPos[0] - b[0]) > 0 != mario_a_b)
+        return FALSE;
+
+    return TRUE;
+}
+
 void bhv_g_marx_laser_init(void) {
    
 }
@@ -896,6 +929,20 @@ void bhv_g_marx_laser_loop(void) {
 
     if (o->oTimer == 69) {
         obj_mark_for_deletion(o);
+    }
+
+    Vec3f pointA;
+    Vec3f pointB;
+    Vec3f pointC;
+    Vec3f pointD;
+
+    vec3f_set(pointA, o->oPosX + 300 * sins(o->oFaceAngleYaw), o->oPosY, o->oPosZ + 300 * coss(o->oFaceAngleYaw));
+    vec3f_set(pointB, o->oPosX + 300 * sins(o->oFaceAngleYaw), o->oPosY, o->oPosZ + 300 * -coss(o->oFaceAngleYaw));
+    vec3f_set(pointC, o->oPosX + 300 * sins(o->oFaceAngleYaw), o->oPosY, o->oPosZ + 1500 * coss(o->oFaceAngleYaw));
+    vec3f_set(pointD, o->oPosX + 300 * sins(o->oFaceAngleYaw), o->oPosY, o->oPosZ + 1500 * -coss(o->oFaceAngleYaw));
+
+    if (point_inside_xz_tri(gMarioState->pos, pointA, pointB, pointC) || point_inside_xz_tri(gMarioState->pos, pointA, pointC, pointD)) {
+        print_text(200, 100, "AHH");
     }
 }
 

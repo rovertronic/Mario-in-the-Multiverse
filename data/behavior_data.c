@@ -6717,7 +6717,7 @@ const BehaviorScript bhvGMarxLaser[] = {
 
 const BehaviorScript bhvGMarxIceBomb[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
     BILLBOARD(),
     CALL_NATIVE(bhv_g_marx_ice_bomb_init),
     BEGIN_LOOP(),

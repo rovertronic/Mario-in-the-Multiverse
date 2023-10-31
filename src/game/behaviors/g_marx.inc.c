@@ -88,7 +88,7 @@ void marx_act_idle_flight(void) {
     if (o->oTimer == 30) {
         u8 newAttack = 0;
         while (newAttack == 0) {
-            switch (/*random_u16() % 6*/ 3) {
+            switch (random_u16() % 6) {
                 case 0: o->oAction = MARX_ACT_CUTTER;
                 break;
                 case 1: o->oAction = MARX_ACT_THORNS;
@@ -103,9 +103,9 @@ void marx_act_idle_flight(void) {
                 break;
             }
 
-            //if (o->oAction != o->oMarxLastAttack) {
+            if (o->oAction != o->oMarxLastAttack) {
                 newAttack = 1;
-            //}
+            }
         }
 
         o->oMarxLastAttack = o->oAction;
@@ -201,8 +201,8 @@ void find_valid_seed_position(Vec3f pos) {
     f32 posZ = 0;
 
     while (posIterations < 10) {
-        f32 posX = gMarioState->pos[0] + ((random_u16() % 1200) - 600);
-        f32 posZ = gMarioState->pos[2] + ((random_u16() % 1200) - 600);
+        posX = gMarioState->pos[0] + ((random_u16() % 1200) - 600);
+        posZ = gMarioState->pos[2] + ((random_u16() % 1200) - 600);
 
         if (find_floor_height(posX, gMarioState->pos[1] + 200, posZ) > -10000) {
             posIterations = 10;
@@ -211,6 +211,8 @@ void find_valid_seed_position(Vec3f pos) {
     }
 
     vec3f_set(pos, posX, 0, posZ);
+    pos[0] = posX;
+    pos[2] = posZ;
 }
 
 void marx_act_thorns(void) {
@@ -654,7 +656,7 @@ void bhv_g_marx_loop(void) {
         break;
     }
 
-    print_text_fmt_int(100, 100, "%d", o->oMarxHealth);
+    //print_text_fmt_int(100, 100, "%d", o->oMarxHealth);
 
     if (o->oMarxTeleportTimer > -1) {
         marx_generic_teleport();
@@ -919,12 +921,12 @@ void bhv_g_marx_body_laser_loop(void) {
 }
 
 s8 point_inside_xz_tri(Vec3f marioPos, Vec3f a, Vec3f b, Vec3f c) {
-    int a_mario_x = marioPos[0] - a[0];
-    int a_mario_z = marioPos[2] - a[2];
+    int aMarioX = marioPos[0] - a[0];
+    int aMarioZ = marioPos[2] - a[2];
 
-    s8 mario_a_b = (b[0] - a[0]) * a_mario_z - (b[2] - a[2]) * a_mario_x > 0;
+    s8 mario_a_b = (b[0] - a[0]) * aMarioZ - (b[2] - a[2]) * aMarioX > 0;
 
-    if ((c[0] - a[0]) * a_mario_z - (c[2] - a[2]) * a_mario_x > 0 == mario_a_b)
+    if ((c[0] - a[0]) * aMarioZ - (c[2] - a[2]) * aMarioX > 0 == mario_a_b)
         return FALSE;
 
     if ((c[0] - b[0]) * (marioPos[2] - b[2]) - (c[2] - b[2]) * (marioPos[0] - b[0]) > 0 != mario_a_b)
@@ -958,13 +960,31 @@ void bhv_g_marx_laser_loop(void) {
     Vec3f pointC;
     Vec3f pointD;
 
-    vec3f_set(pointA, o->oPosX + 300 * sins(o->oFaceAngleYaw), o->oPosY, o->oPosZ + 300 * coss(o->oFaceAngleYaw));
-    vec3f_set(pointB, o->oPosX + 300 * sins(o->oFaceAngleYaw), o->oPosY, o->oPosZ + 300 * -coss(o->oFaceAngleYaw));
-    vec3f_set(pointC, o->oPosX + 300 * sins(o->oFaceAngleYaw), o->oPosY, o->oPosZ + 1500 * coss(o->oFaceAngleYaw));
-    vec3f_set(pointD, o->oPosX + 300 * sins(o->oFaceAngleYaw), o->oPosY, o->oPosZ + 1500 * -coss(o->oFaceAngleYaw));
+    s16 laserWidth = 120 - (o->oTimer >= 10 ? 2*(o->oTimer - 10) : 0);
+    s16 laserLength = 10000 + 20*o->oTimer;
+
+    vec3f_set(pointA, o->oPosX + laserWidth * coss(o->oFaceAngleYaw), o->oPosY, o->oPosZ + laserWidth * sins(o->oFaceAngleYaw + 0x50));
+    vec3f_set(pointB, o->oPosX + laserWidth * -coss(o->oFaceAngleYaw), o->oPosY, o->oPosZ + laserWidth * -sins(o->oFaceAngleYaw + 0x50));
+
+    //vec3f_set(pointA, o->oPosX + 300 * coss(o->oFaceAngleYaw + 0x50), o->oPosY, o->oPosZ + 300 * sins(o->oFaceAngleYaw + 0x50));
+    //vec3f_set(pointB, o->oPosX + 300 * coss(o->oFaceAngleYaw - 0x50), o->oPosY, o->oPosZ + 300 * sins(o->oFaceAngleYaw - 0x50));
+    vec3f_set(pointC, pointA[0] + laserLength * sins(o->oFaceAngleYaw), o->oPosY, pointA[2] + laserLength * coss(o->oFaceAngleYaw));
+    vec3f_set(pointD, pointB[0] + laserLength * sins(o->oFaceAngleYaw), o->oPosY, pointB[2] + laserLength * coss(o->oFaceAngleYaw));
+
 
     if (point_inside_xz_tri(gMarioState->pos, pointA, pointB, pointC) || point_inside_xz_tri(gMarioState->pos, pointA, pointC, pointD)) {
-        print_text(200, 100, "AHH");
+        if (absf(o->oPosY - gMarioState->pos[1] + 60) < 400 && gMarioState->action != ACT_BACKWARD_AIR_KB) {
+            gMarioState->action = ACT_BACKWARD_AIR_KB;
+            o->oDamageOrCoinValue = 4;
+            take_damage_and_knock_back(gMarioState, o);
+            gMarioState->vel[1] = 5;
+            gMarioState->forwardVel = 0.0f;
+            gMarioState->faceAngle[1] = o->oFaceAngleYaw + 0x8000;
+        }
+    }
+
+    if (gMarioState->action == ACT_BACKWARD_AIR_KB) {
+        gMarioState->pos[1] = o->oPosY - 60;
     }
 }
 
@@ -992,13 +1012,15 @@ void bhv_g_marx_ice_bomb_loop(void) {
     o->oBowserShockWaveScale = (f32)o->oTimer;
 
     // If object times is less than 70 frame and Mario is not in the air...
-    if (!mario_is_in_air_action()) {
+    if (absf(o->oPosY - gMarioState->pos[1] + 60) < 200) {
         // ..define distance values depending of the scale multiplied by hit points
         f32 distMin1 = o->oBowserShockWaveScale * 101.0f;
         f32 distMax1 = o->oBowserShockWaveScale * 141.0f;
         // If Mario is in between distMin and distMax values, shock him
         if ((distMin1 < o->oDistanceToMario && o->oDistanceToMario < distMax1)) {
             gMarioState->action = ACT_BACKWARD_GROUND_KB;
+            o->oDamageOrCoinValue = 3;
+            take_damage_and_knock_back(gMarioState, o);
         }
     }
 

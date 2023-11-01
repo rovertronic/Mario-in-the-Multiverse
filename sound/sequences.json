@@ -154,5 +154,14 @@
     ],
     "2C_o_maintrack": [
         "o_maintrack"
+    ],
+    "2D_custom_esa_submerged": [
+        "0E_extended_bank"
+    ],
+    "2E_custom_esa_ammoinen": [
+        "0E_extended_bank"
+    ],
+    "2F_custom_esa_valiant": [
+        "0E_extended_bank"
     ]
 }

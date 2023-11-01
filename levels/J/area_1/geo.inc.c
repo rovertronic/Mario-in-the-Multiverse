@@ -52,6 +52,7 @@ const GeoLayout J_area_1_geo[] = {
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, J_dl_PokeMart__Ecruteak_City__mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, J_dl_Pokemart_Sign__ADD_ROTATION__mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, J_dl_Pokemon_Center__Ecruteak_City__mesh_layer_1),
+		GEO_ASM(0, e__shotgun_effects),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, J_dl_Terrain_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, J_dl_Terrain_mesh_layer_5),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, J_dl_Terrain_001_mesh_layer_1),

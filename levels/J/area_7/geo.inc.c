@@ -4,6 +4,9 @@ const GeoLayout J_area_7_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, J_dl_Bell_Tower_001_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, J_dl_Bell_Tower_002_mesh_layer_1),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -35, 0, -87),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

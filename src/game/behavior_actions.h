@@ -689,3 +689,4 @@ void bhv_miltank_star_loop(void);
 void bhv_elder_init(void);
 void bhv_sentret_init(void);
 void bhv_sentret_loop(void);
+void bhv_graveler_ramp_loop(void);

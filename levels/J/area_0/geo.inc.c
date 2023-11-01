@@ -7,6 +7,8 @@ const GeoLayout J_area_0_geo[] = {
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, J_dl_InvisiblePlatformsROVERTMAKETHESEINVISBLEOK_mesh_layer_5),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, J_dl_Platforms_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 6423, -665, 1862, J_dl_Rock_013_mesh_layer_1),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -84, 0, 22),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

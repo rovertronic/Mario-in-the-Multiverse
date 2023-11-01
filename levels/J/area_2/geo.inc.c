@@ -9,6 +9,8 @@ const GeoLayout J_area_2_geo[] = {
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, J_dl_Route42_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, J_dl_Route42_mesh_layer_4),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, J_dl_Route42_mesh_layer_5),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 86, 0, -35),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 0, 2999, 0, J_dl_Terrain_003_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 0, 2999, 0, J_dl_Terrain_004_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 0, 2999, 0, J_dl_Terrain_005_mesh_layer_1),

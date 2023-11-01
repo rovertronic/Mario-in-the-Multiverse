@@ -644,6 +644,7 @@ extern const BehaviorScript bhvKimonoGirl[];
 extern const BehaviorScript bhvMorty[];
 extern const BehaviorScript bhvSentret[];
 extern const BehaviorScript bhvSkiploom[];
+extern const BehaviorScript bhvGravelerRamp[];
 /* GROUP J END */
 
 /* GROUP K START */

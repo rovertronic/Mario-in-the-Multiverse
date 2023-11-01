@@ -5,6 +5,8 @@ const GeoLayout J_area_4_geo[] = {
 	GEO_OPEN_NODE(),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, J_dl_Plane_001_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, J_dl_Plane_001_mesh_layer_5),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -7, 0, -35),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

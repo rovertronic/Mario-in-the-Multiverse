@@ -64,7 +64,7 @@ void bhv_hooh_init(void){
 
         case 1:
             o->oPosY = 10150.0f;
-            o->oPosZ = 926.0f;
+            o->oPosZ = 950.0f;
             o->oMoveAngleYaw = 0;
             o->oHomeAngleToMario = o->oMoveAngleYaw;
             o->oAction = HOOH_ACT_PHASE2_INIT;
@@ -131,6 +131,9 @@ void bhv_hooh_loop(void){
             o->oPosZ = -coss(o->oHomeAngleToMario) * 1300.0f;
             obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x200);
 
+            if (o->oTimer == 18){
+                cur_obj_play_sound_2(SOUND_OBJ_FLAME_BLOWN);
+            }
             if (o->oTimer >= 18 && o->oTimer <= 30 && (o->oTimer % 2) == 0){
                 spawn_object_relative(0, 0, 460, 250, o, MODEL_RED_FLAME, bhvHoohFlame);
             }
@@ -151,6 +154,10 @@ void bhv_hooh_loop(void){
                 }
 
                 o->oPosY += o->oVelY;
+
+                if (o->oTimer == 18){
+                    cur_obj_play_sound_2(SOUND_MITM_LEVEL_J_HOOH);
+                }
 
                 if (o->oPosY >= 15000.0f){
                     o->oAction = HOOH_ACT_PHASE2_CIRCLE;
@@ -201,6 +208,10 @@ void bhv_hooh_loop(void){
                 if (o->oTimer == 120 && o->oHealth < 5){
                     cur_obj_init_animation(1);
                 }
+                
+                if (o->oTimer == 138){
+                    cur_obj_play_sound_2(SOUND_OBJ_FLAME_BLOWN);
+                }
 
                 if (o->oTimer >= 138 && o->oTimer <= 150 && (o->oTimer % 2) == 0 && o->oHealth < 5){
                     spawn_object_relative(1, 0, 460, 250, o, MODEL_RED_FLAME, bhvHoohFlame);
@@ -217,6 +228,7 @@ void bhv_hooh_loop(void){
                     o->oHealth--;
                     cur_obj_init_animation(3);
                     if (o->oHealth <= 0){
+                        cur_obj_play_sound_2(SOUND_MITM_LEVEL_J_HOOH);
                         spawn_no_exit_star(0.0f, 10300.0f, 657.0f);
                     }
                     o->oVelY = 20;

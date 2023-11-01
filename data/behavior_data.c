@@ -6433,6 +6433,7 @@ const BehaviorScript bhvDragonite[] = {
     BEGIN(OBJ_LIST_PUSHABLE),
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW)),
     LOAD_ANIMATIONS(oAnimations, dragonite_anims),
+    SET_FLOAT(oDrawingDistance, 32000),
     CALL_NATIVE(bhv_dragonite_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_dragonite_loop),
@@ -6734,6 +6735,14 @@ const BehaviorScript bhvSkiploom[] = {
         CALL_NATIVE(bhv_fly_guy_update),
     END_LOOP(),
 };
+
+const BehaviorScript bhvGravelerRamp[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_graveler_ramp_loop),
+    END_LOOP(),
+};
+
 /* GROUP J END */
 
 /* GROUP K START */

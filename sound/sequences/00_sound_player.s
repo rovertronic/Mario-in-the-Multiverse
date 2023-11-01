@@ -8139,6 +8139,9 @@ sound_ref .sound_level_e_caco_damage2
 sound_ref .sound_level_e_caco_death
 sound_ref .sound_level_e_caco_death2
 sound_ref .sound_level_g_0_stardoor
+sound_ref .sound_level_j_hooh
+sound_ref .sound_level_j_miltank
+sound_ref .sound_level_j_geodude
 
 .sound_level_x_0:
 chan_setbank 12
@@ -8222,6 +8225,37 @@ layer_end
     layer_end
 
 
+//Pokemon
+
+.sound_level_j_hooh:
+chan_setbank 12
+chan_setinstr 6
+chan_setlayer 0, .layer_level_j_hooh
+chan_end
+
+.layer_level_j_hooh:
+layer_note1 39, 0x7f, 127
+layer_end
+
+.sound_level_j_miltank:
+chan_setbank 12
+chan_setinstr 7
+chan_setlayer 0, .layer_level_j_miltank
+chan_end
+
+.layer_level_j_miltank:
+layer_note1 39, 0x7f, 127
+layer_end
+
+.sound_level_j_geodude:
+chan_setbank 12
+chan_setinstr 8
+chan_setlayer 0, .layer_level_j_geodude
+chan_end
+
+.layer_level_j_geodude:
+layer_note1 39, 0x7f, 127
+layer_end
 
 
 

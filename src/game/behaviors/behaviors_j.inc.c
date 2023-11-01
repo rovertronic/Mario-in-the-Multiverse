@@ -3,6 +3,7 @@
 #define DRAGONITE_ACT_GETTING_UP 2
 #define DRAGONITE_ACT_DESPAWNING 3
 #define DRAGONITE_ACT_EXTREME_SPEED 4
+#define DRAGONITE_ACT_CUTSCENE  5
 
 static struct ObjectHitbox sDragoniteHitbox = {
     /* interactType:      */ INTERACT_IGLOO_BARRIER,
@@ -45,13 +46,20 @@ void bhv_dragonite_init(void){
         obj_scale_xyz(o, 0.0f, 0.0f, 0.0f);
         spawn_mist_particles_variable(0, 0, 30.0f);
         cur_obj_init_animation(0);
-    } else {
+    } else if (o->oBehParams2ndByte == 1){
         ///IF (1), DESPAWN IF YOU HAVE THE ABILITY UNLOCKED
         o->oAction = DRAGONITE_ACT_RESTING;
         obj_scale_xyz(o, 0.8f,0.8f,0.8f);
         obj_set_hitbox(o, &sDragoniteHitbox);
         cur_obj_init_animation(1);
         o->oGraphYOffset = 20.0f;
+    } else {
+        ///ALSO DESPAWN DRAGONITE HERE IF YOU HAVE THE ABILITY UNLOCKED, OTHERWISE RUN THE CUTSCENE
+        cur_obj_init_animation(0);
+        o->oAction = DRAGONITE_ACT_CUTSCENE;
+        cutscene_object(CUTSCENE_DRAGONITE, o);
+        set_time_stop_flags(TIME_STOP_ENABLED | TIME_STOP_MARIO_AND_DOORS);
+        o->activeFlags |= ACTIVE_FLAG_INITIATED_TIME_STOP;
     }
 }
 
@@ -160,6 +168,18 @@ void bhv_dragonite_loop(void){
                 }
             }
             break;
+        
+        case DRAGONITE_ACT_CUTSCENE:
+            o->oPosY -= 10.0f;
+
+            if (o->oPosY <= 1060.0f){
+                gObjCutsceneDone = TRUE;
+                clear_time_stop_flags(TIME_STOP_ENABLED | TIME_STOP_MARIO_AND_DOORS);
+                o->activeFlags &= ~ACTIVE_FLAG_INITIATED_TIME_STOP;
+                obj_mark_for_deletion(o);
+            }
+
+            break;
             
     }
 }
@@ -187,4 +207,23 @@ void bhv_berry_loop(void){
         gMarioState->action = ACT_IDLE;
         o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
     }
+}
+
+void bhv_graveler_ramp_loop(void){
+    if (gMarioState->pos[0] <= 4800 && gMarioState->pos[0] >= -200 && gMarioState->pos[2] >= -7236 && gMarioState->pos[2] <= -5425){
+        //reset_camera(gMarioState->area->camera);
+        gCamera->cutscene = 1;
+        //set_camera_mode_fixed(gMarioState->area->camera, -4168, 5810, -6300);
+        gMarioState->area->camera->yaw = o->oFaceAngleYaw;
+        gLakituState.goalPos[0] = -4168;
+        gLakituState.goalPos[1] = 5810;
+        gLakituState.goalPos[2] = -6300;
+        gLakituState.goalFocus[0] = 1142;
+        gLakituState.goalFocus[1] = 5154;
+        gLakituState.goalFocus[2] = -6300;
+       
+    } else {
+        gCamera->cutscene = 0;
+    }
+    
 }

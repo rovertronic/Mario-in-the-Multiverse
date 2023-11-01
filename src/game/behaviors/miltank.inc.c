@@ -86,6 +86,7 @@ void bhv_miltank_loop(void) {
         rigid_body_add_force(o->rigidBody, &gMarioState->pos, force, TRUE);
         miltank_spawn_milk_particles(8, -10, 15, 20, 10);
         cur_obj_play_sound_2(SOUND_OBJ_DIVING_IN_WATER);
+        cur_obj_play_sound_2(SOUND_MITM_LEVEL_J_MILTANK);
         o->oTimer = 0;
     }
 

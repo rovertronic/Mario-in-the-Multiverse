@@ -39,6 +39,21 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "level_g_0_stardoor"
+        },
+        "inst_level_j_hooh":{
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_j_hooh"
+        },
+        "inst_level_j_miltank":{
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_j_miltank"
+        },
+        "inst_level_j_geodude":{
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_j_geodude"
         }
     },
     "instrument_list": [
@@ -47,6 +62,9 @@
         "inst_level_e_caco_alert2",
         "inst_level_e_caco_damage",
         "inst_level_e_caco_death",
-        "inst_level_g_0"
+        "inst_level_g_0",
+        "inst_level_j_hooh",
+        "inst_level_j_miltank",
+        "inst_level_j_geodude"
     ]
 }

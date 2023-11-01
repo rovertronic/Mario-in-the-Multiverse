@@ -98,6 +98,7 @@ void bhv_geodude_loop(void){
                 o->oForwardVel = 0.0f;
                 if (o->oTimer == 24) {
                     spawn_object_relative(0, 0, 50, 100, o, MODEL_NONE, bhvGeodudePunchHitbox);
+                    cur_obj_play_sound_2(SOUND_MITM_LEVEL_J_GEODUDE);
                 }
                 if (cur_obj_check_if_near_animation_end()) {
                     o->oAction = GEODUDE_ACT_ROAM;

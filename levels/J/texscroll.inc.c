@@ -82,14 +82,14 @@ void scroll_J_dl_Foutain_mesh_layer_1_vtx_2() {
 	currentY += deltaY;
 }
 
-void scroll_J_dl_Bell_Tower_001_mesh_layer_1_vtx_3() {
+void scroll_J_dl_Bell_Tower_001_mesh_layer_1_vtx_2() {
 	int i = 0;
 	int count = 72;
 	int width = 64 * 0x20;
 
 	static int currentX = 0;
 	int deltaX;
-	Vtx *vertices = segmented_to_virtual(J_dl_Bell_Tower_001_mesh_layer_1_vtx_3);
+	Vtx *vertices = segmented_to_virtual(J_dl_Bell_Tower_001_mesh_layer_1_vtx_2);
 
 	deltaX = (int)(1.0 * 0x20) % width;
 
@@ -108,5 +108,5 @@ void scroll_J() {
 	scroll_J_dl_Plane_001_mesh_layer_1_vtx_4();
 	scroll_J_dl_Plane_001_mesh_layer_5_vtx_1();
 	scroll_J_dl_Foutain_mesh_layer_1_vtx_2();
-	scroll_J_dl_Bell_Tower_001_mesh_layer_1_vtx_3();
-}
+	scroll_J_dl_Bell_Tower_001_mesh_layer_1_vtx_2();
+};

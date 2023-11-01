@@ -17,6 +17,8 @@ const GeoLayout J_area_5_geo[] = {
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -1797, -781, -2505, 0, -128, 0, J_dl_Rock_010_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -1425, -781, -2505, 0, -64, 0, J_dl_Rock_011_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -1797, -781, -2895, 0, -29, 0, J_dl_Rock_012_mesh_layer_1),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -15, 0, -11),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

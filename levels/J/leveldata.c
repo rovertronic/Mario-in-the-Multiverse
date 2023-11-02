@@ -46,7 +46,7 @@
 #include "levels/J/elder/model.inc.c"
 #include "levels/J/elder/anims/data.inc.c"
 #include "levels/J/elder/anims/table.inc.c"
-#include "levels/j/kimono_girl/model.inc.c"
+#include "levels/J/kimono_girl/model.inc.c"
 #include "levels/J/morty/model.inc.c"
 #include "levels/J/morty/anims/data.inc.c"
 #include "levels/J/morty/anims/table.inc.c"

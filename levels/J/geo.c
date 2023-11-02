@@ -31,7 +31,7 @@
 #include "levels/J/haunter/geo.inc.c"
 #include "levels/J/gengar/geo.inc.c"
 #include "levels/J/elder/geo.inc.c"
-#include "levels/j/kimono_girl/geo.inc.c"
+#include "levels/J/kimono_girl/geo.inc.c"
 #include "levels/J/morty/geo.inc.c"
 #include "levels/J/cowgirl/geo.inc.c"
 #include "levels/J/sentret/geo.inc.c"

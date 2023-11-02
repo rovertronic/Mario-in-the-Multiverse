@@ -59,7 +59,7 @@ extern const LevelScript level_J_entry[];
 
 #include "levels/J/elder/anim_header.h"
 
-#include "levels/j/kimono_girl/geo_header.h"
+#include "levels/J/kimono_girl/geo_header.h"
 
 #include "levels/J/morty/geo_header.h"
 

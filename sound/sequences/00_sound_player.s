@@ -8257,6 +8257,12 @@ chan_setinstr 8
 chan_setlayer 0, .layer_level_o_walker
 chan_end
 
+.sound_o_walker_die:
+chan_setbank 12
+chan_setinstr 9
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
 .sound_o_walker_hit:
 chan_setbank 12
 chan_setinstr 10
@@ -8306,11 +8312,6 @@ chan_end
 .layer_level_j_geodude:
 layer_note1 39, 0x7f, 127
 layer_end
-.sound_o_walker_die:
-chan_setbank 12
-chan_setinstr 9
-chan_setlayer 0, .layer_level_o_walker
-chan_end
 
 //End Pokemon
 

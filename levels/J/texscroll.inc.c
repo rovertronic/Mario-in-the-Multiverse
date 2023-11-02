@@ -21,7 +21,7 @@ void scroll_J_dl_GymBattleRoom_mesh_layer_1_vtx_0() {
 
 void scroll_J_dl_Plane_001_mesh_layer_1_vtx_4() {
 	int i = 0;
-	int count = 38;
+	int count = 36;
 	int height = 32 * 0x20;
 
 	static int currentY = 0;
@@ -84,7 +84,7 @@ void scroll_J_dl_Foutain_mesh_layer_1_vtx_2() {
 
 void scroll_J_dl_Bell_Tower_001_mesh_layer_1_vtx_2() {
 	int i = 0;
-	int count = 72;
+	int count = 80;
 	int width = 64 * 0x20;
 
 	static int currentX = 0;

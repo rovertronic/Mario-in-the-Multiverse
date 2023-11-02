@@ -145,3 +145,42 @@ Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *
     }
     return NULL;
 }
+
+
+
+//Course J invis path
+#include "levels/J/header.inc.h"
+
+Gfx *geo_update_j_invisible_path_2(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    s32 i;
+    f32 dist;
+    s32 light;
+    Vtx *vert;
+    Vec3s marioPos;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        vec3f_to_vec3s(marioPos, gMarioState->pos);
+
+        vert = segmented_to_virtual(&J_dl_InvisiblePlatforms_mesh_layer_5_vtx_0);
+        if (using_ability(ABILITY_GADGET_WATCH)) {
+            //uv light on
+            for (i = 0; i < sizeof(J_dl_InvisiblePlatforms_mesh_layer_5_vtx_0) / sizeof(J_dl_InvisiblePlatforms_mesh_layer_5_vtx_0[0]); i++) {
+                dist = sqrtf((marioPos[0] - vert[i].v.ob[0]) * (marioPos[0] - vert[i].v.ob[0]) + 
+                                (marioPos[1] - vert[i].v.ob[1]) * (marioPos[1] - vert[i].v.ob[1]) + 
+                                (marioPos[2] - vert[i].v.ob[2]) * (marioPos[2] - vert[i].v.ob[2]));
+
+                light = 255 - (dist/5);
+                if (light < 0) {
+                    light = 0;
+                }
+                vert[i].v.cn[3] = light;
+            }
+        } else {
+            //uv light off
+            for (i = 0; i < sizeof(J_dl_InvisiblePlatforms_mesh_layer_5_vtx_0) / sizeof(J_dl_InvisiblePlatforms_mesh_layer_5_vtx_0[0]); i++) {
+                vert[i].v.cn[3] = 0;
+            }
+        }
+    }
+    return NULL;
+}

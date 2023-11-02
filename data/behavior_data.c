@@ -6251,7 +6251,7 @@ const BehaviorScript bhvtsBoat[] = {
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_ANIMATIONS(oAnimations, boat_anims),
     ANIMATE(0),
-    SCALE(0, 170),
+    SCALE(0, 200),
     BEGIN_LOOP(),
         CALL_NATIVE(tsboat_loop),
     END_LOOP(),
@@ -6316,6 +6316,90 @@ const BehaviorScript bhvKingJellyShock[] = {
     SCALE(0, 120),
     BEGIN_LOOP(),
         CALL_NATIVE(king_jellyfish_shock_throw),
+    END_LOOP(),
+};
+
+extern const struct Animation *const squidward_anims[];
+const BehaviorScript bhvSquidward[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    ANIMATE(0),
+    LOAD_ANIMATIONS(oAnimations, squidward_anims),
+    CALL_NATIVE(squidward_init),
+    SCALE(0, 230),
+    BEGIN_LOOP(),
+        CALL_NATIVE(squidward_loop),
+    END_LOOP(),
+};
+
+extern const Collision kktable_collision[];
+const BehaviorScript bhvKKTable[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(kktable_collision),
+    SCALE(0, 180),
+    BEGIN_LOOP(),
+        CALL_NATIVE(kktable_loop),
+    END_LOOP(),
+};
+
+extern const Collision kkb_collision[];
+const BehaviorScript bhvKKB[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(kkb_collision),
+    SCALE(0, 180),
+    BEGIN_LOOP(),
+        CALL_NATIVE(kktable_loop),
+    END_LOOP(),
+};
+
+extern const Collision bh_red_button_collision[];
+const BehaviorScript bhvBhButton[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(bh_red_button_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(button_for_bridge_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBhButton2[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(bh_red_button_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(button_for_bridge_loop_2),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern const Collision bhbridge_collision[];
+extern const struct Animation *const bhbridge_anims[];
+const BehaviorScript bhvRBridge[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(bhbridge_collision),
+    LOAD_ANIMATIONS(oAnimations, bhbridge_anims),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bridge_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern const Collision a_plank_collision[];
+extern const struct Animation *const a_plank_anims[];
+const BehaviorScript bhvRPlank[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, a_plank_anims),
+    ANIMATE(0),
+    LOAD_COLLISION_DATA(a_plank_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bridge2_loop),
     END_LOOP(),
 };
 

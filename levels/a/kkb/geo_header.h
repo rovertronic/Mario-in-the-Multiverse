@@ -1,0 +1,15 @@
+extern const GeoLayout kkb_geo[];
+extern u8 kkb_surface_chum_ci4[];
+extern u8 kkb_surface_chum_pal_rgba16[];
+extern u8 kkb_building_wood_krusty2_ci4[];
+extern u8 kkb_building_wood_krusty2_pal_rgba16[];
+extern Vtx kkb_Circle_001_mesh_layer_1_vtx_0[28];
+extern Gfx kkb_Circle_001_mesh_layer_1_tri_0[];
+extern Vtx kkb_Circle_001_mesh_layer_1_vtx_1[44];
+extern Gfx kkb_Circle_001_mesh_layer_1_tri_1[];
+extern Gfx mat_kkb_f3dlite_material_005[];
+extern Gfx mat_revert_kkb_f3dlite_material_005[];
+extern Gfx mat_kkb_f3dlite_material_004[];
+extern Gfx mat_revert_kkb_f3dlite_material_004[];
+extern Gfx kkb_Circle_001_mesh_layer_1[];
+extern Gfx kkb_material_revert_render_settings[];

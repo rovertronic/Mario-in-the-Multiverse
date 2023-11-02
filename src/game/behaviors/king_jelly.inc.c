@@ -36,8 +36,6 @@ static u8 sKingJellyAttackHandlers[] = {
 
 void king_jellyfish_init(void)
 {
-    o->oHealth = 3;
-    obj_set_hitbox(o, &sKingJellyHitbox);
     play_secondary_music(SEQ_CUSTOM_KIRBY_BOSS, 0, 127, 5);
 }
 
@@ -57,10 +55,11 @@ void king_jellyfish_loop(void)
             break;
         case KINGJELLY_SHOOT:
             cur_obj_init_animation(KINGJELLY_ANIM_SHOOT);
-            if (o->oTimer >= 4)
+            if (o->oTimer == 6)
             {
-                spawn_object_relative(0, 0, 100, 0, o, MODEL_KING_JELLY_SHOCK, bhvKingJellyShock);
+                spawn_object(o, MODEL_JELLYS, bhvJelly);                
             }
+
             if (cur_obj_check_if_at_animation_end())
             {
                 o->oAction = KINGJELLY_TURN;

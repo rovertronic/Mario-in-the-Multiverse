@@ -27,3 +27,8 @@
 #include "levels/a/kingjellyshock/geo.inc.c"
 #include "levels/a/bh_red_button/geo.inc.c"
 #include "levels/a/jellys/geo.inc.c"
+#include "levels/a/kktable/geo.inc.c"
+#include "levels/a/kkb/geo.inc.c"
+#include "levels/a/squidward/geo.inc.c"
+#include "levels/a/bhbridge/geo.inc.c"
+#include "levels/a/a_plank/geo.inc.c"

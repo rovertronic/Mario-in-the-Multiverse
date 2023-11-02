@@ -633,6 +633,13 @@ enum GLOBAL_MODELS {
 #define MODEL_KING_JELLY_SHOCK                    0x15E
 #define MODEL_BUBBLENET_RED_BUTTON                0x15F
 #define MODEL_JELLYS                              0x160
+// I made these objects since whenever I would export them into the level from blender the game would crash.
+// I also had an idea for the tables to move around but I dont have enough time to make that happen.
+#define MODEL_KKTABLE                             0x161
+#define MODEL_KKB                                 0x162
+#define MODEL_SQUIDWARD                           0x163
+#define MODEL_BHBRIDGE                            0x164
+#define MODEL_A_PLANK                             0x165
 /* LEVEL A END */
 
 /* LEVEL B START */

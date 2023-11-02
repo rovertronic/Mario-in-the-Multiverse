@@ -561,6 +561,14 @@ extern const BehaviorScript bhvTramp[];
 extern const BehaviorScript bhvFloatingCheckerPlatform[];
 extern const BehaviorScript bhvKingJelly[];
 extern const BehaviorScript bhvKingJellyShock[];
+extern const BehaviorScript bhvSquidward[];
+extern const BehaviorScript bhvKKTable[];
+extern const BehaviorScript bhvKKPlatform[];
+extern const BehaviorScript bhvKKB[];
+extern const BehaviorScript bhvBhButton[];
+extern const BehaviorScript bhvBhButton2[];
+extern const BehaviorScript bhvRBridge[];
+extern const BehaviorScript bhvRPlank[];
 /* GROUP A END */
 
 /* GROUP B START */

@@ -49,4 +49,30 @@ extern const LevelScript level_a_entry[];
 
 #include "levels/a/jellys/geo_header.h"
 
+#include "levels/a/kktable/collision_header.h"
+
+#include "levels/a/kktable/geo_header.h"
+
+#include "levels/a/kkb/geo_header.h"
+
+#include "levels/a/kkb/collision_header.h"
+
+#include "levels/a/squidward/geo_header.h"
+
+#include "levels/a/squidward/anim_header.h"
+
+#include "levels/a/bh_red_button/collision_header.h"
+
+#include "levels/a/bhbridge/geo_header.h"
+
+#include "levels/a/bhbridge/collision_header.h"
+
+#include "levels/a/bhbridge/anim_header.h"
+
+#include "levels/a/a_plank/geo_header.h"
+
+#include "levels/a/a_plank/collision_header.h"
+
+#include "levels/a/a_plank/anim_header.h"
+
 #endif

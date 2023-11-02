@@ -2097,3 +2097,12 @@ Arrgghh!\n\
 Anyone entering this cave\n\
 without permission will\n\
 meet certain disaster."))
+
+DEFINE_DIALOG(DIALOG_SQ, 1, 4, 30, 200, _("\
+Hey you do you think you\n\
+can help out\n\
+some barnacle head\n\
+placed a bunch of cement blocks\n\
+on the table\n\
+I need you to get rid of them\n\
+since spongebob isn't here."))

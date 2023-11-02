@@ -30,7 +30,10 @@ void jelly_loop(void) {
     
     switch (o->oAction) {
         case 0:
-            o->oForwardVel = 0;
+            o->oForwardVel = 4;
+            o->oMoveAnglePitch = 5;
+            o->oMoveAngleYaw = 0x200;
+            o->oFaceAngleYaw = o->oMoveAngleYaw;
             if (o->oDistanceToMario < 1000.0f) {
                 o->oAction = 1;
             }
@@ -56,9 +59,17 @@ void jelly_loop(void) {
                 o->oAction = 0;
             }
 
-            if (cur_obj_was_attacked_or_ground_pounded())
+            if (using_ability(ABILITY_BUBBLE_HAT || ABILITY_CUTTER || ABILITY_E_SHOTGUN))
+            {
+                if (cur_obj_was_attacked_or_ground_pounded())
                 {
                     o->oAction = 2;
+                }
+            }
+
+            if (o->oTimer >= 2)
+            {
+                o->oInteractStatus = 0;
             }
             break;
         case 2:
@@ -136,37 +147,94 @@ void fcp_loop(void)
 
 void taxistop_loop(void)
 {
-    s16 timer = 52;
-    
-    if (gMarioObject->platform == o)
-    {
-        o->oAction = 1;
-        gLakituState.curPos[0] = 5181;
-        gLakituState.curPos[1] = -3;
-        gLakituState.curPos[2] = -7742;
-
-        play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, timer, 0, 0, 0);
-    }
-
+    s16 eventTimer = 52;
     switch (o->oAction)
     {
         case 0:
-
             break;
         case 1:
-            o->oTimer++;
-            if (o->oTimer >= 50)
+                gLakituState.goalPos[0] = 5181;
+                gLakituState.goalPos[1] = -3;
+                gLakituState.goalPos[2] = -7742;
+                play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, eventTimer, 0, 0, 0);
+                if (o->oTimer >= 18)
+                {
+                    gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_NONE];
+                }
+                if (o->oTimer >= 51)
+                {
+                    initiate_warp(LEVEL_A, 4, 0x0A, 0);
+                }
+            break;
+        case 2:
+                gLakituState.goalPos[0] = -11647;
+                gLakituState.goalPos[1] = 316;
+                gLakituState.goalPos[2] = -5005;
+                play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, eventTimer, 0, 0, 0);
+                if (o->oTimer >= 18)
+                {
+                    gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_NONE];
+                }
+                if (o->oTimer >= 51)
+                {
+                    initiate_warp(LEVEL_A, 1, 0x0A, 0);
+                }
+            break;
+        case 3:
+            gLakituState.goalPos[0] = 0;
+            gLakituState.goalPos[1] = 0;
+            gLakituState.goalPos[2] = 0;
+            play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, eventTimer, 0, 0, 0);
+            if (o->oTimer >= 18)
             {
-                initiate_warp(LEVEL_A, 4, 0x0A, 0);
+                gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_NONE];
+            }
+            if (o->oTimer >= 51)
+            {
+                initiate_warp(LEVEL_A, 3, 0x0A, 0);
             }
             break;
-    }   
+    }
+    if (gMarioObject->platform == o)
+    {
+        switch (o->oBehParams2ndByte)
+        {
+            case 0:
+                break;
+            case 1:
+                if (o->oTimer == 1)
+                {
+                    spawn_object(o, MODEL_TSBOAT, bhvtsBoat);                    
+                }
+                o->oAction = 1;
+                break;
+            case 2:
+                if (o->oTimer == 1)
+                {
+                    spawn_object(o, MODEL_TSBOAT, bhvtsBoat);                    
+                }
+                o->oAction = 2;
+                break;
+            case 3:
+                if (o->oTimer == 1)
+                {
+                    spawn_object(o, MODEL_TSBOAT, bhvtsBoat);                    
+                }
+                o->oAction = 3;
+                break;
+        }
+    }
 }
 
 // Boat for Taxi Stop
 
 void tsboat_loop(void) {
-    
+    switch (o->oAction)
+    {
+        case 0:
+            obj_scale_xyz(o, 1.9f * sins(o->oTimer * 0x300), 1.9f * sins(o->oTimer * 0x300), 1.2f);
+            break;
+    }
 }
 
 // Tiki Box
@@ -198,11 +266,12 @@ void tiki_box_loop(void)
             obj_mark_for_deletion(o);
             obj_explode_and_spawn_coins(8, COIN_TYPE_YELLOW);
             obj_spawn_loot_yellow_coins(o, 4, 10);
-            if (o->oTimer >= 5)
-            {
-                o->oInteractStatus = 0;
-            }
         }
+    }
+
+    if (o->oTimer >= 2)
+    {
+        o->oInteractStatus = 0;
     }
 
     switch (o->oBehParams2ndByte)
@@ -217,15 +286,6 @@ void tiki_box_loop(void)
             obj_set_model(o, MODEL_TIKI_FLOAT);
             break;
     }
-}
-
-// King Jellyfish
-
-void king_jellyfish_shoot_shock(void)
-{
-    struct Object *shock;
-
-
 }
 
 // Trampoline
@@ -280,5 +340,250 @@ void trampoline_loop(void)
     } else if (o->oTimer >= 45)
     {
         o->oAction = 0;
+    }
+}
+
+// Squidward
+
+#define /*0x0F8*/ oNPCHasTalkedToMario OBJECT_FIELD_S32(0x1C)
+
+#define NPC_HAS_TALKED 0x2
+
+static struct ObjectHitbox sSquidwardHitbox = {
+    /* interactType:      */ INTERACT_TEXT,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 0,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 200,
+    /* height:            */ 200,
+    /* hurtboxRadius:     */ 200,
+    /* hurtboxHeight:     */ 200,
+};
+
+enum squidwardActions
+{
+    SQUIDWARD_IDLE,
+    SQUIDWARD_TALK,
+    SQUIDWARD_GOBACKIDLE
+};
+
+void squidward_init(void)
+{
+    o->oGravity  = 2.5f;
+    o->oFriction = 0.8f;
+    o->oBuoyancy = 1.3f;
+    o->oInteractionSubtype = INT_SUBTYPE_NPC;
+    o->header.gfx.scale[0] = 1.0f;
+    o->header.gfx.scale[1] = 1.0f;
+    o->header.gfx.scale[2] = 1.0f;
+    o->oGraphYOffset = 0.0f;
+    obj_set_hitbox(o, &sSquidwardHitbox);
+}
+
+void squidward_loop(void)
+{
+    switch (o->oAction)
+    {
+        case SQUIDWARD_IDLE:
+            cur_obj_init_animation(0);
+            if (o->oInteractStatus == INT_STATUS_INTERACTED)
+            {
+                o->oAction = SQUIDWARD_TALK;
+            }
+            break;
+        case SQUIDWARD_TALK:
+            cur_obj_init_animation(0);
+            if (set_mario_npc_dialog(MARIO_DIALOG_LOOK_FRONT) == MARIO_DIALOG_STATUS_SPEAK) {
+                 o->activeFlags |= ACTIVE_FLAG_INITIATED_TIME_STOP;
+                if (cutscene_object_with_dialog(CUTSCENE_DIALOG, o, DIALOG_169)) {
+                    set_mario_npc_dialog(MARIO_DIALOG_STOP);
+
+                    o->activeFlags &= ~ACTIVE_FLAG_INITIATED_TIME_STOP;
+                    o->oInteractStatus = 0;
+                    o->oAction = SQUIDWARD_IDLE;
+                }
+            }
+            break;
+        case SQUIDWARD_GOBACKIDLE:
+
+            break;
+    }
+}
+
+// KK Platform - ok last platform i swear
+
+void kktable_loop(void)
+{
+    load_object_collision_model();
+}
+
+// Bridge rotate
+
+u16 ifPushed = 0;
+u16 ifPushedAgain = 0;
+
+struct ObjectHitbox sBHButtonHitbox = {
+    /* interactType:      */ INTERACT_BREAKABLE,
+    /* downOffset:        */  20,
+    /* damageOrCoinValue: */   0,
+    /* health:            */   1,
+    /* numLootCoins:      */   0,
+    /* radius:            */ 150,
+    /* height:            */ 200,
+    /* hurtboxRadius:     */ 150,
+    /* hurtboxHeight:     */ 200,
+};
+
+void button_for_bridge_loop(void)
+{
+    f32 yVel = 30.0f;
+    s16 yaw = 0x1000;
+
+    switch (o->oAction)
+    {
+        case 0:
+            break;
+        case 1:
+            obj_scale_xyz(o, 1.4f * sins(o->oTimer * 0x555), 1.9f * sins(o->oTimer * 555), 1.0f);
+            if (o->oTimer >= 10)
+            {
+                o->oAction = 2;
+            }
+            break;
+        case 2:
+            o->oVelY = yVel;
+            o->oAngleVelYaw = yaw;
+            gLakituState.focus[0] = 1134;
+            gLakituState.focus[1] = 28;
+            gLakituState.focus[2] = 1775;
+            if (o->oTimer >= 20)
+            {
+                o->oAction = 3;
+            }
+            break;
+        case 3:
+            o->oVelY = 0;
+            obj_mark_for_deletion(o);
+            cur_obj_disable_rendering();
+            cur_obj_become_intangible();
+            break;
+    }
+    o->oPosY += o->oVelY;
+    obj_set_hitbox(o, &sBHButtonHitbox);
+    if (using_ability(ABILITY_BUBBLE_HAT))
+    {
+        if (gMarioState->action == ACT_PUNCHING || gMarioState->action == ACT_MOVE_PUNCHING || gMarioState->action == ACT_JUMP_KICK) 
+        {
+             if ((o->oInteractStatus & INT_STATUS_INTERACTED) && (o->oInteractStatus & INT_STATUS_WAS_ATTACKED))
+             {
+                ifPushed = 1;
+                o->oAction = 1;
+             }
+        }
+    }
+
+    vec3i_add(&o->oFaceAngleVec, &o->oAngleVelVec);
+}
+
+// I know this is very bad but this is the only way i can prevent a bug with 2 days left!
+void button_for_bridge_loop_2(void)
+{
+    f32 yVel = 30.0f;
+    s16 yaw = 0x1000;
+
+    switch (o->oAction)
+    {
+        case 0:
+            break;
+        case 1:
+            obj_scale_xyz(o, 1.4f * sins(o->oTimer * 0x555), 1.9f * sins(o->oTimer * 555), 1.0f);
+            if (o->oTimer >= 10)
+            {
+                o->oAction = 2;
+            }
+            break;
+        case 2:
+            o->oVelY = yVel;
+            o->oAngleVelYaw = yaw;
+            if (o->oTimer >= 20)
+            {
+                o->oAction = 3;
+            }
+            break;
+        case 3:
+            o->oVelY = 0;
+            obj_mark_for_deletion(o);
+            cur_obj_disable_rendering();
+            cur_obj_become_intangible();
+            break;
+    }
+    o->oPosY += o->oVelY;
+    obj_set_hitbox(o, &sBHButtonHitbox);
+    if (using_ability(ABILITY_BUBBLE_HAT))
+    {
+        if (gMarioState->action == ACT_PUNCHING || gMarioState->action == ACT_MOVE_PUNCHING || gMarioState->action == ACT_JUMP_KICK) 
+        {
+             if ((o->oInteractStatus & INT_STATUS_INTERACTED) && (o->oInteractStatus & INT_STATUS_WAS_ATTACKED))
+             {
+                ifPushedAgain = 1;
+                o->oAction = 1;
+             }
+        }
+    }
+
+    vec3i_add(&o->oFaceAngleVec, &o->oAngleVelVec);
+}
+
+void bridge_loop(void)
+{   
+    switch (o->oAction)
+    {
+        case 0:
+            cur_obj_init_animation(0);
+            cur_obj_become_intangible();
+            if (ifPushed == 1)
+            {
+                o->oAction = 1;
+            }
+            break;
+        case 1:
+            cur_obj_init_animation(1);
+            cur_obj_become_tangible();
+            if (o->oTimer >= 21)
+            {
+                o->oAction = 2;
+            }
+            break;
+        case 2:
+            cur_obj_init_animation(2);
+            break;
+    }
+}
+
+// The second
+void bridge2_loop(void)
+{
+    switch (o->oAction)
+    {
+        case 0:
+            cur_obj_init_animation(0);
+            cur_obj_become_intangible();
+            if (ifPushedAgain == 1)
+            {
+                o->oAction = 1;
+            }
+            break;
+        case 1:
+            cur_obj_init_animation(1);
+            cur_obj_become_tangible();
+            if (o->oTimer >= 21)
+            {
+                o->oAction = 2;
+            }
+            break;
+        case 2:
+            cur_obj_init_animation(2);
+            break;
     }
 }

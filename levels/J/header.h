@@ -75,4 +75,16 @@ extern const LevelScript level_J_entry[];
 
 #include "levels/J/skiploom/anim_header.h"
 
+#include "levels/J/old_man/geo_header.h"
+
+#include "levels/J/old_man/anim_header.h"
+
+#include "levels/J/snorlax/geo_header.h"
+
+#include "levels/J/snorlax/anim_header.h"
+
+#include "levels/J/magikarp/geo_header.h"
+
+#include "levels/J/magikarp/anim_header.h"
+
 #endif

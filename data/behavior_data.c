@@ -6743,6 +6743,48 @@ const BehaviorScript bhvGravelerRamp[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvOldMan[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, old_man_anims),
+    SET_INTERACT_TYPE(INTERACT_TEXT),
+    DROP_TO_FLOOR(),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 60),
+    ANIMATE(0),
+    SET_HOME(),
+    CALL_NATIVE(bhv_npc_init),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_npc_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvSnorlax[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    LOAD_ANIMATIONS(oAnimations, snorlax_anims),
+    SET_INTERACT_TYPE(INTERACT_IGLOO_BARRIER),
+    DROP_TO_FLOOR(),
+    SET_HITBOX(/*Radius*/ 200, /*Height*/ 200),
+    ANIMATE(0),
+    CALL_NATIVE(bhv_snorlax_init),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_snorlax_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvMagikarp[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE |  OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
+    LOAD_ANIMATIONS(oAnimations, magikarp_anims),
+    ANIMATE(0),
+    SET_HOME(),
+    CALL_NATIVE(bhv_magikarp_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_magikarp_loop),
+    END_LOOP(),
+};
+
 /* GROUP J END */
 
 /* GROUP K START */

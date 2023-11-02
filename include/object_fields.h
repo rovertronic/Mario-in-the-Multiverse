@@ -735,6 +735,10 @@
 #define /*0x108*/ oIntroLakituEndBirds1DestZ        OBJECT_FIELD_F32(O_INTRO_LAKITU_END_BIRDS_DEST_Z_INDEX)
 #define /*0x1AC*/ oIntroLakituCloud                 OBJECT_FIELD_OBJ(0x49)
 
+/* Magikarp */
+#define /*0x0F8*/ oMagikarpTargetYaw        OBJECT_FIELD_F32(0x1B)
+#define /*0x0F8*/ oMagikarpWalkTimer        OBJECT_FIELD_F32(0x1C)
+
 /* Main Menu Button */
 #define /*0x0F4*/ oMenuButtonState       OBJECT_FIELD_S32(0x1B)
 #define /*0x0F8*/ oMenuButtonTimer       OBJECT_FIELD_S32(0x1C)

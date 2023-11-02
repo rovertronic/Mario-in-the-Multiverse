@@ -87,6 +87,67 @@ of the Miltank in that\n\
 fence over there, I'll\n\
 give you a star!"))
 
+DEFINE_DIALOG(DIALOG_ECRUTEAK_SIGN, 1, 4, 95, 200, _("\
+-Ecruteak City-\n\
+A Historical City"))
+
+DEFINE_DIALOG(DIALOG_BURNED_TOWER, 1, 4, 95, 200, _("\
+-Burned Tower-\n\
+It was destroyed by a\n\
+mysterious fire.\n\
+\n\
+Please stay away, as it\n\
+is unsafe."))
+
+DEFINE_DIALOG(DIALOG_OLD_MAN_1, 1, 4, 95, 200, _("\
+In the distant past...\n\
+When this tower burned in\n\
+a fire, three nameless\n\
+Pokemon perished in it.\n\
+Then, a rainbow-hued\n\
+Pokemon descended from\n\
+the sky and somehow\n\
+brought them back...\n\
+The people were afraid of\n\
+power like that Pokemon\n\
+had shown. They tried to\n\
+control it by force.\n\
+The nameless Pokemon\n\
+made no attempt to fight\n\
+back. Instead, their\n\
+great sorrow compelled\n\
+them to leave. This\n\
+legend has been passed\n\
+down by the Ecruteak Gym\n\
+Leader. Me?\n\
+I was a Trainer way back\n\
+when. Ho ho ho!"))
+
+DEFINE_DIALOG(DIALOG_OLD_MAN_2, 1, 4, 95, 200, _("\
+Have you heard that\n\
+they are talking about\n\
+rebuilding the Burned\n\
+Tower?\n\
+There will be two towers\n\
+again! I'm looking\n\
+forward to it!"))
+
+DEFINE_DIALOG(DIALOG_DANCE_THEATER, 1, 4, 95, 200, _("\
+Us Kimono Girls are\n\
+always rehearsing our\n\
+dances at the Dance\n\
+Theater here."))
+
+DEFINE_DIALOG(DIALOG_YOUNGSTER_DRAGONITE, 1, 4, 95, 200, _("\
+Woah! Did you see that\n\
+rare Pokemon fly into \n\
+the Burned Tower?\n\
+Go check it out!\n\
+Me? I'm only interested\n\
+in collecting bugs and\n\
+rats and harassing new\n\
+Trainers with them!"))
+
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 200, _("\
 Wow! You're smack in the\n\
 middle of the battlefield.\n\

@@ -684,6 +684,9 @@ enum {
 #define MODEL_J_COWGIRL                         0x166
 #define MODEL_J_SENTRET                         0x167
 #define MODEL_J_SKIPLOOM                        0x168
+#define MODEL_J_OLD_MAN                         0x169
+#define MODEL_J_SNORLAX                         0x170
+#define MODEL_J_MAGIKARP                        0x171
 #define MODEL_J_GRAVELER                 0x39
 /* LEVEL J END */
 

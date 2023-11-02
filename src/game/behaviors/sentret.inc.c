@@ -83,3 +83,28 @@ void bhv_sentret_loop(void){
     o->oInteractStatus = INT_STATUS_NONE;
 }
 
+
+void bhv_magikarp_init(void){
+    o->header.gfx.scale[0] = 0.5f;
+    o->header.gfx.scale[1] = 0.5f;
+    o->header.gfx.scale[2] = 0.5f;
+}
+
+void bhv_magikarp_loop(void){
+    o->oForwardVel = 5.0f;
+
+        if (cur_obj_lateral_dist_to_home() >= 1000.0f){
+            o->oMagikarpTargetYaw = get_home_yaw();
+            o->oMagikarpWalkTimer = random_linear_offset(30, 60);
+        } else {
+            if (o->oMagikarpWalkTimer != 0) {
+                        o->oMagikarpWalkTimer--;
+                    } else {
+                        o->oMagikarpTargetYaw = obj_random_fixed_turn(0x2000);
+                        o->oMagikarpWalkTimer = random_linear_offset(100, 100);
+                    }
+        }
+
+    cur_obj_rotate_yaw_toward(o->oMagikarpTargetYaw, 0x200);
+    cur_obj_move_standard(-78);
+}

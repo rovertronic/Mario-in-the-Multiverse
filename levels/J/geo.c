@@ -36,3 +36,6 @@
 #include "levels/J/cowgirl/geo.inc.c"
 #include "levels/J/sentret/geo.inc.c"
 #include "levels/J/skiploom/geo.inc.c"
+#include "levels/J/old_man/geo.inc.c"
+#include "levels/J/snorlax/geo.inc.c"
+#include "levels/J/magikarp/geo.inc.c"

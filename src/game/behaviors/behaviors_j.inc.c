@@ -227,3 +227,12 @@ void bhv_graveler_ramp_loop(void){
     }
     
 }
+
+void bhv_snorlax_init(void){
+    obj_scale_xyz(o, 1.5f,1.5f,1.5f);
+    o->oGraphYOffset = -250.0f;
+}
+
+void bhv_snorlax_loop(void){
+    ///I only did this bc he kept turning to face mario without a behavior script.
+}

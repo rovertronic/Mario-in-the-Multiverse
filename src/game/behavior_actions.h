@@ -690,3 +690,7 @@ void bhv_elder_init(void);
 void bhv_sentret_init(void);
 void bhv_sentret_loop(void);
 void bhv_graveler_ramp_loop(void);
+void bhv_snorlax_init(void);
+void bhv_snorlax_loop(void);
+void bhv_magikarp_init(void);
+void bhv_magikarp_loop(void);

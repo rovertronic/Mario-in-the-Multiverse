@@ -703,6 +703,17 @@ enum {
 /* LEVEL N END */
 
 /* LEVEL O START */
+#define MODEL_O_ZOMBIE_1  0x151
+#define MODEL_O_ZOMBIE_2  0x152
+#define MODEL_O_ZOMBIE_3  0x153
+#define MODEL_ZOMBLOOD    0x154
+#define MODEL_O_TREE      0x155
+#define MODEL_O_UVSTAR    0x156
+#define MODEL_O_LIFT      0x157
+#define MODEL_O_GARAGE    0x158
+#define MODEL_O_SPEAKER_1 0x159
+#define MODEL_O_SPEAKER_2 0x15A
+#define MODEL_O_SPEAKER_3 0x15B
 /* LEVEL O END */
 
 #endif // MODEL_IDS_H

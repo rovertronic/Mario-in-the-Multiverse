@@ -35,6 +35,41 @@
             "envelope": "envelope0",
             "sound": "level_e_caco_death"
         },
+        "inst_o_walker_aggressive_1": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "o_walker_aggressive_1"
+        },
+        "inst_o_walker_aggressive_2": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "o_walker_aggressive_2"
+        },
+        "inst_o_walker_aggressive_3": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "o_walker_aggressive_3"
+        },
+        "inst_o_walker_aggressive_4": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "o_walker_aggressive_4"
+        },
+        "inst_o_walker_die": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "o_walker_die"
+        },
+        "inst_o_walker_hit": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "o_walker_hit"
+        },
+        "inst_o_walker_eat": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "o_walker_eat"
+        },
         "inst_level_g_0": {
             "release_rate": 208,
             "envelope": "envelope0",
@@ -63,6 +98,15 @@
         "inst_level_e_caco_damage",
         "inst_level_e_caco_death",
         "inst_level_g_0",
+
+        "inst_o_walker_aggressive_1",
+        "inst_o_walker_aggressive_2",
+        "inst_o_walker_aggressive_3",
+        "inst_o_walker_aggressive_4",
+        "inst_o_walker_die",
+        "inst_o_walker_hit",
+        "inst_o_walker_eat",
+        
         "inst_level_j_hooh",
         "inst_level_j_miltank",
         "inst_level_j_geodude"

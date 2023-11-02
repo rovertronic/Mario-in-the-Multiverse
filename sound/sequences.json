@@ -166,5 +166,11 @@
     ],
     "30_dark_cave" : [
         "0E_extended_bank"
+    ],
+    "31_o_easystreet": [
+        "o_easystreet"
+    ],
+    "32_o_maintrack": [
+        "o_maintrack"
     ]
 }

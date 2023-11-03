@@ -210,20 +210,22 @@ void bhv_berry_loop(void){
 }
 
 void bhv_graveler_ramp_loop(void){
-    if (gMarioState->pos[0] <= 4800 && gMarioState->pos[0] >= -200 && gMarioState->pos[2] >= -7236 && gMarioState->pos[2] <= -5425){
-        //reset_camera(gMarioState->area->camera);
-        gCamera->cutscene = 1;
-        //set_camera_mode_fixed(gMarioState->area->camera, -4168, 5810, -6300);
-        gMarioState->area->camera->yaw = o->oFaceAngleYaw;
-        gLakituState.goalPos[0] = -4168;
-        gLakituState.goalPos[1] = 5810;
-        gLakituState.goalPos[2] = -6300;
-        gLakituState.goalFocus[0] = 1142;
-        gLakituState.goalFocus[1] = 5154;
-        gLakituState.goalFocus[2] = -6300;
-       
-    } else {
-        gCamera->cutscene = 0;
+    if (gCamera->cutscene < 2) {
+        if (gMarioState->pos[0] <= 4800 && gMarioState->pos[0] >= -200 && gMarioState->pos[2] >= -7236 && gMarioState->pos[2] <= -5425){
+            //reset_camera(gMarioState->area->camera);
+            gCamera->cutscene = 1;
+            //set_camera_mode_fixed(gMarioState->area->camera, -4168, 5810, -6300);
+            gMarioState->area->camera->yaw = o->oFaceAngleYaw;
+            gLakituState.goalPos[0] = -4168;
+            gLakituState.goalPos[1] = 5810;
+            gLakituState.goalPos[2] = -6300;
+            gLakituState.goalFocus[0] = 1142;
+            gLakituState.goalFocus[1] = 5154;
+            gLakituState.goalFocus[2] = -6300;
+        
+        } else {
+            gCamera->cutscene = 0;
+        }
     }
     
 }

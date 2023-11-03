@@ -67,4 +67,6 @@ extern const LevelScript level_g_entry[];
 
 #include "levels/g/g_marx_black_hole_effect/geo_header.h"
 
+#include "levels/g/marxHealth/header.h"
+
 #endif

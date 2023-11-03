@@ -121,6 +121,8 @@ static struct PowerMeterHUD sAbilityMeterHUD = {
 };
 s32 sAbilityMeterVisibleTimer = 0;
 
+s16 gMarxHudHealth = 0;
+
 static struct CameraHUD sCameraHUD = { CAM_STATUS_NONE };
 
 /**
@@ -759,6 +761,32 @@ void render_meter(f32 x, f32 y, s32 meterStyle, s16 wedges, u8 a) {
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 }
 
+void render_marx_health(void) {
+    print_set_envcolour(255, 255, 255, 255);
+    render_blank_box((SCREEN_WIDTH / 2) - 60, SCREEN_HEIGHT - 10, (SCREEN_WIDTH / 2) + 60, SCREEN_HEIGHT - 20, 255, 255, 255, 255);
+    render_blank_box((SCREEN_WIDTH / 2) - 59, SCREEN_HEIGHT - 11, (SCREEN_WIDTH / 2) + 59, SCREEN_HEIGHT - 19, 0, 0, 0, 255);
+    print_set_envcolour(255, 255, 255, 255);
+    print_small_text(SCREEN_WIDTH/2, SCREEN_HEIGHT - 30, "MARX", PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, FONT_OUTLINE);
+
+    Mtx *mtx = alloc_display_list(sizeof(Mtx));
+
+    if (mtx == NULL) {
+        return;
+    }
+    
+    extern Gfx marxHealth_Plane_005_mesh[];
+    guTranslate(mtx, (f32) (SCREEN_WIDTH/2) - 59, (f32) 15, 0);
+    gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+    gSPMatrix(gDisplayListHead++, VIRTUAL_TO_PHYSICAL(mtx++),
+              G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+    create_dl_scale_matrix(MENU_MTX_NOPUSH, 0.99f * ((f32)gMarxHudHealth / 80.0f), 0.3f, 1.0f);
+    gDPSetPrimColor(gDisplayListHead++, 0, 0, 255, 255, 255, 255);
+    gSPDisplayList(gDisplayListHead++, &marxHealth_Plane_005_mesh);
+
+
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+}
+
 u16 hud_display_coins = 0;
 f32 hud_alpha = 255.0f;
 /**
@@ -837,6 +865,8 @@ void render_hud(void) {
             render_meter(253, 185, sAbilityMeterHUD.x, sAbilityMeterStoredValue, (u8)hud_alpha * (sAbilityMeterHUD.y / 255.0f));
         }
 
+        
+
         gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
 
             //Need to do this twice... sadge
@@ -858,6 +888,10 @@ void render_hud(void) {
             print_hud_lut_string(HUD_LUT_GLOBAL, 240, 14, hudbar_star);
 
         gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
+
+        if (gCurrLevelNum == LEVEL_G && gMarxHudHealth > 0) {
+            render_marx_health();
+        }
 
         //revert (prolly not needed)
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);

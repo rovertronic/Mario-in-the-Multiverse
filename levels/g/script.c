@@ -96,6 +96,10 @@
 #include "actors/common1.h"
 #include "actors/common1.h"
 #include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
 
 /* Fast64 begin persistent block [includes] */
 #include "actors/common1.h"
@@ -273,6 +277,7 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, 0x00000000, bhvGreatCaveOffensiveController),
 		OBJECT(MODEL_ABILITY_SIGN, 7235, 808, 15721, 0, -49, 0, (5 << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, -13876, 237, 8376, 0, -40, 0, (4 << 16), bhvStaticObject),
+		OBJECT(MODEL_NONE, 2208, 3178, 857, 0, 0, 0, (11 << 16), bhvAirborneDeathWarp),
 		OBJECT(MODEL_NONE, -14374, 535, 1562, 0, 21, 0, (6 << 24), bhvGCOStar),
 		OBJECT(MODEL_NONE, 2222, 3807, 21692, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_NONE, -14374, 345, 1562, 0, 21, 0, 0x00000000, bhvRocketButtonGroup),
@@ -301,9 +306,9 @@ const LevelScript level_g_entry[] = {
 
 	AREA(5, g_area_5),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(0xF0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(0xF1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(0x0B, LEVEL_G, 0x04, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF0, LEVEL_G, 0x04, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF1, LEVEL_G, 0x04, 0x0B, WARP_NO_CHECKPOINT),
+		WARP_NODE(0x0B, LEVEL_G, 0x04, 0x0C, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_MARX, 90, 841, -897, 0, 0, 0, 0x00000000, bhvGMarx),
 		OBJECT(MODEL_NONE, 24, 650, 779, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		TERRAIN(g_area_5_collision),

@@ -7981,6 +7981,9 @@ sound_ref .sound_ability_e_shotgun
 sound_ref .sound_ability_e_shotgun2
 sound_ref .sound_ability_e_shotgun3
 sound_ref .sound_ability_e_shotgun_rack
+sound_ref .sound_g_marx_hp
+sound_ref .sound_g_marx_final_hit
+sound_ref .sound_g_marx_explode
 
 .sound_ability_x_0:
 chan_setbank 11
@@ -8127,6 +8130,28 @@ chan_end
 
 .layer_ability_knightsword:
 layer_note1 39, 0x23, 127
+layer_end
+
+.sound_g_marx_hp:
+chan_setbank 11
+chan_setinstr 16
+chan_setlayer 0, .layer_g_marx_secondary
+chan_end
+
+.sound_g_marx_final_hit:
+chan_setbank 11
+chan_setinstr 17
+chan_setlayer 0, .layer_g_marx_secondary
+chan_end
+
+.sound_g_marx_explode:
+chan_setbank 11
+chan_setinstr 18
+chan_setlayer 0, .layer_g_marx_secondary
+chan_end
+
+.layer_g_marx_secondary:
+layer_note1 39, 0x7f, 127
 layer_end
 
 // MitM Level Sound Effects

@@ -340,6 +340,7 @@ extern const BehaviorScript bhvCarrySomethingThrown[];
 extern const BehaviorScript bhvObjectBubble[];
 extern const BehaviorScript bhvObjectWaterWave[];
 extern const BehaviorScript bhvExplosion[];
+extern const BehaviorScript bhvExplosionVisual[];
 extern const BehaviorScript bhvBobombBullyDeathSmoke[];
 extern const BehaviorScript bhvSmoke[];
 extern const BehaviorScript bhvBobombExplosionBubble[];

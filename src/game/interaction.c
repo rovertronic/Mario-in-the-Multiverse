@@ -854,6 +854,10 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
             starGrabAction = ACT_STAR_DANCE_NO_EXIT;
         }
 
+        if (gCurrLevelNum == LEVEL_G && gCurrAreaIndex == 5) {
+            starGrabAction = ACT_STAR_DANCE_EXIT;
+        }
+
         if (m->action & ACT_FLAG_SWIMMING) {
             starGrabAction = ACT_STAR_DANCE_WATER;
         }

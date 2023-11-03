@@ -3,3 +3,4 @@
 #include "anim_burst_out.inc.c"
 #include "anim_fly_up.inc.c"
 #include "anim_arrows.inc.c"
+#include "anim_dead.inc.c"

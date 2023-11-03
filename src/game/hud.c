@@ -889,7 +889,7 @@ void render_hud(void) {
 
         gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
 
-        if (gCurrLevelNum == LEVEL_G && gMarxHudHealth > 0) {
+        if (gCurrLevelNum == LEVEL_G && gCurrAreaIndex == 5 && gMarxHudHealth > 0) {
             render_marx_health();
         }
 

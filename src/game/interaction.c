@@ -1905,6 +1905,7 @@ u32 interact_j_miltank(struct MarioState *m, UNUSED u32 interactType, struct Obj
             }
         }
     } else {
+        obj->oInteractStatus |= INT_STATUS_INTERACTED;
         push_mario_out_of_object(m, obj, 2.0f);
     }
 

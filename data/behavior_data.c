@@ -6611,7 +6611,7 @@ const BehaviorScript bhvHoohFlame2[] = {
 
 const BehaviorScript bhvMiltank[] = {
     BEGIN(OBJ_LIST_PUSHABLE),
-    OR_INT(oFlags, (OBJ_FLAG_PERSISTENT_RESPAWN)),
+    OR_INT(oFlags, (OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
     CALL_NATIVE(bhv_miltank_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_miltank_loop),

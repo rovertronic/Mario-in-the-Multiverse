@@ -54,6 +54,11 @@ void bhv_spinarak_loop(void){
             o->oVelX = sins(o->oMoveAngleRoll) * 50.0f;
             o->oVelY = coss(o->oMoveAngleRoll) * -50.0f;
 
+            if ((o->oDistanceToMario < 90.0f)&&(gMarioState->action == ACT_SQUID)) {
+                cur_obj_play_sound_2(SOUND_MARIO_OOOF);
+                obj_set_model(gMarioObject, MODEL_MARIO);
+                set_mario_action(gMarioState, ACT_IDLE, 0);
+            }
             if (o->oTimer > 15){
                 o->oAction = SPINARAK_ACT_RETURN;
                 o->oTimer = 0;

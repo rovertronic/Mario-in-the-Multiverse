@@ -78,7 +78,7 @@ void bhv_miltank_loop(void) {
         //rigid_body_add_force(o->rigidBody, push_position, move_force, TRUE);
     //}
 
-    if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED && o->oTimer > 5 && o->oTimer > 5){
+    if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED && o->oTimer > 5){
         Vec3f force;
         force[0] = (sins(gMarioState->faceAngle[1]) * 125.0f);
         force[2] = (coss(gMarioState->faceAngle[1]) * 125.0f);
@@ -88,6 +88,17 @@ void bhv_miltank_loop(void) {
         cur_obj_play_sound_2(SOUND_OBJ_DIVING_IN_WATER);
         cur_obj_play_sound_2(SOUND_MITM_LEVEL_J_MILTANK);
         o->oTimer = 0;
+    }
+
+    //gentle push
+    if (o->oInteractStatus & INT_STATUS_INTERACTED && o->oTimer > 5){
+        Vec3f force;
+        force[0] = (sins(o->oAngleToMario+0x8000) * 3.0f);
+        force[2] = (coss(o->oAngleToMario+0x8000) * 3.0f);
+        force[1] = 0.0f;
+        gMarioState->pos[1] += 60.0f;
+        rigid_body_add_force(o->rigidBody, &gMarioState->pos, force, TRUE);
+        gMarioState->pos[1] -= 60.0f;
     }
 
     if (o->oFloor->normal.y < 0.99f) {

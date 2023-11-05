@@ -8146,12 +8146,12 @@ sound_ref .sound_o_walker_die
 sound_ref .sound_o_walker_hit
 sound_ref .sound_o_walker_eat
 sound_ref .sound_level_g_0_stardoor
-sound_ref .sound_level_i_hoodboomer_death
-sound_ref .sound_level_i_hoodboomer_laugh
-sound_ref .sound_level_i_toad_help
 sound_ref .sound_level_j_hooh
 sound_ref .sound_level_j_miltank
 sound_ref .sound_level_j_geodude
+sound_ref .sound_level_i_hoodboomer_death
+sound_ref .sound_level_i_hoodboomer_laugh
+sound_ref .sound_level_i_toad_help
 
 .sound_level_x_0:
 chan_setbank 12
@@ -8322,7 +8322,7 @@ layer_end
 
 .sound_level_i_hoodboomer_death:
 chan_setbank 12
-chan_setinstr 6
+chan_setinstr 16
 chan_setlayer 0, .layer_level_i_hoodboomer_death
 chan_end
 
@@ -8332,7 +8332,7 @@ chan_end
 
 .sound_level_i_hoodboomer_laugh:
 chan_setbank 12
-chan_setinstr 7
+chan_setinstr 17
 chan_setlayer 0, .layer_level_i_hoodboomer_laugh
 chan_end
 
@@ -8344,7 +8344,7 @@ chan_end
 
 .sound_level_i_toad_help:
 chan_setbank 12
-chan_setinstr 8
+chan_setinstr 18
 chan_setlayer 0, .layer_level_i_toad_help
 chan_end
 

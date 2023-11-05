@@ -122,13 +122,13 @@
         "inst_o_walker_eat",
 
         "inst_level_g_0",
-
-        "inst_level_i_hoodboomer_death",
-		"inst_level_i_hoodboomer_laugh",
-        "inst_level_i_toad_help",
         
         "inst_level_j_hooh",
         "inst_level_j_miltank",
-        "inst_level_j_geodude"
+        "inst_level_j_geodude",
+        
+        "inst_level_i_hoodboomer_death",
+		"inst_level_i_hoodboomer_laugh",
+        "inst_level_i_toad_help"
     ]
 }

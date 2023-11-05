@@ -31,3 +31,7 @@
 #include "levels/i/funky_road/collision.inc.c"
 #include "levels/i/opening_wall/model.inc.c"
 #include "levels/i/opening_wall/collision.inc.c"
+#include "levels/i/openable_wood_gate/model.inc.c"
+#include "levels/i/openable_wood_gate/collision.inc.c"
+#include "levels/i/watermill/model.inc.c"
+#include "levels/i/master_kaag/model.inc.c"

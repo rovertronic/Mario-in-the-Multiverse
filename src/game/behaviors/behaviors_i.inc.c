@@ -352,7 +352,12 @@ void bhv_pigpot_loop(void){
 
 /*********************************Misc*************************************/
 
-void bhv_rotating_gear_decorative(void){
+void bhv_rotating_gear_decorative_init(void){
+    f32 scale = GET_BPARAM2(o->oBehParams);
+    cur_obj_scale(1.0f + (scale / 20));
+}
+
+void bhv_rotating_gear_decorative_loop(void){
     o->oFaceAnglePitch += (o->oBehParams >> 24) * 5;
 }
 
@@ -599,7 +604,7 @@ void bhv_caged_toad_loop(){
         gRedCoinsCollected++;
     }
 
-    o->oPosY += 10.0f * coss(1000 * o->oTimer);
+    o->oPosY += 8.0f * coss(1000 * o->oTimer);
 
     if((o->oTimer % 400) == 0 && o->oDistanceToMario < 5000){
         create_sound_spawner(SOUND_MITM_LEVEL_I_TOAD_HELP);

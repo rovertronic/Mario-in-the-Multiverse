@@ -637,6 +637,8 @@ extern const BehaviorScript bhvSkrinkingBlackDoor[];
 extern const BehaviorScript bhvRotatingFunkyPlatform[];
 extern const BehaviorScript bhvMovingFunkyPlatform[];
 extern const BehaviorScript bhvOpeningWall[];
+extern const BehaviorScript bhvMasterKaag[];
+extern const BehaviorScript bhvMasterKaagWeakPoint[];
 
 /* GROUP I END */
 

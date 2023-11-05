@@ -3,14 +3,12 @@
 const GeoLayout i_area_4_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, -6251, 0, 0, i_dl_first_section_mesh_layer_5),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, -6251, 0, 0, i_dl_first_section_geo_mesh_layer_5),
 		GEO_OPEN_NODE(),
-			GEO_DISPLAY_LIST(LAYER_OPAQUE, i_dl_first_section_mesh_layer_1),
+			GEO_DISPLAY_LIST(LAYER_OPAQUE, i_dl_first_section_geo_mesh_layer_1),
 		GEO_CLOSE_NODE(),
-		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 4945, 0, -173, i_dl_second_section_mesh_layer_1),
-		GEO_OPEN_NODE(),
-			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, i_dl_second_section_mesh_layer_5),
-		GEO_CLOSE_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -26492, 790, 6396),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

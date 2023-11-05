@@ -2874,6 +2874,7 @@ const BehaviorScript bhvHiddenBlueCoin[] = {
 const BehaviorScript bhvOpenableCageDoor[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 15000),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_openable_cage_door_loop),
         CALL_NATIVE(load_object_collision_model),
@@ -4404,6 +4405,7 @@ const BehaviorScript bhvPyramidPillarTouchDetector[] = {
 
 const BehaviorScript bhvWaterfallSoundLoop[] = {
     BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_COMPUTE_DIST_TO_MARIO),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_waterfall_sound_loop),
     END_LOOP(),
@@ -6471,9 +6473,10 @@ const BehaviorScript bhvPigpot[] = {
     SET_INT(oNumLootCoins, 3),
     SET_INT(oInteractType, INTERACT_GRABBABLE),
     SET_INT(oInteractionSubtype, INT_SUBTYPE_NOT_GRABBABLE),
-    SET_HITBOX(/*Radius*/ 60, /*Height*/ 50),
+    SET_HITBOX(/*Radius*/ 60, /*Height*/ 90),
     SET_INT(oIntangibleTimer, 0),
     SET_FLOAT(oDeathSound, SOUND_GENERAL_BREAK_BOX),
+    SCALE(0, 120),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_pigpot_loop),
     END_LOOP(),
@@ -6482,8 +6485,9 @@ const BehaviorScript bhvPigpot[] = {
 const BehaviorScript bhvRotatingGearDecorative[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_rotating_gear_decorative_init),
     BEGIN_LOOP(),
-        CALL_NATIVE(bhv_rotating_gear_decorative),
+        CALL_NATIVE(bhv_rotating_gear_decorative_loop),
     END_LOOP(),
 };
 
@@ -6647,6 +6651,33 @@ const BehaviorScript bhvOpeningWall[] = {
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_opening_wall_loop),
         CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvMasterKaag[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_BOSS)),//--E
+    //LOAD_ANIMATIONS(oAnimations, king_bobomb_seg5_anims_0500FE30),
+    //SET_INT(oInteractType, INTERACT_GRABBABLE),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 100),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ 0, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    SET_INT(oIntangibleTimer, 0),
+    DROP_TO_FLOOR(),
+    SET_HOME(),
+    SCALE(0, 150),//SPAWN_OBJ(/*Model*/ MODEL_NONE, /*Behavior*/ bhvBobombAnchorMario),
+    SET_INT(oHealth, 3),
+    SET_INT(oDamageOrCoinValue, 1),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_master_kaag_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvMasterKaagWeakPoint[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 200),
+    SET_INT(oIntangibleTimer, 0),
+    BEGIN_LOOP(),
     END_LOOP(),
 };
 

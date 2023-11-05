@@ -675,6 +675,9 @@ enum {
 #define MODEL_BLACK_PANEL               0x40        //black_panel_geo
 #define MODEL_FUNKY_ROAD                0x41        //funky_road_geo
 #define MODEL_OPENING_WALL              0x42        //opening_wall_geo
+#define MODEL_OPENABLE_WOODEN_GATE      0x43        //openable_wood_gate
+#define MODEL_WATERMILL                 0x44        //watermill_geo
+#define MODEL_MASTER_KAAG               0x45        //master_kaag_geo
 /* LEVEL I END */
 
 /* LEVEL J START */

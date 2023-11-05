@@ -29,3 +29,6 @@
 #include "levels/i/black_panel/geo.inc.c"
 #include "levels/i/funky_road/geo.inc.c"
 #include "levels/i/opening_wall/geo.inc.c"
+#include "levels/i/openable_wood_gate/geo.inc.c"
+#include "levels/i/watermill/geo.inc.c"
+#include "levels/i/master_kaag/geo.inc.c"

@@ -2711,6 +2711,15 @@ enum animIDsFirePiranhaPlant {
     #define ROCKET_BUTTON_GROUP_WAITING                     0x0
     #define ROCKET_BUTTON_GROUP_SUCCESSFUL                  0x1
 
+/* Master Kaag */
+    #define MASTER_KAAG_ACT_INACTIVE                        0x0
+    #define MASTER_KAAG_ACT_START                           0x1
+    #define MASTER_KAAG_ACT_FOLLOW_MARIO_INVINCIBLE         0x2
+    #define MASTER_KAAG_ACT_FOLLOW_MARIO_WEAK               0x3
+    #define MASTER_KAAG_ACT_TAKING_DAMAGE                   0x4
+    #define MASTER_KAAG_ACT_DEATH                           0x5
+    #define MASTER_KAAG_ACT_STOP_MUSIC                      0x6
+
 /* White Puff Explosion */
     /* oBehParams2ndByte */
     #define WHITE_PUFF_EXPLODE_BP_FAST_FADE                 0x2

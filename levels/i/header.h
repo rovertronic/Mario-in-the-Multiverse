@@ -45,4 +45,12 @@ extern const LevelScript level_i_entry[];
 
 #include "levels/i/opening_wall/collision_header.h"
 
+#include "levels/i/openable_wood_gate/geo_header.h"
+
+#include "levels/i/openable_wood_gate/collision_header.h"
+
+#include "levels/i/watermill/geo_header.h"
+
+#include "levels/i/master_kaag/geo_header.h"
+
 #endif

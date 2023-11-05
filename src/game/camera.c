@@ -2978,7 +2978,7 @@ void update_lakitu(struct Camera *c) {
     f32 distToFloor;
     s16 newYaw;
 
-    if (c->pos[1] < check_water_height){
+    if (c->pos[1] < find_water_level(c->pos[0], c->pos[2])){
         cam_submerged = TRUE;
     } else {
         cam_submerged = FALSE;
@@ -3155,6 +3155,7 @@ void update_camera(struct Camera *c) {
     camera_course_processing(c);
 #else
     if (gCurrDemoInput != NULL) camera_course_processing(c);
+    
 #endif
     sCButtonsPressed = find_c_buttons_pressed(sCButtonsPressed, gPlayer1Controller->buttonPressed, gPlayer1Controller->buttonDown);
 
@@ -3379,6 +3380,8 @@ void update_camera(struct Camera *c) {
 #endif
     gLakituState.lastFrameAction = sMarioCamState->action;
     profiler_update(PROFILER_TIME_CAMERA, profiler_get_delta(PROFILER_DELTA_COLLISION) - first);
+
+    //print_text_fmt_int(20,50, "MODE %d", c->mode);
 }
 
 /**
@@ -6042,6 +6045,10 @@ void cam_ccm_leave_slide_shortcut(UNUSED struct Camera *c) {
     sStatusFlags &= ~CAM_FLAG_CCM_SLIDE_SHORTCUT;
 }
 
+void cam_graveler_ramp(struct Camera *c){
+    set_camera_mode_fixed(c,-4168, 5810, -6300);
+}
+
 /**
  * Apply any modes that are triggered by special floor surface types
  */
@@ -6296,6 +6303,7 @@ struct CameraTrigger sCamBBH[] = {
     NULL_TRIGGER
 };
 
+
 #define _ NULL
 #define STUB_LEVEL(_0, _1, _2, _3, _4, _5, _6, _7, cameratable) cameratable,
 #define DEFINE_LEVEL(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, cameratable) cameratable,
@@ -6327,6 +6335,12 @@ struct CameraTrigger sCamE[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger sCamI[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamJ[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamO[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger *sCameraTriggers[LEVEL_COUNT + 1] = {
@@ -8181,6 +8195,32 @@ void cutscene_star_spawn_back(struct Camera *c) {
 }
 
 void cutscene_star_spawn_end(struct Camera *c) {
+    sStatusFlags |= CAM_FLAG_SMOOTH_MOVEMENT;
+    gCutsceneTimer = CUTSCENE_STOP;
+    c->cutscene = 0;
+}
+
+void cutscene_dragonite_follow(struct Camera *c){
+    Vec3f dragonitePos;
+
+    if (gCutsceneFocus != NULL) {
+        object_pos_to_vec3f(dragonitePos, gCutsceneFocus);
+        approach_vec3f_asymptotic(c->focus, dragonitePos, 0.1f, 0.1f, 0.1f);
+    }
+}
+
+void cutscene_dragonite_entry(struct Camera *c) {
+    vec3f_set(c->pos, -2160.f, 735.f, -1085.f);
+    cutscene_event(cutscene_dragonite_follow, c, 0, -1);
+    sStatusFlags |= CAM_FLAG_SMOOTH_MOVEMENT;
+
+    if (gObjCutsceneDone) {
+        gCutsceneTimer = CUTSCENE_LOOP;
+        transition_next_state(c, 1);
+    }
+}
+
+void cutscene_dragonite_end(struct Camera *c) {
     sStatusFlags |= CAM_FLAG_SMOOTH_MOVEMENT;
     gCutsceneTimer = CUTSCENE_STOP;
     c->cutscene = 0;
@@ -10354,6 +10394,16 @@ struct Cutscene sCutsceneStarSpawn[] = {
     { cutscene_star_spawn_end, 0 }
 };
 
+
+/*
+    Dragonite Entering Burned Tower
+*/
+
+struct Cutscene sCutsceneDragonite[] = {
+    { cutscene_dragonite_entry, CUTSCENE_LOOP},
+    { cutscene_dragonite_end, 0 }
+};
+
 /**
  * Cutscene for the red coin star spawning. Compared to a regular star, this cutscene can warp long
  * distances.
@@ -10685,8 +10735,10 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // TTM            | Unused
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // Unused         | Unused
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
-	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), 
-	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 1, 1), 
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0),
+    ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 1, 1),
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 1, 1, 1), 
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 1), 
 };
 
 STATIC_ASSERT(ARRAY_COUNT(sZoomOutAreaMasks) - 1 == LEVEL_MAX / 2, "Make sure you edit sZoomOutAreaMasks when adding / removing courses.");
@@ -11079,6 +11131,7 @@ void play_cutscene(struct Camera *c) {
         CUTSCENE(CUTSCENE_RACE_DIALOG,          sCutsceneDialog)
         CUTSCENE(CUTSCENE_ENTER_PYRAMID_TOP,    sCutsceneEnterPyramidTop)
         CUTSCENE(CUTSCENE_SSL_PYRAMID_EXPLODE,  sCutscenePyramidTopExplode)
+        CUTSCENE(CUTSCENE_DRAGONITE,            sCutsceneDragonite)
     }
 
 #undef CUTSCENE

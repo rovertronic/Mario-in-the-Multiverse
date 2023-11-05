@@ -681,6 +681,29 @@ enum {
 /* LEVEL I END */
 
 /* LEVEL J START */
+#define MODEL_J_FALLING_PLATFORM                0x150
+#define MODEL_J_TILTY_HEXAGON                   0x151
+#define MODEL_J_SKARMORY                        0x152
+#define MODEL_J_YOUNGSTER                       0x153
+#define MODEL_J_SPINARAK                        0x154
+#define MODEL_J_GEODUDE                         0x155
+#define MODEL_BERRY                             0x156
+#define MODEL_J_HOOH                            0x157
+#define MODEL_J_HOOH_ROCK                       0x158
+#define MODEL_J_MILTANK                         0x159
+#define MODEL_J_GASTLY                          0x160
+#define MODEL_J_HAUNTER                         0x161
+#define MODEL_J_GENGAR                          0x162
+#define MODEL_J_ELDER                           0x163
+#define MODEL_J_KIMONO_GIRL                     0x164
+#define MODEL_J_MORTY                           0x165
+#define MODEL_J_COWGIRL                         0x166
+#define MODEL_J_SENTRET                         0x167
+#define MODEL_J_SKIPLOOM                        0x168
+#define MODEL_J_OLD_MAN                         0x169
+#define MODEL_J_SNORLAX                         0x170
+#define MODEL_J_MAGIKARP                        0x171
+#define MODEL_J_GRAVELER                 0x39
 /* LEVEL J END */
 
 /* LEVEL K START */
@@ -696,6 +719,17 @@ enum {
 /* LEVEL N END */
 
 /* LEVEL O START */
+#define MODEL_O_ZOMBIE_1  0x151
+#define MODEL_O_ZOMBIE_2  0x152
+#define MODEL_O_ZOMBIE_3  0x153
+#define MODEL_ZOMBLOOD    0x154
+#define MODEL_O_TREE      0x155
+#define MODEL_O_UVSTAR    0x156
+#define MODEL_O_LIFT      0x157
+#define MODEL_O_GARAGE    0x158
+#define MODEL_O_SPEAKER_1 0x159
+#define MODEL_O_SPEAKER_2 0x15A
+#define MODEL_O_SPEAKER_3 0x15B
 /* LEVEL O END */
 
 #endif // MODEL_IDS_H

@@ -375,6 +375,7 @@ void init_mario_after_warp(void) {
 
         init_mario();
         set_mario_initial_action(gMarioState, marioSpawnType, sWarpDest.arg);
+        gMarioState->marioObj->header.gfx.node.flags |= GRAPH_RENDER_ACTIVE;
 
         gMarioState->interactObj = spawnNode->object;
         gMarioState->usedObj = spawnNode->object;

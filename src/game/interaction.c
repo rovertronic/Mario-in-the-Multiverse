@@ -59,7 +59,8 @@ u32 interact_grabbable     (struct MarioState *m, u32 interactType, struct Objec
 u32 interact_text          (struct MarioState *m, u32 interactType, struct Object *obj);
 //--E
 u32 interact_e__doom_enemy (struct MarioState *m, u32 interactType, struct Object *obj);
-
+//J
+u32 interact_j_miltank     (struct MarioState *m, u32 interactType, struct Object *obj);
 
 struct InteractionHandler {
     u32 interactType;
@@ -84,7 +85,7 @@ static struct InteractionHandler sInteractionHandlers[] = {
     { INTERACT_CLAM_OR_BUBBA,  interact_clam_or_bubba },
     { INTERACT_BULLY,          interact_bully },
     { INTERACT_SHOCK,          interact_shock },
-    { INTERACT_BOUNCE_TOP2,    interact_bounce_top },
+    //{ INTERACT_BOUNCE_TOP2,    interact_bounce_top },
     { INTERACT_MR_BLIZZARD,    interact_mr_blizzard },
     { INTERACT_HIT_FROM_BELOW, interact_hit_from_below },
     { INTERACT_BOUNCE_TOP,     interact_bounce_top },
@@ -100,6 +101,8 @@ static struct InteractionHandler sInteractionHandlers[] = {
     { INTERACT_TEXT,           interact_text },
     //--E
     { INTERACT_E__DOOM_ENEMY,  interact_e__doom_enemy },
+    //J
+    { INTERACT_J_MILTANK,      interact_j_miltank},
 };
 
  u32 sForwardKnockbackActions[][3] = {//--no longer static (used in bullet system)
@@ -961,6 +964,9 @@ u32 interact_warp(struct MarioState *m, UNUSED u32 interactType, struct Object *
 
             mario_stop_riding_object(m);
             if ((gCurrLevelNum==LEVEL_F)&&(gCurrAreaIndex==2)) { //hardcoded check for james bond level
+                return set_mario_action(m, ACT_TELEPORT_FADE_OUT, 0);
+            }
+            if (gCurrLevelNum==LEVEL_O) { //hardcoded check for walking dead level
                 return set_mario_action(m, ACT_TELEPORT_FADE_OUT, 0);
             }
             return set_mario_action(m, ACT_DISAPPEARED, (WARP_OP_WARP_OBJECT << 16) + 2);
@@ -1871,6 +1877,46 @@ u32 interact_e__doom_enemy(struct MarioState *m, UNUSED u32 interactType, struct
     return FALSE;
 }
 
+
+//J
+u32 interact_j_miltank(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
+    u32 interaction;
+    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)||using_ability(ABILITY_KNIGHT)) {
+        interaction = INT_FAST_ATTACK_OR_SHELL;
+    } else {
+        interaction = determine_interaction(m, obj);
+    }
+
+    if (interaction & INT_ATTACK_NOT_FROM_BELOW) {
+#if ENABLE_RUMBLE
+        queue_rumble_data(5, 80);
+#endif
+        attack_object(obj, interaction);
+        bounce_back_from_attack(m, interaction);
+
+        if (interaction & INT_HIT_FROM_ABOVE) {
+            if (obj->oInteractionSubtype & INT_SUBTYPE_TWIRL_BOUNCE) {
+                bounce_off_object(m, obj, 80.0f);
+                reset_mario_pitch(m);
+                play_sound(SOUND_MARIO_TWIRL_BOUNCE, m->marioObj->header.gfx.cameraToObject);
+                return drop_and_set_mario_action(m, ACT_TWIRLING, 0);
+            } else {
+                bounce_off_object(m, obj, 30.0f);
+            }
+        }
+    } else {
+        obj->oInteractStatus |= INT_STATUS_INTERACTED;
+        push_mario_out_of_object(m, obj, 2.0f);
+    }
+
+
+
+    if (!(obj->oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY)) {
+        sDelayInvincTimer = TRUE;
+    }
+
+    return FALSE;
+}
 
 void check_kick_or_punch_wall(struct MarioState *m) {
     if (

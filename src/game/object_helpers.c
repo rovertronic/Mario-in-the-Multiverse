@@ -271,6 +271,14 @@ s32 obj_turn_toward_object(struct Object *obj, struct Object *target, s16 angleI
 
             targetAngle = atan2s(d[2], d[0]);
             break;
+
+        case O_MOVE_ANGLE_ROLL_INDEX:
+        case O_FACE_ANGLE_ROLL_INDEX:
+            d[0] = target->oPosX - obj->oPosX;
+            d[1] = -target->oPosY + obj->oPosY;
+
+            targetAngle = atan2s(d[1], d[0]);
+            break;
     }
 
     startAngle = o->rawData.asU32[angleIndex];

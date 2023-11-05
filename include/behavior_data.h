@@ -551,6 +551,7 @@ extern const BehaviorScript bhvStarPiece[];
 extern const BehaviorScript bhvDashBoosterParticle[];
 extern const BehaviorScript bhvAbilityRecoveryHeart[];
 
+
 /* GROUP A START */
 /* GROUP A END */
 
@@ -644,6 +645,32 @@ extern const BehaviorScript bhvMasterKaagWeakPoint[];
 
 /* GROUP J START */
 extern const BehaviorScript bhvDragonite[];
+extern const BehaviorScript bhvFallingPlatform[];
+extern const BehaviorScript bhvTiltyHexagon[];
+extern const BehaviorScript bhvSkarmory[];
+extern const BehaviorScript bhvSkarmoryStarSpawner[];
+extern const BehaviorScript bhvYoungster[];
+extern const BehaviorScript bhvSpinarak[];
+extern const BehaviorScript bhvGeodude[];
+extern const BehaviorScript bhvGeodudePunchHitbox[];
+extern const BehaviorScript bhvBerry[];
+extern const BehaviorScript bhvHooh[];
+extern const BehaviorScript bhvHoohFlame[];
+extern const BehaviorScript bhvHoohRock[];
+extern const BehaviorScript bhvHoohFlame2[];
+extern const BehaviorScript bhvMiltank[];
+extern const BehaviorScript bhvMiltankStar[];
+extern const BehaviorScript bhvHaunter[];
+extern const BehaviorScript bhvGengar[];
+extern const BehaviorScript bhvElder[];
+extern const BehaviorScript bhvKimonoGirl[];
+extern const BehaviorScript bhvMorty[];
+extern const BehaviorScript bhvSentret[];
+extern const BehaviorScript bhvSkiploom[];
+extern const BehaviorScript bhvGravelerRamp[];
+extern const BehaviorScript bhvOldMan[];
+extern const BehaviorScript bhvSnorlax[];
+extern const BehaviorScript bhvMagikarp[];
 /* GROUP J END */
 
 /* GROUP K START */
@@ -661,6 +688,14 @@ extern const BehaviorScript bhvPhysicsMarble[];
 /* GROUP N END */
 
 /* GROUP O START */
+extern const BehaviorScript bhvOZombie[];
+extern const BehaviorScript bhvOZombieSpawner[];
+extern const BehaviorScript bhvOTree[];
+extern const BehaviorScript bhvOuvstar[];
+extern const BehaviorScript bhvOlift[];
+extern const BehaviorScript bhvOgarage[];
+extern const BehaviorScript bhvOspeaker[];
+extern const BehaviorScript bhvOeasystreetcontroller[];
 /* GROUP O END */
 
 #endif // BEHAVIOR_DATA_H

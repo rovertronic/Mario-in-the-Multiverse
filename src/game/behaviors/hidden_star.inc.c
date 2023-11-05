@@ -5,6 +5,9 @@ void bhv_hidden_star_init(void) {
     if (gCurrLevelNum == LEVEL_F) {
         remainingTriggers = count_objects_with_behavior(bhvBriefcase);
     }
+    if (gCurrLevelNum == LEVEL_O) {
+        remainingTriggers = count_objects_with_behavior(bhvOuvstar);
+    }
 
     if (remainingTriggers == 0) {
         struct Object *starObj = spawn_object_abs_with_rot(o, 0, MODEL_STAR, bhvStar, o->oPosX, o->oPosY, o->oPosZ, 0, 0, 0);

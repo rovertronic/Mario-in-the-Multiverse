@@ -8138,10 +8138,20 @@ sound_ref .sound_level_e_caco_damage
 sound_ref .sound_level_e_caco_damage2
 sound_ref .sound_level_e_caco_death
 sound_ref .sound_level_e_caco_death2
+sound_ref .sound_o_walker_aggressive_1
+sound_ref .sound_o_walker_aggressive_2
+sound_ref .sound_o_walker_aggressive_3
+sound_ref .sound_o_walker_aggressive_4
+sound_ref .sound_o_walker_die
+sound_ref .sound_o_walker_hit
+sound_ref .sound_o_walker_eat
 sound_ref .sound_level_g_0_stardoor
 sound_ref .sound_level_i_hoodboomer_death
 sound_ref .sound_level_i_hoodboomer_laugh
 sound_ref .sound_level_i_toad_help
+sound_ref .sound_level_j_hooh
+sound_ref .sound_level_j_miltank
+sound_ref .sound_level_j_geodude
 
 .sound_level_x_0:
 chan_setbank 12
@@ -8155,7 +8165,7 @@ layer_end
 
 .sound_level_g_0_stardoor:
 chan_setbank 12
-chan_setinstr 5
+chan_setinstr 12
 chan_setlayer 0, .layer_level_g_0
 chan_end
 
@@ -8224,6 +8234,89 @@ layer_end
     layer_note1 38, 0x5A, 127
     layer_end
 
+// walker
+
+.sound_o_walker_aggressive_1:
+chan_setbank 12
+chan_setinstr 5
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.sound_o_walker_aggressive_2:
+chan_setbank 12
+chan_setinstr 6
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.sound_o_walker_aggressive_3:
+chan_setbank 12
+chan_setinstr 7
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.sound_o_walker_aggressive_4:
+chan_setbank 12
+chan_setinstr 8
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.sound_o_walker_die:
+chan_setbank 12
+chan_setinstr 9
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.sound_o_walker_hit:
+chan_setbank 12
+chan_setinstr 10
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.sound_o_walker_eat:
+chan_setbank 12
+chan_setinstr 11
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.layer_level_o_walker:
+layer_note1 39, 0x88, 127
+layer_end
+
+//end walker
+
+//Pokemon
+
+.sound_level_j_hooh:
+chan_setbank 12
+chan_setinstr 13
+chan_setlayer 0, .layer_level_j_hooh
+chan_end
+
+.layer_level_j_hooh:
+layer_note1 39, 0x7f, 127
+layer_end
+
+.sound_level_j_miltank:
+chan_setbank 12
+chan_setinstr 14
+chan_setlayer 0, .layer_level_j_miltank
+chan_end
+
+.layer_level_j_miltank:
+layer_note1 39, 0x7f, 127
+layer_end
+
+.sound_level_j_geodude:
+chan_setbank 12
+chan_setinstr 15
+chan_setlayer 0, .layer_level_j_geodude
+chan_end
+
+.layer_level_j_geodude:
+layer_note1 39, 0x7f, 127
+layer_end
+
+//End Pokemon
 
 // hoodboomer
 
@@ -8258,8 +8351,6 @@ chan_end
     .layer_level_i_toad_help:
     layer_note1 39, 0xC0, 127
     layer_end
-
-
 
 .align 2, 0
 .envelope_32C4:

@@ -63,6 +63,7 @@ void bhv_flipswitch(void) {
             tiles_hasmodel_count = 0;
             tiles_star_spawned = FALSE;
             cur_obj_scale(1.0f + (o->oBehParams2ndByte*0.5f));
+            load_object_static_model();
         break;
         case 1:
             tiles_needed ++;
@@ -237,4 +238,442 @@ void bhv_star_piece_loop(void) {
             }
         break;
     }
+}
+
+static struct SpawnParticlesInfo sZombieBlood = {
+    /* behParam:        */ 0,
+    /* count:           */ 10,
+    /* model:           */ MODEL_ZOMBLOOD,
+    /* offsetY:         */ 90,
+    /* forwardVelBase:  */ 4,
+    /* forwardVelRange: */ 4,
+    /* velYBase:        */ 10,
+    /* velYRange:       */ 15,
+    /* gravity:         */ -4,
+    /* dragStrength:    */ 0,
+    /* sizeBase:        */ 4,
+    /* sizeRange:       */ 4,
+};
+
+static struct SpawnParticlesInfo sZombieHeadBlood1 = {
+    /* behParam:        */ 0,
+    /* count:           */ 20,
+    /* model:           */ MODEL_ZOMBLOOD,
+    /* offsetY:         */ 127,
+    /* forwardVelBase:  */ 4,
+    /* forwardVelRange: */ 4,
+    /* velYBase:        */ 10,
+    /* velYRange:       */ 15,
+    /* gravity:         */ -4,
+    /* dragStrength:    */ 0,
+    /* sizeBase:        */ 9,
+    /* sizeRange:       */ 6,
+};
+
+static struct ObjectHitbox sZombieHitbox = {
+    /* interactType:      */ INTERACT_DAMAGE,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 1,
+    /* health:            */ 3,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 60,
+    /* height:            */ 200,
+    /* hurtboxRadius:     */ 60,
+    /* hurtboxHeight:     */ 160,
+};
+
+s32 walker_check_dmg(void) {
+    u8 damaged = FALSE;
+    u8 damage_count = 1;
+    o->oInteractType = INTERACT_DAMAGE;
+
+    //mario states where he can kill well
+    if ((gMarioState->action == ACT_ABILITY_AXE_JUMP)||(gMarioState->action == ACT_KNIGHT_SLIDE)||(aku_invincibility>0)) {
+        o->oInteractType = INTERACT_BOUNCE_TOP;
+        damage_count = 3;
+        if (aku_invincibility>0) {
+            damage_count = 1;
+        }
+    }
+    if ((gMarioState->action == ACT_MOVE_PUNCHING)&&(using_ability(ABILITY_CHRONOS))) {
+        o->oInteractType = INTERACT_BOUNCE_TOP;
+        damage_count = 3;
+    }
+    if ((gMarioState->vel[1]>=0.0f)&&(using_ability(ABILITY_BIG_DADDY))) {
+        o->oInteractType = INTERACT_BOUNCE_TOP;
+        damage_count = 3;
+    }
+
+    if (o->oShotByShotgun > 0) {
+        damaged = TRUE;
+        if (o->oShotByShotgun == 2) {
+            damage_count = 3;
+        }
+        o->oShotByShotgun = 0;
+    }
+    if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
+        damaged = TRUE;
+    }
+
+    if (damaged) {
+        o->oHealth-=damage_count;
+        if (o->oHealth < 1) {
+            cur_obj_play_sound_2(SOUND_MITM_LEVEL_O_WALKER_DIE);
+            o->oAction = 5; //death
+        } else {
+            cur_obj_play_sound_2(SOUND_MITM_LEVEL_O_WALKER_HIT);
+            o->oAction = 4; //hurt
+        }
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+s32 zombie_audio_variance[] = {
+    SOUND_MITM_LEVEL_O_WALKER_AGGRO1,
+    SOUND_MITM_LEVEL_O_WALKER_AGGRO2,
+    SOUND_MITM_LEVEL_O_WALKER_AGGRO3,
+    SOUND_MITM_LEVEL_O_WALKER_AGGRO4,
+};
+
+//zambie
+void bhv_o_walker_update(void) {
+    f32 walkspeed = 0.0f;
+    u16 view_angle = ABS(o->oAngleToMario-o->oFaceAngleYaw);
+    u8 touched_another_zombie = FALSE;
+    u32 is_underwater = (o->oMoveFlags & (OBJ_MOVE_UNDERWATER_OFF_GROUND|OBJ_MOVE_UNDERWATER_ON_GROUND));
+
+    lv_o_zombie_counting++;
+
+    switch(o->oAction) {
+        case 1:
+        case 4:
+        case 7:
+        if (!(o->oInteractStatus & INT_STATUS_ATTACK_MASK)) {
+            touched_another_zombie = obj_resolve_object_collisions_zombie(NULL);
+        }
+    }
+    cur_obj_update_floor_and_walls();
+    cur_obj_move_standard(78);
+
+
+    switch(o->oAction) {
+        case 0: //init
+            obj_set_hitbox(o, &sZombieHitbox);
+            o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_O_ZOMBIE_1+(random_u16()%3) ];
+            o->oAction = 7;
+            cur_obj_init_animation_with_accel_and_sound(7, 1.0f);
+            if (o->oBehParams2ndByte == 1) {
+                o->oAction = 1;
+                cur_obj_init_animation_with_accel_and_sound(3, 1.0f);
+            }
+            o->oForwardVel = 0.0f;
+            o->oFaceAngleYaw = random_u16();
+        break;
+        case 1://walking
+            if (o->oTimer == 0) {
+                o->header.gfx.animInfo.animFrame = random_u16()%48;
+                o->oTimer = random_u16();
+                if (is_underwater) {
+                    cur_obj_init_animation_with_accel_and_sound(1, 2.0f);
+                }
+            }
+            o->oMoveAngleYaw = approach_s16_asymptotic(o->oMoveAngleYaw, o->oAngleToMario+(sins(o->oTimer*0x50)*0x1000), 8);
+            o->oFaceAngleYaw = o->oMoveAngleYaw;
+            walkspeed = (sins((o->header.gfx.animInfo.animFrame/50.0f)*65535.0f ) * 1.0f)+4.0f;
+            o->oForwardVel = approach_f32_asymptotic(o->oForwardVel,walkspeed,0.2f);
+
+            if ((is_underwater)&&(gMarioState->pos[1] > o->oPosY)&&(o->oVelY < 15.0f)) {
+                if (o->oVelY < 5.0f) {
+                    o->oVelY = 5.0f;
+                }
+                o->oVelY += 0.8f;
+            }
+
+            if ((random_u16()%20)==0) {
+                cur_obj_play_sound_2(zombie_audio_variance[random_u16()%4]);
+            }
+
+            if ((o->oDistanceToMario>5000.0f)&&(o->oBehParams2ndByte!=1)) { //lose sight of mario
+                o->oAction = 7; //idle
+                cur_obj_init_animation_with_accel_and_sound(7, 1.0f);
+            }
+
+            if ((o->oMoveFlags & OBJ_MOVE_IN_AIR) && (!is_underwater) && (o->oFloorHeight < o->oPosY-10.0f)) {
+                o->oAction = 2; //falling
+                cur_obj_init_animation_with_accel_and_sound(1, 2.0f);
+            }
+
+            if (o->oDistanceToMario < 150.0f) {
+                o->oAction = 6; //eating
+            }
+
+            walker_check_dmg();
+        break;
+        case 2: //falling
+            o->oForwardVel = 2.0f;
+            if (o->oMoveFlags & (OBJ_MOVE_LANDED|OBJ_MOVE_ON_GROUND)) {
+                cur_obj_init_animation_with_accel_and_sound(2, 1.0f);
+                o->oAction = 3; //getting up
+                o->oVelY = 0.0f;
+                cur_obj_play_sound_2(SOUND_GENERAL_SMALL_BOX_LANDING);
+            }
+            if (is_underwater) {
+                o->oAction = 1;
+            }
+        break;
+        case 3: //getting up
+            if (o->oTimer >= 30) {
+                o->oAction = 1; //walking
+                cur_obj_init_animation_with_accel_and_sound(3, 1.0f);
+            }
+        break;
+        case 4: //damaged
+            o->oInteractType = INTERACT_NONE;
+            cur_obj_become_intangible();
+            if (o->oTimer == 0) {
+                cur_obj_init_animation_with_accel_and_sound(4, 1.0f);
+                cur_obj_spawn_particles(&sZombieBlood);
+            }
+            o->oForwardVel = -1.0f;
+        
+            if (o->oTimer >= 30) {
+                cur_obj_become_tangible();
+                o->oAction = 1; //walking
+                cur_obj_init_animation_with_accel_and_sound(3, 1.0f);
+            }
+        break;
+        case 5: //death
+            cur_obj_become_intangible();
+            o->oInteractType = INTERACT_NONE;
+            if (o->oTimer == 0) {
+                cur_obj_init_animation_with_accel_and_sound(5, 1.0f);
+                o->oPosY += 30.0f;
+                cur_obj_spawn_particles(&sZombieHeadBlood1);
+                o->oPosY -= 30.0f;
+            }
+
+            o->oForwardVel = 0.0f;
+
+            if (o->oTimer >= 60) {
+                obj_mark_for_deletion(o);
+            }
+        break;
+        case 6: //eating
+            if (o->oTimer == 0) {
+                cur_obj_init_animation_with_accel_and_sound(6, 1.0f);
+            }
+
+            o->oFaceAngleYaw = o->oAngleToMario;
+            o->oForwardVel = 0.0f;
+
+            if (o->oTimer % 20 == 0) {
+                cur_obj_play_sound_2(SOUND_MITM_LEVEL_O_WALKER_EAT);
+            }
+
+            if (o->oTimer > 15) {
+                gMarioState->health -= 4;
+            }
+            
+            if (o->oDistanceToMario > 200.0f) {
+                cur_obj_become_tangible();
+                o->oAction = 1; //walking
+                cur_obj_init_animation_with_accel_and_sound(3, 1.0f);
+            }
+
+            walker_check_dmg();
+        break;
+        case 7: //idle
+            o->oForwardVel = 0.0f;
+
+            if (o->oDistanceToMario<4000.0f) {
+                if ((view_angle < 0x2000)||(o->numCollidedObjs > 0)) {
+                    cur_obj_init_animation_with_accel_and_sound(3, 1.0f);
+                    o->oAction = 1;
+                }
+            }
+
+            walker_check_dmg();
+
+        break;
+    }
+
+    o->oIntangibleTimer = 0;
+    o->oInteractStatus = 0;
+
+    if (o->oTimer > 0) {
+        if ((o->oPosY < -8000.0f)||(o->oDistanceToMario>10000.0f)) {
+            //despawn if the zombie falls off the map / gets too far from mario
+            obj_mark_for_deletion(o);
+        }
+    }
+
+    if ((o->oFloorType == SURFACE_INSTANT_QUICKSAND)&&(o->oMoveFlags & (OBJ_MOVE_LANDED|OBJ_MOVE_ON_GROUND))) {
+        create_sound_spawner(SOUND_ACTION_WATER_PLUNGE);
+        obj_mark_for_deletion(o);
+    }
+}
+
+u8 speakers_shot = 0;
+u8 easystreet_mission_state = 0;
+
+void bhv_zambie_spawner() {
+    u8 zambie_thresh = 25;
+    u16 timer_rand = 100;
+
+    if (o->oBehParams2ndByte==1) {
+        if (easystreet_mission_state != 2) {
+            //don't spawn zombies til easy street starts playing
+            return;
+        }
+        zambie_thresh = 30;
+        timer_rand = 195;
+    }
+
+    if (o->oTimer > 200) {
+        if ((o->oDistanceToMario>4000.0f)&&(o->oDistanceToMario<10000.0f)&&(lv_o_zombie_counter < zambie_thresh)) {
+            struct Object * zambie = spawn_object(o,MODEL_NONE,bhvOZombie);
+            zambie->oBehParams2ndByte = o->oBehParams2ndByte;
+        }
+        o->oTimer = random_u16()%timer_rand;
+    }
+}
+
+void bhv_o_tree_init(void) {
+    cur_obj_scale(0.9f + (random_float()*0.3f));
+    o->oFaceAngleYaw = random_u16();
+}
+
+void bhv_hidden_by_uv(void) {
+    if (using_ability(ABILITY_GADGET_WATCH)) {
+        cur_obj_unhide();
+    } else {
+        cur_obj_hide();
+    }
+}
+
+void bhv_o_lift(void) {
+    struct Object *rocketbutton = cur_obj_nearest_object_with_behavior(bhvRocketButton);
+    switch(o->oAction) {
+        case 0:
+            o->oHomeY = o->oPosY;
+            if ((rocketbutton) && (rocketbutton->oAction > 0)) {
+                play_puzzle_jingle();
+                o->oAction++;
+                o->oPosY -= 3800.0f;
+            }
+        break;
+        case 1:
+            if (gMarioObject->platform == o) {
+                o->oAction = 2;
+            }
+        break;
+        case 2:
+            if (o->oPosY < o->oHomeY) {
+                o->oPosY += 40.0f;
+                cur_obj_play_sound_1(SOUND_ENV_ELEVATOR1);
+            } else {
+                if (rocketbutton) {
+                    o->oAction = 0;
+                    rocketbutton->oAction = 0;
+                }
+            }
+        break;
+    }
+}
+
+void bhv_o_garage(void) {
+    o->oPosY += o->oVelY;
+    o->oVelY -= 2.0f;
+
+    if (o->oPosY < o->oHomeY-900.0f) {
+        o->oPosY = o->oHomeY-900.0f;
+        if (o->oAction == 0) {
+            cur_obj_play_sound_2( SOUND_GENERAL_ELEVATOR_LAND);
+            o->oAction++;
+        }
+    }
+}
+
+void bhv_o_speaker(void) {
+    switch(o->oAction) {
+        case 0: //init
+            o->oAction++;
+            o->oInteractType = INTERACT_BOUNCE_TOP;
+            o->oVelY = 0.0f;
+        break;
+        case 1://wait to play
+            if (easystreet_mission_state == 2) {
+                o->oAction++;
+            }
+        break;
+        case 2://playing
+            cur_obj_scale( 1.0f + sins(o->oTimer*0x1000)*0.1f );
+
+            if (easystreet_mission_state < 2) {
+                //stop sound
+                o->oAction--;
+            }
+
+            if ((o->oShotByShotgun > 0)||(o->oInteractStatus & INT_STATUS_WAS_ATTACKED)) {
+                speakers_shot++;
+                o->oAction++;
+                o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_O_SPEAKER_2];
+                o->oVelY = 10.0f;
+                o->oMoveAngleYaw = o->oFaceAngleYaw-0x4000;
+
+                struct Object *other_half = spawn_object(o,MODEL_O_SPEAKER_3,bhvOspeaker);
+                other_half->oAction = 3;
+                other_half->oVelY = 10.0f;
+                other_half->oMoveAngleYaw = o->oFaceAngleYaw+0x4000;
+            }
+        break;
+        case 3://destroyed
+            o->oPosY += o->oVelY;
+            o->oVelY -= 2.0f;
+
+            o->oPosX += sins(o->oMoveAngleYaw)*20.0f;
+            o->oPosZ += coss(o->oMoveAngleYaw)*20.0f;
+
+            if (o->oTimer > 50) {
+                obj_mark_for_deletion(o);
+            }
+        break;
+    }
+    o->oInteractStatus = 0;
+    o->oIntangibleTimer = 0;
+}
+
+void bhv_o_easystreet_mission_controller(void) {
+    switch(o->oAction) {
+        case 0://init
+            speakers_shot = 0;
+            o->oAction++;
+        break;
+        case 1://wait for easy street mission to begin
+            if ((gMarioState->pos[1] < o->oPosY)&&(o->oDistanceToMario<6700.0f)) {
+                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_O_EASYSTREET), 0);
+                o->oAction++;
+            }
+        break;
+        case 2://easy street playing
+            if (gMarioState->pos[1] > o->oPosY) { //mario left
+                stop_background_music(SEQUENCE_ARGS(4, SEQ_O_EASYSTREET));
+                o->oAction = 1;
+            }
+            if (speakers_shot == 7) {
+                stop_background_music(SEQUENCE_ARGS(4, SEQ_O_EASYSTREET));
+                o->oAction++;
+            }
+        break;
+        case 3://mission end
+            if (o->oTimer > 30) {
+                spawn_default_star(o->oPosX,o->oPosY-1400.0f,o->oPosZ);
+                o->oAction++;
+            }
+        break;
+    }
+
+    easystreet_mission_state = o->oAction;
 }

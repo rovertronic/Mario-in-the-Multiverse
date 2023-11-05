@@ -673,6 +673,9 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
     } else if (m->actionState == ACT_STATE_STAR_DANCE_DO_SAVE) {
         save_file_do_save(gCurrSaveFileNum - 1);
         m->actionState = ACT_STATE_STAR_DANCE_RETURN;
+        if (gCurrentArea->index == 7 && gCurrLevelNum == LEVEL_J){
+            level_trigger_warp(m, WARP_OP_STAR_EXIT);
+        }
     } else if (m->actionState == ACT_STATE_STAR_DANCE_RETURN && is_anim_at_end(m)) {
         disable_time_stop();
         enable_background_sound();
@@ -1055,7 +1058,7 @@ s32 act_spawn_spin_airborne(struct MarioState *m) {
         load_level_init_text(0);
         return set_water_plunge_action(m);
     }
-
+    
     // updates all velocity variables based on m->forwardVel
     mario_set_forward_vel(m, m->forwardVel);
 

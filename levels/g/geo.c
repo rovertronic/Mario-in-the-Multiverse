@@ -40,3 +40,5 @@
 #include "levels/g/g_marx_ice_ring/geo.inc.c"
 #include "levels/g/g_marx_black_hole_effect/geo.inc.c"
 #include "levels/g/g_bronto_burt/geo.inc.c"
+#include "levels/g/g_moving_platform/geo.inc.c"
+#include "levels/g/g_marx_door/geo.inc.c"

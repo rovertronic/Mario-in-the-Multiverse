@@ -48,3 +48,7 @@
 #include "levels/g/g_bronto_burt/model.inc.c"
 #include "levels/g/g_bronto_burt/anims/data.inc.c"
 #include "levels/g/g_bronto_burt/anims/table.inc.c"
+#include "levels/g/g_moving_platform/model.inc.c"
+#include "levels/g/g_moving_platform/collision.inc.c"
+#include "levels/g/g_marx_door/model.inc.c"
+#include "levels/g/g_marx_door/collision.inc.c"

@@ -671,6 +671,8 @@ enum {
 #define MODEL_G_MARX_ICE_RING              0x165
 #define MODEL_G_MARX_BLACK_HOLE_EFFECT              0x166
 #define MODEL_G_BRONTO_BURT              0x167
+#define MODEL_G_MOVING_PLATFORM              0x168
+#define MODEL_G_MARX_DOOR              0x169
 /* LEVEL G END */
 
 /* LEVEL H START */

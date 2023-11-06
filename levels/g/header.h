@@ -73,4 +73,12 @@ extern const LevelScript level_g_entry[];
 
 #include "levels/g/g_bronto_burt/anim_header.h"
 
+#include "levels/g/g_moving_platform/geo_header.h"
+
+#include "levels/g/g_moving_platform/collision_header.h"
+
+#include "levels/g/g_marx_door/geo_header.h"
+
+#include "levels/g/g_marx_door/collision_header.h"
+
 #endif

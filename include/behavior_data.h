@@ -658,3 +658,4 @@ extern const BehaviorScript bhvGMarxBodyLaser[];
 extern const BehaviorScript bhvGMarxLaser[];
 extern const BehaviorScript bhvGMarxIceBomb[];
 extern const BehaviorScript bhvGMarxBlackHoleEffect[];
+extern const BehaviorScript bhvGBrontoBurt[];

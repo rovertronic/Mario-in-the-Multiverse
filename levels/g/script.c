@@ -102,6 +102,9 @@
 #include "actors/common1.h"
 #include "actors/common1.h"
 #include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
 
 /* Fast64 begin persistent block [includes] */
 #include "actors/common1.h"
@@ -145,6 +148,7 @@ const LevelScript level_g_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_ICE_BOMB, g_marx_ice_bomb_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_ICE_RING, g_marx_ice_ring_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_BLACK_HOLE_EFFECT, g_marx_black_hole_effect_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_G_BRONTO_BURT, g_bronto_burt_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -204,6 +208,15 @@ const LevelScript level_g_entry[] = {
 		WARP_NODE(0xF0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF1, LEVEL_G, 0x03, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0B, LEVEL_G, 0x04, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_G_BRONTO_BURT, 4962, 4226, -1141, 0, -165, 0, 0x00000000, bhvGBrontoBurt),
+		OBJECT(MODEL_G_BRONTO_BURT, 1980, 3056, -6224, 0, -122, 0, 0x00000000, bhvGBrontoBurt),
+		OBJECT(MODEL_G_BRONTO_BURT, 2780, 3091, -5682, 0, -122, 0, 0x00000000, bhvGBrontoBurt),
+		OBJECT(MODEL_G_BRONTO_BURT, 2780, 3375, -5682, 0, -122, 0, (2 << 16), bhvGBrontoBurt),
+		OBJECT(MODEL_G_BRONTO_BURT, 5762, 5153, -865, 0, -4, 0, (2 << 16), bhvGBrontoBurt),
+		OBJECT(MODEL_G_BRONTO_BURT, 4962, 4606, -1141, 0, -165, 0, (2 << 16), bhvGBrontoBurt),
+		OBJECT(MODEL_G_BRONTO_BURT, 5540, 4415, -1284, 0, -148, 0, (1 << 16), bhvGBrontoBurt),
+		OBJECT(MODEL_G_BRONTO_BURT, 5757, 5214, -1928, 0, -4, 0, (2 << 16), bhvGBrontoBurt),
+		OBJECT(MODEL_G_BRONTO_BURT, 5767, 5153, -1412, 0, 0, 0, 0x00000000, bhvGBrontoBurt),
 		OBJECT(MODEL_BLUE_COIN, 566, -682, 2558, 0, 0, 0, 0x0000F000, bhvBlueCoinJumping),
 		OBJECT(MODEL_BLUE_COIN, 995, 1316, -5264, 0, 0, 0, 0x0000F000, bhvBlueCoinJumping),
 		OBJECT(MODEL_G_CANNON, -2104, 3096, -10210, 0, 115, 0, 0x00000000, bhvGCannon),

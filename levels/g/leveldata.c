@@ -45,3 +45,6 @@
 #include "levels/g/g_marx_ice_ring/model.inc.c"
 #include "levels/g/g_marx_black_hole_effect/model.inc.c"
 #include "levels/g/marxHealth/model.inc.c"
+#include "levels/g/g_bronto_burt/model.inc.c"
+#include "levels/g/g_bronto_burt/anims/data.inc.c"
+#include "levels/g/g_bronto_burt/anims/table.inc.c"

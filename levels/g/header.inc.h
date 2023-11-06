@@ -147,7 +147,7 @@ extern Vtx g_dl_Circle_mesh_layer_1_vtx_1[27];
 extern Gfx g_dl_Circle_mesh_layer_1_tri_1[];
 extern Vtx g_dl_Circle_mesh_layer_1_vtx_2[8];
 extern Gfx g_dl_Circle_mesh_layer_1_tri_2[];
-extern Vtx g_dl_Plane_002_mesh_layer_1_vtx_0[1156];
+extern Vtx g_dl_Plane_002_mesh_layer_1_vtx_0[1157];
 extern Gfx g_dl_Plane_002_mesh_layer_1_tri_0[];
 extern Vtx g_dl_Plane_002_mesh_layer_1_vtx_1[554];
 extern Gfx g_dl_Plane_002_mesh_layer_1_tri_1[];

@@ -6749,3 +6749,15 @@ const BehaviorScript bhvGMarxBlackHoleEffect[] = {
         CALL_NATIVE(bhv_g_marx_black_hole_effect_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvGBrontoBurt[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    LOAD_ANIMATIONS(oAnimations, g_bronto_burt_anims),
+    SET_HOME(),
+    ANIMATE(0),
+    CALL_NATIVE(bhv_g_bronto_burt_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_bronto_burt_loop),
+    END_LOOP(),
+};

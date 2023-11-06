@@ -69,4 +69,8 @@ extern const LevelScript level_g_entry[];
 
 #include "levels/g/marxHealth/header.h"
 
+#include "levels/g/g_bronto_burt/geo_header.h"
+
+#include "levels/g/g_bronto_burt/anim_header.h"
+
 #endif

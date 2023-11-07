@@ -692,3 +692,5 @@ void bhv_g_moving_platform_init(void);
 void bhv_g_moving_platform_loop(void);
 void bhv_g_marx_door_init(void);
 void bhv_g_marx_door_loop(void);
+void bhv_g_waddle_dee_init(void);
+void bhv_g_waddle_dee_loop(void);

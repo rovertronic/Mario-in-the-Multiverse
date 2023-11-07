@@ -442,6 +442,8 @@ void marx_act_arrows(void) {
                         o->oAction = MARX_ACT_ARROWS;
                         o->oHomeY = gMarioState->pos[1] + 200;
                         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_NONE];
+                        o->oSubAction = 0;
+                        o->oTimer = 0;
                     break;
                 }
             }

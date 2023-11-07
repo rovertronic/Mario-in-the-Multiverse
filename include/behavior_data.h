@@ -661,3 +661,4 @@ extern const BehaviorScript bhvGMarxBlackHoleEffect[];
 extern const BehaviorScript bhvGBrontoBurt[];
 extern const BehaviorScript bhvGMovingPlatform[];
 extern const BehaviorScript bhvGMarxDoor[];
+extern const BehaviorScript bhvGWaddleDee[];

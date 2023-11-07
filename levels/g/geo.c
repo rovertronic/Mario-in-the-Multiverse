@@ -42,3 +42,4 @@
 #include "levels/g/g_bronto_burt/geo.inc.c"
 #include "levels/g/g_moving_platform/geo.inc.c"
 #include "levels/g/g_marx_door/geo.inc.c"
+#include "levels/g/g_waddle_dee/geo.inc.c"

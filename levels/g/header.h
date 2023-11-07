@@ -81,4 +81,8 @@ extern const LevelScript level_g_entry[];
 
 #include "levels/g/g_marx_door/collision_header.h"
 
+#include "levels/g/g_waddle_dee/geo_header.h"
+
+#include "levels/g/g_waddle_dee/anim_header.h"
+
 #endif

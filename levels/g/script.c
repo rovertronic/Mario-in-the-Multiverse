@@ -115,6 +115,8 @@
 #include "actors/common1.h"
 #include "actors/common1.h"
 #include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
 
 /* Fast64 begin persistent block [includes] */
 #include "actors/common1.h"
@@ -161,6 +163,7 @@ const LevelScript level_g_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_G_BRONTO_BURT, g_bronto_burt_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_G_MOVING_PLATFORM, g_moving_platform_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_DOOR, g_marx_door_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_G_WADDLE_DEE, g_waddle_dee_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -255,15 +258,20 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_G_CUT_ROCK, -2643, 4582, -8783, 0, 0, 0, (240 << 8), bhvGCutRock),
 		OBJECT(MODEL_G_CUT_ROCK2, -2997, 3459, -7245, 0, 89, 0, (240 << 8), bhvGCutRock),
 		OBJECT(MODEL_G_CUT_ROCK3, -1968, 4732, -7402, 0, 89, 0, (240 << 8), bhvGCutRock),
+		OBJECT(MODEL_G_WADDLE_DEE, 300, -2348, 10492, 0, 0, 0, 0x00000000, bhvGWaddleDee),
+		OBJECT(MODEL_G_WADDLE_DEE, 1071, -2387, 9072, 0, 0, 0, 0x00000000, bhvGWaddleDee),
+		OBJECT(MODEL_G_WADDLE_DEE, 149, 849, -2907, 0, 0, 0, 0x00000000, bhvGWaddleDee),
+		OBJECT(MODEL_G_WADDLE_DEE, 2583, 775, -3219, 0, 0, 0, 0x00000000, bhvGWaddleDee),
+		OBJECT(MODEL_G_WADDLE_DEE, -3795, 2598, -1921, 0, 0, 0, 0x00000000, bhvGWaddleDee),
+		OBJECT(MODEL_G_WADDLE_DEE, -3820, 2763, -5266, 0, 0, 0, 0x00000000, bhvGWaddleDee),
+		OBJECT(MODEL_G_WADDLE_DEE, -358, 2763, -7213, 0, 0, 0, 0x00000000, bhvGWaddleDee),
+		OBJECT(MODEL_G_WADDLE_DEE, 4410, 3237, -4660, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_NONE, 2212, -1780, -10226, 0, 0, 0, (70 << 24) | (11 << 16), bhvWarp),
 		OBJECT(MODEL_LEVEL_PIPE, 909, 981, 219, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_GOOMBA, -496, -2108, 11816, 0, 0, 0, 0x00000000, bhvGoomba),
-		OBJECT(MODEL_GOOMBA, 300, -2348, 10492, 0, 0, 0, 0x00000000, bhvGoomba),
-		OBJECT(MODEL_GOOMBA, 1092, -2365, 9594, 0, 0, 0, 0x00000000, bhvGoomba),
 		OBJECT(MODEL_GOOMBA, -1072, -1653, 8393, 0, 0, 0, 0x00000000, bhvGoomba),
 		OBJECT(MODEL_GOOMBA, 785, -1126, 6494, 0, 0, 0, 0x00000000, bhvGoomba),
 		OBJECT(MODEL_GOOMBA, 425, -2107, 6851, 0, 0, 0, (240 << 8), bhvGoomba),
-		OBJECT(MODEL_GOOMBA, 2330, 876, -2315, 0, 0, 0, 0x00000000, bhvGoomba),
 		OBJECT(MODEL_G_SIR_KIBBLE, 875, -973, 4237, 0, 0, 0, 0x00000000, bhvSirKibble),
 		OBJECT(MODEL_G_SIR_KIBBLE, 2267, 1662, 157, 0, 0, 0, 0x00000000, bhvSirKibble),
 		OBJECT(MODEL_G_SIR_KIBBLE, 3154, 1662, 284, 0, 0, 0, 0x00000000, bhvSirKibble),

@@ -52,3 +52,6 @@
 #include "levels/g/g_moving_platform/collision.inc.c"
 #include "levels/g/g_marx_door/model.inc.c"
 #include "levels/g/g_marx_door/collision.inc.c"
+#include "levels/g/g_waddle_dee/model.inc.c"
+#include "levels/g/g_waddle_dee/anims/data.inc.c"
+#include "levels/g/g_waddle_dee/anims/table.inc.c"

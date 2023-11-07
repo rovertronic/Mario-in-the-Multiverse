@@ -6783,3 +6783,15 @@ const BehaviorScript bhvGMarxDoor[] = {
         CALL_NATIVE(bhv_g_marx_door_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvGWaddleDee[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW )),
+    LOAD_ANIMATIONS(oAnimations, g_waddle_dee_anims),
+    SET_HOME(),
+    ANIMATE(0),
+    CALL_NATIVE(bhv_g_waddle_dee_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_waddle_dee_loop),
+    END_LOOP(),
+};

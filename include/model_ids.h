@@ -674,6 +674,7 @@ enum {
 #define MODEL_G_MOVING_PLATFORM              0x168
 #define MODEL_G_MARX_DOOR              0x169
 #define MODEL_G_WADDLE_DEE              0x16A
+#define MODEL_G_WARP_PIPE              0x16B
 /* LEVEL G END */
 
 /* LEVEL H START */

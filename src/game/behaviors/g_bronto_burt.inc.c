@@ -30,6 +30,7 @@ void bhv_g_bronto_burt_loop(void) {
         if (o->oBehParams2ndByte % 2 == 0) {
             o->oForwardVel = 20.0f*coss(o->oTimer * 0x222);
             cur_obj_move_xz_using_fvel_and_yaw();
+            cur_obj_update_floor_and_walls();
         }
         else {
             o->oPosY = o->oHomeY + 50.0f*coss(o->oTimer * 0x222);
@@ -38,7 +39,7 @@ void bhv_g_bronto_burt_loop(void) {
         obj_handle_attacks(&sBrontoBurtHitbox, o->oAction, sBrontoBurtAttackHandlers);
     }
     else {
-        o->oGravity = -2.0f;
+        o->oGravity = -2.5f;
     }
 }
 

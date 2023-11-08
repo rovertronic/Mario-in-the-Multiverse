@@ -230,7 +230,7 @@ void marx_act_thorns(void) {
         case 0:
             o->oSubAction++;
             cur_obj_init_animation(3);
-            gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
+            if (gCamera->mode != CAMERA_MODE_SHOCK_ROCKET && !(gE_ShotgunFlags & E_SGF_AIM_MODE)) gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
             cur_obj_play_sound_1(SOUND_MITM_LEVEL_G_MARX_LAUGH_2);
         break;
         case 1:
@@ -288,7 +288,7 @@ void marx_act_black_hole(void) {
             if (cur_obj_check_if_at_animation_end()) {
                 o->oSubAction++;
                 gSecondCameraFocus = o;
-            gLakituState.mode = CAMERA_MODE_MARX_FIGHT;
+            if (gCamera->mode != CAMERA_MODE_SHOCK_ROCKET && !(gE_ShotgunFlags & E_SGF_AIM_MODE)) gLakituState.mode = CAMERA_MODE_MARX_FIGHT;
                 o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_NONE];
                 spawn_object_relative(0, 0, 0, 0, o, MODEL_G_MARX_HALF_LEFT, bhvGMarxHalf);
                 spawn_object_relative(1, 0, 0, 0, o, MODEL_G_MARX_HALF_RIGHT, bhvGMarxHalf);
@@ -371,7 +371,7 @@ void marx_act_arrows(void) {
         case 1:
             o->oPosY = approach_f32_asymptotic(o->oPosY, o->oHomeY, 0.08f);
             gSecondCameraFocus = o;
-            gLakituState.mode = CAMERA_MODE_MARX_FIGHT;
+            if (gCamera->mode != CAMERA_MODE_SHOCK_ROCKET && !(gE_ShotgunFlags & E_SGF_AIM_MODE)) gLakituState.mode = CAMERA_MODE_MARX_FIGHT;
             cur_obj_init_animation(4);
             if (o->oTimer == 30) {
                 o->oSubAction++;
@@ -406,7 +406,7 @@ void marx_act_arrows(void) {
             }
         break;
         case 4:
-            gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
+            if (gCamera->mode != CAMERA_MODE_SHOCK_ROCKET && !(gE_ShotgunFlags & E_SGF_AIM_MODE)) gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
             o->oVelY += 1;
             o->oForwardVel += 2;
 
@@ -425,7 +425,7 @@ void marx_act_arrows(void) {
             }
         break;
         case 5:
-            gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
+            if (gCamera->mode != CAMERA_MODE_SHOCK_ROCKET && !(gE_ShotgunFlags & E_SGF_AIM_MODE)) gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
             o->oVelY += 1;
             o->oForwardVel += 2;
 
@@ -455,7 +455,7 @@ void marx_act_laser(void) {
     switch (o->oSubAction) {
         case 0:;
             gSecondCameraFocus = o;
-            gLakituState.mode = CAMERA_MODE_MARX_FIGHT;
+            if (gCamera->mode != CAMERA_MODE_SHOCK_ROCKET && !(gE_ShotgunFlags & E_SGF_AIM_MODE)) gLakituState.mode = CAMERA_MODE_MARX_FIGHT;
             u16 randomAngle = random_u16();
             o->oMarxTeleportX = 1200*sins(randomAngle);
             o->oMarxTeleportZ = 1200*coss(randomAngle);
@@ -502,7 +502,7 @@ void marx_act_laser(void) {
             if (o->oTimer == 30) {
                 //obj_mark_for_deletion(o->oMarxLaserBody);
                 o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_NONE];
-                gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
+                if (gCamera->mode != CAMERA_MODE_SHOCK_ROCKET && !(gE_ShotgunFlags & E_SGF_AIM_MODE)) gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
             }
 
             if (o->oTimer == 120) {
@@ -1004,6 +1004,10 @@ void bhv_g_marx_black_hole_loop(void) {
                 break;
             }
 
+            if (o->oTimer > 50) {
+                cur_obj_scale((f32)(61.0f - o->oTimer) / 11.0f);
+            }
+
             if (o->oTimer == 60) {
                 gMarioState->pos[0] = 0;
                 gMarioState->pos[1] = 500;
@@ -1015,7 +1019,9 @@ void bhv_g_marx_black_hole_loop(void) {
                 gLakituState.goalFocus[0] = 0;
                 gLakituState.goalFocus[1] = 740;
                 gLakituState.goalFocus[2] = 0;
-                set_camera_mode(gMarioState->area->camera, CAMERA_MODE_8_DIRECTIONS, 1);
+                
+                
+                if (gCamera->mode != CAMERA_MODE_SHOCK_ROCKET && !(gE_ShotgunFlags & E_SGF_AIM_MODE)) set_camera_mode(gMarioState->area->camera, CAMERA_MODE_8_DIRECTIONS, 1);
                 gCamera->cutscene = 0;
                 obj_mark_for_deletion(o);
             }

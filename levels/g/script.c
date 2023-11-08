@@ -117,6 +117,11 @@
 #include "actors/common1.h"
 #include "actors/common1.h"
 #include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
 
 /* Fast64 begin persistent block [includes] */
 #include "actors/common1.h"
@@ -164,6 +169,7 @@ const LevelScript level_g_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_G_MOVING_PLATFORM, g_moving_platform_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_DOOR, g_marx_door_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_G_WADDLE_DEE, g_waddle_dee_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_G_WARP_PIPE, warp_pipe_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -174,12 +180,15 @@ const LevelScript level_g_entry[] = {
 		WARP_NODE(0xF1, LEVEL_G, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0B, LEVEL_G, 0x02, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_CHECKPOINT_FLAG, -10084, 3308, -12948, 0, 0, 0, (0 << 16), bhvCheckpointFlag),
+		OBJECT(MODEL_G_WADDLE_DEE, -3059, 1788, -9944, 0, 0, 0, 0x00000000, bhvGWaddleDee),
+		OBJECT(MODEL_G_WADDLE_DEE, -10203, 1732, -10329, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		MARIO_POS(0x01, -180, -1155, 304, -1246),
 		OBJECT(MODEL_NONE, 0, 365, -365, 0, 0, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, -1155, 354, -1415, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_G_STAR_BLOCK, -1630, 3325, -12477, 0, 0, 0, 0x00000000, bhvStarProjectile),
 		OBJECT(MODEL_G_STAR_BLOCK, -1370, 3332, -12184, 0, -63, 0, 0x00000000, bhvStarProjectile),
 		OBJECT(MODEL_G_STAR_BLOCK, -1787, 3331, -12088, 0, 40, 0, 0x00000000, bhvStarProjectile),
+		OBJECT(MODEL_NONE, -6547, -154, -12228, 0, 40, 0, 0x00000000, bhvWaterfallSoundLoop),
 		OBJECT(MODEL_NONE, -419, 3308, -15123, 0, 0, 0, (40 << 24) | (11 << 16), bhvWarp),
 		TERRAIN(g_area_1_collision),
 		MACRO_OBJECTS(g_area_1_macro_objs),
@@ -223,6 +232,7 @@ const LevelScript level_g_entry[] = {
 		WARP_NODE(0xF0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF1, LEVEL_G, 0x03, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0B, LEVEL_G, 0x04, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0x0C, LEVEL_G, 0x04, 0x0D, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_G_BRONTO_BURT, 4962, 4226, -1141, 0, -165, 0, 0x00000000, bhvGBrontoBurt),
 		OBJECT(MODEL_G_BRONTO_BURT, 1980, 3056, -6224, 0, -122, 0, 0x00000000, bhvGBrontoBurt),
 		OBJECT(MODEL_G_BRONTO_BURT, 2780, 3091, -5682, 0, -122, 0, 0x00000000, bhvGBrontoBurt),
@@ -262,7 +272,7 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_G_WADDLE_DEE, 1071, -2387, 9072, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_G_WADDLE_DEE, 149, 849, -2907, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_G_WADDLE_DEE, 2583, 775, -3219, 0, 0, 0, 0x00000000, bhvGWaddleDee),
-		OBJECT(MODEL_G_WADDLE_DEE, -3795, 2598, -1921, 0, 0, 0, 0x00000000, bhvGWaddleDee),
+		OBJECT(MODEL_G_WADDLE_DEE, -4158, 2726, -3110, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_G_WADDLE_DEE, -3820, 2763, -5266, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_G_WADDLE_DEE, -358, 2763, -7213, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_G_WADDLE_DEE, 4410, 3237, -4660, 0, 0, 0, 0x00000000, bhvGWaddleDee),
@@ -275,8 +285,9 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_G_SIR_KIBBLE, 875, -973, 4237, 0, 0, 0, 0x00000000, bhvSirKibble),
 		OBJECT(MODEL_G_SIR_KIBBLE, 2267, 1662, 157, 0, 0, 0, 0x00000000, bhvSirKibble),
 		OBJECT(MODEL_G_SIR_KIBBLE, 3154, 1662, 284, 0, 0, 0, 0x00000000, bhvSirKibble),
-		OBJECT(MODEL_NONE, 0, 365, -365, 0, 0, 0, (0x01 << 16), bhvDeathWarp),
+		OBJECT(MODEL_NONE, 520, -1861, 13853, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 530, -2205, 14095, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_NONE, 3080, 2034, -8289, 0, -49, 0, (12 << 16), bhvWarpPipe),
 		OBJECT(MODEL_RED_COIN, -1240, 1092, -969, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_NONE, -1332, 1530, -2249, 0, 14, 0, (1 << 24), bhvHiddenRedCoinStar),
 		OBJECT(MODEL_RED_COIN, -671, 1666, -4179, 0, 14, 0, 0x00000000, bhvRedCoin),
@@ -314,9 +325,13 @@ const LevelScript level_g_entry[] = {
 		WARP_NODE(0xF1, LEVEL_BOB, 0x04, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0B, LEVEL_G, 0x04, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0C, LEVEL_G, 0x05, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0x0D, LEVEL_G, 0x03, 0x0C, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_ABILITY_HEART, 9624, 2752, 10003, 0, -49, 0, 0x00000000, bhvAbilityRecoveryHeart),
 		OBJECT(MODEL_ABILITY_HEART, -767, 3804, 9681, 0, -49, 0, 0x00000000, bhvAbilityRecoveryHeart),
 		OBJECT(MODEL_ABILITY_HEART, -4490, 4767, 9773, 0, -49, 0, 0x00000000, bhvAbilityRecoveryHeart),
+		OBJECT(MODEL_G_BRONTO_BURT, 1622, 570, 13911, 0, 13, 0, 0x00000000, bhvGBrontoBurt),
+		OBJECT(MODEL_G_BRONTO_BURT, -12946, 732, 11850, 0, 59, 0, 0x00000000, bhvGBrontoBurt),
+		OBJECT(MODEL_G_BRONTO_BURT, 6291, 801, 16362, 0, -35, 0, 0x00000000, bhvGBrontoBurt),
 		OBJECT(MODEL_ROCKET_BUTTON_OFF, -18366, -338, 2664, -90, 0, 0, 0x00000000, bhvRocketButton),
 		OBJECT(MODEL_ROCKET_BUTTON_OFF, -17899, 281, 9501, -90, 0, 0, 0x00000000, bhvRocketButton),
 		OBJECT(MODEL_ROCKET_BUTTON_OFF, -8893, 693, -1008, -90, 0, 0, 0x00000000, bhvRocketButton),
@@ -333,19 +348,26 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_NONE, -3215, 3940, 18841, 0, -112, 0, (2 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, 8265, 3432, 9976, 0, -112, 0, (2 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, 1599, 3036, 2376, 0, 156, 0, 0x00000000, bhvCoinFormation),
+		OBJECT(MODEL_G_WADDLE_DEE, -2323, 2598, 19668, 0, 0, 0, 0x00000000, bhvGWaddleDee),
+		OBJECT(MODEL_G_WADDLE_DEE, -3498, 3511, 18618, 0, 0, 0, 0x00000000, bhvGWaddleDee),
+		OBJECT(MODEL_G_WADDLE_DEE, -11059, 446, 16110, 0, 0, 0, 0x00000000, bhvGWaddleDee),
+		OBJECT(MODEL_G_WADDLE_DEE, -13629, 446, 14427, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_ABILITY_SIGN, 7235, 808, 15721, 0, -49, 0, (5 << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, -13876, 237, 8376, 0, -40, 0, (4 << 16), bhvStaticObject),
 		OBJECT(MODEL_NONE, 2208, 3178, 857, 0, 0, 0, (11 << 16), bhvAirborneDeathWarp),
 		OBJECT(MODEL_ABILITY_SIGN, 4373, 3099, -2687, 0, -124, 0, (10 << 16), bhvStaticObject),
 		OBJECT(MODEL_G_MARX_DOOR, 3751, 3761, -2503, 0, 0, 0, 0x00000000, bhvGMarxDoor),
 		OBJECT(MODEL_NONE, -14374, 535, 1562, 0, 21, 0, (6 << 24), bhvGCOStar),
+		OBJECT(MODEL_G_SIR_KIBBLE, 1776, -178, 8353, 0, 0, 0, 0x00000000, bhvSirKibble),
+		OBJECT(MODEL_G_SIR_KIBBLE, -3547, 3511, 21660, 0, 0, 0, 0x00000000, bhvSirKibble),
+		OBJECT(MODEL_G_SIR_KIBBLE, -14961, 1167, 14204, 0, 0, 0, 0x00000000, bhvSirKibble),
+		OBJECT(MODEL_G_SIR_KIBBLE, -15194, 248, 6280, 0, 0, 0, 0x00000000, bhvSirKibble),
 		OBJECT(MODEL_NONE, 2222, 3807, 21692, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_G_MOVING_PLATFORM, -2700, -75, 15771, 0, -90, 0, (3 << 24) | (25 << 16), bhvGMovingPlatform),
 		OBJECT(MODEL_G_MOVING_PLATFORM, -4449, -396, 14676, 0, 180, 0, (3 << 24) | (15 << 16), bhvGMovingPlatform),
-		OBJECT(MODEL_G_MOVING_PLATFORM, -5712, -534, 13555, 0, -90, 0, (6 << 24) | (25 << 16), bhvGMovingPlatform),
-		OBJECT(MODEL_G_MOVING_PLATFORM, -7738, -373, 13555, 0, 90, 0, (6 << 24) | (25 << 16), bhvGMovingPlatform),
 		OBJECT(MODEL_G_MOVING_PLATFORM, -7738, -534, 14157, 0, 0, 0, (3 << 24) | (25 << 16), bhvGMovingPlatform),
 		OBJECT(MODEL_G_MOVING_PLATFORM, 1151, -470, 8402, 0, 0, 0, (3 << 24) | (30 << 16), bhvGMovingPlatform),
+		OBJECT(MODEL_G_WARP_PIPE, 4962, 797, 23288, 0, -49, 0, (13 << 16), bhvWarpPipe),
 		OBJECT(MODEL_NONE, -14374, 345, 1562, 0, 21, 0, 0x00000000, bhvRocketButtonGroup),
 		OBJECT(MODEL_G_SPRING, -1533, 796, 20288, 0, 0, 0, (18 << 16), bhvGSpring),
 		OBJECT(MODEL_G_SPRING, -1527, 1748, 19533, 0, 0, 0, (19 << 16), bhvGSpring),
@@ -357,7 +379,7 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_G_SPRING, -10873, 446, 11965, 0, 0, 0, (20 << 16), bhvGSpring),
 		OBJECT(MODEL_STAR_PIECE, -13496, 1313, 17125, 0, 21, 0, 0x00000000, bhvStarPiece),
 		OBJECT(MODEL_BLUE_COIN_SWITCH, -10685, 538, 14630, 0, 21, 0, (4 << 24) | (90 << 16), bhvStarPieceSwitch),
-		OBJECT(MODEL_STAR_PIECE, -14934, 1272, 14182, 0, 21, 0, 0x00000000, bhvStarPiece),
+		OBJECT(MODEL_STAR_PIECE, -14934, 1702, 14182, 0, 21, 0, 0x00000000, bhvStarPiece),
 		OBJECT(MODEL_STAR_PIECE, -10892, 1555, 11939, 0, 21, 0, 0x00000000, bhvStarPiece),
 		OBJECT(MODEL_STAR_PIECE, -10815, 818, 17301, 0, 21, 0, 0x00000000, bhvStarPiece),
 		OBJECT(MODEL_STAR_PIECE, -12868, 827, 11945, 0, 21, 0, 0x00000000, bhvStarPiece),

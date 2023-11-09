@@ -104,7 +104,13 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "level_I_toad_help"
+        },
+        "inst_level_i_hoodoo_sorcerer_magic": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_hoodoo_sorcerer_magic"
         }
+
     },
     "instrument_list": [
         "inst_level_X_0",
@@ -129,6 +135,7 @@
         
         "inst_level_i_hoodboomer_death",
 		"inst_level_i_hoodboomer_laugh",
-        "inst_level_i_toad_help"
+        "inst_level_i_toad_help",
+        "inst_level_i_hoodoo_sorcerer_magic"
     ]
 }

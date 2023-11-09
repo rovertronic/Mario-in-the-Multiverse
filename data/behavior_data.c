@@ -6543,7 +6543,7 @@ const BehaviorScript bhvPlumBucket[] = {
 
 const BehaviorScript bhvCagedToad[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_BREAKABLE)),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_CUSTOM)),
     SET_HITBOX(/*Radius*/ 120, /*Height*/ 200),
     SET_INT(oIntangibleTimer, 0),
     SET_FLOAT(oDrawingDistance, 8000),
@@ -6598,6 +6598,7 @@ const BehaviorScript bhvFunkyShell[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)), //! Silhouette doesn't show up in-game, due to combiner modes.
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    SET_HOME(),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_funky_shell_loop),
     END_LOOP(),
@@ -6614,7 +6615,7 @@ const BehaviorScript bhvSkrinkingBlackDoorSpawner[] = {
 const BehaviorScript bhvSkrinkingBlackDoor[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
-    SET_FLOAT(oDrawingDistance, 3000),
+    SET_FLOAT(oDrawingDistance, 6000),
     SET_FLOAT(oFloatF4, 1.0f),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_skrinking_black_door),
@@ -6636,10 +6637,19 @@ const BehaviorScript bhvMovingFunkyPlatform[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
     LOAD_COLLISION_DATA(funky_road_collision),
-    SET_FLOAT(oDrawingDistance, 25000),
+    SET_FLOAT(oDrawingDistance, 5000),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_moving_funky_platform),
         CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvThreeAxisRotativeObject[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    SET_FLOAT(oDrawingDistance, 16000),
+     BEGIN_LOOP(),
+        CALL_NATIVE(bhv_three_axis_rotative_object),
     END_LOOP(),
 };
 
@@ -6656,28 +6666,52 @@ const BehaviorScript bhvOpeningWall[] = {
 
 const BehaviorScript bhvMasterKaag[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_BOSS)),//--E
-    //LOAD_ANIMATIONS(oAnimations, king_bobomb_seg5_anims_0500FE30),
-    //SET_INT(oInteractType, INTERACT_GRABBABLE),
-    SET_HITBOX(/*Radius*/ 100, /*Height*/ 100),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),//--E
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ 0, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    LOAD_ANIMATIONS(oAnimations, master_kaag_anims),
     SET_INT(oIntangibleTimer, 0),
-    DROP_TO_FLOOR(),
+    SET_INTERACT_TYPE(INTERACT_DAMAGE),
+    SET_HITBOX(/*Radius*/ 300, /*Height*/ 300),
     SET_HOME(),
+    DROP_TO_FLOOR(),
+    ANIMATE(0),
     SCALE(0, 150),//SPAWN_OBJ(/*Model*/ MODEL_NONE, /*Behavior*/ bhvBobombAnchorMario),
     SET_INT(oHealth, 3),
-    SET_INT(oDamageOrCoinValue, 1),
+    SET_INT(oDamageOrCoinValue, 3),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_master_kaag_loop),
+        SET_INT(oInteractStatus, 0),
     END_LOOP(),
 };
 
 const BehaviorScript bhvMasterKaagWeakPoint[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-    SET_HITBOX(/*Radius*/ 100, /*Height*/ 200),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 180),
     SET_INT(oIntangibleTimer, 0),
+    SET_FLOAT(oGraphYOffset, 50),
     BEGIN_LOOP(),
+        SET_INT(oInteractStatus, 0),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvHoodooSorcerer[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW | OBJ_FLAG_E__SG_ENEMY)),
+    LOAD_ANIMATIONS(oAnimations, hoodoo_sorcerer_anims),
+    SET_FLOAT(oDrawingDistance, 6000),
+    SET_INT(oDamageOrCoinValue, 1),
+    SET_INT(oHealth, 1),
+    SET_INT(oNumLootCoins, 3),
+    SET_INTERACT_TYPE(INTERACT_DAMAGE),
+    DROP_TO_FLOOR(),
+    ANIMATE(0),
+    SET_HITBOX(/*Radius*/ 80, /*Height*/ 350),
+    CALL_NATIVE(bhv_hoodoo_sorcerer_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_hoodoo_sorcerer_loop),
+        SET_INT(oIntangibleTimer, 0),
+        SET_INT(oInteractStatus, 0),
     END_LOOP(),
 };
 

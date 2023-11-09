@@ -3,9 +3,9 @@
 const GeoLayout i_area_5_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 4, -524, 9, 90, 0, 0, i_dl_arena_mesh_layer_1),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 4, 0, 9, 90, 0, 0, i_dl_arena_mesh_layer_1),
 		GEO_ASM(0, e__shotgun_effects),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 19963, 0, -25264),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 19963, 524, -25264),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

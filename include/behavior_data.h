@@ -637,9 +637,11 @@ extern const BehaviorScript bhvSkrinkingBlackDoorSpawner[];
 extern const BehaviorScript bhvSkrinkingBlackDoor[];
 extern const BehaviorScript bhvRotatingFunkyPlatform[];
 extern const BehaviorScript bhvMovingFunkyPlatform[];
+extern const BehaviorScript bhvThreeAxisRotativeObject[];
 extern const BehaviorScript bhvOpeningWall[];
 extern const BehaviorScript bhvMasterKaag[];
 extern const BehaviorScript bhvMasterKaagWeakPoint[];
+extern const BehaviorScript bhvHoodooSorcerer[];
 
 /* GROUP I END */
 

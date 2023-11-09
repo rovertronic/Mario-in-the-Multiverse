@@ -6,5 +6,7 @@ extern void scroll_i_dl_first_section_geo_mesh_layer_5_vtx_1();
 extern void scroll_i_dl_first_section_geo_mesh_layer_5_vtx_2();
 extern void scroll_i_dl_first_section_geo_mesh_layer_5_vtx_4();
 extern void scroll_i_dl_first_section_geo_mesh_layer_5_vtx_5();
+extern void scroll_i_dl_first_section_geo_mesh_layer_5_vtx_6();
+extern void scroll_i_dl_first_section_geo_mesh_layer_5_vtx_8();
 extern void scroll_i_dl_first_section_geo_mesh_layer_1_vtx_2();
 extern void scroll_i();

@@ -53,4 +53,12 @@ extern const LevelScript level_i_entry[];
 
 #include "levels/i/master_kaag/geo_header.h"
 
+#include "levels/i/master_kaag/anim_header.h"
+
+#include "levels/i/hoodoo_sorcerer/geo_header.h"
+
+#include "levels/i/hoodoo_sorcerer/anim_header.h"
+
+#include "levels/i/magic_shield/geo_header.h"
+
 #endif

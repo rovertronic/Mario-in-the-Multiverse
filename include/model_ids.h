@@ -678,6 +678,8 @@ enum {
 #define MODEL_OPENABLE_WOODEN_GATE      0x43        //openable_wood_gate
 #define MODEL_WATERMILL                 0x44        //watermill_geo
 #define MODEL_MASTER_KAAG               0x45        //master_kaag_geo
+#define MODEL_HOODOO_SORCERER           0x46        //hoodoo_sorcerer
+#define MODEL_MAGIC_SHIELD              0x47        //magic_shiel_geo
 /* LEVEL I END */
 
 /* LEVEL J START */

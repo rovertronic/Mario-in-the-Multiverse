@@ -443,6 +443,19 @@ void bhv_opening_wall_loop(void) {
 
 /*************************PLUM*****************************/
 
+void respawn_plum(void) {
+    o->oVelX = 0;
+    o->oVelY = 0;
+    o->oVelZ = 0;
+    o->oForwardVel = 0;
+    o->oHeldState = HELD_FREE;
+    o->oBreakableBoxSmallReleased = FALSE;
+    cur_obj_unhide();
+    cur_obj_set_pos_to_home();
+    stop_plum_music();
+    cur_obj_scale(0.0f);
+}
+
 void plum_released_loop(void) {
     o->oBreakableBoxSmallFramesSinceReleased++;
 
@@ -453,9 +466,7 @@ void plum_released_loop(void) {
 
     // Despawn, and create a corkbox respawner
     if (o->oBreakableBoxSmallFramesSinceReleased > 900) {
-        create_respawner(MODEL_PLUM, bhvPlum, 100);
-        stop_plum_music();
-        o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+        respawn_plum();
     }
 }
 
@@ -473,17 +484,12 @@ void plum_idle_loop(void) {
             }
             if (collisionFlags == OBJ_COL_FLAG_UNDERWATER){
                 spawn_mist_particles_with_sound(SOUND_OBJ_DEFAULT_DEATH);
-                create_respawner(MODEL_PLUM, bhvPlum, 100);
-                o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
-                stop_plum_music();
-                
+                respawn_plum();
             }
             break;
 
         case OBJ_ACT_DEATH_PLANE_DEATH:
-            o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
-            create_respawner(MODEL_PLUM, bhvPlum, 100);
-            stop_plum_music();
+            respawn_plum();
             break;
     }
 
@@ -493,27 +499,36 @@ void plum_idle_loop(void) {
 }
 
 void bhv_plum_loop(void) {
-    switch (o->oHeldState) {
-        case HELD_FREE:
-            plum_idle_loop();
-            break;
+    if(o->header.gfx.scale[0] >= 1.0f) {
+        cur_obj_scale(1.0f);
+        cur_obj_become_tangible();
+        switch (o->oHeldState) {
+            case HELD_FREE:
+                plum_idle_loop();
+                break;
 
-        case HELD_HELD:
-            cur_obj_disable_rendering();
-            cur_obj_become_intangible();
-            //if music not playing
-            play_plum_music();
-            break;
+            case HELD_HELD:
+                cur_obj_disable_rendering();
+                cur_obj_become_intangible();
+                //if music not playing
+                play_plum_music();
+                break;
 
-        case HELD_THROWN:
-        case HELD_DROPPED:
-            cur_obj_get_thrown_or_placed(18.0f, 46.0f, 0);
-            o->oBreakableBoxSmallFramesSinceReleased = 0;
-            o->oBreakableBoxSmallReleased = TRUE;
-            break;
+            case HELD_THROWN:
+            case HELD_DROPPED:
+                cur_obj_get_thrown_or_placed(18.0f, 46.0f, 0);
+                o->oBreakableBoxSmallFramesSinceReleased = 0;
+                o->oBreakableBoxSmallReleased = TRUE;
+                break;
+        }
+
+        o->oInteractStatus = INT_STATUS_NONE;
+    } else {
+        cur_obj_scale(o->header.gfx.scale[0] + 0.05f);
+        cur_obj_become_intangible();
+        o->oPosY -= 6.5f;
     }
 
-    o->oInteractStatus = INT_STATUS_NONE;
 }
 
 void bhv_plum_bucket_loop(void) {
@@ -700,7 +715,7 @@ void bhv_funky_shell_loop(void) {
 
             if (o->oInteractStatus & INT_STATUS_STOP_RIDING) {
                 gLakituState.mode = o->oPreviousLakituCamMode;
-                obj_mark_for_deletion(o);
+                cur_obj_set_pos_to_home();
                 spawn_mist_particles();
                 o->oAction = KOOPA_SHELL_ACT_MARIO_NOT_RIDING;
             }
@@ -762,6 +777,15 @@ void bhv_rotating_funky_platform(void){
 }
 
 void bhv_moving_funky_platform(void){
-    o->oPosX += 10.0f * coss(1000 * o->oTimer);
+    s8 reverse = 1;
+    if(GET_BPARAM1(o->oBehParams) != 0) reverse = -1;
+    o->oPosX += (10.0f * coss(1000 * o->oTimer)) * reverse;
+}
+
+void bhv_three_axis_rotative_object(void){
+    o->oFaceAngleRoll += GET_BPARAM1(o->oBehParams) * 5;
+    o->oFaceAngleYaw += GET_BPARAM2(o->oBehParams) * 5;
+    o->oFaceAnglePitch += GET_BPARAM3(o->oBehParams) * 5;
+    cur_obj_scale(1.0f + (GET_BPARAM4(o->oBehParams) / 20));
 }
 

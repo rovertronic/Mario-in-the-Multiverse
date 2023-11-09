@@ -3,12 +3,12 @@
 const GeoLayout i_area_4_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, -6251, 0, 0, i_dl_first_section_geo_mesh_layer_5),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, -11386, 0, 0, i_dl_first_section_geo_mesh_layer_5),
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_OPAQUE, i_dl_first_section_geo_mesh_layer_1),
 		GEO_CLOSE_NODE(),
 		GEO_ASM(0, e__shotgun_effects),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -26492, 790, 6396),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -31627, 790, 6396),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -26,7 +26,7 @@ const GeoLayout i_area_4[] = {
 		GEO_OPEN_NODE(),
 			GEO_CAMERA_FRUSTUM_WITH_FUNC(45.0000, 100, 30000, geo_camera_fov),
 			GEO_OPEN_NODE(),
-				GEO_CAMERA(CAMERA_MODE_8_DIRECTIONS, 26492, -790, -6396, 26492, -890, -6396, geo_camera_main),
+				GEO_CAMERA(CAMERA_MODE_8_DIRECTIONS, 35016, -790, -6396, 35016, -890, -6396, geo_camera_main),
 				GEO_OPEN_NODE(),
 					GEO_BRANCH(1, i_area_4_geo),
 					GEO_RENDER_OBJ(),

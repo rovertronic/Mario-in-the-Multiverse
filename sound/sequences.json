@@ -173,6 +173,10 @@
     "32_o_maintrack": [
         "o_maintrack"
     ],
-    "33_level_i_carrying_the_plum": ["0E_extended_bank"],
-    "34_clearleaf_forest": ["0E_extended_bank"]
+    "33_level_i_carrying_the_plum": [
+		"0E_extended_bank"
+	],
+    "34_clearleaf_forest": [
+		"0E_extended_bank"
+	]
 }

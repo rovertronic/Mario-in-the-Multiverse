@@ -32,3 +32,5 @@
 #include "levels/i/openable_wood_gate/geo.inc.c"
 #include "levels/i/watermill/geo.inc.c"
 #include "levels/i/master_kaag/geo.inc.c"
+#include "levels/i/hoodoo_sorcerer/geo.inc.c"
+#include "levels/i/magic_shield/geo.inc.c"

@@ -580,7 +580,10 @@ void bhv_skrinking_black_door_spawner(void);
 void bhv_skrinking_black_door(void);
 void bhv_rotating_funky_platform(void);
 void bhv_moving_funky_platform(void);
+void bhv_three_axis_rotative_object(void);
 void bhv_master_kaag_loop(void);
+void bhv_hoodoo_sorcerer_init(void);
+void bhv_hoodoo_sorcerer_loop(void);
 // I End //
 void bhv_checkpoint_flag(void);
 void bhv_flipswitch(void);

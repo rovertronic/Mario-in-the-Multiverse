@@ -8152,6 +8152,7 @@ sound_ref .sound_level_j_geodude
 sound_ref .sound_level_i_hoodboomer_death
 sound_ref .sound_level_i_hoodboomer_laugh
 sound_ref .sound_level_i_toad_help
+sound_ref .sound_level_i_hoodoo_sorcerer_magic
 
 .sound_level_x_0:
 chan_setbank 12
@@ -8318,7 +8319,7 @@ layer_end
 
 //End Pokemon
 
-// hoodboomer
+//Hoodboomer
 
 .sound_level_i_hoodboomer_death:
 chan_setbank 12
@@ -8340,7 +8341,9 @@ chan_end
     layer_note1 39, 0xC0, 127
     layer_end
 
-// caged toad
+//End Hoodboomer
+
+//Caged Toad
 
 .sound_level_i_toad_help:
 chan_setbank 12
@@ -8351,6 +8354,22 @@ chan_end
     .layer_level_i_toad_help:
     layer_note1 39, 0xC0, 127
     layer_end
+
+//End Caged Toad
+
+//Hoodoo Sorcerer
+
+.sound_level_i_hoodoo_sorcerer_magic:
+chan_setbank 12
+chan_setinstr 19
+chan_setlayer 0, .layer_level_i_hoodoo_sorcerer_magic
+chan_end
+
+    .layer_level_i_hoodoo_sorcerer_magic:
+    layer_note1 39, 0xFF, 127
+    layer_end
+
+//End Hoodoo Sorcerer
 
 .align 2, 0
 .envelope_32C4:

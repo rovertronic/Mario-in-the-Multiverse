@@ -8426,7 +8426,7 @@ layer_end
 
 .sound_level_i_hoodboomer_death:
 chan_setbank 12
-chan_setinstr 16
+chan_setinstr 26
 chan_setlayer 0, .layer_level_i_hoodboomer_death
 chan_end
 
@@ -8436,7 +8436,7 @@ chan_end
 
 .sound_level_i_hoodboomer_laugh:
 chan_setbank 12
-chan_setinstr 17
+chan_setinstr 27
 chan_setlayer 0, .layer_level_i_hoodboomer_laugh
 chan_end
 
@@ -8450,7 +8450,7 @@ chan_end
 
 .sound_level_i_toad_help:
 chan_setbank 12
-chan_setinstr 18
+chan_setinstr 28
 chan_setlayer 0, .layer_level_i_toad_help
 chan_end
 
@@ -8464,7 +8464,7 @@ chan_end
 
 .sound_level_i_hoodoo_sorcerer_magic:
 chan_setbank 12
-chan_setinstr 19
+chan_setinstr 29
 chan_setlayer 0, .layer_level_i_hoodoo_sorcerer_magic
 chan_end
 

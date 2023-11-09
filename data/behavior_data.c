@@ -6732,7 +6732,7 @@ const BehaviorScript bhvHoodooSorcerer[] = {
     SET_INTERACT_TYPE(INTERACT_DAMAGE),
     DROP_TO_FLOOR(),
     ANIMATE(0),
-    SET_HITBOX(/*Radius*/ 80, /*Height*/ 350),
+    SET_HITBOX(/*Radius*/ 80, /*Height*/ 400),
     CALL_NATIVE(bhv_hoodoo_sorcerer_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_hoodoo_sorcerer_loop),

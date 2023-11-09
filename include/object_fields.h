@@ -1305,6 +1305,16 @@
 //G Cannon
 #define /*0x0F4*/ oNumSwitchesLeft OBJECT_FIELD_S32(0x1B)
 
+//Marx
+#define /*0x0F4*/ oMarxTeleportTimer OBJECT_FIELD_S32(0x1B)
+#define /*0x0F8*/ oMarxTeleportX    OBJECT_FIELD_F32(0x1C)
+#define /*0x0FC*/ oMarxTeleportY           OBJECT_FIELD_F32(0x1D)
+#define /*0x100*/ oMarxTeleportZ    OBJECT_FIELD_F32(0x1E)
+#define /*0x100*/ oMarxLastAttack    OBJECT_FIELD_S32(0x1F)
+#define /*0x0F4*/ oMarxInvincibilityTimer OBJECT_FIELD_S32(0x20)
+#define /*0x0F4*/ oMarxHealth    OBJECT_FIELD_S32(0x21)
+
+
 /*Custom general defines:
 
 For general s32 ints, use o->oF4, oF8, oFC, o100, o104, o108, o10C, and o110

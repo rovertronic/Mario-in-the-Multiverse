@@ -426,7 +426,7 @@ s32 act_enter_hub_pipe(struct MarioState *m) {
         gMarioState->pos[1] = approach_f32_asymptotic(gMarioState->pos[1],gMarioState->interactObj->oPosY+60.0f,0.1f);
 
         if (update_mario_action_timer_post(m) > 20) {
-            initiate_warp(get_hub_level(gMarioState->interactObj->oBehParams2ndByte), 1, 0x0A, WARP_FLAGS_NONE);
+            initiate_warp(get_hub_level(gMarioState->interactObj->oBehParams2ndByte), get_hub_area(gMarioState->interactObj->oBehParams2ndByte), 0x0A, WARP_FLAGS_NONE);
             fade_into_special_warp(WARP_SPECIAL_NONE, 0);
             gSavedCourseNum = COURSE_NONE;
         }
@@ -664,7 +664,12 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
             case 80:
                 if (!(m->actionArg & 1)) {
                     level_trigger_warp(m, WARP_OP_STAR_EXIT);
-                } else {
+                } 
+                else if ((gCurrLevelNum == LEVEL_G && gCurrAreaIndex == 5)) {
+                    level_trigger_warp(m, WARP_OP_STAR_EXIT);
+                    save_file_do_save(gCurrSaveFileNum - 1);
+                }
+                else {
                     enable_time_stop();
                     m->actionState = ACT_STATE_STAR_DANCE_DO_SAVE;
                 }

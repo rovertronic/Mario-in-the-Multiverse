@@ -685,6 +685,7 @@ static void obj_act_squished(f32 baseScale) {
         cur_obj_extend_animation_if_at_end();
     }
 
+    approach_f32_ptr(&o->header.gfx.scale[1], targetScaleY, baseScale * 0.14f);
     if (approach_f32_ptr(&o->header.gfx.scale[1], targetScaleY, baseScale * 0.14f)) {
         o->header.gfx.scale[0] = o->header.gfx.scale[2] = baseScale * 2.0f - o->header.gfx.scale[1];
 
@@ -940,6 +941,8 @@ void obj_spit_fire(s16 relativePosX, s16 relativePosY, s16 relativePosZ, f32 sca
 #include "behaviors/triplet_butterfly.inc.c"
 #include "behaviors/bubba.inc.c"
 #include "behaviors/sir_kibble.inc.c"
+#include "behaviors/g_bronto_burt.inc.c"
+#include "behaviors/g_waddle_dee.inc.c"
 
 #include "behaviors/geodude.inc.c"
 #include "behaviors/hooh.inc.c"

@@ -1788,6 +1788,7 @@ const BehaviorScript bhvGCannonSwitch[] = {
     // Floor switch - common:
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW)),//--E
     LOAD_COLLISION_DATA(purple_switch_seg8_collision_0800C7A8),
+    SET_FLOAT(oDrawingDistance, 16000),
     SET_INT(oIntangibleTimer, 0),//--E
     SET_HITBOX(/*Radius*/ 160, /*Height*/ 100),//--E
     BEGIN_LOOP(),
@@ -3948,6 +3949,22 @@ const BehaviorScript bhvExplosion[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvExplosionVisual[] = {
+    BEGIN(OBJ_LIST_DESTRUCTIVE),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BILLBOARD(),
+    SET_INTERACT_TYPE(INTERACT_NONE),
+    SET_INT(oDamageOrCoinValue, 2),
+    SET_INT(oIntangibleTimer, 0),
+    SET_HITBOX_WITH_OFFSET(/*Radius*/ 150, /*Height*/ 150, /*Downwards offset*/ 150),
+    SET_INT(oAnimState, OBJ_ANIM_STATE_INIT_ANIM),
+    CALL_NATIVE(bhv_explosion_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_explosion_loop),
+        ADD_INT(oAnimState, 1),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvBobombBullyDeathSmoke[] = {
     BEGIN(OBJ_LIST_UNIMPORTANT),
     OR_INT(oFlags, (OBJ_FLAG_MOVE_Y_WITH_TERMINAL_VEL | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -4622,6 +4639,15 @@ const BehaviorScript bhvHiddenStar[] = {
     CALL_NATIVE(bhv_hidden_star_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_hidden_star_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGCOStar[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_gco_star_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_gco_star_loop),
     END_LOOP(),
 };
 
@@ -7227,6 +7253,7 @@ const BehaviorScript bhvSirKibble[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
     LOAD_ANIMATIONS(oAnimations, sir_kibble_anims),
+    SET_FLOAT(oDrawingDistance, 16000),
     CALL_NATIVE(bhv_sir_kibble_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_sir_kibble_loop),
@@ -7257,6 +7284,7 @@ const BehaviorScript bhvStarDrop[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     CALL_NATIVE(bhv_star_drop_init),
+    SET_FLOAT(oDrawingDistance, 16000),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_star_drop_loop),
     END_LOOP(),
@@ -7266,6 +7294,7 @@ const BehaviorScript bhvGAttachedRope[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     CALL_NATIVE(bhv_g_attached_rope_init),
+    SET_FLOAT(oDrawingDistance, 16000),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_g_attached_rope_loop),
     END_LOOP(),
@@ -7274,9 +7303,10 @@ const BehaviorScript bhvGAttachedRope[] = {
 const BehaviorScript bhvGAttachedBlock[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST | OBJ_FLAG_ATTACHABLE_BY_ROPE)),
-    LOAD_COLLISION_DATA(checker_block_1_collision),
+    LOAD_COLLISION_DATA(g_fixed_block_collision),
     SET_FLOAT(oCollisionDistance, 2000),
     CALL_NATIVE(bhv_g_attached_block_init),
+    SET_FLOAT(oDrawingDistance, 16000),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_g_attached_block_loop),
         CALL_NATIVE(load_object_collision_model),
@@ -7287,6 +7317,7 @@ const BehaviorScript bhvStarDoorStar[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     CALL_NATIVE(bhv_star_door_star_init),
+    SET_FLOAT(oDrawingDistance, 16000),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_star_door_star_loop),
     END_LOOP(),
@@ -7303,8 +7334,9 @@ const BehaviorScript bhvGStarDoor[] = {
 
 const BehaviorScript bhvGSpring[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ATTACHABLE_BY_ROPE)),
     LOAD_COLLISION_DATA(g_spring_collision),
+    SET_FLOAT(oDrawingDistance, 16000),
     CALL_NATIVE(bhv_g_spring_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_g_spring_loop),
@@ -7316,6 +7348,7 @@ const BehaviorScript bhvGCutRock[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ATTACHABLE_BY_ROPE)),
     LOAD_COLLISION_DATA(g_cut_rock_collision),
+    SET_FLOAT(oDrawingDistance, 16000),
     CALL_NATIVE(bhv_g_cut_rock_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_g_cut_rock_loop),
@@ -7327,6 +7360,7 @@ const BehaviorScript bhvGCannon[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
     LOAD_COLLISION_DATA(g_cannon_collision),
+    SET_FLOAT(oDrawingDistance, 16000),
     CALL_NATIVE(bhv_g_cannon_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_g_cannon_loop),
@@ -7343,3 +7377,175 @@ const BehaviorScript bhvGreatCaveOffensiveController[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvGMarx[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_BOSS | OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_ACTIVE_FROM_AFAR)),
+    LOAD_ANIMATIONS(oAnimations, marx_anims),
+    CALL_NATIVE(bhv_g_marx_init),
+    SET_FLOAT(oDrawingDistance, 16000),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxCutter[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_g_marx_cutter_init),
+    SET_FLOAT(oDrawingDistance, 16000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_cutter_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxSeed[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BILLBOARD(),
+    CALL_NATIVE(bhv_g_marx_seed_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_seed_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxVine[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BILLBOARD(),
+    CALL_NATIVE(bhv_g_marx_vine_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_vine_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxThornSegment[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BILLBOARD(),
+    SET_FLOAT(oDrawingDistance, 16000),
+    CALL_NATIVE(bhv_g_marx_thorn_segment_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_thorn_segment_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxHalf[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 16000),
+    CALL_NATIVE(bhv_g_marx_half_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_half_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxBlackHole[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BILLBOARD(),
+    SET_FLOAT(oDrawingDistance, 16000),
+    CALL_NATIVE(bhv_g_marx_black_hole_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_black_hole_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxArrow[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
+    CALL_NATIVE(bhv_g_marx_arrow_init),
+    SET_FLOAT(oDrawingDistance, 16000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_arrow_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxBodyLaser[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
+    CALL_NATIVE(bhv_g_marx_body_laser_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_body_laser_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxLaser[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_g_marx_laser_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_laser_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxIceBomb[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BILLBOARD(),
+    SET_FLOAT(oDrawingDistance, 16000),
+    CALL_NATIVE(bhv_g_marx_ice_bomb_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_ice_bomb_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxBlackHoleEffect[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_g_marx_black_hole_effect_init),
+    SET_FLOAT(oDrawingDistance, 16000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_black_hole_effect_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGBrontoBurt[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    LOAD_ANIMATIONS(oAnimations, g_bronto_burt_anims),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 16000),
+    ANIMATE(0),
+    CALL_NATIVE(bhv_g_bronto_burt_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_bronto_burt_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMovingPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_MOVE_XZ_USING_FVEL)),
+    LOAD_COLLISION_DATA(g_moving_platform_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    CALL_NATIVE(bhv_g_moving_platform_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_moving_platform_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGMarxDoor[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    LOAD_COLLISION_DATA(g_marx_door_collision),
+    SET_FLOAT(oDrawingDistance, 16000),
+    CALL_NATIVE(bhv_g_marx_door_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_marx_door_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGWaddleDee[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_E__SG_ENEMY | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW )),
+    LOAD_ANIMATIONS(oAnimations, g_waddle_dee_anims),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 16000),
+    ANIMATE(0),
+    CALL_NATIVE(bhv_g_waddle_dee_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_waddle_dee_loop),
+    END_LOOP(),
+};

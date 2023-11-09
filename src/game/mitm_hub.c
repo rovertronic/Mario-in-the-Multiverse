@@ -78,22 +78,22 @@ u8 hub_star_string[] = {0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,DIALOG_CHAR_TERM
 //In course order, not alphabetical!
 //Only mess with /* Level */ entry, everything else is pre-configured
 struct mitm_hub_level hub_levels[] = {
-          /* Author */      /* Level */  /*Star Flags*/   /*Star Req*/
-    /*G*/ {&author_string_g, LEVEL_G,     COURSE_BOB,      0/*0 */ },
-    /*A*/ {&author_string_a, LEVEL_BOB,   COURSE_WF ,      0/*1 */ },
-    /*C*/ {&author_string_c, LEVEL_CCM,   COURSE_JRB,      0/*1 */ },
-    /*I*/ {&author_string_i, LEVEL_I,   COURSE_CCM,      0/*3 */ },
-    /*H*/ {&author_string_h, LEVEL_BOB,   COURSE_BBH,      0/*5 */ },
-    /*B*/ {&author_string_b, LEVEL_B,     COURSE_HMC,      0/*10*/ },
-    /*L*/ {&author_string_l, LEVEL_BOB,   COURSE_LLL,      0/*15*/ },
-    /*K*/ {&author_string_k, LEVEL_BOB,   COURSE_SSL,      0/*15*/ },
-    /*E*/ {&author_string_e, LEVEL_E,     COURSE_DDD,      0/*20*/ },
-    /*F*/ {&author_string_f, LEVEL_F  ,   COURSE_SL ,      0/*20*/ },
-    /*J*/ {&author_string_j, LEVEL_J,   COURSE_WDW,      0/*25*/ },
-    /*D*/ {&author_string_d, LEVEL_SSL,   COURSE_TTM,      0/*30*/ },
-    /*O*/ {&author_string_o, LEVEL_O,     COURSE_THI,      0/*30*/ },
-    /*N*/ {&author_string_n, LEVEL_X,     COURSE_TTC,      0/*50*/ },
-    /*M*/ {&author_string_m, LEVEL_BOB,   COURSE_RR ,      0/*50*/ },
+          /* Author */      /* Level */  /*Star Flags*/   /*Star Req*/  /*Start Area*/
+    /*G*/ {&author_string_g, LEVEL_G,     COURSE_BOB,      0/*0 */,      3},
+    /*A*/ {&author_string_a, LEVEL_BOB,   COURSE_WF ,      0/*1 */,      1},
+    /*C*/ {&author_string_c, LEVEL_CCM,   COURSE_JRB,      0/*1 */,      1},
+    /*I*/ {&author_string_i, LEVEL_I,   COURSE_CCM,      0/*3 */,      1},
+    /*H*/ {&author_string_h, LEVEL_BOB,   COURSE_BBH,      0/*5 */,      1},
+    /*B*/ {&author_string_b, LEVEL_B,     COURSE_HMC,      0/*10*/,      1},
+    /*L*/ {&author_string_l, LEVEL_BOB,   COURSE_LLL,      0/*15*/,      1},
+    /*K*/ {&author_string_k, LEVEL_BOB,   COURSE_SSL,      0/*15*/,      1},
+    /*E*/ {&author_string_e, LEVEL_E,     COURSE_DDD,      0/*20*/,      1},
+    /*F*/ {&author_string_f, LEVEL_F,     COURSE_SL ,      0/*20*/,      1},
+    /*J*/ {&author_string_j, LEVEL_J,     COURSE_WDW,      0/*25*/,      1},
+    /*D*/ {&author_string_d, LEVEL_SSL,   COURSE_TTM,      0/*30*/,      1},
+    /*O*/ {&author_string_o, LEVEL_O,     COURSE_THI,      0/*30*/,      1},
+    /*N*/ {&author_string_n, LEVEL_X,     COURSE_TTC,      0/*50*/,      1},
+    /*M*/ {&author_string_m, LEVEL_BOB,   COURSE_RR ,      0/*50*/,      1},
 };
 
 s8 hub_level_index = -1;
@@ -208,4 +208,8 @@ void render_mitm_hub_hud(void) {
 
 u8 get_hub_level(u8 id) {
     return hub_levels[id].level ;
+}
+
+u8 get_hub_area(u8 id) {
+    return hub_levels[id].start_area ;
 }

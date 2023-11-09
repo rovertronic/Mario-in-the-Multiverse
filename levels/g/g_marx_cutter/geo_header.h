@@ -1,0 +1,10 @@
+extern const GeoLayout g_marx_cutter_geo[];
+extern u8 g_marx_cutter_marxcut_ci4[];
+extern u8 g_marx_cutter_marxcut_pal_rgba16[];
+extern Vtx g_marx_cutter_Plane_mesh_layer_4_vtx_cull[8];
+extern Vtx g_marx_cutter_Plane_mesh_layer_4_vtx_0[122];
+extern Gfx g_marx_cutter_Plane_mesh_layer_4_tri_0[];
+extern Gfx mat_g_marx_cutter_f3dlite_material_017[];
+extern Gfx mat_revert_g_marx_cutter_f3dlite_material_017[];
+extern Gfx g_marx_cutter_Plane_mesh_layer_4[];
+extern Gfx g_marx_cutter_material_revert_render_settings[];

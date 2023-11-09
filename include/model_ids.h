@@ -656,6 +656,25 @@ enum {
 #define MODEL_G_CUT_ROCK2                      0x156
 #define MODEL_G_CUT_ROCK3                      0x157
 #define MODEL_G_CANNON                      0x158
+#define MODEL_MARX                      0x159
+#define MODEL_G_MARX_CUTTER                      0x15A
+#define MODEL_G_MARX_SEED                      0x15B
+#define MODEL_G_MARX_THORNS                     0x15C
+#define MODEL_G_MARX_HALF_LEFT              0x15D
+#define MODEL_G_MARX_HALF_RIGHT              0x15E
+#define MODEL_G_MARX_BLACK_HOLE              0x15F
+#define MODEL_G_MARX_ARROW              0x160
+#define MODEL_G_MARX_MOUTH_FULL              0x161
+#define MODEL_G_MARX_MOUTH_OPEN              0x162
+#define MODEL_G_MARX_LASER              0x163
+#define MODEL_G_MARX_ICE_BOMB              0x164
+#define MODEL_G_MARX_ICE_RING              0x165
+#define MODEL_G_MARX_BLACK_HOLE_EFFECT              0x166
+#define MODEL_G_BRONTO_BURT              0x167
+#define MODEL_G_MOVING_PLATFORM              0x168
+#define MODEL_G_MARX_DOOR              0x169
+#define MODEL_G_WADDLE_DEE              0x16A
+#define MODEL_G_WARP_PIPE              0x16B
 /* LEVEL G END */
 
 /* LEVEL H START */

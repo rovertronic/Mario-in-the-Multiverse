@@ -522,6 +522,16 @@ s32 obj_return_home_if_safe(struct Object *obj, f32 homeX, f32 y, f32 homeZ, s32
     return FALSE;
 }
 
+s32 obj_return_home(struct Object *obj, f32 homeX, f32 y, f32 homeZ, s32 dist) {
+    f32 homeDistX = obj->oHomeX - obj->oPosX;
+    f32 homeDistZ = obj->oHomeZ - obj->oPosZ;
+    s16 angleTowardsHome = atan2s(homeDistZ, homeDistX);
+    
+    obj->oMoveAngleYaw = approach_s16_symmetric(obj->oMoveAngleYaw, angleTowardsHome, 320);
+
+    return FALSE;
+}
+
 /**
  * Randomly displaces an objects home if RNG says to, and turns the object towards its home.
  */

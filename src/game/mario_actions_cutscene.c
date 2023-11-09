@@ -664,7 +664,12 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
             case 80:
                 if (!(m->actionArg & 1)) {
                     level_trigger_warp(m, WARP_OP_STAR_EXIT);
-                } else {
+                } 
+                else if ((gCurrLevelNum == LEVEL_G && gCurrAreaIndex == 5)) {
+                    level_trigger_warp(m, WARP_OP_STAR_EXIT);
+                    save_file_do_save(gCurrSaveFileNum - 1);
+                }
+                else {
                     enable_time_stop();
                     m->actionState = ACT_STATE_STAR_DANCE_DO_SAVE;
                 }

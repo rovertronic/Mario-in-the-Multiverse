@@ -89,6 +89,56 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "level_j_geodude"
+        },
+        "inst_level_g_marx_laugh_1": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "marxlaugh1"
+        },
+        "inst_level_g_marx_laugh_2": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "marxlaugh2"
+        },
+        "inst_level_g_marx_laugh_3": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "marxlaugh3"
+        },
+        "inst_level_g_marx_laugh_4": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "marxlaugh4"
+        },
+        "inst_level_g_marx_arrows": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "marxarrows"
+        },
+        "inst_level_g_marx_black_hole": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "marxblackhole"
+        },
+        "inst_level_g_marx_cutter": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "marxcutter"
+        },
+        "inst_level_g_marx_laser": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "marxlaser"
+        },
+        "inst_level_g_marx_scream": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "marxscream"
+        },
+        "inst_level_g_marx_teleport": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "marxteleport"
         }
     },
     "instrument_list": [
@@ -110,6 +160,17 @@
         
         "inst_level_j_hooh",
         "inst_level_j_miltank",
-        "inst_level_j_geodude"
+        "inst_level_j_geodude",
+
+        "inst_level_g_marx_laugh_1",
+        "inst_level_g_marx_laugh_2",
+        "inst_level_g_marx_laugh_3",
+        "inst_level_g_marx_laugh_4",
+        "inst_level_g_marx_arrows",
+        "inst_level_g_marx_black_hole",
+        "inst_level_g_marx_cutter",
+        "inst_level_g_marx_laser",
+        "inst_level_g_marx_scream",
+        "inst_level_g_marx_teleport"
     ]
 }

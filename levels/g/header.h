@@ -37,4 +37,52 @@ extern const LevelScript level_g_entry[];
 
 #include "levels/g/g_cannon/geo_header.h"
 
+#include "levels/g/marx/geo_header.h"
+
+#include "levels/g/marx/anim_header.h"
+
+#include "levels/g/g_marx_cutter/geo_header.h"
+
+#include "levels/g/g_marx_seed/geo_header.h"
+
+#include "levels/g/g_marx_thorn/geo_header.h"
+
+#include "levels/g/g_marx_right_half/geo_header.h"
+
+#include "levels/g/g_marx_left_half/geo_header.h"
+
+#include "levels/g/g_marx_black_hole/geo_header.h"
+
+#include "levels/g/g_marx_arrow/geo_header.h"
+
+#include "levels/g/g_marx_mouth_full/geo_header.h"
+
+#include "levels/g/g_marx_mouth_open/geo_header.h"
+
+#include "levels/g/g_marx_laser/geo_header.h"
+
+#include "levels/g/g_marx_ice_bomb/geo_header.h"
+
+#include "levels/g/g_marx_ice_ring/geo_header.h"
+
+#include "levels/g/g_marx_black_hole_effect/geo_header.h"
+
+#include "levels/g/marxHealth/header.h"
+
+#include "levels/g/g_bronto_burt/geo_header.h"
+
+#include "levels/g/g_bronto_burt/anim_header.h"
+
+#include "levels/g/g_moving_platform/geo_header.h"
+
+#include "levels/g/g_moving_platform/collision_header.h"
+
+#include "levels/g/g_marx_door/geo_header.h"
+
+#include "levels/g/g_marx_door/collision_header.h"
+
+#include "levels/g/g_waddle_dee/geo_header.h"
+
+#include "levels/g/g_waddle_dee/anim_header.h"
+
 #endif

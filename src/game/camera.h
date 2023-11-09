@@ -125,7 +125,8 @@ enum CameraModes {
     /*15*/ CAMERA_MODE_0F,
     /*16*/ CAMERA_MODE_FREE_ROAM,
     /*17*/ CAMERA_MODE_SPIRAL_STAIRS,
-    /*18*/ CAMERA_MODE_SHOCK_ROCKET
+    /*18*/ CAMERA_MODE_SHOCK_ROCKET,
+    /*19*/ CAMERA_MODE_MARX_FIGHT,
 };
 
 enum CameraMovementFlags {

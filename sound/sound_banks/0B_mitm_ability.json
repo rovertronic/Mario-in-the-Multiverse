@@ -89,6 +89,21 @@
             "release_rate": 0,
             "envelope": "envelope0",
             "sound": "ability_e_shotgun_rack"
+        },
+        "inst_g_marx_hp": {
+            "release_rate": 0,
+            "envelope": "envelope0",
+            "sound": "g_marx_hp"
+        },
+        "inst_g_marx_final_hit": {
+            "release_rate": 0,
+            "envelope": "envelope0",
+            "sound": "g_marx_final_hit"
+        },
+        "inst_g_marx_explode": {
+            "release_rate": 0,
+            "envelope": "envelope0",
+            "sound": "g_marx_explode"
         }
     },
     "instrument_list": [
@@ -107,6 +122,9 @@
         "inst_knight_sword",
         "inst_ability_e_shotgun",
         "inst_ability_e_shotgun2",
-        "inst_ability_e_shotgun_rack"
+        "inst_ability_e_shotgun_rack",
+        "inst_g_marx_hp",
+        "inst_g_marx_final_hit",
+        "inst_g_marx_explode"
     ]
 }

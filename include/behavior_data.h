@@ -340,6 +340,7 @@ extern const BehaviorScript bhvCarrySomethingThrown[];
 extern const BehaviorScript bhvObjectBubble[];
 extern const BehaviorScript bhvObjectWaterWave[];
 extern const BehaviorScript bhvExplosion[];
+extern const BehaviorScript bhvExplosionVisual[];
 extern const BehaviorScript bhvBobombBullyDeathSmoke[];
 extern const BehaviorScript bhvSmoke[];
 extern const BehaviorScript bhvBobombExplosionBubble[];
@@ -608,6 +609,7 @@ extern const BehaviorScript bhvStarDoorStar[];
 extern const BehaviorScript bhvGStarDoor[];
 extern const BehaviorScript bhvGSpring[];
 extern const BehaviorScript bhvGCutRock[];
+extern const BehaviorScript bhvGCOStar[];
 /* GROUP G END */
 
 /* GROUP H START */
@@ -679,3 +681,19 @@ extern const BehaviorScript bhvOeasystreetcontroller[];
 
 extern const BehaviorScript bhvGCannon[];
 extern const BehaviorScript bhvGreatCaveOffensiveController[];
+extern const BehaviorScript bhvGMarx[];
+extern const BehaviorScript bhvGMarxCutter[];
+extern const BehaviorScript bhvGMarxSeed[];
+extern const BehaviorScript bhvGMarxVine[];
+extern const BehaviorScript bhvGMarxThornSegment[];
+extern const BehaviorScript bhvGMarxHalf[];
+extern const BehaviorScript bhvGMarxBlackHole[];
+extern const BehaviorScript bhvGMarxArrow[];
+extern const BehaviorScript bhvGMarxBodyLaser[];
+extern const BehaviorScript bhvGMarxLaser[];
+extern const BehaviorScript bhvGMarxIceBomb[];
+extern const BehaviorScript bhvGMarxBlackHoleEffect[];
+extern const BehaviorScript bhvGBrontoBurt[];
+extern const BehaviorScript bhvGMovingPlatform[];
+extern const BehaviorScript bhvGMarxDoor[];
+extern const BehaviorScript bhvGWaddleDee[];

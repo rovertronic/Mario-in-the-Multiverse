@@ -588,7 +588,8 @@ s32 act_axe_jump(struct MarioState *m) {
                 m->faceAngle[1] = floorDYaw;
             }
             m->vel[1] = 70.0f;
-            return set_mario_action(m,ACT_ABILITY_AXE_JUMP,0);
+            set_mario_action(m,ACT_ABILITY_AXE_JUMP,0);
+            return FALSE;
         } else {
             return set_mario_action(m, ACT_FORWARD_ROLLOUT, 0);
         }

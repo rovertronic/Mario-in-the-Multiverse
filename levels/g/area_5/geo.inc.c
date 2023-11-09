@@ -3,6 +3,7 @@
 const GeoLayout g_area_5_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, g_dl_Circle_005_mesh_layer_5),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, g_dl_Circle_006_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, g_dl_Circle_006_mesh_layer_4),

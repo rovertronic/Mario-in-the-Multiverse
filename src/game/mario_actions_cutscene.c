@@ -426,7 +426,7 @@ s32 act_enter_hub_pipe(struct MarioState *m) {
         gMarioState->pos[1] = approach_f32_asymptotic(gMarioState->pos[1],gMarioState->interactObj->oPosY+60.0f,0.1f);
 
         if (update_mario_action_timer_post(m) > 20) {
-            initiate_warp(get_hub_level(gMarioState->interactObj->oBehParams2ndByte), 1, 0x0A, WARP_FLAGS_NONE);
+            initiate_warp(get_hub_level(gMarioState->interactObj->oBehParams2ndByte), get_hub_area(gMarioState->interactObj->oBehParams2ndByte), 0x0A, WARP_FLAGS_NONE);
             fade_into_special_warp(WARP_SPECIAL_NONE, 0);
             gSavedCourseNum = COURSE_NONE;
         }

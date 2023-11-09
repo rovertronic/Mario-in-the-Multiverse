@@ -7014,7 +7014,7 @@ const BehaviorScript bhvGAttachedRope[] = {
 const BehaviorScript bhvGAttachedBlock[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST | OBJ_FLAG_ATTACHABLE_BY_ROPE)),
-    LOAD_COLLISION_DATA(checker_block_1_collision),
+    LOAD_COLLISION_DATA(g_fixed_block_collision),
     SET_FLOAT(oCollisionDistance, 2000),
     CALL_NATIVE(bhv_g_attached_block_init),
     SET_FLOAT(oDrawingDistance, 16000),
@@ -7090,7 +7090,7 @@ const BehaviorScript bhvGreatCaveOffensiveController[] = {
 
 const BehaviorScript bhvGMarx[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_BOSS | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_ACTIVE_FROM_AFAR)),
+    OR_LONG(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_BOSS | OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_ACTIVE_FROM_AFAR)),
     LOAD_ANIMATIONS(oAnimations, marx_anims),
     CALL_NATIVE(bhv_g_marx_init),
     SET_FLOAT(oDrawingDistance, 16000),
@@ -7219,6 +7219,7 @@ const BehaviorScript bhvGBrontoBurt[] = {
     SET_FLOAT(oDrawingDistance, 16000),
     ANIMATE(0),
     CALL_NATIVE(bhv_g_bronto_burt_init),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 40, /*Gravity*/ 0, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 0, /*Unused*/ 0, 0),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_g_bronto_burt_loop),
     END_LOOP(),
@@ -7256,6 +7257,7 @@ const BehaviorScript bhvGWaddleDee[] = {
     SET_FLOAT(oDrawingDistance, 16000),
     ANIMATE(0),
     CALL_NATIVE(bhv_g_waddle_dee_init),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 40, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 0, /*Unused*/ 0, 0),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_g_waddle_dee_loop),
     END_LOOP(),

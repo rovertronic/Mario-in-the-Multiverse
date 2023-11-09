@@ -83,6 +83,12 @@ void marx_act_cutscene(void) {
     }
 }
 
+s32 marx_is_above_floor(void) {
+    struct Surface * dummyfloor;
+    find_floor(o->oPosX,o->oPosY,o->oPosZ,&dummyfloor);
+    return (dummyfloor != NULL);
+}
+
 void marx_act_idle_flight(void) {
     if (o->oTimer == 0) {
         cur_obj_init_animation(0);
@@ -99,6 +105,11 @@ void marx_act_idle_flight(void) {
                 break;
                 case 3:
                 case 4: o->oAction = MARX_ACT_BLACK_HOLE;
+                if (!marx_is_above_floor()) {
+                    //black hole is useless if marx is off the arena
+                    o->oAction = MARX_ACT_ARROWS;
+                    if (o->oMarxLastAttack != MARX_ACT_ARROWS) o->oMarxLastAttack = MARX_ACT_IDLE_FLIGHT;
+                }
                 break;
                 case 5: o->oAction = MARX_ACT_ICE_BOMB;
                 break;
@@ -668,7 +679,7 @@ s16 get_marx_damage_from_mario_attack(void) {
         break;
         case ABILITY_CHRONOS:;
             if (gMarioState->action == ACT_MOVE_PUNCHING || gMarioState->action == ACT_PUNCHING) {
-                return 5;
+                return 6;
             }
         break;
         case ABILITY_ESTEEMED_MORTAL:;
@@ -702,6 +713,9 @@ s16 get_marx_damage_from_object(struct Object *obj) {
 extern s16 gMarxHudHealth;
 
 void bhv_g_marx_init(void) {
+    gSecondCameraFocus = NULL;
+    gCamera->cutscene = 0;
+    
     o->oMarxTeleportTimer = -1;
     obj_set_hitbox(o, &sMarxHitbox);
     o->oMarxInvincibilityTimer = 0;
@@ -771,8 +785,11 @@ void bhv_g_marx_loop(void) {
     }
 
     if (o->oInteractStatus == 0) {
-        if (o->oShotByShotgun) {
-            o->oMarxHealth -= 7;
+        if (o->oShotByShotgun > 0) {
+            o->oMarxHealth -= 2;
+            if (o->oShotByShotgun == 2) {
+                o->oMarxHealth -= 1;
+            }
             o->oShotByShotgun = 0;
             o->oMarxInvincibilityTimer = 20;
         }
@@ -822,6 +839,13 @@ void bhv_g_marx_loop(void) {
 
     //this is so the shotgun doesnt annihilate marx lol
     o->oHealth = 20;
+
+    //this is so that the shotgun doesn't push him very much
+    struct Object * pushobj = cur_obj_nearest_object_with_behavior(bhvE_PushObj);
+    if (pushobj) {
+        pushobj->oVelX *= 0.85f;
+        pushobj->oVelZ *= 0.85f;
+    }
 }
 
 void bhv_g_marx_cutter_init(void) {

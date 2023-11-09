@@ -123,6 +123,10 @@
 #include "actors/common1.h"
 #include "actors/common1.h"
 #include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
 
 /* Fast64 begin persistent block [includes] */
 #include "actors/common1.h"
@@ -229,11 +233,12 @@ const LevelScript level_g_entry[] = {
 	END_AREA(),
 
 	AREA(3, g_area_3),
-		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0x09, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF1, LEVEL_G, 0x03, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0B, LEVEL_G, 0x04, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0C, LEVEL_G, 0x04, 0x0D, WARP_NO_CHECKPOINT),
+		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_G_BRONTO_BURT, 4962, 4226, -1141, 0, -165, 0, 0x00000000, bhvGBrontoBurt),
 		OBJECT(MODEL_G_BRONTO_BURT, 1980, 3056, -6224, 0, -122, 0, 0x00000000, bhvGBrontoBurt),
 		OBJECT(MODEL_G_BRONTO_BURT, 2780, 3091, -5682, 0, -122, 0, 0x00000000, bhvGBrontoBurt),
@@ -287,7 +292,8 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_G_SIR_KIBBLE, 2267, 1662, 157, 0, 0, 0, 0x00000000, bhvSirKibble),
 		OBJECT(MODEL_G_SIR_KIBBLE, 3154, 1662, 284, 0, 0, 0, 0x00000000, bhvSirKibble),
 		OBJECT(MODEL_NONE, 520, -1861, 13853, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
-		OBJECT(MODEL_NONE, 530, -2205, 14095, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_NONE, 530, -2205, 14095, 0, -180, 0, (0x09 << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_NONE, 909, 1411, -343, 0, -180, 0, (0x0A << 16), bhvSpinAirborneWarp),
 		OBJECT(MODEL_NONE, 3080, 2034, -8289, 0, -49, 0, (12 << 16), bhvWarpPipe),
 		OBJECT(MODEL_RED_COIN, -1240, 1092, -969, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_NONE, -1332, 1530, -2249, 0, 14, 0, (1 << 24), bhvHiddenRedCoinStar),
@@ -322,11 +328,12 @@ const LevelScript level_g_entry[] = {
 
 	AREA(4, g_area_4),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(0xF0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(0xF1, LEVEL_BOB, 0x04, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF0, LEVEL_G, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF1, LEVEL_G, 0x04, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0B, LEVEL_G, 0x04, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0C, LEVEL_G, 0x05, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0D, LEVEL_G, 0x03, 0x0C, WARP_NO_CHECKPOINT),
+		WARP_NODE(0x01/*death receive*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_ABILITY_HEART, 9624, 2752, 10003, 0, -49, 0, 0x00000000, bhvAbilityRecoveryHeart),
 		OBJECT(MODEL_ABILITY_HEART, -767, 3804, 9681, 0, -49, 0, 0x00000000, bhvAbilityRecoveryHeart),
 		OBJECT(MODEL_ABILITY_HEART, -4490, 4767, 9773, 0, -49, 0, 0x00000000, bhvAbilityRecoveryHeart),
@@ -355,7 +362,7 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_G_WADDLE_DEE, -13629, 446, 14427, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_ABILITY_SIGN, 7235, 808, 15721, 0, -49, 0, (5 << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, -13876, 237, 8376, 0, -40, 0, (4 << 16), bhvStaticObject),
-		OBJECT(MODEL_NONE, 2208, 3178, 857, 0, 0, 0, (11 << 16), bhvAirborneDeathWarp),
+		OBJECT(MODEL_NONE, 3852, 3467, -2928, 0, -180, 0, (11 << 16), bhvAirborneDeathWarp),
 		OBJECT(MODEL_ABILITY_SIGN, 4373, 3099, -2687, 0, -124, 0, (10 << 16), bhvStaticObject),
 		OBJECT(MODEL_G_MARX_DOOR, 3751, 3761, -2503, 0, 0, 0, 0x00000000, bhvGMarxDoor),
 		OBJECT(MODEL_NONE, -14374, 535, 1562, 0, 21, 0, (6 << 24), bhvGCOStar),
@@ -363,6 +370,7 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_G_SIR_KIBBLE, -3547, 3511, 21660, 0, 0, 0, 0x00000000, bhvSirKibble),
 		OBJECT(MODEL_G_SIR_KIBBLE, -14961, 1167, 14204, 0, 0, 0, 0x00000000, bhvSirKibble),
 		OBJECT(MODEL_G_SIR_KIBBLE, -15194, 248, 6280, 0, 0, 0, 0x00000000, bhvSirKibble),
+		OBJECT(MODEL_NONE, 4738, 1124, 19407, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 2222, 3807, 21692, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_G_MOVING_PLATFORM, -2700, -75, 15771, 0, -90, 0, (3 << 24) | (25 << 16), bhvGMovingPlatform),
 		OBJECT(MODEL_G_MOVING_PLATFORM, -4449, -396, 14676, 0, 180, 0, (3 << 24) | (15 << 16), bhvGMovingPlatform),

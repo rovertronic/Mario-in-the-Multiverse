@@ -3,6 +3,7 @@
 const GeoLayout g_area_3_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, g_dl_Plane_002_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, g_dl_Plane_002_mesh_layer_4),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 984, 1070, -1598, 0, 5, 0, g_dl_Plane_005_mesh_layer_1),

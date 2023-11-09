@@ -2811,6 +2811,10 @@ void mode_marx_fight_camera(struct Camera *c) {
     Vec3f secondFocus;
     Vec3f holdFocOffset = { 0.f, -150.f, -125.f };
 
+    if (gE_ShotgunFlags & E_SGF_AIM_MODE) {
+        return;
+    }
+
     handle_c_button_movement(c);
 
     // Start camera shakes if bowser jumps or gets thrown.

@@ -35,7 +35,8 @@ void bhv_g_waddle_dee_loop(void) {
         object_step();
         cur_obj_update_floor_and_walls();
         obj_return_home(o, o->oHomeX, o->oHomeY, o->oHomeZ, 400);
-        obj_handle_attacks(&sWaddleDeeHitbox, o->oAction, sWaddleDeeAttackHandlers);
+
+        obj_handle_attacks(&sWaddleDeeHitbox, o->oAction, &sWaddleDeeAttackHandlers);
     }
     else {
         o->oGravity = -2.5f;

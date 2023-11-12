@@ -41,3 +41,8 @@
 #include "levels/i/hoodoo_sorcerer/anims/data.inc.c"
 #include "levels/i/hoodoo_sorcerer/anims/table.inc.c"
 #include "levels/i/magic_shield/model.inc.c"
+#include "levels/i/hoodboomer/anims/data.inc.c"
+#include "levels/i/hoodboomer/anims/table.inc.c"
+#include "levels/i/hoodmonger/model.inc.c"
+#include "levels/i/hoodmonger/anims/data.inc.c"
+#include "levels/i/hoodmonger/anims/table.inc.c"

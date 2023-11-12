@@ -6455,14 +6455,43 @@ const BehaviorScript bhvRocketButtonGroup[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvHoodmonger[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW | OBJ_FLAG_E__SG_ENEMY)),
+    LOAD_ANIMATIONS(oAnimations, hoodmonger_anims),
+    SET_FLOAT(oDrawingDistance, 6000),
+    SET_INT(oDamageOrCoinValue, 2),
+    SET_INT(oHealth, 1),
+    SET_INT(oNumLootCoins, 3),
+    SET_INTERACT_TYPE(INTERACT_DAMAGE),
+    ANIMATE(0),
+    DROP_TO_FLOOR(),
+    SET_HITBOX(/*Radius*/ 80, /*Height*/ 210),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_hoodmonger_loop),
+        SET_INT(oIntangibleTimer, 0),
+        SET_INT(oInteractStatus, 0),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvHoodmongerAlertManager[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_hoodmonger_alert_manager_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvHoodboomer[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW | OBJ_FLAG_E__SG_ENEMY)),
+    LOAD_ANIMATIONS(oAnimations, hoodboomer_anims),
     SET_FLOAT(oDrawingDistance, 6000),
     SET_INT(oDamageOrCoinValue, 3),
     SET_INT(oHealth, 1),
     SET_INT(oNumLootCoins, -1),
     SET_INTERACT_TYPE(INTERACT_DAMAGE),
+    ANIMATE(0),
     DROP_TO_FLOOR(),
     SET_HITBOX(/*Radius*/ 80, /*Height*/ 210),
     BEGIN_LOOP(),
@@ -6478,6 +6507,7 @@ const BehaviorScript bhvHoodboomerBomb[] = {
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_hoodboomer_bomb_loop),
+        CALL_NATIVE(bhv_three_axis_rotative_object),
     END_LOOP(),
 };
 
@@ -6598,7 +6628,8 @@ const BehaviorScript bhvHiddenCagedToadsStar[] = {
 const BehaviorScript bhvPlankAttachedToRope[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ATTACHABLE_BY_ROPE)),
-    SET_FLOAT(oCollisionDistance, 500),
+    SET_FLOAT(oCollisionDistance, 1000),
+    SET_FLOAT(oDrawingDistance, 2000),
     SET_FLOAT(oGravity, 2),
     SET_FLOAT(oBounciness, -50),
     LOAD_COLLISION_DATA(plank_rope_collision),
@@ -6612,7 +6643,8 @@ const BehaviorScript bhvBarrierAttachedToRope[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ATTACHABLE_BY_ROPE)),
     LOAD_COLLISION_DATA(barrier_rope_collision),
-    SET_FLOAT(oCollisionDistance, 500),
+    SET_FLOAT(oCollisionDistance, 1000),
+    SET_FLOAT(oDrawingDistance, 4000),
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ 100, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 0, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_barrier_attached_to_rope_loop),
@@ -6715,7 +6747,7 @@ const BehaviorScript bhvMasterKaagWeakPoint[] = {
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
     SET_HITBOX(/*Radius*/ 100, /*Height*/ 180),
     SET_INT(oIntangibleTimer, 0),
-    SET_FLOAT(oGraphYOffset, 50),
+    SET_FLOAT(oGraphYOffset, 65),
     BEGIN_LOOP(),
         SET_INT(oInteractStatus, 0),
     END_LOOP(),

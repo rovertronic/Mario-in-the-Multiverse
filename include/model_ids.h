@@ -699,6 +699,7 @@ enum {
 #define MODEL_MASTER_KAAG               0x45        //master_kaag_geo
 #define MODEL_HOODOO_SORCERER           0x46        //hoodoo_sorcerer
 #define MODEL_MAGIC_SHIELD              0x47        //magic_shiel_geo
+#define MODEL_HOODMONGER                0x48        //hoodmonger_geo
 /* LEVEL I END */
 
 /* LEVEL J START */

@@ -2716,6 +2716,19 @@ enum animIDsFirePiranhaPlant {
     #define ROCKET_BUTTON_GROUP_WAITING                     0x0
     #define ROCKET_BUTTON_GROUP_SUCCESSFUL                  0x1
 
+/* Hoodmonger */
+    #define HOODMONGER_ACTION_WANDERING                     0x0
+    #define HOODMONGER_WANDERING_SUBACTION_WAIT             0x0
+    #define HOODMONGER_WANDERING_SUBACTION_START_ALERT      0x1
+    #define HOODMONGER_ACTION_ALERTED                       0x1
+    #define HOODMONGER_ALERTED_SUBACTION_END_ALERT          0x0
+    #define HOODMONGER_ALERTED_SUBACTION_SHOOTING           0x1
+    #define HOODMONGER_ALERTED_SUBACTION_PARRY              0x2
+
+    #define HOODMONGER_ANIM_WANDERING                       0x0
+    #define HOODMONGER_ANIM_ALERT                           0x1
+    #define HOODMONGER_ANIM_SHOOT                           0x2
+
 /* Master Kaag */
     #define MASTER_KAAG_ACT_INACTIVE                        0x0
     #define MASTER_KAAG_ACT_START                           0x1

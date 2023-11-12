@@ -194,6 +194,7 @@ void rocket_button_on() {
     }
 
 }
+
 void bhv_rocket_button_loop(void) {
     switch(o->oAction){
         case ROCKET_BUTTON_ACT_OFF:
@@ -227,6 +228,106 @@ void bhv_rocket_button_group_loop(void){
     }
 }
 
+/*********************************hoodmonger*************************************/
+
+void bhv_hoodmonger_alert_manager_loop(void){
+    struct Object *alertedhoodmonger = cur_obj_nearest_object_with_behavior_and_action(bhvHoodmonger, 1);
+    struct Object *wanderinghoodmonger;
+    if(alertedhoodmonger != NULL){ //if a hoodlum is alerted
+        if(o->oTimer > 40){
+            play_hoodlum_fight_music();
+            wanderinghoodmonger = alertedhoodmonger->oNearestHoodmongerWandering;
+            //and existing wandering hoodlum nearby AND not losing trigger on Mario
+            if( wanderinghoodmonger != NULL && 
+                dist_between_objects(wanderinghoodmonger, alertedhoodmonger) < 2000 && 
+                alertedhoodmonger->oLoosingTriggerCooldown == 0)
+            {
+                print_text(180, 180, "ALERT");
+                wanderinghoodmonger->oAction = HOODMONGER_ACTION_ALERTED; //alert the wandering hoodlum
+                wanderinghoodmonger->oSubAction = HOODMONGER_ALERTED_SUBACTION_SHOOTING; //directly shoot and skipping end-alerte phase
+                wanderinghoodmonger->oShootingCooldown = 0;
+                o->oTimer == 0;
+            }
+        }
+    } else {
+        stop_hoodlum_fight_music();
+    }
+}
+
+void bhv_hoodmonger_loop(){
+    switch(o->oAction){
+        case HOODMONGER_ACTION_WANDERING:
+
+            switch(o->oSubAction){
+                case HOODMONGER_WANDERING_SUBACTION_WAIT:
+                    cur_obj_scale(1.0f);
+                    cur_obj_init_animation(HOODMONGER_ANIM_WANDERING);
+                    if(o->oDistanceToMario < 1000){
+                        o->oSubAction = HOODMONGER_WANDERING_SUBACTION_START_ALERT;
+                    }
+                    break;
+
+                case HOODMONGER_WANDERING_SUBACTION_START_ALERT:
+                    cur_obj_scale(1.0f);
+                    obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x1000);
+                    if(cur_obj_init_anim_check_frame(HOODMONGER_ANIM_ALERT, 24)){
+                        o->oAction = HOODMONGER_ACTION_ALERTED;
+                        o->oSubAction = HOODMONGER_ALERTED_SUBACTION_END_ALERT;
+                    }
+                    break;
+            }
+            break;
+
+        case HOODMONGER_ACTION_ALERTED:
+            switch(o->oSubAction){
+                case HOODMONGER_ALERTED_SUBACTION_END_ALERT:
+                    cur_obj_scale(2.0f);
+                    if(cur_obj_init_animation_and_check_if_near_end(HOODMONGER_ANIM_ALERT)){
+                        o->oSubAction = HOODMONGER_ALERTED_SUBACTION_SHOOTING;
+                        o->oShootingCooldown = 0;
+                    }
+                    break;
+
+                case  HOODMONGER_ALERTED_SUBACTION_SHOOTING:
+                    cur_obj_scale(1.0f);
+                    if(o->oShootingCooldown <= 0){
+                        spawn_object(o, MODEL_NONE, bhvExplosion);
+                        cur_obj_init_animation_and_anim_frame(HOODMONGER_ANIM_SHOOT, 0);
+                        o->oShootingCooldown = 50;
+                    } else {
+                        cur_obj_init_animation_and_extend_if_at_end(HOODMONGER_ANIM_SHOOT);
+                    }
+                    if(o->oDistanceToMario < 300){
+                        o->oSubAction = HOODMONGER_ALERTED_SUBACTION_PARRY;
+                    }
+                    o->oShootingCooldown--;
+                    break;
+
+                case HOODMONGER_ALERTED_SUBACTION_PARRY:
+                    o->oShootingCooldown--;
+                    //cur_obj_init_animation(3);
+                    if(o->oDistanceToMario >= 300){
+                        o->oSubAction = HOODMONGER_ALERTED_SUBACTION_SHOOTING;
+                    }
+                    break;
+            }
+            obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x1000);
+            if(o->oDistanceToMario > 2000){
+                o->oLoosingTriggerCooldown++;
+                if(o->oLoosingTriggerCooldown > 200){
+                    o->oAction = HOODMONGER_ACTION_WANDERING;
+                    o->oSubAction = HOODMONGER_WANDERING_SUBACTION_WAIT;
+                    o->oLoosingTriggerCooldown = 0;
+                }
+            } else {
+                o->oLoosingTriggerCooldown = 0;
+            }
+            break;
+    }
+
+    o->oNearestHoodmongerWandering = cur_obj_nearest_object_with_behavior_and_action(bhvHoodmonger, 0); //find nearest hoodmonger not alerted
+}
+
 /*********************************Hoodboomer*************************************/
 
 void bhv_hoodboomer_loop(void){
@@ -234,21 +335,33 @@ void bhv_hoodboomer_loop(void){
     o->oDeathSound = SOUND_MITM_LEVEL_I_HOODBOOMER_DEATH;
     obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x800);
 
-    if(o->prevObj == NULL){
-        struct Object *bomb = spawn_object(o, MODEL_HOODBOOMER_BOMB, bhvHoodboomerBomb);
-        o->prevObj = bomb;
+    switch(o->oAction){
+        case 0: //laughing
+            cur_obj_init_animation(0);
+
+            if(dist_between_objects(o, gMarioObject) < 2500 && o->oLaunchingBombCooldown <= 0){
+                if(cur_obj_init_animation_and_check_if_near_end(0)) {
+                    o->oAction++;
+                }
+            }
+            break;
+
+        case 1: //throwing grenade
+            if(cur_obj_init_anim_check_frame(1, 14)){
+                struct Object *bomb = spawn_object_relative(0, 0, 200, 0, o, MODEL_HOODBOOMER_BOMB, bhvHoodboomerBomb);
+                SET_BPARAM1(bomb->oBehParams, 200);
+                SET_BPARAM2(bomb->oBehParams, 200);
+                SET_BPARAM3(bomb->oBehParams, 200);
+            }
+            if(cur_obj_init_animation_and_check_if_near_end(1)){
+                o->oLaunchingBombCooldown = 150;
+                o->oAction--;
+            }
+            break;
     }
 
-    if(dist_between_objects(o, gMarioObject) < 1500 && o->oLaunchingBombCooldown <= 0){
-        print_text(180, 180, "OUI");
-        //if (cur_obj_init_anim_and_check_if_end(2)) {
-        o->prevObj = NULL;
-        o->oLaunchingBombCooldown = 200;
-        //}
-    }
-
-    if(o->oLaunchingBombCooldown > 0){
-        o->oLaunchingBombCooldown--;
+    if((o->oTimer % 15) == 0){
+        spawn_object(o, MODEL_BURN_SMOKE, bhvBlackSmokeHoodboomer);
     }
 
     if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 2){
@@ -257,12 +370,15 @@ void bhv_hoodboomer_loop(void){
         obj_die_if_health_non_positive();
     }
 
-    if((o->oTimer % 300) == 0){
-        create_sound_spawner(SOUND_MITM_LEVEL_I_HOODBOOMER_LAUGH);
+    if(o->oLaunchingBombCooldown > 0){
+        o->oLaunchingBombCooldown--;
     }
 
-    if((o->oTimer % 15) == 0){
-        spawn_object(o, MODEL_BURN_SMOKE, bhvBlackSmokeHoodboomer);
+    if((o->oTimer % 300) == 0 && o->oDistanceToMario < 3000){
+        if(random_sign() == 1) 
+            cur_obj_play_sound_2(SOUND_MITM_LEVEL_I_HOODBOOMER_LAUGH);
+        else
+            cur_obj_play_sound_2(SOUND_MITM_LEVEL_I_HOODBOOMER_HAHA);
     }
 }
 
@@ -297,48 +413,52 @@ static struct ObjectHitbox sHoodboomerBombHitbox = {
     /* hurtboxHeight:     */ 15,
 };
 
-static void hoodboomer_bomb_act_held(void){
-    // The position is offset since the monty mole is throwing it with its hand
-    o->oParentRelativePosX = 500.0f;
-    o->oParentRelativePosY = 400.0f;
-    o->oParentRelativePosZ = 0.0f;
-
-    if (o->parentObj->prevObj == NULL) {
-        f32 distToMario = o->oDistanceToMario;
-
-        o->oBombIsLaunched = TRUE;
-        arc_to_goal_pos(&gMarioObject->oPosVec, &o->oPosVec, 60.0f, -4.0f);
-        o->oAction++;
-        o->oMoveFlags = OBJ_MOVE_NONE;
-    }
-}
-
 static void hoodboomer_bomb_act_move(void){
-    cur_obj_update_floor_and_walls();
+    s16 collisionFlags;
+    f32 floorY;
+    struct Surface *sObjFloor;
 
-    if (o->oMoveFlags & (OBJ_MOVE_MASK_ON_GROUND | OBJ_MOVE_ENTERED_WATER)) {
+    cur_obj_compute_vel_xz();
+    floorY = find_floor(o->oPosX + o->oVelX, o->oPosY, o->oPosZ + o->oVelZ, &sObjFloor);
+    if ((s32) o->oPosY == (s32) floorY) {
+        collisionFlags += OBJ_COL_FLAG_GROUNDED;
+    }
+    
+    if (collisionFlags == OBJ_COL_FLAG_GROUNDED) {
         cur_obj_spawn_particles(&sMontyMoleRockBreakParticles);
         obj_mark_for_deletion(o);
     }
+        
 
-    if (!o->oBombIsLaunched) {
-        cur_obj_move_standard(78);
-    } else {
-        cur_obj_move_using_fvel_and_gravity();
-    }
+    cur_obj_move_standard(78);
 }
 
-void bhv_hoodboomer_bomb_loop(void){
-    obj_check_attacks(&sHoodboomerBombHitbox, o->oAction);
+extern s16 gArctanTable[];
 
-    switch (o->oAction) {
-        case 0:
-            hoodboomer_bomb_act_held();
-            break;
-        case 1:
-            hoodboomer_bomb_act_move();
-            break;
+void bhv_hoodboomer_bomb_loop(void){
+    f32 x;
+    f32 y;
+    f32 g;
+    f32 v;
+    if(o->oTimer == 0){
+        /*f32 x = o->oDistanceToMario;
+        f32 y =  gMarioObject->oPosY - o->oPosY;
+        o->oMoveAngleYaw = obj_angle_to_object(o, gMarioObject);
+        o->oForwardVel = 10.0f;
+        v = o->oForwardVel;
+        o->oGravity = 2.0f;
+        g = o->oGravity;
+
+        o->oMoveAnglePitch = degrees_to_angle(atans((v*v + sqrtf(v*v*v*v - g*g*x*x + g*2*y*v*v))/ g*x));
+        o->oVelY = o->oForwardVel * sins(o->oMoveAnglePitch);*/
+        o->oMoveAngleYaw = obj_angle_to_object(o, gMarioObject);
+
+        o->oForwardVel = 40.0f;
+        o->oVelY = o->oDistanceToMario * 0.08f + 8.0f;
+        
     }
+    obj_check_attacks(&sHoodboomerBombHitbox, o->oAction);
+    hoodboomer_bomb_act_move();
 }
 
 /*********************************PigPot*************************************/
@@ -346,7 +466,7 @@ void bhv_hoodboomer_bomb_loop(void){
 void bhv_pigpot_loop(void){
     if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 1){
        obj_explode_and_spawn_coins(46.0f, COIN_TYPE_YELLOW);
-       create_sound_spawner(SOUND_GENERAL_BREAK_BOX);
+       play_sound(SOUND_MITM_LEVEL_I_PIGPOT_DEATH, gGlobalSoundSource);
     }
 }
 

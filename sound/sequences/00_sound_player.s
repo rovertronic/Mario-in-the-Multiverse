@@ -8186,8 +8186,19 @@ sound_ref .sound_marxscream
 sound_ref .sound_marxteleport
 sound_ref .sound_level_i_hoodboomer_death
 sound_ref .sound_level_i_hoodboomer_laugh
+sound_ref .sound_level_i_hoodboomer_haha
 sound_ref .sound_level_i_toad_help
-sound_ref .sound_level_i_hoodoo_sorcerer_magic
+sound_ref .sound_level_i_magic_shield
+sound_ref .sound_level_i_hoodoo_sorcerer_death
+sound_ref .sound_level_i_pigpot_death
+sound_ref .sound_level_i_grenade
+sound_ref .sound_level_i_hoodlum_shot
+sound_ref .sound_level_i_hoodlum_reload
+sound_ref .sound_level_i_master_kaag_angry
+sound_ref .sound_level_i_master_kaag_laugh
+sound_ref .sound_level_i_master_kaag_stomp
+sound_ref .sound_level_i_master_kaag_damage
+
 
 .sound_level_x_0:
 chan_setbank 12
@@ -8422,6 +8433,8 @@ layer_end
 
 //End Pokemon
 
+//-----START LEVEL I-----//
+
 //Hoodboomer
 
 .sound_level_i_hoodboomer_death:
@@ -8444,13 +8457,21 @@ chan_end
     layer_note1 39, 0xC0, 127
     layer_end
 
-//End Hoodboomer
+.sound_level_i_hoodboomer_haha:
+chan_setbank 12
+chan_setinstr 28
+chan_setlayer 0, .layer_level_i_hoodboomer_haha
+chan_end
+
+    .layer_level_i_hoodboomer_haha:
+    layer_note1 39, 0x61, 127
+    layer_end
 
 //Caged Toad
 
 .sound_level_i_toad_help:
 chan_setbank 12
-chan_setinstr 28
+chan_setinstr 29
 chan_setlayer 0, .layer_level_i_toad_help
 chan_end
 
@@ -8458,21 +8479,119 @@ chan_end
     layer_note1 39, 0xC0, 127
     layer_end
 
-//End Caged Toad
+//Magic shield
+
+.sound_level_i_magic_shield:
+chan_setbank 12
+chan_setinstr 30
+chan_setlayer 0, .layer_level_i_magic_shield
+chan_end
+
+    .layer_level_i_magic_shield:
+    layer_note1 39, 0x9C, 127
+    layer_end
 
 //Hoodoo Sorcerer
 
-.sound_level_i_hoodoo_sorcerer_magic:
+.sound_level_i_hoodoo_sorcerer_death:
 chan_setbank 12
-chan_setinstr 29
-chan_setlayer 0, .layer_level_i_hoodoo_sorcerer_magic
+chan_setinstr 31
+chan_setlayer 0, .layer_level_i_hoodoo_sorcerer_death
 chan_end
 
-    .layer_level_i_hoodoo_sorcerer_magic:
+    .layer_level_i_hoodoo_sorcerer_death:
     layer_note1 39, 0xFF, 127
     layer_end
 
-//End Hoodoo Sorcerer
+//Pigoot
+
+.sound_level_i_pigpot_death:
+chan_setbank 12
+chan_setinstr 32
+chan_setlayer 0, .layer_level_i_pigpot_death
+chan_end
+
+    .layer_level_i_pigpot_death:
+    layer_note1 39, 0x95, 127
+    layer_end
+
+//grenade
+
+.sound_level_i_grenade:
+chan_setbank 12
+chan_setinstr 33
+chan_setlayer 0, .layer_level_i_grenade
+chan_end
+
+    .layer_level_i_grenade:
+    layer_note1 39, 0x17, 127
+    layer_end
+
+//hoodlum
+
+.sound_level_i_hoodlum_shot:
+chan_setbank 12
+chan_setinstr 34
+chan_setlayer 0, .layer_level_i_hoodlum_shot
+chan_end
+
+    .layer_level_i_hoodlum_shot:
+    layer_note1 39, 0x1B, 127
+    layer_end
+
+.sound_level_i_hoodlum_reload:
+chan_setbank 12
+chan_setinstr 35
+chan_setlayer 0, .layer_level_i_hoodlum_reload
+chan_end
+
+    .layer_level_i_hoodlum_reload:
+    layer_note1 39, 0x38, 127
+    layer_end
+
+//Master_kaag
+
+.sound_level_i_master_kaag_angry:
+chan_setbank 12
+chan_setinstr 36
+chan_setlayer 0, .layer_level_i_master_kaag_angry
+chan_end
+
+    .layer_level_i_master_kaag_angry:
+    layer_note1 39, 0x85, 127
+    layer_end
+
+.sound_level_i_master_kaag_laugh:
+chan_setbank 12
+chan_setinstr 37
+chan_setlayer 0, .layer_level_i_master_kaag_laugh
+chan_end
+
+    .layer_level_i_master_kaag_laugh:
+    layer_note1 39, 0x73, 127
+    layer_end
+
+.sound_level_i_master_kaag_stomp:
+chan_setbank 12
+chan_setinstr 38
+chan_setlayer 0, .layer_level_i_master_kaag_stomp
+chan_end
+
+    .layer_level_i_master_kaag_stomp:
+    layer_note1 39, 0x44, 127
+    layer_end
+
+.sound_level_i_master_kaag_damage:
+chan_setbank 12
+chan_setinstr 39
+chan_setlayer 0, .layer_level_i_master_kaag_damage
+chan_end
+
+    .layer_level_i_master_kaag_damage:
+    layer_note1 39, 0x75, 127
+    layer_end
+
+//-----END LEVEL I-----//
 
 .align 2, 0
 .envelope_32C4:

@@ -3381,9 +3381,11 @@ void update_camera(struct Camera *c) {
                 case CAMERA_MODE_SHOCK_ROCKET:
                     mode_shock_rocket_camera(c);
                     break;
+
                 case CAMERA_MODE_MARX_FIGHT:
                     mode_marx_fight_camera(c);
                     break;
+                    
                 case CAMERA_MODE_FUNKY_BOARD:
                     mode_funky_board_camera(c);
                     break;

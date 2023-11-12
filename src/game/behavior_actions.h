@@ -561,6 +561,8 @@ void bhv_rocket_smoke_init(void);
 void bhv_rocket_button_loop(void);
 void bhv_rocket_button_init(void);
 void bhv_rocket_button_group_loop(void);
+void bhv_hoodmonger_alert_manager_loop(void);
+void bhv_hoodmonger_loop();
 void bhv_hoodboomer_loop(void);
 void bhv_hoodboomer_bomb_loop(void);
 void bhv_black_smoke_hoodboomer_loop(void);

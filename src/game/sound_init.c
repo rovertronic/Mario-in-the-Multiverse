@@ -34,6 +34,7 @@ static u16 sCurrentMusic = MUSIC_NONE;
 static u16 sCurrentShellMusic = MUSIC_NONE;
 static u16 sCurrentCapMusic = MUSIC_NONE;
 static u16 sCurrentPlumMusic = MUSIC_NONE;
+static u16 sCurrentHoddlumFight = MUSIC_NONE;
 #ifdef ENABLE_VANILLA_LEVEL_SPECIFIC_CHECKS
 static u8 sPlayingInfiniteStairs = FALSE;
 #endif
@@ -257,6 +258,7 @@ void fadeout_music(s16 fadeOutTime) {
     sCurrentShellMusic = MUSIC_NONE;
     sCurrentCapMusic = MUSIC_NONE;
     sCurrentPlumMusic = MUSIC_NONE;
+    sCurrentHoddlumFight = MUSIC_NONE;
 }
 
 /**
@@ -268,6 +270,7 @@ void fadeout_level_music(s16 fadeTimer) {
     sCurrentShellMusic = MUSIC_NONE;
     sCurrentCapMusic = MUSIC_NONE;
     sCurrentPlumMusic = MUSIC_NONE;
+    sCurrentHoddlumFight = MUSIC_NONE;
 }
 
 /**
@@ -311,6 +314,24 @@ void stop_plum_music(void) {
     if (sCurrentPlumMusic != MUSIC_NONE) {
         stop_background_music(sCurrentPlumMusic);
         sCurrentPlumMusic = MUSIC_NONE;
+    }
+}
+
+/**
+ * Called from threads: thread5_game_loop
+ */
+void play_hoodlum_fight_music(void) {
+    play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_EVENT_BOSS | SEQ_VARIATION), 0);
+    sCurrentHoddlumFight = SEQUENCE_ARGS(4, SEQ_EVENT_BOSS | SEQ_VARIATION);
+}
+
+/**
+ * Called from threads: thread5_game_loop
+ */
+void stop_hoodlum_fight_music(void) {
+    if (sCurrentHoddlumFight != MUSIC_NONE) {
+        stop_background_music(sCurrentHoddlumFight);
+        sCurrentHoddlumFight = MUSIC_NONE;
     }
 }
 

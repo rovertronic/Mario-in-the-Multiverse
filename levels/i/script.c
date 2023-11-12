@@ -234,7 +234,7 @@ const LevelScript level_i_entry[] = {
 		OBJECT(MODEL_NONE, -11386, 725, 21549, 0, -180, 0, (10 << 16), bhvInstantActiveWarp),
 		TERRAIN(i_area_4_collision),
 		MACRO_OBJECTS(i_area_4_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_SLIDE),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_FUNKY_SHELL),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

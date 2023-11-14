@@ -7,6 +7,7 @@
 #include "src/game/texscroll/f_texscroll.inc.h"
 #include "src/game/texscroll/J_texscroll.inc.h"
 #include "src/game/texscroll/o_texscroll.inc.h"
+#include "src/game/texscroll/d_texscroll.inc.h"
 extern void scroll_textures();
 
 #endif

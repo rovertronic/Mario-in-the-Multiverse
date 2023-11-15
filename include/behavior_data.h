@@ -623,6 +623,7 @@ extern const BehaviorScript bhvRocketButtonGroup[];
 extern const BehaviorScript bhvHoodmonger[];
 extern const BehaviorScript bhvHoodboomer[];
 extern const BehaviorScript bhvHoodmongerAlertManager[];
+extern const BehaviorScript bhvHoodmongerBullet[];
 extern const BehaviorScript bhvHoodboomerBomb[];
 extern const BehaviorScript bhvBlackSmokeHoodboomer[];
 extern const BehaviorScript bhvPigpot[];

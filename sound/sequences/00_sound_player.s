@@ -8192,12 +8192,15 @@ sound_ref .sound_level_i_magic_shield
 sound_ref .sound_level_i_hoodoo_sorcerer_death
 sound_ref .sound_level_i_pigpot_death
 sound_ref .sound_level_i_grenade
-sound_ref .sound_level_i_hoodlum_shot
-sound_ref .sound_level_i_hoodlum_reload
+sound_ref .sound_level_i_hoodmonger_shot
+sound_ref .sound_level_i_hoodmonger_reload
 sound_ref .sound_level_i_master_kaag_angry
 sound_ref .sound_level_i_master_kaag_laugh
 sound_ref .sound_level_i_master_kaag_stomp
 sound_ref .sound_level_i_master_kaag_damage
+sound_ref .sound_level_i_hoodmonger_alert
+sound_ref .sound_level_i_hoodmonger_death1
+sound_ref .sound_level_i_hoodmonger_parry
 
 
 .sound_level_x_0:
@@ -8527,26 +8530,56 @@ chan_end
     layer_note1 39, 0x17, 127
     layer_end
 
-//hoodlum
+//hoodmonger
 
-.sound_level_i_hoodlum_shot:
+.sound_level_i_hoodmonger_shot:
 chan_setbank 12
 chan_setinstr 34
-chan_setlayer 0, .layer_level_i_hoodlum_shot
+chan_setlayer 0, .layer_level_i_hoodmonger_shot
 chan_end
 
-    .layer_level_i_hoodlum_shot:
+    .layer_level_i_hoodmonger_shot:
     layer_note1 39, 0x1B, 127
     layer_end
 
-.sound_level_i_hoodlum_reload:
+.sound_level_i_hoodmonger_reload:
 chan_setbank 12
 chan_setinstr 35
-chan_setlayer 0, .layer_level_i_hoodlum_reload
+chan_setlayer 0, .layer_level_i_hoodmonger_reload
 chan_end
 
-    .layer_level_i_hoodlum_reload:
+    .layer_level_i_hoodmonger_reload:
     layer_note1 39, 0x38, 127
+    layer_end
+
+.sound_level_i_hoodmonger_alert:
+chan_setbank 12
+chan_setinstr 40
+chan_setlayer 0, .layer_level_i_hoodmonger_alert
+chan_end
+
+    .layer_level_i_hoodmonger_alert:
+    layer_note1 39, 0x47, 127
+    layer_end
+
+.sound_level_i_hoodmonger_death1:
+chan_setbank 12
+chan_setinstr 41
+chan_setlayer 0, .layer_level_i_hoodmonger_death1
+chan_end
+
+    .layer_level_i_hoodmonger_death1:
+    layer_note1 39, 0x3F, 127
+    layer_end
+
+.sound_level_i_hoodmonger_parry:
+chan_setbank 12
+chan_setinstr 42
+chan_setlayer 0, .layer_level_i_hoodmonger_parry
+chan_end
+
+    .layer_level_i_hoodmonger_parry:
+    layer_note1 39, 0x64, 127
     layer_end
 
 //Master_kaag

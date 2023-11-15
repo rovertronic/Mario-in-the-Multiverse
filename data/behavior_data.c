@@ -6474,11 +6474,28 @@ const BehaviorScript bhvHoodmonger[] = {
     END_LOOP(),
 };
 
+
 const BehaviorScript bhvHoodmongerAlertManager[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_hoodmonger_alert_manager_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvHoodmongerBullet[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 8000),
+    SET_FLOAT(oCollisionDistance, 500),
+    SET_FLOAT(oForwardVel, 25.0f),
+    SET_FLOAT(oGraphYOffset, 50),
+    SET_INT(oDamageOrCoinValue, 2),
+    SET_INTERACT_TYPE(INTERACT_DAMAGE),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_hoodmonger_bullet_loop),
+        SET_INT(oIntangibleTimer, 0),
+        SET_INT(oInteractStatus, 0),
     END_LOOP(),
 };
 
@@ -6627,9 +6644,9 @@ const BehaviorScript bhvHiddenCagedToadsStar[] = {
 
 const BehaviorScript bhvPlankAttachedToRope[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ATTACHABLE_BY_ROPE)),
-    SET_FLOAT(oCollisionDistance, 1000),
-    SET_FLOAT(oDrawingDistance, 2000),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ATTACHABLE_BY_ROPE | OBJ_FLAG_DONT_CALC_COLL_DIST)),
+    SET_FLOAT(oCollisionDistance, 6000),
+    SET_FLOAT(oDrawingDistance, 6000),
     SET_FLOAT(oGravity, 2),
     SET_FLOAT(oBounciness, -50),
     LOAD_COLLISION_DATA(plank_rope_collision),
@@ -6643,7 +6660,7 @@ const BehaviorScript bhvBarrierAttachedToRope[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ATTACHABLE_BY_ROPE)),
     LOAD_COLLISION_DATA(barrier_rope_collision),
-    SET_FLOAT(oCollisionDistance, 1000),
+    SET_FLOAT(oCollisionDistance, 4000),
     SET_FLOAT(oDrawingDistance, 4000),
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ 100, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 0, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
     BEGIN_LOOP(),

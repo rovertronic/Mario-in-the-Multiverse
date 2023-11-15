@@ -11,7 +11,7 @@ void master_kaag_act_inactive(void) { // act 0
     cur_obj_set_pos_to_home();
     o->oHealth = 3;
 
-    if (o->oDistanceToMario < 100) {
+    if (o->oDistanceToMario < 3000) {
         o->oObjF4 = spawn_object_relative(0, 0, WEAKPOINT_OFFSET, 0, o, MODEL_NONE, bhvMasterKaagWeakPoint);
         seq_player_unlower_volume(SEQ_PLAYER_LEVEL, 60);
         play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_EVENT_BOSS), 0);
@@ -21,9 +21,10 @@ void master_kaag_act_inactive(void) { // act 0
 }
 
 void master_kaag_spawn_hoodoos(void) {
+    play_sound(SOUND_MITM_LEVEL_I_MAGIC_SHIELD, gGlobalSoundSource);
     spawn_object_abs_with_rot(o, 0, MODEL_HOODOO_SORCERER, bhvHoodooSorcerer, -2730, 0, 1140, 0, 0, 0);
-        spawn_object_abs_with_rot(o, 0, MODEL_HOODOO_SORCERER, bhvHoodooSorcerer, 370, 0, -2930, 0, 0, 0);
-        spawn_object_abs_with_rot(o, 0, MODEL_HOODOO_SORCERER, bhvHoodooSorcerer, 2370, 0, 1835, 0, 0, 0);
+    spawn_object_abs_with_rot(o, 0, MODEL_HOODOO_SORCERER, bhvHoodooSorcerer, 370, 0, -2930, 0, 0, 0);
+    spawn_object_abs_with_rot(o, 0, MODEL_HOODOO_SORCERER, bhvHoodooSorcerer, 2370, 0, 1835, 0, 0, 0);
 }
 
 void master_kaag_act_start(void) { // act 0
@@ -66,8 +67,8 @@ void master_kaag_act_follow_mario_weak(void) {
         o->oObjF4->oShotByShotgun = 0;
         create_sound_spawner(o->oDeathSound);
         o->oHealth--;
+        cur_obj_play_sound_2(SOUND_MITM_LEVEL_I_MASTER_KAGG_DAMAGE);
         if(o->oHealth > 0){
-            create_sound_spawner(SOUND_MITM_LEVEL_I_MASTER_KAGG_DAMAGE);
             o->oAction = 4;
         } else {
             o->oAction = 5;
@@ -81,7 +82,6 @@ void master_kaag_act_taking_damage(void) {
     if(cur_obj_init_animation_and_check_if_near_end(2)){
         o->oAction = 2;
         obj_set_model(o->oObjF4, MODEL_MAGIC_SHIELD);
-        create_sound_spawner(SOUND_MITM_LEVEL_I_MAGIC_SHIELD);
         master_kaag_spawn_hoodoos();    
     }
     
@@ -134,7 +134,7 @@ void bhv_master_kaag_loop(void) {
 
 void bhv_hoodoo_sorcerer_init(void){
     spawn_mist_particles_variable(0, 100, 90.0f);
-    create_sound_spawner(SOUND_GENERAL2_1UP_APPEAR);
+    //create_sound_spawner(SOUND_GENERAL2_1UP_APPEAR);
 }
 
 void bhv_hoodoo_sorcerer_loop(void) {
@@ -146,7 +146,7 @@ void bhv_hoodoo_sorcerer_loop(void) {
 
     if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 2){
         o->oHealth--;
-        create_sound_spawner(o->oDeathSound);
+        create_sound_spawner(SOUND_MITM_LEVEL_I_HOODOO_SORCERER_DEATH);
         obj_die_if_health_non_positive();
     }
 }

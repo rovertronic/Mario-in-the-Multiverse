@@ -35,3 +35,4 @@
 #include "levels/i/hoodoo_sorcerer/geo.inc.c"
 #include "levels/i/magic_shield/geo.inc.c"
 #include "levels/i/hoodmonger/geo.inc.c"
+#include "levels/i/hoodmonger_bullet/geo.inc.c"

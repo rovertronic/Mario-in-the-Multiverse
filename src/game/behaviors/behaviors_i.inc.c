@@ -230,45 +230,23 @@ void bhv_rocket_button_group_loop(void){
 
 /*********************************hoodmonger*************************************/
 
-void bhv_hoodmonger_alert_manager_loop(void){
-    struct Object *alertedhoodmonger = cur_obj_nearest_object_with_behavior_and_action(bhvHoodmonger, 1);
-    struct Object *wanderinghoodmonger;
-    if(alertedhoodmonger != NULL){ //if a hoodlum is alerted
-        if(o->oTimer > 40){
-            play_hoodlum_fight_music();
-            wanderinghoodmonger = alertedhoodmonger->oNearestHoodmongerWandering;
-            //and existing wandering hoodlum nearby AND not losing trigger on Mario
-            if( wanderinghoodmonger != NULL && 
-                dist_between_objects(wanderinghoodmonger, alertedhoodmonger) < 2000 && 
-                alertedhoodmonger->oLoosingTriggerCooldown == 0)
-            {
-                print_text(180, 180, "ALERT");
-                wanderinghoodmonger->oAction = HOODMONGER_ACTION_ALERTED; //alert the wandering hoodlum
-                wanderinghoodmonger->oSubAction = HOODMONGER_ALERTED_SUBACTION_SHOOTING; //directly shoot and skipping end-alerte phase
-                wanderinghoodmonger->oShootingCooldown = 0;
-                o->oTimer == 0;
-            }
-        }
-    } else {
-        stop_hoodlum_fight_music();
-    }
-}
 
-void bhv_hoodmonger_loop(){
+void bhv_hoodmonger_loop(void){
+    o->oDeathSound = SOUND_MITM_LEVEL_I_HOODMONGER_DEATH1;
+
     switch(o->oAction){
         case HOODMONGER_ACTION_WANDERING:
 
             switch(o->oSubAction){
                 case HOODMONGER_WANDERING_SUBACTION_WAIT:
-                    cur_obj_scale(1.0f);
                     cur_obj_init_animation(HOODMONGER_ANIM_WANDERING);
-                    if(o->oDistanceToMario < 1000){
+                    if(o->oDistanceToMario < 2500){
                         o->oSubAction = HOODMONGER_WANDERING_SUBACTION_START_ALERT;
+                        cur_obj_play_sound_2(SOUND_MITM_LEVEL_I_HOODMONGER_ALERT);
                     }
                     break;
 
                 case HOODMONGER_WANDERING_SUBACTION_START_ALERT:
-                    cur_obj_scale(1.0f);
                     obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x1000);
                     if(cur_obj_init_anim_check_frame(HOODMONGER_ANIM_ALERT, 24)){
                         o->oAction = HOODMONGER_ACTION_ALERTED;
@@ -281,7 +259,6 @@ void bhv_hoodmonger_loop(){
         case HOODMONGER_ACTION_ALERTED:
             switch(o->oSubAction){
                 case HOODMONGER_ALERTED_SUBACTION_END_ALERT:
-                    cur_obj_scale(2.0f);
                     if(cur_obj_init_animation_and_check_if_near_end(HOODMONGER_ANIM_ALERT)){
                         o->oSubAction = HOODMONGER_ALERTED_SUBACTION_SHOOTING;
                         o->oShootingCooldown = 0;
@@ -289,9 +266,9 @@ void bhv_hoodmonger_loop(){
                     break;
 
                 case  HOODMONGER_ALERTED_SUBACTION_SHOOTING:
-                    cur_obj_scale(1.0f);
                     if(o->oShootingCooldown <= 0){
-                        spawn_object(o, MODEL_NONE, bhvExplosion);
+                        spawn_object_relative(0, 0, 100, 200, o, MODEL_HOODMONGER_BULLET, bhvHoodmongerBullet);
+                        create_sound_spawner(SOUND_MITM_LEVEL_I_HOODMONGER_SHOT);
                         cur_obj_init_animation_and_anim_frame(HOODMONGER_ANIM_SHOOT, 0);
                         o->oShootingCooldown = 50;
                     } else {
@@ -299,21 +276,25 @@ void bhv_hoodmonger_loop(){
                     }
                     if(o->oDistanceToMario < 300){
                         o->oSubAction = HOODMONGER_ALERTED_SUBACTION_PARRY;
+                        cur_obj_play_sound_2(SOUND_MITM_LEVEL_I_HOODMONGER_PARRY);
                     }
-                    o->oShootingCooldown--;
+                    if(o->oShootingCooldown == 40 && o->oDistanceToMario < 1000){
+                        create_sound_spawner(SOUND_MITM_LEVEL_I_HOODMONGER_RELOAD);
+                    }
+                    o->oShootingCooldown -= 1 * ability_chronos_current_slow_factor();
                     break;
 
                 case HOODMONGER_ALERTED_SUBACTION_PARRY:
-                    o->oShootingCooldown--;
-                    //cur_obj_init_animation(3);
-                    if(o->oDistanceToMario >= 300){
+                    o->oShootingCooldown -= 1 * ability_chronos_current_slow_factor();
+                    if(cur_obj_init_animation_and_check_if_near_end(3)){
                         o->oSubAction = HOODMONGER_ALERTED_SUBACTION_SHOOTING;
                     }
                     break;
             }
             obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x1000);
-            if(o->oDistanceToMario > 2000){
-                o->oLoosingTriggerCooldown++;
+            obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_PITCH_INDEX, 0x1000);
+            if(o->oDistanceToMario > 3000){
+                o->oLoosingTriggerCooldown += 1 * ability_chronos_current_slow_factor();
                 if(o->oLoosingTriggerCooldown > 200){
                     o->oAction = HOODMONGER_ACTION_WANDERING;
                     o->oSubAction = HOODMONGER_WANDERING_SUBACTION_WAIT;
@@ -324,8 +305,44 @@ void bhv_hoodmonger_loop(){
             }
             break;
     }
+    
+    if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 1){
+        o->oHealth--;
+        create_sound_spawner(o->oDeathSound);
+        obj_die_if_health_non_positive();
+    }
 
-    o->oNearestHoodmongerWandering = cur_obj_nearest_object_with_behavior_and_action(bhvHoodmonger, 0); //find nearest hoodmonger not alerted
+    o->oNearestHoodmongerWandering = cur_obj_nearest_object_with_behavior_and_action(bhvHoodmonger, HOODMONGER_ACTION_WANDERING); //find nearest hoodmonger not alerted
+
+}
+
+void bhv_hoodmonger_alert_manager_loop(void){
+    struct Object *alertedhoodmonger = cur_obj_nearest_object_with_behavior_and_action(bhvHoodmonger, 1);
+    struct Object *wanderinghoodmonger;
+    if(alertedhoodmonger != NULL && GET_BPARAM1(alertedhoodmonger->oBehParams) == 0){ //if a hoodlum is alerted
+        play_hoodlum_fight_music();
+        wanderinghoodmonger = alertedhoodmonger->oNearestHoodmongerWandering;
+        //and existing wandering hoodlum nearby AND not losing trigger on Mario
+        if( wanderinghoodmonger != NULL && 
+            dist_between_objects(wanderinghoodmonger, alertedhoodmonger) < 7000 &&
+            GET_BPARAM1(wanderinghoodmonger->oBehParams) == 0 &&
+            alertedhoodmonger->oLoosingTriggerCooldown == 0)
+        {
+            wanderinghoodmonger->oAction = HOODMONGER_ACTION_ALERTED; //alert the wandering hoodlum
+            wanderinghoodmonger->oSubAction = HOODMONGER_ALERTED_SUBACTION_SHOOTING; //directly shoot and skipping end-alerte phase
+            wanderinghoodmonger->oShootingCooldown = 0;
+        }
+    } else {
+        stop_hoodlum_fight_music();
+    }
+}
+
+void bhv_hoodmonger_bullet_loop(void) {
+    if(obj_check_if_collided_with_object(o, gMarioObject) || o->oTimer > 100){
+        obj_mark_for_deletion(o);
+    }
+
+    cur_obj_move_xz_using_fvel_and_yaw();
 }
 
 /*********************************Hoodboomer*************************************/
@@ -742,7 +759,7 @@ void bhv_caged_toad_loop(){
     o->oPosY += 8.0f * coss(1000 * o->oTimer);
 
     if((o->oTimer % 400) == 0 && o->oDistanceToMario < 5000){
-        create_sound_spawner(SOUND_MITM_LEVEL_I_TOAD_HELP);
+        cur_obj_play_sound_2(SOUND_MITM_LEVEL_I_TOAD_HELP);
     }
 
     o->oInteractStatus = INT_STATUS_NONE;

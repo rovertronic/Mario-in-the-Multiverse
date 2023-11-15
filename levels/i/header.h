@@ -67,4 +67,6 @@ extern const LevelScript level_i_entry[];
 
 #include "levels/i/hoodmonger/anim_header.h"
 
+#include "levels/i/hoodmonger_bullet/geo_header.h"
+
 #endif

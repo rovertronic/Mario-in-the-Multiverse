@@ -700,6 +700,7 @@ enum {
 #define MODEL_HOODOO_SORCERER           0x46        //hoodoo_sorcerer
 #define MODEL_MAGIC_SHIELD              0x47        //magic_shiel_geo
 #define MODEL_HOODMONGER                0x48        //hoodmonger_geo
+#define MODEL_HOODMONGER_BULLET         0x49        //hoodmonger_bullet_geo
 /* LEVEL I END */
 
 /* LEVEL J START */

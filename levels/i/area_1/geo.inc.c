@@ -31,6 +31,9 @@ const GeoLayout i_dl_level_room2_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -6443, -225, -2234),
+		GEO_OPEN_NODE(),
+			GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 6443, 496, 2234, 90, 0, 0, i_dl_interior_geo_mesh_layer_1),
+		GEO_CLOSE_NODE(),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

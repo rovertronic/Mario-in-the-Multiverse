@@ -46,3 +46,4 @@
 #include "levels/i/hoodmonger/model.inc.c"
 #include "levels/i/hoodmonger/anims/data.inc.c"
 #include "levels/i/hoodmonger/anims/table.inc.c"
+#include "levels/i/hoodmonger_bullet/model.inc.c"

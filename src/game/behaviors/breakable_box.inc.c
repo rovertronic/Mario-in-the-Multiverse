@@ -70,6 +70,32 @@ void hidden_breakable_box_actions(void) {
 void hidden_unbreakable_box_actions(void) {
     struct Object *switchObj;
     obj_set_collision_data(o, wdw_seg7_collision_hidden_platform);
+    o->oCollisionDistance = 4000.0f;
+    switch (o->oAction) {
+        case BREAKABLE_BOX_ACT_HIDDEN:
+            cur_obj_disable_rendering();
+            cur_obj_become_intangible();
+            if (o->oHiddenObjectSwitchObj == NULL) {
+                o->oHiddenObjectSwitchObj = cur_obj_nearest_object_with_behavior(bhvFloorSwitchHiddenObjects);
+            }
+            switchObj = o->oHiddenObjectSwitchObj;
+            if ((switchObj != NULL) && (switchObj->oAction == PURPLE_SWITCH_ACT_TICKING)) {
+                o->oAction = BREAKABLE_BOX_ACT_ACTIVE;
+                cur_obj_enable_rendering();
+                cur_obj_unhide();
+            }
+            break;
+        case BREAKABLE_BOX_ACT_ACTIVE:
+            cur_obj_become_tangible();
+            if (cur_obj_wait_then_blink(360, 20)) o->oAction = BREAKABLE_BOX_ACT_HIDDEN;
+            load_object_collision_model();
+            break;
+    }
+}
+
+void hidden_unbreakable_box_leveld_actions(void) {
+    struct Object *switchObj;
+    obj_set_collision_data(o, d_bridge_collision);
     switch (o->oAction) {
         case BREAKABLE_BOX_ACT_HIDDEN:
             cur_obj_disable_rendering();
@@ -93,6 +119,11 @@ void hidden_unbreakable_box_actions(void) {
 }
 
 void bhv_hidden_object_loop(void) {
+    if (gCurrLevelNum == LEVEL_D) {
+        hidden_unbreakable_box_leveld_actions();
+        return;
+    }
+
     if (o->oBehParams2ndByte == BREAKABLE_BOX_BP_NO_COINS) {
         hidden_breakable_box_actions();
     } else {

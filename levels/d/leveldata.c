@@ -12,3 +12,9 @@
 
 
 #include "levels/d/leveldata.inc.c"
+
+#include "levels/d/d_ukauka/model.inc.c"
+#include "levels/d/d_elevator/collision.inc.c"
+#include "levels/d/d_elevator/model.inc.c"
+#include "levels/d/d_bridge/collision.inc.c"
+#include "levels/d/d_bridge/model.inc.c"

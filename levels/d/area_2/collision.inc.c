@@ -226,7 +226,7 @@ const Collision d_area_2_collision[] = {
 	COL_VERTEX(2018, 579, -137),
 	COL_VERTEX(2018, 579, 265),
 	COL_VERTEX(1616, 890, 265),
-	COL_TRI_INIT(SURFACE_DEFAULT, 303),
+	COL_TRI_INIT(SURFACE_SLIPPERY, 303),
 	COL_TRI(0, 1, 2),
 	COL_TRI(1, 0, 3),
 	COL_TRI(1, 3, 4),
@@ -531,5 +531,7 @@ const Collision d_area_2_collision[] = {
 	COL_TRI(221, 210, 224),
 	COL_TRI(210, 221, 216),
 	COL_TRI_STOP(),
+	COL_WATER_BOX_INIT(1),
+	COL_WATER_BOX(0x00, -4160, -3921, 4242, 4481, 2415),
 	COL_END()
 };

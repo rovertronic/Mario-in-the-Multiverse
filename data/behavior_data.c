@@ -57,7 +57,7 @@
 #include "levels/f/header.h"
 #include "levels/J/header.h"
 #include "levels/o/header.h"
-
+#include "levels/d/header.h"
 #include "levels/g/header.h"
 
 #include "make_const_nonconst.h"
@@ -6262,7 +6262,7 @@ const BehaviorScript bhvConcreteBlock[] = {
 /* GROUP D START */
 const BehaviorScript bhvNitroBox[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_E__SG_CUSTOM)),
     SET_INT(oIntangibleTimer, 0),
     SET_INT(oDamageOrCoinValue, 99),
     SET_INTERACT_TYPE(INTERACT_DAMAGE),
@@ -6272,6 +6272,29 @@ const BehaviorScript bhvNitroBox[] = {
         SET_INT(oIntangibleTimer, 0),
         CALL_NATIVE(bhv_bowser_bomb_loop),
         CALL_NATIVE(bhv_nitro_box_loop),
+    END_LOOP(),
+};
+extern void bhv_d_elevator(void);
+const BehaviorScript bhvDelevator[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(d_elevator_collision),
+    SET_FLOAT(oDrawingDistance, 16000),
+    SET_FLOAT(oCollisionDistance, 1000),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_d_elevator),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+const BehaviorScript bhvDbridge[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_seesaw_platform_init),
+    LOAD_COLLISION_DATA(d_bridge_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_seesaw_platform_update),
+        CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
 /* GROUP D END */

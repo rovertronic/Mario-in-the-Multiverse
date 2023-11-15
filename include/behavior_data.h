@@ -567,6 +567,8 @@ extern const BehaviorScript bhvSquid[];
 
 /* GROUP D START */
 extern const BehaviorScript bhvNitroBox[];
+extern const BehaviorScript bhvDelevator[];
+extern const BehaviorScript bhvDbridge[];
 /* GROUP D END */
 
 /* GROUP E START */

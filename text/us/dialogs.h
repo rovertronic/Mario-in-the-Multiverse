@@ -148,6 +148,33 @@ in collecting bugs and\n\
 rats and harassing new\n\
 Trainers with them!"))
 
+DEFINE_DIALOG(DIALOG_D_INTROBOMB, 1, 4, 95, 200, _("\
+Hey there, Mario!\n\
+This is the New N-Sanity\n\
+Island.\n\
+\n\
+It seems that the\n\
+old tropical island\n\
+got fused with parts of\n\
+the Tiny Huge Island.\n\
+I guess it's not bad\n\
+how it turned out...\n\
+Except for those annoying\n\
+giant goombas.\n\
+Well you better move on\n\
+now, 8 more stars are\n\
+waiting for you!"))
+
+DEFINE_DIALOG(DIALOG_D_NITROWARNING, 1, 4, 95, 200, _("\
+Warning from a wise\n\
+fox:\n\
+\n\
+\n\
+''I would never\n\
+dare to touch Nitro\n\
+boxes without wearing\n\
+my powerful mask''"))
+
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 200, _("\
 Wow! You're smack in the\n\
 middle of the battlefield.\n\

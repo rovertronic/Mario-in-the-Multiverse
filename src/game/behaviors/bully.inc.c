@@ -44,6 +44,8 @@ void bhv_big_bully_init(void) {
     o->oBuoyancy = 1.3f;
 
     obj_set_hitbox(o, &sBigBullyHitbox);
+
+    obj_scale(o,2.5f);
 }
 
 void bully_check_mario_collision(void) {
@@ -266,9 +268,9 @@ void big_bully_spawn_minion(s32 x, s32 y, s32 z, s16 yaw) {
 }
 
 void bhv_big_bully_with_minions_init(void) {
-    big_bully_spawn_minion(4454, 307, -5426, 0);
-    big_bully_spawn_minion(3840, 307, -6041, 0);
-    big_bully_spawn_minion(3226, 307, -5426, 0);
+    big_bully_spawn_minion(o->oPosX+300.0f, o->oPosY, o->oPosZ-100.0f, 0);
+    big_bully_spawn_minion(o->oPosX, o->oPosY, o->oPosZ+200.0f, 0);
+    big_bully_spawn_minion(o->oPosX-300.0f, o->oPosY, o->oPosZ-100.0f, 0);
 
     o->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
 
@@ -280,7 +282,8 @@ void bhv_big_bully_with_minions_init(void) {
 void big_bully_spawn_star(void) {
     if (obj_lava_death() == TRUE) {
         spawn_mist_particles();
-        spawn_default_star(3700.0f, 600.0f, -5500.0f);
+        //spawn_default_star(3700.0f, 600.0f, -5500.0f);
+        spawn_default_star(o->oHomeX,o->oHomeY-1000.0f,o->oHomeZ);
     }
 }
 

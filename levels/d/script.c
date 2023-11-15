@@ -43,6 +43,7 @@ const LevelScript level_d_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_D_TREE2, palm_tree_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_D_ELEVATOR, d_elevator_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_D_BRIDGE, d_bridge_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_D_GATE, d_gate_geo),
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -87,6 +88,7 @@ const LevelScript level_d_entry[] = {
 		OBJECT(MODEL_NONE, 3178, 3456, -16229, 0, 98, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_NONE, 2674, 342, -8900, 0, 88, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_NONE, -771, -4530, -12960, 0, 178, 0, 0x00000000, bhvCoinFormation),
+		OBJECT(MODEL_NONE, -1872, 2380, -4175, 0, 0, 0, (2 << 16), bhvOpenableGrill),
 		OBJECT(MODEL_LEVEL_PIPE, 3373, 2364, 1169, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_NONE, -8736, 3967, 7953, 0, 0, 0, (5 << 16), bhvFadingWarp),
 		OBJECT(MODEL_NONE, -1751, 2420, -4673, 0, 0, 0, (6 << 16), bhvFadingWarp),
@@ -206,13 +208,13 @@ const LevelScript level_d_entry[] = {
 		OBJECT(MODEL_NONE, -1512, 1152, 151, 0, 90, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_NONE, -1512, 1152, 1533, 0, 90, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_NONE, -1512, 1152, 1691, 0, 90, 0, 0x00000000, bhvCoinFormation),
-		OBJECT(MODEL_HMC_DOOR_D, -5559, 7, 4837, 0, 90, 0, 0x00000000, bhvDoor),
 		OBJECT(MODEL_HMC_DOOR_D, -8991, 289, 2450, 0, -180, 0, 0x00000000, bhvDoor),
 		OBJECT(MODEL_HMC_DOOR_D, -8997, 1602, -820, 0, -180, 0, 0x00000000, bhvDoor),
 		OBJECT(MODEL_HMC_DOOR_D, -7846, 289, 815, 0, 90, 0, 0x00000000, bhvDoor),
 		OBJECT(MODEL_HMC_DOOR_D, 7366, -325, 7427, 0, -180, 0, 0x00000000, bhvDoor),
 		OBJECT(MODEL_HMC_DOOR_D, -1066, -633, 779, 0, 90, 0, 0x00000000, bhvDoor),
-		OBJECT(MODEL_HMC_DOOR_D, 3434, -633, 779, 0, 90, 0, 0x00000000, bhvDoor),
+		OBJECT(MODEL_HMC_DOOR_D, 3434, -633, 631, 0, 90, 0, 0x00000000, bhvDoor),
+		OBJECT(MODEL_HMC_DOOR_D, -5559, 7, 4837, 0, 90, 0, 0x00000000, bhvDoor),
 		OBJECT(MODEL_D_ELEVATOR, -1822, 1047, 840, 0, 0, 0, 0x00000000, bhvDelevator),
 		OBJECT(MODEL_D_ELEVATOR, 4162, -738, 631, 0, 0, 0, 0x00000000, bhvDelevator),
 		OBJECT(MODEL_NONE, -11526, 2197, 3317, 0, 0, 0, (3 << 16), bhvFadingWarp),

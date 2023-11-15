@@ -19,3 +19,4 @@
 #include "levels/d/d_ukauka/geo.inc.c"
 #include "levels/d/d_elevator/geo.inc.c"
 #include "levels/d/d_bridge/geo.inc.c"
+#include "levels/d/d_gate/geo.inc.c"

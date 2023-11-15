@@ -19,4 +19,8 @@ extern const LevelScript level_d_entry[];
 
 #include "levels/d/d_bridge/geo_header.h"
 
+#include "levels/d/d_gate/collision_header.h"
+
+#include "levels/d/d_gate/geo_header.h"
+
 #endif

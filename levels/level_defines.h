@@ -59,3 +59,4 @@ DEFINE_LEVEL("E", LEVEL_E, COURSE_DDD, e, generic, 20000, 0x00, 0x00, 0x00, _, s
 DEFINE_LEVEL("I", LEVEL_I, COURSE_CCM, i, generic, 20000, 0x00, 0x00, 0x00, _, sCamI) 
 DEFINE_LEVEL("J", LEVEL_J, COURSE_WDW, J, generic, 20000, 0x00, 0x00, 0x00, _, sCamJ) 
 DEFINE_LEVEL("O", LEVEL_O, COURSE_THI, o, generic, 20000, 0x00, 0x00, 0x00, _, sCamO) 
+DEFINE_LEVEL("D", LEVEL_D, COURSE_TTM, d, generic, 20000, 0x00, 0x00, 0x01, _, sCamD) 

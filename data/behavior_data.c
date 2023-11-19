@@ -6490,6 +6490,7 @@ const BehaviorScript bhvHoodmonger[] = {
     ANIMATE(0),
     DROP_TO_FLOOR(),
     SET_HITBOX(/*Radius*/ 80, /*Height*/ 210),
+    CALL_NATIVE(bhv_hoodmonger_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_hoodmonger_loop),
         SET_INT(oIntangibleTimer, 0),
@@ -6512,9 +6513,10 @@ const BehaviorScript bhvHoodmongerBullet[] = {
     SET_FLOAT(oDrawingDistance, 8000),
     SET_FLOAT(oCollisionDistance, 500),
     SET_FLOAT(oForwardVel, 25.0f),
-    SET_FLOAT(oGraphYOffset, 50),
+    SET_FLOAT(oGraphYOffset, 40),
     SET_INT(oDamageOrCoinValue, 2),
     SET_INTERACT_TYPE(INTERACT_DAMAGE),
+    SET_HITBOX(/*Radius*/ 45, /*Height*/ 80),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_hoodmonger_bullet_loop),
         SET_INT(oIntangibleTimer, 0),
@@ -6592,6 +6594,7 @@ const BehaviorScript bhvGrillOpenableByRocketButton[] = {
     OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_COLLISION_DATA(gate_collision),
     SET_FLOAT(oCollisionDistance, 500),
+    SET_FLOAT(oDrawingDistance, 10000),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_grill_openable_by_rocket_button_loop),
         CALL_NATIVE(load_object_collision_model),
@@ -6810,6 +6813,43 @@ const BehaviorScript bhvHoodooSorcerer[] = {
         CALL_NATIVE(bhv_hoodoo_sorcerer_loop),
         SET_INT(oIntangibleTimer, 0),
         SET_INT(oInteractStatus, 0),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvLevelIBossDoor[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ 100, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 0, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    LOAD_COLLISION_DATA(metal_box_seg8_collision_08024C28),
+    SET_FLOAT(oDrawingDistance, 5000),
+    SET_HITBOX(10, 10),
+    //DROP_TO_FLOOR(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_level_I_boss_door_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvLevelIBossDoorStarSlot[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
+    SET_FLOAT(oDrawingDistance, 10000),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBountyHunterToad[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, toad_seg6_anims_0600FB58),
+    ANIMATE(TOAD_ANIM_WEST_WAVING_BOTH_ARMS),
+    SET_INTERACT_TYPE(INTERACT_TEXT),
+    SET_HITBOX(/*Radius*/ 80, /*Height*/ 100),
+    SET_INT(oIntangibleTimer, 0),
+    CALL_NATIVE(bhv_init_room),
+    CALL_NATIVE(bhv_bounty_hunter_toad_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_bounty_hunter_toad_loop),
     END_LOOP(),
 };
 

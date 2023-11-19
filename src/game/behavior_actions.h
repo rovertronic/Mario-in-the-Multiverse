@@ -561,6 +561,7 @@ void bhv_rocket_smoke_init(void);
 void bhv_rocket_button_loop(void);
 void bhv_rocket_button_init(void);
 void bhv_rocket_button_group_loop(void);
+void bhv_hoodmonger_init(void);
 void bhv_hoodmonger_loop(void);
 void bhv_hoodmonger_alert_manager_loop(void);
 void bhv_hoodmonger_bullet_loop(void);
@@ -589,6 +590,9 @@ void bhv_three_axis_rotative_object(void);
 void bhv_master_kaag_loop(void);
 void bhv_hoodoo_sorcerer_init(void);
 void bhv_hoodoo_sorcerer_loop(void);
+void bhv_level_I_boss_door_loop(void);
+void bhv_bounty_hunter_toad_init(void);
+void bhv_bounty_hunter_toad_loop(void);
 // I End //
 void bhv_checkpoint_flag(void);
 void bhv_flipswitch(void);

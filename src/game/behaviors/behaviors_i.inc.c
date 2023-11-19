@@ -230,9 +230,22 @@ void bhv_rocket_button_group_loop(void){
 
 /*********************************hoodmonger*************************************/
 
+void bhv_hoodmonger_init(void){
+    o->oDeathSound = SOUND_MITM_LEVEL_I_HOODMONGER_DEATH1;
+    o->oIsLootingRocket = (GET_BPARAM1(o->oBehParams) == 1);
+    if(o->oIsLootingRocket) {
+        o->oDollarDropObj = spawn_object_rel_with_rot(o, MODEL_KOOPA_SHELL, bhvPushableMetalBox, 0, 500, 0, 0, 0, 0);
+    }
+    //if first star get, delete all hoodmonger with Bparam 2 set to 1
+    if (save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_CCM)) & STAR_FLAG_ACT_1 && 
+        GET_BPARAM2(o->oBehParams) == 1
+        ) {
+        obj_mark_for_deletion(o);
+    }
+}
 
 void bhv_hoodmonger_loop(void){
-    o->oDeathSound = SOUND_MITM_LEVEL_I_HOODMONGER_DEATH1;
+    o->oSubAction = o->oWantedSubAction;
 
     switch(o->oAction){
         case HOODMONGER_ACTION_WANDERING:
@@ -241,7 +254,13 @@ void bhv_hoodmonger_loop(void){
                 case HOODMONGER_WANDERING_SUBACTION_WAIT:
                     cur_obj_init_animation(HOODMONGER_ANIM_WANDERING);
                     if(o->oDistanceToMario < 2500){
-                        o->oSubAction = HOODMONGER_WANDERING_SUBACTION_START_ALERT;
+                        if(o->oIsLootingRocket){  //special hoodmonger looting rocket
+                            o->oAction = HOODMONGER_ACTION_ALERTED;
+                            o->oWantedSubAction = HOODMONGER_ALERTED_SUBACTION_SHOOTING;
+                            o->oShootingCooldown = 20;
+                        } else {
+                            o->oWantedSubAction = HOODMONGER_WANDERING_SUBACTION_START_ALERT;
+                        }
                         cur_obj_play_sound_2(SOUND_MITM_LEVEL_I_HOODMONGER_ALERT);
                     }
                     break;
@@ -250,7 +269,7 @@ void bhv_hoodmonger_loop(void){
                     obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x1000);
                     if(cur_obj_init_anim_check_frame(HOODMONGER_ANIM_ALERT, 24)){
                         o->oAction = HOODMONGER_ACTION_ALERTED;
-                        o->oSubAction = HOODMONGER_ALERTED_SUBACTION_END_ALERT;
+                        o->oWantedSubAction = HOODMONGER_ALERTED_SUBACTION_END_ALERT;
                     }
                     break;
             }
@@ -260,22 +279,24 @@ void bhv_hoodmonger_loop(void){
             switch(o->oSubAction){
                 case HOODMONGER_ALERTED_SUBACTION_END_ALERT:
                     if(cur_obj_init_animation_and_check_if_near_end(HOODMONGER_ANIM_ALERT)){
-                        o->oSubAction = HOODMONGER_ALERTED_SUBACTION_SHOOTING;
+                        o->oWantedSubAction = HOODMONGER_ALERTED_SUBACTION_SHOOTING;
                         o->oShootingCooldown = 0;
                     }
                     break;
 
                 case  HOODMONGER_ALERTED_SUBACTION_SHOOTING:
                     if(o->oShootingCooldown <= 0){
-                        spawn_object_relative(0, 0, 100, 200, o, MODEL_HOODMONGER_BULLET, bhvHoodmongerBullet);
+                        struct Object *bullet = spawn_object_relative(0, 0, 110, 200, o, MODEL_HOODMONGER_BULLET, bhvHoodmongerBullet);
+                        bullet->oMoveAnglePitch = o->oMoveAnglePitch;
+                        //spawn_object_rel_with_rot(o, MODEL_HOODMONGER_BULLET, bhvHoodmongerBullet, 0, 110, 200, o->parentObj->oMoveAnglePitch, o->parentObj->oMoveAngleYaw, 0);
                         create_sound_spawner(SOUND_MITM_LEVEL_I_HOODMONGER_SHOT);
                         cur_obj_init_animation_and_anim_frame(HOODMONGER_ANIM_SHOOT, 0);
                         o->oShootingCooldown = 50;
                     } else {
-                        cur_obj_init_animation_and_extend_if_at_end(HOODMONGER_ANIM_SHOOT);
+                        cur_obj_extend_animation_if_at_end();
                     }
                     if(o->oDistanceToMario < 300){
-                        o->oSubAction = HOODMONGER_ALERTED_SUBACTION_PARRY;
+                        o->oWantedSubAction = HOODMONGER_ALERTED_SUBACTION_PARRY;
                         cur_obj_play_sound_2(SOUND_MITM_LEVEL_I_HOODMONGER_PARRY);
                     }
                     if(o->oShootingCooldown == 40 && o->oDistanceToMario < 1000){
@@ -287,7 +308,7 @@ void bhv_hoodmonger_loop(void){
                 case HOODMONGER_ALERTED_SUBACTION_PARRY:
                     o->oShootingCooldown -= 1 * ability_chronos_current_slow_factor();
                     if(cur_obj_init_animation_and_check_if_near_end(3)){
-                        o->oSubAction = HOODMONGER_ALERTED_SUBACTION_SHOOTING;
+                        o->oWantedSubAction = HOODMONGER_ALERTED_SUBACTION_SHOOTING;
                     }
                     break;
             }
@@ -297,7 +318,7 @@ void bhv_hoodmonger_loop(void){
                 o->oLoosingTriggerCooldown += 1 * ability_chronos_current_slow_factor();
                 if(o->oLoosingTriggerCooldown > 200){
                     o->oAction = HOODMONGER_ACTION_WANDERING;
-                    o->oSubAction = HOODMONGER_WANDERING_SUBACTION_WAIT;
+                    o->oWantedSubAction = HOODMONGER_WANDERING_SUBACTION_WAIT;
                     o->oLoosingTriggerCooldown = 0;
                 }
             } else {
@@ -310,6 +331,13 @@ void bhv_hoodmonger_loop(void){
         o->oHealth--;
         create_sound_spawner(o->oDeathSound);
         obj_die_if_health_non_positive();
+        if(o->oIsLootingRocket){
+            
+        }
+    }
+
+    if(o->oIsLootingRocket && o->oDollarDropObj != NULL){
+        obj_set_pos(o->oDollarDropObj, o->parentObj->oPosX, o->parentObj->oPosY + 500, o->parentObj->oPosZ);
     }
 
     o->oNearestHoodmongerWandering = cur_obj_nearest_object_with_behavior_and_action(bhvHoodmonger, HOODMONGER_ACTION_WANDERING); //find nearest hoodmonger not alerted
@@ -329,8 +357,8 @@ void bhv_hoodmonger_alert_manager_loop(void){
             alertedhoodmonger->oLoosingTriggerCooldown == 0)
         {
             wanderinghoodmonger->oAction = HOODMONGER_ACTION_ALERTED; //alert the wandering hoodlum
-            wanderinghoodmonger->oSubAction = HOODMONGER_ALERTED_SUBACTION_SHOOTING; //directly shoot and skipping end-alerte phase
-            wanderinghoodmonger->oShootingCooldown = 0;
+            wanderinghoodmonger->oWantedSubAction = HOODMONGER_ALERTED_SUBACTION_SHOOTING; //directly shoot and skipping end-alerte phase
+            wanderinghoodmonger->oShootingCooldown = 20;
         }
     } else {
         stop_hoodlum_fight_music();
@@ -343,6 +371,16 @@ void bhv_hoodmonger_bullet_loop(void) {
     }
 
     cur_obj_move_xz_using_fvel_and_yaw();
+    int maxAngle = degrees_to_angle(20);
+    if(ABS(o->oMoveAnglePitch) > maxAngle){
+        if(o->oMoveAnglePitch < 0) {
+            o->oMoveAnglePitch = -maxAngle;
+        } else { 
+            o->oMoveAnglePitch = maxAngle;
+        }
+    }
+    o->oVelY = sins(o->oMoveAnglePitch) * o->oForwardVel;
+    o->oPosY -= o->oVelY;
 }
 
 /*********************************Hoodboomer*************************************/
@@ -663,7 +701,7 @@ void bhv_plum_loop(void) {
     } else {
         cur_obj_scale(o->header.gfx.scale[0] + 0.05f);
         cur_obj_become_intangible();
-        o->oPosY -= 6.5f;
+        o->oPosY -= 6.5f; //make the plum go down as it grown on tree to align the stem with the branche since his origine is at his bottom
     }
 
 }
@@ -926,3 +964,51 @@ void bhv_three_axis_rotative_object(void){
     cur_obj_scale(1.0f + (GET_BPARAM4(o->oBehParams) / 20));
 }
 
+/*************************BOUNTY HUNTER TOAD*****************************/
+
+#include "src/game/mario_misc.h"
+
+#define TOAD_BOUNTY_HUNTER_BEFORE DIALOG_I_BOUNTY_HUNTER_TOAD_MISSION
+#define TOAD_BOUNTY_HUNTER_THANKS DIALOG_I_BOUNTY_HUNTER_TOAD_THANKS
+#define TOAD_BOUNTY_HUNTER_AFTER DIALOG_I_BOUNTY_HUNTER_TOAD_AFTER
+
+void bhv_bounty_hunter_toad_init(void) {
+    o->oToadMessageDialogId = TOAD_BOUNTY_HUNTER_BEFORE;
+    o->oToadMessageRecentlyTalked = FALSE;
+    o->oToadMessageState = 0;
+    o->oOpacity = 81;
+}
+
+void bhv_bounty_hunter_toad_loop(void) {
+    if (o->header.gfx.node.flags & GRAPH_RENDER_ACTIVE) {
+        o->oInteractionSubtype = INT_STATUS_NONE;
+        switch (o->oToadMessageState) {
+            case 0:
+                toad_message_faded();
+                break;
+            case 1:
+                toad_message_opaque();
+                if((count_objects_with_behavior(bhvHoodmonger) + count_objects_with_behavior(bhvHoodboomer)) == 0 && 
+                o->oToadMessageDialogId == TOAD_BOUNTY_HUNTER_BEFORE ) {
+                    o->oToadMessageDialogId = TOAD_BOUNTY_HUNTER_THANKS;
+                }
+                break;
+            case 2:
+                toad_message_opacifying();
+                break;
+            case 3:
+                toad_message_fading();
+                break;
+            case 4:
+                if (cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_DOWN, DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, o->oToadMessageDialogId)) {
+                    o->oToadMessageRecentlyTalked = TRUE;
+                    o->oToadMessageState = 3;
+                    if(o->oToadMessageDialogId == TOAD_BOUNTY_HUNTER_THANKS){
+                        o->oToadMessageDialogId = TOAD_BOUNTY_HUNTER_AFTER;
+                        bhv_spawn_star_no_level_exit(GET_BPARAM1(o->oBehParams));
+                    }
+                }
+                break;
+        }
+    }
+}

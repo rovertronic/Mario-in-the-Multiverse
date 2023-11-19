@@ -2058,7 +2058,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             if ((gPlayer1Controller->buttonDown & L_TRIG)&&(aku_invincibility == 0)&&(gMarioState->numGlobalCoins >= 10)) {
                 aku_invincibility = 300;
                 gMarioState->numGlobalCoins -= 10;
-                play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
+                if(!(gCurrCourseNum == COURSE_CCM && gCurrAreaIndex == 4)) //Don't play the music in the LEVEL_I funky shell section to not desynchronized the music
+                    play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
                 cool_down_ability(ABILITY_AKU);
             }
 

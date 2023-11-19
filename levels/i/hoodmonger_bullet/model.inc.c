@@ -533,7 +533,7 @@ Gfx hoodmonger_bullet_bullet_mesh_layer_5_tri_0[] = {
 Gfx mat_hoodmonger_bullet_f3dlite_material[] = {
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, 0, TEXEL0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, 0, TEXEL0),
-	gsSPClearGeometryMode(G_CULL_BACK | G_LIGHTING),
+	gsSPClearGeometryMode(G_LIGHTING),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_32b_LOAD_BLOCK, 1, hoodmonger_bullet_bullet_rgba32),
 	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_32b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
@@ -545,7 +545,7 @@ Gfx mat_hoodmonger_bullet_f3dlite_material[] = {
 
 Gfx mat_revert_hoodmonger_bullet_f3dlite_material[] = {
 	gsDPPipeSync(),
-	gsSPSetGeometryMode(G_CULL_BACK | G_LIGHTING),
+	gsSPSetGeometryMode(G_LIGHTING),
 	gsSPEndDisplayList(),
 };
 

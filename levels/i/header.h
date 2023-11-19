@@ -69,4 +69,8 @@ extern const LevelScript level_i_entry[];
 
 #include "levels/i/hoodmonger_bullet/geo_header.h"
 
+#include "levels/i/star_slot_empty/geo_header.h"
+
+#include "levels/i/star_slot_full/geo_header.h"
+
 #endif

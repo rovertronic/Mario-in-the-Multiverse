@@ -708,6 +708,9 @@ enum {
 #define MODEL_MAGIC_SHIELD              0x47        //magic_shiel_geo
 #define MODEL_HOODMONGER                0x48        //hoodmonger_geo
 #define MODEL_HOODMONGER_BULLET         0x49        //hoodmonger_bullet_geo
+#define MODEL_STAR_SLOT_EMPTY           0x4A        //star_slot_empty_geo
+#define MODEL_STAR_SLOT_FULL            0x4B        //star_slot_full_geo
+
 /* LEVEL I END */
 
 /* LEVEL J START */

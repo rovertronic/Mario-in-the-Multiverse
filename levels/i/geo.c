@@ -36,3 +36,5 @@
 #include "levels/i/magic_shield/geo.inc.c"
 #include "levels/i/hoodmonger/geo.inc.c"
 #include "levels/i/hoodmonger_bullet/geo.inc.c"
+#include "levels/i/star_slot_empty/geo.inc.c"
+#include "levels/i/star_slot_full/geo.inc.c"

@@ -1050,7 +1050,10 @@
 /* Hoodmonger */
 #define /*0x0F4*/ oNearestHoodmongerWandering   OBJECT_FIELD_OBJ(0x1B)
 #define /*0x0F8*/ oShootingCooldown             OBJECT_FIELD_F32(0x1C)
-#define /*0x100*/ oLoosingTriggerCooldown       OBJECT_FIELD_F32(0x1D)
+#define /*0x0FC*/ oLoosingTriggerCooldown       OBJECT_FIELD_F32(0x1D)
+#define /*0x100*/ oWantedSubAction              OBJECT_FIELD_S32(0x1E)
+#define /*0x104*/ oDollarDropObj                OBJECT_FIELD_OBJ(0x1F)
+#define /*0x104*/ oIsLootingRocket              OBJECT_FIELD_S32(0x20)
 
 /* Hoodboomer */
 #define /*0x0F4*/ oLaunchingBombCooldown OBJECT_FIELD_S32(0x1B)

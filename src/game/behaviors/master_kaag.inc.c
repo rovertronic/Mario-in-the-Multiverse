@@ -14,7 +14,7 @@ void master_kaag_act_inactive(void) { // act 0
     if (o->oDistanceToMario < 3000) {
         o->oObjF4 = spawn_object_relative(0, 0, WEAKPOINT_OFFSET, 0, o, MODEL_NONE, bhvMasterKaagWeakPoint);
         seq_player_unlower_volume(SEQ_PLAYER_LEVEL, 60);
-        play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_EVENT_BOSS), 0);
+        play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_MASTER_KAAG_BOSS), 0);
         //gLakituState.mode = CAMERA_MODE_BOSS_FIGHT;
         o->oAction = MASTER_KAAG_ACT_START;
     }
@@ -102,7 +102,7 @@ void master_kaag_act_death(void) { // act 7
         spawn_triangle_break_particles(20, MODEL_DIRT_ANIMATION, 3.0f, TINY_DIRT_PARTICLE_ANIM_STATE_YELLOW);
         cur_obj_shake_screen(SHAKE_POS_SMALL);
 
-        stop_background_music(SEQUENCE_ARGS(4, SEQ_EVENT_BOSS));
+        stop_background_music(SEQUENCE_ARGS(4, SEQ_MASTER_KAAG_BOSS));
         SET_BPARAM1(o->oBehParams, 7);
         cur_obj_spawn_star_at_y_offset(0, 300.0f, 0, 200.0f);
         obj_mark_for_deletion(o);  
@@ -132,9 +132,10 @@ void bhv_master_kaag_loop(void) {
     print_text_fmt_int(180,180,"CAM %d", gLakituState.mode);
 }
 
+//------------------------------------------------------------------------//
+
 void bhv_hoodoo_sorcerer_init(void){
     spawn_mist_particles_variable(0, 100, 90.0f);
-    //create_sound_spawner(SOUND_GENERAL2_1UP_APPEAR);
 }
 
 void bhv_hoodoo_sorcerer_loop(void) {
@@ -148,5 +149,46 @@ void bhv_hoodoo_sorcerer_loop(void) {
         o->oHealth--;
         create_sound_spawner(SOUND_MITM_LEVEL_I_HOODOO_SORCERER_DEATH);
         obj_die_if_health_non_positive();
+    }
+}
+
+//------------------------------------------------------------------------//
+
+void bhv_level_I_boss_door_loop(void) {
+    s16 collisionFlags;
+    u8 levelIstarFLag;
+    u8 numberOfStarGet;
+
+    switch(o->oAction){
+        case 0: //closed couting your star
+            levelIstarFLag = save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_CCM));
+            numberOfStarGet = 0;
+
+            while (levelIstarFLag) {
+                numberOfStarGet += levelIstarFLag & 1;
+                levelIstarFLag >>= 1;
+                struct Object *starSlot = cur_obj_nearest_object_with_behavior_and_bparam1(bhvLevelIBossDoorStarSlot, numberOfStarGet - 1);
+                if(starSlot != NULL)
+                    obj_set_model(starSlot, MODEL_STAR_SLOT_FULL);
+            }
+
+            if(numberOfStarGet >= 5 && o->oDistanceToMario < 2000) {
+                o->oAction++;
+            }
+
+            break;
+
+        case 1: //opening
+            cur_obj_update_floor_and_walls();
+            o->oVelY -= o->oGravity;
+            collisionFlags = object_step();
+            if (collisionFlags == OBJ_COL_FLAG_GROUNDED) {
+                o->oForwardVel = 0.0f;
+                cur_obj_play_sound_2(SOUND_GENERAL_SMALL_BOX_LANDING);
+            }
+            break;
+
+        case 2: //do nothing
+            break;
     }
 }

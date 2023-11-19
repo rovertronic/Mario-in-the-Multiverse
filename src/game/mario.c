@@ -2001,11 +2001,16 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         if (using_ability(ABILITY_E_SHOTGUN)) {
             e__animate_upper(); }
 
+        struct Surface * marble_floor;
+        f32 marble_floor_y = find_floor(gMarioState->pos[0],gMarioState->pos[1],gMarioState->pos[2],&marble_floor);
+        u8 force_marble = ((marble_floor)&&(marble_floor->type == SURFACE_FORCE_MARBLE)&&(gMarioState->pos[1] < marble_floor_y+120.0f)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE));
 
-        if ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE) {
+        if (!force_marble) {
             control_ability_dpad();
         }
-        else {
+
+
+        if ((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE) {
             gMarioState->abilityChronosTimeSlowActive = FALSE;
         }
 
@@ -2150,13 +2155,25 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         }
 
         //Marble Ability
+        if (force_marble) {
+            gMarioState->canHMFly = TRUE;
+            gE_ShotgunFlags &= ~E_SGF_AIR_SHOT_USED;
+            if (!using_ability(ABILITY_MARBLE)) {
+                change_ability(ABILITY_MARBLE);
+                gMarioState->forwardVel = 0.0f;
+                gMarioState->vel[1] = 0.0;
+                gMarioState->pos[1] = marble_floor_y + 102.0f;
+                gMarioObject->oPosY = marble_floor_y + 102.0f;
+            }
+        }
+
         if (using_ability(ABILITY_MARBLE)) {
             struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
             if (!marble) {
                 set_mario_action(gMarioState,ACT_MARBLE,0);
-                gMarioState->pos[1] += 90.0f;
-                gMarioObject->oPosY += 90.0f;
-                spawn_object(o,MODEL_MARBLE,bhvPhysicsMarble);
+                gMarioState->pos[1] += 100.0f;
+                gMarioObject->oPosY += 100.0f;
+                marble = spawn_object(o,MODEL_MARBLE,bhvPhysicsMarble);
             }
         } else {
             struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
@@ -2167,8 +2184,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 gMarioState->action = ACT_FREEFALL;
                 deallocate_rigid_body(marble->rigidBody);
                 obj_mark_for_deletion(marble);
-                gMarioState->pos[1] -= 90.0f;
-                gMarioObject->oPosY -= 90.0f;
+                gMarioState->pos[1] -= 100.0f;
+                gMarioObject->oPosY -= 100.0f;
             }
         }
 

@@ -240,6 +240,36 @@ void render_ability_dpad(s16 x, s16 y, u8 alpha) {
     }
 }
 
+void change_ability(s8 picked_ability) {
+    // Set Mario's Ability Variable
+    gMarioState->abilityId = picked_ability;
+
+    // Hand Display List
+    gSPDisplayList(&gfx_ability_hand[0], ability_struct[gMarioState->abilityId].hand);
+    gSPEndDisplayList(&gfx_ability_hand[1]);
+
+    //Hat Display List
+    if (ability_struct[gMarioState->abilityId].hat == NULL) {
+        gSPEndDisplayList(&gfx_ability_hat[0]);
+    } else {
+        gSPDisplayList(&gfx_ability_hat[0], ability_struct[gMarioState->abilityId].hat);
+        gSPEndDisplayList(&gfx_ability_hat[1]);
+    }
+
+    // Mario Model
+    gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
+
+    // Equip Sound Effect
+    switch(gMarioState->abilityId) {
+        case ABILITY_AKU:
+            play_sound(SOUND_ABILITY_AKU_AKU, gGlobalSoundSource);
+        break;
+        case ABILITY_KNIGHT:
+            play_sound(SOUND_ABILITY_KNIGHT_EQUIP, gGlobalSoundSource);
+        break;
+    }
+}
+
 void control_ability_dpad(void) {
     s8 picked_ability = -1;
 
@@ -255,39 +285,12 @@ void control_ability_dpad(void) {
     if (gPlayer1Controller->buttonPressed & L_JPAD) {
         picked_ability = 3;
     }
-
-    if (picked_ability > -1) {
-        // Set Mario's Ability Variable
-        gMarioState->abilityId = ability_slot[picked_ability];
-
+    if ((picked_ability > -1)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
         // Animate image on DPad HUD
         ability_y_offset[picked_ability] = 5;
         ability_gravity[picked_ability] = 2;
 
-        // Hand Display List
-        gSPDisplayList(&gfx_ability_hand[0], ability_struct[gMarioState->abilityId].hand);
-        gSPEndDisplayList(&gfx_ability_hand[1]);
-
-        //Hat Display List
-        if (ability_struct[gMarioState->abilityId].hat == NULL) {
-            gSPEndDisplayList(&gfx_ability_hat[0]);
-        } else {
-            gSPDisplayList(&gfx_ability_hat[0], ability_struct[gMarioState->abilityId].hat);
-            gSPEndDisplayList(&gfx_ability_hat[1]);
-        }
-
-        // Mario Model
-        gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
-
-        // Equip Sound Effect
-        switch(gMarioState->abilityId) {
-            case ABILITY_AKU:
-                play_sound(SOUND_ABILITY_AKU_AKU, gGlobalSoundSource);
-            break;
-            case ABILITY_KNIGHT:
-                play_sound(SOUND_ABILITY_KNIGHT_EQUIP, gGlobalSoundSource);
-            break;
-        }
+        change_ability(ability_slot[picked_ability]);
     }
 }
 

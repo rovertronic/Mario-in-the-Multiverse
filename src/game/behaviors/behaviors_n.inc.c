@@ -26,7 +26,7 @@ static struct ObjectHitbox sMarbleHitbox = {
 void bhv_marble_init(void) {
     struct RigidBody *body = allocate_rigid_body_from_object(o, &Ball_Mesh, 1.f, ball_Size, FALSE);
     vec3f_copy(body->linearVel,gMarioState->vel);
-    if (gMarioState->floor->normal.y > 0.99f) body->asleep = TRUE;
+    if ((gMarioState->floor->normal.y > 0.99f) && (!cur_obj_has_model(MODEL_MARBLE))) body->asleep = TRUE;
 }
 
 u8 underwater = FALSE;
@@ -84,11 +84,28 @@ void bhv_marble_loop(void) {
     o->oInteractStatus = 0;
     o->oIntangibleTimer = 0;
 
+    /*
     for (int i = 0; i < o->numCollidedObjs; i++) {
         struct Object *other = o->collidedObjs[i];
         if (other != gMarioObject) {
             cur_obj_play_sound_2(SOUND_GENERAL_EXPLOSION7);
             attack_object(other, 2);
         }
+    }
+    */
+}
+
+void bhv_marble_cannon_loop(void) {
+    struct Object * marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
+
+    if ((marble)&&(dist_between_objects(o,marble) < 10.0f)&&(vec3_mag(marble->rigidBody->linearVel)<1.0f)) {
+        if (o->oTimer < 90) {
+            cur_obj_play_sound_2(SOUND_OBJ_POUNDING_CANNON);
+            marble->rigidBody->asleep = FALSE;
+            marble->rigidBody->linearVel[1] = 190.0f;
+            o->oTimer = 0;
+        }
+    } else {
+        o->oTimer = 0;
     }
 }

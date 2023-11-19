@@ -3,6 +3,7 @@
 
 void render_ability_dpad(s16 x, s16 y, u8 alpha);
 void control_ability_dpad(void);
+void change_ability(s8 picked_ability);
 void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index);
 u8 using_ability(u8 ability_id);
 u8* ability_string(u8 ability_id);

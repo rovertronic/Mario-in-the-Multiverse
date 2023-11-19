@@ -6856,10 +6856,17 @@ const BehaviorScript bhvPtMetalBox[] = {
 
 /* GROUP N START */
 const BehaviorScript bhvPhysicsMarble[] = {
-    BEGIN(OBJ_LIST_PLAYER),
+    BEGIN(OBJ_LIST_GENACTOR),
     CALL_NATIVE(bhv_marble_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_marble_loop),
+    END_LOOP(),
+};
+extern void bhv_marble_cannon_loop(void);
+const BehaviorScript bhvMarbleCannon[] = {
+    CALL_NATIVE(bhv_marble_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_marble_cannon_loop),
     END_LOOP(),
 };
 /* GROUP N END */

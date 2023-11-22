@@ -177,35 +177,38 @@ my powerful mask''"))
 
 DEFINE_DIALOG(DIALOG_I_BOUNTY_HUNTER_TOAD_MISSION, 1, 4, 95, 200, _("\
 Mario! I can't believe it,\n\
-you are here too. This forest\n\
-is full of those sickos\n\
-dressed in burlap!\n\
-They captured all the other\n\
-one and put them into cages.\n\
-What's more, these guys are\n\
-original: the cages are attached\n\
-to balloons to make them hard to\n\
-reach. you'd need some kind of\n\
-projectile to hit them. They will\n\
-surely grant you well if you\n\
-free them, for sure!\n\
-Me? I'd be happy to help you if \n\
-you'd teach those trigger-happy\n\
-fools a lesson!\n\
-"))
+you are here too. This\n\
+forest is full of those\n\
+sickos dressed in burlap!\n\
+They captured all the\n\
+others and put them into\n\
+cages. What's more, these\n\
+guys are original: the\n\
+cages are attached to\n\
+balloons to make them \n\
+hard to reach. you'd need\n\
+some kind of projectile\n\
+to hit them. They will\n\
+surely grant you well if\n\
+you free all of them,\n\
+for sure!\n\
+Me? I'd be happy to help\n\
+you if you'd teach those\n\
+trigger-happy fools a\n\
+lesson!"))
 
-DEFINE_DIALOG(DIALOG_I_BOUNTY_HUNTER_TOAD_THANKS, 1, 4, 95, 200, _("\
-Thank you for ridding us of\n\
-all these brutes, now take\n\
-this before others swoop in.\n\
-Best of luck Mario!\n\
-"))
+DEFINE_DIALOG(DIALOG_I_BOUNTY_HUNTER_TOAD_THANKS, 1, 5, 95, 200, _("\
+Thank you for ridding us\n\
+of all these brutes, now\n\
+take this before others\n\
+swoop in!\n\
+Best of luck Mario!"))
 
-DEFINE_DIALOG(DIALOG_I_BOUNTY_HUNTER_TOAD_AFTER, 1, 3, 95, 200, _("\
+DEFINE_DIALOG(DIALOG_I_BOUNTY_HUNTER_TOAD_AFTER, 1, 4, 95, 200, _("\
 Don't forget to free the \n\
-other Mario! If you can hear\n\
-them, you're not far away!\n\
-"))
+others, Mario! If you\n\
+can hear them, you're not\n\
+that far away!"))
 
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 200, _("\
 Wow! You're smack in the\n\

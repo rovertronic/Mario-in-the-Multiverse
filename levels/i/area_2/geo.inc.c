@@ -9,7 +9,7 @@ const GeoLayout i_area_2_geo[] = {
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, i_dl_area2_room1_geo_mesh_layer_5),
 		GEO_CLOSE_NODE(),
 		GEO_ASM(0, e__shotgun_effects),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 27891, 0, 0),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -1339, 2592, -2519),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

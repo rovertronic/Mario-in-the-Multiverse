@@ -6800,7 +6800,7 @@ const BehaviorScript bhvHoodooSorcerer[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW | OBJ_FLAG_E__SG_ENEMY)),
     LOAD_ANIMATIONS(oAnimations, hoodoo_sorcerer_anims),
-    SET_FLOAT(oDrawingDistance, 6000),
+    SET_FLOAT(oDrawingDistance, 8000),
     SET_INT(oDamageOrCoinValue, 1),
     SET_INT(oHealth, 1),
     SET_INT(oNumLootCoins, 3),

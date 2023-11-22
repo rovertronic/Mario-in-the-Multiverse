@@ -416,7 +416,7 @@ void bhv_hoodboomer_loop(void){
     }
 
     if((o->oTimer % 15) == 0){
-        spawn_object(o, MODEL_BURN_SMOKE, bhvBlackSmokeHoodboomer);
+        spawn_object_relative(0, 0, 250, -20, o, MODEL_BURN_SMOKE, bhvBlackSmokeHoodboomer);
     }
 
     if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 2){
@@ -442,11 +442,10 @@ void bhv_black_smoke_hoodboomer_loop(void){
         o->oForwardVel = random_float() * 2 + 0.5f;
         o->oMoveAngleYaw = (o->parentObj->oMoveAngleYaw + 0x7000) + random_float() * 8192.0f;
         o->oVelY = 8.0f;
-        o->oPosY += 200;
     }
     o->oMoveAngleYaw += o->oAngleVelYaw;
     o->oPosY += o->oVelY;
-    cur_obj_scale(1.0f + (o->oTimer / 64.0f));
+    cur_obj_scale(0.8f + (o->oTimer / 64.0f));
     o->oOpacity -= 4;
     if (o->oOpacity < 10) {
         obj_mark_for_deletion(o);
@@ -519,7 +518,7 @@ void bhv_hoodboomer_bomb_loop(void){
 /*********************************PigPot*************************************/
 
 void bhv_pigpot_loop(void){
-    if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 1){
+    if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 2){
        obj_explode_and_spawn_coins(46.0f, COIN_TYPE_YELLOW);
        play_sound(SOUND_MITM_LEVEL_I_PIGPOT_DEATH, gGlobalSoundSource);
     }

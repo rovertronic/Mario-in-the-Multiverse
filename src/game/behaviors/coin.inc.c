@@ -208,6 +208,10 @@ void spawn_coin_in_formation(s32 index, s32 shape) {
             pos[0] = sCoinArrowPositions[index][0];
             pos[2] = sCoinArrowPositions[index][1];
             break;
+        case COIN_FORMATION_BP_SHAPE_HORIZONTAL_LINE_MORE_SPACE:
+            pos[2] = 250 * (index - 2);
+            if (index > 4) spawnCoin = FALSE;
+            break;
     }
 
     if (shape & COIN_FORMATION_BP_FLYING) {

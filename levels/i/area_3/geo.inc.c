@@ -10,7 +10,7 @@ const GeoLayout i_area_3_geo[] = {
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -7950, 730, -1105, 90, 0, -90, i_dl_plum_bucket_mesh_layer_1),
 		GEO_ASM(0, e__shotgun_effects),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 16601, -18, 19589),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 2145, 6061, -566),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

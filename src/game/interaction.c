@@ -416,7 +416,7 @@ u32 able_to_grab_object(struct MarioState *m, UNUSED struct Object *obj) {
     u32 action = m->action;
 
     if (action == ACT_DIVE_SLIDE || action == ACT_DIVE) {
-        if (!(obj->oInteractionSubtype & INT_SUBTYPE_GRABS_MARIO)) {
+        if (!(obj->oInteractionSubtype & INT_SUBTYPE_GRABS_MARIO) && !obj_has_behavior(obj, bhvPlum)) {
             return TRUE;
         }
     } else if (action == ACT_PUNCHING || action == ACT_MOVE_PUNCHING) {

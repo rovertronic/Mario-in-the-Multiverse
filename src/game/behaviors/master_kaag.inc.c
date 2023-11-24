@@ -128,8 +128,6 @@ void bhv_master_kaag_loop(void) {
     }
 
     cur_obj_call_action_function(sMasterKaagActions);
-
-    print_text_fmt_int(180,180,"CAM %d", gLakituState.mode);
 }
 
 //------------------------------------------------------------------------//

@@ -42,7 +42,7 @@ void scroll_i_dl_area2_room1_geo_mesh_layer_5_vtx_1() {
 
 void scroll_i_dl_main_section_mesh_layer_5_vtx_0() {
 	int i = 0;
-	int count = 229;
+	int count = 228;
 	int width = 64 * 0x20;
 
 	static int currentX = 0;

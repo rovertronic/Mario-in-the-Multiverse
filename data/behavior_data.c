@@ -6516,6 +6516,7 @@ const BehaviorScript bhvHoodmongerBullet[] = {
     SET_FLOAT(oGraphYOffset, 40),
     SET_INT(oDamageOrCoinValue, 2),
     SET_INTERACT_TYPE(INTERACT_DAMAGE),
+    SET_INT(oWallHitboxRadius, 40),
     SET_HITBOX(/*Radius*/ 45, /*Height*/ 80),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_hoodmonger_bullet_loop),
@@ -6687,7 +6688,7 @@ const BehaviorScript bhvBarrierAttachedToRope[] = {
     OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ATTACHABLE_BY_ROPE)),
     LOAD_COLLISION_DATA(barrier_rope_collision),
     SET_FLOAT(oCollisionDistance, 4000),
-    SET_FLOAT(oDrawingDistance, 4000),
+    SET_FLOAT(oDrawingDistance, 7000),
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ 100, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 0, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_barrier_attached_to_rope_loop),
@@ -6851,6 +6852,13 @@ const BehaviorScript bhvBountyHunterToad[] = {
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_bounty_hunter_toad_loop),
     END_LOOP(),
+};
+
+const BehaviorScript bhvLevelIStartToad[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_level_I_start_toad_init),
+    GOTO(bhvToadMessage + 1),
 };
 
 /* GROUP I END */

@@ -652,6 +652,7 @@ extern const BehaviorScript bhvHoodooSorcerer[];
 extern const BehaviorScript bhvLevelIBossDoor[];
 extern const BehaviorScript bhvLevelIBossDoorStarSlot[];
 extern const BehaviorScript bhvBountyHunterToad[];
+extern const BehaviorScript bhvLevelIStartToad[];
 
 /* GROUP I END */
 

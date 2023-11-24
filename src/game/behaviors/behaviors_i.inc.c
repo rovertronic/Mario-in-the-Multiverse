@@ -286,7 +286,7 @@ void bhv_hoodmonger_loop(void){
 
                 case  HOODMONGER_ALERTED_SUBACTION_SHOOTING:
                     if(o->oShootingCooldown <= 0){
-                        struct Object *bullet = spawn_object_relative(0, 0, 110, 200, o, MODEL_HOODMONGER_BULLET, bhvHoodmongerBullet);
+                        struct Object *bullet = spawn_object_relative(0, 0, 110, 250, o, MODEL_HOODMONGER_BULLET, bhvHoodmongerBullet);
                         bullet->oMoveAnglePitch = o->oMoveAnglePitch;
                         //spawn_object_rel_with_rot(o, MODEL_HOODMONGER_BULLET, bhvHoodmongerBullet, 0, 110, 200, o->parentObj->oMoveAnglePitch, o->parentObj->oMoveAngleYaw, 0);
                         create_sound_spawner(SOUND_MITM_LEVEL_I_HOODMONGER_SHOT);
@@ -366,7 +366,17 @@ void bhv_hoodmonger_alert_manager_loop(void){
 }
 
 void bhv_hoodmonger_bullet_loop(void) {
-    if(obj_check_if_collided_with_object(o, gMarioObject) || o->oTimer > 100){
+    struct Surface *surface;
+    f32 ceilHeight;
+    ceilHeight = find_ceil(o->oPosX, o->oPosY, o->oPosZ, &surface);
+    cur_obj_update_floor_and_walls();
+
+    if(o->oTimer == 0){
+        struct Object *smoke = spawn_object(o, MODEL_SMOKE, bhvSmoke);
+        obj_scale(smoke, 3.0f);
+    }
+    if(obj_check_if_collided_with_object(o, gMarioObject) || o->oTimer > 100 || 
+    o->oMoveFlags & OBJ_MOVE_HIT_WALL || (o->oPosY - o->oFloorHeight < 15) || (ceilHeight - o->oPosY < 20)){
         obj_mark_for_deletion(o);
     }
 
@@ -518,7 +528,7 @@ void bhv_hoodboomer_bomb_loop(void){
 /*********************************PigPot*************************************/
 
 void bhv_pigpot_loop(void){
-    if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 2){
+    if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun > 1){
        obj_explode_and_spawn_coins(46.0f, COIN_TYPE_YELLOW);
        play_sound(SOUND_MITM_LEVEL_I_PIGPOT_DEATH, gGlobalSoundSource);
     }
@@ -777,6 +787,14 @@ void bhv_barrier_attached_to_rope_loop(void) {
 
 /*************************SAVING TOAD FROM CAGES*****************************/
 
+static u8 cagedToadDialogs[] = {
+    DIALOG_I_CAGEDTOAD_NEAR_BOSS,
+    DIALOG_I_CAGEDTOAD_MUSHROOM,
+    DIALOG_I_CAGEDTOAD_WATERFALL,
+    DIALOG_I_CAGEDTOAD_BEHIND_TREE,
+    DIALOG_I_CAGEDTOAD_NEAR_FUNKY_BOARD
+};
+
 void bhv_caged_toad_loop(){
     struct Object *freeToadObj = NULL;
 
@@ -786,7 +804,7 @@ void bhv_caged_toad_loop(){
         obj_mark_for_deletion(o);
         create_sound_spawner(SOUND_GENERAL_BREAK_BOX);
         freeToadObj = spawn_object_abs_with_rot(o, 0, MODEL_TOAD, bhvFallingToad, o->oPosX, o->oPosY, o->oPosZ, 0, 0, 0);
-        freeToadObj->oToadMessageDialogId = GET_BPARAM1(o->oBehParams);
+        SET_BPARAM1(freeToadObj->oBehParams, cagedToadDialogs[GET_BPARAM1(o->oBehParams)]);
         freeToadObj->oToadMessageRecentlyTalked = FALSE;
         freeToadObj->oToadMessageState = 0;
         freeToadObj->oOpacity = 81;
@@ -963,7 +981,7 @@ void bhv_three_axis_rotative_object(void){
     cur_obj_scale(1.0f + (GET_BPARAM4(o->oBehParams) / 20));
 }
 
-/*************************BOUNTY HUNTER TOAD*****************************/
+/*************************OTHER TOAD*****************************/
 
 #include "src/game/mario_misc.h"
 
@@ -1010,4 +1028,8 @@ void bhv_bounty_hunter_toad_loop(void) {
                 break;
         }
     }
+}
+
+void bhv_level_I_start_toad_init(void) {
+    SET_BPARAM1(o->oBehParams, DIALOG_I_START_TOAD);
 }

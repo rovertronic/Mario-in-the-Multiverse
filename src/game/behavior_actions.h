@@ -593,6 +593,7 @@ void bhv_hoodoo_sorcerer_loop(void);
 void bhv_level_I_boss_door_loop(void);
 void bhv_bounty_hunter_toad_init(void);
 void bhv_bounty_hunter_toad_loop(void);
+void bhv_level_I_start_toad_init(void);
 // I End //
 void bhv_checkpoint_flag(void);
 void bhv_flipswitch(void);

@@ -12,12 +12,12 @@ void bhv_waterfall_sound_loop(void) {
             cur_obj_play_sound_1(SOUND_ENV_WATERFALL2);
         }
 
-        char str[50];
+        /*char str[50];
         sprintf(str, "BPAR %f", soundRadius);
         print_text(160, 180, str);
 
         char str2[50];
         sprintf(str2, "DIST %f", o->oDistanceToMario);
-        print_text(160, 160, str2);
+        print_text(160, 160, str2);*/
     }
 }

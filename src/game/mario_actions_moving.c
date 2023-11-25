@@ -1394,8 +1394,14 @@ s32 act_riding_shell_ground(struct MarioState *m) {
     if (m->floor->type == SURFACE_BURNING) {
         play_sound(SOUND_MOVING_RIDING_SHELL_LAVA, m->marioObj->header.gfx.cameraToObject);
     } else {
-        play_sound(SOUND_MOVING_TERRAIN_RIDING_SHELL + m->terrainSoundAddend,
+        if(obj_has_behavior(m->riddenObj, bhvFunkyShell)){
+            play_sound(SOUND_MOVING_TERRAIN_RIDING_SHELL,
                    m->marioObj->header.gfx.cameraToObject);
+        } else {
+            play_sound(SOUND_MOVING_TERRAIN_RIDING_SHELL + m->terrainSoundAddend,
+                   m->marioObj->header.gfx.cameraToObject);
+        }
+        
     }
 
     adjust_sound_for_speed(m);

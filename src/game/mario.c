@@ -2153,7 +2153,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         //Marble Ability
         if (using_ability(ABILITY_MARBLE)) {
             struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
-            if (!marble) {
+            if (!marble && !(gMarioState->riddenObj != NULL && obj_has_behavior(gMarioState->riddenObj, bhvFunkyShell))) {
                 set_mario_action(gMarioState,ACT_MARBLE,0);
                 gMarioState->pos[1] += 90.0f;
                 gMarioObject->oPosY += 90.0f;

@@ -73,4 +73,12 @@ extern const LevelScript level_i_entry[];
 
 #include "levels/i/star_slot_full/geo_header.h"
 
+#include "levels/i/dollar/geo_header.h"
+
+#include "levels/i/blacklums/geo_header.h"
+
+#include "levels/i/boss_gate/geo_header.h"
+
+#include "levels/i/boss_gate/collision_header.h"
+
 #endif

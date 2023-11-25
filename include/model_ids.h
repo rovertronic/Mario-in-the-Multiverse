@@ -710,6 +710,9 @@ enum {
 #define MODEL_HOODMONGER_BULLET         0x49        //hoodmonger_bullet_geo
 #define MODEL_STAR_SLOT_EMPTY           0x4A        //star_slot_empty_geo
 #define MODEL_STAR_SLOT_FULL            0x4B        //star_slot_full_geo
+#define MODEL_DOLLAR                    0x4C        //dollar_geo
+#define MODEL_BLACKLUMS                 0x4D        //blacklums_geo
+#define MODEL_BOSS_GATE                 0x4E        //model_boss_geo
 
 /* LEVEL I END */
 

@@ -233,14 +233,18 @@ void bhv_rocket_button_group_loop(void){
 void bhv_hoodmonger_init(void){
     o->oDeathSound = SOUND_MITM_LEVEL_I_HOODMONGER_DEATH1;
     o->oIsLootingRocket = (GET_BPARAM1(o->oBehParams) == 1);
-    if(o->oIsLootingRocket) {
-        o->oDollarDropObj = spawn_object_rel_with_rot(o, MODEL_KOOPA_SHELL, bhvPushableMetalBox, 0, 500, 0, 0, 0, 0);
-    }
+    
     //if first star get, delete all hoodmonger with Bparam 2 set to 1
+    //TODO change "if first star get" to "if Shock Rocket unlocked"
     if (save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_CCM)) & STAR_FLAG_ACT_1 && 
         GET_BPARAM2(o->oBehParams) == 1
         ) {
         obj_mark_for_deletion(o);
+    } else {
+        if(o->oIsLootingRocket) {
+            struct Object *dollar = spawn_object(o, MODEL_DOLLAR, bhvDollar);
+            dollar->oPosY += 390;
+        }
     }
 }
 
@@ -295,9 +299,10 @@ void bhv_hoodmonger_loop(void){
                     } else {
                         cur_obj_extend_animation_if_at_end();
                     }
-                    if(o->oDistanceToMario < 300){
+                    if(o->oDistanceToMario < 200){
                         o->oWantedSubAction = HOODMONGER_ALERTED_SUBACTION_PARRY;
                         cur_obj_play_sound_2(SOUND_MITM_LEVEL_I_HOODMONGER_PARRY);
+                        o->hitboxRadius = 180;
                     }
                     if(o->oShootingCooldown == 40 && o->oDistanceToMario < 1000){
                         create_sound_spawner(SOUND_MITM_LEVEL_I_HOODMONGER_RELOAD);
@@ -309,6 +314,7 @@ void bhv_hoodmonger_loop(void){
                     o->oShootingCooldown -= 1 * ability_chronos_current_slow_factor();
                     if(cur_obj_init_animation_and_check_if_near_end(3)){
                         o->oWantedSubAction = HOODMONGER_ALERTED_SUBACTION_SHOOTING;
+                        o->hitboxRadius = 80;
                     }
                     break;
             }
@@ -331,13 +337,7 @@ void bhv_hoodmonger_loop(void){
         o->oHealth--;
         create_sound_spawner(o->oDeathSound);
         obj_die_if_health_non_positive();
-        if(o->oIsLootingRocket){
-            
-        }
-    }
-
-    if(o->oIsLootingRocket && o->oDollarDropObj != NULL){
-        obj_set_pos(o->oDollarDropObj, o->parentObj->oPosX, o->parentObj->oPosY + 500, o->parentObj->oPosZ);
+        spawn_object(o, MODEL_BLACKLUMS, bhvBlackLums);
     }
 
     o->oNearestHoodmongerWandering = cur_obj_nearest_object_with_behavior_and_action(bhvHoodmonger, HOODMONGER_ACTION_WANDERING); //find nearest hoodmonger not alerted
@@ -352,7 +352,7 @@ void bhv_hoodmonger_alert_manager_loop(void){
         wanderinghoodmonger = alertedhoodmonger->oNearestHoodmongerWandering;
         //and existing wandering hoodlum nearby AND not losing trigger on Mario
         if( wanderinghoodmonger != NULL && 
-            dist_between_objects(wanderinghoodmonger, alertedhoodmonger) < 7000 &&
+            dist_between_objects(wanderinghoodmonger, alertedhoodmonger) < 9000 &&
             GET_BPARAM1(wanderinghoodmonger->oBehParams) == 0 &&
             alertedhoodmonger->oLoosingTriggerCooldown == 0)
         {
@@ -393,6 +393,52 @@ void bhv_hoodmonger_bullet_loop(void) {
     o->oPosY -= o->oVelY;
 }
 
+void bhv_blacklums_update(void) {
+    if(o->oTimer == 0) {
+        o->oPosY += 150;
+        //will fly toward Mario +/- [0° - 30°]
+        o->oMoveAngleYaw = o->parentObj->oMoveAngleYaw + (degrees_to_angle(30) * random_float() * random_sign());
+        o->oVelY = 5;
+        o->oForwardVel = 28.0f;
+    }
+
+    o->oVelY += 1;
+    o->oPosY += o->oVelY;
+
+    if(o->oTimer > 200) {
+        obj_mark_for_deletion(o);
+    }
+
+    cur_obj_move_using_fvel_and_gravity();
+}
+
+void bhv_dollar_loop(void) {
+    struct Object *rocketLoot;
+    switch(o->oAction){
+        case 0:
+            if(cur_obj_nearest_object_with_behavior_and_bparam1(bhvHoodmonger, 1) == NULL){
+                o->oAction++;
+            }
+            break;
+        case 1:
+            if(o->oTimer > 55){
+                o->oAction++;
+            }
+            o->oPosY -= 5;
+            break;
+        case 2:
+            rocketLoot = spawn_object(o, MODEL_ABILITY, bhvAbilityUnlock);
+            create_sound_spawner(SOUND_GENERAL2_STAR_APPEARS);
+            spawn_mist_particles_variable(0, 0, 40.0f);
+            rocketLoot->oBehParams2ndByte = ABILITY_SHOCK_ROCKET;
+            rocketLoot->oPosY -= 50;
+            obj_mark_for_deletion(o);
+    }
+
+    print_text_fmt_int(160, 160, "ACTION %d", o->oAction);
+    
+}
+
 /*********************************Hoodboomer*************************************/
 
 void bhv_hoodboomer_loop(void){
@@ -414,9 +460,9 @@ void bhv_hoodboomer_loop(void){
         case 1: //throwing grenade
             if(cur_obj_init_anim_check_frame(1, 14)){
                 struct Object *bomb = spawn_object_relative(0, 0, 200, 0, o, MODEL_HOODBOOMER_BOMB, bhvHoodboomerBomb);
-                SET_BPARAM1(bomb->oBehParams, 200);
-                SET_BPARAM2(bomb->oBehParams, 200);
-                SET_BPARAM3(bomb->oBehParams, 200);
+                SET_BPARAM1(bomb->oBehParams, 230);
+                SET_BPARAM2(bomb->oBehParams, 255);
+                SET_BPARAM3(bomb->oBehParams, 210);
             }
             if(cur_obj_init_animation_and_check_if_near_end(1)){
                 o->oLaunchingBombCooldown = 150;
@@ -433,6 +479,7 @@ void bhv_hoodboomer_loop(void){
         o->oHealth--;
         create_sound_spawner(o->oDeathSound);
         obj_die_if_health_non_positive();
+        spawn_object(o, MODEL_BLACKLUMS, bhvBlackLums);
     }
 
     if(o->oLaunchingBombCooldown > 0){
@@ -462,21 +509,6 @@ void bhv_black_smoke_hoodboomer_loop(void){
     }
 }
 
-/**
- * Hitbox for hoodboomer bomb.
- */
-static struct ObjectHitbox sHoodboomerBombHitbox = {
-    /* interactType:      */ INTERACT_MR_BLIZZARD,
-    /* downOffset:        */ 15,
-    /* damageOrCoinValue: */ 2,
-    /* health:            */ 99,
-    /* numLootCoins:      */ 0,
-    /* radius:            */ 30,
-    /* height:            */ 15,
-    /* hurtboxRadius:     */ 30,
-    /* hurtboxHeight:     */ 15,
-};
-
 static void hoodboomer_bomb_act_move(void){
     s16 collisionFlags;
     f32 floorY;
@@ -499,30 +531,45 @@ static void hoodboomer_bomb_act_move(void){
 
 extern s16 gArctanTable[];
 
+void bhv_hoodboomer_bomb_init(void){
+    f32 t, yOffset;
+    //whole throw time
+    o->oBombTravelTime = 40.0f;
+    //Y offset between spawn point and target mario
+    yOffset = o->oPosY - gMarioObject->oPosY;
+    obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_YAW_INDEX, 0x1000);
+    obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_PITCH_INDEX, 0x1000);
+    o->oForwardVel = dist_between_objects(o, gMarioObject) / o->oBombTravelTime;
+    //initial upward boost
+    o->oBombUpSpeed = 20.0f;
+    //each frame decrementation
+    o->oBombEachFrameIncrementation = o->oBombTravelTime / (o->oBombUpSpeed * 2);
+    //speed needed to achieve Yoffset
+    o->oBombMissingSpeed = (yOffset * 2) / (o->oBombTravelTime * o->oBombTravelTime);
+}
+
 void bhv_hoodboomer_bomb_loop(void){
-    f32 x;
-    f32 y;
-    f32 g;
-    f32 v;
-    if(o->oTimer == 0){
-        /*f32 x = o->oDistanceToMario;
-        f32 y =  gMarioObject->oPosY - o->oPosY;
-        o->oMoveAngleYaw = obj_angle_to_object(o, gMarioObject);
-        o->oForwardVel = 10.0f;
-        v = o->oForwardVel;
-        o->oGravity = 2.0f;
-        g = o->oGravity;
+    f32 floorY;
+    struct Surface *sObjFloor;
 
-        o->oMoveAnglePitch = degrees_to_angle(atans((v*v + sqrtf(v*v*v*v - g*g*x*x + g*2*y*v*v))/ g*x));
-        o->oVelY = o->oForwardVel * sins(o->oMoveAnglePitch);*/
-        o->oMoveAngleYaw = obj_angle_to_object(o, gMarioObject);
+    cur_obj_move_xz_using_fvel_and_yaw();
+    o->oVelY = (sins(o->oMoveAnglePitch) * o->oForwardVel) - o->oBombUpSpeed;
+    o->oPosY -= o->oVelY;
 
-        o->oForwardVel = 40.0f;
-        o->oVelY = o->oDistanceToMario * 0.08f + 8.0f;
-        
+    //adding missing speed to the base decrementation
+    o->oBombUpSpeed -= o->oBombEachFrameIncrementation + o->oBombMissingSpeed;
+
+    if(o->oTimer > 80){
+        obj_mark_for_deletion(o);
     }
-    obj_check_attacks(&sHoodboomerBombHitbox, o->oAction);
-    hoodboomer_bomb_act_move();
+
+    spawn_object(o, MODEL_NONE, bhvSparkleSpawn);
+    floorY = find_floor(o->oPosX + o->oVelX, o->oPosY, o->oPosZ + o->oVelZ, &sObjFloor);
+
+    if ((o->oInteractStatus & INT_STATUS_INTERACTED) || (o->oMoveFlags & OBJ_MOVE_ENTERED_WATER) || (s32) o->oPosY < (s32) floorY) {
+        obj_mark_for_deletion(o);
+        spawn_object(o, MODEL_EXPLOSION, bhvExplosion);
+    }
 }
 
 /*********************************PigPot*************************************/

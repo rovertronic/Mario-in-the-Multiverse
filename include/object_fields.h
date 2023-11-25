@@ -1058,6 +1058,13 @@
 /* Hoodboomer */
 #define /*0x0F4*/ oLaunchingBombCooldown OBJECT_FIELD_S32(0x1B)
 
+/* Hoodboomer bomb*/
+#define /*0x0F4*/ oBombTravelTime               OBJECT_FIELD_F32(0x1B)
+#define /*0x0F8*/ oBombUpSpeed                  OBJECT_FIELD_F32(0x1C)
+#define /*0x0FC*/ oBombEachFrameIncrementation  OBJECT_FIELD_F32(0x1D)
+#define /*0x100*/ oBombMissingSpeed              OBJECT_FIELD_S32(0x1E)
+
+
 /* Star Selector */
 #define /*0x0F4*/ oStarSelectorType  OBJECT_FIELD_S32(0x1B)
 #define /*0x0F8*/ oStarSelectorTimer OBJECT_FIELD_S32(0x1C)

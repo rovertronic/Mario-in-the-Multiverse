@@ -6525,6 +6525,25 @@ const BehaviorScript bhvHoodmongerBullet[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvBlackLums[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SCALE(0, 40),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_blacklums_update),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvDollar[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 8000),
+    BILLBOARD(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_dollar_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvHoodboomer[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW | OBJ_FLAG_E__SG_ENEMY)),
@@ -6546,11 +6565,17 @@ const BehaviorScript bhvHoodboomer[] = {
 
 const BehaviorScript bhvHoodboomerBomb[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_BREAKABLE)),//--E
-    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_BREAKABLE)),//--E
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ 0, /*Bounciness*/ 0, /*Drag strength*/ 0, /*Friction*/ 0, /*Buoyancy*/ 0, /*Unused*/ 0, 0),
+    SET_HITBOX(50, 50),
+    SET_INTERACT_TYPE(INTERACT_DAMAGE),
+    SET_INT(oDamageOrCoinValue, 4),
+    CALL_NATIVE(bhv_hoodboomer_bomb_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_hoodboomer_bomb_loop),
         CALL_NATIVE(bhv_three_axis_rotative_object),
+        SET_INT(oIntangibleTimer, 0),
+        SET_INT(oInteractStatus, 0),
     END_LOOP(),
 };
 
@@ -6572,7 +6597,7 @@ const BehaviorScript bhvPigpot[] = {
     SET_INT(oNumLootCoins, 3),
     SET_INT(oInteractType, INTERACT_GRABBABLE),
     SET_INT(oInteractionSubtype, INT_SUBTYPE_NOT_GRABBABLE),
-    SET_HITBOX(/*Radius*/ 60, /*Height*/ 90),
+    SET_HITBOX(/*Radius*/ 60, /*Height*/ 100),
     SET_INT(oIntangibleTimer, 0),
     SET_FLOAT(oDeathSound, SOUND_GENERAL_BREAK_BOX),
     SCALE(0, 120),
@@ -6821,8 +6846,8 @@ const BehaviorScript bhvLevelIBossDoor[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ 100, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 0, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
-    LOAD_COLLISION_DATA(metal_box_seg8_collision_08024C28),
-    SET_FLOAT(oDrawingDistance, 5000),
+    LOAD_COLLISION_DATA(boss_gate_collision),
+    SET_FLOAT(oDrawingDistance, 16000),
     SET_HITBOX(10, 10),
     //DROP_TO_FLOOR(),
     BEGIN_LOOP(),
@@ -6834,7 +6859,7 @@ const BehaviorScript bhvLevelIBossDoor[] = {
 const BehaviorScript bhvLevelIBossDoorStarSlot[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
-    SET_FLOAT(oDrawingDistance, 10000),
+    SET_FLOAT(oDrawingDistance, 16000),
     BEGIN_LOOP(),
     END_LOOP(),
 };

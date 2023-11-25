@@ -3,10 +3,10 @@
 const GeoLayout i_area_3_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -10589, 43, 3050, i_dl_main_section_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -10589, 43, 3050, i_dl_main_section_geo_mesh_layer_1),
 		GEO_OPEN_NODE(),
-			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, i_dl_main_section_mesh_layer_5),
-			GEO_DISPLAY_LIST(LAYER_ALPHA, i_dl_main_section_mesh_layer_4),
+			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, i_dl_main_section_geo_mesh_layer_5),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, i_dl_main_section_geo_mesh_layer_4),
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -7950, 730, -1105, 90, 0, -90, i_dl_plum_bucket_mesh_layer_1),
 		GEO_ASM(0, e__shotgun_effects),

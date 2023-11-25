@@ -46,7 +46,7 @@ void master_kaag_moving(void) {
     cur_obj_init_animation(0);
     cur_obj_play_sound_at_anim_range(20, 40, SOUND_OBJ_POUNDING1);
 
-    if((o->oTimer % 150) == 0){
+    if((o->oTimer % 150) == 0 && o->oTimer != 0){
         create_sound_spawner(SOUND_MITM_LEVEL_I_MASTER_KAGG_LAUGH);
     }
 }
@@ -91,7 +91,7 @@ void master_kaag_act_death(void) { // act 7
 
     o->oForwardVel = 0.0f;
     if(cur_obj_init_animation_and_check_if_near_end(2)){
-        create_sound_spawner(SOUND_OBJ_KING_WHOMP_DEATH);
+        create_sound_spawner(SOUND_GENERAL2_BOBOMB_EXPLOSION);
 
         cur_obj_hide();
         cur_obj_become_intangible();
@@ -99,7 +99,7 @@ void master_kaag_act_death(void) { // act 7
         obj_mark_for_deletion(o->oObjF4);
 
         spawn_mist_particles_variable(0, 0, 200.0f);
-        spawn_triangle_break_particles(20, MODEL_DIRT_ANIMATION, 3.0f, TINY_DIRT_PARTICLE_ANIM_STATE_YELLOW);
+        spawn_triangle_break_particles(15, MODEL_DIRT_ANIMATION, 8.0f, TINY_DIRT_PARTICLE_ANIM_STATE_YELLOW);
         cur_obj_shake_screen(SHAKE_POS_SMALL);
 
         stop_background_music(SEQUENCE_ARGS(4, SEQ_MASTER_KAAG_BOSS));
@@ -147,13 +147,13 @@ void bhv_hoodoo_sorcerer_loop(void) {
         o->oHealth--;
         create_sound_spawner(SOUND_MITM_LEVEL_I_HOODOO_SORCERER_DEATH);
         obj_die_if_health_non_positive();
+        spawn_object(o, MODEL_BLACKLUMS, bhvBlackLums);
     }
 }
 
 //------------------------------------------------------------------------//
 
 void bhv_level_I_boss_door_loop(void) {
-    s16 collisionFlags;
     u8 levelIstarFLag;
     u8 numberOfStarGet;
 
@@ -177,13 +177,15 @@ void bhv_level_I_boss_door_loop(void) {
             break;
 
         case 1: //opening
-            cur_obj_update_floor_and_walls();
-            o->oVelY -= o->oGravity;
-            collisionFlags = object_step();
-            if (collisionFlags == OBJ_COL_FLAG_GROUNDED) {
-                o->oForwardVel = 0.0f;
-                cur_obj_play_sound_2(SOUND_GENERAL_SMALL_BOX_LANDING);
+            if(o->oTimer == 0) {
+                o->oVelY = 5;
+                cur_obj_play_sound_2(SOUND_GENERAL_PENDULUM_SWING);
             }
+            o->oVelY += 1;
+            o->oPosY -= o->oVelY;
+            if(o->oTimer > 50) {
+                obj_mark_for_deletion(o);
+            }   
             break;
 
         case 2: //do nothing

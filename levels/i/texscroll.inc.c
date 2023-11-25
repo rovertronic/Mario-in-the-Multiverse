@@ -40,14 +40,14 @@ void scroll_i_dl_area2_room1_geo_mesh_layer_5_vtx_1() {
 	currentX += deltaX;
 }
 
-void scroll_i_dl_main_section_mesh_layer_5_vtx_0() {
+void scroll_i_dl_main_section_geo_mesh_layer_5_vtx_0() {
 	int i = 0;
 	int count = 228;
 	int width = 64 * 0x20;
 
 	static int currentX = 0;
 	int deltaX;
-	Vtx *vertices = segmented_to_virtual(i_dl_main_section_mesh_layer_5_vtx_0);
+	Vtx *vertices = segmented_to_virtual(i_dl_main_section_geo_mesh_layer_5_vtx_0);
 
 	deltaX = (int)(1.0 * 0x20) % width;
 
@@ -61,14 +61,14 @@ void scroll_i_dl_main_section_mesh_layer_5_vtx_0() {
 	currentX += deltaX;
 }
 
-void scroll_i_dl_main_section_mesh_layer_5_vtx_1() {
+void scroll_i_dl_main_section_geo_mesh_layer_5_vtx_1() {
 	int i = 0;
 	int count = 52;
 	int width = 64 * 0x20;
 
 	static int currentX = 0;
 	int deltaX;
-	Vtx *vertices = segmented_to_virtual(i_dl_main_section_mesh_layer_5_vtx_1);
+	Vtx *vertices = segmented_to_virtual(i_dl_main_section_geo_mesh_layer_5_vtx_1);
 
 	deltaX = (int)(1.5099999904632568 * 0x20) % width;
 
@@ -82,14 +82,14 @@ void scroll_i_dl_main_section_mesh_layer_5_vtx_1() {
 	currentX += deltaX;
 }
 
-void scroll_i_dl_main_section_mesh_layer_5_vtx_4() {
+void scroll_i_dl_main_section_geo_mesh_layer_5_vtx_4() {
 	int i = 0;
 	int count = 48;
 	int width = 64 * 0x20;
 
 	static int currentX = 0;
 	int deltaX;
-	Vtx *vertices = segmented_to_virtual(i_dl_main_section_mesh_layer_5_vtx_4);
+	Vtx *vertices = segmented_to_virtual(i_dl_main_section_geo_mesh_layer_5_vtx_4);
 
 	deltaX = (int)(0.6100000143051147 * 0x20) % width;
 
@@ -273,9 +273,9 @@ void scroll_i_dl_first_section_geo_mesh_layer_4_vtx_2() {
 void scroll_i() {
 	scroll_i_dl_area2_room1_geo_mesh_layer_5_vtx_0();
 	scroll_i_dl_area2_room1_geo_mesh_layer_5_vtx_1();
-	scroll_i_dl_main_section_mesh_layer_5_vtx_0();
-	scroll_i_dl_main_section_mesh_layer_5_vtx_1();
-	scroll_i_dl_main_section_mesh_layer_5_vtx_4();
+	scroll_i_dl_main_section_geo_mesh_layer_5_vtx_0();
+	scroll_i_dl_main_section_geo_mesh_layer_5_vtx_1();
+	scroll_i_dl_main_section_geo_mesh_layer_5_vtx_4();
 	scroll_i_dl_first_section_geo_mesh_layer_5_vtx_1();
 	scroll_i_dl_first_section_geo_mesh_layer_5_vtx_3();
 	scroll_i_dl_first_section_geo_mesh_layer_5_vtx_5();

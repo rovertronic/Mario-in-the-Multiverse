@@ -49,3 +49,7 @@
 #include "levels/i/hoodmonger_bullet/model.inc.c"
 #include "levels/i/star_slot_empty/model.inc.c"
 #include "levels/i/star_slot_full/model.inc.c"
+#include "levels/i/dollar/model.inc.c"
+#include "levels/i/blacklums/model.inc.c"
+#include "levels/i/boss_gate/model.inc.c"
+#include "levels/i/boss_gate/collision.inc.c"

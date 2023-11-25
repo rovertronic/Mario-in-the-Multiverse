@@ -38,3 +38,6 @@
 #include "levels/i/hoodmonger_bullet/geo.inc.c"
 #include "levels/i/star_slot_empty/geo.inc.c"
 #include "levels/i/star_slot_full/geo.inc.c"
+#include "levels/i/dollar/geo.inc.c"
+#include "levels/i/blacklums/geo.inc.c"
+#include "levels/i/boss_gate/geo.inc.c"

@@ -222,7 +222,7 @@ const LevelScript level_i_entry[] = {
 		OBJECT(MODEL_NONE, -5261, 555, -8333, 0, 23, 0, (14 << 16), bhvAirborneWarp),
 		OBJECT(MODEL_NONE, -5557, 17, -9028, 0, 0, 0, (20 << 24) | (11 << 16), bhvFadingWarp),
 		OBJECT(MODEL_NONE, 16692, -275, -3739, 0, -12, 0, (40 << 24) | (13 << 16), bhvWarp),
-		OBJECT(MODEL_NONE, 12613, -1517, -12007, 0, 0, 0, (0x27 << 24) | (0x10 << 16), bhvWaterfallSoundLoop),
+		OBJECT(MODEL_NONE, 9432, -380, -16021, 0, 0, 0, (0x1B << 24) | (0x58 << 16), bhvWaterfallSoundLoop),
 		OBJECT(MODEL_WATERMILL, 6035, -957, -14634, 0, 0, 0, (35 << 24) | (2 << 16), bhvRotatingGearDecorative),
 		OBJECT(MODEL_NONE, 1916, -816, 8623, 0, 90, 0, (3 << 16), bhvOpenableGrill),
 		TERRAIN(i_area_3_collision),

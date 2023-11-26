@@ -434,9 +434,6 @@ void bhv_dollar_loop(void) {
             rocketLoot->oPosY -= 50;
             obj_mark_for_deletion(o);
     }
-
-    print_text_fmt_int(160, 160, "ACTION %d", o->oAction);
-    
 }
 
 /*********************************Hoodboomer*************************************/
@@ -465,7 +462,7 @@ void bhv_hoodboomer_loop(void){
                 SET_BPARAM3(bomb->oBehParams, 210);
             }
             if(cur_obj_init_animation_and_check_if_near_end(1)){
-                o->oLaunchingBombCooldown = 150;
+                o->oLaunchingBombCooldown = 100;
                 o->oAction--;
             }
             break;
@@ -509,28 +506,6 @@ void bhv_black_smoke_hoodboomer_loop(void){
     }
 }
 
-static void hoodboomer_bomb_act_move(void){
-    s16 collisionFlags;
-    f32 floorY;
-    struct Surface *sObjFloor;
-
-    cur_obj_compute_vel_xz();
-    floorY = find_floor(o->oPosX + o->oVelX, o->oPosY, o->oPosZ + o->oVelZ, &sObjFloor);
-    if ((s32) o->oPosY == (s32) floorY) {
-        collisionFlags += OBJ_COL_FLAG_GROUNDED;
-    }
-    
-    if (collisionFlags == OBJ_COL_FLAG_GROUNDED) {
-        cur_obj_spawn_particles(&sMontyMoleRockBreakParticles);
-        obj_mark_for_deletion(o);
-    }
-        
-
-    cur_obj_move_standard(78);
-}
-
-extern s16 gArctanTable[];
-
 void bhv_hoodboomer_bomb_init(void){
     f32 t, yOffset;
     //whole throw time
@@ -546,6 +521,8 @@ void bhv_hoodboomer_bomb_init(void){
     o->oBombEachFrameIncrementation = o->oBombTravelTime / (o->oBombUpSpeed * 2);
     //speed needed to achieve Yoffset
     o->oBombMissingSpeed = (yOffset * 2) / (o->oBombTravelTime * o->oBombTravelTime);
+
+    cur_obj_play_sound_2(SOUND_OBJ_SOMETHING_LANDING);
 }
 
 void bhv_hoodboomer_bomb_loop(void){
@@ -565,8 +542,10 @@ void bhv_hoodboomer_bomb_loop(void){
 
     spawn_object(o, MODEL_NONE, bhvSparkleSpawn);
     floorY = find_floor(o->oPosX + o->oVelX, o->oPosY, o->oPosZ + o->oVelZ, &sObjFloor);
+    
 
-    if ((o->oInteractStatus & INT_STATUS_INTERACTED) || (o->oMoveFlags & OBJ_MOVE_ENTERED_WATER) || (s32) o->oPosY < (s32) floorY) {
+    if ((o->oInteractStatus & INT_STATUS_INTERACTED) || (o->oMoveFlags & OBJ_MOVE_ENTERED_WATER) || 
+    (s32) o->oPosY < (s32) floorY || cur_obj_resolve_wall_collisions()) {
         obj_mark_for_deletion(o);
         spawn_object(o, MODEL_EXPLOSION, bhvExplosion);
     }

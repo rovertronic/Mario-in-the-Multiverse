@@ -184,5 +184,11 @@
     ],
     "36_level_i_hoodstomper": [
         "0E_extended_bank"
+    ],
+    "37_level_i_inside": [
+        "0E_extended_bank"
+    ],
+    "38_level_i_ambush": [
+        "0E_extended_bank"
     ]
 }

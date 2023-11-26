@@ -321,8 +321,8 @@ void stop_plum_music(void) {
  * Called from threads: thread5_game_loop
  */
 void play_hoodlum_fight_music(void) {
-    play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_EVENT_BOSS | SEQ_VARIATION), 0);
-    sCurrentHoddlumFight = SEQUENCE_ARGS(4, SEQ_EVENT_BOSS | SEQ_VARIATION);
+    play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_LEVEL_I_AMBUSH | SEQ_VARIATION), 0);
+    sCurrentHoddlumFight = SEQUENCE_ARGS(4, SEQ_LEVEL_I_AMBUSH | SEQ_VARIATION);
 }
 
 /**

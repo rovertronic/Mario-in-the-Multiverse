@@ -633,7 +633,6 @@ struct Object *cur_obj_find_nearest_object_with_behavior(const BehaviorScript *b
 }
 
 struct Object *cur_obj_nearest_object_with_behavior_and_action(const BehaviorScript *behavior, s32 action){
-    f32 *dist;
     uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
     struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
     struct Object *obj = (struct Object *) listHead->next;
@@ -656,12 +655,10 @@ struct Object *cur_obj_nearest_object_with_behavior_and_action(const BehaviorScr
         obj = (struct Object *) obj->header.next;
     }
 
-    *dist = minDist;
     return closestObj;
 }
 
 struct Object *cur_obj_nearest_object_with_behavior_and_bparam1(const BehaviorScript *behavior, u32 bparam1){
-    f32 *dist;
     uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
     struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
     struct Object *obj = (struct Object *) listHead->next;
@@ -684,7 +681,6 @@ struct Object *cur_obj_nearest_object_with_behavior_and_bparam1(const BehaviorSc
         obj = (struct Object *) obj->header.next;
     }
 
-    *dist = minDist;
     return closestObj;
 }
 

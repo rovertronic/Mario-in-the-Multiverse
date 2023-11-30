@@ -66,13 +66,19 @@ s32 mario_update_punch_sequence(struct MarioState *m) {
             }
 
             if (m->marioObj->header.gfx.animInfo.animFrame >= 2) {
+                struct Object *interactObj = m->interactObj;
                 if (mario_check_object_grab(m)) {
-                    if (m->abilityId == ABILITY_CUTTER && m->interactObj->behavior != segmented_to_virtual(bhvKingBobomb) && m->interactObj->behavior != segmented_to_virtual(bhvUkiki) 
-                    && m->interactObj->behavior != segmented_to_virtual(bhvBowser) && m->interactObj->behavior != segmented_to_virtual(bhvMips)
-                    && m->interactObj->behavior != segmented_to_virtual(bhvBreakableBoxSmall) && m->interactObj->behavior != segmented_to_virtual(bhvJumpingBox)) {
-                        m->interactObj->oAction = OBJ_ACT_STUN_KNOCKBACK;
-                        m->interactObj->oFlags &= ~OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW;
-                        m->interactObj->oMoveAngleYaw = obj_angle_to_object(m->marioObj, m->interactObj);
+                    if (m->abilityId == ABILITY_CUTTER 
+                    && !obj_has_behavior(interactObj, bhvKingBobomb)
+                    && !obj_has_behavior(interactObj, bhvUkiki) 
+                    && !obj_has_behavior(interactObj, bhvBowser) 
+                    && !obj_has_behavior(interactObj, bhvMips)
+                    && !obj_has_behavior(interactObj, bhvBreakableBoxSmall) 
+                    && !obj_has_behavior(interactObj, bhvJumpingBox)
+                    && !obj_has_behavior(interactObj, bhvPlum)) {
+                        interactObj->oAction = OBJ_ACT_STUN_KNOCKBACK;
+                        interactObj->oFlags &= ~OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW;
+                        interactObj->oMoveAngleYaw = obj_angle_to_object(m->marioObj, interactObj);
                         set_mario_action(m, ACT_FINAL_CUTTER_SEQUENCE, 0);
                         return FALSE;
                     }
@@ -265,7 +271,7 @@ s32 act_picking_up(struct MarioState *m) {
     }
 
     if (m->actionState == ACT_STATE_PICKING_UP_HOLDING) {
-        if (m->heldObj->oInteractionSubtype & INT_SUBTYPE_GRABS_MARIO) {
+        if (m->heldObj->oInteractionSubtype & INT_SUBTYPE_GRABS_MARIO || obj_has_behavior(m->heldObj, bhvPlum)) {
             m->marioBodyState->grabPos = GRAB_POS_HEAVY_OBJ;
             set_mario_animation(m, MARIO_ANIM_GRAB_HEAVY_OBJECT);
             if (is_anim_at_end(m)) {

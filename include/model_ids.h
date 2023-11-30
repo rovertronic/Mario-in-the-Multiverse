@@ -688,6 +688,32 @@ enum {
 /* LEVEL H END */
 
 /* LEVEL I START */
+#define MODEL_HOODBOOMER                0x36        //hoodboomer_geo
+#define MODEL_PIGPOT                    0x37        //pigpot_geo
+#define MODEL_HOODBOOMER_BOMB           0x38        //hoodboomer_bomb
+#define MODEL_WINDMILL                  0x39        //windmill_geo
+#define MODEL_GATE                      0x3A        //gate_geo
+#define MODEL_WOODEN_LEVER              0x3B        //wooden_lever_geo
+#define MODEL_PLUM                      0x3C        //plum
+#define MODEL_CAGED_TOAD                0x3D        //caged_toad
+#define MODEL_PLANK_ROPE                0x3E        //plank_rope_geo
+#define MODEL_BARRIER_ROPE              0x3F        //barrier_rope_geo
+#define MODEL_BLACK_PANEL               0x40        //black_panel_geo
+#define MODEL_FUNKY_ROAD                0x41        //funky_road_geo
+#define MODEL_OPENING_WALL              0x42        //opening_wall_geo
+#define MODEL_OPENABLE_WOODEN_GATE      0x43        //openable_wood_gate
+#define MODEL_WATERMILL                 0x44        //watermill_geo
+#define MODEL_MASTER_KAAG               0x45        //master_kaag_geo
+#define MODEL_HOODOO_SORCERER           0x46        //hoodoo_sorcerer
+#define MODEL_MAGIC_SHIELD              0x47        //magic_shiel_geo
+#define MODEL_HOODMONGER                0x48        //hoodmonger_geo
+#define MODEL_HOODMONGER_BULLET         0x49        //hoodmonger_bullet_geo
+#define MODEL_STAR_SLOT_EMPTY           0x4A        //star_slot_empty_geo
+#define MODEL_STAR_SLOT_FULL            0x4B        //star_slot_full_geo
+#define MODEL_DOLLAR                    0x4C        //dollar_geo
+#define MODEL_BLACKLUMS                 0x4D        //blacklums_geo
+#define MODEL_BOSS_GATE                 0x4E        //model_boss_geo
+
 /* LEVEL I END */
 
 /* LEVEL J START */

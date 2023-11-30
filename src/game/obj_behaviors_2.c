@@ -949,6 +949,8 @@ void obj_spit_fire(s16 relativePosX, s16 relativePosY, s16 relativePosZ, f32 sca
 #include "behaviors/miltank.inc.c"
 #include "behaviors/sentret.inc.c"
 
+#include "behaviors/master_kaag.inc.c"
+
 #include "behaviors/behaviors_a.inc.c"
 #include "behaviors/behaviors_b.inc.c"
 #include "behaviors/behaviors_c.inc.c"

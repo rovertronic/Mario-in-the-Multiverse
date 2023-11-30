@@ -24,6 +24,12 @@ void bhv_hidden_blue_coin_loop(void) {
                 o->oAction = HIDDEN_BLUE_COIN_ACT_WAITING;
             }
 
+            //Add an unhide blue can
+            if(GET_BPARAM1(o->oBehParams) == 1){
+                o->oDrawingDistance = 5000;
+                o->oAction = HIDDEN_BLUE_COIN_ACT_ACTIVE;
+            }
+
             break;
 
         case HIDDEN_BLUE_COIN_ACT_WAITING:
@@ -55,6 +61,7 @@ void bhv_hidden_blue_coin_loop(void) {
                 obj_mark_for_deletion(o);
             }
 
+            if(GET_BPARAM1(o->oBehParams) == 0){
             // After 200 frames of waiting and 20 2-frame blinks (for 240 frames total),
             // delete the object.
             if (cur_obj_wait_then_blink(200, 20)) {
@@ -64,6 +71,7 @@ void bhv_hidden_blue_coin_loop(void) {
 #else
                 obj_mark_for_deletion(o);
 #endif
+            }
             }
 
             break;

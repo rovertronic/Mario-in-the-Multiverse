@@ -379,6 +379,7 @@ enum oBehParams2ndByteCoinFormation {
     COIN_FORMATION_BP_SHAPE_HORIZONTAL_RING = (COIN_FORMATION_FLAG_RING),
     COIN_FORMATION_BP_SHAPE_VERTICAL_RING   = (COIN_FORMATION_FLAG_RING | COIN_FORMATION_FLAG_VERTICAL),
     COIN_FORMATION_BP_SHAPE_ARROW           = (COIN_FORMATION_FLAG_ARROW),
+    COIN_FORMATION_BP_SHAPE_HORIZONTAL_LINE_MORE_SPACE = 5,
     COIN_FORMATION_BP_SHAPE_MASK = 0x07,
     COIN_FORMATION_BP_FLYING     = 0x10
 };
@@ -2715,6 +2716,28 @@ enum animIDsFirePiranhaPlant {
     /* oAction */
     #define ROCKET_BUTTON_GROUP_WAITING                     0x0
     #define ROCKET_BUTTON_GROUP_SUCCESSFUL                  0x1
+
+/* Hoodmonger */
+    #define HOODMONGER_ACTION_WANDERING                     0x0
+    #define HOODMONGER_WANDERING_SUBACTION_WAIT             0x0
+    #define HOODMONGER_WANDERING_SUBACTION_START_ALERT      0x1
+    #define HOODMONGER_ACTION_ALERTED                       0x1
+    #define HOODMONGER_ALERTED_SUBACTION_END_ALERT          0x0
+    #define HOODMONGER_ALERTED_SUBACTION_SHOOTING           0x1
+    #define HOODMONGER_ALERTED_SUBACTION_PARRY              0x2
+
+    #define HOODMONGER_ANIM_WANDERING                       0x0
+    #define HOODMONGER_ANIM_ALERT                           0x1
+    #define HOODMONGER_ANIM_SHOOT                           0x2
+
+/* Master Kaag */
+    #define MASTER_KAAG_ACT_INACTIVE                        0x0
+    #define MASTER_KAAG_ACT_START                           0x1
+    #define MASTER_KAAG_ACT_FOLLOW_MARIO_INVINCIBLE         0x2
+    #define MASTER_KAAG_ACT_FOLLOW_MARIO_WEAK               0x3
+    #define MASTER_KAAG_ACT_TAKING_DAMAGE                   0x4
+    #define MASTER_KAAG_ACT_DEATH                           0x5
+    #define MASTER_KAAG_ACT_STOP_MUSIC                      0x6
 
 /* White Puff Explosion */
     /* oBehParams2ndByte */

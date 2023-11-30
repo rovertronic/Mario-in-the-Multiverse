@@ -3,6 +3,7 @@
 
 void spawn_mist_particles_variable(s32 count, s32 offsetY, f32 size);
 void bhv_spawn_star_no_level_exit(u32 params);
+void bhv_spawn_star_no_level_exit_at_object(u32 params, struct Object *obj);
 void bhv_door_rendering_loop(void);
 void spawn_triangle_break_particles(s16 numTris, s16 triModel, f32 triSize, s16 triAnimState);
 
@@ -554,11 +555,49 @@ void bhv_intro_scene_loop(void);
 void bhv_dust_smoke_loop(void);
 void bhv_yoshi_loop(void);
 void bhv_volcano_trap_loop(void);
+// I Start //
 void bhv_shock_rocket_loop(void);
 void bhv_rocket_smoke_init(void);
 void bhv_rocket_button_loop(void);
-void bhv_rocket_button_group_init(void);
+void bhv_rocket_button_init(void);
 void bhv_rocket_button_group_loop(void);
+void bhv_hoodmonger_init(void);
+void bhv_hoodmonger_loop(void);
+void bhv_hoodmonger_alert_manager_loop(void);
+void bhv_hoodmonger_bullet_loop(void);
+void bhv_blacklums_update(void);
+void bhv_dollar_loop(void);
+void bhv_hoodboomer_loop(void);
+void bhv_hoodboomer_bomb_init(void);
+void bhv_hoodboomer_bomb_loop(void);
+void bhv_black_smoke_hoodboomer_loop(void);
+void bhv_pigpot_loop(void);
+void bhv_rotating_gear_decorative_init(void);
+void bhv_rotating_gear_decorative_loop(void);
+void bhv_grill_openable_by_rocket_button_loop(void);
+void bhv_wooden_lever_loop(void);
+void bhv_opening_wall_loop(void);
+void bhv_plum_loop(void);
+void bhv_plum_bucket_loop(void);
+void bhv_plank_attached_to_rope_loop(void);
+void bhv_barrier_attached_to_rope_loop(void);
+void bhv_caged_toad_loop(void);
+void bhv_caged_toad_star_init(void);
+void bhv_bhv_caged_toad_star_loop(void);
+void bhv_funky_shell_loop(void);
+void bhv_skrinking_black_door_spawner(void);
+void bhv_skrinking_black_door(void);
+void bhv_rotating_funky_platform(void);
+void bhv_moving_funky_platform(void);
+void bhv_three_axis_rotative_object(void);
+void bhv_master_kaag_loop(void);
+void bhv_hoodoo_sorcerer_init(void);
+void bhv_hoodoo_sorcerer_loop(void);
+void bhv_level_I_boss_door_loop(void);
+void bhv_bounty_hunter_toad_init(void);
+void bhv_bounty_hunter_toad_loop(void);
+void bhv_level_I_start_toad_init(void);
+// I End //
 void bhv_checkpoint_flag(void);
 void bhv_flipswitch(void);
 void bhv_noteblock(void);

@@ -161,10 +161,10 @@
     "2E_vs_hooh": [
         "vs_hooh"
     ],
-    "2F_gym" : [
+    "2F_gym": [
         "0E_extended_bank"
     ],
-    "30_dark_cave" : [
+    "30_dark_cave": [
         "0E_extended_bank"
     ],
     "31_o_easystreet": [
@@ -172,5 +172,23 @@
     ],
     "32_o_maintrack": [
         "o_maintrack"
+    ],
+    "33_level_i_carrying_the_plum": [
+        "0E_extended_bank"
+    ],
+    "34_clearleaf_forest": [
+        "0E_extended_bank"
+    ],
+    "35_level_i_funky_shell": [
+        "funky_shell_soundbank"
+    ],
+    "36_level_i_hoodstomper": [
+        "0E_extended_bank"
+    ],
+    "37_level_i_inside": [
+        "0E_extended_bank"
+    ],
+    "38_level_i_ambush": [
+        "0E_extended_bank"
     ]
 }

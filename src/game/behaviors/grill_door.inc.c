@@ -1,5 +1,8 @@
 // grill_door.inc.c
 
+#include "actors/common0.h"
+#include "levels/i/header.h"
+
 struct OpenableGrill {
     s16 halfWidth;
     ModelID16 modelID;
@@ -10,6 +13,7 @@ struct OpenableGrill gOpenableGrills[] = {
     { 320, MODEL_BOB_BARS_GRILLS, bob_seg7_collision_gate },
     { 410, MODEL_HMC_RED_GRILLS,  hmc_seg7_collision_grill_door },
     { 320, MODEL_D_GATE, d_gate_collision },
+    { 480, MODEL_OPENABLE_WOODEN_GATE/*MODEL_LEVEL_I_WOODEN_GATE*/, openable_wood_gate_collision/*wooden_gate_collision*/}
 };
 
 void bhv_openable_cage_door_loop(void) {
@@ -47,15 +51,18 @@ void bhv_openable_grill_loop(void) {
             break;
 
         case OEPNABLE_GRILL_IDLE_CLOSED:
-            if ((o->oOpenableGrillFloorSwitchObj = cur_obj_nearest_object_with_behavior(bhvFloorSwitchGrills)) != NULL) {
+            if (
+                (o->oOpenableGrillFloorSwitchObj = cur_obj_nearest_object_with_behavior(bhvFloorSwitchGrills)) != NULL ||
+                (o->oOpenableGrillFloorSwitchObj = cur_obj_nearest_object_with_behavior(bhvWoodenLever)) != NULL) {
                 o->oAction++;
             }
             break;
 
         case OEPNABLE_GRILL_OPENING:
             grillObj = o->oOpenableGrillFloorSwitchObj;
-
-            if (grillObj->oAction == OPENABLE_GRILL_DOOR_ACT_OPEN) {
+    
+            if ((obj_has_behavior(grillObj, bhvFloorSwitchGrills) && grillObj->oAction == OPENABLE_GRILL_DOOR_ACT_OPEN) 
+            || (obj_has_behavior(grillObj, bhvWoodenLever) && grillObj->oAction == 1)) {
                 o->oOpenableGrillIsOpen = TRUE;
                 cur_obj_play_sound_2(SOUND_GENERAL_CAGE_OPEN);
                 o->oAction++;

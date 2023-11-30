@@ -1593,12 +1593,30 @@ void print_animated_red_coin(s16 x, s16 y) {
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 }
 
+void print_toad_token(s16 x, s16 y) {
+    u8 strToadCount[2];
+    u8 strToadTotal[2];
+    u8 textSymStar[] = { GLYPH_TOAD_HEAD, GLYPH_SPACE };
+    u8 textSymSeparator[] = { GLYPH_SLASH, GLYPH_SPACE };
+
+    if (gRedCoinsCollected != 0) {
+        print_hud_lut_string(HUD_LUT_GLOBAL, x +  0, y, textSymStar);
+        int_to_str(gRedCoinsCollected, strToadCount);
+        print_hud_lut_string(HUD_LUT_GLOBAL, x + 16, y, strToadCount);
+        print_hud_lut_string(HUD_LUT_GLOBAL, x + 32, y, textSymSeparator);
+        int_to_str(5, strToadTotal);
+        print_hud_lut_string(HUD_LUT_GLOBAL, x + 48, y, strToadTotal);
+    }
+}
+
 void render_pause_red_coins(void) {
     s8 x;
 
     if (gRedCoinsCollected <= 9) {
-        for (x = 0; x < gRedCoinsCollected; x++) {
-            print_animated_red_coin(GFX_DIMENSIONS_FROM_RIGHT_EDGE(50) - x * 20, 16);
+        if(gCurrCourseNum != COURSE_CCM){
+            for (x = 0; x < gRedCoinsCollected; x++) {
+                print_animated_red_coin(GFX_DIMENSIONS_FROM_RIGHT_EDGE(50) - x * 20, 16);
+            }
         }
     }
     else {
@@ -1694,6 +1712,9 @@ void render_pause_my_score_coins(void) {
     if (courseIndex <= COURSE_NUM_TO_INDEX(COURSE_STAGES_MAX)) {
         print_hud_my_score_coins(1, gCurrSaveFileNum - 1, courseIndex, 178, 103);
         print_hud_my_score_stars(gCurrSaveFileNum - 1, courseIndex, 118, 103);
+        if(gCurrCourseNum == COURSE_CCM){
+            print_toad_token(220, 200);
+        }
     }
 
     gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);

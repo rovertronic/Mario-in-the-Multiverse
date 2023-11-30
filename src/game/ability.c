@@ -286,11 +286,16 @@ void control_ability_dpad(void) {
         picked_ability = 3;
     }
     if ((picked_ability > -1)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
-        // Animate image on DPad HUD
-        ability_y_offset[picked_ability] = 5;
-        ability_gravity[picked_ability] = 2;
+        if (picked_ability > -1 && cur_obj_nearest_object_with_behavior(bhvShockRocket) == NULL) { // disable ability switching while controlling the rocket
+            // Set Mario's Ability Variable
+            gMarioState->abilityId = ability_slot[picked_ability];
 
-        change_ability(ability_slot[picked_ability]);
+            // Animate image on DPad HUD
+            ability_y_offset[picked_ability] = 5;
+            ability_gravity[picked_ability] = 2;
+
+            change_ability(ability_slot[picked_ability]);
+        }
     }
 }
 

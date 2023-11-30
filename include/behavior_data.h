@@ -622,6 +622,40 @@ extern const BehaviorScript bhvShockRocket[];
 extern const BehaviorScript bhvRocketSmoke[];
 extern const BehaviorScript bhvRocketButton[];
 extern const BehaviorScript bhvRocketButtonGroup[];
+extern const BehaviorScript bhvHoodmonger[];
+extern const BehaviorScript bhvHoodboomer[];
+extern const BehaviorScript bhvBlackLums[];
+extern const BehaviorScript bhvDollar[];
+extern const BehaviorScript bhvHoodmongerAlertManager[];
+extern const BehaviorScript bhvHoodmongerBullet[];
+extern const BehaviorScript bhvHoodboomerBomb[];
+extern const BehaviorScript bhvBlackSmokeHoodboomer[];
+extern const BehaviorScript bhvPigpot[];
+extern const BehaviorScript bhvRotatingGearDecorative[];
+extern const BehaviorScript bhvGrillOpenableByRocketButton[];
+extern const BehaviorScript bhvWoodenLever[];
+extern const BehaviorScript bhvPlum[];
+extern const BehaviorScript bhvPlumBucket[];
+extern const BehaviorScript bhvCagedToad[];
+extern const BehaviorScript bhvFallingToad[];
+extern const BehaviorScript bhvHiddenCagedToadsStar[];
+extern const BehaviorScript bhvPlankAttachedToRope[];
+extern const BehaviorScript bhvBarrierAttachedToRope[];
+extern const BehaviorScript bhvFunkyShell[];
+extern const BehaviorScript bhvSkrinkingBlackDoorSpawner[];
+extern const BehaviorScript bhvSkrinkingBlackDoor[];
+extern const BehaviorScript bhvRotatingFunkyPlatform[];
+extern const BehaviorScript bhvMovingFunkyPlatform[];
+extern const BehaviorScript bhvThreeAxisRotativeObject[];
+extern const BehaviorScript bhvOpeningWall[];
+extern const BehaviorScript bhvMasterKaag[];
+extern const BehaviorScript bhvMasterKaagWeakPoint[];
+extern const BehaviorScript bhvHoodooSorcerer[];
+extern const BehaviorScript bhvLevelIBossDoor[];
+extern const BehaviorScript bhvLevelIBossDoorStarSlot[];
+extern const BehaviorScript bhvBountyHunterToad[];
+extern const BehaviorScript bhvLevelIStartToad[];
+
 /* GROUP I END */
 
 /* GROUP J START */

@@ -139,6 +139,91 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "marxteleport"
+        },
+		"inst_level_i_hoodboomer_death": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_hoodboomer_death"
+        },
+		"inst_level_i_hoodboomer_laugh": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_hoodboomer_laugh"
+        },
+        "inst_level_i_hoodboomer_haha": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_hoodboomer_haha"
+        },
+        "inst_level_i_toad_help": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_toad_help"
+        },
+        "inst_level_i_hoodoo_sorcerer_death": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_hoodoo_sorcerer_death"
+        },
+        "inst_level_i_pigpot_death": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_pigpot_death"
+        },
+        "inst_level_i_grenade": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_grenade"
+        },
+        "inst_level_i_magic_shield": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_magic_shield"
+        },
+        "inst_level_i_hoodmonger_shot": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_hoodmonger_shot"
+        },
+        "inst_level_i_hoodmonger_reload": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_hoodmonger_reload"
+        },
+        "inst_level_i_master_kaag_angry": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_master_kaag_angry"
+        },
+        "inst_level_i_master_kaag_laugh": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_master_kaag_laugh"
+        },
+        "inst_level_i_master_kaag_stomp": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_master_kaag_stomp"
+        },
+        "inst_level_i_master_kaag_damage": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_master_kaag_damage"
+        },
+        "inst_level_i_hoodmonger_alert": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_hoodmonger_alert"
+        },
+        "inst_level_i_hoodmonger_death1": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_hoodmonger_death1"
+        },
+        "inst_level_i_hoodmonger_parry": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_I_hoodmonger_parry"
         }
     },
     "instrument_list": [
@@ -171,6 +256,24 @@
         "inst_level_g_marx_cutter",
         "inst_level_g_marx_laser",
         "inst_level_g_marx_scream",
-        "inst_level_g_marx_teleport"
+        "inst_level_g_marx_teleport",
+        
+        "inst_level_i_hoodboomer_death",
+		"inst_level_i_hoodboomer_laugh",
+        "inst_level_i_hoodboomer_haha",
+        "inst_level_i_toad_help",
+        "inst_level_i_magic_shield",
+        "inst_level_i_hoodoo_sorcerer_death",
+        "inst_level_i_pigpot_death",
+        "inst_level_i_grenade",
+        "inst_level_i_hoodmonger_shot",
+        "inst_level_i_hoodmonger_reload",
+        "inst_level_i_master_kaag_angry",
+        "inst_level_i_master_kaag_laugh",
+        "inst_level_i_master_kaag_stomp",
+        "inst_level_i_master_kaag_damage",
+        "inst_level_i_hoodmonger_alert",
+        "inst_level_i_hoodmonger_death1",
+        "inst_level_i_hoodmonger_parry"
     ]
 }

@@ -255,6 +255,38 @@ void update_air_without_turn(struct MarioState *m) {
     }
 }
 
+void update_air_funky_shell(struct MarioState *m) {
+    f32 sidewaysSpeed = 0.0f;
+    f32 dragThreshold;
+    s16 intendedDYaw;
+    f32 intendedMag;
+
+    if (!check_horizontal_wind(m)) {
+        dragThreshold = m->action == ACT_LONG_JUMP ? 48.0f : 32.0f;
+
+        if (m->input & INPUT_NONZERO_ANALOG) {
+            intendedDYaw = m->intendedYaw - m->faceAngle[1];
+            intendedMag = m->intendedMag / 10.0f;
+            m->intendedMag = 0;
+            sidewaysSpeed = intendedMag * sins(intendedDYaw) * 10.0f;
+        }
+
+        m->forwardVel = 55.0f;
+
+        m->slideVelX = m->forwardVel * sins(m->faceAngle[1]);
+        m->slideVelZ = m->forwardVel * coss(m->faceAngle[1]);
+
+        m->slideVelX += sidewaysSpeed * sins(m->faceAngle[1] + 0x4000);
+        m->slideVelZ += sidewaysSpeed * coss(m->faceAngle[1] + 0x4000);
+
+        m->vel[0] = m->slideVelX;
+        m->vel[1] -= 1.7f;
+        m->vel[2] = m->slideVelZ;
+
+        intendedMag = 0;
+    }
+}
+
 void update_lava_boost_or_twirling(struct MarioState *m) {
     s16 intendedDYaw;
     f32 intendedMag;
@@ -890,8 +922,12 @@ s32 act_riding_shell_air(struct MarioState *m) {
     play_mario_sound(m, SOUND_ACTION_TERRAIN_JUMP, 0);
     set_mario_animation(m, MARIO_ANIM_JUMP_RIDING_SHELL);
 
-    update_air_without_turn(m);
-
+    if(m->riddenObj != NULL && obj_has_behavior(m->riddenObj, bhvFunkyShell)){
+        update_air_funky_shell(m);
+    } else {
+        update_air_without_turn(m);
+    }
+   
     switch (perform_air_step(m, 0)) {
         case AIR_STEP_LANDED:
             set_mario_action(m, ACT_RIDING_SHELL_GROUND, 1);

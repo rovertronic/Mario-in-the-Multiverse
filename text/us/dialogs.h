@@ -175,6 +175,112 @@ dare to touch Nitro\n\
 boxes without wearing\n\
 my powerful mask''"))
 
+DEFINE_DIALOG(DIALOG_I_START_TOAD, 1, 5, 95, 200, _("\
+Mario Glad to see you\n\
+there! Be careful, these\n\
+guys are Hoodlums, if one\n\
+of them spots you he'll\n\
+alert the others!\n\
+Their weapons are loaded\n\
+and can hurt quite a bit.\n\
+don't try to attack them\n\
+hand-to-hand, they know\n\
+how to defend themselves!\n\
+Their cloth bodies are\n\
+quite fragile and can be\n\
+damaged if you use a\n\
+sharp object. Other Toads\n\
+are here, find them!"))
+
+DEFINE_DIALOG(DIALOG_I_BOUNTY_HUNTER_TOAD_MISSION, 1, 4, 95, 200, _("\
+Mario! I can't believe it,\n\
+you are here too. This\n\
+forest is full of those\n\
+sickos dressed in burlap!\n\
+They captured all the\n\
+others and put them into\n\
+cages. What's more, these\n\
+guys are original: the\n\
+cages are attached to\n\
+balloons to make them \n\
+hard to reach. you'd need\n\
+some kind of projectile\n\
+to hit them. They will\n\
+surely grant you well if\n\
+you free all of them,\n\
+for sure!\n\
+Me? I'd be happy to help\n\
+you if you'd teach those\n\
+trigger-happy fools a\n\
+lesson!"))
+
+DEFINE_DIALOG(DIALOG_I_BOUNTY_HUNTER_TOAD_THANKS, 1, 5, 95, 200, _("\
+Thank you for ridding us\n\
+of all these brutes, now\n\
+take this before others\n\
+swoop in!\n\
+Best of luck Mario!"))
+
+DEFINE_DIALOG(DIALOG_I_BOUNTY_HUNTER_TOAD_AFTER, 1, 4, 95, 200, _("\
+Don't forget to free the \n\
+others, Mario! If you\n\
+can hear them, you're not\n\
+that far away!"))
+
+DEFINE_DIALOG(DIALOG_I_CAGEDTOAD_NEAR_BOSS, 1, 5, 95, 200, _("\
+Thanks for getting me out\n\
+of that cage! Did you see\n\
+those star-shaped panels\n\
+above that big door?\n\
+I feel like one more\n\
+lights up when you collect\n\
+a star in that forest, who\n\
+knows what's going to\n\
+happen when you've\n\
+collected enough."))
+
+DEFINE_DIALOG(DIALOG_I_CAGEDTOAD_MUSHROOM, 1, 6, 95, 200, _("\
+Mario you saved me, I\n\
+knew you'd come! To thank\n\
+you, I'll give you a piece\n\
+of advice: there's a star\n\
+hidden behind these\n\
+wooden doors.\n\
+The mechanism to open\n\
+them looks a little more\n\
+complex than a simple\n\
+button, so I think you'll\n\
+need some kind of gadget\n\
+to get in there."))
+
+DEFINE_DIALOG(DIALOG_I_CAGEDTOAD_WATERFALL, 1, 6, 95, 200, _("\
+Free at last! Be careful\n\
+Mario, those green boxes\n\
+in the waterfall are\n\
+highly explosive! If only\n\
+there was a way to resist\n\
+their explosion."))
+
+DEFINE_DIALOG(DIALOG_I_CAGEDTOAD_BEHIND_TREE, 1, 4, 95, 200, _("\
+I'm free! Thanks to you\n\
+Mario! You know, if you're\n\
+having trouble hitting high\n\
+targets, don't hesitate\n\
+to use that rocket you've\n\
+got there, it's got the\n\
+range and explosive force\n\
+to take those punks down!"))
+
+DEFINE_DIALOG(DIALOG_I_CAGEDTOAD_NEAR_FUNKY_BOARD, 1, 4, 95, 200, _("\
+If that caged had been a\n\
+little higher I might have\n\
+hurt myself, but thanks!\n\
+This strange stone portal\n\
+looks like magic, I feel\n\
+like it can transport you\n\
+somewhere else. I'll let\n\
+you go ahead of Mario."))
+
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 200, _("\
 Wow! You're smack in the\n\
 middle of the battlefield.\n\

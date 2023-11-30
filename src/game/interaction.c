@@ -416,7 +416,7 @@ u32 able_to_grab_object(struct MarioState *m, UNUSED struct Object *obj) {
     u32 action = m->action;
 
     if (action == ACT_DIVE_SLIDE || action == ACT_DIVE) {
-        if (!(obj->oInteractionSubtype & INT_SUBTYPE_GRABS_MARIO)) {
+        if (!(obj->oInteractionSubtype & INT_SUBTYPE_GRABS_MARIO) && !obj_has_behavior(obj, bhvPlum)) {
             return TRUE;
         }
     } else if (action == ACT_PUNCHING || action == ACT_MOVE_PUNCHING) {
@@ -1515,7 +1515,9 @@ u32 interact_koopa_shell(struct MarioState *m, UNUSED u32 interactType, struct O
 
             attack_object(obj, interaction);
             update_mario_sound_and_camera(m);
-            play_shell_music();
+            if(!obj_has_behavior(m->riddenObj, bhvFunkyShell)){
+                play_shell_music();
+            }
             mario_drop_held_object(m);
 
             //! Puts Mario in ground action even when in air, making it easy to

@@ -285,7 +285,7 @@ void control_ability_dpad(void) {
     if (gPlayer1Controller->buttonPressed & L_JPAD) {
         picked_ability = 3;
     }
-    if ((picked_ability > -1)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
+    if ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE) {
         if (picked_ability > -1 && cur_obj_nearest_object_with_behavior(bhvShockRocket) == NULL) { // disable ability switching while controlling the rocket
             // Set Mario's Ability Variable
             gMarioState->abilityId = ability_slot[picked_ability];

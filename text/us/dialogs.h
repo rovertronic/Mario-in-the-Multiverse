@@ -281,6 +281,25 @@ like it can transport you\n\
 somewhere else. I'll let\n\
 you go ahead of Mario."))
 
+DEFINE_DIALOG(DIALOG_N_HAMSTERBALL, 1, 6, 95, 200, _("\
+There are 7 different\n\
+linear courses that you\n\
+can play in any order.\n\
+In these courses, touching\n\
+the floor will force you\n\
+into the hamsterball.\n\
+However, when you're\n\
+airborne, you may switch\n\
+to any ability and use it\n\
+until you touch the ground\n\
+again.\n\
+\n\
+Once you've beaten all 7\n\
+courses, you can fight\n\
+the magic 8-ball to get\n\
+the final star of this\n\
+level."))
+
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 200, _("\
 Wow! You're smack in the\n\
 middle of the battlefield.\n\

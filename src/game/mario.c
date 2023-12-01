@@ -2163,8 +2163,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 change_ability(ABILITY_MARBLE);
                 gMarioState->forwardVel = 0.0f;
                 gMarioState->vel[1] = 0.0;
-                gMarioState->pos[1] = marble_floor_y + 102.0f;
-                gMarioObject->oPosY = marble_floor_y + 102.0f;
+                gMarioState->pos[1] = marble_floor_y + 51.0f;//102.0f;
+                gMarioObject->oPosY = marble_floor_y + 51.0f;//102.0f;
             }
         }
 

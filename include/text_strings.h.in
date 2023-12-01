@@ -22,7 +22,7 @@
 #define AUTHOR_K                _("By: axollyon")
 #define AUTHOR_L                _("By: luigiman0640")
 #define AUTHOR_M                _("By: Mel")
-#define AUTHOR_N                _("By: MarioCrash")
+#define AUTHOR_N                _("By: LinCrash")
 #define AUTHOR_O                _("By: Rovertronic")
 
 #define TEXT_ABILITY_DEFAULT    _("Mario's Cap:\nMario's basic moveset as you know it.")

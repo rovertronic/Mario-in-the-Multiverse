@@ -42,6 +42,12 @@ void bhv_marble_loop(void) {
         o->oPosZ + (coss(gMarioState->intendedYaw+0x8000) * 50.0f),
     };
 
+    //this code is so that the camera is responsive and looks slightly ahead of the hamsterball
+    Vec3f marble_go_vec = { o->oPosX + o->rigidBody->linearVel[0],0.0f, o->oPosZ + o->rigidBody->linearVel[2]};
+    s16 marble_go_angle;
+    vec3f_get_yaw(&o->oPosVec, marble_go_vec, &marble_go_angle);
+    gMarioState->faceAngle[1] = marble_go_angle;
+
     //if ( vec3_mag(o->rigidBody->linearVel) < 20.0f) {
         //rigid_body_add_force(o->rigidBody, push_position, move_force, TRUE);
     //}
@@ -72,7 +78,7 @@ void bhv_marble_loop(void) {
     //break upon contact with lava / quicksand
     f32 fheight = find_floor(o->oPosX,o->oPosY,o->oPosZ, &floor);
     if (floor && fheight+120.0f > o->oPosY && (floor->type == SURFACE_BURNING || floor->type == SURFACE_INSTANT_QUICKSAND || floor->type == SURFACE_DEATH_PLANE)) {
-        gMarioState->abilityId = ABILITY_DEFAULT;
+        change_ability(ABILITY_DEFAULT);
     }
 
 
@@ -80,9 +86,9 @@ void bhv_marble_loop(void) {
     vec3f_copy(gMarioState->pos,&o->oPosVec);
     vec3f_copy(gMarioState->vel,&o->rigidBody->linearVel);
 
-    obj_set_hitbox(o, &sMarbleHitbox);
-    o->oInteractStatus = 0;
-    o->oIntangibleTimer = 0;
+    //obj_set_hitbox(o, &sMarbleHitbox);
+    //o->oInteractStatus = 0;
+    //o->oIntangibleTimer = 0;
 
     /*
     for (int i = 0; i < o->numCollidedObjs; i++) {
@@ -102,7 +108,7 @@ void bhv_marble_cannon_loop(void) {
         if (o->oTimer < 90) {
             cur_obj_play_sound_2(SOUND_OBJ_POUNDING_CANNON);
             marble->rigidBody->asleep = FALSE;
-            marble->rigidBody->linearVel[1] = 190.0f;
+            marble->rigidBody->linearVel[1] = 300.0f;
             o->oTimer = 0;
         }
     } else {

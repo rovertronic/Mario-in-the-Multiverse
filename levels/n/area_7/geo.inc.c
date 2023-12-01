@@ -4,6 +4,7 @@ const GeoLayout n_area_7_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, n_dl_group_9_010_mesh_layer_1),
+		GEO_ASM(0, e__shotgun_effects),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

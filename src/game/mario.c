@@ -2176,6 +2176,9 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 gMarioObject->oPosY += 100.0f;
                 marble = spawn_object(o,MODEL_MARBLE,bhvPhysicsMarble);
             }
+            gMarioObject->hitboxHeight = 200;
+            gMarioObject->hitboxRadius = 100;
+            gMarioObject->hitboxDownOffset = 50;
         } else {
             struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
             if (marble) {
@@ -2188,6 +2191,9 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 gMarioState->pos[1] -= 100.0f;
                 gMarioObject->oPosY -= 100.0f;
             }
+            gMarioObject->hitboxHeight = 160;
+            gMarioObject->hitboxRadius = 37;
+            gMarioObject->hitboxDownOffset = 0;
         }
 
         //Squid Ability

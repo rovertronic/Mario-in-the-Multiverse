@@ -26,6 +26,7 @@ const LevelScript level_n_entry[] = {
 	LOAD_YAY0(0x7, _n_segment_7SegmentRomStart, _n_segment_7SegmentRomEnd), 
 	ALLOC_LEVEL_POOL(),
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
+	LOAD_MODEL_FROM_GEO(MODEL_N_BALL, n_ball_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -33,6 +34,7 @@ const LevelScript level_n_entry[] = {
 	AREA(1, n_area_1),
 		WARP_NODE(/*entry*/ 0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death*/ 0xF1, LEVEL_N, /*this area*/ 0x01, 0x01, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF0 /*win*/, LEVEL_N, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death entry*/ 0x01, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x02, LEVEL_N, 0x02, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x03, LEVEL_N, 0x03, 0x0A, WARP_NO_CHECKPOINT),
@@ -42,6 +44,7 @@ const LevelScript level_n_entry[] = {
 		WARP_NODE(0x07, LEVEL_N, 0x07, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x08, LEVEL_N, 0x00, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_ABILITY, 1001, 0, 0, 0, 0, 0, (ABILITY_MARBLE << 16), bhvAbilityUnlock),
+		OBJECT(MODEL_N_BALL, -949, 2238, 0, 0, 90, 0, (7 << 24), bhvNball),
 		OBJECT(MODEL_LEVEL_PIPE, 0, 0, 0, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_NONE, 395, 200, 0, 0, 90, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 395, 200, 0, 0, 90, 0, (0x0A << 16), bhvInstantActiveWarp),

@@ -9,4 +9,6 @@ extern const LevelScript level_n_entry[];
 
 #include "levels/n/header.inc.h"
 
+#include "levels/n/n_ball/geo_header.h"
+
 #endif

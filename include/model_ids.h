@@ -752,6 +752,7 @@ enum {
 /* LEVEL M END */
 
 /* LEVEL N START */
+#define MODEL_N_BALL 0x150
 /* LEVEL N END */
 
 /* LEVEL O START */

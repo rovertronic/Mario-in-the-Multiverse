@@ -12,3 +12,5 @@
 
 
 #include "levels/n/leveldata.inc.c"
+
+#include "levels/n/n_ball/model.inc.c"

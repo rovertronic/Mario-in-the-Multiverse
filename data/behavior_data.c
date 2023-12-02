@@ -4058,6 +4058,20 @@ const BehaviorScript bhvBigBullyWithMinions[] = {
     END_LOOP(),
 };
 
+extern void bhv_nball_init(void);
+extern void bhv_nball_loop(void);
+const BehaviorScript bhvNball[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    CALL_NATIVE(bhv_nball_init),
+    SET_FLOAT(oGraphYOffset, 100),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_nball_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvSmallChillBully[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_LONG(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_BOSS)),//--E

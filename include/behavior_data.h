@@ -701,6 +701,7 @@ extern const BehaviorScript bhvPtMetalBox[];
 /* GROUP N START */
 extern const BehaviorScript bhvPhysicsMarble[];
 extern const BehaviorScript bhvMarbleCannon[];
+extern const BehaviorScript bhvNball[];
 /* GROUP N END */
 
 /* GROUP O START */

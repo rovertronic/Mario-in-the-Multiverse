@@ -15,3 +15,5 @@
 
 
 #include "levels/n/geo.inc.c"
+
+#include "levels/n/n_ball/geo.inc.c"

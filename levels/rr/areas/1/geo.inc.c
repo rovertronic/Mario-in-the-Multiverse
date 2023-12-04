@@ -19,6 +19,7 @@ const GeoLayout rr_geo_0009D0[] = {
                GEO_DISPLAY_LIST(LAYER_ALPHA, dl_cruiser_metal_holes),
                GEO_RENDER_OBJ(),
                GEO_ASM(ENVFX_MODE_NONE, geo_envfx_main),
+               GEO_ASM(0, e__shotgun_effects),
             GEO_CLOSE_NODE(),
          GEO_CLOSE_NODE(),
       GEO_CLOSE_NODE(),

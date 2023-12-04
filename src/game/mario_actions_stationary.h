@@ -9,7 +9,8 @@ enum ActionStatesIdle { // act_idle, act_metal_water_standing
     ACT_STATE_IDLE_HEAD_LEFT,
     ACT_STATE_IDLE_HEAD_RIGHT,
     ACT_STATE_IDLE_HEAD_CENTER,
-    ACT_STATE_IDLE_RESET_OR_SLEEP
+    ACT_STATE_IDLE_RESET_OR_SLEEP,
+    ACT_STATE_IDLE_ROCKET,
 };
 
 enum ActionStatesStartSleeping { // act_start_sleeping
@@ -86,6 +87,7 @@ s32 act_air_throw_land(struct MarioState *m);
 s32 act_twirl_land(struct MarioState *m);
 s32 act_ground_pound_land(struct MarioState *m);
 s32 act_first_person(struct MarioState *m);
+s32 act_final_cutter_sequence(struct MarioState *m);
 s32 check_common_stationary_cancels(struct MarioState *m);
 s32 mario_execute_stationary_action(struct MarioState *m);
 

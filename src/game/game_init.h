@@ -30,15 +30,16 @@ enum ZBmodes {
     CLEAR_ZBUFFER = 1,
 };
 
-extern struct Controller gControllers[3];
-extern OSContStatus gControllerStatuses[4];
-extern OSContPadEx gControllerPads[4];
+extern struct Controller gControllers[MAXCONTROLLERS];
+extern OSContStatus gControllerStatuses[MAXCONTROLLERS];
+extern OSContPadEx gControllerPads[MAXCONTROLLERS];
 extern OSMesgQueue gGameVblankQueue;
 extern OSMesgQueue gGfxVblankQueue;
 extern OSMesg gGameMesgBuf[1];
 extern OSMesg gGfxMesgBuf[1];
 extern struct VblankHandler gGameVblankHandler;
 extern uintptr_t gPhysicalFramebuffers[3];
+extern uintptr_t gPhysicalChronosAuxFramebuffer;
 extern uintptr_t gPhysicalZBuffer;
 extern void *gMarioAnimsMemAlloc;
 extern void *gDemoInputsMemAlloc;
@@ -47,9 +48,6 @@ extern Gfx *gDisplayListHead;
 extern u8 *gGfxPoolEnd;
 extern struct GfxPool *gGfxPool;
 extern u8 gControllerBits;
-extern s8 gGamecubeControllerPort;
-extern u8 gIsConsole;
-extern u8 gCacheEmulated;
 extern u8 gBorderHeight;
 #ifdef VANILLA_STYLE_CUSTOM_DEBUG
 extern u8 gCustomDebugMode;
@@ -63,10 +61,13 @@ extern s8 gEepromProbe;
 extern s8 gSramProbe;
 #endif
 
+#define BP3_ATTACH_ROPE 0xF0
+
 extern void (*gGoddardVblankCallback)(void);
-extern struct Controller *gPlayer1Controller;
-extern struct Controller *gPlayer2Controller;
-extern struct Controller *gPlayer3Controller;
+extern struct Controller* const gPlayer1Controller;
+extern struct Controller* const gPlayer2Controller;
+extern struct Controller* const gPlayer3Controller;
+extern struct Controller* const gPlayer4Controller;
 extern struct DemoInput *gCurrDemoInput;
 extern u16 gDemoInputListID;
 extern struct DemoInput gRecordedDemoInput;

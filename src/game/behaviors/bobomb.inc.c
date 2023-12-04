@@ -165,6 +165,13 @@ void stationary_bobomb_free_loop(void) {
 }
 
 void bobomb_free_loop(void) {
+    //--E
+    if (o->activeFlags == 0) {
+        bobomb_spawn_coin();
+        create_respawner(MODEL_BLACK_BOBOMB, bhvBobomb, 3000);
+        return;
+    }
+
     if (o->oBehParams2ndByte == BOBOMB_BP_STYPE_GENERIC) {
         generic_bobomb_free_loop();
     } else {

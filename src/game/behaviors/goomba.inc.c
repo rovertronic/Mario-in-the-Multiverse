@@ -311,6 +311,11 @@ void huge_goomba_weakly_attacked(void) {
  * Update function for goomba.
  */
 void bhv_goomba_update(void) {
+    //--E
+    if (o->activeFlags == 0) {
+        mark_goomba_as_dead();
+        return;
+    }
     // PARTIAL_UPDATE
 
     f32 animSpeed;

@@ -46,7 +46,7 @@ enum ObjFlags {
     OBJ_FLAG_TRANSFORM_RELATIVE_TO_PARENT      = (1 <<  9), // 0x00000200
     OBJ_FLAG_HOLDABLE                          = (1 << 10), // 0x00000400
     OBJ_FLAG_SET_THROW_MATRIX_FROM_TRANSFORM   = (1 << 11), // 0x00000800
-    OBJ_FLAG_1000                              = (1 << 12), // 0x00001000
+    OBJ_FLAG_ATTACHABLE_BY_ROPE                = (1 << 12), // 0x00001000
     OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO            = (1 << 13), // 0x00002000
     OBJ_FLAG_PERSISTENT_RESPAWN                = (1 << 14), // 0x00004000
     OBJ_FLAG_VELOCITY_PLATFORM                 = (1 << 15), // 0x00008000
@@ -58,7 +58,31 @@ enum ObjFlags {
     OBJ_FLAG_OPACITY_FROM_CAMERA_DIST          = (1 << 21), // 0x00200000
     OBJ_FLAG_EMIT_LIGHT                        = (1 << 22), // 0x00400000
     OBJ_FLAG_ONLY_PROCESS_INSIDE_ROOM          = (1 << 23), // 0x00800000
+    //--E SG coll
+    OBJ_FLAG_E__SG_ENEMY                       = (1 << 24),//Used for common enemies - flattens the enemy against the surface that they were shot against, spawns their coins
+    OBJ_FLAG_E__SG_BOSS                        = (1 << 25),//Used for bosses mostly. Pushes them back, if they don't take damage from being shot
+    OBJ_FLAG_E__SG_BREAKABLE                   = (1 << 26),//Usually used for small static objects - creates a small breaking effect and spawns the object's contents
+    OBJ_FLAG_E__SG_COLLISION_BREAKABLE         = (1 << 27),//Used for larger objects with collision models. If oHealth is set to 0 (or has its default value of 2048), it'll break in one shot.\
+                                                            Otherwise, oHealth will determine how many shots it takes to break, and will increment its model ID by 1, to show that damage is being done to the object\
+                                                            (Load all model IDs of different states of damage in a row, going from least to most damaged)
+
+    /*
+    Note: Objects that use either of these 'custom' flags need to reset oShotByShotgun back to 0 again after they're shot, if you want them to be able to be shot more than once.
+    This is very much like how you reset oInteractStatus to 0, when managing interactions on a more manual level.
+    */
+    OBJ_FLAG_E__SG_CUSTOM                      = (1 << 28),//Only adds to oShotByShotgun to let the object know that it was shot, so that the object's behavior can do what it needs to from there 
+    OBJ_FLAG_E__SG_COLLISION_CUSTOM            = (1 << 29),//Same as OBJ_FLAG_E__SG_CUSTOM, but for objects with collision models
+
     OBJ_FLAG_HITBOX_WAS_SET                    = (1 << 30), // 0x40000000
+
+    // For Axo's Chronos ability - disables the "pause buffer" timeslow method,
+    // and instead allows the object to run every frame. If you use this, you
+    // should instead use code in the behavior to slow its velocity if
+    // gMarioState->abilityChronosTimeSlowActive is true. Additionally, this
+    // flag also tells the animation code to only advance the animation every
+    // ABILITY_CHRONOS_SLOW_SPLIT frames. There is currently no support for
+    // manually smoothed animations or automatically interpolated animations.
+    OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW       = (1 << 31), // 0x80000000
 };
 
 /* oHeldState */
@@ -237,7 +261,8 @@ enum ObjGeneralDeathActions {
 enum ObjGeneralKnockbackActions {
     OBJ_ACT_HORIZONTAL_KNOCKBACK = 100,
     OBJ_ACT_VERTICAL_KNOCKBACK,
-    OBJ_ACT_SQUISHED
+    OBJ_ACT_SQUISHED,
+    OBJ_ACT_STUN_KNOCKBACK
 };
 
 /* oAnimState */
@@ -354,6 +379,7 @@ enum oBehParams2ndByteCoinFormation {
     COIN_FORMATION_BP_SHAPE_HORIZONTAL_RING = (COIN_FORMATION_FLAG_RING),
     COIN_FORMATION_BP_SHAPE_VERTICAL_RING   = (COIN_FORMATION_FLAG_RING | COIN_FORMATION_FLAG_VERTICAL),
     COIN_FORMATION_BP_SHAPE_ARROW           = (COIN_FORMATION_FLAG_ARROW),
+    COIN_FORMATION_BP_SHAPE_HORIZONTAL_LINE_MORE_SPACE = 5,
     COIN_FORMATION_BP_SHAPE_MASK = 0x07,
     COIN_FORMATION_BP_FLYING     = 0x10
 };
@@ -585,6 +611,11 @@ enum oSubActionBowserActQuickJump { // BOWSER_ACT_QUICK_JUMP
     BOWSER_SUB_ACT_QUICK_JUMP_LAND,
     BOWSER_SUB_ACT_QUICK_JUMP_STOP
 };
+
+/* Dragonite */
+    /* oAnimState */
+        #define DRAGONITE_ANIM_STATE_EYES_OPEN                     OBJ_BLINKING_ANIM_STATE_EYES_OPEN
+        #define DRAGONITE_ANIM_STATE_EYES_CLOSED                   OBJ_BLINKING_ANIM_STATE_EYES_CLOSED
 
 /* Bowser BITS Platform */
     /* oAction */
@@ -2669,6 +2700,44 @@ enum animIDsFirePiranhaPlant {
     #define WF_ATTACK_NONE                                  0x0
     #define WF_ATTACK_GROUND                                0x1
     #define WF_ATTACK_AIR                                   0x2
+
+/* Shock Rocket */
+    /* oAction */
+    #define SHOCK_ROCKET_ACT_ARMED                          0x0
+    #define SHOCK_ROCKET_ACT_MOVE                           0x1
+    #define SHOCK_ROCKET_ACT_WAIT_BEFORE_QUITING            0x2
+
+/* Rocket Button*/
+    /* oAction */
+    #define ROCKET_BUTTON_ACT_OFF                           0x0
+    #define ROCKET_BUTTON_ACT_ON                            0x1
+
+/* Rocket Button Group*/
+    /* oAction */
+    #define ROCKET_BUTTON_GROUP_WAITING                     0x0
+    #define ROCKET_BUTTON_GROUP_SUCCESSFUL                  0x1
+
+/* Hoodmonger */
+    #define HOODMONGER_ACTION_WANDERING                     0x0
+    #define HOODMONGER_WANDERING_SUBACTION_WAIT             0x0
+    #define HOODMONGER_WANDERING_SUBACTION_START_ALERT      0x1
+    #define HOODMONGER_ACTION_ALERTED                       0x1
+    #define HOODMONGER_ALERTED_SUBACTION_END_ALERT          0x0
+    #define HOODMONGER_ALERTED_SUBACTION_SHOOTING           0x1
+    #define HOODMONGER_ALERTED_SUBACTION_PARRY              0x2
+
+    #define HOODMONGER_ANIM_WANDERING                       0x0
+    #define HOODMONGER_ANIM_ALERT                           0x1
+    #define HOODMONGER_ANIM_SHOOT                           0x2
+
+/* Master Kaag */
+    #define MASTER_KAAG_ACT_INACTIVE                        0x0
+    #define MASTER_KAAG_ACT_START                           0x1
+    #define MASTER_KAAG_ACT_FOLLOW_MARIO_INVINCIBLE         0x2
+    #define MASTER_KAAG_ACT_FOLLOW_MARIO_WEAK               0x3
+    #define MASTER_KAAG_ACT_TAKING_DAMAGE                   0x4
+    #define MASTER_KAAG_ACT_DEATH                           0x5
+    #define MASTER_KAAG_ACT_STOP_MUSIC                      0x6
 
 /* White Puff Explosion */
     /* oBehParams2ndByte */

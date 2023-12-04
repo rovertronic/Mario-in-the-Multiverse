@@ -24,6 +24,12 @@ void bhv_hidden_blue_coin_loop(void) {
                 o->oAction = HIDDEN_BLUE_COIN_ACT_WAITING;
             }
 
+            //Add an unhide blue can
+            if(GET_BPARAM1(o->oBehParams) == 1){
+                o->oDrawingDistance = 5000;
+                o->oAction = HIDDEN_BLUE_COIN_ACT_ACTIVE;
+            }
+
             break;
 
         case HIDDEN_BLUE_COIN_ACT_WAITING:
@@ -34,15 +40,20 @@ void bhv_hidden_blue_coin_loop(void) {
                 o->oAction = HIDDEN_BLUE_COIN_ACT_ACTIVE;
             }
 
+#ifdef BLUE_COIN_SWITCH_PREVIEW
+            if (gMarioObject->platform == blueCoinSwitch) {
+                cur_obj_enable_rendering();
+            } else {
+                cur_obj_disable_rendering();
+            }
+#endif
+
             break;
 
         case HIDDEN_BLUE_COIN_ACT_ACTIVE:
             // Become tangible
             cur_obj_enable_rendering();
             cur_obj_become_tangible();
-#ifdef BLUE_COIN_SWITCH_RETRY
-            o->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
-#endif
 
             // Delete the coin once collected
             if (o->oInteractStatus & INT_STATUS_INTERACTED) {
@@ -50,14 +61,17 @@ void bhv_hidden_blue_coin_loop(void) {
                 obj_mark_for_deletion(o);
             }
 
+            if(GET_BPARAM1(o->oBehParams) == 0){
             // After 200 frames of waiting and 20 2-frame blinks (for 240 frames total),
             // delete the object.
             if (cur_obj_wait_then_blink(200, 20)) {
 #ifdef BLUE_COIN_SWITCH_RETRY
                 o->oAction = HIDDEN_BLUE_COIN_ACT_INACTIVE;
+                o->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
 #else
                 obj_mark_for_deletion(o);
 #endif
+            }
             }
 
             break;
@@ -77,23 +91,23 @@ void bhv_blue_coin_switch_loop(void) {
         case BLUE_COIN_SWITCH_ACT_IDLE:
             // If Mario is on the switch and has ground-pounded,
             // recede and get ready to start ticking.
-            if (gMarioObject->platform == o) {
-                if (gMarioStates[0].action == ACT_GROUND_POUND_LAND) {
-                    // Set to BLUE_COIN_SWITCH_ACT_RECEDING
-                    o->oAction = BLUE_COIN_SWITCH_ACT_RECEDING;
+            if (((gMarioObject->platform == o) && (gMarioStates[0].action == ACT_GROUND_POUND_LAND))
+                || (o->oShotByShotgun == 2)) {//--E
+                // Set to BLUE_COIN_SWITCH_ACT_RECEDING
+                o->oAction = BLUE_COIN_SWITCH_ACT_RECEDING;
 #ifdef BLUE_COIN_SWITCH_RETRY
-                    // Recede at a rate of 16 units/frame.
-                    o->oVelY = -16.0f;
+                // Recede at a rate of 16 units/frame.
+                o->oVelY = -16.0f;
 #else
-                    // Recede at a rate of 20 units/frame.
-                    o->oVelY = -20.0f;
+                // Recede at a rate of 20 units/frame.
+                o->oVelY = -20.0f;
 #endif
-                    // Set gravity to 0 so it doesn't accelerate when receding.
-                    o->oGravity = 0.0f;
+                // Set gravity to 0 so it doesn't accelerate when receding.
+                o->oGravity = 0.0f;
 
-                    cur_obj_play_sound_2(SOUND_GENERAL_SWITCH_DOOR_OPEN);
-                }
+                cur_obj_play_sound_2(SOUND_GENERAL_SWITCH_DOOR_OPEN);
             }
+            o->oShotByShotgun = 0;//--E
 
             // Have collision
             load_object_collision_model();

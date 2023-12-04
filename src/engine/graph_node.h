@@ -74,6 +74,9 @@ enum GraphNodeTypes {
     GRAPH_NODE_TYPE_CULLING_RADIUS,
     GRAPH_NODE_TYPE_ROOT,
     GRAPH_NODE_TYPE_START,
+    //--E
+    GRAPH_NODE_TYPE_E__MARIO_COMMON,
+    GRAPH_NODE_TYPE_E__MARIO_UPPER,
 };
 
 // Passed as first argument to a GraphNodeFunc to give information about in
@@ -131,10 +134,13 @@ struct GraphNodeOrthoProjection {
  */
 struct GraphNodePerspective {
     /*0x00*/ struct FnGraphNode fnNode;
-    /*0x18*/ s32 unused;
-    /*0x1C*/ f32 fov;   // horizontal field of view in degrees
-    /*0x20*/ u16 near;  // near clipping plane
-    /*0x22*/ u16 far;   // far clipping plane
+    /*0x18*/ f32 fov;   // horizontal field of view in degrees
+    /*0x1C*/ u16 near;  // near clipping plane
+    /*0x1E*/ u16 far;   // far clipping plane
+    /*0x20*/ f32 halfFovHorizontal;
+#ifdef VERTICAL_CULLING
+    /*0x24*/ f32 halfFovVertical;
+#endif
 };
 
 /** An entry in the master list. It is a linked list of display lists
@@ -369,7 +375,7 @@ void init_scene_graph_node_links(struct GraphNode *graphNode, s32 type);
 
 struct GraphNodeRoot                *init_graph_node_root                (struct AllocOnlyPool *pool, struct GraphNodeRoot                *graphNode, s16 areaIndex, s16 x, s16 y, s16 width, s16 height);
 struct GraphNodeOrthoProjection     *init_graph_node_ortho_projection    (struct AllocOnlyPool *pool, struct GraphNodeOrthoProjection     *graphNode, f32 scale);
-struct GraphNodePerspective         *init_graph_node_perspective         (struct AllocOnlyPool *pool, struct GraphNodePerspective         *graphNode, f32 fov, u16 near, u16 far, GraphNodeFunc nodeFunc, s32 unused);
+struct GraphNodePerspective         *init_graph_node_perspective         (struct AllocOnlyPool *pool, struct GraphNodePerspective         *graphNode, f32 fov, u16 near, u16 far, GraphNodeFunc nodeFunc);
 struct GraphNodeStart               *init_graph_node_start               (struct AllocOnlyPool *pool, struct GraphNodeStart               *graphNode);
 struct GraphNodeMasterList          *init_graph_node_master_list         (struct AllocOnlyPool *pool, struct GraphNodeMasterList          *graphNode, s16 on);
 struct GraphNodeLevelOfDetail       *init_graph_node_render_range        (struct AllocOnlyPool *pool, struct GraphNodeLevelOfDetail       *graphNode, s16 minDistance, s16 maxDistance);
@@ -389,6 +395,10 @@ struct GraphNodeObjectParent        *init_graph_node_object_parent       (struct
 struct GraphNodeGenerated           *init_graph_node_generated           (struct AllocOnlyPool *pool, struct GraphNodeGenerated           *graphNode, GraphNodeFunc gfxFunc, s32 parameter);
 struct GraphNodeBackground          *init_graph_node_background          (struct AllocOnlyPool *pool, struct GraphNodeBackground          *graphNode, u16 background, GraphNodeFunc backgroundFunc, s32 zero);
 struct GraphNodeHeldObject          *init_graph_node_held_object         (struct AllocOnlyPool *pool, struct GraphNodeHeldObject          *graphNode, struct Object *objNode, Vec3s translation, GraphNodeFunc nodeFunc, s32 playerIndex);
+//--E
+struct GraphNodeAnimatedPart        *init_graph_node_e__mario_common      (struct AllocOnlyPool *pool, struct GraphNodeAnimatedPart        *graphNode, s32 drawingLayer, void *displayList, Vec3s translation);
+struct GraphNodeAnimatedPart        *init_graph_node_e__mario_upper      (struct AllocOnlyPool *pool, struct GraphNodeAnimatedPart        *graphNode, s32 drawingLayer, void *displayList, Vec3s translation);
+
 
 struct GraphNode *geo_add_child       (struct GraphNode *parent, struct GraphNode *childNode);
 struct GraphNode *geo_remove_child    (struct GraphNode *graphNode);

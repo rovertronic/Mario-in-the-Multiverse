@@ -1,0 +1,17 @@
+extern const GeoLayout barrier_rope_geo[];
+extern Lights1 barrier_rope_f3dlite_material_010_lights;
+extern Lights1 barrier_rope_f3dlite_material_lights;
+extern u8 barrier_rope_planche3_ci4[];
+extern u8 barrier_rope_planche3_pal_rgba16[];
+extern u8 barrier_rope_planche6_ci4[];
+extern u8 barrier_rope_planche6_pal_rgba16[];
+extern Vtx barrier_rope_plum_section_mesh_layer_1_vtx_0[8];
+extern Gfx barrier_rope_plum_section_mesh_layer_1_tri_0[];
+extern Vtx barrier_rope_plum_section_mesh_layer_1_vtx_1[12];
+extern Gfx barrier_rope_plum_section_mesh_layer_1_tri_1[];
+extern Gfx mat_barrier_rope_f3dlite_material_010[];
+extern Gfx mat_revert_barrier_rope_f3dlite_material_010[];
+extern Gfx mat_barrier_rope_f3dlite_material[];
+extern Gfx mat_revert_barrier_rope_f3dlite_material[];
+extern Gfx barrier_rope_plum_section_mesh_layer_1[];
+extern Gfx barrier_rope_material_revert_render_settings[];

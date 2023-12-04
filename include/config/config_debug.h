@@ -26,7 +26,7 @@
  * This allows you to quickly test the level you're working on.
  * If you want the game to boot normally, just comment out the define again.
  */
-// #define TEST_LEVEL LEVEL_BOB
+//#define TEST_LEVEL LEVEL_I
 
 /**
  * Enables debug level select. Hold L while the game boots to turn it on.
@@ -41,7 +41,7 @@
 /**
  * Enables a custom, enhanced performance profiler. (Enables PUPPYPRINT by default in config_safeguards).
  */
-// #define PUPPYPRINT_DEBUG
+ //#define PUPPYPRINT_DEBUG
 
 /**
  * Uses cycles instead of microseconds in Puppyprint debug output.
@@ -58,7 +58,7 @@
  * Visual debug enables some collision visuals. Tapping Right on the D-pad will cycle between visual hitboxes, visual surfaces, both, and neither.
  * If puppyprint is enabled, then this can be cycled only while the screen is active.
  */
-// #define VISUAL_DEBUG
+//#define VISUAL_DEBUG
 
 /**
  * Opens all courses and doors. Used for debugging purposes to unlock all content.

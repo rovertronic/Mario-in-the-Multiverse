@@ -1,0 +1,1 @@
+extern const struct Animation *const g_bronto_burt_anims[];

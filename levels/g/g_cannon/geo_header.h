@@ -1,0 +1,13 @@
+extern const GeoLayout g_cannon_geo[];
+extern Lights1 g_cannon_f3dlite_material_032_lights;
+extern u8 g_cannon_canon_ci8[];
+extern u8 g_cannon_canon_pal_rgba16[];
+extern Vtx g_cannon_Plane_012_mesh_layer_1_vtx_0[110];
+extern Gfx g_cannon_Plane_012_mesh_layer_1_tri_0[];
+extern Vtx g_cannon_Plane_012_mesh_layer_1_vtx_1[30];
+extern Gfx g_cannon_Plane_012_mesh_layer_1_tri_1[];
+extern Gfx mat_g_cannon_f3dlite_material_031[];
+extern Gfx mat_revert_g_cannon_f3dlite_material_031[];
+extern Gfx mat_g_cannon_f3dlite_material_032[];
+extern Gfx g_cannon_Plane_012_mesh_layer_1[];
+extern Gfx g_cannon_material_revert_render_settings[];

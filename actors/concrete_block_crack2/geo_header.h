@@ -1,0 +1,9 @@
+extern const GeoLayout concrete_block_crack2_geo[];
+extern u8 concrete_block_crack2_concrete_block_cracked_2_ci4[];
+extern u8 concrete_block_crack2_concrete_block_cracked_2_pal_rgba16[];
+extern Vtx concrete_block_crack2_concrete_block_crack2_mesh_layer_1_vtx_0[22];
+extern Gfx concrete_block_crack2_concrete_block_crack2_mesh_layer_1_tri_0[];
+extern Gfx mat_concrete_block_crack2_f3dlite_material_005[];
+extern Gfx mat_revert_concrete_block_crack2_f3dlite_material_005[];
+extern Gfx concrete_block_crack2_concrete_block_crack2_mesh_layer_1[];
+extern Gfx concrete_block_crack2_material_revert_render_settings[];

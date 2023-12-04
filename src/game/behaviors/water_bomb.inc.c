@@ -16,7 +16,7 @@ static struct ObjectHitbox sWaterBombHitbox = {
     /* interactType:      */ INTERACT_MR_BLIZZARD,
     /* downOffset:        */ 25,
     /* damageOrCoinValue: */ 1,
-    /* health:            */ 99,
+    /* health:            */ 1,//--E
     /* numLootCoins:      */ 0,
     /* radius:            */ 80,
     /* height:            */ 50,
@@ -103,6 +103,9 @@ static void water_bomb_act_init(void) {
  * explode.
  */
 static void water_bomb_act_drop(void) {
+    if (o->oShotByShotgun) {
+        o->parentObj->oWaterBombSpawnerBombActive = FALSE; }
+
     f32 stretch;
 
     obj_set_hitbox(o, &sWaterBombHitbox);
@@ -236,7 +239,8 @@ void bhv_water_bomb_update(void) {
  * Despawn when the parent water bomb does.
  */
 void bhv_water_bomb_shadow_update(void) {
-    if (o->parentObj->oAction == WATER_BOMB_ACT_EXPLODE) {
+    if ((o->parentObj->oAction == WATER_BOMB_ACT_EXPLODE)
+        || (o->parentObj->activeFlags == 0)) {//--E
         obj_mark_for_deletion(o);
     } else {
         // TODO: What is happening here

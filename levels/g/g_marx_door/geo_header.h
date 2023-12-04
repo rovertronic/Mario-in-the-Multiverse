@@ -1,0 +1,16 @@
+extern const GeoLayout g_marx_door_geo[];
+extern u8 g_marx_door_marxhex_ia8[];
+extern u8 g_marx_door_raibow_rgba16[];
+extern u8 g_marx_door_gcoground_ci8[];
+extern u8 g_marx_door_gcoground_pal_rgba16[];
+extern Vtx g_marx_door_Plane_022_mesh_layer_5_vtx_0[24];
+extern Gfx g_marx_door_Plane_022_mesh_layer_5_tri_0[];
+extern Vtx g_marx_door_Plane_022_mesh_layer_1_vtx_0[64];
+extern Gfx g_marx_door_Plane_022_mesh_layer_1_tri_0[];
+extern Gfx mat_g_marx_door_f3dlite_material_063_layer5[];
+extern Gfx mat_revert_g_marx_door_f3dlite_material_063_layer5[];
+extern Gfx mat_g_marx_door_f3dlite_material_064[];
+extern Gfx mat_revert_g_marx_door_f3dlite_material_064[];
+extern Gfx g_marx_door_Plane_022_mesh_layer_5[];
+extern Gfx g_marx_door_Plane_022_mesh_layer_1[];
+extern Gfx g_marx_door_material_revert_render_settings[];

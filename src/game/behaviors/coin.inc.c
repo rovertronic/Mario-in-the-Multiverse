@@ -208,6 +208,10 @@ void spawn_coin_in_formation(s32 index, s32 shape) {
             pos[0] = sCoinArrowPositions[index][0];
             pos[2] = sCoinArrowPositions[index][1];
             break;
+        case COIN_FORMATION_BP_SHAPE_HORIZONTAL_LINE_MORE_SPACE:
+            pos[2] = 250 * (index - 2);
+            if (index > 4) spawnCoin = FALSE;
+            break;
     }
 
     if (shape & COIN_FORMATION_BP_FLYING) {
@@ -291,7 +295,8 @@ void coin_inside_boo_act_carried(void) {
 
     obj_copy_pos(o, parent);
 
-    if (parent->oBooDeathStatus == BOO_DEATH_STATUS_DYING) {
+    if ((parent->oBooDeathStatus == BOO_DEATH_STATUS_DYING)
+        || (parent->activeFlags == 0)) {//--E
         o->oAction = COIN_INSIDE_BOO_ACT_DROPPED;
         s16 marioMoveYaw = gMarioObject->oMoveAngleYaw;
         o->oVelX = sins(marioMoveYaw) * 3.0f;

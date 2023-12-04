@@ -1,0 +1,130 @@
+{
+    "date": "1996-03-19",
+    "sample_bank": "sfx_mitm_ability",
+    "envelopes": {
+        "envelope0": [
+            [2, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ]
+    },
+    "instruments": {
+        "inst_ability_X_0": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_X_0"
+        },
+        "inst_ability_cutter_throw": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_cutter_throw"
+        },
+        "inst_ability_cutter_slice": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_cutter_slice"
+        },
+        "inst_ability_cutter_final": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_cutter_final"
+        },
+        "inst_ability_cutter_dash": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_cutter_dash"
+        },
+        "inst_ability_cutter_catch": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_cutter_catch"
+        },
+        "inst_ability_aku": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_aku"
+        },
+        "inst_ability_dragonite": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_dragonite"
+        },
+        "inst_ability_chronos_slash_1": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_chronos_slash_1"
+        },
+        "inst_ability_chronos_slash_2": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_chronos_slash_2"
+        },
+        "inst_ability_chronos_slash_3": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "ability_chronos_slash_3"
+        },
+        "inst_knight_slide": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "sfx_knightslide"
+        },
+        "inst_knight_sword": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "sfx_knightsword"
+        },
+        "inst_ability_e_shotgun": {
+            "release_rate": 0,
+            "envelope": "envelope0",
+            "sound": "ability_e_shotgun"
+        },
+        "inst_ability_e_shotgun2": {
+            "release_rate": 0,
+            "envelope": "envelope0",
+            "sound": "ability_e_shotgun2"
+        },
+        "inst_ability_e_shotgun_rack": {
+            "release_rate": 0,
+            "envelope": "envelope0",
+            "sound": "ability_e_shotgun_rack"
+        },
+        "inst_g_marx_hp": {
+            "release_rate": 0,
+            "envelope": "envelope0",
+            "sound": "g_marx_hp"
+        },
+        "inst_g_marx_final_hit": {
+            "release_rate": 0,
+            "envelope": "envelope0",
+            "sound": "g_marx_final_hit"
+        },
+        "inst_g_marx_explode": {
+            "release_rate": 0,
+            "envelope": "envelope0",
+            "sound": "g_marx_explode"
+        }
+    },
+    "instrument_list": [
+        "inst_ability_X_0",
+        "inst_ability_cutter_throw",
+        "inst_ability_cutter_slice",
+        "inst_ability_cutter_final",
+        "inst_ability_cutter_dash",
+        "inst_ability_cutter_catch",
+        "inst_ability_aku",
+        "inst_ability_dragonite",
+        "inst_ability_chronos_slash_1",
+        "inst_ability_chronos_slash_2",
+        "inst_ability_chronos_slash_3",
+        "inst_knight_slide",
+        "inst_knight_sword",
+        "inst_ability_e_shotgun",
+        "inst_ability_e_shotgun2",
+        "inst_ability_e_shotgun_rack",
+        "inst_g_marx_hp",
+        "inst_g_marx_final_hit",
+        "inst_g_marx_explode"
+    ]
+}

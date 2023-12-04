@@ -20,6 +20,7 @@ const GeoLayout ttm_geo_000BEC[] = {
                GEO_DISPLAY_LIST(LAYER_OPAQUE, ttm_seg7_dl_07025F48),
                GEO_RENDER_OBJ(),
                GEO_ASM(ENVFX_MODE_NONE, geo_envfx_main),
+               GEO_ASM(0, e__shotgun_effects),
             GEO_CLOSE_NODE(),
          GEO_CLOSE_NODE(),
       GEO_CLOSE_NODE(),

@@ -44,10 +44,13 @@ void bhv_big_bully_init(void) {
     o->oBuoyancy = 1.3f;
 
     obj_set_hitbox(o, &sBigBullyHitbox);
+
+    obj_scale(o,2.5f);
 }
 
 void bully_check_mario_collision(void) {
-    if (o->oAction != OBJ_ACT_LAVA_DEATH && o->oAction != OBJ_ACT_DEATH_PLANE_DEATH && o->oInteractStatus & INT_STATUS_INTERACTED) {
+    if (o->oAction != OBJ_ACT_LAVA_DEATH && o->oAction != OBJ_ACT_DEATH_PLANE_DEATH && ((o->oInteractStatus & INT_STATUS_INTERACTED) || o->oShotByShotgun)) {//--E
+        o->oShotByShotgun = 0;
         if (o->oBehParams2ndByte == BULLY_BP_SIZE_SMALL) {
             cur_obj_play_sound_2(SOUND_OBJ2_SMALL_BULLY_ATTACKED);
         } else {
@@ -80,6 +83,10 @@ void bully_act_chase_mario(void) {
         if (o->oTimer > 35) {
             o->oTimer = 0;
         }
+    }
+
+    if (cur_obj_has_behavior(bhvNball)) {
+        return;
     }
 
     if (!is_point_within_radius_of_mario(homeX, posY, homeZ, 1000)) {
@@ -164,14 +171,23 @@ void bully_play_stomping_sound(void) {
 }
 
 void bully_step(void) {
-    s16 collisionFlags = object_step();
+    s16 collisionFlags;
+    u8 is_a_8_ball = cur_obj_has_behavior(bhvNball);
 
-    bully_backup_check(collisionFlags);
-    bully_play_stomping_sound();
+    if (!is_a_8_ball) {
+        collisionFlags = object_step();
+    } else {
+        collisionFlags = object_step_without_floor_orient();
+    }
+
+    if (!is_a_8_ball) {
+        bully_backup_check(collisionFlags);
+        bully_play_stomping_sound();
+    }
     obj_check_floor_death(collisionFlags, sObjFloor);
 
-    if (o->oBullySubtype & BULLY_STYPE_CHILL) {
-        if (o->oPosY < 1030.0f) {
+    if ((o->oBullySubtype & BULLY_STYPE_CHILL)||(is_a_8_ball)) {
+        if (o->oPosY < -3030.0f) {
             o->oAction = OBJ_ACT_LAVA_DEATH;
         }
     }
@@ -265,9 +281,9 @@ void big_bully_spawn_minion(s32 x, s32 y, s32 z, s16 yaw) {
 }
 
 void bhv_big_bully_with_minions_init(void) {
-    big_bully_spawn_minion(4454, 307, -5426, 0);
-    big_bully_spawn_minion(3840, 307, -6041, 0);
-    big_bully_spawn_minion(3226, 307, -5426, 0);
+    big_bully_spawn_minion(o->oPosX+300.0f, o->oPosY, o->oPosZ-100.0f, 0);
+    big_bully_spawn_minion(o->oPosX, o->oPosY, o->oPosZ+200.0f, 0);
+    big_bully_spawn_minion(o->oPosX-300.0f, o->oPosY, o->oPosZ-100.0f, 0);
 
     o->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
 
@@ -279,7 +295,8 @@ void bhv_big_bully_with_minions_init(void) {
 void big_bully_spawn_star(void) {
     if (obj_lava_death() == TRUE) {
         spawn_mist_particles();
-        spawn_default_star(3700.0f, 600.0f, -5500.0f);
+        //spawn_default_star(3700.0f, 600.0f, -5500.0f);
+        spawn_default_star(o->oHomeX,o->oHomeY-1000.0f,o->oHomeZ);
     }
 }
 
@@ -354,4 +371,97 @@ void bhv_big_bully_with_minions_loop(void) {
             o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
             break;
     }
+}
+
+static struct ObjectHitbox sNBallHitbox = {
+    /* interactType:      */ INTERACT_BULLY,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 1,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 115,
+    /* height:            */ 235,
+    /* hurtboxRadius:     */ 105,
+    /* hurtboxHeight:     */ 225,
+};
+
+void nball_spawn_star(void) {
+    if (obj_lava_death() == TRUE) {
+        spawn_mist_particles();
+        spawn_default_star(gMarioState->pos[0],gMarioState->pos[1]+500.0f,gMarioState->pos[2]);
+    }
+}
+
+void bhv_nball_init(void) {
+    cur_obj_init_animation(0);
+    vec3f_copy(&o->oHomeVec, gMarioState->pos);
+    o->oBehParams2ndByte = BULLY_BP_SIZE_BIG;
+    o->oGravity = 5.0f;
+    o->oFriction = 0.93f;
+    o->oBuoyancy = 1.3f;
+
+    obj_set_hitbox(o, &sNBallHitbox);
+
+    o->oAction = BULLY_ACT_PATROL;
+}
+
+void bhv_nball_loop(void) {
+    u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_TTC));
+    vec3f_copy(&o->oBullyPrevVec, &o->oPosVec);
+
+    //! Because this function runs no matter what, Mario is able to interrupt the bully's
+    //  death action by colliding with it. Since the bully hitbox is tall enough to collide
+    //  with Mario even when it is under a lava floor, this can get the bully stuck OOB
+    //  if there is nothing under the lava floor.
+    bully_check_mario_collision();
+
+    o->oFaceAnglePitch += (0x20*o->oForwardVel);
+    o->oFaceAngleYaw = o->oMoveAngleYaw;
+
+    vec3f_copy(&o->oHomeVec, gMarioState->pos);
+
+    switch (o->oAction) {
+        case BULLY_ACT_PATROL:
+            //o->oForwardVel = 5.0f;
+
+            //if (obj_return_home_if_safe(o, o->oHomeX, o->oPosY, o->oHomeZ, 800) == TRUE) {
+                //o->oAction = BULLY_ACT_CHASE_MARIO;
+                //cur_obj_init_animation(1);
+            //}
+
+            //bully_step();
+            cur_obj_hide();
+            if (star_flags == 0x7F) {
+                o->oAction = BULLY_ACT_CHASE_MARIO;
+                cur_obj_unhide();
+            }
+
+            break;
+
+        case BULLY_ACT_CHASE_MARIO:
+            vec3f_copy(&o->oHomeVec, gMarioState->pos);
+            bully_act_chase_mario();
+            bully_step();
+            break;
+
+        case BULLY_ACT_KNOCKBACK:
+            bully_act_knockback();
+            bully_step();
+            break;
+
+        case BULLY_ACT_BACK_UP:
+            bully_act_back_up();
+            bully_step();
+            break;
+
+        case OBJ_ACT_LAVA_DEATH:
+            nball_spawn_star();
+            break;
+
+        case OBJ_ACT_DEATH_PLANE_DEATH:
+            o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+            break;
+    }
+
+    set_object_visibility(o, 3000);
 }

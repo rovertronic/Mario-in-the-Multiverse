@@ -1,0 +1,10 @@
+extern const GeoLayout d_bridge_geo[];
+extern Lights1 d_bridge_bridge_lights;
+extern u8 d_bridge_bridge_ci8[];
+extern u8 d_bridge_bridge_pal_rgba16[];
+extern Vtx d_bridge_Cube_001_mesh_layer_1_vtx_0[24];
+extern Gfx d_bridge_Cube_001_mesh_layer_1_tri_0[];
+extern Gfx mat_d_bridge_bridge[];
+extern Gfx mat_revert_d_bridge_bridge[];
+extern Gfx d_bridge_Cube_001_mesh_layer_1[];
+extern Gfx d_bridge_material_revert_render_settings[];

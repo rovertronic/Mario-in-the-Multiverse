@@ -28,7 +28,7 @@
 /**
  * Air/breath meter is separate from health meter when underwater.
  */
-// #define BREATH_METER
+ #define BREATH_METER
 
 /**
  * Number of coins to spawn the "100 coin" star. If you remove the define altogether, then there won't be a 100 coin star at all.
@@ -97,4 +97,4 @@
  * The level that the game starts with immediately after file select.
  * The levelscript needs to have a MARIO_POS command for this to work.
  */
-#define START_LEVEL LEVEL_CASTLE_GROUNDS
+#define START_LEVEL LEVEL_CASTLE

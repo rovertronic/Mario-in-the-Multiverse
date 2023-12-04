@@ -5,7 +5,7 @@ struct ObjectHitbox sMrBlizzardHitbox = {
     /* interactType:      */ INTERACT_MR_BLIZZARD,
     /* downOffset:        */ 24,
     /* damageOrCoinValue: */ 2,
-    /* health:            */ 99,
+    /* health:            */ 1,//--E
     /* numLootCoins:      */ 3,
     /* radius:            */ 65,
     /* height:            */ 170,

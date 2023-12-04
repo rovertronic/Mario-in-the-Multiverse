@@ -886,6 +886,7 @@ Gfx mat_revert_ability_unlock_glow_scroll[] = {
 
 Gfx ability_unlock_ability_unlock_mesh_layer_4[] = {
 	gsSPDisplayList(ability_unlock_ability_unlock_mesh_layer_4_tri_0),
+	gsDPSetTextureFilter(G_TF_BILERP),
 	gsSPEndDisplayList(),
 };
 

@@ -22,6 +22,8 @@
 #include "puppyprint.h"
 #include "puppylights.h"
 #include "profiling.h"
+#include "game_init.h"
+#include "ability.h"
 
 
 /**
@@ -262,8 +264,13 @@ void spawn_particle(u32 activeParticleFlag, ModelID16 model, const BehaviorScrip
  * Mario's primary behavior update function.
  */
 void bhv_mario_update(void) {
+    struct MarioState *m = &gMarioStates[0];
     u32 particleFlags = 0;
     s32 i;
+
+    //if (m->floor->type == SURFACE_SQUID_INK && using_ability(ABILITY_SQUID)) {
+    //    m->forwardVel = 45.5f;
+    //}
 
     particleFlags = execute_mario_action(gCurrentObject);
     gCurrentObject->oMarioParticleFlags = particleFlags;
@@ -293,8 +300,26 @@ s32 update_objects_starting_at(struct ObjectNode *objList, struct ObjectNode *fi
     while (objList != firstObj) {
         gCurrentObject = (struct Object *) firstObj;
 
-        gCurrentObject->header.gfx.node.flags |= GRAPH_RENDER_HAS_ANIMATION;
-        cur_obj_update();
+        if (
+            gCurrentObject->oFlags & OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW ||
+            ability_chronos_frame_can_progress()
+        ) {
+            gCurrentObject->abilityChronosUpdatedCollisionLastFrame = FALSE;
+            gCurrentObject->header.gfx.node.flags |= GRAPH_RENDER_HAS_ANIMATION;
+            cur_obj_update();
+        }
+        else {
+            gCurrentObject->header.gfx.node.flags &= ~GRAPH_RENDER_HAS_ANIMATION;
+            if (gCurrentObject->collisionData != NULL && gCurrentObject->abilityChronosUpdatedCollisionLastFrame) {
+                load_object_collision_model();
+            }
+            if (gCurrentObject->oInteractType == INTERACT_DOOR) {
+                bhv_door_rendering_loop();
+            }
+            else {
+                cur_obj_handle_visibility();
+            }
+        }
 
         firstObj = firstObj->next;
         count++;
@@ -483,7 +508,6 @@ void spawn_objects_from_info(UNUSED s32 unused, struct SpawnInfo *spawnInfo) {
             object->oBehParams2ndByte = GET_BPARAM2(spawnInfo->behaviorArg);
 
             object->behavior = script;
-            object->unused1 = 0;
 
             // Record death/collection in the SpawnInfo
             object->respawnInfoType = RESPAWN_INFO_TYPE_NORMAL;
@@ -632,6 +656,11 @@ void clear_dynamic_surface_references(void) {
     }
 }
 
+#include "rigid_body.h"
+
+u8 lv_o_zombie_counter = 0;
+u8 lv_o_zombie_counting= 0;
+
 /**
  * Update all objects. This includes script execution, object collision detection,
  * and object surface management.
@@ -654,6 +683,10 @@ void update_objects(UNUSED s32 unused) {
 
     // Update spawners and objects with surfaces
     update_terrain_objects();
+
+    for (u32 i = 0; i < NUM_RIGID_BODY_STEPS; i++) {
+        do_rigid_body_step();
+    }
 
     // If Mario was touching a moving platform at the end of last frame, apply
     // displacement now
@@ -689,4 +722,9 @@ void update_objects(UNUSED s32 unused) {
     gPrevFrameObjectCount = gObjectCounter;
     // Set the recorded behaviour time, minus the difference between the snapshotted collision time and the actual collision time.
     profiler_update(PROFILER_TIME_BEHAVIOR_AFTER_MARIO, profiler_get_delta(PROFILER_DELTA_COLLISION) - firstPoint);
+
+    if (ability_chronos_frame_can_progress()) {
+        lv_o_zombie_counter = lv_o_zombie_counting;
+        lv_o_zombie_counting = 0;
+    }
 }

@@ -17,12 +17,6 @@ enum SoundMenuFlags {
     SOUND_MENU_FLAG_EXTRA           = (1 << 8), // 0x100
 };
 
-enum SoundMenuMode {
-    SOUND_MENU_MODE_STEREO,
-    SOUND_MENU_MODE_MONO,
-    SOUND_MENU_MODE_HEADSET
-};
-
 void reset_volume(void);
 void raise_background_noise(s32 a);
 void lower_background_noise(s32 a);
@@ -38,6 +32,8 @@ void fadeout_level_music(s16 fadeTimer);
 void play_cutscene_music(u16 seqArgs);
 void play_shell_music(void);
 void stop_shell_music(void);
+void play_plum_music(void);
+void stop_plum_music(void);
 void play_cap_music(u16 seqArgs);
 void fadeout_cap_music(void);
 void stop_cap_music(void);

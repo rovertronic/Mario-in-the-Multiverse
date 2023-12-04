@@ -15,6 +15,7 @@
 #include "graph_node.h"
 #include "surface_collision.h"
 #include "game/puppylights.h"
+#include "src/game/farcall_helpers.h"
 
 // Macros for retrieving arguments from behavior scripts.
 #define BHV_CMD_GET_1ST_U8(index)  (u8)((gCurBhvCommand[index] >> 24) & 0xFF) // unused
@@ -359,7 +360,7 @@ static s32 bhv_cmd_set_int_unused(void) {
     return BHV_PROC_CONTINUE;
 }
 
-// Command 0x14: Sets the specified field to a random float in the given range.
+// Command 0x15: Sets the specified field to a random float in the given range.
 // Usage: SET_RANDOM_FLOAT(field, min, range)
 static s32 bhv_cmd_set_random_float(void) {
     u8 field = BHV_CMD_GET_2ND_U8(0);
@@ -372,7 +373,7 @@ static s32 bhv_cmd_set_random_float(void) {
     return BHV_PROC_CONTINUE;
 }
 
-// Command 0x15: Sets the specified field to a random integer in the given range.
+// Command 0x16: Sets the specified field to a random integer in the given range.
 // Usage: SET_RANDOM_INT(field, min, range)
 static s32 bhv_cmd_set_random_int(void) {
     u8 field = BHV_CMD_GET_2ND_U8(0);
@@ -385,7 +386,7 @@ static s32 bhv_cmd_set_random_int(void) {
     return BHV_PROC_CONTINUE;
 }
 
-// Command 0x13: Gets a random short, right shifts it the specified amount and adds min to it, then sets the specified field to that value.
+// Command 0x14: Gets a random short, right shifts it the specified amount and adds min to it, then sets the specified field to that value.
 // Usage: SET_INT_RAND_RSHIFT(field, min, rshift)
 static s32 bhv_cmd_set_int_rand_rshift(void) {
     u8 field = BHV_CMD_GET_2ND_U8(0);
@@ -398,7 +399,7 @@ static s32 bhv_cmd_set_int_rand_rshift(void) {
     return BHV_PROC_CONTINUE;
 }
 
-// Command 0x16: Adds a random float in the given range to the specified field.
+// Command 0x17: Adds a random float in the given range to the specified field.
 // Usage: ADD_RANDOM_FLOAT(field, min, range)
 static s32 bhv_cmd_add_random_float(void) {
     u8 field = BHV_CMD_GET_2ND_U8(0);
@@ -411,7 +412,7 @@ static s32 bhv_cmd_add_random_float(void) {
     return BHV_PROC_CONTINUE;
 }
 
-// Command 0x17: Gets a random short, right shifts it the specified amount and adds min to it, then adds the value to the specified field. Unused.
+// Command 0x18: Gets a random short, right shifts it the specified amount and adds min to it, then adds the value to the specified field. Unused.
 // Usage: ADD_INT_RAND_RSHIFT(field, min, rshift)
 static s32 bhv_cmd_add_int_rand_rshift(void) {
     u8 field = BHV_CMD_GET_2ND_U8(0);
@@ -463,7 +464,20 @@ static s32 bhv_cmd_or_int(void) {
     return BHV_PROC_CONTINUE;
 }
 
-// Command 0x12: Performs a bit clear with the specified short. Unused.
+// Command 0x12: Performs a bitwise OR with the specified field and the given (32 bit) integer.
+// Usually used to set an object's flags which use values above 16 bits.
+// Usage: OR_LONG(field, value)
+static s32 bhv_cmd_or_long(void) {
+    u8 field = BHV_CMD_GET_2ND_U8(0);
+    u32 value = BHV_CMD_GET_U32(1);
+
+    cur_obj_or_int(field, value);
+
+    gCurBhvCommand += 2;
+    return BHV_PROC_CONTINUE;
+}
+
+// Command 0x13: Performs a bit clear with the specified short. Unused.
 // Usage: BIT_CLEAR(field, value)
 static s32 bhv_cmd_bit_clear(void) {
     u8 field = BHV_CMD_GET_2ND_U8(0);
@@ -502,6 +516,10 @@ static s32 bhv_cmd_animate(void) {
 // Command 0x1E: Finds the floor triangle directly under the object and moves the object down to it.
 // Usage: DROP_TO_FLOOR()
 static s32 bhv_cmd_drop_to_floor(void) {
+    if ((o->oFlags & OBJ_FLAG_ATTACHABLE_BY_ROPE) && GET_BPARAM3(o->oBehParams) == 0xF0) {
+        gCurBhvCommand++;
+        return BHV_PROC_CONTINUE;
+    }
     f32 floor = find_floor_height(gCurrentObject->oPosX, gCurrentObject->oPosY + 200.0f, gCurrentObject->oPosZ);
     gCurrentObject->oPosY = floor;
     gCurrentObject->oMoveFlags |= OBJ_MOVE_ON_GROUND;
@@ -510,7 +528,7 @@ static s32 bhv_cmd_drop_to_floor(void) {
     return BHV_PROC_CONTINUE;
 }
 
-// Command 0x18: No operation. Unused.
+// Command 0x19: No operation. Unused.
 // Usage: CMD_NOP_1(field)
 static s32 bhv_cmd_nop_1(void) {
     UNUSED u8 field = BHV_CMD_GET_2ND_U8(0);
@@ -520,15 +538,6 @@ static s32 bhv_cmd_nop_1(void) {
 }
 
 // Command 0x1A: No operation. Unused.
-// Usage: CMD_NOP_3(field)
-static s32 bhv_cmd_nop_3(void) {
-    UNUSED u8 field = BHV_CMD_GET_2ND_U8(0);
-
-    gCurBhvCommand++;
-    return BHV_PROC_CONTINUE;
-}
-
-// Command 0x19: No operation. Unused.
 // Usage: CMD_NOP_2(field)
 static s32 bhv_cmd_nop_2(void) {
     UNUSED u8 field = BHV_CMD_GET_2ND_U8(0);
@@ -773,6 +782,7 @@ static BhvCommandProc BehaviorCmdTable[] = {
     /*BHV_CMD_ADD_INT               */ bhv_cmd_add_int,
     /*BHV_CMD_SET_INT               */ bhv_cmd_set_int,
     /*BHV_CMD_OR_INT                */ bhv_cmd_or_int,
+    /*BHV_CMD_OR_LONG               */ bhv_cmd_or_long,
     /*BHV_CMD_BIT_CLEAR             */ bhv_cmd_bit_clear,
     /*BHV_CMD_SET_INT_RAND_RSHIFT   */ bhv_cmd_set_int_rand_rshift,
     /*BHV_CMD_SET_RANDOM_FLOAT      */ bhv_cmd_set_random_float,
@@ -781,7 +791,6 @@ static BhvCommandProc BehaviorCmdTable[] = {
     /*BHV_CMD_ADD_INT_RAND_RSHIFT   */ bhv_cmd_add_int_rand_rshift,
     /*BHV_CMD_NOP_1                 */ bhv_cmd_nop_1,
     /*BHV_CMD_NOP_2                 */ bhv_cmd_nop_2,
-    /*BHV_CMD_NOP_3                 */ bhv_cmd_nop_3,
     /*BHV_CMD_SET_MODEL             */ bhv_cmd_set_model,
     /*BHV_CMD_SPAWN_CHILD           */ bhv_cmd_spawn_child,
     /*BHV_CMD_DEACTIVATE            */ bhv_cmd_deactivate,
@@ -813,19 +822,14 @@ static BhvCommandProc BehaviorCmdTable[] = {
     /*BHV_CMD_SPAWN_WATER_DROPLET   */ bhv_cmd_spawn_water_droplet,
 };
 
-// Execute the behavior script of the current object, process the object flags, and other miscellaneous code for updating objects.
-void cur_obj_update(void) {
+// Handle visibility of object
+void cur_obj_handle_visibility(void) {
     u32 objFlags = o->oFlags;
     f32 distanceFromMario;
-    BhvCommandProc bhvCmdProc;
-    s32 bhvProcResult;
+    f32 distanceFromRocket;
+    f32 distanceClosest;
 
     s32 inRoom = cur_obj_is_mario_in_room();
-
-    if (inRoom == MARIO_OUTSIDE_ROOM && (objFlags & OBJ_FLAG_ONLY_PROCESS_INSIDE_ROOM)) {
-        cur_obj_disable_rendering_in_room();
-        return;
-    }
 
     // Calculate the distance from the object to Mario.
     if (objFlags & OBJ_FLAG_COMPUTE_DIST_TO_MARIO) {
@@ -833,6 +837,68 @@ void cur_obj_update(void) {
         distanceFromMario = o->oDistanceToMario;
     } else {
         distanceFromMario = 0.0f;
+    }
+
+    // Calculate the distance from the rocket to Mario
+    distanceFromRocket = 0.0f;
+
+    struct Object *rocket = cur_obj_nearest_object_with_behavior(bhvShockRocket);
+    if(rocket != NULL){
+         distanceFromRocket = dist_between_objects(o, rocket);
+    } 
+
+    //keeps the closest distance
+    if((distanceFromRocket < distanceFromMario) && distanceFromRocket != 0.0f){
+        distanceClosest = distanceFromRocket;
+    } else {
+        distanceClosest = distanceFromMario;
+    }
+
+    if (o->oRoom != -1) {
+        // If the object is in a room, only show it when Mario is in the room.
+        if (
+            (objFlags & OBJ_FLAG_ACTIVE_FROM_AFAR)
+            || distanceClosest < o->oDrawingDistance
+        ) {
+            if (inRoom == MARIO_OUTSIDE_ROOM) {
+                cur_obj_disable_rendering_in_room();
+            } else if (inRoom == MARIO_INSIDE_ROOM) {
+                cur_obj_enable_rendering_in_room();
+            }
+            o->activeFlags &= ~ACTIVE_FLAG_FAR_AWAY;
+        } else {
+            o->header.gfx.node.flags &= ~GRAPH_RENDER_ACTIVE;
+            o->activeFlags |= ACTIVE_FLAG_FAR_AWAY;
+        }
+    } else if (
+        o->collisionData == NULL
+        &&  (objFlags & OBJ_FLAG_COMPUTE_DIST_TO_MARIO)
+        && !(objFlags & OBJ_FLAG_ACTIVE_FROM_AFAR)
+    ) {
+        // If the object has a render distance, check if it should be shown.
+        if (distanceClosest > o->oDrawingDistance) {
+            // Out of render distance, hide the object.
+            o->header.gfx.node.flags &= ~GRAPH_RENDER_ACTIVE;
+            o->activeFlags |= ACTIVE_FLAG_FAR_AWAY;
+        } else if (o->oHeldState == HELD_FREE) {
+            // In render distance (and not being held), show the object.
+            o->header.gfx.node.flags |= GRAPH_RENDER_ACTIVE;
+            o->activeFlags &= ~ACTIVE_FLAG_FAR_AWAY;
+        }
+    }
+}
+
+// Execute the behavior script of the current object, process the object flags, and other miscellaneous code for updating objects.
+void cur_obj_update(void) {
+    u32 objFlags = o->oFlags;
+    BhvCommandProc bhvCmdProc;
+    s32 bhvProcResult;
+
+    s32 inRoom = cur_obj_is_mario_in_room();
+
+    if (cur_obj_is_mario_in_room() == MARIO_OUTSIDE_ROOM && (objFlags & OBJ_FLAG_ONLY_PROCESS_INSIDE_ROOM)) {
+        cur_obj_disable_rendering_in_room();
+        return;
     }
 
     // Calculate the angle from the object to Mario.
@@ -858,7 +924,7 @@ void cur_obj_update(void) {
     o->curBhvCommand = gCurBhvCommand;
 
     // Increment the object's timer.
-    if (o->oTimer < 0x3FFFFFFF) {
+    if (o->oTimer < 0x3FFFFFFF && ability_chronos_frame_can_progress()) {
         o->oTimer++;
     }
 
@@ -867,6 +933,18 @@ void cur_obj_update(void) {
         o->oTimer = 0;
         o->oSubAction = 0;
         o->oPrevAction = o->oAction;
+    }
+
+    if ((objFlags & OBJ_FLAG_ATTACHABLE_BY_ROPE) && GET_BPARAM3(o->oBehParams) == BP3_ATTACH_ROPE) {
+        if (!o->oRopeObject) {
+            o->oRopeObject = spawn_object_relative(0, 0, 50, 0, o, MODEL_ATTACHED_ROPE, bhvGAttachedRope);
+        }
+        o->oTimer = 0;
+    }
+
+    //make other enemies experience generic attack actions in order for the cutter stun to work
+    if (o->oAction > 100 && o->behavior != segmented_to_virtual(bhvGoomba) && o->behavior != segmented_to_virtual(bhvKoopa) && o->behavior != segmented_to_virtual(bhvPokey)) {
+        obj_update_standard_actions(0);
     }
 
     // Execute various code based on object flags.
@@ -900,6 +978,17 @@ void cur_obj_update(void) {
         obj_update_gfx_pos_and_angle(o);
     }
 
+    if ((objFlags & OBJ_FLAG_ATTACHABLE_BY_ROPE) && GET_BPARAM3(o->oBehParams) == BP3_ATTACH_ROPE) {
+        if (!o->oRopeObject) {
+            o->oRopeObject = spawn_object_relative(0, 0, 50, 0, o, MODEL_ATTACHED_ROPE, bhvGAttachedRope);
+        }
+        o->oPosX = o->oRopeObject->oPosX;
+        o->oPosY = o->oRopeObject->oPosY - 50;
+        o->oPosZ = o->oRopeObject->oPosZ;
+        o->oForwardVel = 0;
+        o->oVelY = 0;
+    }
+
 #if SILHOUETTE
     COND_BIT((objFlags & OBJ_FLAG_SILHOUETTE        ), o->header.gfx.node.flags, GRAPH_RENDER_SILHOUETTE        );
     COND_BIT((objFlags & OBJ_FLAG_OCCLUDE_SILHOUETTE), o->header.gfx.node.flags, GRAPH_RENDER_OCCLUDE_SILHOUETTE);
@@ -923,37 +1012,5 @@ void cur_obj_update(void) {
     puppylights_object_emit(o);
 #endif
 
-    // Handle visibility of object
-    if (o->oRoom != -1) {
-        // If the object is in a room, only show it when Mario is in the room.
-        if (
-            (objFlags & OBJ_FLAG_ACTIVE_FROM_AFAR)
-            || distanceFromMario < o->oDrawingDistance
-        ) {
-            if (inRoom == MARIO_OUTSIDE_ROOM) {
-                cur_obj_disable_rendering_in_room();
-            } else if (inRoom == MARIO_INSIDE_ROOM) {
-                cur_obj_enable_rendering_in_room();
-            }
-            o->activeFlags &= ~ACTIVE_FLAG_FAR_AWAY;
-        } else {
-            o->header.gfx.node.flags &= ~GRAPH_RENDER_ACTIVE;
-            o->activeFlags |= ACTIVE_FLAG_FAR_AWAY;
-        }
-    } else if (
-        o->collisionData == NULL
-        &&  (objFlags & OBJ_FLAG_COMPUTE_DIST_TO_MARIO)
-        && !(objFlags & OBJ_FLAG_ACTIVE_FROM_AFAR)
-    ) {
-        // If the object has a render distance, check if it should be shown.
-        if (distanceFromMario > o->oDrawingDistance) {
-            // Out of render distance, hide the object.
-            o->header.gfx.node.flags &= ~GRAPH_RENDER_ACTIVE;
-            o->activeFlags |= ACTIVE_FLAG_FAR_AWAY;
-        } else if (o->oHeldState == HELD_FREE) {
-            // In render distance (and not being held), show the object.
-            o->header.gfx.node.flags |= GRAPH_RENDER_ACTIVE;
-            o->activeFlags &= ~ACTIVE_FLAG_FAR_AWAY;
-        }
-    }
+    cur_obj_handle_visibility();
 }

@@ -17,6 +17,7 @@ extern const Gfx blue_coin_switch_seg8_dl_08000D58[];
 extern const Gfx blue_coin_switch_seg8_dl_08000DD0[];
 extern const Gfx blue_coin_switch_seg8_dl_08000E08[];
 extern const Collision blue_coin_switch_seg8_collision_08000E98[];
+extern const Gfx star_switch_dl[];
 
 // bobomb
 extern const GeoLayout black_bobomb_geo[];
@@ -161,7 +162,9 @@ extern const struct Animation *const goomba_seg8_anims_0801DA4C[];
 
 // heart
 extern const GeoLayout heart_geo[];
+extern const GeoLayout ability_heart_geo[];
 extern const Gfx heart_seg8_dl_0800DFE0[];
+extern const Gfx ability_heart_gfx[];
 
 // koopa_shell
 extern const GeoLayout koopa_shell_geo[];

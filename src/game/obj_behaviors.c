@@ -460,6 +460,30 @@ s32 is_point_within_radius_of_mario(f32 x, f32 y, f32 z, s32 dist) {
 }
 
 /**
+ * Checks if a point is within distance from rocket's graphical position. Test is exclusive.
+ */
+s32 is_point_within_radius_of_rocket(f32 x, f32 y, f32 z, s32 dist) {
+    struct Object *rocket = cur_obj_nearest_object_with_behavior(bhvShockRocket);
+    if(rocket != NULL){
+        f32 dx = x - rocket->header.gfx.pos[0];
+        f32 dy = y - rocket->header.gfx.pos[1];
+        f32 dz = z - rocket->header.gfx.pos[2];
+
+    return sqr(dx) + sqr(dy) + sqr(dz) < (f32)sqr(dist);
+    } else {
+        return FALSE;
+    }
+}
+
+/**
+ * Checks if a point is within distance from rocket's graphical position. Test is exclusive.
+ */
+s32 is_point_within_radius_of_mario_or_rocket(f32 x, f32 y, f32 z, s32 dist) {
+    return (is_point_within_radius_of_mario(x, y, z, dist) || is_point_within_radius_of_rocket(x, y, z, dist));
+}
+    
+
+/**
  * Checks whether a point is within distance of a given point. Test is exclusive.
  */
 s32 is_point_close_to_object(struct Object *obj, f32 x, f32 y, f32 z, s32 dist) {
@@ -475,7 +499,7 @@ s32 is_point_close_to_object(struct Object *obj, f32 x, f32 y, f32 z, s32 dist) 
  */
 void set_object_visibility(struct Object *obj, s32 dist) {
     COND_BIT(
-        !is_point_within_radius_of_mario(obj->oPosX, obj->oPosY, obj->oPosZ, dist),
+        !is_point_within_radius_of_mario_or_rocket(obj->oPosX, obj->oPosY, obj->oPosZ, dist),
         obj->header.gfx.node.flags,
         GRAPH_RENDER_INVISIBLE
     );
@@ -494,6 +518,16 @@ s32 obj_return_home_if_safe(struct Object *obj, f32 homeX, f32 y, f32 homeZ, s32
     } else {
         obj->oMoveAngleYaw = approach_s16_symmetric(obj->oMoveAngleYaw, angleTowardsHome, 320);
     }
+
+    return FALSE;
+}
+
+s32 obj_return_home(struct Object *obj, f32 homeX, f32 y, f32 homeZ, s32 dist) {
+    f32 homeDistX = obj->oHomeX - obj->oPosX;
+    f32 homeDistZ = obj->oHomeZ - obj->oPosZ;
+    s16 angleTowardsHome = atan2s(homeDistZ, homeDistX);
+    
+    obj->oMoveAngleYaw = approach_s16_symmetric(obj->oMoveAngleYaw, angleTowardsHome, 320);
 
     return FALSE;
 }
@@ -691,6 +725,9 @@ void spawn_orange_number(s8 behParam, s16 relX, s16 relY, s16 relZ) {
 
     struct Object *orangeNumber = spawn_object_relative(behParam, relX, relY, relZ, o, MODEL_NUMBER, bhvOrangeNumber);
     orangeNumber->oPosY += 25.0f;
+    orangeNumber->oOrangeNumberOffset = relX;
+    orangeNumber->oHomeX = o->oPosX;
+    orangeNumber->oHomeZ = o->oPosZ;
 }
 
 /**
@@ -709,12 +746,12 @@ UNUSED s32 debug_sequence_tracker(s16 debugInputSequence[]) {
         return TRUE;
     }
 
-    // If the third controller button pressed is next in sequence, reset timer and progress to next value.
-    if (debugInputSequence[sDebugSequenceTracker] & gPlayer3Controller->buttonPressed) {
+    // If the button pressed is next in sequence, reset timer and progress to next value.
+    if (debugInputSequence[sDebugSequenceTracker] & gPlayer1Controller->buttonPressed) {
         sDebugSequenceTracker++;
         sDebugTimer = 0;
     // If wrong input or timer reaches 10, reset sequence progress.
-    } else if (sDebugTimer == 10 || gPlayer3Controller->buttonPressed != 0) {
+    } else if (sDebugTimer == 10 || gPlayer1Controller->buttonPressed != 0) {
         sDebugSequenceTracker = 0;
         sDebugTimer = 0;
         return FALSE;

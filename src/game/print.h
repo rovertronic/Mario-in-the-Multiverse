@@ -16,6 +16,8 @@ enum PrintfGlyphs {
     GLYPH_QUESTION_MARK   = 38,
     GLYPH_AMPERSAND       = 39,
     GLYPH_PERCENT         = 40,
+    GLYPH_SLASH           = 41,
+    GLYPH_TOAD_HEAD       = 42,
     GLYPH_MINUS           = 47,
     GLYPH_MULTIPLY        = 48,
     GLYPH_COIN            = 49,
@@ -34,5 +36,8 @@ void print_text_fmt_int(s32 x, s32 y, const char *str, s32 n);
 void print_text(s32 x, s32 y, const char *str);
 void print_text_centered(s32 x, s32 y, const char *str);
 void render_text_labels(void);
+s32 char_to_glyph_index(char c);
+void add_glyph_texture(s8 glyphIndex);
+void render_textrect(s32 x, s32 y, s32 pos);
 
 #endif // PRINT_H

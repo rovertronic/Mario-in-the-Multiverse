@@ -12,7 +12,7 @@ seq_setmutescale 0
   seq_setvol 127
 #endif
 seq_settempo 120
-seq_initchannels 0x3ff
+seq_initchannels 0xfff
 seq_startchannel 0, .channel0
 seq_startchannel 1, .channel1
 seq_startchannel 2, .channel2
@@ -23,6 +23,8 @@ seq_startchannel 6, .channel6
 seq_startchannel 7, .channel7
 seq_startchannel 8, .channel38
 seq_startchannel 9, .channel59
+seq_startchannel 10, .channelAbility
+seq_startchannel 11, .channelLevel
 .seq_loop:
 seq_delay 20000
 seq_jump .seq_loop
@@ -69,6 +71,28 @@ chan_setval 0
 chan_iowriteval 5
 chan_stereoheadseteffects 1
 chan_setdyntable .channel59_table
+chan_jump .main_loop_023589
+
+.channelAbility:
+chan_largenoteson
+chan_setinstr 0
+chan_setpanmix 127
+chan_setnotepriority 14
+chan_setval 0
+chan_iowriteval 5
+chan_stereoheadseteffects 1
+chan_setdyntable .channelAbility_table
+chan_jump .main_loop_023589
+
+.channelLevel:
+chan_largenoteson
+chan_setinstr 0
+chan_setpanmix 127
+chan_setnotepriority 14
+chan_setval 0
+chan_iowriteval 5
+chan_stereoheadseteffects 1
+chan_setdyntable .channelLevel_table
 chan_jump .main_loop_023589
 
 // Main loop for standard, non-continuous sound effects
@@ -6615,7 +6639,7 @@ layer_end
 sound_ref .sound_air_bowser_spit_fire
 sound_ref .chan_29C2
 sound_ref .sound_air_lakitu_fly
-sound_ref .sound_air_amp_buzz
+sound_ref .sound_air_
 sound_ref .sound_air_blow_fire
 sound_ref .sound_air_rough_slide
 sound_ref .sound_air_heaveho_move
@@ -6688,7 +6712,7 @@ layer_note1 27, 0x16, 50
 layer_jump .layer_29E5
 layer_end
 
-.sound_air_amp_buzz:
+.sound_air_:
 chan_setbank 3
 chan_setinstr 9
 chan_setenvelope .envelope_32E4
@@ -6925,6 +6949,28 @@ sound_ref .chan_2D18
 sound_ref .sound_menu_power_meter
 sound_ref .sound_menu_camera_buzz
 sound_ref .sound_menu_camera_turn
+sound_ref .sound_menu_chronos_slomo_engage
+sound_ref .sound_menu_chronos_slomo_disengage
+
+.sound_menu_chronos_slomo_engage:
+chan_setbank 9
+chan_setinstr 7
+chan_setlayer 0, .layer_menu_chronos_slomo_engage
+chan_end
+
+.layer_menu_chronos_slomo_engage:
+layer_note1 39, 0x58, 127
+layer_end
+
+.sound_menu_chronos_slomo_disengage:
+chan_setbank 9
+chan_setinstr 8
+chan_setlayer 0, .layer_menu_chronos_slomo_disengage
+chan_end
+
+.layer_menu_chronos_slomo_disengage:
+layer_note1 39, 0x34, 127
+layer_end
 
 .sound_menu_change_select:
 chan_setbank 9
@@ -7914,6 +7960,671 @@ layer_note0 38, 0x3, 127, 127
 .layer_32BF:
 layer_delay 0x2a
 layer_jump .layer_32B7
+
+
+// MitM Ability Sound Effects
+.channelAbility_table:
+sound_ref .sound_ability_x_0
+sound_ref .sound_ability_cutter_throw
+sound_ref .sound_ability_cutter_slice
+sound_ref .sound_ability_cutter_final
+sound_ref .sound_ability_cutter_dash
+sound_ref .sound_ability_cutter_catch
+sound_ref .sound_ability_aku
+sound_ref .sound_ability_dragonite
+sound_ref .sound_ability_chronos_slash_1
+sound_ref .sound_ability_chronos_slash_2
+sound_ref .sound_ability_chronos_slash_3
+sound_ref .sound_ability_knightslide
+sound_ref .sound_ability_knightsword
+sound_ref .sound_ability_e_shotgun
+sound_ref .sound_ability_e_shotgun2
+sound_ref .sound_ability_e_shotgun3
+sound_ref .sound_ability_e_shotgun_rack
+sound_ref .sound_g_marx_hp
+sound_ref .sound_g_marx_final_hit
+sound_ref .sound_g_marx_explode
+
+.sound_ability_x_0:
+chan_setbank 11
+chan_setinstr 0
+chan_setlayer 0, .layer_ability_x_0
+chan_end
+
+.layer_ability_x_0:
+layer_note1 39, 0x7f, 127
+layer_end
+
+.sound_ability_e_shotgun:
+chan_setbank 11
+chan_setinstr 13
+chan_setlayer 0, .layer_ability_e_shotgun
+chan_end
+
+.sound_ability_e_shotgun2:
+chan_setbank 11
+chan_setinstr 14
+chan_setlayer 0, .layer_ability_e_shotgun
+chan_end
+
+.sound_ability_e_shotgun3:
+chan_setbank 11
+chan_setinstr 13
+chan_setlayer 0, .layer_ability_e_shotgun3
+chan_end
+
+.sound_ability_e_shotgun_rack:
+chan_setbank 11
+chan_setinstr 15
+chan_setlayer 0, .layer_ability_e_shotgun
+chan_end
+
+.layer_ability_e_shotgun:
+layer_note1 39, 0x9A, 127
+layer_end
+
+.layer_ability_e_shotgun3:
+layer_note1 38, 0x9A, 127
+layer_end
+
+.sound_ability_cutter_throw:
+chan_setbank 11
+chan_setinstr 1
+chan_setlayer 0, .layer_ability_cutter
+chan_end
+
+.sound_ability_cutter_slice:
+chan_setbank 11
+chan_setinstr 2
+chan_setlayer 0, .layer_ability_cutter
+chan_end
+
+.sound_ability_cutter_final:
+chan_setbank 11
+chan_setinstr 3
+chan_setlayer 0, .layer_ability_cutter
+chan_end
+
+.sound_ability_cutter_dash:
+chan_setbank 11
+chan_setinstr 4
+chan_setlayer 0, .layer_ability_cutter
+chan_end
+
+.sound_ability_cutter_catch:
+chan_setbank 11
+chan_setinstr 5
+chan_setlayer 0, .layer_ability_cutter
+chan_end
+
+.sound_ability_aku:
+chan_setbank 11
+chan_setinstr 6
+chan_setlayer 0, .layer_ability_cutter
+chan_end
+
+.layer_ability_cutter:
+layer_note1 39, 0x7f, 127
+layer_end
+
+.sound_ability_dragonite:
+chan_setbank 11
+chan_setinstr 7
+chan_setlayer 0, .layer_ability_hm_fly
+chan_end
+
+.layer_ability_hm_fly:
+layer_note1 39, 0x1B0, 127
+layer_end
+
+.sound_ability_chronos_slash_1:
+chan_setbank 11
+chan_setinstr 8
+chan_setlayer 0, .layer_ability_chronos_slash_1
+chan_end
+
+.layer_ability_chronos_slash_1:
+layer_note1 39, 0x26, 127
+layer_end
+
+.sound_ability_chronos_slash_2:
+chan_setbank 11
+chan_setinstr 9
+chan_setlayer 0, .layer_ability_chronos_slash_2
+chan_end
+
+.layer_ability_chronos_slash_2:
+layer_note1 39, 0x28, 127
+layer_end
+
+.sound_ability_chronos_slash_3:
+chan_setbank 11
+chan_setinstr 10
+chan_setlayer 0, .layer_ability_chronos_slash_3
+chan_end
+
+.layer_ability_chronos_slash_3:
+layer_note1 39, 0x23, 127
+layer_end
+
+.sound_ability_knightslide:
+chan_setbank 11
+chan_setinstr 11
+chan_setenvelope .envelope_32E4
+chan_setdecayrelease 15
+chan_setlayer 0, .layer_ability_knightslide
+chan_end
+
+.layer_ability_knightslide:
+layer_somethingon
+.layer_knightslide2:
+layer_note1 39, 0x7F, 127
+layer_jump .layer_knightslide2
+layer_end
+
+.sound_ability_knightsword:
+chan_setbank 11
+chan_setinstr 12
+chan_setlayer 0, .layer_ability_knightsword
+chan_end
+
+.layer_ability_knightsword:
+layer_note1 39, 0x23, 127
+layer_end
+
+.sound_g_marx_hp:
+chan_setbank 11
+chan_setinstr 16
+chan_setlayer 0, .layer_g_marx_secondary
+chan_end
+
+.sound_g_marx_final_hit:
+chan_setbank 11
+chan_setinstr 17
+chan_setlayer 0, .layer_g_marx_secondary
+chan_end
+
+.sound_g_marx_explode:
+chan_setbank 11
+chan_setinstr 18
+chan_setlayer 0, .layer_g_marx_secondary
+chan_end
+
+.layer_g_marx_secondary:
+layer_note1 39, 0x7f, 127
+layer_end
+
+// MitM Level Sound Effects
+.channelLevel_table:
+sound_ref .sound_level_x_0
+sound_ref .sound_level_e_caco_alert
+sound_ref .sound_level_e_caco_alert2
+sound_ref .sound_level_e_caco_damage
+sound_ref .sound_level_e_caco_damage2
+sound_ref .sound_level_e_caco_death
+sound_ref .sound_level_e_caco_death2
+sound_ref .sound_o_walker_aggressive_1
+sound_ref .sound_o_walker_aggressive_2
+sound_ref .sound_o_walker_aggressive_3
+sound_ref .sound_o_walker_aggressive_4
+sound_ref .sound_o_walker_die
+sound_ref .sound_o_walker_hit
+sound_ref .sound_o_walker_eat
+sound_ref .sound_level_g_0_stardoor
+sound_ref .sound_level_j_hooh
+sound_ref .sound_level_j_miltank
+sound_ref .sound_level_j_geodude
+sound_ref .sound_marxlaugh1
+sound_ref .sound_marxlaugh2
+sound_ref .sound_marxlaugh3
+sound_ref .sound_marxlaugh4
+sound_ref .sound_marxarrows
+sound_ref .sound_marxblackhole
+sound_ref .sound_marxcutter
+sound_ref .sound_marxlaser
+sound_ref .sound_marxscream
+sound_ref .sound_marxteleport
+sound_ref .sound_level_i_hoodboomer_death
+sound_ref .sound_level_i_hoodboomer_laugh
+sound_ref .sound_level_i_hoodboomer_haha
+sound_ref .sound_level_i_toad_help
+sound_ref .sound_level_i_magic_shield
+sound_ref .sound_level_i_hoodoo_sorcerer_death
+sound_ref .sound_level_i_pigpot_death
+sound_ref .sound_level_i_grenade
+sound_ref .sound_level_i_hoodmonger_shot
+sound_ref .sound_level_i_hoodmonger_reload
+sound_ref .sound_level_i_master_kaag_angry
+sound_ref .sound_level_i_master_kaag_laugh
+sound_ref .sound_level_i_master_kaag_stomp
+sound_ref .sound_level_i_master_kaag_damage
+sound_ref .sound_level_i_hoodmonger_alert
+sound_ref .sound_level_i_hoodmonger_death1
+sound_ref .sound_level_i_hoodmonger_parry
+
+
+.sound_level_x_0:
+chan_setbank 12
+chan_setinstr 0
+chan_setlayer 0, .layer_level_x_0
+chan_end
+
+.layer_level_x_0:
+layer_note1 39, 0x7f, 127
+layer_end
+
+.sound_level_g_0_stardoor:
+chan_setbank 12
+chan_setinstr 12
+chan_setlayer 0, .layer_level_g_0
+chan_end
+
+.sound_marxlaugh1:
+chan_setbank 12
+chan_setinstr 16
+chan_setlayer 0, .layer_level_g_0
+chan_end
+
+.sound_marxlaugh2:
+chan_setbank 12
+chan_setinstr 17
+chan_setlayer 0, .layer_level_g_0
+chan_end
+
+.sound_marxlaugh3:
+chan_setbank 12
+chan_setinstr 18
+chan_setlayer 0, .layer_level_g_0
+chan_end
+
+.sound_marxlaugh4:
+chan_setbank 12
+chan_setinstr 19
+chan_setlayer 0, .layer_level_g_0
+chan_end
+
+.sound_marxarrows:
+chan_setbank 12
+chan_setinstr 20
+chan_setlayer 0, .layer_level_g_long
+chan_end
+
+.sound_marxblackhole:
+chan_setbank 12
+chan_setinstr 21
+chan_setlayer 0, .layer_level_g_long
+chan_end
+
+.sound_marxcutter:
+chan_setbank 12
+chan_setinstr 22
+chan_setlayer 0, .layer_level_g_0
+chan_end
+
+.sound_marxlaser:
+chan_setbank 12
+chan_setinstr 23
+chan_setlayer 0, .layer_level_g_long
+chan_end
+
+.sound_marxscream:
+chan_setbank 12
+chan_setinstr 24
+chan_setlayer 0, .layer_level_g_long
+chan_end
+
+.sound_marxteleport:
+chan_setbank 12
+chan_setinstr 25
+chan_setlayer 0, .layer_level_g_teleport
+chan_end
+
+
+.layer_level_g_0:
+layer_note1 39, 0x40, 127
+layer_end
+
+.layer_level_g_teleport:
+layer_note1 39, 0x40, 127
+layer_end
+
+.layer_level_g_long:
+layer_note1 39, 0x150, 127
+layer_end
+
+//caco
+
+.sound_level_e_caco_alert:
+chan_setbank 12
+chan_setinstr 1
+chan_setlayer 0, .layer_level_e_caco_alert
+chan_end
+
+    .sound_level_e_caco_alert2:
+    chan_setbank 12
+    chan_setinstr 2
+    chan_setlayer 0, .layer_level_e_caco_alert
+    chan_end
+
+    .layer_level_e_caco_alert:
+    layer_note1 39, 0x88, 127
+    layer_end
+
+
+.sound_level_e_caco_damage:
+chan_setbank 12
+chan_setinstr 3
+chan_setlayer 0, .layer_level_e_caco_damage
+chan_end
+
+.layer_level_e_caco_damage:
+layer_note1 39, 0x68, 127
+layer_end
+
+    .sound_level_e_caco_damage2:
+    chan_setbank 12
+    chan_setinstr 3
+    chan_setlayer 0, .layer_level_e_caco_damage2
+    chan_end
+
+    .layer_level_e_caco_damage2:
+    layer_note1 38, 0x68, 127
+    layer_end
+    
+
+.sound_level_e_caco_death:
+chan_setbank 12
+chan_setinstr 4
+chan_setlayer 0, .layer_level_e_caco_death
+chan_end
+
+.layer_level_e_caco_death:
+layer_note1 39, 0x5A, 127
+layer_end
+
+    .sound_level_e_caco_death2:
+    chan_setbank 12
+    chan_setinstr 4
+    chan_setlayer 0, .layer_level_e_caco_death2
+    chan_end
+
+    .layer_level_e_caco_death2:
+    layer_note1 38, 0x5A, 127
+    layer_end
+
+// walker
+
+.sound_o_walker_aggressive_1:
+chan_setbank 12
+chan_setinstr 5
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.sound_o_walker_aggressive_2:
+chan_setbank 12
+chan_setinstr 6
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.sound_o_walker_aggressive_3:
+chan_setbank 12
+chan_setinstr 7
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.sound_o_walker_aggressive_4:
+chan_setbank 12
+chan_setinstr 8
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.sound_o_walker_die:
+chan_setbank 12
+chan_setinstr 9
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.sound_o_walker_hit:
+chan_setbank 12
+chan_setinstr 10
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.sound_o_walker_eat:
+chan_setbank 12
+chan_setinstr 11
+chan_setlayer 0, .layer_level_o_walker
+chan_end
+
+.layer_level_o_walker:
+layer_note1 39, 0x88, 127
+layer_end
+
+//end walker
+
+//Pokemon
+
+.sound_level_j_hooh:
+chan_setbank 12
+chan_setinstr 13
+chan_setlayer 0, .layer_level_j_hooh
+chan_end
+
+.layer_level_j_hooh:
+layer_note1 39, 0x7f, 127
+layer_end
+
+.sound_level_j_miltank:
+chan_setbank 12
+chan_setinstr 14
+chan_setlayer 0, .layer_level_j_miltank
+chan_end
+
+.layer_level_j_miltank:
+layer_note1 39, 0x7f, 127
+layer_end
+
+.sound_level_j_geodude:
+chan_setbank 12
+chan_setinstr 15
+chan_setlayer 0, .layer_level_j_geodude
+chan_end
+
+.layer_level_j_geodude:
+layer_note1 39, 0x7f, 127
+layer_end
+
+//End Pokemon
+
+//-----START LEVEL I-----//
+
+//Hoodboomer
+
+.sound_level_i_hoodboomer_death:
+chan_setbank 12
+chan_setinstr 26
+chan_setlayer 0, .layer_level_i_hoodboomer_death
+chan_end
+
+    .layer_level_i_hoodboomer_death:
+    layer_note1 39, 0x49, 127
+    layer_end
+
+.sound_level_i_hoodboomer_laugh:
+chan_setbank 12
+chan_setinstr 27
+chan_setlayer 0, .layer_level_i_hoodboomer_laugh
+chan_end
+
+    .layer_level_i_hoodboomer_laugh:
+    layer_note1 39, 0xC0, 127
+    layer_end
+
+.sound_level_i_hoodboomer_haha:
+chan_setbank 12
+chan_setinstr 28
+chan_setlayer 0, .layer_level_i_hoodboomer_haha
+chan_end
+
+    .layer_level_i_hoodboomer_haha:
+    layer_note1 39, 0x61, 127
+    layer_end
+
+//Caged Toad
+
+.sound_level_i_toad_help:
+chan_setbank 12
+chan_setinstr 29
+chan_setlayer 0, .layer_level_i_toad_help
+chan_end
+
+    .layer_level_i_toad_help:
+    layer_note1 39, 0xC0, 127
+    layer_end
+
+//Magic shield
+
+.sound_level_i_magic_shield:
+chan_setbank 12
+chan_setinstr 30
+chan_setlayer 0, .layer_level_i_magic_shield
+chan_end
+
+    .layer_level_i_magic_shield:
+    layer_note1 39, 0x9C, 127
+    layer_end
+
+//Hoodoo Sorcerer
+
+.sound_level_i_hoodoo_sorcerer_death:
+chan_setbank 12
+chan_setinstr 31
+chan_setlayer 0, .layer_level_i_hoodoo_sorcerer_death
+chan_end
+
+    .layer_level_i_hoodoo_sorcerer_death:
+    layer_note1 39, 0xFF, 127
+    layer_end
+
+//Pigoot
+
+.sound_level_i_pigpot_death:
+chan_setbank 12
+chan_setinstr 32
+chan_setlayer 0, .layer_level_i_pigpot_death
+chan_end
+
+    .layer_level_i_pigpot_death:
+    layer_note1 39, 0x95, 127
+    layer_end
+
+//grenade
+
+.sound_level_i_grenade:
+chan_setbank 12
+chan_setinstr 33
+chan_setlayer 0, .layer_level_i_grenade
+chan_end
+
+    .layer_level_i_grenade:
+    layer_note1 39, 0x17, 127
+    layer_end
+
+//hoodmonger
+
+.sound_level_i_hoodmonger_shot:
+chan_setbank 12
+chan_setinstr 34
+chan_setlayer 0, .layer_level_i_hoodmonger_shot
+chan_end
+
+    .layer_level_i_hoodmonger_shot:
+    layer_note1 39, 0x1B, 127
+    layer_end
+
+.sound_level_i_hoodmonger_reload:
+chan_setbank 12
+chan_setinstr 35
+chan_setlayer 0, .layer_level_i_hoodmonger_reload
+chan_end
+
+    .layer_level_i_hoodmonger_reload:
+    layer_note1 39, 0x38, 127
+    layer_end
+
+.sound_level_i_hoodmonger_alert:
+chan_setbank 12
+chan_setinstr 40
+chan_setlayer 0, .layer_level_i_hoodmonger_alert
+chan_end
+
+    .layer_level_i_hoodmonger_alert:
+    layer_note1 39, 0x47, 127
+    layer_end
+
+.sound_level_i_hoodmonger_death1:
+chan_setbank 12
+chan_setinstr 41
+chan_setlayer 0, .layer_level_i_hoodmonger_death1
+chan_end
+
+    .layer_level_i_hoodmonger_death1:
+    layer_note1 39, 0x3F, 127
+    layer_end
+
+.sound_level_i_hoodmonger_parry:
+chan_setbank 12
+chan_setinstr 42
+chan_setlayer 0, .layer_level_i_hoodmonger_parry
+chan_end
+
+    .layer_level_i_hoodmonger_parry:
+    layer_note1 39, 0x64, 127
+    layer_end
+
+//Master_kaag
+
+.sound_level_i_master_kaag_angry:
+chan_setbank 12
+chan_setinstr 36
+chan_setlayer 0, .layer_level_i_master_kaag_angry
+chan_end
+
+    .layer_level_i_master_kaag_angry:
+    layer_note1 39, 0x85, 127
+    layer_end
+
+.sound_level_i_master_kaag_laugh:
+chan_setbank 12
+chan_setinstr 37
+chan_setlayer 0, .layer_level_i_master_kaag_laugh
+chan_end
+
+    .layer_level_i_master_kaag_laugh:
+    layer_note1 39, 0x73, 127
+    layer_end
+
+.sound_level_i_master_kaag_stomp:
+chan_setbank 12
+chan_setinstr 38
+chan_setlayer 0, .layer_level_i_master_kaag_stomp
+chan_end
+
+    .layer_level_i_master_kaag_stomp:
+    layer_note1 39, 0x44, 127
+    layer_end
+
+.sound_level_i_master_kaag_damage:
+chan_setbank 12
+chan_setinstr 39
+chan_setlayer 0, .layer_level_i_master_kaag_damage
+chan_end
+
+    .layer_level_i_master_kaag_damage:
+    layer_note1 39, 0x75, 127
+    layer_end
+
+//-----END LEVEL I-----//
 
 .align 2, 0
 .envelope_32C4:

@@ -196,7 +196,6 @@
 'ロ' = 0x9A
 'ワ' = 0x9B
 # 0x9C is unused, only defined in jp menu char lut
-'ヲ' = 0x9C
 'ン' = 0x9D
 ' ' = 0x9E
 '　' = 0x9E
@@ -318,6 +317,7 @@
 '[C]' = 0x56
 '[Z]' = 0x57
 '[R]' = 0x58
+'[L]' = 0x59
 '/' = 0xD0
 
 # multi-text US symbols

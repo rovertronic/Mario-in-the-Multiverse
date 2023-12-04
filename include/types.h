@@ -32,21 +32,19 @@ struct Config {
     u8 tvType;
 };
 
-struct Controller {
-  /*0x00*/ s16 rawStickX;       //
-  /*0x02*/ s16 rawStickY;       //
-  /*0x04*/ f32 stickX;          // [-64, 64] positive is right
-  /*0x08*/ f32 stickY;          // [-64, 64] positive is up
-  /*0x0C*/ f32 stickMag;        // distance from center [0, 64]
-  /*0x10*/ u16 buttonDown;
-  /*0x12*/ u16 buttonPressed;
-  /*0x14*/ u16 buttonReleased;
-  /*0x18*/ OSContStatus *statusData;
-  /*0x1C*/ OSContPadEx *controllerData;
-#if ENABLE_RUMBLE
-  /*0x20*/ s32 port;
-#endif
-};
+typedef struct Controller {
+    /*0x00*/ s16 rawStickX;               // Analog stick [-128, 128] positive is right. Used for menus.
+    /*0x02*/ s16 rawStickY;               // Analog stick [-128, 128] positive is up. Used for menus.
+    /*0x04*/ f32 stickX;                  // Analog stick [-64, 64] positive is right. Used for gameplay.
+    /*0x08*/ f32 stickY;                  // Analog stick [-64, 64] positive is up. Used for gameplay.
+    /*0x0C*/ f32 stickMag;                // Analog stick distance from center [0, 64]. Used for gameplay.
+    /*0x10*/ u16 buttonDown;              // Buttons held down on the current frame.
+    /*0x12*/ u16 buttonPressed;           // Buttons pressed on the current frame but not held on the previous frame.
+    /*0x14*/ u16 buttonReleased;          // Burrons released on the current frame and held on the previous frame.
+    /*0x18*/ OSContStatus* statusData;    // Pointer to the controller status data in gControllerStatuses.
+    /*0x1C*/ OSContPadEx* controllerData; // Pointer to the raw input data in gControllerPads.
+    /*0x20*/ s32 port;                    // The port index this controller is plugged into [0, 3].
+} Controller; /*0x24*/
 
 // -- Booleans --
 
@@ -105,9 +103,6 @@ typedef COLLISION_DATA_TYPE Collision; // Collision is by default an s16, but it
 typedef Collision TerrainData;
 typedef Collision Vec3t[3];
 typedef Collision SurfaceType;
-
-typedef f32       Normal;
-typedef Normal    Vec3n[3];
 
 // -- Colors/Textures --
 
@@ -326,7 +321,7 @@ struct Object {
         const void *asConstVoidPtr[MAX_OBJECT_FIELDS];
     } ptrData;
 #endif
-    /*0x1C8*/ u32 unused1;
+              struct RigidBody *rigidBody;
     /*0x1CC*/ const BehaviorScript *curBhvCommand;
     /*0x1D0*/ u32 bhvStackIndex;
     /*0x1D4*/ uintptr_t bhvStack[8];
@@ -338,7 +333,6 @@ struct Object {
     /*0x204*/ f32 hurtboxHeight;
     /*0x208*/ f32 hitboxDownOffset;
     /*0x20C*/ const BehaviorScript *behavior;
-    /*0x210*/ u32 unused2;
     /*0x214*/ struct Object *platform;
     /*0x218*/ void *collisionData;
     /*0x21C*/ Mat4 transform;
@@ -346,6 +340,7 @@ struct Object {
 #ifdef PUPPYLIGHTS
     struct PuppyLight puppylight;
 #endif
+              u8 abilityChronosUpdatedCollisionLastFrame;
 };
 
 struct ObjectHitbox {
@@ -393,6 +388,7 @@ enum PunchStateTypes {
     PUNCH_STATE_TYPE_FIRST_PUNCH  = (0 << 6),
     PUNCH_STATE_TYPE_SECOND_PUNCH = (1 << 6),
     PUNCH_STATE_TYPE_KICK         = (2 << 6),
+    PUNCH_STATE_TYPE_SLASH        = (3 << 6),
 };
 
 struct MarioBodyState {
@@ -492,6 +488,41 @@ struct MarioState {
 
             u8 abilityId;
             u16 numGlobalCoins;
+
+            u8 abilityChronosTimeSlowActive;
+            u8 abilityChronosCanSlash;
+            
+            u8 canHMFly;
+
+            u8 knightDoubleJump;
+            u8 remainingDashes;
+            s8 numCheckpointFlag;
+            s8 keypad_id;
+};
+
+typedef uint8_t   qu08_t;
+typedef uint16_t  qu016_t;
+typedef int16_t   qs48_t;
+typedef int16_t   qs510_t;
+typedef uint16_t  qu510_t;
+typedef int16_t   qs102_t;
+typedef uint16_t  qu102_t;
+typedef int16_t   qs105_t;
+typedef uint16_t  qu105_t;
+typedef int16_t   qs132_t;
+typedef int16_t   qs142_t;
+typedef int32_t   qs1516_t;
+typedef int32_t   qs1616_t;
+typedef int32_t   qs205_t;
+
+struct GlobalFog
+{
+    /*0x00*/ u8 r;
+    /*0x01*/ u8 g;
+    /*0x02*/ u8 b;
+    /*0x03*/ u8 a;
+    /*0x04*/ s16 low;
+    /*0x04*/ s16 high;
 };
 
 #endif // TYPES_H

@@ -71,7 +71,7 @@ init_graph_node_ortho_projection(struct AllocOnlyPool *pool, struct GraphNodeOrt
 struct GraphNodePerspective *init_graph_node_perspective(struct AllocOnlyPool *pool,
                                                          struct GraphNodePerspective *graphNode,
                                                          f32 fov, u16 near, u16 far,
-                                                         GraphNodeFunc nodeFunc, s32 unused) {
+                                                         GraphNodeFunc nodeFunc) {
     if (pool != NULL) {
         graphNode = alloc_only_pool_alloc(pool, sizeof(struct GraphNodePerspective));
     }
@@ -83,7 +83,6 @@ struct GraphNodePerspective *init_graph_node_perspective(struct AllocOnlyPool *p
         graphNode->near = near;
         graphNode->far = far;
         graphNode->fnNode.func = nodeFunc;
-        graphNode->unused = unused;
 
         if (nodeFunc != NULL) {
             nodeFunc(GEO_CONTEXT_CREATE, &graphNode->fnNode.node, pool);
@@ -884,4 +883,39 @@ UNUSED struct GraphNodeRoot *geo_find_root(struct GraphNode *graphNode) {
     }
 
     return resGraphNode;
+}
+
+
+
+//--E
+struct GraphNodeAnimatedPart *init_graph_node_e__mario_common(struct AllocOnlyPool *pool,
+                                                            struct GraphNodeAnimatedPart *graphNode,
+                                                            s32 drawingLayer, void *displayList,
+                                                            Vec3s translation) {
+    if (pool != NULL) {
+        graphNode = alloc_only_pool_alloc(pool, sizeof(struct GraphNodeAnimatedPart)); }
+
+    if (graphNode != NULL) {
+        init_scene_graph_node_links(&graphNode->node, GRAPH_NODE_TYPE_E__MARIO_COMMON);
+        vec3s_copy(graphNode->translation, translation);
+        SET_GRAPH_NODE_LAYER(graphNode->node.flags, drawingLayer);
+        graphNode->displayList = displayList; }
+
+    return graphNode;
+}
+
+struct GraphNodeAnimatedPart *init_graph_node_e__mario_upper(struct AllocOnlyPool *pool,
+                                                            struct GraphNodeAnimatedPart *graphNode,
+                                                            s32 drawingLayer, void *displayList,
+                                                            Vec3s translation) {
+    if (pool != NULL) {
+        graphNode = alloc_only_pool_alloc(pool, sizeof(struct GraphNodeAnimatedPart)); }
+
+    if (graphNode != NULL) {
+        init_scene_graph_node_links(&graphNode->node, GRAPH_NODE_TYPE_E__MARIO_UPPER);
+        vec3s_copy(graphNode->translation, translation);
+        SET_GRAPH_NODE_LAYER(graphNode->node.flags, drawingLayer);
+        graphNode->displayList = displayList; }
+
+    return graphNode;
 }

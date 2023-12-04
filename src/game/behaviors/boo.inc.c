@@ -119,7 +119,11 @@ static void boo_approach_target_opacity_and_update_scale(void) {
         }
     }
 
-    scale = (o->oOpacity / 255.0f * 0.4 + 0.6) * o->oBooBaseScale;
+    if (o->oBehParams2ndByte == 1){
+        scale = (o->oOpacity / 255.0f);
+    } else {
+        scale = (o->oOpacity / 255.0f * 0.4 + 0.6) * o->oBooBaseScale;
+    }
     obj_scale(o, scale); // why no cur_obj_scale? was cur_obj_scale written later?
 }
 
@@ -147,16 +151,25 @@ static s32 boo_vanish_or_appear(void) {
 
     if (relativeAngleToMario > relativeAngleToMarioThreshhold
         || relativeMarioFaceAngle < relativeMarioFaceAngleThreshhold) {
-        if (o->oOpacity == 40) {
+        if (o->oOpacity == 40 || (o->oBehParams2ndByte == 1 && o->oOpacity == 0)) {
             o->oBooTargetOpacity = 255;
             cur_obj_play_sound_2(SOUND_OBJ_BOO_LAUGH_LONG);
         }
-
-        if (o->oOpacity > 180) {
-            doneAppearing = TRUE;
+        if (o->oBehParams2ndByte == 1){
+            if (o->oOpacity >= 255) {
+                doneAppearing = TRUE;
+            }
+        } else {
+            if (o->oOpacity > 180) {
+                doneAppearing = TRUE;
+            }
         }
     } else if (o->oOpacity == 255) {
-        o->oBooTargetOpacity = 40;
+        if (o->oBehParams2ndByte == 1){
+            o->oBooTargetOpacity = 0;
+        } else {
+            o->oBooTargetOpacity = 40;
+        }
     }
 
     return doneAppearing;
@@ -325,6 +338,13 @@ static s32 boo_get_attack_status(void) {
         }
     }
 
+    //--E
+    if (o->oInteractType) {
+        if (o->oShotByShotgun) {
+            attackStatus = BOO_ATTACKED; }
+    }
+    o->oShotByShotgun = 0;
+
     return attackStatus;
 }
 
@@ -373,7 +393,13 @@ static void boo_act_0(void) {
     o->oMoveAngleYaw = o->oBooInitialMoveYaw;
     boo_stop();
 
-    o->oBooParentBigBoo = cur_obj_nearest_object_with_behavior(bhvGhostHuntBigBoo);
+
+    if (o->oBehParams2ndByte == 1){
+        o->oBooParentBigBoo = cur_obj_nearest_object_with_behavior(bhvGengar);
+    } else {
+        o->oBooParentBigBoo = cur_obj_nearest_object_with_behavior(bhvGhostHuntBigBoo);
+    }
+    
     o->oBooBaseScale = 1.0f;
     o->oBooTargetOpacity = 255;
 
@@ -450,19 +476,30 @@ static void boo_act_3(void) {
 static void boo_act_4(void) {
     s32 dialogID;
 
-    // If there are no remaining "minion" boos, show the dialog of the Big Boo
-    if (cur_obj_nearest_object_with_behavior(bhvGhostHuntBoo) == NULL) {
-        dialogID = DIALOG_108;
+    if (o->oBehParams2ndByte == 1) {
+        if (cur_obj_update_dialog(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TEXT_DEFAULT, dialogID, 0)) {
+            create_sound_spawner(SOUND_OBJ_DYING_ENEMY1);
+            obj_mark_for_deletion(o);
+
+            if (cur_obj_nearest_object_with_behavior(bhvHaunter) == NULL) { // If the Big Boo should spawn, play the jingle
+                play_puzzle_jingle();
+            }
+        }
     } else {
-        dialogID = DIALOG_107;
-    }
+        // If there are no remaining "minion" boos, show the dialog of the Big Boo
+        if (cur_obj_nearest_object_with_behavior(bhvGhostHuntBoo) == NULL) {
+            dialogID = DIALOG_108;
+        } else {
+            dialogID = DIALOG_107;
+        }
 
-    if (cur_obj_update_dialog(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TEXT_DEFAULT, dialogID, 0)) {
-        create_sound_spawner(SOUND_OBJ_DYING_ENEMY1);
-        obj_mark_for_deletion(o);
+        if (cur_obj_update_dialog(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TEXT_DEFAULT, dialogID, 0)) {
+            create_sound_spawner(SOUND_OBJ_DYING_ENEMY1);
+            obj_mark_for_deletion(o);
 
-        if (dialogID == DIALOG_108) { // If the Big Boo should spawn, play the jingle
-            play_puzzle_jingle();
+            if (dialogID == DIALOG_108) { // If the Big Boo should spawn, play the jingle
+                play_puzzle_jingle();
+            }
         }
     }
 }
@@ -564,8 +601,14 @@ static void big_boo_act_2(void) {
     }
 }
 
+extern void spawn_no_exit_star(f32, f32, f32);
+
 static void big_boo_spawn_ghost_hunt_star(void) {
-    spawn_default_star(980.0f, 1100.0f, 250.0f);
+    if (o->oBehParams2ndByte == 1){
+        spawn_no_exit_star(-187.0f, 459.0f, -25618.0f);
+    } else {
+        spawn_default_star(980.0f, 1100.0f, 250.0f);
+    }
 }
 
 static void big_boo_spawn_balcony_star(void) {
@@ -597,9 +640,10 @@ static void big_boo_act_3(void) {
 
             obj_set_angle(o, 0, 0, 0);
 
-            if (o->oBehParams2ndByte == 0) {
+            ///I hope nobody else is relying on this behavior tee hee sorry Rovert! Ghost hunt star should be bParams 0 not 1!
+            if (o->oBehParams2ndByte == 1) {
                 big_boo_spawn_ghost_hunt_star();
-            } else if (o->oBehParams2ndByte == 1) {
+            } else if (o->oBehParams2ndByte == 0) {
                 big_boo_spawn_merry_go_round_star();
             } else {
                 big_boo_spawn_balcony_star();

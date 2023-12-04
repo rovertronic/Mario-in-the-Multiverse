@@ -119,7 +119,13 @@ void bhv_fish_group_loop(void) {
 
 void bhv_water_waves_init(void) {
     s32 i;
-    for (i = 0; i < 3; i++) {
-        spawn_object(o, MODEL_WHITE_PARTICLE_SMALL, bhvSmallParticle);
+    if (using_ability(ABILITY_BIG_DADDY)){
+        for (i = 0; i < 1; i++) {
+            spawn_object(o, MODEL_WHITE_PARTICLE_SMALL, bhvSmallParticle);
+        }
+    } else {
+        for (i = 0; i < 3; i++) {
+            spawn_object(o, MODEL_WHITE_PARTICLE_SMALL, bhvSmallParticleBubbles);
+        }
     }
 }

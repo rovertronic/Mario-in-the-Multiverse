@@ -33,10 +33,17 @@ void whomp_init(void) {
             }
         } else if (cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP, 
             DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, DIALOG_114)) {
+            o->oIntangibleTimer = 0;//--E
             o->oAction = 2;
         }
+        o->oFlags |= OBJ_FLAG_E__SG_BOSS;//--E
     } else if (o->oDistanceToMario < 500.0f) {
         o->oAction = 1;
+        o->oIntangibleTimer = 0;
+        //--E
+        o->oDeathSound = SOUND_OBJ_WHOMP;
+        o->oHealth = 3;
+        o->oFlags |= OBJ_FLAG_E__SG_BREAKABLE;
     }
 
     whomp_play_sfx_from_pound_animation();
@@ -123,7 +130,7 @@ void whomp_prepare_jump(void) {
 }
 
 void whomp_jump(void) {
-    if (o->oTimer == 0) {
+    if ((o->oTimer == 0) && (!o->oShotByShotgun)) {//--E
         o->oVelY = 40.0f;
     }
 
@@ -136,6 +143,8 @@ void whomp_jump(void) {
             o->oAction = 5;
         }
     }
+
+    o->oShotByShotgun = 0;//--E
 }
 
 void whomp_land(void) {
@@ -276,6 +285,26 @@ ObjActionFunc sWhompActions[] = {
 void bhv_whomp_loop(void) {
     cur_obj_update_floor_and_walls();
     cur_obj_call_action_function(sWhompActions);
+    //--E
+    if (o->oBehParams2ndByte != 0) {
+        switch (o->oAction) {
+        case 1:
+        case 2:
+        case 3:
+        case 6:
+        case 7:
+            if (o->oShotByShotgun) {
+                cur_obj_init_animation_with_accel_and_sound(1, 1.0f);
+                o->oAction = 4;
+            }
+        }
+    } else {
+        if (o->oShotByShotgun && o->activeFlags) {
+            play_sound(SOUND_OBJ_THWOMP, o->header.gfx.cameraToObject);
+            o->oShotByShotgun = 0;
+        }        
+    }
+
     cur_obj_move_standard(-20);
     if (o->oAction != 9) {
         if (o->oBehParams2ndByte != 0) {

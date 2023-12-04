@@ -50,10 +50,18 @@
 #include "puppylights.h"
 #include "actors/group0.h"
 
-#include "text_strings.h" //IGNORE THIS ERROR, make -j AGAIN
+#include "text_strings.h"
 
 #include "mitm_hub.h"
 #include "ability.h"
+
+// Ability specific variables
+u16 aku_invincibility = 0;
+u8 phasewalk_state = 0;
+u16 phasewalk_timer = 0;
+u16 chronos_timer = 0;
+u8 chronos_expended = FALSE;
+//
 
 Gfx gfx_ability_hand[2] = {gsSPDisplayList(mario_right_hand_closed),gsSPEndDisplayList()};
 Gfx gfx_ability_hat[2] = {gsSPEndDisplayList()};
@@ -63,17 +71,29 @@ ALIGNED8 u8 ability_images[][2048] = {
     { /*Default*/
     #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
     },
+    { /*Ability G*/
+    #include "actors/ability_images/custom_ability_g.rgba16.inc.c"
+    },
     { /*Ability A*/
     #include "actors/ability_images/custom_ability_a.rgba16.inc.c"
-    },
-    { /*Ability B*/
-    #include "actors/ability_images/custom_ability_b.rgba16.inc.c"
     },
     { /*Ability C*/
     #include "actors/ability_images/custom_ability_c.rgba16.inc.c"
     },
-    { /*Ability D*/
-    #include "actors/ability_images/custom_ability_d.rgba16.inc.c"
+    { /*Ability I*/
+    #include "actors/ability_images/custom_ability_i.rgba16.inc.c"
+    },
+    { /*Ability H*/
+    #include "actors/ability_images/custom_ability_h.rgba16.inc.c"
+    },
+    { /*Ability B*/
+    #include "actors/ability_images/custom_ability_b.rgba16.inc.c"
+    },
+    { /*Ability L*/
+    #include "actors/ability_images/custom_ability_l.rgba16.inc.c"
+    },
+    { /*Ability K*/
+    #include "actors/ability_images/custom_ability_k.rgba16.inc.c"
     },
     { /*Ability E*/
     #include "actors/ability_images/custom_ability_e.rgba16.inc.c"
@@ -81,32 +101,20 @@ ALIGNED8 u8 ability_images[][2048] = {
     { /*Ability F*/
     #include "actors/ability_images/custom_ability_f.rgba16.inc.c"
     },
-    { /*Ability G*/
-    #include "actors/ability_images/custom_ability_g.rgba16.inc.c"
-    },
-    { /*Ability H*/
-    #include "actors/ability_images/custom_ability_h.rgba16.inc.c"
-    },
-    { /*Ability I*/
-    #include "actors/ability_images/custom_ability_i.rgba16.inc.c"
-    },
     { /*Ability J*/
     #include "actors/ability_images/custom_ability_j.rgba16.inc.c"
     },
-    { /*Ability K*/
-    #include "actors/ability_images/custom_ability_k.rgba16.inc.c"
+    { /*Ability D*/
+    #include "actors/ability_images/custom_ability_d.rgba16.inc.c"
     },
-    { /*Ability L*/
-    #include "actors/ability_images/custom_ability_l.rgba16.inc.c"
-    },
-    { /*Ability M*/
-    #include "actors/ability_images/custom_ability_m.rgba16.inc.c"
+    { /*Ability O*/
+    #include "actors/ability_images/custom_ability_o.rgba16.inc.c"
     },
     { /*Ability N*/
     #include "actors/ability_images/custom_ability_n.rgba16.inc.c"
     },
-    { /*Ability O*/
-    #include "actors/ability_images/custom_ability_o.rgba16.inc.c"
+    { /*Ability M*/
+    #include "actors/ability_images/custom_ability_m.rgba16.inc.c"
     },
     {/*Locked*/
     #include "actors/ability_images/custom_ability_locked.rgba16.inc.c"
@@ -133,34 +141,42 @@ u8 abstr_o[] = {TEXT_ABILITY_O};
 struct ability ability_struct[] = {
     /*           HAND DISPLAY LIST        HAT DISPLAY LIST     MARIO MODEL ID     STRING */
     /*Default*/{&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_def},
-    /*A*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_a  },
-    /*B*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_b  },
-    /*C*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_c  },
-    /*D*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_d  },
-    /*E*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_e  },
-    /*F*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_f  },
-    /*G*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_g  },
-    /*H*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_h  },
-    /*I*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_i  },
-    /*J*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_j  },
-    /*K*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_k  },
-    /*L*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_l  },
-    /*M*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_m  },
-    /*N*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_n  },
+    /*G*/      {&mario_right_hand_closed  , &cutter_hat_Circle_mesh_layer_1               ,MODEL_MARIO       ,&abstr_g  },
+    /*A*/      {&net_hand_2_hand_mesh     , &bubble_hat_bhat_mesh               ,MODEL_MARIO       ,&abstr_a  },
+    /*C*/      {&mario_right_hand_closed  , &squid_hat_lunette_mesh               ,MODEL_MARIO       ,&abstr_c  },
+    /*I*/      {&rocket_hand_RaymanMissile_mesh_layer_1, NULL  ,MODEL_MARIO       ,&abstr_i  },
+    /*H*/      {&phasewalk_hand_hand_mesh , NULL               ,MODEL_MARIO       ,&abstr_h  },
+    /*B*/      {&bigdaddyhand_Plane_mesh  , bigdaddyhat_bigdaddy_mesh               ,MODEL_MARIO       ,&abstr_b  },
+    /*L*/      {&mario_right_hand_closed  , NULL               ,MODEL_KNIGHT_MARIO,&abstr_l  },
+    /*K*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO_K     ,&abstr_k  },
+    /*E*/      {&mario_right_hand_closed  , NULL               ,MODEL_E__MARIO    ,&abstr_e  },
+    /*F*/      {&hand_f_hand_mesh         , &hat_f_hat_mesh    ,MODEL_MARIO       ,&abstr_f  },
+    /*J*/      {&pokeball_hand_hand_mesh  , NULL               ,MODEL_MARIO       ,&abstr_j  },
+    /*D*/      {&mario_right_hand_closed  , ability_d_mask_hat_mesh ,MODEL_MARIO       ,&abstr_d  },
     /*O*/      {&saw_hand_skinned_016_mesh, NULL               ,MODEL_MARIO       ,&abstr_o  },
+    /*N*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_n  },
+    /*M*/      {&hand_m_hand_mesh         , NULL               ,MODEL_MARIO       ,&abstr_m  },
 };
 
+u16 ability_cooldown_flags = 0; //Flags that determine if their ability icon is "greyed out" or not; 0 = normal, 1 = cooling down
+
 void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index) {
+    if (ability_is_cooling_down(index)) {
+        alpha = 100+(sins(gGlobalTimer*0x600)*30);
+    }
+
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, alpha);
     create_dl_translation_matrix(MENU_MTX_PUSH, x, y, 0);
 
 	gDPPipeSync(gDisplayListHead++);
+    gDPSetTextureFilter(gDisplayListHead++,G_TF_POINT);
 	gDPSetTextureImage(gDisplayListHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, &ability_images[index]);
 	gDPSetTile(gDisplayListHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0);
 	gDPLoadBlock(gDisplayListHead++,7, 0, 0, 1023, 256);
 
     gSPDisplayList(gDisplayListHead++,ability_ability_mesh);
     
+    gDPSetTextureFilter(gDisplayListHead++,G_TF_BILERP);
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 }
 
@@ -179,6 +195,7 @@ Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context
         dlStart = dlHead;
 
         gDPPipeSync(dlHead++);
+        gDPSetTextureFilter(dlHead++,G_TF_POINT);
         gDPSetCombineLERP(dlHead++,0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0);
         gSPTexture(dlHead++,65535, 65535, 0, 0, 1);
         gDPSetTextureImage(dlHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, ability_images[obj->oBehParams2ndByte]);
@@ -186,8 +203,6 @@ Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context
         gDPLoadBlock(dlHead++,7, 0, 0, 1023, 256);
         gDPSetTile(dlHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0);
         gDPSetTileSize(dlHead++,0, 0, 0, 124, 124);
-        gSPEndDisplayList(dlHead++);
-
         gSPEndDisplayList(dlHead++);
     }
     return dlStart;
@@ -225,6 +240,36 @@ void render_ability_dpad(s16 x, s16 y, u8 alpha) {
     }
 }
 
+void change_ability(s8 picked_ability) {
+    // Set Mario's Ability Variable
+    gMarioState->abilityId = picked_ability;
+
+    // Hand Display List
+    gSPDisplayList(&gfx_ability_hand[0], ability_struct[gMarioState->abilityId].hand);
+    gSPEndDisplayList(&gfx_ability_hand[1]);
+
+    //Hat Display List
+    if (ability_struct[gMarioState->abilityId].hat == NULL) {
+        gSPEndDisplayList(&gfx_ability_hat[0]);
+    } else {
+        gSPDisplayList(&gfx_ability_hat[0], ability_struct[gMarioState->abilityId].hat);
+        gSPEndDisplayList(&gfx_ability_hat[1]);
+    }
+
+    // Mario Model
+    gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
+
+    // Equip Sound Effect
+    switch(gMarioState->abilityId) {
+        case ABILITY_AKU:
+            play_sound(SOUND_ABILITY_AKU_AKU, gGlobalSoundSource);
+        break;
+        case ABILITY_KNIGHT:
+            play_sound(SOUND_ABILITY_KNIGHT_EQUIP, gGlobalSoundSource);
+        break;
+    }
+}
+
 void control_ability_dpad(void) {
     s8 picked_ability = -1;
 
@@ -240,29 +285,17 @@ void control_ability_dpad(void) {
     if (gPlayer1Controller->buttonPressed & L_JPAD) {
         picked_ability = 3;
     }
+    if ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE) {
+        if (picked_ability > -1 && cur_obj_nearest_object_with_behavior(bhvShockRocket) == NULL) { // disable ability switching while controlling the rocket
+            // Set Mario's Ability Variable
+            gMarioState->abilityId = ability_slot[picked_ability];
 
-    if (picked_ability > -1) {
-        // Set Mario's Ability Variable
-        gMarioState->abilityId = ability_slot[picked_ability];
+            // Animate image on DPad HUD
+            ability_y_offset[picked_ability] = 5;
+            ability_gravity[picked_ability] = 2;
 
-        // Animate image on DPad HUD
-        ability_y_offset[picked_ability] = 5;
-        ability_gravity[picked_ability] = 2;
-
-        // Hand Display List
-        gSPDisplayList(&gfx_ability_hand[0], ability_struct[gMarioState->abilityId].hand);
-        gSPEndDisplayList(&gfx_ability_hand[1]);
-
-        //Hat Display List
-        if (ability_struct[gMarioState->abilityId].hat == NULL) {
-            gSPEndDisplayList(&gfx_ability_hat[0]);
-        } else {
-            gSPDisplayList(&gfx_ability_hat[0], ability_struct[gMarioState->abilityId].hat);
-            gSPEndDisplayList(&gfx_ability_hat[1]);
+            change_ability(ability_slot[picked_ability]);
         }
-
-        // Mario Model
-        gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
     }
 }
 
@@ -272,4 +305,64 @@ u8 using_ability(u8 ability_id) {
 
 u8* ability_string(u8 ability_id) {
     return (ability_struct[ability_id].string);
+}
+
+u16 ability_is_cooling_down(u8 ability_id) {
+    return (ability_cooldown_flags & (1<<ability_id));
+}
+
+u8 cool_down_ability(u8 ability_id) {
+    ability_cooldown_flags |= (1<<ability_id);
+}
+
+u8 ability_ready(u8 ability_id) {
+    ability_cooldown_flags &= ~(1<<ability_id);
+}
+
+
+//--E
+
+//graph
+struct AnimInfo gE_UpperAnimInfo = { 0 };//Some of this might not be necessary, but optimization isn't the goal. Might polish this later on after MitM
+u8   gE_UpperAnimType      = 0;
+s16  gE_UpperAnimFrame     = 0;
+u16 *gE_UpperAnimAttribute = NULL;
+s16 *gE_UpperAnimData      = NULL;
+
+s16 gE_UpperAimPitch = 0;
+s16 gE_UpperAimYaw   = 0;
+
+//behavior
+s8 gE_ShotgunTimer = 0;
+u8 gE_ShotgunFlags = 0x00;
+u8 gE_MaxObjsHitPerShot = 8;
+
+
+/**
+ * Returns whether the current frame can unfreeze itself, for Axo's Chronos
+ * ability's time slow mechanic. Always true if time slow is not active.
+ * Otherwise, it will only unfreeze every ABILITY_CHRONOS_SLOW_SPLIT frames.
+ * This uses static variables for optimization, so that the modulo operation
+ * is not run more than once per frame.
+ */
+u8 ability_chronos_frame_can_progress(void) {
+    static u8 frameCounter = 0;
+    static u8 curFrame = 0;
+
+    if (!gMarioState->abilityChronosTimeSlowActive) {
+        return TRUE;
+    }
+    else if (curFrame != gGlobalTimer) {
+        curFrame = gGlobalTimer;
+        frameCounter = curFrame % ABILITY_CHRONOS_SLOW_SPLIT;
+    }
+
+    return frameCounter == 0;
+}
+
+/**
+ * Returns the current factor by which to slow time at, if at all.
+ */
+f32 ability_chronos_current_slow_factor(void) {
+    return gMarioState->abilityChronosTimeSlowActive ? ABILITY_CHRONOS_SLOW_FACTOR : 1.0f;
 }

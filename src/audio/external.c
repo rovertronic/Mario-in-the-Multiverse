@@ -85,8 +85,10 @@ enum DialogSpeakers {
 #define _ 0xFF
 
 u8 sDialogSpeaker[] = {
-    //       0      1      2      3      4      5      6      7      8      9
-    /* 0*/ _,     BOMB,  BOMB,  BOMB,  BOMB,  KOOPA, KOOPA, KOOPA, _,     KOOPA,
+    //     0      1      2      3      4      5      6      7      8      9
+    /*new*/_,     _,     _,     _,     _,     _,     _,     _,     _,     _, _, _, _, _, _,
+    /*I*/  _,     _,     _,     _,     _,     _,     _,     _,     _,/*/
+    /* 0*/ _,  BOMB,  BOMB,  BOMB,  BOMB,  KOOPA, KOOPA, KOOPA,    _,     KOOPA,
     /* 1*/ _,     _,     _,     _,     _,     _,     _,     KBOMB, _,     _,
     /* 2*/ _,     BOWS1, BOWS1, BOWS1, BOWS1, BOWS1, BOWS1, BOWS1, BOWS1, BOWS1,
     /* 3*/ _,     _,     _,     _,     _,     _,     _,     TUXIE, _,     _,
@@ -232,7 +234,7 @@ struct MusicDynamic sMusicDynamics[8] = {
 #define STUB_LEVEL(_0, _1, _2, _3, echo1, echo2, echo3, _7, _8) { echo1, echo2, echo3 },
 #define DEFINE_LEVEL(_0, _1, _2, _3, _4, _5, echo1, echo2, echo3, _9, _10) { echo1, echo2, echo3 },
 
-u8 sLevelAreaReverbs[LEVEL_COUNT][3] = {
+s8 sLevelAreaReverbs[LEVEL_COUNT][3] = {
     { 0x00, 0x00, 0x00 }, // LEVEL_NONE
 #include "levels/level_defines.h"
 };
@@ -313,10 +315,10 @@ STATIC_ASSERT(ARRAY_COUNT(sBackgroundMusicDefaultVolume) == SEQ_COUNT,
 
 u8 sCurrentBackgroundMusicSeqId = SEQUENCE_NONE;
 u8 sMusicDynamicDelay = 0;
-u8 sSoundBankUsedListBack[SOUND_BANK_COUNT] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-u8 sSoundBankFreeListFront[SOUND_BANK_COUNT] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-u8 sNumSoundsInBank[SOUND_BANK_COUNT] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // only used for debugging
-u8 sMaxChannelsForSoundBank[SOUND_BANK_COUNT] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+u8 sSoundBankUsedListBack[SOUND_BANK_COUNT];
+u8 sSoundBankFreeListFront[SOUND_BANK_COUNT];
+u8 sNumSoundsInBank[SOUND_BANK_COUNT]; // only used for debugging
+u8 sMaxChannelsForSoundBank[SOUND_BANK_COUNT];
 
 // sBackgroundMusicMaxTargetVolume and sBackgroundMusicTargetVolume use the 0x80
 // bit to indicate that they are set, and the rest of the bits for the actual value
@@ -348,7 +350,7 @@ struct UnkStruct80343D00 D_SH_80343D00;
 
 struct Sound sSoundRequests[0x100];
 // Curiously, this has size 3, despite SEQUENCE_PLAYERS == 4 on EU
-struct ChannelVolumeScaleFade D_80360928[3][CHANNELS_MAX];
+struct ChannelVolumeScaleFade D_80360928[SEQUENCE_PLAYERS][CHANNELS_MAX];
 u8 sUsedChannelsForSoundBank[SOUND_BANK_COUNT];
 u8 sCurrentSound[SOUND_BANK_COUNT][MAX_CHANNELS_PER_SOUND_BANK]; // index into sSoundBanks
 
@@ -1138,7 +1140,8 @@ static f32 get_sound_freq_scale(u8 bank, u8 item) {
 static u32 get_sound_reverb(UNUSED u8 bank, UNUSED u8 soundIndex, u8 channelIndex) {
     u8 area;
     u8 level;
-    u8 reverb;
+    s8 areaEcho;
+    s16 reverb;
 
     // Disable level reverb if NO_ECHO is set
     if (sSoundBanks[bank][soundIndex].soundBits & SOUND_NO_ECHO) {
@@ -1152,18 +1155,27 @@ static u32 get_sound_reverb(UNUSED u8 bank, UNUSED u8 soundIndex, u8 channelInde
         }
     }
 
-    // reverb = reverb adjustment + level reverb + a volume-dependent value
+    areaEcho = sLevelAreaReverbs[level][area];
+
+    if (gAreaData[gCurrAreaIndex].useEchoOverride && !(sSoundBanks[bank][soundIndex].soundBits & SOUND_NO_ECHO)) {
+        areaEcho = gAreaData[gCurrAreaIndex].echoOverride;
+    }
+
+    // reverb = reverb adjustment + level reverb (or level script override value) + a volume-dependent value
     // The volume-dependent value is 0 when volume is at maximum, and raises to
     // LOW_VOLUME_REVERB when the volume is 0
-    reverb = (u8)(u8) gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->soundScriptIO[5]
-                  + sLevelAreaReverbs[level][area]
-                  + ((1.0f - gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->volume)
-                        * LOW_VOLUME_REVERB);
+    reverb = (s16) ((u8) gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->soundScriptIO[5]) + areaEcho;
 
-    if (reverb > 0x7f) {
+    // NOTE: In some cases, it may be better to apply this after ensuring reverb is non-negative so the result doesn't end up sounding way too dry.
+    // This has been left as-is however because in most cases where negative reverb is even used, this is probably desirable anyway.
+    reverb += (s16) ((1.0f - gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->volume) * LOW_VOLUME_REVERB);
+
+    if (reverb < 0 || areaEcho <= -0x80) {
+        reverb = 0;
+    } else if (reverb > 0x7f) {
         reverb = 0x7f;
     }
-    return reverb;
+    return (u8) reverb;
 }
 
 /**
@@ -1336,6 +1348,8 @@ static void update_game_sound(void) {
                         case SOUND_BANK_AIR:
                         case SOUND_BANK_GENERAL2:
                         case SOUND_BANK_OBJ2:
+                        case SOUND_BANK_MITM_ABILITY:
+                        case SOUND_BANK_MITM_LEVEL:
 #if defined(VERSION_EU) || defined(VERSION_SH)
                             func_802ad770(0x05020000 | ((channelIndex & 0xff) << 8),
                                           get_sound_reverb(bank, soundIndex, channelIndex));
@@ -1502,6 +1516,8 @@ static void update_game_sound(void) {
                         case SOUND_BANK_AIR:
                         case SOUND_BANK_GENERAL2:
                         case SOUND_BANK_OBJ2:
+                        case SOUND_BANK_MITM_ABILITY:
+                        case SOUND_BANK_MITM_LEVEL:
 #if defined(VERSION_EU) || defined(VERSION_SH)
                             func_802ad770(0x05020000 | ((channelIndex & 0xff) << 8),
                                           get_sound_reverb(bank, soundIndex, channelIndex));
@@ -1953,6 +1969,7 @@ void sound_init(void) {
         sSoundBankUsedListBack[i] = 0;
         sSoundBankFreeListFront[i] = 1;
         sNumSoundsInBank[i] = 0;
+        sMaxChannelsForSoundBank[i] = MAX_CHANNELS_PER_SOUND_BANK;
     }
 
     for (i = 0; i < SOUND_BANK_COUNT; i++) {
@@ -1969,7 +1986,7 @@ void sound_init(void) {
         sSoundBanks[i][j].next = 0xff;
     }
 
-    for (j = 0; j < 3; j++) {
+    for (j = 0; j < SEQUENCE_PLAYERS; j++) {
         for (i = 0; i < CHANNELS_MAX; i++) {
             D_80360928[j][i].remainingFrames = 0;
         }
@@ -1985,7 +2002,6 @@ void sound_init(void) {
     sLowerBackgroundMusicVolume = FALSE;
     sSoundBanksThatLowerBackgroundMusic = 0;
     sCurrentBackgroundMusicSeqId = 0xff;
-    gSoundMode = SOUND_MODE_STEREO;
     sBackgroundMusicQueueSize = 0;
     sBackgroundMusicMaxTargetVolume = TARGET_VOLUME_UNSET;
     D_80332120 = 0;
@@ -2187,9 +2203,7 @@ void play_music(u8 player, u16 seqArgs, u16 fadeTimer) {
 
     // Abort if the queue is already full.
     if (sBackgroundMusicQueueSize >= MAX_BACKGROUND_MUSIC_QUEUE_SIZE) {
-#ifdef PUPPYPRINT_DEBUG
         append_puppyprint_log("Sequence queue full, aborting.");
-#endif
         return;
     }
 

@@ -355,13 +355,15 @@ void bhv_klepto_update(void) {
                 break;
         }
 
-        if (obj_handle_attacks(&sKleptoHitbox, o->oAction, sKleptoAttackHandlers)) {
+        if (obj_handle_attacks(&sKleptoHitbox, o->oAction, sKleptoAttackHandlers)
+            || o->oShotByShotgun) {//--E
+            o->oShotByShotgun = 0;
             cur_obj_play_sound_2(SOUND_OBJ_KLEPTO_ATTACKED);
 
             if (o->oAnimState == KLEPTO_ANIM_STATE_HOLDING_CAP) {
                 save_file_clear_flags(SAVE_FLAG_CAP_ON_KLEPTO);
                 spawn_object(o, MODEL_MARIOS_CAP, bhvNormalCap);
-            } else if (o->oAnimState == KLEPTO_ANIM_STATE_HOLDING_STAR) {
+            } else if (o->oAnimState == KLEPTO_ANIM_STATE_HOLDING_STAR || o->oAnimState == KLEPTO_ANIM_STATE_HOLDING_TRANSPARENT_STAR) {
                 spawn_default_star(-5550.0f, 300.0f, -930.0f);
             }
 

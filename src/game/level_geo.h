@@ -3,6 +3,8 @@
 
 #include <PR/ultratypes.h>
 #include <PR/gbi.h>
+//--E
+#include "src/game/e__shotgun_effects.h"
 
 enum EnvFxMode {
     /* 0*/ ENVFX_MODE_NONE,         // no effects
@@ -18,5 +20,7 @@ enum EnvFxMode {
 
 Gfx *geo_envfx_main(s32 callContext, struct GraphNode *node, Mat4 mtxf);
 Gfx *geo_skybox_main(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
+Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *context);
+Gfx *geo_update_j_invisible_path_2(s32 callContext, struct GraphNode *node, UNUSED void *context);
 
 #endif // LEVEL_GEO_H

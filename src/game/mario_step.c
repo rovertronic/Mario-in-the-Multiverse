@@ -9,6 +9,8 @@
 #include "game_init.h"
 #include "interaction.h"
 #include "mario_step.h"
+#include "ability.h"
+#include "include/behavior_data.h"
 
 #include "config.h"
 
@@ -165,6 +167,15 @@ u32 mario_update_quicksand(struct MarioState *m, f32 sinkingSpeed) {
                 return drop_and_set_mario_action(m, ACT_QUICKSAND_DEATH, 0);
                 break;
 
+            case SURFACE_STAR_DOOR_WARP:;
+                f32 dist;
+                struct Object *starDoorHandler = cur_obj_find_nearest_object_with_behavior(bhvGStarDoor, &dist);
+
+                if (starDoorHandler) {
+                    starDoorHandler->oAction = 1;
+                }
+            break;
+
             default:
                 m->quicksandDepth = 0.0f;
                 break;
@@ -242,8 +253,10 @@ void stop_and_set_height_to_floor(struct MarioState *m) {
     mario_set_forward_vel(m, 0.0f);
     m->vel[1] = 0.0f;
 
-    //! This is responsible for some downwarps.
-    m->pos[1] = m->floorHeight;
+    // HackerSM64 2.1: This check fixes the ledgegrab downwarp after being pushed off a ledge.
+    if (m->pos[1] <= m->floorHeight + 160.0f) {
+        m->pos[1] = m->floorHeight;
+    }
 
     vec3f_copy(marioObj->header.gfx.pos, m->pos);
     vec3s_set(marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
@@ -259,9 +272,10 @@ s32 stationary_ground_step(struct MarioState *m) {
     if (takeStep) {
         stepResult = perform_ground_step(m);
     } else {
-        //! TODO - This is responsible for many stationary downwarps but is
-        // important for stuff like catching Bowser in midair, figure out a good way to fix
-        m->pos[1] = m->floorHeight;
+        // HackerSM64 2.1: This check prevents the downwarps that plagued stationary actions.
+        if (m->pos[1] <= m->floorHeight + 160.0f) {
+            m->pos[1] = m->floorHeight;
+        }
 
         vec3f_copy(marioObj->header.gfx.pos, m->pos);
         vec3s_set(marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
@@ -349,9 +363,15 @@ s32 perform_ground_step(struct MarioState *m) {
 
     set_mario_wall(m, NULL);
 
+    m->remainingDashes = 3;
+
+    if (!(m->input & INPUT_A_PRESSED)) {
+        m->canHMFly = 1;
+    }
+
     for (i = 0; i < 4; i++) {
-        intendedPos[0] = m->pos[0] + m->floor->normal.y * (m->vel[0] / numSteps);
-        intendedPos[2] = m->pos[2] + m->floor->normal.y * (m->vel[2] / numSteps);
+        intendedPos[0] = m->pos[0] + m->floor->normal.y * ((m->vel[0] * ability_chronos_current_slow_factor()) / numSteps);
+        intendedPos[2] = m->pos[2] + m->floor->normal.y * ((m->vel[2] * ability_chronos_current_slow_factor()) / numSteps);
         intendedPos[1] = m->pos[1];
 
         stepResult = perform_ground_quarter_step(m, intendedPos);
@@ -367,6 +387,11 @@ s32 perform_ground_step(struct MarioState *m) {
     if (stepResult == GROUND_STEP_HIT_WALL_CONTINUE_QSTEPS) {
         stepResult = GROUND_STEP_HIT_WALL;
     }
+
+    if (stepResult != GROUND_STEP_LEFT_GROUND && !mario_floor_is_slippery(m)) {
+        m->abilityChronosCanSlash = TRUE;
+    }
+
     return stepResult;
 }
 
@@ -605,50 +630,66 @@ u32 should_strengthen_gravity_for_jump_ascent(struct MarioState *m) {
     return FALSE;
 }
 
-void apply_gravity(struct MarioState *m) {
+void apply_gravity(struct MarioState *m, f32 slowFactor) {
     if (m->action == ACT_TWIRLING && m->vel[1] < 0.0f) {
         apply_twirl_gravity(m);
     } else if (m->action == ACT_SHOT_FROM_CANNON) {
-        m->vel[1] -= 1.0f;
+        m->vel[1] -= 1.0f * slowFactor;
         if (m->vel[1] < -75.0f) {
             m->vel[1] = -75.0f;
         }
     } else if (m->action == ACT_LONG_JUMP || m->action == ACT_SLIDE_KICK
                || m->action == ACT_BBH_ENTER_SPIN) {
-        m->vel[1] -= 2.0f;
+        m->vel[1] -= 2.0f * slowFactor;
+        if ((using_ability(ABILITY_BIG_DADDY)) && (m->pos[1] < check_water_height)) {
+            if (m->vel[1] < -25.0f) {
+                m->vel[1] = -25.0f;
+            }
+        } else {
+            if (m->vel[1] < -75.0f) {
+                m->vel[1] = -75.0f;
+            }
+        }
+    } else if (m->action == ACT_GROUND_POUND && using_ability(ABILITY_BIG_DADDY)) {
         if (m->vel[1] < -75.0f) {
             m->vel[1] = -75.0f;
         }
     } else if (m->action == ACT_LAVA_BOOST || m->action == ACT_FALL_AFTER_STAR_GRAB) {
-        m->vel[1] -= 3.2f;
+        m->vel[1] -= 3.2f * slowFactor;
         if (m->vel[1] < -65.0f) {
             m->vel[1] = -65.0f;
         }
     } else if (m->action == ACT_GETTING_BLOWN) {
-        m->vel[1] -= m->windGravity;
+        m->vel[1] -= m->windGravity * slowFactor;
         if (m->vel[1] < -75.0f) {
             m->vel[1] = -75.0f;
         }
     } else if (should_strengthen_gravity_for_jump_ascent(m)) {
-        m->vel[1] /= 4.0f;
+        m->vel[1] /= 4.0f * slowFactor;
     } else if (m->action & ACT_FLAG_METAL_WATER) {
-        m->vel[1] -= 1.6f;
+        m->vel[1] -= 1.6f * slowFactor;
         if (m->vel[1] < -16.0f) {
             m->vel[1] = -16.0f;
         }
     } else if ((m->flags & MARIO_WING_CAP) && m->vel[1] < 0.0f && (m->input & INPUT_A_DOWN)) {
         m->marioBodyState->wingFlutter = TRUE;
 
-        m->vel[1] -= 2.0f;
+        m->vel[1] -= 2.0f * slowFactor;
         if (m->vel[1] < -37.5f) {
             if ((m->vel[1] += 4.0f) > -37.5f) {
                 m->vel[1] = -37.5f;
             }
         }
     } else {
-        m->vel[1] -= 4.0f;
-        if (m->vel[1] < -75.0f) {
-            m->vel[1] = -75.0f;
+        m->vel[1] -= 4.0f * slowFactor;
+        if((using_ability(ABILITY_BIG_DADDY)) && (m->pos[1] < check_water_height)) {
+            if (m->vel[1] < -25.0f) {
+                m->vel[1] = -25.0f;
+            }
+        } else {
+            if (m->vel[1] < -75.0f) {
+                m->vel[1] = -75.0f;
+            }
         }
     }
 }
@@ -685,9 +726,9 @@ s32 perform_air_step(struct MarioState *m, u32 stepArg) {
     set_mario_wall(m, NULL);
 
     for (i = 0; i < 4; i++) {
-        intendedPos[0] = m->pos[0] + m->vel[0] / numSteps;
-        intendedPos[1] = m->pos[1] + m->vel[1] / numSteps;
-        intendedPos[2] = m->pos[2] + m->vel[2] / numSteps;
+        intendedPos[0] = m->pos[0] + (m->vel[0] * ability_chronos_current_slow_factor()) / numSteps;
+        intendedPos[1] = m->pos[1] + (m->vel[1] * ability_chronos_current_slow_factor()) / numSteps;
+        intendedPos[2] = m->pos[2] + (m->vel[2] * ability_chronos_current_slow_factor()) / numSteps;
 
         quarterStepResult = perform_air_quarter_step(m, intendedPos, stepArg);
 
@@ -709,7 +750,7 @@ s32 perform_air_step(struct MarioState *m, u32 stepArg) {
     m->terrainSoundAddend = mario_get_terrain_sound_addend(m);
 
     if (m->action != ACT_FLYING) {
-        apply_gravity(m);
+        apply_gravity(m, ability_chronos_current_slow_factor());
     }
     apply_vertical_wind(m);
 

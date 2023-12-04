@@ -1,0 +1,16 @@
+extern const GeoLayout o_lift[];
+extern Lights1 o_lift_Crate_lights;
+extern u8 o_lift_crate_ci4[];
+extern u8 o_lift_crate_pal_rgba16[];
+extern u8 o_lift_pogchain_ia8[];
+extern Vtx o_lift_lift_mesh_layer_1_vtx_0[32];
+extern Gfx o_lift_lift_mesh_layer_1_tri_0[];
+extern Vtx o_lift_lift_mesh_layer_4_vtx_0[32];
+extern Gfx o_lift_lift_mesh_layer_4_tri_0[];
+extern Gfx mat_o_lift_Crate[];
+extern Gfx mat_revert_o_lift_Crate[];
+extern Gfx mat_o_lift_chain[];
+extern Gfx mat_revert_o_lift_chain[];
+extern Gfx o_lift_lift_mesh_layer_1[];
+extern Gfx o_lift_lift_mesh_layer_4[];
+extern Gfx o_lift_material_revert_render_settings[];

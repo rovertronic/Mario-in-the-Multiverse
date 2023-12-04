@@ -21,7 +21,8 @@ enum SkyBackgroundParams {
     BACKGROUND_HAUNTED,
     BACKGROUND_GREEN_SKY,
     BACKGROUND_ABOVE_CLOUDS,
-    BACKGROUND_PURPLE_SKY
+    BACKGROUND_PURPLE_SKY,
+    BACKGROUND_ECRUTEAK
 };
 
 enum GeoLayoutCommands {
@@ -58,6 +59,9 @@ enum GeoLayoutCommands {
     /*0x1E*/ GEO_CMD_NOP_1E,
     /*0x1F*/ GEO_CMD_NOP_1F,
     /*0x20*/ GEO_CMD_NODE_CULLING_RADIUS,
+    //--E
+    /*0x21*/ GEO_CMD_E__MARIO_COMMON,
+    /*0x22*/ GEO_CMD_E__MARIO_UPPER,
 };
 
 // geo layout macros
@@ -466,5 +470,18 @@ enum GeoLayoutCommands {
  */
 #define GEO_CULLING_RADIUS(cullingRadius) \
     CMD_BBH(GEO_CMD_NODE_CULLING_RADIUS, 0x00, cullingRadius)
+
+
+
+//--E
+#define GEO_E__MARIO_COMMON(layer, x, y, z, unused1, unused2, unused3, displayList) \
+    CMD_BBH(GEO_CMD_E__MARIO_COMMON, layer, x), \
+    CMD_HH(y, z), \
+    CMD_PTR(displayList)
+
+#define GEO_E__MARIO_UPPER(layer, x, y, z, unused1, unused2, unused3, displayList) \
+    CMD_BBH(GEO_CMD_E__MARIO_UPPER, layer, x), \
+    CMD_HH(y, z), \
+    CMD_PTR(displayList)
 
 #endif // GEO_COMMANDS_H

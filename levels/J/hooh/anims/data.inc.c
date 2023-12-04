@@ -1,0 +1,5 @@
+#include "anim_FlyInPlace.inc.c"
+#include "anim_Attack1.inc.c"
+#include "anim_Attack2.inc.c"
+#include "anim_Damage.inc.c"
+#include "anim_Rise.inc.c"

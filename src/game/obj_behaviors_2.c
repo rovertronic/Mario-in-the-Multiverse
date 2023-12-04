@@ -46,6 +46,7 @@
 #include "seq_ids.h"
 #include "spawn_sound.h"
 #include "puppylights.h"
+#include "rigid_body.h"
 
 //! TODO: remove static
 
@@ -442,6 +443,42 @@ static s32 obj_resolve_object_collisions(s32 *targetYaw) {
     return FALSE;
 }
 
+static s32 obj_resolve_object_collisions_zombie(s32 *targetYaw) {
+    struct Object *otherObject;
+    f32 dx, dz;
+    s16 angle;
+    f32 radius, otherRadius, relativeRadius;
+
+    if (o->numCollidedObjs != 0) {
+        s32 i;
+        for (i = 0; i < o->numCollidedObjs; i++) {
+            otherObject = o->collidedObjs[i];
+            if (otherObject->behavior != segmented_to_virtual(bhvOZombie)) continue;
+            if (otherObject == gMarioObject) continue;
+            if (otherObject->oInteractType & INTERACT_MASK_NO_OBJ_COLLISIONS) continue;
+
+            dx = o->oPosX - otherObject->oPosX;
+            dz = o->oPosZ - otherObject->oPosZ;
+
+            radius = o->hurtboxRadius > 0 ? o->hurtboxRadius : o->hitboxRadius;
+            otherRadius = otherObject->hurtboxRadius > 0 ? otherObject->hurtboxRadius : otherObject->hitboxRadius;
+            relativeRadius = radius + otherRadius;
+
+            if ((sqr(dx) + sqr(dz)) > sqr(relativeRadius)) continue;
+            angle    = atan2s(dz, dx);
+            o->oPosX = otherObject->oPosX + (relativeRadius * sins(angle));
+            o->oPosZ = otherObject->oPosZ + (relativeRadius * coss(angle));
+
+            if (targetYaw != NULL && abs_angle_diff(o->oMoveAngleYaw, angle) < 0x4000) {
+                *targetYaw = (s16)(angle - o->oMoveAngleYaw + angle + 0x8000);
+                return TRUE;
+            }
+        }
+    }
+
+    return FALSE;
+}
+
 static s32 obj_bounce_off_walls_edges_objects(s32 *targetYaw) {
     if (o->oMoveFlags & OBJ_MOVE_HIT_WALL) {
         *targetYaw = cur_obj_reflect_move_angle_off_wall();
@@ -516,6 +553,15 @@ static void obj_set_knockback_action(s32 attackType) {
     o->oMoveAngleYaw = obj_angle_to_object(gMarioObject, o);
 }
 
+static void obj_set_stun_knockback_action() {
+
+            o->oAction = OBJ_ACT_STUN_KNOCKBACK;
+            
+
+    o->oFlags &= ~OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW;
+    o->oMoveAngleYaw = obj_angle_to_object(gMarioObject, o);
+}
+
 static void obj_set_squished_action(void) {
     cur_obj_play_sound_2(SOUND_OBJ_STOMPED);
     o->oAction = OBJ_ACT_SQUISHED;
@@ -557,7 +603,13 @@ static s32 obj_handle_attacks(struct ObjectHitbox *hitbox, s32 attackedMarioActi
                 o->oAction = attackedMarioAction;
                 o->oTimer = 0;
             }
-        } else {
+        } else if ((o->oInteractStatus & INT_STATUS_ATTACK_MASK) == 7) {
+            attackType = o->oInteractStatus & INT_STATUS_ATTACK_MASK;
+            obj_set_stun_knockback_action();
+            o->oInteractStatus = INT_STATUS_NONE;
+            return attackType;
+        }
+            else {
             attackType = o->oInteractStatus & INT_STATUS_ATTACK_MASK;
 
             switch (attackHandlers[attackType - 1]) {
@@ -633,6 +685,7 @@ static void obj_act_squished(f32 baseScale) {
         cur_obj_extend_animation_if_at_end();
     }
 
+    approach_f32_ptr(&o->header.gfx.scale[1], targetScaleY, baseScale * 0.14f);
     if (approach_f32_ptr(&o->header.gfx.scale[1], targetScaleY, baseScale * 0.14f)) {
         o->header.gfx.scale[0] = o->header.gfx.scale[2] = baseScale * 2.0f - o->header.gfx.scale[1];
 
@@ -645,7 +698,75 @@ static void obj_act_squished(f32 baseScale) {
     cur_obj_move_standard(-78);
 }
 
-static s32 obj_update_standard_actions(f32 scale) {
+static struct SpawnParticlesInfo sStunParticles = {
+    /* behParam:        */ 2,
+    /* count:           */ 5,
+    /* model:           */ MODEL_CARTOON_STAR,
+    /* offsetY:         */ 0,
+    /* forwardVelBase:  */ 40,
+    /* forwardVelRange: */ 5,
+    /* velYBase:        */ 30,
+    /* velYRange:       */ 20,
+    /* gravity:         */ 252,
+    /* dragStrength:    */ 30,
+    /* sizeBase:        */ 3.0f,
+    /* sizeRange:       */ 1.0f,
+};
+
+static void obj_act_stun_knockback() {
+
+    cur_obj_update_floor_and_walls();
+
+    //every time mario slashes, make the enemy shake more and get knocked back a bit
+    if (gMarioState->action == ACT_FINAL_CUTTER_SEQUENCE && gMarioState->actionTimer == 3 && (gMarioState->actionArg == 0 || gMarioState->actionArg == 1 || gMarioState->actionArg == 2)) {
+        o->oTimer = 0;
+        o->oForwardVel = 15.0f;
+
+        spawn_object_relative(gMarioState->actionArg, sins(o->oFaceAngleYaw) * 50, 50, coss(o->oFaceAngleYaw) * 50, o, MODEL_SLASH_PARTICLE, bhvSlashParticle);
+    }
+
+    //final down slash
+    if (gMarioState->action == ACT_FINAL_CUTTER_SEQUENCE && gMarioState->actionTimer == 20 && (gMarioState->actionArg == 2)) {
+        o->oTimer = 30;
+    }
+    if (o->oTimer % 4 == 0 && o->oTimer < 30) {
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
+        spawn_triangle_break_particles(5, MODEL_CARTOON_STAR, 0.3f, 3);
+    }
+
+    if (o->oTimer == 30) {
+        o->oForwardVel = 30.0f;
+        o->oVelY = 30.0f;
+    }
+        if (o->oTimer == 46) {
+            o->oHealth = 0;
+            obj_die_if_health_non_positive();
+            o->oForwardVel = 0.0f;
+            o->oVelY = 0.0f;
+        }
+    if (o->oTimer <= 5) {
+        o->oPosX += 30*(1 - ((o->oTimer + 1) % 3));
+        o->oPosY += 30*(1 - (o->oTimer % 3));
+        o->oPosZ += 30*(1 - ((o->oTimer + 2) % 3));
+        if (o->oForwardVel > 0) {
+            o->oForwardVel -= 4.0f;
+        }
+    }
+    else if (o->oTimer > 5 && o->oTimer < 30) {
+
+    o->oPosX += 10*(1 - ((o->oTimer + 1) % 3));
+    o->oPosY += 10*(1 - (o->oTimer % 3));
+    o->oPosZ += 10*(1 - ((o->oTimer + 2) % 3));
+
+    o->oForwardVel = 0.0f;
+    }
+
+    o->oGravity = -4.0f;
+
+    cur_obj_move_standard(-78);
+}
+
+s32 obj_update_standard_actions(f32 scale) {
     if (o->oAction < 100) {
         return TRUE;
     } else {
@@ -659,6 +780,10 @@ static s32 obj_update_standard_actions(f32 scale) {
 
             case OBJ_ACT_SQUISHED:
                 obj_act_squished(scale);
+                break;
+
+            case OBJ_ACT_STUN_KNOCKBACK:
+                obj_act_stun_knockback();
                 break;
         }
 
@@ -815,6 +940,16 @@ void obj_spit_fire(s16 relativePosX, s16 relativePosY, s16 relativePosZ, f32 sca
 #include "behaviors/reds_star_marker.inc.c"
 #include "behaviors/triplet_butterfly.inc.c"
 #include "behaviors/bubba.inc.c"
+#include "behaviors/sir_kibble.inc.c"
+#include "behaviors/g_bronto_burt.inc.c"
+#include "behaviors/g_waddle_dee.inc.c"
+
+#include "behaviors/geodude.inc.c"
+#include "behaviors/hooh.inc.c"
+#include "behaviors/miltank.inc.c"
+#include "behaviors/sentret.inc.c"
+
+#include "behaviors/master_kaag.inc.c"
 
 #include "behaviors/behaviors_a.inc.c"
 #include "behaviors/behaviors_b.inc.c"

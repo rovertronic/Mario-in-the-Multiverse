@@ -38,6 +38,7 @@ void chuckya_act_0(void) {
     s32 initialSubAction;
 
     if (o->oTimer == 0) {
+        o->oDeathSound = SOUND_OBJ_CHUCKYA_DEATH;//--E
         o->oChuckyaSubActionTimer = 0;
     }
 
@@ -192,6 +193,12 @@ void bhv_chuckya_loop(void) {
     }
 
     o->oInteractStatus = INT_STATUS_NONE;
+
+    //--E
+    if (o->oShotByShotgun && o->activeFlags) {
+        play_sound(SOUND_OBJ2_KING_BOBOMB_DAMAGE, o->header.gfx.cameraToObject);
+        o->oShotByShotgun = 0;
+    }
 
     print_debug_bottom_up("md %d", o->oAction);
 }

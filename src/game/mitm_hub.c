@@ -75,23 +75,25 @@ u8 pipe_string_b[] = {TEXT_PIPE_B};
 
 u8 hub_star_string[] = {0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,DIALOG_CHAR_TERMINATOR};
 
+//In course order, not alphabetical!
+//Only mess with /* Level */ entry, everything else is pre-configured
 struct mitm_hub_level hub_levels[] = {
-     /* Author */      /* Level */  /*Star Flags*/   /*Star Req*/
-    {&author_string_a, LEVEL_BOB,   COURSE_BOB,      0  },
-    {&author_string_b, LEVEL_WF ,   COURSE_WF ,      0  },
-    {&author_string_c, LEVEL_CCM,   COURSE_JRB,      0  },
-    {&author_string_d, LEVEL_SSL,   COURSE_CCM,      0  },
-    {&author_string_e, LEVEL_BBH,   COURSE_BBH,      0  },
-    {&author_string_f, LEVEL_LLL,   COURSE_HMC,      0  },
-    {&author_string_g, LEVEL_BOB,   COURSE_LLL,      0  },
-    {&author_string_h, LEVEL_BOB,   COURSE_SSL,      0  },
-    {&author_string_i, LEVEL_BOB,   COURSE_DDD,      0  },
-    {&author_string_j, LEVEL_BOB,   COURSE_SL ,      0  },
-    {&author_string_k, LEVEL_BOB,   COURSE_WDW,      0  },
-    {&author_string_l, LEVEL_BOB,   COURSE_TTM,      0  },
-    {&author_string_m, LEVEL_BOB,   COURSE_THI,      0  },
-    {&author_string_n, LEVEL_BOB,   COURSE_TTC,      0  },
-    {&author_string_o, LEVEL_BOB,   COURSE_RR ,      0  }, /*Mario in New Orleans | Rovert*/
+          /* Author */      /* Level */  /*Star Flags*/   /*Star Req*/  /*Start Area*/
+    /*G*/ {&author_string_g, LEVEL_G,     COURSE_BOB,      0/*0 */,      3},
+    /*A*/ {&author_string_a, LEVEL_BOB,   COURSE_WF ,      0/*1 */,      1},
+    /*C*/ {&author_string_c, LEVEL_CCM,   COURSE_JRB,      0/*1 */,      1},
+    /*I*/ {&author_string_i, LEVEL_I,   COURSE_CCM,      0/*3 */,      1},
+    /*H*/ {&author_string_h, LEVEL_BOB,   COURSE_BBH,      0/*5 */,      1},
+    /*B*/ {&author_string_b, LEVEL_B,     COURSE_HMC,      0/*10*/,      1},
+    /*L*/ {&author_string_l, LEVEL_BOB,   COURSE_LLL,      0/*15*/,      1},
+    /*K*/ {&author_string_k, LEVEL_BOB,   COURSE_SSL,      0/*15*/,      1},
+    /*E*/ {&author_string_e, LEVEL_E,     COURSE_DDD,      0/*20*/,      1},
+    /*F*/ {&author_string_f, LEVEL_F,     COURSE_SL ,      0/*20*/,      1},
+    /*J*/ {&author_string_j, LEVEL_J,     COURSE_WDW,      0/*25*/,      1},
+    /*D*/ {&author_string_d, LEVEL_D,     COURSE_TTM,      0/*30*/,      1},
+    /*O*/ {&author_string_o, LEVEL_O,     COURSE_THI,      0/*30*/,      1},
+    /*N*/ {&author_string_n, LEVEL_N,     COURSE_TTC,      0/*50*/,      1},
+    /*M*/ {&author_string_m, LEVEL_BOB,   COURSE_RR ,      0/*50*/,      1},
 };
 
 s8 hub_level_index = -1;
@@ -99,6 +101,10 @@ s8 hub_dma_index = -1;
 f32 hub_titlecard_alpha = 0.0f;
 
 void level_pipe_loop(void) {
+    if (gCurrLevelNum != LEVEL_CASTLE) {
+        return;
+    }
+
     switch(o->oAction) {
         case 0:
             if ((lateral_dist_between_objects(o, gMarioObject) < 120.0f)&&(gMarioState->pos[1] < o->oPosY+500.0f)&&(gMarioState->pos[1] > o->oPosY)) {
@@ -202,4 +208,8 @@ void render_mitm_hub_hud(void) {
 
 u8 get_hub_level(u8 id) {
     return hub_levels[id].level ;
+}
+
+u8 get_hub_area(u8 id) {
+    return hub_levels[id].start_area ;
 }

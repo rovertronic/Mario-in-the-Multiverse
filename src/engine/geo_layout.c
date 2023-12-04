@@ -42,6 +42,9 @@ GeoLayoutCommandProc GeoLayoutJumpTable[] = {
     /*GEO_CMD_NOP_1E                    */ geo_layout_cmd_nop2,
     /*GEO_CMD_NOP_1F                    */ geo_layout_cmd_nop3,
     /*GEO_CMD_NODE_CULLING_RADIUS       */ geo_layout_cmd_node_culling_radius,
+    //--E
+    /*GEO_CMD_E__MARIO_COMMON           */ geo_layout_cmd_e__mario_common,
+    /*GEO_CMD_E__MARIO_UPPER            */ geo_layout_cmd_e__mario_upper,
 };
 
 struct GraphNode gObjParentGraphNode;
@@ -261,7 +264,7 @@ void geo_layout_cmd_node_perspective(void) {
         gGeoLayoutCommand += 4 << CMD_SIZE_SHIFT;
     }
 
-    graphNode = init_graph_node_perspective(gGraphNodePool, NULL, (f32) fov, near, far, frustumFunc, 0);
+    graphNode = init_graph_node_perspective(gGraphNodePool, NULL, (f32) fov, near, far, frustumFunc);
 
     register_scene_graph_node(&graphNode->fnNode.node);
 
@@ -749,6 +752,44 @@ void geo_layout_cmd_node_culling_radius(void) {
     register_scene_graph_node(&graphNode->node);
     gGeoLayoutCommand += 0x04 << CMD_SIZE_SHIFT;
 }
+
+
+
+//--E
+
+void geo_layout_cmd_e__mario_common(void) {
+    struct GraphNodeAnimatedPart *graphNode;
+    Vec3s translation;
+    s32 drawingLayer = cur_geo_cmd_u8(0x01);
+    void *displayList = cur_geo_cmd_ptr(0x08);
+    s16 *cmdPos = (s16 *) gGeoLayoutCommand;
+
+    read_vec3s(translation, &cmdPos[1]);
+
+    graphNode = init_graph_node_e__mario_common(gGraphNodePool, NULL, drawingLayer, displayList, translation);
+
+    register_scene_graph_node(&graphNode->node);
+
+    gGeoLayoutCommand += 0x0C << CMD_SIZE_SHIFT;
+}
+
+void geo_layout_cmd_e__mario_upper(void) {
+    struct GraphNodeAnimatedPart *graphNode;
+    Vec3s translation;
+    s32 drawingLayer = cur_geo_cmd_u8(0x01);
+    void *displayList = cur_geo_cmd_ptr(0x08);
+    s16 *cmdPos = (s16 *) gGeoLayoutCommand;
+
+    read_vec3s(translation, &cmdPos[1]);
+
+    graphNode = init_graph_node_e__mario_upper(gGraphNodePool, NULL, drawingLayer, displayList, translation);
+
+    register_scene_graph_node(&graphNode->node);
+
+    gGeoLayoutCommand += 0x0C << CMD_SIZE_SHIFT;
+}
+
+
 
 struct GraphNode *process_geo_layout(struct AllocOnlyPool *pool, void *segptr) {
     // set by register_scene_graph_node when gCurGraphNodeIndex is 0

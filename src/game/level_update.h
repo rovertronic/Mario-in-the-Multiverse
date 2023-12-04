@@ -40,11 +40,12 @@ enum SpecialWarpDestinations {
     WARP_SPECIAL_NONE                =  0,
 };
 
-enum WarpDoorFlags {
+enum WarpFlags {
     WARP_FLAGS_NONE           = (0 << 0), // 0x00
     WARP_FLAG_DOOR_PULLED     = (1 << 0), // 0x01
     WARP_FLAG_DOOR_FLIP_MARIO = (1 << 1), // 0x02
     WARP_FLAG_DOOR_IS_WARP    = (1 << 2), // 0x04
+    WARP_FLAG_EXIT_COURSE     = (1 << 3), // 0x08
 };
 
 enum MarioSpawnType {
@@ -118,6 +119,22 @@ struct HudDisplay {
 #ifdef BREATH_METER
              u16 breath;
 #endif
+             s8 abilityMeter;
+             s16 abilityMeterStyle;
+};
+
+enum MeterStyles {
+    METER_STYLE_GENERIC,
+    METER_STYLE_HP,
+    METER_STYLE_BREATH,
+    METER_STYLE_AKU,
+    METER_STYLE_PHASEWALK,
+    METER_STYLE_PHASEWALK_SUPERJUMP,
+    METER_STYLE_PHASEWALK_RECHARGE,
+    METER_STYLE_ROCKET,
+    METER_STYLE_CHRONOS,
+    METER_STYLE_DASH_BOOSTER,
+    METER_STYLE_COUNT
 };
 
 extern struct HudDisplay gHudDisplay;

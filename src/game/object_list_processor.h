@@ -24,7 +24,7 @@ enum gTimeStopStateFlags {
 /**
  * The maximum number of objects that can be loaded at once.
  */
-#define OBJECT_POOL_CAPACITY 240
+#define OBJECT_POOL_CAPACITY 400
 
 /**
  * Every object is categorized into an object list, which controls the order
@@ -144,5 +144,7 @@ void clear_objects(void);
 void clear_dynamic_surface_references(void);
 void update_objects(UNUSED s32 unused);
 
+extern u8 lv_o_zombie_counter;
+extern u8 lv_o_zombie_counting;
 
 #endif // OBJECT_LIST_PROCESSOR_H

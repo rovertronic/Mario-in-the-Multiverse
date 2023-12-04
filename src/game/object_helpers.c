@@ -27,6 +27,7 @@
 #include "spawn_object.h"
 #include "spawn_sound.h"
 #include "puppylights.h"
+#include "ability.h"
 
 static s32 clear_move_flag(u32 *bitSet, s32 flag);
 
@@ -129,10 +130,10 @@ Gfx *geo_switch_area(s32 callContext, struct GraphNode *node, UNUSED void *conte
             gMarioObject->oPosZ
         );
 
-        gMarioCurrentRoom = room;
         print_debug_top_down_objectinfo("areainfo %d", room);
 
         if (room > 0) {
+            gMarioCurrentRoom = room;
             switchCase->selectedCase = (room - 1);
         }
     } else {
@@ -269,6 +270,14 @@ s32 obj_turn_toward_object(struct Object *obj, struct Object *target, s16 angleI
             d[2] = target->oPosZ - obj->oPosZ;
 
             targetAngle = atan2s(d[2], d[0]);
+            break;
+
+        case O_MOVE_ANGLE_ROLL_INDEX:
+        case O_FACE_ANGLE_ROLL_INDEX:
+            d[0] = target->oPosX - obj->oPosX;
+            d[1] = -target->oPosY + obj->oPosY;
+
+            targetAngle = atan2s(d[1], d[0]);
             break;
     }
 
@@ -623,6 +632,58 @@ struct Object *cur_obj_find_nearest_object_with_behavior(const BehaviorScript *b
     return closestObj;
 }
 
+struct Object *cur_obj_nearest_object_with_behavior_and_action(const BehaviorScript *behavior, s32 action){
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+    struct Object *closestObj = NULL;
+    f32 minDist = 0x20000;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            && obj != o
+            && obj->oAction == action
+        ) {
+            f32 objDist = dist_between_objects(o, obj);
+            if (objDist < minDist) {
+                closestObj = obj;
+                minDist = objDist;
+            }
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+
+    return closestObj;
+}
+
+struct Object *cur_obj_nearest_object_with_behavior_and_bparam1(const BehaviorScript *behavior, u32 bparam1){
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+    struct Object *closestObj = NULL;
+    f32 minDist = 0x20000;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            && obj != o
+            && GET_BPARAM1(obj->oBehParams) == bparam1
+        ) {
+            f32 objDist = dist_between_objects(o, obj);
+            if (objDist < minDist) {
+                closestObj = obj;
+                minDist = objDist;
+            }
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+
+    return closestObj;
+}
+
 struct Object *find_unimportant_object(void) {
     struct ObjectNode *listHead = &gObjectLists[OBJ_LIST_UNIMPORTANT];
     struct ObjectNode *obj = listHead->next;
@@ -655,6 +716,25 @@ s32 count_objects_with_behavior(const BehaviorScript *behavior) {
 
     while (listHead != obj) {
         if (((struct Object *) obj)->behavior == behaviorAddr) {
+            count++;
+        }
+
+        obj = obj->next;
+    }
+
+    return count;
+}
+
+s32 count_objects_with_behavior_bparam1_action(const BehaviorScript *behavior, u32 bparam1, s32 action) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct ObjectNode *obj = listHead->next;
+    s32 count = 0;
+
+    while (listHead != obj) {
+        if (((struct Object *) obj)->behavior == behaviorAddr && 
+            ((struct Object *) obj)->oBehParams >> 24 == bparam1 &&
+            ((struct Object *) obj)->oAction == action) {
             count++;
         }
 
@@ -1472,8 +1552,16 @@ UNUSED static s32 cur_obj_within_bounds(f32 bounds) {
 }
 
 void cur_obj_move_using_vel_and_gravity(void) {
-    o->oVelY += o->oGravity; //! No terminal velocity
-    vec3f_add(&o->oPosVec, &o->oVelVec);
+    if (o->oFlags & OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW) {
+        o->oVelY += o->oGravity * ability_chronos_current_slow_factor(); //! No terminal velocity
+        o->oPosX += o->oVelX * ability_chronos_current_slow_factor();
+        o->oPosY += o->oVelY * ability_chronos_current_slow_factor();
+        o->oPosZ += o->oVelZ * ability_chronos_current_slow_factor();
+    }
+    else {
+        o->oVelY += o->oGravity; //! No terminal velocity
+        vec3f_add(&o->oPosVec, &o->oVelVec);
+    }
 }
 
 void cur_obj_move_using_fvel_and_gravity(void) {
@@ -1942,8 +2030,10 @@ void cur_obj_if_hit_wall_bounce_away(void) {
     }
 }
 
+//ABILITY I -> add the distance with the rocket to display object like Whomps when nearby
 s32 cur_obj_hide_if_mario_far_away_y(f32 distY) {
-    if (absf(o->oPosY - gMarioObject->oPosY) < distY) {
+    struct Object *rocket = cur_obj_nearest_object_with_behavior(bhvShockRocket);
+    if (absf(o->oPosY - gMarioObject->oPosY) < distY || (rocket != NULL && absf(o->oPosY - rocket->oPosY) < distY)) {
         cur_obj_unhide();
         return FALSE;
     } else {

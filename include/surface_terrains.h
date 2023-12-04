@@ -93,9 +93,9 @@ enum SurfaceTypes {
     SURFACE_NO_CAM_COL_SLIPPERY,        // 0x0079 // Surface with no cam collision flag, slippery with noise (CCM, PSS and TTM slides)
     SURFACE_SWITCH,                     // 0x007A // Surface with no cam collision flag, non-slippery with noise, used by switches and Dorrie
     SURFACE_VANISH_CAP_WALLS,           // 0x007B // Vanish cap walls, pass through them with Vanish Cap
-    SURFACE_007C,                       // 0x007C // Unused
-    SURFACE_007D,                       // 0x007D // Unused
-    SURFACE_007E,                       // 0x007E // Unused
+    SURFACE_SQUID_INK,                  // 0x007C // Squid Ink
+    SURFACE_STAR_DOOR_WARP,                       // 0x007D // Starts star door warp
+    SURFACE_VANISH_FLOOR,                       // 0x007E // Unused
     SURFACE_007F,                       // 0x007F // Unused
     SURFACE_0080,                       // 0x0080 // Unused
     SURFACE_0081,                       // 0x0081 // Unused
@@ -104,7 +104,7 @@ enum SurfaceTypes {
     SURFACE_0084,                       // 0x0084 // Unused
     SURFACE_0085,                       // 0x0085 // Unused
     SURFACE_0086,                       // 0x0086 // Unused
-    SURFACE_0087,                       // 0x0087 // Unused
+    SURFACE_FORCE_MARBLE,               // 0x0087 // force mario into marble form
     SURFACE_0088,                       // 0x0088 // Unused
     SURFACE_0089,                       // 0x0089 // Unused
     SURFACE_008A,                       // 0x008A // Unused

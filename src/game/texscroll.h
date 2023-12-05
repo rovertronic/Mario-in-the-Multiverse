@@ -10,6 +10,7 @@
 #include "src/game/texscroll/o_texscroll.inc.h"
 #include "src/game/texscroll/d_texscroll.inc.h"
 #include "src/game/texscroll/n_texscroll.inc.h"
+#include "src/game/texscroll/c_texscroll.inc.h"
 extern void scroll_textures();
 
 #endif

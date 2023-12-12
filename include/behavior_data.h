@@ -563,6 +563,10 @@ extern const BehaviorScript bhvBigConcreteBlock[];
 
 /* GROUP C START */
 extern const BehaviorScript bhvSquid[];
+extern const BehaviorScript bhvFightWavesManager[];
+extern const BehaviorScript bhvCrane[];
+extern const BehaviorScript bhvCraneArrowController[];
+extern const BehaviorScript bhvCraneArrow[];
 /* GROUP C END */
 
 /* GROUP D START */

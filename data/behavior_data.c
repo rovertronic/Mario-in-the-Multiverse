@@ -6274,6 +6274,43 @@ const BehaviorScript bhvConcreteBlock[] = {
 /* GROUP B END */
 
 /* GROUP C START */
+
+const BehaviorScript bhvFightWavesManager[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_fight_waves_manager_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvCrane[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_fight_waves_manager_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvCraneArrowController[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_crane_arrow_controller_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_crane_arrow_controller_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvCraneArrow[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(purple_switch_seg8_collision_0800C7A8),
+    DROP_TO_FLOOR(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_crane_arrow_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
 /* GROUP C END */
 
 /* GROUP D START */

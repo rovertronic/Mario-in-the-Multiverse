@@ -22,6 +22,8 @@ void jelly_init(void) {
     o->oGravity = 0.0f;
     o->oFriction = 0.999f;
     
+    o->header.gfx.pos[1] = 5;
+
     obj_set_hitbox(o, &sJellyHitbox);
 }
 
@@ -30,10 +32,7 @@ void jelly_loop(void) {
     
     switch (o->oAction) {
         case 0:
-            o->oForwardVel = 4;
-            o->oMoveAnglePitch = 5;
-            o->oMoveAngleYaw = 0x200;
-            o->oFaceAngleYaw = o->oMoveAngleYaw;
+            o->oForwardVel = 0;
             if (o->oDistanceToMario < 1000.0f) {
                 o->oAction = 1;
             }
@@ -59,7 +58,7 @@ void jelly_loop(void) {
                 o->oAction = 0;
             }
 
-            if (using_ability(ABILITY_BUBBLE_HAT || ABILITY_CUTTER || ABILITY_E_SHOTGUN))
+            if (using_ability(ABILITY_DEFAULT || ABILITY_BUBBLE_HAT || ABILITY_CUTTER || ABILITY_E_SHOTGUN))
             {
                 if (cur_obj_was_attacked_or_ground_pounded())
                 {
@@ -586,4 +585,431 @@ void bridge2_loop(void)
             cur_obj_init_animation(2);
             break;
     }
+}
+
+// King Jelly
+
+u16 getHit = 0; // After button pushed
+u16 pushGooButton = 0; // Push button
+
+enum kingJellyActions
+{
+    KINGJELLY_TURN,
+    KINGJELLY_SHOOT,
+    KINGJELLY_ATTACKED,
+    KINGJELLY_DEATH
+};
+
+enum kingJellyAnims
+{
+    KINGJELLY_ANIM_TURN,
+    KINGJELLY_ANIM_SHOOT,
+    KINGJELLY_ANIM_ATTACKED
+};
+
+struct ObjectHitbox sGooButtonHitbox = {
+    /* interactType:      */ INTERACT_BREAKABLE,
+    /* downOffset:        */  20,
+    /* damageOrCoinValue: */   0,
+    /* health:            */   1,
+    /* numLootCoins:      */   0,
+    /* radius:            */ 150,
+    /* height:            */ 200,
+    /* hurtboxRadius:     */ 150,
+    /* hurtboxHeight:     */ 200,
+};
+
+static struct ObjectHitbox sKingJellyHitbox = {
+    /* interactType:      */ INTERACT_SHOCK,
+    /* downOffset:        */ 0,-
+    /* damageOrCoinValue: */ 1,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 90,
+    /* height:            */ 100,
+    /* hurtboxRadius:     */ 90,
+    /* hurtboxHeight:     */ 40,
+};
+
+struct ObjectHitbox sShockJHitbox = {
+    /* interactType:      */ INTERACT_SHOCK,
+    /* downOffset:        */  20,
+    /* damageOrCoinValue: */   0,
+    /* health:            */   1,
+    /* numLootCoins:      */   0,
+    /* radius:            */ 150,
+    /* height:            */ 200,
+    /* hurtboxRadius:     */ 150,
+    /* hurtboxHeight:     */ 200,
+};
+
+static struct ObjectHitbox sJellyKJHitbox = {
+    /* interactType:      */ INTERACT_SHOCK,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 1,
+    /* health:            */ 1,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 80,
+    /* height:            */ 90,
+    /* hurtboxRadius:     */ 70,
+    /* hurtboxHeight:     */ 80,
+};
+
+void king_jellyfish_init(void)
+{
+    obj_set_hitbox(o, &sKingJellyHitbox);
+    play_secondary_music(SEQ_CUSTOM_CRYSTAL_FIELD, 0, 127, 5);
+}
+
+void king_jellyfish_turn_to_player(void)
+{
+    s16 yaw = 0x600;
+    cur_obj_rotate_yaw_toward(o->oAngleToMario, yaw);
+    cur_obj_rotate_face_angle_using_vel();
+}
+
+void king_jelly_spawn_shockwave(void)
+{
+
+}
+
+// Different than the jellyfish you find in game these are thrown at that player and from 6 different directions
+
+void king_jelly_spawn_jellyfish_init(void)
+{
+    o->oGravity  = 2.5f;
+    o->oFriction = 0.8f;
+    o->oBuoyancy = 1.3f;
+    o->oGraphYOffset = 0.0f;
+    obj_set_hitbox(o, &sJellyKJHitbox);
+}
+
+void king_jelly_spawn_jellyfish(void)
+{
+    f32 fVel = 40.0f;
+    f32 fVel2 = 50.0f;
+    
+    switch (o->oAction)
+    {
+        case 0:
+            o->oForwardVel = 0;
+            if (o->oTimer == 20)
+            {
+                o->oAction = 1;
+            }
+            break;
+        case 1:
+            cur_obj_init_animation(0);
+            o->oAngleVelYaw = 0x1000;
+            o->oForwardVel = fVel2;
+            if (o->oTimer == 60)
+            {
+                o->oAction = 2;
+            }
+            break;
+        case 2:
+            obj_mark_for_deletion(o);
+            cur_obj_disable_rendering();
+            spawn_mist_from_global();
+            cur_obj_become_intangible();
+            break;
+    }
+
+    vec3i_add(&o->oFaceAngleVec, &o->oAngleVelVec);
+    cur_obj_move_xz_using_fvel_and_yaw();
+}
+
+void king_jelly_triple_shock(void)
+{
+    if (o->oTimer == 1)
+    {
+        struct Object *shock = spawn_object(o, MODEL_KING_JELLY_SHOCK, bhvKingJellyShock);
+        shock->oPosX = 594;
+        shock->oPosY = 200;
+        shock->oPosZ = -55;
+    }
+    if (o->oTimer == 2)
+    {
+        struct Object *shock2 = spawn_object(o, MODEL_KING_JELLY_SHOCK, bhvKingJellyShock);
+        shock2->oPosX = 606;
+        shock2->oPosY = 312;
+        shock2->oPosZ = 26;        
+    }
+    if (o->oTimer == 3)
+    {
+        struct Object *shock3 = spawn_object(o, MODEL_KING_JELLY_SHOCK, bhvKingJellyShock);
+        shock3->oPosX = 606;
+        shock3->oPosY = 312;
+        shock3->oPosZ = -86; 
+    }
+}
+
+void king_jelly_raindrop_action(void)
+{
+    if (o->oTimer == 1)
+    {
+        struct Object *rain = spawn_object(o, MODEL_GOO_DROP, bhvGooDrop);
+        rain->oPosX = 100;
+        rain->oPosY = 100;
+        rain->oPosZ = 100;
+    }
+    if (o->oTimer == 2)
+    {
+        struct Object *rain2 = spawn_object(o, MODEL_GOO_DROP, bhvGooDrop);
+        rain2->oPosX = 200;
+        rain2->oPosY = 200;
+        rain2->oPosZ = 200;
+    }
+    if (o->oTimer == 3)
+    {
+        struct Object *rain3 = spawn_object(o, MODEL_GOO_DROP, bhvGooDrop);
+        rain3->oPosX = 300;
+        rain3->oPosY = 300;
+        rain3->oPosZ = 300;
+    }
+}
+
+u16 shockthrowCount;
+
+void king_jellyfish_loop(void)
+{   
+    switch (o->oAction)
+    {
+        case 0:
+            king_jellyfish_turn_to_player();
+            cur_obj_init_animation(0);
+            if (o->oTimer == 120)
+            {
+                shockthrowCount++;
+                if (o->oTimer >= 1)
+                {
+                    o->oAction = 1;
+                }
+                o->oTimer = 0;
+                if (shockthrowCount == 3)
+                {
+                    o->oAction = 2;
+                }
+                if (shockthrowCount == 6)
+                {
+                    o->oAction = 3;
+                }
+                if (pushGooButton == 1)
+                {
+                    o->oAction = 5;
+                }
+                if (pushGooButton == 2)
+                {
+                    o->oAction = 5;
+                }
+                if (getHit == 3)
+                {
+                    o->oAction = 4;
+                }
+            }
+            break;
+        case 1:
+            cur_obj_init_animation(1);
+            if (o->oTimer == 5)
+            {
+                spawn_object(o, MODEL_KING_JELLY_SHOCK, bhvKingJellyShock);
+            }
+            if (cur_obj_check_if_near_animation_end())
+            {
+                o->oAction = 0;
+            }
+            break;
+        case 2:
+            cur_obj_init_animation(1);
+            if (cur_obj_check_if_near_animation_end())
+            {
+                o->oAction = 0;
+            }
+            break;
+        case 3:
+            cur_obj_init_animation(1);
+            king_jelly_triple_shock();
+            shockthrowCount = 0;
+            if (cur_obj_check_if_near_animation_end())
+            {
+                o->oAction = 0;
+            }
+            break;
+        case 4:
+            obj_mark_for_deletion(o);
+            cur_obj_disable_rendering();
+            cur_obj_become_intangible();
+            spawn_mist_particles();
+            break;
+        case 5:
+            king_jelly_raindrop_action();
+            if (o->oTimer == 130)
+            {
+                o->oAction = 0;
+            }
+            break;
+        case 6:
+            cur_obj_init_animation(1);
+            if (o->oTimer == 130)
+            {
+                o->oAction = 0;
+            }
+            break;
+    }
+
+    if (o->oAction == 2)
+    {
+        if (o->oTimer == 1)
+        {
+            struct Object *j = spawn_object(o, MODEL_JELLY, bhvSpawnJellyKJ);
+            s16 yaw = 0x4000;
+            j->oPosX = 564;
+            j->oPosY = 210;
+            j->oPosZ = -50;
+            j->oMoveAngleYaw = yaw;       
+            j->oFaceAngleYaw = yaw;
+        }
+        if (o->oTimer == 2)
+        {
+            struct Object *j2 = spawn_object(o, MODEL_JELLY, bhvSpawnJellyKJ);
+            s16 yaw = 0x8000;
+            j2->oPosX = -56;
+            j2->oPosY = 210;
+            j2->oPosZ = -693;  
+            j2->oMoveAngleYaw = yaw;
+            j2->oFaceAngleYaw = yaw;   
+        }
+        if (o->oTimer == 3)
+        {
+            struct Object *j3 = spawn_object(o, MODEL_JELLY, bhvSpawnJellyKJ);
+            s16 yaw = 0xC000;
+            j3->oPosX = -627;
+            j3->oPosY = 210;
+            j3->oPosZ = -8;  
+            j3->oMoveAngleYaw = yaw;
+            j3->oFaceAngleYaw = yaw;   
+        }
+       if (o->oTimer == 4)
+        {
+            struct Object *j4 = spawn_object(o, MODEL_JELLY, bhvSpawnJellyKJ);
+            s16 yaw = 0x0000;
+            j4->oPosX = 27;
+            j4->oPosY = 210;
+            j4->oPosZ = 693;
+            j4->oMoveAngleYaw = yaw;       
+            j4->oFaceAngleYaw = yaw;     
+        }
+    }
+}
+
+void king_jellyfish_goo_switch(void)
+{   
+    obj_set_hitbox(o, &sGooButtonHitbox);
+
+    f32 yVel = 30.0f;
+    s16 yaw = 0x1000;
+
+    switch (o->oAction)
+    {
+        case 0:
+            break;
+        case 1:
+            obj_scale_xyz(o, 1.4f * sins(o->oTimer * 0x555), 1.9f * sins(o->oTimer * 555), 1.0f);
+            if (o->oTimer >= 10)
+            {
+                o->oAction = 2;
+                pushGooButton++;
+                o->oTimer = 0;
+            }
+            break;
+        case 2:
+            o->oVelY = yVel;
+            o->oAngleVelYaw = yaw;
+            if (o->oTimer == 1)
+            {
+                
+            }
+            if (o->oTimer >= 20)
+            {
+                o->oAction = 3;
+            }
+            break;
+        case 3:
+            o->oVelY = 0;
+            obj_mark_for_deletion(o);
+            cur_obj_disable_rendering();
+            cur_obj_become_intangible();
+            break;
+    }
+    o->oPosY += o->oVelY;
+    if (using_ability(ABILITY_BUBBLE_HAT))
+    {
+        if (gMarioState->action == ACT_PUNCHING || gMarioState->action == ACT_MOVE_PUNCHING || gMarioState->action == ACT_JUMP_KICK) 
+        {
+             if ((o->oInteractStatus & INT_STATUS_INTERACTED) && (o->oInteractStatus & INT_STATUS_WAS_ATTACKED))
+             {
+                o->oAction = 1;
+             }
+        }
+    }
+
+    vec3i_add(&o->oFaceAngleVec, &o->oAngleVelVec);
+}
+
+void king_jellyfish_goo_loop(void)
+{
+    f32 yVel = 30.0f;
+
+    switch (o->oAction)
+    {
+        case 0:
+            o->oVelY = yVel;
+            if (o->oTimer == 40)
+            {
+                o->oAction = 1;
+                getHit++;
+            }
+            break;
+        case 1:
+            obj_mark_for_deletion(o);
+            cur_obj_disable_rendering();
+            break;
+    }
+
+    o->oVelY += o->oPosY;
+}
+
+void king_jellyfish_shock_throw(void)
+{
+    f32 fVel = 30.0f;
+    s16 yaw = 0x500;
+
+    obj_set_hitbox(o, &sShockJHitbox);
+    
+    switch (o->oAction)
+    {
+        case 0:
+            o->oForwardVel = fVel;
+            o->oAngleVelYaw = yaw;
+            cur_obj_rotate_yaw_toward(o->oAngleToMario, 0x400);
+            if ((o->oInteractStatus & INT_STATUS_INTERACTED))
+            {
+                o->oAction = 1;
+            }
+            if (o->oTimer == 100)
+            {
+                o->oAction = 1;
+            }
+            break;
+        case 1:
+            obj_mark_for_deletion(o);
+            cur_obj_disable_rendering();
+            cur_obj_become_intangible();
+            cur_obj_play_sound_2(SOUND_OBJ_ENEMY_DEATH_HIGH);
+            spawn_mist_particles();
+            break;
+    }
+
+    vec3i_add(&o->oFaceAngleVec, &o->oAngleVelVec);
+    cur_obj_move_xz_using_fvel_and_yaw();
 }

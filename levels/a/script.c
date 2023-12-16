@@ -44,6 +44,7 @@ const LevelScript level_a_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_SQUIDWARD, squidward_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BHBRIDGE, bhbridge_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_A_PLANK, a_plank_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_GOO_DROP, goodrop_geo),
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -127,8 +128,10 @@ const LevelScript level_a_entry[] = {
 		WARP_NODE(0x09, LEVEL_A, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_NONE, 3212, 75, -11, 0, 0, 0, (0x09 << 16), bhvWarp),
 		OBJECT(MODEL_NONE, 2264, 0, -11, 0, 90, 0, (0x0A << 16), bhvInstantActiveWarp),
-		OBJECT(MODEL_KING_JELLY, 0, 505, -41, 0, 0, 0, 0x00000000, bhvKingJelly),
-		OBJECT(MODEL_KING_JELLY_SHOCK, 686, 356, -351, 0, 0, 0, 0x00000000, bhvKingJellyShock),
+		OBJECT(MODEL_KING_JELLY, 0, 263, -41, 0, 0, 0, 0x00000000, bhvKingJelly),
+		OBJECT(MODEL_BUBBLENET_RED_BUTTON, 154, 0, -2039, 0, 0, 0, 0x00000000, bhvGooSwitch),
+		OBJECT(MODEL_BUBBLENET_RED_BUTTON, 884, 0, -1696, 0, 0, 0, 0x00000000, bhvGooSwitch),
+		OBJECT(MODEL_BUBBLENET_RED_BUTTON, 437, 0, -2466, 0, 0, 0, 0x00000000, bhvGooSwitch),
 		TERRAIN(a_area_3_collision),
 		MACRO_OBJECTS(a_area_3_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_WATER),
@@ -165,6 +168,7 @@ const LevelScript level_a_entry[] = {
 		OBJECT(MODEL_BHBRIDGE, 1136, -476, 1765, 0, 0, 0, 0x00000000, bhvRBridge),
 		OBJECT(MODEL_A_PLANK, -76, -1070, -6251, 0, 0, 0, 0x00000000, bhvRPlank),
 		OBJECT(MODEL_BUBBLENET_RED_BUTTON, 802, -1070, -4175, 0, -90, 0, (1 << 16), bhvBhButton2),
+		OBJECT(MODEL_TAXISTOP, 10473, 118, 1823, 0, 0, 0, (3 << 16), bhvTaxiStop),
 		OBJECT(MODEL_NONE, -11136, 316, -5001, 0, -90, 0, (0x0A << 16), bhvInstantActiveWarp),
 		TERRAIN(a_area_4_collision),
 		MACRO_OBJECTS(a_area_4_macro_objs),

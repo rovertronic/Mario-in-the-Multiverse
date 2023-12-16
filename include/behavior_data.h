@@ -569,6 +569,9 @@ extern const BehaviorScript bhvBhButton[];
 extern const BehaviorScript bhvBhButton2[];
 extern const BehaviorScript bhvRBridge[];
 extern const BehaviorScript bhvRPlank[];
+extern const BehaviorScript bhvGooSwitch[];
+extern const BehaviorScript bhvSpawnJellyKJ[];
+extern const BehaviorScript bhvGooDrop[];
 /* GROUP A END */
 
 /* GROUP B START */

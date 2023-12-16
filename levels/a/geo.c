@@ -32,3 +32,4 @@
 #include "levels/a/squidward/geo.inc.c"
 #include "levels/a/bhbridge/geo.inc.c"
 #include "levels/a/a_plank/geo.inc.c"
+#include "levels/a/goodrop/geo.inc.c"

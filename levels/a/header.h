@@ -75,4 +75,6 @@ extern const LevelScript level_a_entry[];
 
 #include "levels/a/a_plank/anim_header.h"
 
+#include "levels/a/goodrop/geo_header.h"
+
 #endif

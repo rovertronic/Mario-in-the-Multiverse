@@ -904,6 +904,7 @@ void obj_spit_fire(s16 relativePosX, s16 relativePosY, s16 relativePosZ, f32 sca
 #include "behaviors/triplet_butterfly.inc.c"
 #include "behaviors/bubba.inc.c"
 #include "behaviors/sir_kibble.inc.c"
+#include "behaviors/king_jelly_boss.inc.c"
 
 #include "behaviors/behaviors_a.inc.c"
 #include "behaviors/behaviors_b.inc.c"
@@ -920,5 +921,3 @@ void obj_spit_fire(s16 relativePosX, s16 relativePosY, s16 relativePosZ, f32 sca
 #include "behaviors/behaviors_m.inc.c"
 #include "behaviors/behaviors_n.inc.c"
 #include "behaviors/behaviors_o.inc.c"
-
-#include "behaviors/king_jelly.inc.c"

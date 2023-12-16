@@ -2102,7 +2102,10 @@ DEFINE_DIALOG(DIALOG_SQ, 1, 4, 30, 200, _("\
 Hey you do you think you\n\
 can help out\n\
 some barnacle head\n\
-placed a bunch of cement blocks\n\
+placed a bunch of cement\n\
+blocks\n\
 on the table\n\
-I need you to get rid of them\n\
-since spongebob isn't here."))
+I need you to get\n\
+rid of them\n\
+since spongebob\n\
+isn't here."))

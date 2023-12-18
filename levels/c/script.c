@@ -31,6 +31,9 @@ const LevelScript level_c_entry[] = {
 	LOAD_RAW(0x0D, _group15_geoSegmentRomStart, _group15_geoSegmentRomEnd), 
 	ALLOC_LEVEL_POOL(),
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
+	JUMP_LINK(script_func_global_1), 
+	JUMP_LINK(script_func_global_16), 
+	LOAD_MODEL_FROM_GEO(MODEL_CRANE_ARROW, crane_arrow_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -40,6 +43,7 @@ const LevelScript level_c_entry[] = {
 		WARP_NODE(/*death*/ 0xF1, LEVEL_X, /*this area*/ 0x01, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death entry*/ 0x01, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_NONE, 8073, 3848, 7233, 0, 0, 0, 0x00000000, bhvCraneArrowController),
+		OBJECT(MODEL_METAL_BOX, 8091, 4126, 6533, 0, 0, 0, 0x00000000, bhvCrane),
 		OBJECT(MODEL_LEVEL_PIPE, 0, 1850, 691, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_NONE, 4041, 980, -1958, 0, 0, 0, 0x00000000, bhvFightWavesManager),
 		OBJECT(MODEL_NONE, 0, 2165, -365, 0, 0, 0, (0x01 << 16), bhvDeathWarp),
@@ -48,8 +52,9 @@ const LevelScript level_c_entry[] = {
 		OBJECT(MODEL_FLIPSWITCH_1, -4788, 695, 2175, 0, 0, 0, (1 << 24), bhvFlipswitch),
 		OBJECT(MODEL_FLIPSWITCH_1, 457, 1948, 7483, 0, 0, 0, (1 << 24), bhvFlipswitch),
 		OBJECT(MODEL_FLIPSWITCH_1, -3990, 284, -2278, 0, 0, 0, (1 << 24), bhvFlipswitch),
-		OBJECT(MODEL_FLIPSWITCH_1, 3275, 1992, 4240, 0, 0, 0, (1 << 24), bhvFlipswitch),
+		OBJECT(MODEL_FLIPSWITCH_1, 3224, 1992, 4216, 0, 0, 0, (1 << 24), bhvFlipswitch),
 		OBJECT(MODEL_PURPLE_SWITCH, 1515, 2416, 3128, 0, 0, 0, 0x00000000, bhvPurpleSwitchHiddenBoxes),
+		OBJECT(MODEL_STAR, -9195, 548, 6641, 0, 0, 0, (2 << 24), bhvStar),
 		TERRAIN(c_area_1_collision),
 		MACRO_OBJECTS(c_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),

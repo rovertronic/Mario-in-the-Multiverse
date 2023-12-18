@@ -12,3 +12,6 @@
 
 
 #include "levels/c/leveldata.inc.c"
+
+#include "levels/c/crane_arrow/model.inc.c"
+#include "levels/c/crane_arrow/collision.inc.c"

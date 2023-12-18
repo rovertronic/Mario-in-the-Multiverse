@@ -565,6 +565,7 @@ extern const BehaviorScript bhvBigConcreteBlock[];
 extern const BehaviorScript bhvSquid[];
 extern const BehaviorScript bhvFightWavesManager[];
 extern const BehaviorScript bhvCrane[];
+extern const BehaviorScript bhvCraneHead[];
 extern const BehaviorScript bhvCraneArrowController[];
 extern const BehaviorScript bhvCraneArrow[];
 /* GROUP C END */

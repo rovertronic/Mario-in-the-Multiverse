@@ -669,6 +669,8 @@ void bhv_fight_waves_manager_loop(void);
 void bhv_crane_arrow_controller_init(void);
 void bhv_crane_arrow_controller_loop(void);
 void bhv_crane_arrow_loop(void);
+void bhv_crane_init(void);
+void bhv_crane_head_loop(void);
 //LEVEL C END
 
 void bhv_cutter_blade_init(void);

@@ -9,4 +9,8 @@ extern const LevelScript level_c_entry[];
 
 #include "levels/c/header.inc.h"
 
+#include "levels/c/crane_arrow/geo_header.h"
+
+#include "levels/c/crane_arrow/collision_header.h"
+
 #endif

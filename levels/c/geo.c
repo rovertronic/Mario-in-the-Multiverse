@@ -15,3 +15,5 @@
 
 
 #include "levels/c/geo.inc.c"
+
+#include "levels/c/crane_arrow/geo.inc.c"

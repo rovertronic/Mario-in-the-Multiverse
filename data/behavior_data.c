@@ -60,6 +60,7 @@
 #include "levels/d/header.h"
 #include "levels/i/header.h"
 #include "levels/g/header.h"
+#include "levels/c/header.h"
 
 #include "make_const_nonconst.h"
 #include "behavior_data.h"
@@ -6285,9 +6286,17 @@ const BehaviorScript bhvFightWavesManager[] = {
 
 const BehaviorScript bhvCrane[] = {
     BEGIN(OBJ_LIST_DEFAULT),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
+        CALL_NATIVE(bhv_crane_init),
     BEGIN_LOOP(),
-        CALL_NATIVE(bhv_fight_waves_manager_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvCraneHead[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_crane_head_loop),
     END_LOOP(),
 };
 
@@ -6303,7 +6312,7 @@ const BehaviorScript bhvCraneArrowController[] = {
 const BehaviorScript bhvCraneArrow[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-    LOAD_COLLISION_DATA(purple_switch_seg8_collision_0800C7A8),
+    LOAD_COLLISION_DATA(crane_arrow_collision),
     DROP_TO_FLOOR(),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_crane_arrow_loop),

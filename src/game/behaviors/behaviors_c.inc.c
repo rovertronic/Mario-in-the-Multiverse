@@ -40,15 +40,15 @@ void bhv_fight_waves_manager_loop(void) {
 
 //--------------------CRANE--------------------//
 
-#define OFFSET 210
+#define OFFSET 180
 void bhv_crane_arrow_controller_init(void) {
-    o->oObjF4 = spawn_object_relative_with_scale(1, OFFSET, 0, 0, 2.0f, o, MODEL_PURPLE_SWITCH, bhvCraneArrow);
-    o->oObjF8 = spawn_object_relative_with_scale(2, -OFFSET, 0, 0, 2.0f, o, MODEL_PURPLE_SWITCH, bhvCraneArrow);
+    o->oObjF4 = spawn_object_relative_with_scale(0, OFFSET, 0, 0, 2.0f, o, MODEL_CRANE_ARROW, bhvCraneArrow);
+    o->oObjF8 = spawn_object_relative_with_scale(1, -OFFSET, 0, 0, 2.0f, o, MODEL_CRANE_ARROW, bhvCraneArrow);
+    o->oObjF4->oFaceAngleYaw += 0x8000;
     o->oObjFC = cur_obj_nearest_object_with_behavior(bhvCrane);
 }
 
 void bhv_crane_arrow_controller_loop(void) {
-    
 }
 
 void bhv_crane_arrow_loop(void) {
@@ -79,6 +79,14 @@ void bhv_crane_arrow_loop(void) {
             if (gMarioObject->platform != o) {
                     o->oAction++;
             }
+
+            struct Object *crane = o->parentObj->oObjFC;
+            if(crane != NULL){
+                //if first arrow  : 30 * (1 - 0 *2) => 30 *  1 =>  30 ; so angle increment
+                //if second arrow : 30 * (1 - 1 *2) => 30 * -1 => -30 ; so angle decrement
+                //this calcul avoid to do one more if statement
+                crane->oMoveAngleYaw += 90 * (1 - GET_BPARAM2(o->oBehParams) * 2);
+            }
             break;
 
         case PURPLE_SWITCH_ACT_UNPRESSED:
@@ -89,4 +97,14 @@ void bhv_crane_arrow_loop(void) {
             break;
     }
     o->oShotByShotgun = 0;//--E
+}
+
+void bhv_crane_init(void) {
+    o->oObjF4 = spawn_object_relative_with_scale(0, 250, 0, 0, 0.7f, o, MODEL_METAL_BOX, bhvCraneHead);
+}
+
+void bhv_crane_head_loop(void) {
+    cur_obj_set_pos_relative(o->parentObj, 250, 0, 0);
+    o->oMoveAngleYaw = o->parentObj->oMoveAngleYaw;
+    o->oFaceAnglePitch += 300;
 }

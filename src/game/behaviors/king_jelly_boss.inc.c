@@ -383,7 +383,7 @@ void king_jelly_boss_loop(void) {
     obj_set_hitbox(o, &sKingJellyBossHitbox);
     switch (o->oAction) {
         case A_KINGJELLY_IDLE_TURN:
-            spawn_platform_1();
+            //spawn_platform_1();
             king_jelly_boss_turn_towards_player();
             cur_obj_init_animation(A_KINGJELLY_ANIM_IDLE);
             if (hitButton == 1) {

@@ -395,7 +395,7 @@ void squidward_loop(void)
             cur_obj_init_animation(0);
             if (set_mario_npc_dialog(MARIO_DIALOG_LOOK_FRONT) == MARIO_DIALOG_STATUS_SPEAK) {
                  o->activeFlags |= ACTIVE_FLAG_INITIATED_TIME_STOP;
-                if (cutscene_object_with_dialog(CUTSCENE_DIALOG, o, DIALOG_169)) {
+                if (cutscene_object_with_dialog(CUTSCENE_DIALOG, o, DIALOG_SQ)) {
                     set_mario_npc_dialog(MARIO_DIALOG_STOP);
 
                     o->activeFlags &= ~ACTIVE_FLAG_INITIATED_TIME_STOP;

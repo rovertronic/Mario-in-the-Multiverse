@@ -632,17 +632,18 @@ void bhv_opening_wall_loop(void) {
             //wait
             case 0:
                 if(o->oObjF4 != NULL && o->oObjF4->oAction == 1){
+                    o->oMoveAngleYaw += 0x4000;
                     o->oAction++;
                 }
                 break;
             //activated
             case 1:
-                o->oVelX = 10;
+                o->oForwardVel = 10;
                 if (o->oTimer > 63) {
                     o->oAction++;
                 }
                 cur_obj_play_sound_1(SOUND_ENV_ELEVATOR2);
-                cur_obj_move_using_vel();
+                cur_obj_move_xz_using_fvel_and_yaw();
                 break;
             //wait but can't be activated anymore
             case 2:

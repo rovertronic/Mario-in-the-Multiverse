@@ -1862,10 +1862,6 @@ s32 check_dashboost_inputs(struct MarioState *m) {
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
-    //if (gPlayer1Controller->buttonPressed & D_JPAD) {
-    //    initiate_warp(LEVEL_G, 4, 0x0A, 0);
-    //}
-
     // Updates once per frame:
     vec3f_get_dist_and_lateral_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->lateralSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);
     vec3f_copy(gMarioState->prevPos, gMarioState->pos);
@@ -2005,11 +2001,16 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         if (using_ability(ABILITY_E_SHOTGUN)) {
             e__animate_upper(); }
 
+        struct Surface * marble_floor;
+        f32 marble_floor_y = find_floor(gMarioState->pos[0],gMarioState->pos[1],gMarioState->pos[2],&marble_floor);
+        u8 force_marble = ((marble_floor)&&(marble_floor->type == SURFACE_FORCE_MARBLE)&&(gMarioState->pos[1] < marble_floor_y+120.0f)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE));
 
-        if ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE) {
+        if (!force_marble) {
             control_ability_dpad();
         }
-        else {
+
+
+        if ((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE) {
             gMarioState->abilityChronosTimeSlowActive = FALSE;
         }
 
@@ -2062,7 +2063,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             if ((gPlayer1Controller->buttonDown & L_TRIG)&&(aku_invincibility == 0)&&(gMarioState->numGlobalCoins >= 10)) {
                 aku_invincibility = 300;
                 gMarioState->numGlobalCoins -= 10;
-                play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
+                if(!(gCurrCourseNum == COURSE_CCM && gCurrAreaIndex == 4)) //Don't play the music in the LEVEL_I funky shell section to not desynchronized the music
+                    play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
                 cool_down_ability(ABILITY_AKU);
             }
 
@@ -2154,14 +2156,29 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         }
 
         //Marble Ability
+        if (force_marble) {
+            gMarioState->canHMFly = TRUE;
+            gE_ShotgunFlags &= ~E_SGF_AIR_SHOT_USED;
+            if (!using_ability(ABILITY_MARBLE)) {
+                change_ability(ABILITY_MARBLE);
+                gMarioState->forwardVel = 0.0f;
+                gMarioState->vel[1] = 0.0;
+                gMarioState->pos[1] = marble_floor_y + 51.0f;//102.0f;
+                gMarioObject->oPosY = marble_floor_y + 51.0f;//102.0f;
+            }
+        }
+
         if (using_ability(ABILITY_MARBLE)) {
             struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
-            if (!marble) {
+            if (!marble && !(gMarioState->riddenObj != NULL && obj_has_behavior(gMarioState->riddenObj, bhvFunkyShell))) {
                 set_mario_action(gMarioState,ACT_MARBLE,0);
-                gMarioState->pos[1] += 90.0f;
-                gMarioObject->oPosY += 90.0f;
-                spawn_object(o,MODEL_MARBLE,bhvPhysicsMarble);
+                gMarioState->pos[1] += 100.0f;
+                gMarioObject->oPosY += 100.0f;
+                marble = spawn_object(o,MODEL_MARBLE,bhvPhysicsMarble);
             }
+            gMarioObject->hitboxHeight = 200;
+            gMarioObject->hitboxRadius = 100;
+            gMarioObject->hitboxDownOffset = 50;
         } else {
             struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
             if (marble) {
@@ -2171,9 +2188,12 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 gMarioState->action = ACT_FREEFALL;
                 deallocate_rigid_body(marble->rigidBody);
                 obj_mark_for_deletion(marble);
-                gMarioState->pos[1] -= 90.0f;
-                gMarioObject->oPosY -= 90.0f;
+                gMarioState->pos[1] -= 100.0f;
+                gMarioObject->oPosY -= 100.0f;
             }
+            gMarioObject->hitboxHeight = 160;
+            gMarioObject->hitboxRadius = 37;
+            gMarioObject->hitboxDownOffset = 0;
         }
 
         //Squid Ability

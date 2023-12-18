@@ -2795,6 +2795,165 @@ void mode_shock_rocket_camera(struct Camera *c) {
 
 }
 
+void mode_marx_fight_camera(struct Camera *c) {
+
+    struct Object *obj;
+    f32 focusDistance;
+    // Floor normal values
+    f32 nx;
+    f32 ny;
+    f32 nz;
+    /// Floor originOffset
+    f32 oo;
+    s16 yaw;
+    s16 heldState;
+    struct Surface *floor;
+    Vec3f secondFocus;
+    Vec3f holdFocOffset = { 0.f, -150.f, -125.f };
+
+    if (gE_ShotgunFlags & E_SGF_AIM_MODE) {
+        return;
+    }
+
+    handle_c_button_movement(c);
+
+    // Start camera shakes if bowser jumps or gets thrown.
+    if (sMarioCamState->cameraEvent == CAM_EVENT_BOWSER_JUMP) {
+        set_environmental_camera_shake(SHAKE_ENV_BOWSER_JUMP);
+        sMarioCamState->cameraEvent = CAM_EVENT_NONE;
+    }
+    if (sMarioCamState->cameraEvent == CAM_EVENT_BOWSER_THROW_BOUNCE) {
+        set_environmental_camera_shake(SHAKE_ENV_BOWSER_THROW_BOUNCE);
+        sMarioCamState->cameraEvent = CAM_EVENT_NONE;
+    }
+
+    yaw = sModeOffsetYaw;
+    // Get boss's position and whether Mario is holding it.
+    if ((obj = gSecondCameraFocus) != NULL) {
+        vec3f_copy(secondFocus, &obj->oPosVec);
+        heldState = obj->oHeldState;
+    } else {
+    // If no boss is there, just rotate around the area's center point.
+        secondFocus[0] = c->areaCenX;
+        secondFocus[1] = sMarioCamState->pos[1];
+        secondFocus[2] = c->areaCenZ;
+        heldState = 0;
+    }
+
+    focusDistance = calc_abs_dist(sMarioCamState->pos, secondFocus) * 1.6f;
+    if (focusDistance < 800.f) {
+        focusDistance = 800.f;
+    }
+    if (focusDistance > 5000.f) {
+        focusDistance = 5000.f;
+    }
+
+    // If holding the boss, add a slight offset to secondFocus so that the spinning is more pronounced.
+    if (heldState == HELD_HELD) {
+        offset_rotated(secondFocus, sMarioCamState->pos, holdFocOffset, sMarioCamState->faceAngle);
+    }
+
+    // Set the camera focus to the average of Mario and secondFocus
+    c->focus[0] = (sMarioCamState->pos[0] + secondFocus[0]) / 2.f;
+    c->focus[1] = (sMarioCamState->pos[1] + secondFocus[1]) / 2.f + 125.f;
+    c->focus[2] = (sMarioCamState->pos[2] + secondFocus[2]) / 2.f;
+
+    // Calculate the camera's position as an offset from the focus
+    // When C-Down is not active, this
+    vec3f_set_dist_and_angle(c->focus, c->pos, focusDistance, 0x1000, yaw);
+    // Find the floor of the arena
+    //c->pos[1] = approach_f32_asymptotic(c->pos[1], gMarioState->pos[1] + 100, 0.04f);
+    s16 camXZ = obj_angle_to_object(gMarioState->marioObj, gSecondCameraFocus);
+    c->pos[1] = gMarioState->pos[1] + 100;
+    c->pos[0] = gMarioState->pos[0] + -800*sins(camXZ);
+    c->pos[2] = gMarioState->pos[2] + -800*coss(camXZ);
+
+    s8DirModeYawOffset = camXZ + 0x8000;
+    //s8DirModeBaseYaw = 0;
+
+    
+    
+
+    c->focus[1] = (sMarioCamState->pos[1] + secondFocus[1]) / 2.f + 100.f;
+
+    //! Unnecessary conditional, focusDistance is already bounded to 800
+    // if (focusDistance < 400.f) {
+    //     focusDistance = 400.f;
+    // }
+
+    // Set C-Down distance and pitch.
+    // C-Down will essentially double the distance from the center.
+    // sLakituPitch approaches 33.75 degrees.
+    //lakitu_zoom(focusDistance, 0x1800);
+
+    // Move the camera position back as sLakituDist and sLakituPitch increase.
+    // This doesn't zoom out of bounds because pos is set above each frame.
+    // The constant 0x1000 doubles the pitch from the center when sLakituPitch is 0
+    // When Lakitu is fully zoomed out, the pitch comes to 0x3800, or 78.75 degrees, up from the focus.
+    vec3f_set_dist_and_angle(c->pos, c->pos, sLakituDist, sLakituPitch + 0x1000, yaw);
+    c->nextYaw = camXZ + 0x8000;
+
+}
+
+#define X 0
+#define Y 1
+#define Z 2
+#define STICK_QUI_MARCHE_A_0_DEGRES     0
+#define STICK_QUI_MARCHE_A_90_DEGRES    1
+#define STICK_QUI_MARCHE_A_180_DEGRES   2
+#define STICK_QUI_MARCHE_A_270_DEGRES   3
+ 
+#define LE_SENSE_DE_LA_MAP_EST_ENTRE_GUILLEMENT_NORMAL     -1
+#define LE_SENSE_DE_LA_MAP_EST_ENTRE_GUILLEMENT_A_L_ENVERS 1
+ 
+#define SCROLLING_AXE   X       // l'axe du scroll
+#define AXE_Y           Y       // l'axe gravitationnel
+#define OFFSET_AXE       Z       // l'axe qui suit la course
+#define REVERSE         LE_SENSE_DE_LA_MAP_EST_ENTRE_GUILLEMENT_NORMAL  // permet de définir le sense auquel doit regarder la cam de mario
+#define YAW             STICK_QUI_MARCHE_A_0_DEGRES // permet de faire correspondre le stick à la cam
+ 
+#define MAX_OFSET_Y          800   // offset max de Y
+#define MAX_OFSET_SCROLL     800   // offset max du scoll
+#define ORIGINAL_OFFSET_Y    600   // offset normal que nous avons sur Y
+
+void mode_funky_board_camera(struct Camera *c) {
+    struct MarioState *m = &gMarioState[0];
+ 
+    f32 speedscrolling = 18; // la vitesse de scrolling
+    f32 speedY = 12;    // la vitesse de la cam sur l'axe Y
+ 
+    if(absi(c->pos[SCROLLING_AXE]  - m->pos[SCROLLING_AXE]) < speedscrolling){ // si la pose de la cam sur l'axe du scroll est inférieur à la vitesse de scroll alors la position de la cam est sur la position de mario 
+        c->pos[SCROLLING_AXE] = m->pos[SCROLLING_AXE];
+    }else if(absi(c->pos[SCROLLING_AXE] - m->pos[SCROLLING_AXE]) > MAX_OFSET_SCROLL){   // une limite à l'offset du scroll
+        c->pos[SCROLLING_AXE] = m->pos[SCROLLING_AXE] + MAX_OFSET_SCROLL * (c->pos[SCROLLING_AXE] > m->pos[SCROLLING_AXE] ? 1 : -1);
+ 
+    }else{ // sinon la cam se dirige vers sa position target
+        c->pos[SCROLLING_AXE] += speedscrolling * (c->pos[SCROLLING_AXE] > m->pos[SCROLLING_AXE] ? -1 : 1);
+    }
+ 
+ 
+    c->pos[AXE_Y] -= ORIGINAL_OFFSET_Y; // c'est un offset général et je fais cela pour faciliter les calculs
+    if((c->pos[AXE_Y] - m->pos[AXE_Y]) < speedY){ // puis c'est pareil que pour le scroll 
+        c->pos[AXE_Y] = m->pos[AXE_Y];
+    } else if(absi(c->pos[AXE_Y] - m->pos[AXE_Y]) > MAX_OFSET_Y){
+        c->pos[AXE_Y] = m->pos[AXE_Y] + MAX_OFSET_Y * (c->pos[AXE_Y] > m->pos[AXE_Y] ? 1 : -1);
+ 
+    } else{
+        c->pos[AXE_Y] += speedY * (c->pos[AXE_Y] > m->pos[AXE_Y] ? -1 : 1);
+    }
+    c->pos[AXE_Y] += ORIGINAL_OFFSET_Y;
+ 
+ 
+    c->pos[OFFSET_AXE] = m->pos[OFFSET_AXE] -1700 * REVERSE ; // c'est pour inverser de 180 degrès la cam
+    c->yaw = 0x4000 * YAW + (0x400 * REVERSE) ; // le plus 0x400 c'est pour que cela soit plus précis et sinon c'est pour que le stick corresponde à la pos de la cam
+ 
+    c->focus[0] = m->pos[0] ;
+    c->focus[1] = m->pos[1] + 200.0f; //offset to look more far away
+    c->focus[2] = m->pos[2] ; 
+ 
+    // le focus pointe toujours vers mario
+}
+
 /**
  * Cause Lakitu to fly to the next Camera position and focus over a number of frames.
  *
@@ -2919,7 +3078,7 @@ void update_lakitu(struct Camera *c) {
     f32 distToFloor;
     s16 newYaw;
 
-    if (c->pos[1] < check_water_height){
+    if (c->pos[1] < find_water_level(c->pos[0], c->pos[2])){
         cam_submerged = TRUE;
     } else {
         cam_submerged = FALSE;
@@ -3096,6 +3255,7 @@ void update_camera(struct Camera *c) {
     camera_course_processing(c);
 #else
     if (gCurrDemoInput != NULL) camera_course_processing(c);
+    
 #endif
     sCButtonsPressed = find_c_buttons_pressed(sCButtonsPressed, gPlayer1Controller->buttonPressed, gPlayer1Controller->buttonDown);
 
@@ -3141,6 +3301,10 @@ void update_camera(struct Camera *c) {
 
                 case CAMERA_MODE_SHOCK_ROCKET:
                     mode_shock_rocket_camera(c);
+                    break;
+                    
+                case CAMERA_MODE_FUNKY_BOARD:
+                    mode_funky_board_camera(c);
                     break;
 
                 default:
@@ -3216,6 +3380,14 @@ void update_camera(struct Camera *c) {
 
                 case CAMERA_MODE_SHOCK_ROCKET:
                     mode_shock_rocket_camera(c);
+                    break;
+
+                case CAMERA_MODE_MARX_FIGHT:
+                    mode_marx_fight_camera(c);
+                    break;
+                    
+                case CAMERA_MODE_FUNKY_BOARD:
+                    mode_funky_board_camera(c);
                     break;
             }
         }
@@ -3313,6 +3485,8 @@ void update_camera(struct Camera *c) {
 #endif
     gLakituState.lastFrameAction = sMarioCamState->action;
     profiler_update(PROFILER_TIME_CAMERA, profiler_get_delta(PROFILER_DELTA_COLLISION) - first);
+
+    //print_text_fmt_int(20,50, "MODE %d", c->mode);
 }
 
 /**
@@ -3565,7 +3739,7 @@ void zoom_out_if_paused_and_outside(struct GraphNodeCamera *camera) {
     }
     if (gCameraMovementFlags & CAM_MOVE_PAUSE_SCREEN) {
         if (sFramesPaused >= 2) {
-            if (sZoomOutAreaMasks[areaMaskIndex] & areaBit) {
+            if (0) {//(sZoomOutAreaMasks[areaMaskIndex] & areaBit) {
 
                 camera->focus[0] = gCamera->areaCenX;
                 camera->focus[1] = (sMarioCamState->pos[1] + gCamera->areaCenY) / 2;
@@ -5976,6 +6150,10 @@ void cam_ccm_leave_slide_shortcut(UNUSED struct Camera *c) {
     sStatusFlags &= ~CAM_FLAG_CCM_SLIDE_SHORTCUT;
 }
 
+void cam_graveler_ramp(struct Camera *c){
+    set_camera_mode_fixed(c,-4168, 5810, -6300);
+}
+
 /**
  * Apply any modes that are triggered by special floor surface types
  */
@@ -6230,6 +6408,7 @@ struct CameraTrigger sCamBBH[] = {
     NULL_TRIGGER
 };
 
+
 #define _ NULL
 #define STUB_LEVEL(_0, _1, _2, _3, _4, _5, _6, _7, cameratable) cameratable,
 #define DEFINE_LEVEL(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, cameratable) cameratable,
@@ -6261,6 +6440,21 @@ struct CameraTrigger sCamF[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger sCamE[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamI[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamJ[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamO[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamD[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamN[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger *sCameraTriggers[LEVEL_COUNT + 1] = {
@@ -8115,6 +8309,32 @@ void cutscene_star_spawn_back(struct Camera *c) {
 }
 
 void cutscene_star_spawn_end(struct Camera *c) {
+    sStatusFlags |= CAM_FLAG_SMOOTH_MOVEMENT;
+    gCutsceneTimer = CUTSCENE_STOP;
+    c->cutscene = 0;
+}
+
+void cutscene_dragonite_follow(struct Camera *c){
+    Vec3f dragonitePos;
+
+    if (gCutsceneFocus != NULL) {
+        object_pos_to_vec3f(dragonitePos, gCutsceneFocus);
+        approach_vec3f_asymptotic(c->focus, dragonitePos, 0.1f, 0.1f, 0.1f);
+    }
+}
+
+void cutscene_dragonite_entry(struct Camera *c) {
+    vec3f_set(c->pos, -2160.f, 735.f, -1085.f);
+    cutscene_event(cutscene_dragonite_follow, c, 0, -1);
+    sStatusFlags |= CAM_FLAG_SMOOTH_MOVEMENT;
+
+    if (gObjCutsceneDone) {
+        gCutsceneTimer = CUTSCENE_LOOP;
+        transition_next_state(c, 1);
+    }
+}
+
+void cutscene_dragonite_end(struct Camera *c) {
     sStatusFlags |= CAM_FLAG_SMOOTH_MOVEMENT;
     gCutsceneTimer = CUTSCENE_STOP;
     c->cutscene = 0;
@@ -10288,6 +10508,16 @@ struct Cutscene sCutsceneStarSpawn[] = {
     { cutscene_star_spawn_end, 0 }
 };
 
+
+/*
+    Dragonite Entering Burned Tower
+*/
+
+struct Cutscene sCutsceneDragonite[] = {
+    { cutscene_dragonite_entry, CUTSCENE_LOOP},
+    { cutscene_dragonite_end, 0 }
+};
+
 /**
  * Cutscene for the red coin star spawning. Compared to a regular star, this cutscene can warp long
  * distances.
@@ -10621,9 +10851,13 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 0), 
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), 
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 1, 1), 
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 0), 
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
 };
 
-STATIC_ASSERT(ARRAY_COUNT(sZoomOutAreaMasks) - 1 == LEVEL_MAX / 2, "Make sure you edit sZoomOutAreaMasks when adding / removing courses.");
+//STATIC_ASSERT(ARRAY_COUNT(sZoomOutAreaMasks) - 1 == LEVEL_MAX / 2, "Make sure you edit sZoomOutAreaMasks when adding / removing courses.");
 
 /*
  * credits spline paths.
@@ -11013,6 +11247,7 @@ void play_cutscene(struct Camera *c) {
         CUTSCENE(CUTSCENE_RACE_DIALOG,          sCutsceneDialog)
         CUTSCENE(CUTSCENE_ENTER_PYRAMID_TOP,    sCutsceneEnterPyramidTop)
         CUTSCENE(CUTSCENE_SSL_PYRAMID_EXPLODE,  sCutscenePyramidTopExplode)
+        CUTSCENE(CUTSCENE_DRAGONITE,            sCutsceneDragonite)
     }
 
 #undef CUTSCENE

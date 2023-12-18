@@ -3,6 +3,7 @@
 const GeoLayout g_area_3_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, g_dl_Plane_002_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, g_dl_Plane_002_mesh_layer_4),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 984, 1070, -1598, 0, 5, 0, g_dl_Plane_005_mesh_layer_1),
@@ -15,6 +16,9 @@ const GeoLayout g_area_3_geo[] = {
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -1331, 1017, -2248, 0, 53, 0, g_dl_Plane_010_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -3042, 2838, -6690, 0, 53, 0, g_dl_Plane_011_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, g_dl_Plane_013_mesh_layer_1),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 73, 2763, -10196, 0, 53, 0, g_dl_Plane_017_mesh_layer_1),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 736, 2763, -9696, 0, 19, 0, g_dl_Plane_019_mesh_layer_1),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -2663, 2730, -2446, 0, 19, 0, g_dl_Plane_020_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

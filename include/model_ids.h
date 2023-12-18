@@ -650,6 +650,13 @@ enum GLOBAL_MODELS {
 /* LEVEL C END */
 
 /* LEVEL D START */
+#define MODEL_D_UKAUKA 0x151
+#define MODEL_HMC_DOOR_D 0x152
+#define MODEL_D_TREE1 0x153
+#define MODEL_D_TREE2 0x154
+#define MODEL_D_ELEVATOR 0x155
+#define MODEL_D_BRIDGE 0x156
+#define MODEL_D_GATE 0x157
 /* LEVEL D END */
 
 /* LEVEL E START */
@@ -677,15 +684,83 @@ enum {
 #define MODEL_G_CUT_ROCK2                      0x156
 #define MODEL_G_CUT_ROCK3                      0x157
 #define MODEL_G_CANNON                      0x158
+#define MODEL_MARX                      0x159
+#define MODEL_G_MARX_CUTTER                      0x15A
+#define MODEL_G_MARX_SEED                      0x15B
+#define MODEL_G_MARX_THORNS                     0x15C
+#define MODEL_G_MARX_HALF_LEFT              0x15D
+#define MODEL_G_MARX_HALF_RIGHT              0x15E
+#define MODEL_G_MARX_BLACK_HOLE              0x15F
+#define MODEL_G_MARX_ARROW              0x160
+#define MODEL_G_MARX_MOUTH_FULL              0x161
+#define MODEL_G_MARX_MOUTH_OPEN              0x162
+#define MODEL_G_MARX_LASER              0x163
+#define MODEL_G_MARX_ICE_BOMB              0x164
+#define MODEL_G_MARX_ICE_RING              0x165
+#define MODEL_G_MARX_BLACK_HOLE_EFFECT              0x166
+#define MODEL_G_BRONTO_BURT              0x167
+#define MODEL_G_MOVING_PLATFORM              0x168
+#define MODEL_G_MARX_DOOR              0x169
+#define MODEL_G_WADDLE_DEE              0x16A
+#define MODEL_G_WARP_PIPE              0x16B
 /* LEVEL G END */
 
 /* LEVEL H START */
 /* LEVEL H END */
 
 /* LEVEL I START */
+#define MODEL_HOODBOOMER                0x36        //hoodboomer_geo
+#define MODEL_PIGPOT                    0x37        //pigpot_geo
+#define MODEL_HOODBOOMER_BOMB           0x38        //hoodboomer_bomb
+#define MODEL_WINDMILL                  0x39        //windmill_geo
+#define MODEL_GATE                      0x3A        //gate_geo
+#define MODEL_WOODEN_LEVER              0x3B        //wooden_lever_geo
+#define MODEL_PLUM                      0x3C        //plum
+#define MODEL_CAGED_TOAD                0x3D        //caged_toad
+#define MODEL_PLANK_ROPE                0x3E        //plank_rope_geo
+#define MODEL_BARRIER_ROPE              0x3F        //barrier_rope_geo
+#define MODEL_BLACK_PANEL               0x40        //black_panel_geo
+#define MODEL_FUNKY_ROAD                0x41        //funky_road_geo
+#define MODEL_OPENING_WALL              0x42        //opening_wall_geo
+#define MODEL_OPENABLE_WOODEN_GATE      0x43        //openable_wood_gate
+#define MODEL_WATERMILL                 0x44        //watermill_geo
+#define MODEL_MASTER_KAAG               0x45        //master_kaag_geo
+#define MODEL_HOODOO_SORCERER           0x46        //hoodoo_sorcerer
+#define MODEL_MAGIC_SHIELD              0x47        //magic_shiel_geo
+#define MODEL_HOODMONGER                0x48        //hoodmonger_geo
+#define MODEL_HOODMONGER_BULLET         0x49        //hoodmonger_bullet_geo
+#define MODEL_STAR_SLOT_EMPTY           0x4A        //star_slot_empty_geo
+#define MODEL_STAR_SLOT_FULL            0x4B        //star_slot_full_geo
+#define MODEL_DOLLAR                    0x4C        //dollar_geo
+#define MODEL_BLACKLUMS                 0x4D        //blacklums_geo
+#define MODEL_BOSS_GATE                 0x4E        //model_boss_geo
+
 /* LEVEL I END */
 
 /* LEVEL J START */
+#define MODEL_J_FALLING_PLATFORM                0x150
+#define MODEL_J_TILTY_HEXAGON                   0x151
+#define MODEL_J_SKARMORY                        0x152
+#define MODEL_J_YOUNGSTER                       0x153
+#define MODEL_J_SPINARAK                        0x154
+#define MODEL_J_GEODUDE                         0x155
+#define MODEL_BERRY                             0x156
+#define MODEL_J_HOOH                            0x157
+#define MODEL_J_HOOH_ROCK                       0x158
+#define MODEL_J_MILTANK                         0x159
+#define MODEL_J_GASTLY                          0x160
+#define MODEL_J_HAUNTER                         0x161
+#define MODEL_J_GENGAR                          0x162
+#define MODEL_J_ELDER                           0x163
+#define MODEL_J_KIMONO_GIRL                     0x164
+#define MODEL_J_MORTY                           0x165
+#define MODEL_J_COWGIRL                         0x166
+#define MODEL_J_SENTRET                         0x167
+#define MODEL_J_SKIPLOOM                        0x168
+#define MODEL_J_OLD_MAN                         0x169
+#define MODEL_J_SNORLAX                         0x170
+#define MODEL_J_MAGIKARP                        0x171
+#define MODEL_J_GRAVELER                 0x39
 /* LEVEL J END */
 
 /* LEVEL K START */
@@ -698,9 +773,21 @@ enum {
 /* LEVEL M END */
 
 /* LEVEL N START */
+#define MODEL_N_BALL 0x150
 /* LEVEL N END */
 
 /* LEVEL O START */
+#define MODEL_O_ZOMBIE_1  0x151
+#define MODEL_O_ZOMBIE_2  0x152
+#define MODEL_O_ZOMBIE_3  0x153
+#define MODEL_ZOMBLOOD    0x154
+#define MODEL_O_TREE      0x155
+#define MODEL_O_UVSTAR    0x156
+#define MODEL_O_LIFT      0x157
+#define MODEL_O_GARAGE    0x158
+#define MODEL_O_SPEAKER_1 0x159
+#define MODEL_O_SPEAKER_2 0x15A
+#define MODEL_O_SPEAKER_3 0x15B
 /* LEVEL O END */
 
 #endif // MODEL_IDS_H

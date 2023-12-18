@@ -590,6 +590,11 @@
 #define /*0x108*/ oFlyGuyTargetRoll       OBJECT_FIELD_S32(0x20)
 #define /*0x10C*/ oFlyGuyScaleVel         OBJECT_FIELD_F32(0x21)
 
+/* Geodude */
+#define /*0x0F4*/ oGeodudeWalkTimer       OBJECT_FIELD_S32(0x1B)
+#define /*0x0F8*/ oGeodudeTargetYaw        OBJECT_FIELD_F32(0x1C)
+#define /*0x0FC*/ oGeodudeTurningAwayFromWall OBJECT_FIELD_S32(0x1D)
+
 /* Grand Star */
 #define /*0x108*/ oGrandStarArcTime OBJECT_FIELD_S32(0x20)
 
@@ -628,6 +633,9 @@
 
 /* Hidden Object */
 #define /*0x0F4*/ oHiddenObjectSwitchObj OBJECT_FIELD_OBJ(0x1B)
+
+/* Hooh */
+#define /*0x0F4*/ oHomeAngleToMario     OBJECT_FIELD_S32(0x1B)
 
 /* Hoot */
 #define /*0x0F4*/ oHootAvailability     OBJECT_FIELD_S32(0x1B)
@@ -727,6 +735,10 @@
 #define /*0x108*/ oIntroLakituEndBirds1DestZ        OBJECT_FIELD_F32(O_INTRO_LAKITU_END_BIRDS_DEST_Z_INDEX)
 #define /*0x1AC*/ oIntroLakituCloud                 OBJECT_FIELD_OBJ(0x49)
 
+/* Magikarp */
+#define /*0x0F8*/ oMagikarpTargetYaw        OBJECT_FIELD_F32(0x1B)
+#define /*0x0F8*/ oMagikarpWalkTimer        OBJECT_FIELD_F32(0x1C)
+
 /* Main Menu Button */
 #define /*0x0F4*/ oMenuButtonState       OBJECT_FIELD_S32(0x1B)
 #define /*0x0F8*/ oMenuButtonTimer       OBJECT_FIELD_S32(0x1C)
@@ -759,6 +771,12 @@
 /* Merry-Go-Round Boo Manager */
 #define /*0x088*/ oMerryGoRoundBooManagerNumBoosKilled  OBJECT_FIELD_S32(0x00)
 #define /*0x0FC*/ oMerryGoRoundBooManagerNumBoosSpawned OBJECT_FIELD_S32(0x1D)
+
+/*Miltank*/
+#define oInPen                            OBJECT_FIELD_S32(0x1B)
+
+/*Miltank Star*/
+#define oMiltankInPen                     OBJECT_FIELD_S32(0x1B)
 
 /* Mips */
 #define /*0x0F4*/ oMipsStarStatus         OBJECT_FIELD_S32(0x1B)
@@ -795,6 +813,8 @@
 #define /*0x108*/ oMrIParticleTimerTarget OBJECT_FIELD_S32(0x20)
 #define /*0x10C*/ oMrIScale               OBJECT_FIELD_F32(0x21)
 #define /*0x110*/ oMrIBlinking            OBJECT_FIELD_S32(0x22)
+/* NPC */
+#define /*0x0F8*/ oNPCHasTalkedToMario OBJECT_FIELD_S32(0x1C)
 
 /* Object Respawner */
 #define /*0x0F4*/ oRespawnerModelToRespawn    OBJECT_FIELD_S32(0x1B)
@@ -821,6 +841,10 @@
 #define /*0x1AE*/ oRacingPenguinMarioWon               OBJECT_FIELD_S16(0x49, 1)
 #define /*0x1B0*/ oRacingPenguinReachedBottom          OBJECT_FIELD_S16(0x4A, 0)
 #define /*0x1B2*/ oRacingPenguinMarioCheated           OBJECT_FIELD_S16(0x4A, 1)
+
+/* Sentret */
+#define /*0x0F8*/ oSentretTargetYaw        OBJECT_FIELD_F32(0x1B)
+#define /*0x0F8*/ oSentretWalkTimer        OBJECT_FIELD_F32(0x1C)
 
 /* Small Penguin */
 #define /*0x088*/ oSmallPenguinReturnedToMother    OBJECT_FIELD_S32(0x00)
@@ -1016,12 +1040,30 @@
 #define /*0x0F4*/ oCelebStarIsBowserKey        OBJECT_FIELD_S32(0x1B)
 #define /*0x108*/ oCelebStarDiameterOfRotation OBJECT_FIELD_S32(0x20)
 
-/* Shock Rocket*/
+/* Shock Rocket */
 #define /*0x0F4*/ oPreviousLakituCamMode       OBJECT_FIELD_U32(0x1B)
 
-/* Rocket Button*/
+/* Rocket Button */
 #define /*0x0F4*/ oModelStateON       OBJECT_FIELD_S32(0x1B)
 #define /*0x0F8*/ oModelStateOFF      OBJECT_FIELD_S32(0x1C)
+
+/* Hoodmonger */
+#define /*0x0F4*/ oNearestHoodmongerWandering   OBJECT_FIELD_OBJ(0x1B)
+#define /*0x0F8*/ oShootingCooldown             OBJECT_FIELD_F32(0x1C)
+#define /*0x0FC*/ oLoosingTriggerCooldown       OBJECT_FIELD_F32(0x1D)
+#define /*0x100*/ oWantedSubAction              OBJECT_FIELD_S32(0x1E)
+#define /*0x104*/ oDollarDropObj                OBJECT_FIELD_OBJ(0x1F)
+#define /*0x104*/ oIsLootingRocket              OBJECT_FIELD_S32(0x20)
+
+/* Hoodboomer */
+#define /*0x0F4*/ oLaunchingBombCooldown OBJECT_FIELD_S32(0x1B)
+
+/* Hoodboomer bomb*/
+#define /*0x0F4*/ oBombTravelTime               OBJECT_FIELD_F32(0x1B)
+#define /*0x0F8*/ oBombUpSpeed                  OBJECT_FIELD_F32(0x1C)
+#define /*0x0FC*/ oBombEachFrameIncrementation  OBJECT_FIELD_F32(0x1D)
+#define /*0x100*/ oBombMissingSpeed              OBJECT_FIELD_S32(0x1E)
+
 
 /* Star Selector */
 #define /*0x0F4*/ oStarSelectorType  OBJECT_FIELD_S32(0x1B)
@@ -1274,6 +1316,16 @@
 
 //G Cannon
 #define /*0x0F4*/ oNumSwitchesLeft OBJECT_FIELD_S32(0x1B)
+
+//Marx
+#define /*0x0F4*/ oMarxTeleportTimer OBJECT_FIELD_S32(0x1B)
+#define /*0x0F8*/ oMarxTeleportX    OBJECT_FIELD_F32(0x1C)
+#define /*0x0FC*/ oMarxTeleportY           OBJECT_FIELD_F32(0x1D)
+#define /*0x100*/ oMarxTeleportZ    OBJECT_FIELD_F32(0x1E)
+#define /*0x100*/ oMarxLastAttack    OBJECT_FIELD_S32(0x1F)
+#define /*0x0F4*/ oMarxInvincibilityTimer OBJECT_FIELD_S32(0x20)
+#define /*0x0F4*/ oMarxHealth    OBJECT_FIELD_S32(0x21)
+
 
 /*Custom general defines:
 

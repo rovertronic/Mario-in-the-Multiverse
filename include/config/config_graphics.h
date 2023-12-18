@@ -50,7 +50,7 @@
  * Enables Puppyprint, a display library for text and large images.
  * Automatically enabled when PUPPYPRINT_DEBUG is enabled.
  */
-// #define PUPPYPRINT
+#define PUPPYPRINT
 
 /**
  * Disables AA (Improves console performance but causes visible seams between unconnected geometry).

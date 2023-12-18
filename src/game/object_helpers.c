@@ -271,6 +271,14 @@ s32 obj_turn_toward_object(struct Object *obj, struct Object *target, s16 angleI
 
             targetAngle = atan2s(d[2], d[0]);
             break;
+
+        case O_MOVE_ANGLE_ROLL_INDEX:
+        case O_FACE_ANGLE_ROLL_INDEX:
+            d[0] = target->oPosX - obj->oPosX;
+            d[1] = -target->oPosY + obj->oPosY;
+
+            targetAngle = atan2s(d[1], d[0]);
+            break;
     }
 
     startAngle = o->rawData.asU32[angleIndex];
@@ -621,6 +629,58 @@ struct Object *cur_obj_find_nearest_object_with_behavior(const BehaviorScript *b
     }
 
     *dist = minDist;
+    return closestObj;
+}
+
+struct Object *cur_obj_nearest_object_with_behavior_and_action(const BehaviorScript *behavior, s32 action){
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+    struct Object *closestObj = NULL;
+    f32 minDist = 0x20000;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            && obj != o
+            && obj->oAction == action
+        ) {
+            f32 objDist = dist_between_objects(o, obj);
+            if (objDist < minDist) {
+                closestObj = obj;
+                minDist = objDist;
+            }
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+
+    return closestObj;
+}
+
+struct Object *cur_obj_nearest_object_with_behavior_and_bparam1(const BehaviorScript *behavior, u32 bparam1){
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+    struct Object *closestObj = NULL;
+    f32 minDist = 0x20000;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            && obj != o
+            && GET_BPARAM1(obj->oBehParams) == bparam1
+        ) {
+            f32 objDist = dist_between_objects(o, obj);
+            if (objDist < minDist) {
+                closestObj = obj;
+                minDist = objDist;
+            }
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+
     return closestObj;
 }
 

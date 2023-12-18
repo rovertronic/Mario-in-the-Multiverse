@@ -104,7 +104,7 @@ enum SurfaceTypes {
     SURFACE_0084,                       // 0x0084 // Unused
     SURFACE_0085,                       // 0x0085 // Unused
     SURFACE_0086,                       // 0x0086 // Unused
-    SURFACE_0087,                       // 0x0087 // Unused
+    SURFACE_FORCE_MARBLE,               // 0x0087 // force mario into marble form
     SURFACE_0088,                       // 0x0088 // Unused
     SURFACE_0089,                       // 0x0089 // Unused
     SURFACE_008A,                       // 0x008A // Unused

@@ -324,6 +324,10 @@ s32 char_to_glyph_index(char c) {
         return GLYPH_MINUS; // minus
     }
 
+    if (c == '/') {
+        return GLYPH_SLASH; // slash
+    }
+
     if (c == '*') {
         return GLYPH_MULTIPLY; // x
     }

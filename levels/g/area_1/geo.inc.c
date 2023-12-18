@@ -3,6 +3,7 @@
 const GeoLayout g_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, g_dl_ignoreCol_mesh_layer_6),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, g_dl_ignoreCol_mesh_layer_4),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, g_dl_ignoreCol_mesh_layer_5),

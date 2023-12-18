@@ -5,6 +5,9 @@ void bhv_hidden_star_init(void) {
     if (gCurrLevelNum == LEVEL_F) {
         remainingTriggers = count_objects_with_behavior(bhvBriefcase);
     }
+    if (gCurrLevelNum == LEVEL_O) {
+        remainingTriggers = count_objects_with_behavior(bhvOuvstar);
+    }
 
     if (remainingTriggers == 0) {
         struct Object *starObj = spawn_object_abs_with_rot(o, 0, MODEL_STAR, bhvStar, o->oPosX, o->oPosY, o->oPosZ, 0, 0, 0);
@@ -19,6 +22,29 @@ void bhv_hidden_star_loop(void) {
     switch (o->oAction) {
         case 0:
             if (o->oHiddenStarTriggerCounter == 5) {
+                o->oAction = 1;
+            }
+            break;
+
+        case 1:
+            if (o->oTimer > 2) {
+                spawn_red_coin_cutscene_star(o->oPosX, o->oPosY, o->oPosZ);
+                spawn_mist_particles();
+                o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+            }
+            break;
+    }
+}
+
+void bhv_gco_star_init(void) {
+    f32 dist;
+    o->parentObj = cur_obj_find_nearest_object_with_behavior(bhvRocketButtonGroup, &dist);
+}
+
+void bhv_gco_star_loop(void) {
+    switch (o->oAction) {
+        case 0:
+            if (o->parentObj->oAction == 1) {
                 o->oAction = 1;
             }
             break;

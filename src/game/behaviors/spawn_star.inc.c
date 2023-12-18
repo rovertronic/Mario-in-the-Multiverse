@@ -158,7 +158,10 @@ void bhv_hidden_red_coin_star_init(void) {
         spawn_object(o, MODEL_TRANSPARENT_STAR, bhvRedCoinStarMarker);
     }
 #else
-    spawn_object(o, MODEL_TRANSPARENT_STAR, bhvRedCoinStarMarker);
+    // hide it in LEVEL I
+    if (gCurrCourseNum != COURSE_CCM) {
+        spawn_object(o, MODEL_TRANSPARENT_STAR, bhvRedCoinStarMarker);
+    }
 #endif
 
     // check if bparam2 specifies a total number of coins that should spawn the star

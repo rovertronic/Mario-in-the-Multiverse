@@ -3,10 +3,18 @@
 const GeoLayout g_area_4_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, g_dl_Cube_006_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, g_dl_Cube_006_mesh_layer_6),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -20028, 7460, 21176, 0, 90, 0, g_dl_f3dlite_material_041Mesh_mesh_layer_1),
+		GEO_OPEN_NODE(),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, g_dl_f3dlite_material_041Mesh_mesh_layer_4),
+		GEO_CLOSE_NODE(),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, g_dl_f3dlite_material_048Mesh_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, g_dl_Plane_003_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, g_dl_Plane_003_mesh_layer_4),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, g_dl_Plane_016_mesh_layer_4),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, g_dl_Plane_016_mesh_layer_6),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -34,6 +42,7 @@ const GeoLayout g_area_4[] = {
 		GEO_CLOSE_NODE(),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, g_dl_material_revert_render_settings),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, g_dl_material_revert_render_settings),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, g_dl_material_revert_render_settings),
 	GEO_CLOSE_NODE(),
 	GEO_END(),
 };

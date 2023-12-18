@@ -593,6 +593,10 @@ void process_notes(void) {
                 velocity = note->parentLayer->noteVelocity;
                 pan = note->parentLayer->notePan;
                 reverbVol = note->parentLayer->seqChannel->reverbVol;
+                // ADD TO SECTION TO BE ABLE TO PAUSE A STREAMED AUDIO
+                if( sCurrPlayMode == PLAY_MODE_PAUSED && note->bankId == 40 /* funky_shell_soundbank */) {
+                    frequency *= 0;
+                }
             }
 
             scale = note->adsrVolScale;
@@ -601,6 +605,8 @@ void process_notes(void) {
             if (gMarioState->abilityChronosTimeSlowActive) {
                 frequency *= ABILITY_CHRONOS_SLOW_FACTOR;
             }
+
+            
 
             cap = 3.99992f;
             if (gAiFrequency != 32006) {

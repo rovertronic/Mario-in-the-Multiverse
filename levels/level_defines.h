@@ -57,3 +57,8 @@ DEFINE_LEVEL("B", LEVEL_B, COURSE_HMC, B, generic, 20000, 0x00, 0x00, 0x00, _, s
 DEFINE_LEVEL("A", LEVEL_A, COURSE_WF, a, generic, 20000, 0x00, 0x00, 0x00, _, sCamA) 
 DEFINE_LEVEL("F", LEVEL_F, COURSE_SL, f, generic, 20000, 0x00, 0x00, 0x00, _, sCamF) 
 DEFINE_LEVEL("E", LEVEL_E, COURSE_DDD, e, generic, 20000, 0x00, 0x00, 0x00, _, sCamE) 
+DEFINE_LEVEL("I", LEVEL_I, COURSE_CCM, i, generic, 20000, 0x00, 0x00, 0x00, _, sCamI) 
+DEFINE_LEVEL("J", LEVEL_J, COURSE_WDW, J, generic, 20000, 0x00, 0x00, 0x00, _, sCamJ) 
+DEFINE_LEVEL("O", LEVEL_O, COURSE_THI, o, generic, 20000, 0x00, 0x00, 0x00, _, sCamO) 
+DEFINE_LEVEL("D", LEVEL_D, COURSE_TTM, d, generic, 20000, 0x00, 0x00, 0x01, _, sCamD) 
+DEFINE_LEVEL("N", LEVEL_N, COURSE_TTC, n, generic, 20000, 0x00, 0x00, 0x00, _, sCamN) 

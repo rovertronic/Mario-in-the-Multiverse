@@ -1,0 +1,12 @@
+extern const GeoLayout o_speaker_1_geo[];
+extern Lights1 o_speaker_1_Speaker1_lights;
+extern u8 o_speaker_1_rgba16_anonmoose_envmap_silver1_i8[];
+extern Vtx o_speaker_1_Cube_001_mesh_layer_1_vtx_0[95];
+extern Gfx o_speaker_1_Cube_001_mesh_layer_1_tri_0[];
+extern Vtx o_speaker_1_Cube_001_mesh_layer_1_vtx_1[86];
+extern Gfx o_speaker_1_Cube_001_mesh_layer_1_tri_1[];
+extern Gfx mat_o_speaker_1_Speaker1[];
+extern Gfx mat_o_speaker_1_Speaker2[];
+extern Gfx mat_revert_o_speaker_1_Speaker2[];
+extern Gfx o_speaker_1_Cube_001_mesh_layer_1[];
+extern Gfx o_speaker_1_material_revert_render_settings[];

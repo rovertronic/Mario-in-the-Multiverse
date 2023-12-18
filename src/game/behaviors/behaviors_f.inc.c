@@ -12,6 +12,8 @@ u32 targetable_behavior_list[] = {
     bhvMessagePanel,
     bhvStarPieceSwitch,
     bhvKeypad,
+    bhvGMarxDoor,
+    bhvWoodenLever
 };
 
 struct Object *find_nearest_watch_target(void) {
@@ -100,6 +102,13 @@ void bhv_gadget_aim(void) {
                 gMarioState->keypad_id = target->oBehParams2ndByte;
                 spawn_object(target,MODEL_EXPLOSION,bhvExplosion);
                 mark_obj_for_deletion(target);
+            } else if (target->behavior == segmented_to_virtual(bhvGMarxDoor)) {
+                spawn_object(target,MODEL_EXPLOSION,bhvExplosionVisual);
+                mark_obj_for_deletion(target);
+            } else if (target->behavior == segmented_to_virtual(bhvWoodenLever)) {
+                if(target->oAction == 0){
+                    target->oAction = 1;
+                }
             }
         }
 

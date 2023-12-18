@@ -1,0 +1,17 @@
+extern const GeoLayout plum_geo[];
+extern Lights1 plum_f3dlite_material_lights;
+extern u8 plum_prune2_ci8[];
+extern u8 plum_prune2_pal_rgba16[];
+extern u8 plum_prune1_ci8[];
+extern u8 plum_prune1_pal_rgba16[];
+extern Vtx plum_prune_mesh_layer_5_vtx_0[20];
+extern Gfx plum_prune_mesh_layer_5_tri_0[];
+extern Vtx plum_prune_mesh_layer_1_vtx_0[110];
+extern Gfx plum_prune_mesh_layer_1_tri_0[];
+extern Gfx mat_plum_f3dlite_material[];
+extern Gfx mat_revert_plum_f3dlite_material[];
+extern Gfx mat_plum_f3dlite_material_002[];
+extern Gfx mat_revert_plum_f3dlite_material_002[];
+extern Gfx plum_prune_mesh_layer_5[];
+extern Gfx plum_prune_mesh_layer_1[];
+extern Gfx plum_material_revert_render_settings[];

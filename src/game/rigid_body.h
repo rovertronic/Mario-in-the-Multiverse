@@ -19,7 +19,7 @@
 #define NUM_RIGID_BODY_STEPS 2
 #define NUM_IMPULSE_ITERATIONS 2
 
-#define MAX_RIGID_BODIES 1
+#define MAX_RIGID_BODIES 6
 
 typedef Vec4f Quat;
 

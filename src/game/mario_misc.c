@@ -107,7 +107,7 @@ Gfx *geo_draw_mario_head_goddard(s32 callContext, struct GraphNode *node, UNUSED
 }
 #endif
 
-static void toad_message_faded(void) {
+void toad_message_faded(void) {
     if (o->oDistanceToMario > 700.0f) {
         o->oToadMessageRecentlyTalked = FALSE;
     }
@@ -116,7 +116,7 @@ static void toad_message_faded(void) {
     }
 }
 
-static void toad_message_opaque(void) {
+void toad_message_opaque(void) {
     if (o->oDistanceToMario > 700.0f) {
         o->oToadMessageState = TOAD_MESSAGE_FADING;
     } else if (!o->oToadMessageRecentlyTalked) {
@@ -129,7 +129,7 @@ static void toad_message_opaque(void) {
     }
 }
 
-static void toad_message_talking(void) {
+void toad_message_talking(void) {
     if (cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_DOWN,
         DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, o->oToadMessageDialogId)) {
         o->oToadMessageRecentlyTalked = TRUE;
@@ -151,13 +151,13 @@ static void toad_message_talking(void) {
     }
 }
 
-static void toad_message_opacifying(void) {
+void toad_message_opacifying(void) {
     if ((o->oOpacity += 6) == 255) {
         o->oToadMessageState = TOAD_MESSAGE_OPAQUE;
     }
 }
 
-static void toad_message_fading(void) {
+void toad_message_fading(void) {
     if ((o->oOpacity -= 6) == 81) {
         o->oToadMessageState = TOAD_MESSAGE_FADED;
     }
@@ -183,6 +183,11 @@ void bhv_toad_message_loop(void) {
                 toad_message_talking();
                 break;
         }
+    }
+
+    if(obj_has_behavior(o, bhvFallingToad)){
+        cur_obj_update_floor_and_walls();
+        object_step();
     }
 }
 

@@ -3,6 +3,7 @@
 const GeoLayout g_area_2_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 0, 500, 0, g_dl_Circle_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),

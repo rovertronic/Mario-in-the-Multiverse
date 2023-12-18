@@ -21,7 +21,7 @@ void bhv_g_star_door_loop(void) {
         }
 
         if (o->oTimer == 135) {
-            initiate_warp(LEVEL_G, 3, 0x0A, 0);
+            initiate_warp(LEVEL_G, 3, 0x09, 0);
         }
 
         gCamera->cutscene = 1;

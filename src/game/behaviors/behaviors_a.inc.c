@@ -176,7 +176,7 @@ void taxistop_loop(void)
                 }
                 if (o->oTimer >= 51)
                 {
-                    initiate_warp(LEVEL_A, 1, 0x0A, 0);
+                    initiate_warp(LEVEL_A, 1, 0x05, 0);
                 }
             break;
         case 3:
@@ -354,7 +354,7 @@ static struct ObjectHitbox sSquidwardHitbox = {
     /* damageOrCoinValue: */ 0,
     /* health:            */ 0,
     /* numLootCoins:      */ 0,
-    /* radius:            */ 200,
+    /* radius:            */ 100,
     /* height:            */ 200,
     /* hurtboxRadius:     */ 200,
     /* hurtboxHeight:     */ 200,
@@ -556,6 +556,7 @@ void bridge_loop(void)
             break;
         case 2:
             cur_obj_init_animation(2);
+            load_object_collision_model();
             break;
     }
 }
@@ -583,6 +584,7 @@ void bridge2_loop(void)
             break;
         case 2:
             cur_obj_init_animation(2);
+            load_object_collision_model();
             break;
     }
 }

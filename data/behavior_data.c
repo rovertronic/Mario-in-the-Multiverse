@@ -6282,6 +6282,7 @@ const BehaviorScript bhvTaxiStop[] = {
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_COLLISION_DATA(taxistop_collision),
     SCALE(0, 200),
+    SET_FLOAT(oDrawingDistance, 30000),
     BEGIN_LOOP(),
         CALL_NATIVE(taxistop_loop),
         CALL_NATIVE(load_object_collision_model),
@@ -6371,6 +6372,7 @@ const BehaviorScript bhvSquidward[] = {
     SCALE(0, 230),
     BEGIN_LOOP(),
         CALL_NATIVE(squidward_loop),
+        SET_INT(oInteractStatus, 0),
     END_LOOP(),
 };
 
@@ -6380,8 +6382,9 @@ const BehaviorScript bhvKKTable[] = {
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_COLLISION_DATA(kktable_collision),
     SCALE(0, 180),
+    CALL_NATIVE(load_object_static_model),
     BEGIN_LOOP(),
-        CALL_NATIVE(kktable_loop),
+        //CALL_NATIVE(kktable_loop),
     END_LOOP(),
 };
 
@@ -6391,8 +6394,9 @@ const BehaviorScript bhvKKB[] = {
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_COLLISION_DATA(kkb_collision),
     SCALE(0, 180),
+    CALL_NATIVE(load_object_static_model),
     BEGIN_LOOP(),
-        CALL_NATIVE(kktable_loop),
+        //CALL_NATIVE(kktable_loop),
     END_LOOP(),
 };
 
@@ -6427,7 +6431,7 @@ const BehaviorScript bhvRBridge[] = {
     ANIMATE(0),
     BEGIN_LOOP(),
         CALL_NATIVE(bridge_loop),
-        CALL_NATIVE(load_object_collision_model),
+        //CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
 
@@ -6440,7 +6444,7 @@ const BehaviorScript bhvRPlank[] = {
     ANIMATE(0),
     LOAD_COLLISION_DATA(a_plank_collision),
     BEGIN_LOOP(),
-        CALL_NATIVE(load_object_collision_model),
+        //CALL_NATIVE(load_object_collision_model),
         CALL_NATIVE(bridge2_loop),
     END_LOOP(),
 };

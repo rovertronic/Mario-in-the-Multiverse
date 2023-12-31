@@ -1,0 +1,12 @@
+extern Lights1 bubblehat_hand_Gloves_lights;
+extern u8 bubblehat_hand_bubblebuddy_ci4[];
+extern u8 bubblehat_hand_bubblebuddy_pal_rgba16[];
+extern Vtx bubblehat_hand_hand_mesh_vtx_cull[8];
+extern Vtx bubblehat_hand_hand_mesh_vtx_0[42];
+extern Gfx bubblehat_hand_hand_mesh_tri_0[];
+extern Vtx bubblehat_hand_hand_mesh_vtx_1[671];
+extern Gfx bubblehat_hand_hand_mesh_tri_1[];
+extern Gfx mat_bubblehat_hand_Gloves[];
+extern Gfx mat_bubblehat_hand_f3dlite_material_002[];
+extern Gfx mat_revert_bubblehat_hand_f3dlite_material_002[];
+extern Gfx bubblehat_hand_hand_mesh[];

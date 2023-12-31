@@ -6306,6 +6306,7 @@ const BehaviorScript bhvTikiBox[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_COLLISION_DATA(tikibox_collision),
+    SCALE(0, 150),
     CALL_NATIVE(tiki_box_init),
     BEGIN_LOOP(),
         CALL_NATIVE(load_object_collision_model),

@@ -442,6 +442,11 @@ void button_for_bridge_loop(void)
     switch (o->oAction)
     {
         case 0:
+            if ((o->oInteractStatus & INT_STATUS_INTERACTED) && (o->oInteractStatus & INT_STATUS_WAS_ATTACKED))
+            {
+                ifPushed = 1;
+                o->oAction = 1;
+            }
             break;
         case 1:
             obj_scale_xyz(o, 1.4f * sins(o->oTimer * 0x555), 1.9f * sins(o->oTimer * 555), 1.0f);
@@ -470,17 +475,8 @@ void button_for_bridge_loop(void)
     }
     o->oPosY += o->oVelY;
     obj_set_hitbox(o, &sBHButtonHitbox);
-    if (using_ability(ABILITY_BUBBLE_HAT))
-    {
-        if (gMarioState->action == ACT_PUNCHING || gMarioState->action == ACT_MOVE_PUNCHING || gMarioState->action == ACT_JUMP_KICK) 
-        {
-             if ((o->oInteractStatus & INT_STATUS_INTERACTED) && (o->oInteractStatus & INT_STATUS_WAS_ATTACKED))
-             {
-                ifPushed = 1;
-                o->oAction = 1;
-             }
-        }
-    }
+
+    o->oInteractStatus = INT_STATUS_NONE;
 
     vec3i_add(&o->oFaceAngleVec, &o->oAngleVelVec);
 }
@@ -494,6 +490,11 @@ void button_for_bridge_loop_2(void)
     switch (o->oAction)
     {
         case 0:
+             if ((o->oInteractStatus & INT_STATUS_INTERACTED) && (o->oInteractStatus & INT_STATUS_WAS_ATTACKED))
+             {
+                ifPushedAgain = 1;
+                o->oAction = 1;
+             }
             break;
         case 1:
             obj_scale_xyz(o, 1.4f * sins(o->oTimer * 0x555), 1.9f * sins(o->oTimer * 555), 1.0f);
@@ -519,17 +520,6 @@ void button_for_bridge_loop_2(void)
     }
     o->oPosY += o->oVelY;
     obj_set_hitbox(o, &sBHButtonHitbox);
-    if (using_ability(ABILITY_BUBBLE_HAT))
-    {
-        if (gMarioState->action == ACT_PUNCHING || gMarioState->action == ACT_MOVE_PUNCHING || gMarioState->action == ACT_JUMP_KICK) 
-        {
-             if ((o->oInteractStatus & INT_STATUS_INTERACTED) && (o->oInteractStatus & INT_STATUS_WAS_ATTACKED))
-             {
-                ifPushedAgain = 1;
-                o->oAction = 1;
-             }
-        }
-    }
 
     vec3i_add(&o->oFaceAngleVec, &o->oAngleVelVec);
 }

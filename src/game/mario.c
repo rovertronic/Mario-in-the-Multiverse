@@ -2005,7 +2005,11 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         f32 marble_floor_y = find_floor(gMarioState->pos[0],gMarioState->pos[1],gMarioState->pos[2],&marble_floor);
         u8 force_marble = ((marble_floor)&&(marble_floor->type == SURFACE_FORCE_MARBLE)&&(gMarioState->pos[1] < marble_floor_y+120.0f)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE));
 
-        if (!force_marble) {
+        if (using_ability(ABILITY_BUBBLE_HAT) && (gMarioState->action != ACT_BUBBLE_HAT_JUMP)) {
+            change_ability(ABILITY_BUBBLE_HAT);
+        }
+
+        if ((!force_marble)&&(gMarioState->action != ACT_BUBBLE_HAT_JUMP)) {
             control_ability_dpad();
         }
 

@@ -211,7 +211,7 @@ Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context
 //DPAD ORDER: UP, RIGHT, DOWN, LEFT
 s8 ability_y_offset[4] = {0,0,0,0};
 s8 ability_gravity[4] = {0,0,0,0};
-u8 ability_slot[4] = {ABILITY_DEFAULT,ABILITY_DEFAULT,ABILITY_DEFAULT,ABILITY_DEFAULT};
+u8 ability_slot[4] = {ABILITY_ESTEEMED_MORTAL,ABILITY_E_SHOTGUN,ABILITY_GADGET_WATCH,ABILITY_HM_FLY};
 
 void render_ability_dpad(s16 x, s16 y, u8 alpha) {
     u8 i;

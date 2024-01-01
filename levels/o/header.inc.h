@@ -208,7 +208,7 @@ extern Vtx o_dl_viscol_mesh_layer_1_vtx_17[372];
 extern Gfx o_dl_viscol_mesh_layer_1_tri_17[];
 extern Vtx o_dl_viscol_mesh_layer_1_vtx_18[64];
 extern Gfx o_dl_viscol_mesh_layer_1_tri_18[];
-extern Vtx o_dl_viscol_mesh_layer_1_vtx_19[682];
+extern Vtx o_dl_viscol_mesh_layer_1_vtx_19[898];
 extern Gfx o_dl_viscol_mesh_layer_1_tri_19[];
 extern Vtx o_dl_viscol_mesh_layer_1_vtx_20[42];
 extern Gfx o_dl_viscol_mesh_layer_1_tri_20[];

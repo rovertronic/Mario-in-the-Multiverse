@@ -2006,9 +2006,23 @@ s32 render_pause_courses_and_castle(void) {
             render_pause_course_options(99, 93, &gDialogLineNum, 15);
 
             if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
+
+                if (gDialogLineNum == 1) {
+                    level_set_transition(0, NULL);
+                    play_sound(SOUND_MENU_PAUSE_CLOSE, gGlobalSoundSource);
+                    gDialogBoxState = DIALOG_STATE_OPENING;
+                    gMenuMode = MENU_MODE_NONE;
+                    return MENU_OPT_DEFAULT;
+                } else {
+                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                }
+
+                /*
                 if (gDialogLineNum == MENU_OPT_CAMERA_ANGLE_R) {
                     gDialogBoxState = DIALOG_STATE_HORIZONTAL;
                     return MENU_OPT_NONE;
+                } else {
+                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
                 }
 
                 level_set_transition(0, NULL);
@@ -2023,6 +2037,7 @@ s32 render_pause_courses_and_castle(void) {
                 }
 
                 return index;
+                */
             }
             break;
 

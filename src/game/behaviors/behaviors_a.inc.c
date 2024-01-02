@@ -386,7 +386,7 @@ static struct ObjectHitbox sSquidwardHitbox = {
     /* damageOrCoinValue: */ 0,
     /* health:            */ 0,
     /* numLootCoins:      */ 0,
-    /* radius:            */ 100,
+    /* radius:            */ 300,
     /* height:            */ 200,
     /* hurtboxRadius:     */ 200,
     /* hurtboxHeight:     */ 200,
@@ -414,6 +414,11 @@ void squidward_init(void)
 
 void squidward_loop(void)
 {
+    u16 squidward_dialog = DIALOG_SQ;
+    if (!cur_obj_nearest_object_with_behavior(bhvConcreteBlock)) {
+        squidward_dialog = DIALOG_SQ2;
+    }
+
     switch (o->oAction)
     {
         case SQUIDWARD_IDLE:
@@ -427,7 +432,7 @@ void squidward_loop(void)
             cur_obj_init_animation(0);
             if (set_mario_npc_dialog(MARIO_DIALOG_LOOK_FRONT) == MARIO_DIALOG_STATUS_SPEAK) {
                  o->activeFlags |= ACTIVE_FLAG_INITIATED_TIME_STOP;
-                if (cutscene_object_with_dialog(CUTSCENE_DIALOG, o, DIALOG_SQ)) {
+                if (cutscene_object_with_dialog(CUTSCENE_DIALOG, o, squidward_dialog)) {
                     set_mario_npc_dialog(MARIO_DIALOG_STOP);
 
                     o->activeFlags &= ~ACTIVE_FLAG_INITIATED_TIME_STOP;

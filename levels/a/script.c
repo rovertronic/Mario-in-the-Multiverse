@@ -228,7 +228,7 @@ const LevelScript level_a_entry[] = {
 		OBJECT(MODEL_CONCRETE_BLOCK, 1613, -2271, 519, 0, 0, 0, (2 << 24) | (2 << 16), bhvConcreteBlock),
 		OBJECT(MODEL_ABILITY_SIGN, 3608, -2500, -1899, 0, -80, 0, (6 << 16), bhvStaticObject),
 		OBJECT(MODEL_KKB, 1589, -2500, 205, 0, 30, 0, 0x00000000, bhvKKB),
-		OBJECT(MODEL_SQUIDWARD, 3192, -2626, 517, 0, 180, 0, 0x00000000, bhvSquidward),
+		OBJECT(MODEL_SQUIDWARD, 3170, -2626, 630, 0, 180, 0, 0x00000000, bhvSquidward),
 		OBJECT(MODEL_NONE, 3192, -2238, -1204, 0, 0, 0, (4 << 24), bhvHiddenStar),
 		TERRAIN(a_area_5_collision),
 		MACRO_OBJECTS(a_area_5_macro_objs),

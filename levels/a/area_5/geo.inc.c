@@ -7,6 +7,7 @@ const GeoLayout a_area_5_geo[] = {
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, a_dl_build_mesh_layer_5),
 		GEO_CLOSE_NODE(),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 3161, -2500, -753, a_dl_Cube_001_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 3192, -2500, -684, a_dl_p_mesh_layer_1),
 		GEO_ASM(0, e__shotgun_effects),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 12792, 0, 44924),

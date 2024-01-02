@@ -1005,3 +1005,31 @@ void king_jellyfish_shock_throw(void)
     vec3i_add(&o->oFaceAngleVec, &o->oAngleVelVec);
     cur_obj_move_xz_using_fvel_and_yaw();
 }
+
+void a_cage_loop(void) {
+    struct Object * ability_object = cur_obj_nearest_object_with_behavior(bhvAbilityUnlock);
+
+    switch(o->oAction) {
+        case 0: // set home y
+            o->oHomeY = find_floor_height(o->oPosX, o->oPosY, o->oPosZ);
+            o->oAction ++;
+            break;
+        case 1:
+            if (ability_object) {
+                vec3f_copy(&ability_object->oPosVec,&o->oPosVec);
+                ability_object->oPosY -= 300.0f;
+            }
+
+            o->oPosY += o->oVelY;
+            o->oVelY -= 2.0f;
+
+            if (o->oPosY < o->oHomeY+400.0f) {
+                o->oPosY = o->oHomeY;
+                obj_mark_for_deletion(o);
+                spawn_mist_particles();
+                spawn_triangle_break_particles(20, MODEL_DIRT_ANIMATION, 0.7f, 3);
+                cur_obj_play_sound_2(SOUND_GENERAL_BREAK_BOX);
+            }
+            break;
+    }
+}

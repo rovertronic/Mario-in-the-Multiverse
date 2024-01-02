@@ -574,6 +574,7 @@ extern const BehaviorScript bhvRPlank[];
 extern const BehaviorScript bhvGooSwitch[];
 extern const BehaviorScript bhvSpawnJellyKJ[];
 extern const BehaviorScript bhvGooDrop[];
+extern const BehaviorScript bhvAcage[];
 /* GROUP A END */
 
 /* GROUP B START */

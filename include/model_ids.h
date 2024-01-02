@@ -641,6 +641,7 @@ enum GLOBAL_MODELS {
 #define MODEL_BHBRIDGE                            0x164
 #define MODEL_A_PLANK                             0x165
 #define MODEL_GOO_DROP                            0x166
+#define MODEL_A_CAGE                              0x167
 /* LEVEL A END */
 
 /* LEVEL B START */

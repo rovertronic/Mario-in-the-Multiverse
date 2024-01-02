@@ -54,3 +54,5 @@
 #include "levels/a/a_plank/anims/data.inc.c"
 #include "levels/a/a_plank/anims/table.inc.c"
 #include "levels/a/goodrop/model.inc.c"
+#include "levels/a/a_cage/model.inc.c"
+#include "levels/a/a_cage/collision.inc.c"

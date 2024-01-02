@@ -6478,6 +6478,20 @@ const BehaviorScript bhvGooDrop[] = {
     END_LOOP(),
 };
 
+extern const Collision a_cage_collision[];
+void a_cage_loop(void);
+const BehaviorScript bhvAcage[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ATTACHABLE_BY_ROPE)),
+    LOAD_COLLISION_DATA(a_cage_collision),
+    SET_FLOAT(oDrawingDistance, 9000.0f),
+    SET_FLOAT(oCollisionDistance, 9000.0f),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(a_cage_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(), 
+};
 /* GROUP A END */
 
 /* GROUP B START */

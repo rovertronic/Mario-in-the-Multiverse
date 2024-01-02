@@ -77,4 +77,8 @@ extern const LevelScript level_a_entry[];
 
 #include "levels/a/goodrop/geo_header.h"
 
+#include "levels/a/a_cage/geo_header.h"
+
+#include "levels/a/a_cage/collision_header.h"
+
 #endif

@@ -5,10 +5,43 @@
 #include "src/game/mario.h"
 
 // Jelly
+s32 jelly_check_dmg(void) {
+    u8 punchstate = ((gMarioState->action == ACT_MOVE_PUNCHING)||(gMarioState->action == ACT_PUNCHING));
+    o->oInteractType = INTERACT_SHOCK;
+
+    //mario states where he can kill well
+    if ((gMarioState->action == ACT_KNIGHT_SLIDE)||(aku_invincibility>0)) {
+        //since the saw-axe is made out of metal, mario gets electrocuted
+        o->oInteractType = INTERACT_BOUNCE_TOP;
+    }
+    //same with chrono's katana.
+    //same with big daddy drill
+
+    o->oNumLootCoins = 1;
+    o->hitboxRadius = 80;
+    if ((gMarioState->vel[1]>=0.0f)&&(punchstate)&&(using_ability(ABILITY_BUBBLE_HAT))) {
+        o->oInteractType = INTERACT_BOUNCE_TOP;
+        o->oNumLootCoins = 3;
+        o->hitboxRadius = 150;
+        // You get awarded more loot coins for safely handling jellyfish
+    }
+
+    struct Object * cutter = cur_obj_nearest_object_with_behavior(bhvCutterBlade);
+    if (cutter && dist_between_objects(o,cutter) < 150.0f) {
+        o->oInteractType = INTERACT_BOUNCE_TOP;
+        o->oNumLootCoins = 1;
+    }
+
+    if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
+        return TRUE;
+    }
+
+    return FALSE;
+}
 
 static struct ObjectHitbox sJellyHitbox = {
-    /* interactType:      */ INTERACT_BOUNCE_TOP,
-    /* downOffset:        */ 0,
+    /* interactType:      */ INTERACT_SHOCK,
+    /* downOffset:        */ 50,
     /* damageOrCoinValue: */ 1,
     /* health:            */ 1,
     /* numLootCoins:      */ 1,
@@ -58,12 +91,9 @@ void jelly_loop(void) {
                 o->oAction = 0;
             }
 
-            if (using_ability(ABILITY_DEFAULT || ABILITY_BUBBLE_HAT || ABILITY_CUTTER || ABILITY_E_SHOTGUN))
+            if (jelly_check_dmg())
             {
-                if (cur_obj_was_attacked_or_ground_pounded())
-                {
-                    o->oAction = 2;
-                }
+                o->oAction = 2;
             }
 
             if (o->oTimer >= 2)
@@ -74,11 +104,13 @@ void jelly_loop(void) {
         case 2:
             if (o->oTimer >= 1) {
                 obj_mark_for_deletion(o);
-                cur_obj_disable_rendering();
-                cur_obj_become_intangible();
+                if (o->oNumLootCoins == 3) {
+                    cur_obj_play_sound_2(SOUND_ACTION_SPIN);
+                } else {
+                    cur_obj_play_sound_2(SOUND_OBJ_ENEMY_DEATH_HIGH);
+                }
                 spawn_mist_particles();
-                cur_obj_play_sound_2(SOUND_OBJ_ENEMY_DEATH_HIGH);
-                obj_spawn_loot_yellow_coins(o, 1, 10);
+                obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 10);
             }
             break;
     }

@@ -33,6 +33,7 @@ enum ability_ids {
     ABILITY_ESTEEMED_MORTAL,
     ABILITY_MARBLE,
     ABILITY_DASH_BOOSTER,
+    ABILITY_NONE,
 };
 
 struct ability {

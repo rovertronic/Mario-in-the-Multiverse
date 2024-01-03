@@ -1955,6 +1955,30 @@ s8 gHudFlash = HUD_FLASH_NONE;
 u8 ability_menu_index = 0;
 s8 ability_menu_x = 0;
 s8 ability_menu_y = 0;
+
+s8 menu_ability_y_offset[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+s8 menu_ability_gravity[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
+void set_ability_slot(u8 index, u8 ability_id) {
+    u8 ability_already_on_dpad = FALSE;
+    u8 old_index;
+    for (u8 i=0; i<4; i++) {
+        if (ability_slot[i] == ability_id) {
+            ability_already_on_dpad = TRUE;
+            old_index = i;
+        }
+    }
+
+    if (ability_already_on_dpad) {
+        //swap
+        ability_slot[old_index] = ability_slot[index];
+        ability_slot[index] = ability_id;
+    } else {
+        //replace
+        ability_slot[index] = ability_menu_index;
+    }
+}
+
 s32 render_pause_courses_and_castle(void) {
     s16 index;
     u8 i;
@@ -2025,23 +2049,39 @@ s32 render_pause_courses_and_castle(void) {
             render_ability_dpad(233,142,gDialogTextAlpha);
 
             for (i=0;i<16;i++) {
-                render_ability_icon(55+(i%4)*33, 195-((i/4)*33), gDialogTextAlpha, i);
+                if (menu_ability_y_offset[i] > 0) {
+                    menu_ability_y_offset[i] += menu_ability_gravity[i];
+                    menu_ability_gravity[i] -= 1;
+                }
+                //Not an else to prevent sinking into the ground
+                if (menu_ability_y_offset[i] <= 0) {
+                    menu_ability_gravity[i] = 0;
+                    menu_ability_y_offset[i] = 0;
+                }
+
+                render_ability_icon(55+(i%4)*33, menu_ability_y_offset[i] + 195-((i/4)*33), gDialogTextAlpha, i);
             }
 
             handle_menu_scrolling_2way(&ability_menu_x, &ability_menu_y, 0, 3);
             ability_menu_index = (ability_menu_x)+(ability_menu_y*4);
 
-            if (gPlayer1Controller->buttonDown & U_JPAD) {
-                ability_slot[0] = ability_menu_index;
+            if (gPlayer1Controller->buttonPressed & U_JPAD) {
+                set_ability_slot(0, ability_menu_index);
             }
-            if (gPlayer1Controller->buttonDown & R_JPAD) {
-                ability_slot[1] = ability_menu_index;
+            if (gPlayer1Controller->buttonPressed & R_JPAD) {
+                set_ability_slot(1, ability_menu_index);
             }
-            if (gPlayer1Controller->buttonDown & D_JPAD) {
-                ability_slot[2] = ability_menu_index;
+            if (gPlayer1Controller->buttonPressed & D_JPAD) {
+                set_ability_slot(2, ability_menu_index);
             }
-            if (gPlayer1Controller->buttonDown & L_JPAD) {
-                ability_slot[3] = ability_menu_index;
+            if (gPlayer1Controller->buttonPressed & L_JPAD) {
+                set_ability_slot(3, ability_menu_index);
+            }
+            if (gPlayer1Controller->buttonPressed & A_BUTTON) {
+                menu_ability_gravity[ability_menu_index] = 2;
+                menu_ability_y_offset[ability_menu_index] = 1;
+                change_ability(ability_menu_index);
+                play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
             }
 
             create_dl_translation_matrix(MENU_MTX_PUSH, 55+(ability_menu_index%4)*33, 195-((ability_menu_index/4)*33), 0);

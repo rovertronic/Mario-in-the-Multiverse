@@ -1118,6 +1118,10 @@ s32 act_twirl_land(struct MarioState *m) {
 
 s32 act_ground_pound_land(struct MarioState *m) {
     if (ground_check_knight(m)) {
+        struct Surface *floor = m->floor;
+        s16 floorDYaw = atan2s(floor->normal.z,floor->normal.x);
+
+        m->faceAngle[1] = floorDYaw;
         return FALSE;
     }
 

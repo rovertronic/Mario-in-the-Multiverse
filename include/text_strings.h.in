@@ -5,7 +5,7 @@
 
 #define TEXT_PIPE_NOT_ENOUGH    _("Needed ★: ....")
 #define TEXT_PIPE_NO_ABILITY    _("???")
-#define TEXT_PIPE_ENTER         _(" : Enter  : Cancel")
+#define TEXT_PIPE_ENTER         _(" :Enter   :Cancel")
 #define TEXT_PIPE_A             _("A")
 #define TEXT_PIPE_B             _("         B")
 

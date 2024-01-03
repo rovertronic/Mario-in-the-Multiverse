@@ -813,6 +813,7 @@ u32 interact_water_ring(struct MarioState *m, UNUSED u32 interactType, struct Ob
     return FALSE;
 }
 
+extern u8 hub_star_string[];
 u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 starIndex;
     u32 starGrabAction = ACT_STAR_DANCE_EXIT;
@@ -898,6 +899,16 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
 
         m->numStars =
             save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
+
+
+        u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1, COURSE_NUM_TO_INDEX(gCurrCourseNum));
+        for (u8 i=0;i<8;i++) {
+            if (star_flags & (1<<i)) {
+                hub_star_string[i] = 0xFA;
+            } else {
+                hub_star_string[i] = 0xFD;
+            }
+        }
 
         if (!noExit) {
             drop_queued_background_music();

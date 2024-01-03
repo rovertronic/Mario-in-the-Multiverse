@@ -1783,9 +1783,9 @@ void render_pause_course_options(s16 x, s16 y, s8 *index, s16 yIndex) {
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
 
     print_generic_string(x + 10, y - 2, LANGUAGE_ARRAY(textContinue));
-    print_generic_string(x + 10, y - 17, LANGUAGE_ARRAY(textExitCourse));
+    print_generic_string(x + 10, y - 33, LANGUAGE_ARRAY(textExitCourse));
 
-    print_generic_string(x + 10, y - 33, LANGUAGE_ARRAY(textCameraAngleR));
+    print_generic_string(x + 10, y - 17, LANGUAGE_ARRAY(textCameraAngleR));
     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 
     create_dl_translation_matrix(MENU_MTX_PUSH, x - X_VAL8, (y - ((*index - 1) * yIndex)) - Y_VAL8, 0);
@@ -1994,7 +1994,7 @@ s32 render_pause_courses_and_castle(void) {
             render_pause_course_options(99, 93, &gDialogLineNum, 15);
 
             if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
-                if (gDialogLineNum == MENU_OPT_CAMERA_ANGLE_R) {
+                if (gDialogLineNum == MENU_OPT_EXIT_COURSE) {
                     gDialogBoxState = DIALOG_STATE_HORIZONTAL;
                     return MENU_OPT_NONE;
                 }
@@ -2004,7 +2004,7 @@ s32 render_pause_courses_and_castle(void) {
                 gDialogBoxState = DIALOG_STATE_OPENING;
                 gMenuMode = MENU_MODE_NONE;
 
-                if (gDialogLineNum == MENU_OPT_EXIT_COURSE) {
+                if (gDialogLineNum == MENU_OPT_CAMERA_ANGLE_R) {
                     index = gDialogLineNum;
                 } else { // MENU_OPT_CONTINUE or MENU_OPT_CAMERA_ANGLE_R
                     index = MENU_OPT_DEFAULT;

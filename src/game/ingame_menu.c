@@ -91,34 +91,22 @@ enum DialogBoxType {
 #define DEFAULT_DIALOG_BOX_SCALE 19.0f
 
 u8 gDialogCharWidths[256] = { // TODO: Is there a way to auto generate this?
-    7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  6,  6,  6,  6,  6,  6,
-    6,  6,  5,  6,  6,  5,  8,  8,  6,  6,  6,  6,  6,  5,  6,  6,
-    8,  7,  6,  6,  6,  5,  5,  6,  5,  5,  6,  5,  4,  5,  5,  3,
-    7,  5,  5,  5,  6,  5,  5,  5,  5,  5,  7,  7,  5,  5,  4,  4,
-    8,  6,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-    8,  8,  8,  8,  7,  7,  6,  7,  7,  7,  0,  0,  0,  0,  0,  0,
-#ifdef VERSION_EU
-    6,  6,  6,  0,  6,  6,  6,  0,  0,  0,  0,  0,  0,  0,  0,  4,
-    5,  5,  5,  5,  6,  6,  6,  6,  0,  0,  0,  0,  0,  0,  0,  0,
-    5,  5,  5,  0,  6,  6,  6,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-    0,  5,  5,  0,  0,  6,  6,  0,  0,  0,  0,  0,  0,  0,  5,  6,
-    0,  4,  4,  0,  0,  5,  5,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-#else
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+    7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  6,  6,  6,  6,  6,  6, //<15
+    6,  7,  4,  6,  6,  5,  6,  6,  6,  6,  7,  6,  6,  6,  6,  6, //<31
+    6,  6,  6,  6,  5,  5,  5,  5,  5,  6,  6,  5,  2,  5,  5,  4, //<47
+    6,  5,  5,  5,  5,  5,  5,  5,  5,  6,  6,  6,  6,  5,  3,  3, //<63
+    8,  6,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, //<79
+    8,  8,  8,  8,  7,  7,  7,  7,  7,  7,  0,  0,  0,  0,  0,  0,
+    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  3,
+    8,  8,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  5,  6,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-#endif
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, //<207
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-#ifdef VERSION_EU
-    7,  5, 10,  5,  9,  8,  4,  0,  0,  0,  0,  5,  5,  6,  5,  0,
-#else
-    7,  5, 10,  5,  9,  8,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-#endif
-    0,  0,  5,  7,  7,  6,  6,  8,  0,  8, 10,  6,  4, 10,  0,  0
+    7,  4,  8,  4,  9,  7,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+    0,  0,  4,  7,  7,  6,  6,  6,  0,  8, 10,  7,  4, 10,  0,  0
 };
 
 s8 gDialogBoxState = DIALOG_STATE_OPENING;
@@ -1795,9 +1783,9 @@ void render_pause_course_options(s16 x, s16 y, s8 *index, s16 yIndex) {
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
 
     print_generic_string(x + 10, y - 2, LANGUAGE_ARRAY(textContinue));
-    print_generic_string(x + 10, y - 17, LANGUAGE_ARRAY(textExitCourse));
+    print_generic_string(x + 10, y - 33, LANGUAGE_ARRAY(textExitCourse));
 
-    print_generic_string(x + 10, y - 33, LANGUAGE_ARRAY(textCameraAngleR));
+    print_generic_string(x + 10, y - 17, LANGUAGE_ARRAY(textCameraAngleR));
     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 
     create_dl_translation_matrix(MENU_MTX_PUSH, x - X_VAL8, (y - ((*index - 1) * yIndex)) - Y_VAL8, 0);
@@ -1967,6 +1955,32 @@ s8 gHudFlash = HUD_FLASH_NONE;
 u8 ability_menu_index = 0;
 s8 ability_menu_x = 0;
 s8 ability_menu_y = 0;
+
+s8 menu_ability_y_offset[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+s8 menu_ability_gravity[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
+void set_ability_slot(u8 index, u8 ability_id) {
+    u8 ability_already_on_dpad = FALSE;
+    u8 old_index;
+    for (u8 i=0; i<4; i++) {
+        if (ability_slot[i] == ability_id) {
+            ability_already_on_dpad = TRUE;
+            old_index = i;
+        }
+    }
+
+    if (ability_already_on_dpad) {
+        //swap
+        ability_slot[old_index] = ability_slot[index];
+        ability_slot[index] = ability_id;
+    } else {
+        //replace
+        ability_slot[index] = ability_menu_index;
+    }
+
+    save_file_set_ability_dpad();
+}
+
 s32 render_pause_courses_and_castle(void) {
     s16 index;
     u8 i;
@@ -2006,7 +2020,7 @@ s32 render_pause_courses_and_castle(void) {
             render_pause_course_options(99, 93, &gDialogLineNum, 15);
 
             if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
-                if (gDialogLineNum == MENU_OPT_CAMERA_ANGLE_R) {
+                if (gDialogLineNum == MENU_OPT_EXIT_COURSE) {
                     gDialogBoxState = DIALOG_STATE_HORIZONTAL;
                     return MENU_OPT_NONE;
                 }
@@ -2016,7 +2030,7 @@ s32 render_pause_courses_and_castle(void) {
                 gDialogBoxState = DIALOG_STATE_OPENING;
                 gMenuMode = MENU_MODE_NONE;
 
-                if (gDialogLineNum == MENU_OPT_EXIT_COURSE) {
+                if (gDialogLineNum == MENU_OPT_CAMERA_ANGLE_R) {
                     index = gDialogLineNum;
                 } else { // MENU_OPT_CONTINUE or MENU_OPT_CAMERA_ANGLE_R
                     index = MENU_OPT_DEFAULT;
@@ -2037,23 +2051,39 @@ s32 render_pause_courses_and_castle(void) {
             render_ability_dpad(233,142,gDialogTextAlpha);
 
             for (i=0;i<16;i++) {
-                render_ability_icon(55+(i%4)*33, 195-((i/4)*33), gDialogTextAlpha, i);
+                if (menu_ability_y_offset[i] > 0) {
+                    menu_ability_y_offset[i] += menu_ability_gravity[i];
+                    menu_ability_gravity[i] -= 1;
+                }
+                //Not an else to prevent sinking into the ground
+                if (menu_ability_y_offset[i] <= 0) {
+                    menu_ability_gravity[i] = 0;
+                    menu_ability_y_offset[i] = 0;
+                }
+
+                render_ability_icon(55+(i%4)*33, menu_ability_y_offset[i] + 195-((i/4)*33), gDialogTextAlpha, i);
             }
 
             handle_menu_scrolling_2way(&ability_menu_x, &ability_menu_y, 0, 3);
             ability_menu_index = (ability_menu_x)+(ability_menu_y*4);
 
-            if (gPlayer1Controller->buttonDown & U_JPAD) {
-                ability_slot[0] = ability_menu_index;
+            if (gPlayer1Controller->buttonPressed & U_JPAD) {
+                set_ability_slot(0, ability_menu_index);
             }
-            if (gPlayer1Controller->buttonDown & R_JPAD) {
-                ability_slot[1] = ability_menu_index;
+            if (gPlayer1Controller->buttonPressed & R_JPAD) {
+                set_ability_slot(1, ability_menu_index);
             }
-            if (gPlayer1Controller->buttonDown & D_JPAD) {
-                ability_slot[2] = ability_menu_index;
+            if (gPlayer1Controller->buttonPressed & D_JPAD) {
+                set_ability_slot(2, ability_menu_index);
             }
-            if (gPlayer1Controller->buttonDown & L_JPAD) {
-                ability_slot[3] = ability_menu_index;
+            if (gPlayer1Controller->buttonPressed & L_JPAD) {
+                set_ability_slot(3, ability_menu_index);
+            }
+            if (gPlayer1Controller->buttonPressed & A_BUTTON) {
+                menu_ability_gravity[ability_menu_index] = 2;
+                menu_ability_y_offset[ability_menu_index] = 1;
+                change_ability(ability_menu_index);
+                play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
             }
 
             create_dl_translation_matrix(MENU_MTX_PUSH, 55+(ability_menu_index%4)*33, 195-((ability_menu_index/4)*33), 0);

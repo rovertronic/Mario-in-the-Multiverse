@@ -194,7 +194,7 @@ void render_mitm_hub_hud(void) {
         }
 
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hub_titlecard_alpha);
-        print_generic_string(110,25,pipe_string_enter);
+        print_generic_string(112,25,pipe_string_enter);
         gDPSetEnvColor(gDisplayListHead++, 0, 0, 255, (u8)hub_titlecard_alpha);
         print_generic_string(110,25,pipe_string_a);
         gDPSetEnvColor(gDisplayListHead++, 0, 150, 0, (u8)hub_titlecard_alpha);

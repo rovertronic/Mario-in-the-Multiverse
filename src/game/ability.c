@@ -161,6 +161,7 @@ struct ability ability_struct[] = {
 u16 ability_cooldown_flags = 0; //Flags that determine if their ability icon is "greyed out" or not; 0 = normal, 1 = cooling down
 
 void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index) {
+    if (index == ABILITY_NONE) return;
     if (ability_is_cooling_down(index)) {
         alpha = 100+(sins(gGlobalTimer*0x600)*30);
     }
@@ -211,7 +212,7 @@ Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context
 //DPAD ORDER: UP, RIGHT, DOWN, LEFT
 s8 ability_y_offset[4] = {0,0,0,0};
 s8 ability_gravity[4] = {0,0,0,0};
-u8 ability_slot[4] = {ABILITY_DEFAULT,ABILITY_DEFAULT,ABILITY_DEFAULT,ABILITY_DEFAULT};
+u8 ability_slot[4] = {ABILITY_NONE, ABILITY_NONE, ABILITY_NONE, ABILITY_NONE};
 
 void render_ability_dpad(s16 x, s16 y, u8 alpha) {
     u8 i;
@@ -241,6 +242,8 @@ void render_ability_dpad(s16 x, s16 y, u8 alpha) {
 }
 
 void change_ability(s8 picked_ability) {
+    if (picked_ability == ABILITY_NONE) return;
+
     // Set Mario's Ability Variable
     gMarioState->abilityId = picked_ability;
 
@@ -287,9 +290,6 @@ void control_ability_dpad(void) {
     }
     if ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE) {
         if (picked_ability > -1 && cur_obj_nearest_object_with_behavior(bhvShockRocket) == NULL) { // disable ability switching while controlling the rocket
-            // Set Mario's Ability Variable
-            gMarioState->abilityId = ability_slot[picked_ability];
-
             // Animate image on DPad HUD
             ability_y_offset[picked_ability] = 5;
             ability_gravity[picked_ability] = 2;

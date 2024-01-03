@@ -129,6 +129,9 @@ void jelly_loop(void) {
         o->oTimer = 0;
     }
 
+
+    cur_obj_set_model(MODEL_JELLY);
+    /*
     switch (o->oBehParams2ndByte)
     {
         case 0:
@@ -137,7 +140,7 @@ void jelly_loop(void) {
         case 1:
             cur_obj_set_model(MODEL_JELLYS);
             break;
-    }
+    }*/
 }
 
 // Jellyfish Fields Platform

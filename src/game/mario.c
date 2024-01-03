@@ -2321,6 +2321,11 @@ void init_mario(void) {
 
 void init_mario_from_save_file(void) {
     save_file_get_coins();
+    if (save_file_exists(gCurrSaveFileNum - 1)) {
+        save_file_get_ability_dpad();
+    } else {
+        save_file_init_ability_dpad();
+    }
     gMarioState->abilityId = 0;
     gMarioState->playerID = 0;
     gMarioState->flags = MARIO_NONE;

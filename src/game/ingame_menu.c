@@ -1977,6 +1977,8 @@ void set_ability_slot(u8 index, u8 ability_id) {
         //replace
         ability_slot[index] = ability_menu_index;
     }
+
+    save_file_set_ability_dpad();
 }
 
 s32 render_pause_courses_and_castle(void) {

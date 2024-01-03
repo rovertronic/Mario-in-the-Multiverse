@@ -19,6 +19,7 @@
 #include "sram.h"
 #endif
 #include "puppycam2.h"
+#include "ability.h"
 
 #ifdef UNIQUE_SAVE_DATA
 u16 MENU_DATA_MAGIC = 0x4849;
@@ -711,6 +712,24 @@ void save_file_set_coins(void) {
 
 void save_file_get_coins(void) {
     gMarioState->numGlobalCoins = gSaveBuffer.files[gCurrSaveFileNum - 1][0].coins;
+}
+
+void save_file_set_ability_dpad(void) {
+    for (u8 i=0; i<4; i++) {
+        gSaveBuffer.files[gCurrSaveFileNum - 1][0].ability_dpad[i] = ability_slot[i];
+    }
+}
+
+void save_file_init_ability_dpad(void) {
+    for (u8 i=0; i<4; i++) {
+        gSaveBuffer.files[gCurrSaveFileNum - 1][0].ability_dpad[i] = ABILITY_NONE;
+    }
+}
+
+void save_file_get_ability_dpad(void) {
+    for (u8 i=0; i<4; i++) {
+        ability_slot[i] = gSaveBuffer.files[gCurrSaveFileNum - 1][0].ability_dpad[i];
+    }
 }
 
 void save_file_set_sound_mode(u16 mode) {

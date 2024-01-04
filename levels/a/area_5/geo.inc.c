@@ -5,7 +5,7 @@ const GeoLayout a_area_5_geo[] = {
 	GEO_OPEN_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 3161, -2500, -753, a_dl_build_mesh_layer_1),
 		GEO_OPEN_NODE(),
-			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, a_dl_build_mesh_layer_5),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, a_dl_build_mesh_layer_4),
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 3161, -2500, -753, a_dl_Cube_001_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 3192, -2500, -684, a_dl_p_mesh_layer_1),
@@ -37,7 +37,7 @@ const GeoLayout a_area_5[] = {
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, a_dl_material_revert_render_settings),
-		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, a_dl_material_revert_render_settings),
+		GEO_DISPLAY_LIST(LAYER_ALPHA, a_dl_material_revert_render_settings),
 	GEO_CLOSE_NODE(),
 	GEO_END(),
 };

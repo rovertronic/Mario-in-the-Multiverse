@@ -62,7 +62,7 @@ void jelly_init(void) {
 
 void jelly_loop(void) {
     object_step();
-    
+
     switch (o->oAction) {
         case 0:
             o->oForwardVel = 0;
@@ -110,9 +110,18 @@ void jelly_loop(void) {
                     cur_obj_play_sound_2(SOUND_OBJ_ENEMY_DEATH_HIGH);
                 }
                 spawn_mist_particles();
-                obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 10);
+                if (o->oBehParams2ndByte != 5) {
+                    obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 10);
+                }
             }
             break;
+
+        case 3:
+            //summoned by king jelly
+            if (o->oTimer > 15) {
+                o->oBehParams2ndByte = 5;
+                o->oAction = 1;
+            }
     }
 
     if (o->oTimer >= 0) {
@@ -120,7 +129,7 @@ void jelly_loop(void) {
                          1.0f + ((0.4f - (0.4f * ((f32)o->oTimer) / 20.0f)) * coss(o->oTimer * 0x1000 + 0x4000)),
                          1.0f + ((0.25f - (0.25f * ((f32)o->oTimer) / 20.0f)) * sins(o->oTimer * 0x1000)));
     }
-    if (o->oTimer >= 22.5f) {
+    if (o->oTimer >= 22.5f) { // ?
         obj_scale_xyz(o, 1.0f + ((0.2f - (0.2f * ((f32)o->oTimer) / 30.0f)) * sins(o->oTimer * 0x1000)),
                          1.0f + ((0.3f - (0.3f * ((f32)o->oTimer) / 30.0f)) * coss(o->oTimer * 0x1000 + 0x4000)),
                          1.0f + ((0.25f - (0.25f * ((f32)o->oTimer) / 30.0f)) * sins(o->oTimer * 0x1000)));

@@ -40,7 +40,7 @@ const LevelScript level_a_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_KING_JELLY, kingjelly_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_KING_JELLY_SHOCK, kingjellyshock_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BUBBLENET_RED_BUTTON, bh_red_button_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_JELLYS, jellys_geo), 
+	//LOAD_MODEL_FROM_GEO(MODEL_JELLYS, jellys_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_KKTABLE, kktable_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_KKB, kkb_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_SQUIDWARD, squidward_geo), 

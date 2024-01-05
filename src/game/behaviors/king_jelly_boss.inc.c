@@ -15,6 +15,7 @@ enum {
     KING_JELLY_ACT_INIT,
     KING_JELLY_ACT_WAIT,
     KING_JELLY_ACT_WANDER,
+    KING_JELLY_ACT_SUMMON,
     KING_JELLY_GO_ABOVE_MARIO,
     KING_JELLY_ACT_SHAKE,
     KING_JELLY_ACT_STUNNED,
@@ -43,6 +44,7 @@ void king_jelly_boss_loop(void) {
             o->prevObj = spawn_object(o, MODEL_ZAP, bhvKingJellyZap);
             cur_obj_init_animation(A_KINGJELLY_ANIM_IDLE);
             o->oAction = KING_JELLY_ACT_WAIT;
+            o->oBehParams2ndByte = 0;
             break;
 
         case KING_JELLY_ACT_WAIT:
@@ -71,8 +73,36 @@ void king_jelly_boss_loop(void) {
 
             vec3f_copy(&o->prevObj->oPosVec,&o->oPosVec);
 
-            if (o->oTimer > 240) {
-                o->oAction = KING_JELLY_GO_ABOVE_MARIO;
+            if (o->oTimer > 160) {
+                if (o->oBehParams2ndByte == 0) {
+                    o->oAction = KING_JELLY_ACT_SUMMON;
+                } else {
+                    o->oAction = KING_JELLY_GO_ABOVE_MARIO;
+                }
+            }
+            break;
+
+        case KING_JELLY_ACT_SUMMON:
+            if (o->oTimer == 0) {
+                cur_obj_init_animation(KINGJELLY_ANIM_SPIN);
+                cur_obj_play_sound_2(SOUND_OBJ_KING_BOBOMB_JUMP);
+            }
+
+            if (o->oTimer == 15) {
+                for (u8 i = 0; i < 6; i++) {
+                    struct Object *j = spawn_object(o, MODEL_JELLY, bhvJelly);
+                    j->oMoveAngleYaw = i*0x2AAA;       
+                    j->oFaceAngleYaw = i*0x2AAA;
+                    j->oForwardVel = 40.0f;
+                    j->oAction = 3;
+                    j->oPosY -= 290.0f;
+                }
+            }
+
+            if (o->oTimer > 29) {
+                cur_obj_init_animation(A_KINGJELLY_ANIM_IDLE);
+                o->oBehParams2ndByte = 1;
+                o->oAction = KING_JELLY_ACT_WANDER;
             }
             break;
 
@@ -80,7 +110,7 @@ void king_jelly_boss_loop(void) {
             o->oFaceAngleYaw = approach_s16_symmetric(o->oFaceAngleYaw, o->oAngleToMario, 0x600);
             o->oMoveAngleYaw = o->oAngleToMario;
 
-            o->oPosY = approach_f32_asymptotic(o->oPosY,o->oHomeY + 700.0f, 0.1f);
+            o->oPosY = approach_f32_asymptotic(o->oPosY,o->oHomeY + 700.0f, 0.2f);
             o->oPosX += sins(o->oMoveAngleYaw)*60.0f;
             o->oPosZ += coss(o->oMoveAngleYaw)*60.0f;
             cur_obj_play_sound_1(SOUND_AIR_AMP_BUZZ);
@@ -153,14 +183,24 @@ void king_jelly_boss_loop(void) {
             cur_obj_become_intangible();
             if (big_boo_update_during_nonlethal_hit(40.0f)) {
                 if (o->oHealth < 1) {
+
+                    //delete every jellyfish from the arena when dead
+                    struct Object * nearest_jelly = cur_obj_nearest_object_with_behavior(bhvJelly);
+                    while(nearest_jelly) {
+                        obj_mark_for_deletion(nearest_jelly);
+                        nearest_jelly = cur_obj_nearest_object_with_behavior(bhvJelly);
+                    }
+
                     o->oAction = KING_JELLY_ACT_DIE;
                 } else {
+                    o->oBehParams2ndByte = 0;
                     o->oAction = KING_JELLY_ACT_WANDER;
                     o->oFaceAnglePitch = 0;
                     o->oFaceAngleRoll = 0;
                 }
             }
             break;
+            
         case KING_JELLY_ACT_DIE:
             if (o->oTimer==0) {
                 stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_KIRBY_BOSS));
@@ -195,10 +235,9 @@ void king_jelly_boss_loop(void) {
 
     }
 
-    //kill mario if he tries to escape
+    //hold mario in the arena unless king jelly has the following states:
     switch(o->oAction) {
         case KING_JELLY_ACT_INIT:
-        case KING_JELLY_ACT_HURT:
         case KING_JELLY_ACT_WAIT:
         case KING_JELLY_ACT_DIE:
         case KING_JELLY_ACT_KILL_CHEATER:

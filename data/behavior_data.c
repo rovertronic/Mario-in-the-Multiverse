@@ -6345,12 +6345,23 @@ const BehaviorScript bhvFloatingCheckerPlatform[] = {
 extern const struct Animation *const kingjelly_anims[];
 const BehaviorScript bhvKingJelly[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
     SCALE(0, 400),
     ANIMATE(0),
     LOAD_ANIMATIONS(oAnimations, kingjelly_anims),
+    SET_HOME(),
     BEGIN_LOOP(),
         CALL_NATIVE(king_jelly_boss_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvKingJellyZap[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY)),//--E
+    LOAD_ANIMATIONS(oAnimations, dAmpAnimsList),
+    ANIMATE(AMP_ANIM_DEFAULT),
+    SCALE(0, 600),
+    BEGIN_LOOP(),
     END_LOOP(),
 };
 
@@ -6359,7 +6370,7 @@ const BehaviorScript bhvKingJellyShock[] = {
     OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY)),
     SCALE(0, 120),
     BEGIN_LOOP(),
-        CALL_NATIVE(king_jelly_boss_shock),
+        //CALL_NATIVE(king_jelly_boss_shock),
     END_LOOP(),
 };
 
@@ -6456,7 +6467,7 @@ const BehaviorScript bhvGooSwitch[] = {
     LOAD_COLLISION_DATA(bh_red_button_collision),
     BEGIN_LOOP(),
         CALL_NATIVE(load_object_collision_model),
-        CALL_NATIVE(king_jelly_boss_goo_switch),
+        //CALL_NATIVE(king_jelly_boss_goo_switch),
     END_LOOP(),
 };
 
@@ -6466,7 +6477,7 @@ const BehaviorScript bhvSpawnJellyKJ[] = {
     LOAD_ANIMATIONS(oAnimations, jelly_anims),
     ANIMATE(0),
     BEGIN_LOOP(),
-        CALL_NATIVE(king_jelly_boss_jelly),
+        //CALL_NATIVE(king_jelly_boss_jelly),
     END_LOOP(),
 };
 
@@ -6474,7 +6485,7 @@ const BehaviorScript bhvGooDrop[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     BEGIN_LOOP(),
-        CALL_NATIVE(king_jellyfish_goo_loop),
+        //CALL_NATIVE(king_jellyfish_goo_loop),
     END_LOOP(),
 };
 

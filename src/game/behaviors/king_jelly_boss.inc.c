@@ -1,39 +1,231 @@
+
 struct ObjectHitbox sKingJellyBossHitbox = {
     /* interactType:      */ INTERACT_SHOCK,
-    /* downOffset:        */ 0,-
-    /* damageOrCoinValue: */ 1,
-    /* health:            */ 0,
+    /* downOffset:        */ 150,
+    /* damageOrCoinValue: */ 3,
+    /* health:            */ 3,
     /* numLootCoins:      */ 0,
-    /* radius:            */ 90,
-    /* height:            */ 100,
-    /* hurtboxRadius:     */ 90,
-    /* hurtboxHeight:     */ 40,
+    /* radius:            */ 75,
+    /* height:            */ 300,
+    /* hurtboxRadius:     */ 110,
+    /* hurtboxHeight:     */ 300,
 };
 
-struct ObjectHitbox sKingJellyBossShockHitbox = {
-    /* interactType:      */ INTERACT_SHOCK,
-    /* downOffset:        */  20,
-    /* damageOrCoinValue: */   0,
-    /* health:            */   1,
-    /* numLootCoins:      */   0,
-    /* radius:            */ 150,
-    /* height:            */ 200,
-    /* hurtboxRadius:     */ 150,
-    /* hurtboxHeight:     */ 200,
+enum {
+    KING_JELLY_ACT_INIT,
+    KING_JELLY_ACT_WAIT,
+    KING_JELLY_ACT_WANDER,
+    KING_JELLY_GO_ABOVE_MARIO,
+    KING_JELLY_ACT_SHAKE,
+    KING_JELLY_ACT_STUNNED,
+    KING_JELLY_ACT_SLAM,
+    KING_JELLY_ACT_HURT,
+    KING_JELLY_ACT_DIE,
+    KING_JELLY_ACT_KILL_CHEATER,
 };
 
-struct ObjectHitbox sKingJellyBossButtonHitbox = {
-    /* interactType:      */ INTERACT_BREAKABLE,
-    /* downOffset:        */  20,
-    /* damageOrCoinValue: */   0,
-    /* health:            */   1,
-    /* numLootCoins:      */   0,
-    /* radius:            */ 150,
-    /* height:            */ 200,
-    /* hurtboxRadius:     */ 150,
-    /* hurtboxHeight:     */ 200,
+enum kingJellyBossAnims {
+    A_KINGJELLY_ANIM_IDLE,
+    A_KINGJELLY_ANIM_SHOOT
 };
 
+extern s32 big_boo_update_during_nonlethal_hit(f32 a0);
+
+void king_jelly_boss_loop(void) {
+    obj_set_hitbox(o, &sKingJellyBossHitbox);
+    o->oAnimState = 0;
+
+    switch(o->oAction) {
+        case KING_JELLY_ACT_INIT:
+            o->oPosY += 300.0f;
+            o->prevObj = spawn_object(o, MODEL_ZAP, bhvKingJellyZap);
+            cur_obj_init_animation(A_KINGJELLY_ANIM_IDLE);
+            o->oAction = KING_JELLY_ACT_WAIT;
+            break;
+
+        case KING_JELLY_ACT_WAIT:
+            o->oFaceAngleYaw = o->oAngleToMario;
+            if (o->oDistanceToMario < 1500.0f) {
+                o->oAction = KING_JELLY_ACT_WANDER;
+                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_CUSTOM_KIRBY_BOSS), 0);
+            }
+            break;
+
+        case KING_JELLY_ACT_WANDER:
+            o->prevObj->oAnimState = 1;
+            o->oInteractType = INTERACT_SHOCK;
+            o->oDamageOrCoinValue = 3;
+            cur_obj_play_sound_1(SOUND_AIR_AMP_BUZZ);
+
+            o->oPosY = approach_f32_asymptotic(o->oPosY,o->oHomeY + 300.0f, 0.1f);
+
+            o->oPosX += sins(o->oFaceAngleYaw)*20.0f;
+            o->oPosZ += coss(o->oFaceAngleYaw)*20.0f;
+            if (cur_obj_lateral_dist_to_home() > 600.0f) {
+                o->oFaceAngleYaw = approach_s16_symmetric(o->oFaceAngleYaw, cur_obj_angle_to_home(), 0x250);
+            }
+            //o->oFaceAngleYaw = approach_s16_symmetric(o->oFaceAngleYaw, o->oAngleToMario, 0x140);
+
+            vec3f_copy(&o->prevObj->oPosVec,&o->oPosVec);
+
+            if (o->oTimer > 240) {
+                o->oAction = KING_JELLY_GO_ABOVE_MARIO;
+            }
+            break;
+
+        case KING_JELLY_GO_ABOVE_MARIO:
+            o->oFaceAngleYaw = approach_s16_symmetric(o->oFaceAngleYaw, o->oAngleToMario, 0x600);
+            o->oMoveAngleYaw = o->oAngleToMario;
+
+            o->oPosY = approach_f32_asymptotic(o->oPosY,o->oHomeY + 1000.0f, 0.1f);
+            o->oPosX += sins(o->oMoveAngleYaw)*60.0f;
+            o->oPosZ += coss(o->oMoveAngleYaw)*60.0f;
+            cur_obj_play_sound_1(SOUND_AIR_AMP_BUZZ);
+            vec3f_copy(&o->prevObj->oPosVec,&o->oPosVec);
+
+            if (lateral_dist_between_objects(o,gMarioObject) < 40.0f) {
+                o->oAction = KING_JELLY_ACT_SHAKE;
+            }
+            break;
+
+        case KING_JELLY_ACT_SHAKE:
+            if (o->oTimer % 2 == 0) {
+                o->oPosX += 20.0f;
+                o->oPosZ += 20.0f;
+            } else {
+                o->oPosX -= 20.0f;
+                o->oPosZ -= 20.0f;
+            }
+            if (o->oTimer > 30) {
+                o->oAction = KING_JELLY_ACT_SLAM;
+                o->oVelY = -2.0f;
+                o->oSubAction = 0;
+            }
+            break;
+
+        case KING_JELLY_ACT_SLAM:
+            if (o->oSubAction == 0) {
+                o->oPosY += o->oVelY;
+                o->oVelY -= 2.0f;
+                if (o->oPosY < o->oHomeY) {
+                    o->oPosY = o->oHomeY;
+                    o->oVelY = 0.0f;
+                    o->oSubAction = 1;
+                    cur_obj_play_sound_2(SOUND_OBJ_POUNDING1);
+                    o->oTimer = 0;
+                }
+            } else {
+                if (o->oTimer > 60) {
+                    o->oAction = KING_JELLY_ACT_STUNNED;
+                }
+            }
+            vec3f_copy(&o->prevObj->oPosVec,&o->oPosVec);
+            break;
+
+        case KING_JELLY_ACT_STUNNED:
+            o->prevObj->oAnimState = 0;
+            o->oInteractType = INTERACT_BOUNCE_TOP;
+            o->oDamageOrCoinValue = 0;
+            if ((o->oTimer % 15 == 0)||(o->oTimer % 15 == 3)) {
+                o->oAnimState = 1;
+                cur_obj_play_sound_2(SOUND_GENERAL_BOWSER_KEY_LAND);
+            }
+            if ((o->oTimer % 15 == 1)||(o->oTimer % 15 == 4)) {
+                o->oAnimState = 1;
+            }
+            if ((o->oInteractStatus & INT_STATUS_WAS_ATTACKED)||(o->oShotByShotgun > 0)) {
+                cur_obj_play_sound_2(SOUND_OBJ_EEL_EXIT_CAVE);
+                o->oAction = KING_JELLY_ACT_HURT;
+                o->oHealth--;
+            }
+            break;
+
+        case KING_JELLY_ACT_HURT:
+            cur_obj_become_intangible();
+            if (big_boo_update_during_nonlethal_hit(40.0f)) {
+                if (o->oHealth < 1) {
+                    o->oAction = KING_JELLY_ACT_DIE;
+                } else {
+                    o->oAction = KING_JELLY_ACT_WANDER;
+                    o->oFaceAnglePitch = 0;
+                    o->oFaceAngleRoll = 0;
+                }
+            }
+            break;
+        case KING_JELLY_ACT_DIE:
+            if (o->oTimer==0) {
+                stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_KIRBY_BOSS));
+                cur_obj_play_sound_2(SOUND_OBJ_ENEMY_DEFEAT_SHRINK);
+            }
+            cur_obj_scale(4.0 * ((30.0f-o->oTimer)/30.0f));
+
+            if (o->oTimer > 30) {
+                spawn_default_star(o->oHomeX,o->oHomeY+400.0f,o->oHomeZ);
+                obj_mark_for_deletion(o->prevObj);
+                obj_mark_for_deletion(o);
+            }
+            break;
+
+        case KING_JELLY_ACT_KILL_CHEATER:
+            o->oFaceAngleYaw = approach_s16_symmetric(o->oFaceAngleYaw, o->oAngleToMario, 0x600);
+            o->oMoveAngleYaw = o->oAngleToMario;
+            o->oDamageOrCoinValue = 8; // he must  die
+
+            o->oPosY = approach_f32_asymptotic(o->oPosY,gMarioState->pos[1]+120.0f, 0.2f);
+            if (lateral_dist_between_objects(o,gMarioObject) > 100.0f) {
+                o->oPosX += sins(o->oMoveAngleYaw)*100.0f;
+                o->oPosZ += coss(o->oMoveAngleYaw)*100.0f;
+            }
+            cur_obj_play_sound_1(SOUND_AIR_AMP_BUZZ);
+            vec3f_copy(&o->prevObj->oPosVec,&o->oPosVec);
+            break;
+
+    }
+
+    //kill mario if he tries to escape
+    switch(o->oAction) {
+        case KING_JELLY_ACT_INIT:
+        case KING_JELLY_ACT_HURT:
+        case KING_JELLY_ACT_WAIT:
+        case KING_JELLY_ACT_DIE:
+        case KING_JELLY_ACT_KILL_CHEATER:
+            break;
+        default:
+            if (cur_obj_lateral_dist_from_mario_to_home() > 2100.0f) {
+                o->oAction = KING_JELLY_ACT_KILL_CHEATER;
+            }
+            break;
+    }
+
+    o->oShotByShotgun = 0;
+    o->oInteractStatus = 0;
+}
+
+//struct ObjectHitbox sKingJellyBossShockHitbox = {
+//    /* interactType:      */ INTERACT_SHOCK,
+//    /* downOffset:        */  20,
+//    /* damageOrCoinValue: */   0,
+//    /* health:            */   1,
+//    /* numLootCoins:      */   0,
+//    /* radius:            */ 90,
+//    /* height:            */ 200,
+//    /* hurtboxRadius:     */ 100,
+//    /* hurtboxHeight:     */ 200,
+//};
+//
+//struct ObjectHitbox sKingJellyBossButtonHitbox = {
+//    /* interactType:      */ INTERACT_BREAKABLE,
+//    /* downOffset:        */  20,
+//    /* damageOrCoinValue: */   0,
+//    /* health:            */   1,
+//    /* numLootCoins:      */   0,
+//    /* radius:            */ 150,
+//    /* height:            */ 200,
+//    /* hurtboxRadius:     */ 150,
+//    /* hurtboxHeight:     */ 200,
+//};
+
+/*
 enum kingJellyBossActions {
     A_KINGJELLY_IDLE_TURN,
     A_KINGJELLY_THROW_SHOCK,
@@ -45,11 +237,6 @@ enum kingJellyBossActions {
     A_KINGJELLY_JELLY_LAUNCH_2,
     A_KINGJELLY_JELLY_LAUNCH_3,
     A_KINGJELLY_ANIM_IDLE_3
-};
-
-enum kingJellyBossAnims {
-    A_KINGJELLY_ANIM_IDLE,
-    A_KINGJELLY_ANIM_SHOOT
 };
 
 u8 isKingJellyAttacked = 0;
@@ -477,3 +664,4 @@ void king_jelly_boss_loop(void) {
     }
     cur_obj_rotate_face_angle_using_vel();
 }
+*/

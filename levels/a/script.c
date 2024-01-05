@@ -24,6 +24,8 @@
 const LevelScript level_a_entry[] = {
 	INIT_LEVEL(),
 	LOAD_YAY0(0x7, _a_segment_7SegmentRomStart, _a_segment_7SegmentRomEnd), 
+	LOAD_YAY0(0x08, _common0_yay0SegmentRomStart, _common0_yay0SegmentRomEnd), 
+	LOAD_RAW(0x0F, _common0_geoSegmentRomStart, _common0_geoSegmentRomEnd), 
 	ALLOC_LEVEL_POOL(),
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
 	JUMP_LINK(script_func_global_1), 
@@ -148,15 +150,12 @@ const LevelScript level_a_entry[] = {
 		WARP_NODE(0x0F1/*death*/, LEVEL_A, 0x03, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x01/*death entry*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_NONE, 3212, 75, -11, 0, 0, 0, (0x09 << 16), bhvWarp),
-		OBJECT(MODEL_NONE, 2264, 0, -11, 0, 90, 0, (0x0A << 16), bhvInstantActiveWarp),
-		OBJECT(MODEL_KING_JELLY, 0, 263, -41, 0, 0, 0, 0x00000000, bhvKingJelly),
-		OBJECT(MODEL_BUBBLENET_RED_BUTTON, 154, 0, -2039, 0, 0, 0, 0x00000000, bhvGooSwitch),
-		OBJECT(MODEL_BUBBLENET_RED_BUTTON, 884, 0, -1696, 0, 0, 0, 0x00000000, bhvGooSwitch),
-		OBJECT(MODEL_BUBBLENET_RED_BUTTON, 437, 0, -2466, 0, 0, 0, 0x00000000, bhvGooSwitch),
-		OBJECT(MODEL_NONE, 2067, 217, -41, 0, -95, 0, (0x01 << 16), bhvDeathWarp),
+		OBJECT(MODEL_NONE, 2593, 0, -11, 0, 90, 0, (0x0A << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_KING_JELLY, 0, 255, -41, 0, 0, 0, (7 << 24), bhvKingJelly),
+		OBJECT(MODEL_NONE, 2565, 217, -41, 0, -95, 0, (0x01 << 16), bhvDeathWarp),
 		TERRAIN(a_area_3_collision),
 		MACRO_OBJECTS(a_area_3_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_EVENT_BOSS),
+		STOP_MUSIC(0),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

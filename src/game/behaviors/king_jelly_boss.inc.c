@@ -1,14 +1,14 @@
 
 struct ObjectHitbox sKingJellyBossHitbox = {
     /* interactType:      */ INTERACT_SHOCK,
-    /* downOffset:        */ 150,
+    /* downOffset:        */ 50,
     /* damageOrCoinValue: */ 3,
     /* health:            */ 3,
     /* numLootCoins:      */ 0,
     /* radius:            */ 75,
-    /* height:            */ 300,
+    /* height:            */ 100,
     /* hurtboxRadius:     */ 110,
-    /* hurtboxHeight:     */ 300,
+    /* hurtboxHeight:     */ 100,
 };
 
 enum {
@@ -26,7 +26,9 @@ enum {
 
 enum kingJellyBossAnims {
     A_KINGJELLY_ANIM_IDLE,
-    A_KINGJELLY_ANIM_SHOOT
+    A_KINGJELLY_ANIM_SHOOT,
+    KINGJELLY_ANIM_SPIN,
+    KINGJELLY_ANIM_SLAM,
 };
 
 extern s32 big_boo_update_during_nonlethal_hit(f32 a0);
@@ -63,6 +65,7 @@ void king_jelly_boss_loop(void) {
             o->oPosZ += coss(o->oFaceAngleYaw)*20.0f;
             if (cur_obj_lateral_dist_to_home() > 600.0f) {
                 o->oFaceAngleYaw = approach_s16_symmetric(o->oFaceAngleYaw, cur_obj_angle_to_home(), 0x250);
+                o->oMoveAngleYaw = o->oFaceAngleYaw;
             }
             //o->oFaceAngleYaw = approach_s16_symmetric(o->oFaceAngleYaw, o->oAngleToMario, 0x140);
 
@@ -77,7 +80,7 @@ void king_jelly_boss_loop(void) {
             o->oFaceAngleYaw = approach_s16_symmetric(o->oFaceAngleYaw, o->oAngleToMario, 0x600);
             o->oMoveAngleYaw = o->oAngleToMario;
 
-            o->oPosY = approach_f32_asymptotic(o->oPosY,o->oHomeY + 1000.0f, 0.1f);
+            o->oPosY = approach_f32_asymptotic(o->oPosY,o->oHomeY + 700.0f, 0.1f);
             o->oPosX += sins(o->oMoveAngleYaw)*60.0f;
             o->oPosZ += coss(o->oMoveAngleYaw)*60.0f;
             cur_obj_play_sound_1(SOUND_AIR_AMP_BUZZ);
@@ -98,21 +101,26 @@ void king_jelly_boss_loop(void) {
             }
             if (o->oTimer > 30) {
                 o->oAction = KING_JELLY_ACT_SLAM;
-                o->oVelY = -2.0f;
+                o->oVelY = 0.0f;
                 o->oSubAction = 0;
             }
+            vec3f_copy(&o->prevObj->oPosVec,&o->oPosVec);
             break;
 
         case KING_JELLY_ACT_SLAM:
             if (o->oSubAction == 0) {
                 o->oPosY += o->oVelY;
-                o->oVelY -= 2.0f;
-                if (o->oPosY < o->oHomeY) {
-                    o->oPosY = o->oHomeY;
+                o->oVelY -= 3.0f;
+                if (o->oPosY < o->oHomeY+280.0f) {
+                    o->oPosY = o->oHomeY+280.0f;
                     o->oVelY = 0.0f;
                     o->oSubAction = 1;
                     cur_obj_play_sound_2(SOUND_OBJ_POUNDING1);
                     o->oTimer = 0;
+                    cur_obj_init_animation(KINGJELLY_ANIM_SLAM);
+
+                    struct Object *wave = spawn_object(o, MODEL_PISSWAVE, bhvBowserShockWave);
+                    wave->oPosY = o->oHomeY + 20.0f;
                 }
             } else {
                 if (o->oTimer > 60) {
@@ -134,6 +142,7 @@ void king_jelly_boss_loop(void) {
                 o->oAnimState = 1;
             }
             if ((o->oInteractStatus & INT_STATUS_WAS_ATTACKED)||(o->oShotByShotgun > 0)) {
+                cur_obj_init_animation(A_KINGJELLY_ANIM_IDLE);
                 cur_obj_play_sound_2(SOUND_OBJ_EEL_EXIT_CAVE);
                 o->oAction = KING_JELLY_ACT_HURT;
                 o->oHealth--;
@@ -167,6 +176,10 @@ void king_jelly_boss_loop(void) {
             break;
 
         case KING_JELLY_ACT_KILL_CHEATER:
+            if (o->oTimer % 15 == 0) {
+                cur_obj_play_sound_2(SOUND_OBJ_EEL_EXIT_CAVE);
+            }
+
             o->oFaceAngleYaw = approach_s16_symmetric(o->oFaceAngleYaw, o->oAngleToMario, 0x600);
             o->oMoveAngleYaw = o->oAngleToMario;
             o->oDamageOrCoinValue = 8; // he must  die
@@ -191,9 +204,19 @@ void king_jelly_boss_loop(void) {
         case KING_JELLY_ACT_KILL_CHEATER:
             break;
         default:
+            while(cur_obj_lateral_dist_from_mario_to_home() > 1800.0f) {
+                s16 mario_angle_to_obj_home = cur_obj_mario_angle_to_home();
+                gMarioState->pos[0] += sins(mario_angle_to_obj_home);
+                gMarioState->pos[2] += coss(mario_angle_to_obj_home);
+                gMarioObject->oPosX = gMarioState->pos[0];
+                gMarioObject->oPosZ = gMarioState->pos[2];
+            }
+            /*
             if (cur_obj_lateral_dist_from_mario_to_home() > 2100.0f) {
+                cur_obj_init_animation(A_KINGJELLY_ANIM_IDLE);
                 o->oAction = KING_JELLY_ACT_KILL_CHEATER;
             }
+            */
             break;
     }
 

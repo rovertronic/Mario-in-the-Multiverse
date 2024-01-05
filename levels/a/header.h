@@ -81,4 +81,6 @@ extern const LevelScript level_a_entry[];
 
 #include "levels/a/a_cage/collision_header.h"
 
+#include "levels/a/kingjellywave/geo_header.h"
+
 #endif

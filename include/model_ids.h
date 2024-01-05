@@ -643,6 +643,7 @@ enum GLOBAL_MODELS {
 #define MODEL_A_PLANK                             0x165
 #define MODEL_GOO_DROP                            0x166
 #define MODEL_A_CAGE                              0x167
+#define MODEL_PISSWAVE                            0x168
 /* LEVEL A END */
 
 /* LEVEL B START */

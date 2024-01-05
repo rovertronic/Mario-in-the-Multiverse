@@ -56,3 +56,4 @@
 #include "levels/a/goodrop/model.inc.c"
 #include "levels/a/a_cage/model.inc.c"
 #include "levels/a/a_cage/collision.inc.c"
+#include "levels/a/kingjellywave/model.inc.c"

@@ -1589,6 +1589,12 @@ s32 cur_obj_angle_to_home(void) {
     return atan2s(dz, dx);
 }
 
+s16 cur_obj_mario_angle_to_home(void) {
+    f32 dx = o->oHomeX - gMarioState->pos[0];
+    f32 dz = o->oHomeZ - gMarioState->pos[2];
+    return atan2s(dz, dx);
+}
+
 void obj_set_gfx_pos_at_obj_pos(struct Object *obj1, struct Object *obj2) {
     vec3f_copy_y_off(obj1->header.gfx.pos, &obj2->oPosVec, obj2->oGraphYOffset);
 

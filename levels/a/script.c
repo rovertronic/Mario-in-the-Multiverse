@@ -48,6 +48,7 @@ const LevelScript level_a_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_A_PLANK, a_plank_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_GOO_DROP, goodrop_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_A_CAGE, a_cage_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_PISSWAVE, kingjellywave_geo),
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */

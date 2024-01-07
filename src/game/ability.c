@@ -355,6 +355,13 @@ void bhv_ability(void) {
         case 1:
             if (o->oInteractStatus & INT_STATUS_INTERACTED) {
                 cur_obj_hide();
+                for (int i=0;i<4;i++) {
+                    if (ability_slot[i] == ABILITY_NONE) {
+                        ability_slot[i] = o->oBehParams2ndByte;
+                        break;
+                    }
+                }
+                change_ability(o->oBehParams2ndByte);
                 o->oAction = 2;
             }
         break;

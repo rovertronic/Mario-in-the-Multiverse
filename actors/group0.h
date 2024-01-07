@@ -500,4 +500,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "bubblehat_hand/header.h"
 
+#include "desconly/header.h"
+
 #endif

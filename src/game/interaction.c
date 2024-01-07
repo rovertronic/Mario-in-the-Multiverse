@@ -813,6 +813,7 @@ u32 interact_water_ring(struct MarioState *m, UNUSED u32 interactType, struct Ob
     return FALSE;
 }
 
+extern u8 ability_get_confirm;
 extern u8 hub_star_string[];
 u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 starIndex;
@@ -905,6 +906,7 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
                 starGrabAction = ACT_FALL_AFTER_STAR_GRAB;
                 m->actionArg = 2;
             }
+            ability_get_confirm = FALSE;
         } else {
             //power star
             save_file_collect_star_or_key(m->numCoins, starIndex);

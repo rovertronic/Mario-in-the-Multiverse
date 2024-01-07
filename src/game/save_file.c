@@ -774,6 +774,7 @@ u16 save_file_check_ability_unlocked(u8 ability_id) {
 
 void save_file_unlock_ability(u8 ability_id) {
     gSaveBuffer.files[gCurrSaveFileNum - 1][0].abilities |= (1 << (ability_id-1));
+    gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags |= SAVE_FLAG_FILE_EXISTS;
     gSaveFileModified = TRUE;
 }
 

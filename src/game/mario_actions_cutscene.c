@@ -628,6 +628,7 @@ s32 act_debug_free_move(struct MarioState *m) {
     return FALSE;
 }
 
+extern u8 ability_get_confirm;
 void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
     struct Object *celebStar = NULL;
 
@@ -673,9 +674,11 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
                     level_trigger_warp(m, WARP_OP_STAR_EXIT);
                 } 
                 else if (
+                    /* Hardcoded list of areas that warp you out */
                     (gCurrLevelNum == LEVEL_G && gCurrAreaIndex == 5) ||
                     (gCurrLevelNum == LEVEL_I && (gCurrAreaIndex == 4 || gCurrAreaIndex == 5)) ||
-                    (gCurrLevelNum == LEVEL_N)
+                    (gCurrLevelNum == LEVEL_N) ||
+                    (gCurrLevelNum == LEVEL_J && gCurrentArea->index == 7)
                     ) {
                     level_trigger_warp(m, WARP_OP_STAR_EXIT);
                     save_file_do_save(gCurrSaveFileNum - 1);
@@ -687,10 +690,13 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
                 break;
         }
     } else if (m->actionState == ACT_STATE_STAR_DANCE_DO_SAVE) {
-        save_file_do_save(gCurrSaveFileNum - 1);
-        m->actionState = ACT_STATE_STAR_DANCE_RETURN;
-        if (gCurrentArea->index == 7 && gCurrLevelNum == LEVEL_J){
-            level_trigger_warp(m, WARP_OP_STAR_EXIT);
+        if (ability_get_confirm) {
+            save_file_do_save(gCurrSaveFileNum - 1);
+            m->actionState = ACT_STATE_STAR_DANCE_RETURN;
+        } else {
+            if (gPlayer1Controller->buttonPressed & (START_BUTTON | A_BUTTON)) {
+                ability_get_confirm = TRUE;
+            }
         }
     } else if (m->actionState == ACT_STATE_STAR_DANCE_RETURN && is_anim_at_end(m)) {
         disable_time_stop();
@@ -704,7 +710,7 @@ s32 act_star_dance(struct MarioState *m) {
     set_mario_animation(m, m->actionState == ACT_STATE_STAR_DANCE_RETURN ? MARIO_ANIM_RETURN_FROM_STAR_DANCE
                                                                          : MARIO_ANIM_STAR_DANCE);
     general_star_dance_handler(m, FALSE);
-    if (m->actionState != ACT_STATE_STAR_DANCE_RETURN && m->actionTimer >= 40) {
+    if (m->actionState != ACT_STATE_STAR_DANCE_RETURN && m->action != ACT_ABILITY_DANCE && m->actionTimer >= 40) {
         m->marioBodyState->handState = MARIO_HAND_PEACE_SIGN;
     }
     stop_and_set_height_to_floor(m);

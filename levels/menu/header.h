@@ -49,4 +49,14 @@ extern const u8 eu_course_strings_de_table[];
 extern const LevelScript level_main_menu_entry_file_select[];
 extern const LevelScript level_main_menu_entry_act_select[];
 
+#include "levels/menu/menusky/geo_header.h"
+
+#include "levels/menu/mitm_file/header.h"
+
+#include "levels/menu/mitm_file_border/header.h"
+
+#include "levels/menu/mitm_file_ability/header.h"
+
+#include "levels/menu/mitm_file_blank/header.h"
+
 #endif

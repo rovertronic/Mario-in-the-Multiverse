@@ -42,6 +42,8 @@
 #define TEXT_ABILITY_N          _("Hamster Ball: A hollow ball that Mario can\nenter. Use the analog stick to roll around\nwith sphere physics!")
 #define TEXT_ABILITY_O          _("Esteemed Mortal: A walker slaying saw-axe.\nReplaces your dive with an axe jump.\nHold [B] to hop and hold [A] to jump higher.")
 
+#define TEXT_FILE_ACTIONS       _("Begin\nErase")
+
 #if defined(PUPPYCAM)
 #define NC_CAMX_EN              _("Camera Sensitivity")
 #define NC_INVERTX_EN           _("Invert Camera")

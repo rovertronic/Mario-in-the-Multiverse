@@ -1849,3 +1849,9 @@ const Collision main_menu_seg7_collision[] = {
 #undef COURSE_TABLE
 
 #endif
+
+#include "levels/menu/menusky/model.inc.c"
+#include "levels/menu/mitm_file/model.inc.c"
+#include "levels/menu/mitm_file_border/model.inc.c"
+#include "levels/menu/mitm_file_ability/model.inc.c"
+#include "levels/menu/mitm_file_blank/model.inc.c"

@@ -21,6 +21,7 @@
 #include "game/rumble_init.h"
 #include "sm64.h"
 #include "text_strings.h"
+#include "game/ability.h"
 
 #include "eu_translation.h"
 #if MULTILANG
@@ -185,7 +186,8 @@ void beh_yellow_background_menu_init(void) {
  * Properly scales the background in the main menu.
  */
 void beh_yellow_background_menu_loop(void) {
-    cur_obj_scale(9.0f);
+    o->oFaceAngleRoll += 0x20;
+    cur_obj_scale(10.0f);
 }
 
 /**
@@ -2008,10 +2010,48 @@ void print_file_select_strings(void) {
  */
 Gfx *geo_file_select_strings_and_menu_cursor(s32 callContext, UNUSED struct GraphNode *node, UNUSED Mat4 mtx) {
     if (callContext == GEO_CONTEXT_RENDER) {
-        print_file_select_strings();
-        print_menu_cursor();
+        mitm_file_select();
     }
     return NULL;
+}
+
+
+
+
+
+
+/*
+MARIO IN THE MULTIVERSE
+FILE SELECT
+*/
+extern Gfx mitm_file_Plane_001_mesh[];
+extern Gfx mitm_file_border_Plane_002_mesh[];
+extern Gfx mitm_file_ability_Plane_mesh[];
+extern u8 mitm_file_blank_mitm_blank_file_rgba16[]; //same image but no "new" text
+extern u8 mitm_file_mitm_new_file_2_rgba16[]; //image used by file select DL
+extern struct SaveBuffer gSaveBuffer;
+u8 file_selected_index = 0;
+u8 file_text_card_index = 0;
+u8 file_menu_state = 0;
+s32 file_confirm = 0;
+f32 file_x[4];//1-3 are save files, 4 is the extra card for text
+f32 file_target_x[4];
+u8 file_action_text[] = {TEXT_FILE_ACTIONS};
+
+enum {
+    FMS_SELECT,
+    FMS_ACTION,
+    FMS_CONFIRM,
+};
+
+void init_mitm_file_select(void) {
+    file_confirm = 0;
+    for (u8 i = 0; i<4; i++) {
+        file_target_x[i] = 0.0f;
+    }
+    for (u8 i = 0; i<4; i++) {
+        file_x[i] = 0.0f;
+    }
 }
 
 /**
@@ -2020,6 +2060,8 @@ Gfx *geo_file_select_strings_and_menu_cursor(s32 callContext, UNUSED struct Grap
  * either completing a course choosing "SAVE & QUIT" or having a game over.
  */
 s32 lvl_init_menu_values_and_cursor_pos(UNUSED s32 arg, UNUSED s32 unused) {
+    init_mitm_file_select();
+    return 0;
     sSelectedButtonID = MENU_BUTTON_NONE;
     sCurrentMenuLevel = MENU_LAYER_MAIN;
     sTextBaseAlpha = 0;
@@ -2054,7 +2096,138 @@ s32 lvl_init_menu_values_and_cursor_pos(UNUSED s32 arg, UNUSED s32 unused) {
  */
 s32 lvl_update_obj_and_load_file_selected(UNUSED s32 arg, UNUSED s32 unused) {
     area_update_objects();
-    return sSelectedFileNum;
+    return file_confirm;
+}
+
+s32 mitm_file_select() {
+    create_dl_ortho_matrix();
+
+    switch (file_menu_state) {
+        case FMS_SELECT:
+            handle_menu_scrolling(MENU_SCROLL_VERTICAL, &file_selected_index, 0, 2);
+            if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
+                file_menu_state = FMS_ACTION;
+                file_text_card_index = file_selected_index;
+            }
+            for (u8 i = 0; i<4; i++) {
+                file_target_x[i] = 0.0f;
+            }
+            break;
+
+        case FMS_ACTION:
+            if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
+                file_confirm = file_selected_index+1;
+                file_menu_state = FMS_CONFIRM;
+            }
+            if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
+                file_menu_state = FMS_SELECT;
+            }
+            for (u8 i = 0; i<3; i++) {
+                file_target_x[i] = -290.0f;
+            }
+            file_target_x[file_selected_index] = -80.0f;
+            file_target_x[3] = 80.0f;
+            break;
+    }
+
+    //RENDER TEXT CARD
+    if (file_x[3] > 0.1f) {     
+        gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
+
+        create_dl_translation_matrix(MENU_MTX_PUSH, 160.0f+file_x[3], 198.0f - (file_text_card_index * 75.0f), -10.0f);
+        create_dl_scale_matrix(MENU_MTX_PUSH, 0.35f, 0.35f, 0);
+
+        gDPLoadSync(gDisplayListHead++);
+        gDPSetTextureImage(gDisplayListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 100, mitm_file_blank_mitm_blank_file_rgba16);
+        if (file_selected_index == file_text_card_index) {
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
+        } else {
+            gDPSetEnvColor(gDisplayListHead++, 120, 120, 120, 255);
+        }
+        gSPDisplayList(gDisplayListHead++, mitm_file_Plane_001_mesh);
+        gSPDisplayList(gDisplayListHead++, mitm_file_border_Plane_002_mesh);
+
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
+        print_generic_string(130+file_x[3], 198 - (file_text_card_index * 75), file_action_text);
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+    }
+    file_x[3] = approach_f32_asymptotic(file_x[3],file_target_x[3],0.2f);
+
+    //RENDER 3 FILES
+    for (u8 i = 0; i<3; i++) {
+        gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
+
+        create_dl_translation_matrix(MENU_MTX_PUSH, 160.0f+file_x[i], 198.0f - (i * 75.0f), 0.0f);
+        create_dl_scale_matrix(MENU_MTX_PUSH, 0.35f, 0.35f, 0);
+
+        //RENDER IMAGE
+        if (file_selected_index == i) {
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
+        } else {
+            gDPSetEnvColor(gDisplayListHead++, 120, 120, 120, 255);
+        }
+        gDPLoadSync(gDisplayListHead++);
+        if (save_file_exists(i)) {
+            if (gSaveBuffer.files[i][0].flags & SAVE_FLAG_SCREENSHOT) {
+                gDPSetTextureImage(gDisplayListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 100, gSaveBuffer.screenshot[i]);
+            } else {
+                gDPSetTextureImage(gDisplayListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 100, mitm_file_blank_mitm_blank_file_rgba16);
+            }
+        } else {
+            gDPSetTextureImage(gDisplayListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 100, mitm_file_mitm_new_file_2_rgba16);
+        }
+        gSPDisplayList(gDisplayListHead++, mitm_file_Plane_001_mesh);
+
+        //RENDER OBTAINED ABILITIES
+        if (save_file_exists(i)) {
+            int total_abilities = 0;
+            for (int j=0; j<15; j++) {
+                if (j%2==0) {
+                create_dl_translation_matrix(MENU_MTX_PUSH, (total_abilities/5)*-32.0f, (total_abilities%5)*-32.0f, 0.0f);
+                gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+                load_ability_texture(j+1);
+                gSPDisplayList(gDisplayListHead++,mitm_file_ability_Plane_mesh);
+                gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+                total_abilities++;
+                }
+            }
+        }
+
+        //RENDER BORDER
+        if (file_selected_index == i) {
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
+        } else {
+            gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, 255);
+        }
+        gSPDisplayList(gDisplayListHead++, mitm_file_border_Plane_002_mesh);
+
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+        if (save_file_exists(i)) {
+            u8 starText[6] = {GLYPH_STAR, DIALOG_CHAR_SPACE};
+            u8 coinText[6] = {GLYPH_COIN, DIALOG_CHAR_SPACE};
+            s16 starCount = save_file_get_total_star_count(i,COURSE_NUM_TO_INDEX(COURSE_MIN),COURSE_NUM_TO_INDEX(COURSE_MAX));
+            s16 coinCount = gSaveBuffer.files[i][0].coins;
+            int_to_str(starCount, &starText[2]);
+            int_to_str(coinCount, &coinText[2]);
+            gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
+            if (file_selected_index == i) {
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
+            } else {
+                gDPSetEnvColor(gDisplayListHead++, 120, 120, 120, 255);
+            }
+            print_hud_lut_string(HUD_LUT_DIFF, 98+file_x[i], 15+(75*i), starText);
+            print_hud_lut_string(HUD_LUT_DIFF, 98+file_x[i], 32+(75*i), coinText);
+            gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
+        }
+
+        file_x[i] = approach_f32_asymptotic(file_x[i],file_target_x[i],0.2f);
+    }
 }
 
 STATIC_ASSERT(SOUND_MODE_COUNT == MENU_BUTTON_SOUND_OPTION_MAX - MENU_BUTTON_SOUND_OPTION_MIN, "Mismatch between number of sound modes in audio code and file select!");

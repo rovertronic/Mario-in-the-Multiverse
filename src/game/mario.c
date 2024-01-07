@@ -1911,6 +1911,21 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             return ACTIVE_PARTICLE_NONE;
         }
 
+        f32 dist_to_nearest_star = 9999.0f;
+        struct Object * nearest_star = cur_obj_nearest_object_with_behavior(bhvStar);
+        if (nearest_star) {
+            dist_to_nearest_star = dist_between_objects(gMarioObject,nearest_star);
+        }
+
+        //attempt to take a screenshot every 10 seconds. only take when he's idle or moving on the ground.
+        //also, do not take screenshots when near a star.
+        if ((((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_MOVING) ||
+        ((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_STATIONARY)) &&
+        (gGlobalTimer % 300 == 0) &&
+        (dist_to_nearest_star > 2000.0f)) {
+            save_file_screenshot();
+        }
+
         //--E SG
         if (using_ability(ABILITY_E_SHOTGUN)) {
             struct MarioState *m = gMarioState;

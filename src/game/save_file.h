@@ -17,7 +17,7 @@
     #define EEPROM_SIZE 0x800//--**
 #endif
 
-#define NUM_SAVE_FILES 4
+#define NUM_SAVE_FILES 3
 
 struct SaveBlockSignature {
     u16 magic;
@@ -28,7 +28,6 @@ struct SaveFile {
     u16 coins; //amount of coins
     u16 abilities;
     u8 ability_dpad[4];
-
     u32 flags;
 
     // Star flags for each course.
@@ -77,6 +76,8 @@ struct SaveBuffer {
     struct SaveFile files[NUM_SAVE_FILES][2];
     // Main menu data, storing config options.
     struct MainMenuSaveData menuData;
+    // Screenshots, 100 x 50 barely fits into SRAM
+    u16 screenshot[3][50][100];
 };
 
 #ifdef PUPPYCAM
@@ -85,7 +86,7 @@ extern void puppycam_get_save(void);
 extern void puppycam_check_save(void);
 #endif
 
-//STATIC_ASSERT(sizeof(struct SaveBuffer) <= EEPROM_SIZE, "ERROR: Save struct too big for specified save type");
+STATIC_ASSERT(sizeof(struct SaveBuffer) <= EEPROM_SIZE, "ERROR: Save struct too big for specified save type");
 
 extern u8 gLastCompletedCourseNum;
 extern u8 gLastCompletedStarNum;
@@ -99,10 +100,12 @@ enum CourseFlags {
     COURSE_FLAG_CANNON_UNLOCKED      = (1 <<  7), /* 0x00000080 */
 };
 
+#define SAVE_FLAG_HAVE_WING_CAP 0
+
 // game progress flags
 enum SaveProgressFlags {
     SAVE_FLAG_FILE_EXISTS            = (1 <<  0), /* 0x00000001 */
-    SAVE_FLAG_HAVE_WING_CAP          = (1 <<  1), /* 0x00000002 */
+    SAVE_FLAG_SCREENSHOT             = (1 <<  1), /* 0x00000002 */
     SAVE_FLAG_HAVE_METAL_CAP         = (1 <<  2), /* 0x00000004 */
     SAVE_FLAG_HAVE_VANISH_CAP        = (1 <<  3), /* 0x00000008 */
     SAVE_FLAG_HAVE_KEY_1             = (1 <<  4), /* 0x00000010 */
@@ -188,6 +191,7 @@ void save_file_set_widescreen_mode(u8 mode);
 #endif
 void save_file_move_cap_to_default_location(void);
 
+void save_file_screenshot(void);
 void save_file_get_coins(void);
 void save_file_set_coins(void);
 void save_file_set_ability_dpad(void);

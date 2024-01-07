@@ -181,6 +181,16 @@ void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index) {
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 }
 
+void load_ability_texture(u8 index) {
+    if (index == ABILITY_NONE) return;
+
+	gDPPipeSync(gDisplayListHead++);
+    gDPSetTextureFilter(gDisplayListHead++,G_TF_POINT);
+	gDPSetTextureImage(gDisplayListHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, &ability_images[index]);
+	gDPSetTile(gDisplayListHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0);
+	gDPLoadBlock(gDisplayListHead++,7, 0, 0, 1023, 256);
+}
+
 Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context) {
     Gfx *dlStart, *dlHead;
     struct Object *obj;

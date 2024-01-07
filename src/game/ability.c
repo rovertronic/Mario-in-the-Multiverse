@@ -329,6 +329,37 @@ u8 ability_ready(u8 ability_id) {
     ability_cooldown_flags &= ~(1<<ability_id);
 }
 
+static struct ObjectHitbox sCollectAbilityHitbox = {
+    /* interactType:      */ INTERACT_STAR_OR_KEY,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 0,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 80,
+    /* height:            */ 80,
+    /* hurtboxRadius:     */ 0,
+    /* hurtboxHeight:     */ 0,
+};
+
+void bhv_ability(void) {
+    switch(o->oAction) {
+        case 0:
+            if (save_file_check_ability_unlocked(o->oBehParams2ndByte)) {
+                cur_obj_hide();
+                o->oAction = 2;
+            } else {
+                o->oAction = 1;
+                obj_set_hitbox(o, &sCollectAbilityHitbox);
+            }
+        break;
+        case 1:
+            if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+                cur_obj_hide();
+                o->oAction = 2;
+            }
+        break;
+    }
+}
 
 //--E
 

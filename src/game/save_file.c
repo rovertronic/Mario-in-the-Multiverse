@@ -766,6 +766,17 @@ void save_file_get_ability_dpad(void) {
     }
 }
 
+//-1 is because ABILITY_DEFAULT should not count
+
+u16 save_file_check_ability_unlocked(u8 ability_id) {
+    return gSaveBuffer.files[gCurrSaveFileNum - 1][0].abilities & (1 << (ability_id-1));
+}
+
+void save_file_unlock_ability(u8 ability_id) {
+    gSaveBuffer.files[gCurrSaveFileNum - 1][0].abilities |= (1 << (ability_id-1));
+    gSaveFileModified = TRUE;
+}
+
 void save_file_set_sound_mode(u16 mode) {
     set_sound_mode(mode);
     gSaveBuffer.menuData.soundMode = mode;

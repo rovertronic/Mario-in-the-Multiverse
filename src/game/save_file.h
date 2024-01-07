@@ -191,6 +191,9 @@ void save_file_set_widescreen_mode(u8 mode);
 #endif
 void save_file_move_cap_to_default_location(void);
 
+u16 save_file_check_ability_unlocked(u8 ability_id);
+void save_file_unlock_ability(u8 ability_id);
+
 void save_file_screenshot(void);
 void save_file_get_coins(void);
 void save_file_set_coins(void);

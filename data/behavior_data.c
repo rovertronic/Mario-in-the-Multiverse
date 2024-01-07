@@ -6177,12 +6177,14 @@ const BehaviorScript bhvLevelPipe[] = {
     END_LOOP(),
 };
 
+extern void bhv_ability(void);
 const BehaviorScript bhvAbilityUnlock[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     BILLBOARD(),
     SET_FLOAT(oGraphYOffset, 100),
     BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ability),
     END_LOOP(),
 };
 

@@ -2186,13 +2186,13 @@ s32 mitm_file_select() {
         if (save_file_exists(i)) {
             int total_abilities = 0;
             for (int j=0; j<15; j++) {
-                if (j%2==0) {
-                create_dl_translation_matrix(MENU_MTX_PUSH, (total_abilities/5)*-32.0f, (total_abilities%5)*-32.0f, 0.0f);
-                gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
-                load_ability_texture(j+1);
-                gSPDisplayList(gDisplayListHead++,mitm_file_ability_Plane_mesh);
-                gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
-                total_abilities++;
+                if (gSaveBuffer.files[i][0].abilities & (1 << j)) {
+                    create_dl_translation_matrix(MENU_MTX_PUSH, (total_abilities/5)*-32.0f, (total_abilities%5)*-32.0f, 0.0f);
+                    gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+                    load_ability_texture(j+1);
+                    gSPDisplayList(gDisplayListHead++,mitm_file_ability_Plane_mesh);
+                    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+                    total_abilities++;
                 }
             }
         }

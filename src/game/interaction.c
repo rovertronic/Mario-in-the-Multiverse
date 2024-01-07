@@ -895,10 +895,21 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
 #else
         starIndex = (obj->oBehParams >> 24) & 0x1F;
 #endif
-        save_file_collect_star_or_key(m->numCoins, starIndex);
 
-        m->numStars =
-            save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
+
+        if (obj_has_behavior(obj,bhvAbilityUnlock)) {
+            //ability
+            save_file_unlock_ability(obj->oBehParams2ndByte);
+            starGrabAction = ACT_ABILITY_DANCE;
+            if (m->action & ACT_FLAG_AIR) {
+                starGrabAction = ACT_FALL_AFTER_STAR_GRAB;
+                m->actionArg = 2;
+            }
+        } else {
+            //power star
+            save_file_collect_star_or_key(m->numCoins, starIndex);
+            m->numStars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
+        }
 
 
         u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1, COURSE_NUM_TO_INDEX(gCurrCourseNum));

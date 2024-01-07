@@ -5315,6 +5315,9 @@ u8 get_cutscene_from_mario_status(struct Camera *c) {
             case ACT_STAR_DANCE_NO_EXIT:
                 cutscene = CUTSCENE_DANCE_DEFAULT;
                 break;
+            case ACT_ABILITY_DANCE:
+                cutscene = CUTSCENE_DANCE_DEFAULT;
+                break;
         }
         switch (sMarioCamState->cameraEvent) {
             case CAM_EVENT_START_INTRO:

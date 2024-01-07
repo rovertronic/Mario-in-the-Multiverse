@@ -6320,6 +6320,19 @@ const BehaviorScript bhvCraneArrow[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvPaintGun[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
+    SET_INT(oInteractType, INTERACT_GRABBABLE),
+    SET_INT(oInteractionSubtype, INT_SUBTYPE_NOT_GRABBABLE),
+    SET_INT(oAnimState, 1),
+    SET_INT(oIntangibleTimer, 0),
+    SET_HITBOX_WITH_OFFSET(/*Radius*/ 120, /*Height*/ 200, 50),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_paint_gun_loop),
+    END_LOOP(),
+};
+
 /* GROUP C END */
 
 /* GROUP D START */

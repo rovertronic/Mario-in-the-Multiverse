@@ -247,6 +247,24 @@ u32 mario_update_windy_ground(struct MarioState *m) {
     return FALSE;
 }
 
+u32 mario_update_moving_convoyer(struct MarioState *m) {
+    struct Surface *floor = m->floor;
+    s32 floorType = floor->type;
+
+    if (floorType == SURFACE_CONVOYER) {
+        //0xAABB -> AA is speed, BB is angle
+        s16 pushAngle = floor->force << 8;
+        f32 pushSpeed = floor->force >> 8;
+
+        m->vel[0] += pushSpeed * sins(pushAngle);
+        m->vel[2] += pushSpeed * coss(pushAngle);
+
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
 void stop_and_set_height_to_floor(struct MarioState *m) {
     struct Object *marioObj = m->marioObj;
 
@@ -268,7 +286,7 @@ s32 stationary_ground_step(struct MarioState *m) {
 
     mario_set_forward_vel(m, 0.0f);
 
-    u32 takeStep = (mario_update_moving_sand(m) | mario_update_windy_ground(m));
+    u32 takeStep = (mario_update_moving_sand(m) | mario_update_windy_ground(m) | mario_update_moving_convoyer(m));
     if (takeStep) {
         stepResult = perform_ground_step(m);
     } else {

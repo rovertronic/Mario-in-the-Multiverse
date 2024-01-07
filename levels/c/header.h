@@ -13,4 +13,6 @@ extern const LevelScript level_c_entry[];
 
 #include "levels/c/crane_arrow/collision_header.h"
 
+#include "levels/c/paint_gun/geo_header.h"
+
 #endif

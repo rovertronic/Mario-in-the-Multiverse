@@ -15,3 +15,4 @@
 
 #include "levels/c/crane_arrow/model.inc.c"
 #include "levels/c/crane_arrow/collision.inc.c"
+#include "levels/c/paint_gun/model.inc.c"

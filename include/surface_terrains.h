@@ -10,7 +10,7 @@ enum SurfaceTypes {
     SURFACE_BURNING,                    // 0x0001 // Lava / Frostbite (in SL), but is used mostly for Lava
     SURFACE_NEW_WATER,                  // 0x0002 // Custom water surface
     SURFACE_NEW_WATER_BOTTOM,           // 0x0003 // Custom water surface bottom marker
-    SURFACE_0004,                       // 0x0004 // Unused, has no function and has parameters
+    SURFACE_CONVOYER,                   // 0x0004 // Unused, has no function and has parameters
     SURFACE_HANGABLE,                   // 0x0005 // Ceiling that Mario can climb on
     SURFACE_0006,                       // 0x0006 // Unused
     SURFACE_SUPER_SLIPPERY,             // 0x0007 // Super slippery surface, good for delimiting your level
@@ -94,8 +94,8 @@ enum SurfaceTypes {
     SURFACE_SWITCH,                     // 0x007A // Surface with no cam collision flag, non-slippery with noise, used by switches and Dorrie
     SURFACE_VANISH_CAP_WALLS,           // 0x007B // Vanish cap walls, pass through them with Vanish Cap
     SURFACE_SQUID_INK,                  // 0x007C // Squid Ink
-    SURFACE_STAR_DOOR_WARP,                       // 0x007D // Starts star door warp
-    SURFACE_VANISH_FLOOR,                       // 0x007E // Unused
+    SURFACE_STAR_DOOR_WARP,             // 0x007D // Starts star door warp
+    SURFACE_VANISH_FLOOR,               // 0x007E // Unused
     SURFACE_007F,                       // 0x007F // Unused
     SURFACE_0080,                       // 0x0080 // Unused
     SURFACE_0081,                       // 0x0081 // Unused

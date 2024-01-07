@@ -108,3 +108,11 @@ void bhv_crane_head_loop(void) {
     o->oMoveAngleYaw = o->parentObj->oMoveAngleYaw;
     o->oFaceAnglePitch += 300;
 }
+
+//--------------------PAINT GUN--------------------//
+
+void bhv_paint_gun_loop(void) {
+    o->oMoveAngleYaw = o->oAngleToMario;
+    obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_PITCH_INDEX, 0x1000);
+    o->oFaceAnglePitch = o->oMoveAnglePitch;
+}

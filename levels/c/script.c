@@ -34,6 +34,7 @@ const LevelScript level_c_entry[] = {
 	JUMP_LINK(script_func_global_1), 
 	JUMP_LINK(script_func_global_16), 
 	LOAD_MODEL_FROM_GEO(MODEL_CRANE_ARROW, crane_arrow_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_PAINT_GUN, paint_gun_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -48,6 +49,7 @@ const LevelScript level_c_entry[] = {
 		OBJECT(MODEL_NONE, 4041, 980, -1958, 0, 0, 0, 0x00000000, bhvFightWavesManager),
 		OBJECT(MODEL_NONE, 0, 2165, -365, 0, 0, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 0, 1850, -761, 0, 0, 0, (0x0A << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_PAINT_GUN, -1050, 2332, -460, 0, 0, 0, 0x00000000, bhvPaintGun),
 		OBJECT(MODEL_FLIPSWITCH_1, -1265, 2529, 2230, 0, 0, 0, (1 << 24), bhvFlipswitch),
 		OBJECT(MODEL_FLIPSWITCH_1, -4788, 695, 2175, 0, 0, 0, (1 << 24), bhvFlipswitch),
 		OBJECT(MODEL_FLIPSWITCH_1, 457, 1948, 7483, 0, 0, 0, (1 << 24), bhvFlipswitch),

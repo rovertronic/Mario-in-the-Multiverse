@@ -788,7 +788,7 @@ void render_marx_health(void) {
 }
 
 f32 ability_get_alpha = 0.0f;
-u8 ability_get_confirm = FALSE;
+u8 ability_get_confirm = TRUE;
 
 u16 hud_display_coins = 0;
 f32 hud_alpha = 255.0f;

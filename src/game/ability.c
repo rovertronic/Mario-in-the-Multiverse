@@ -362,6 +362,7 @@ void bhv_ability(void) {
                     }
                 }
                 change_ability(o->oBehParams2ndByte);
+                save_file_set_ability_dpad();
                 o->oAction = 2;
             }
         break;

@@ -43,6 +43,7 @@
 #define TEXT_ABILITY_O          _("Esteemed Mortal: A walker slaying saw-axe.\nReplaces your dive with an axe jump.\nHold [B] to hop and hold [A] to jump higher.")
 
 #define TEXT_FILE_ACTIONS       _("Begin\nErase")
+#define TEXT_FILE_DELETE        _("Are you sure?\nNo\nYes")
 
 #if defined(PUPPYCAM)
 #define NC_CAMX_EN              _("Camera Sensitivity")

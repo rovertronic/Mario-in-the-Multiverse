@@ -2031,21 +2031,25 @@ extern u8 mitm_file_blank_mitm_blank_file_rgba16[]; //same image but no "new" te
 extern u8 mitm_file_mitm_new_file_2_rgba16[]; //image used by file select DL
 extern struct SaveBuffer gSaveBuffer;
 u8 file_selected_index = 0;
+u8 file_action_index = 0;
 u8 file_text_card_index = 0;
 u8 file_menu_state = 0;
 s32 file_confirm = 0;
 f32 file_x[4];//1-3 are save files, 4 is the extra card for text
 f32 file_target_x[4];
 u8 file_action_text[] = {TEXT_FILE_ACTIONS};
+u8 file_action_delete_text[] = {TEXT_FILE_DELETE};
 
 enum {
     FMS_SELECT,
     FMS_ACTION,
+    FMS_DELETE,
     FMS_CONFIRM,
 };
 
 void init_mitm_file_select(void) {
     file_confirm = 0;
+    file_action_index = 0;
     for (u8 i = 0; i<4; i++) {
         file_target_x[i] = 0.0f;
     }
@@ -2106,8 +2110,17 @@ s32 mitm_file_select() {
         case FMS_SELECT:
             handle_menu_scrolling(MENU_SCROLL_VERTICAL, &file_selected_index, 0, 2);
             if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
-                file_menu_state = FMS_ACTION;
-                file_text_card_index = file_selected_index;
+                play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+                if (save_file_exists(file_selected_index)) {
+                    //file exists
+                    file_menu_state = FMS_ACTION;
+                    file_text_card_index = file_selected_index;
+                    file_action_index = 0;
+                } else {
+                    //new file
+                    file_confirm = file_selected_index+1;
+                    file_menu_state = FMS_CONFIRM;
+                }
             }
             for (u8 i = 0; i<4; i++) {
                 file_target_x[i] = 0.0f;
@@ -2115,13 +2128,52 @@ s32 mitm_file_select() {
             break;
 
         case FMS_ACTION:
-            if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
-                file_confirm = file_selected_index+1;
-                file_menu_state = FMS_CONFIRM;
-            }
+            handle_menu_scrolling(MENU_SCROLL_VERTICAL, &file_action_index, 0, 1);
             if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
                 file_menu_state = FMS_SELECT;
+                file_action_index = 0;
+                play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
             }
+            if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
+                play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+                if (file_action_index == 0) {
+                    //play file
+                    file_confirm = file_selected_index+1;
+                    file_menu_state = FMS_CONFIRM;
+                } else {
+                    //delete file
+                    file_menu_state = FMS_DELETE;
+                    file_action_index = 0;
+                }
+            }
+            for (u8 i = 0; i<3; i++) {
+                file_target_x[i] = -290.0f;
+            }
+            file_target_x[file_selected_index] = -80.0f;
+            file_target_x[3] = 80.0f;
+            break;
+
+        case FMS_DELETE:
+            handle_menu_scrolling(MENU_SCROLL_VERTICAL, &file_action_index, 0, 1);
+            if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
+                if (file_action_index == 0) {
+                    //do not delete file
+                    play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+                    file_menu_state = FMS_ACTION;
+                    file_action_index = 0;
+                } else {
+                    //confirm file deletion
+                    play_sound(SOUND_GENERAL2_BOBOMB_EXPLOSION, gGlobalSoundSource);
+                    save_file_erase(file_selected_index);
+                    file_menu_state = FMS_SELECT;
+                }
+            }
+            if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
+                file_menu_state = FMS_ACTION;
+                file_action_index = 0;
+                play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+            }
+
             for (u8 i = 0; i<3; i++) {
                 file_target_x[i] = -290.0f;
             }
@@ -2150,10 +2202,22 @@ s32 mitm_file_select() {
         gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
         gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 
+
+
         gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
-        print_generic_string(130+file_x[3], 198 - (file_text_card_index * 75), file_action_text);
+        u8 *txt = file_action_text;
+        u8 cursor_y_off = 210;
+        if (file_menu_state == FMS_DELETE) {
+            txt = file_action_delete_text;
+            cursor_y_off -= 17;
+        }
+        print_generic_string(130+file_x[3], 210 - (file_text_card_index * 75), txt);
         gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+
+        create_dl_translation_matrix(MENU_MTX_PUSH, 118+file_x[3], cursor_y_off - (file_text_card_index * 75) - (file_action_index*17), -10.0f);
+        gSPDisplayList(gDisplayListHead++, dl_draw_triangle);
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
     }
     file_x[3] = approach_f32_asymptotic(file_x[3],file_target_x[3],0.2f);
 

@@ -116,7 +116,10 @@ ALIGNED8 u8 ability_images[][2048] = {
     { /*Ability M*/
     #include "actors/ability_images/custom_ability_m.rgba16.inc.c"
     },
-    {/*Locked*/
+    { /*None*/
+    #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
+    },
+    { /*Locked*/
     #include "actors/ability_images/custom_ability_locked.rgba16.inc.c"
     }
 };
@@ -345,8 +348,14 @@ void bhv_ability(void) {
     switch(o->oAction) {
         case 0:
             if (save_file_check_ability_unlocked(o->oBehParams2ndByte)) {
+/* When debugging, you should always be able to test ability collection*/
+#ifdef UNLOCK_ABILITIES_DEBUG
+                o->oAction = 1;
+                obj_set_hitbox(o, &sCollectAbilityHitbox);
+#else
                 cur_obj_hide();
                 o->oAction = 2;
+#endif
             } else {
                 o->oAction = 1;
                 obj_set_hitbox(o, &sCollectAbilityHitbox);

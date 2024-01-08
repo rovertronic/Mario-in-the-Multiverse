@@ -1982,6 +1982,7 @@ void set_ability_slot(u8 index, u8 ability_id) {
 }
 
 s32 render_pause_courses_and_castle(void) {
+    u8 question_str[] = {TEXT_QUESTION};
     s16 index;
     u8 i;
 
@@ -2061,29 +2062,35 @@ s32 render_pause_courses_and_castle(void) {
                     menu_ability_y_offset[i] = 0;
                 }
 
-                render_ability_icon(55+(i%4)*33, menu_ability_y_offset[i] + 195-((i/4)*33), gDialogTextAlpha, i);
+                u8 img = 17;
+                if (save_file_check_ability_unlocked(i) || (i==0)) {
+                    img = i;
+                }
+                render_ability_icon(55+(i%4)*33, menu_ability_y_offset[i] + 195-((i/4)*33), gDialogTextAlpha, img);
             }
 
             handle_menu_scrolling_2way(&ability_menu_x, &ability_menu_y, 0, 3);
             ability_menu_index = (ability_menu_x)+(ability_menu_y*4);
 
-            if (gPlayer1Controller->buttonPressed & U_JPAD) {
-                set_ability_slot(0, ability_menu_index);
-            }
-            if (gPlayer1Controller->buttonPressed & R_JPAD) {
-                set_ability_slot(1, ability_menu_index);
-            }
-            if (gPlayer1Controller->buttonPressed & D_JPAD) {
-                set_ability_slot(2, ability_menu_index);
-            }
-            if (gPlayer1Controller->buttonPressed & L_JPAD) {
-                set_ability_slot(3, ability_menu_index);
-            }
-            if (gPlayer1Controller->buttonPressed & A_BUTTON) {
-                menu_ability_gravity[ability_menu_index] = 2;
-                menu_ability_y_offset[ability_menu_index] = 1;
-                change_ability(ability_menu_index);
-                play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+            if (save_file_check_ability_unlocked(ability_menu_index) || (ability_menu_index == 0)) {
+                if (gPlayer1Controller->buttonPressed & U_JPAD) {
+                    set_ability_slot(0, ability_menu_index);
+                }
+                if (gPlayer1Controller->buttonPressed & R_JPAD) {
+                    set_ability_slot(1, ability_menu_index);
+                }
+                if (gPlayer1Controller->buttonPressed & D_JPAD) {
+                    set_ability_slot(2, ability_menu_index);
+                }
+                if (gPlayer1Controller->buttonPressed & L_JPAD) {
+                    set_ability_slot(3, ability_menu_index);
+                }
+                if (gPlayer1Controller->buttonPressed & A_BUTTON) {
+                    menu_ability_gravity[ability_menu_index] = 2;
+                    menu_ability_y_offset[ability_menu_index] = 1;
+                    change_ability(ability_menu_index);
+                    play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+                }
             }
 
             create_dl_translation_matrix(MENU_MTX_PUSH, 55+(ability_menu_index%4)*33, 195-((ability_menu_index/4)*33), 0);
@@ -2092,7 +2099,11 @@ s32 render_pause_courses_and_castle(void) {
 
             gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
-            print_generic_string(43, 58, ability_string(ability_menu_index));
+            if (save_file_check_ability_unlocked(ability_menu_index) || (ability_menu_index == 0)) {
+                print_generic_string(43, 58, ability_string(ability_menu_index));
+            } else {
+                print_generic_string(43, 58, question_str);
+            }
             gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 
             //print_hud_pause_colorful_str();

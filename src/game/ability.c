@@ -361,7 +361,9 @@ void bhv_ability(void) {
                         break;
                     }
                 }
-                change_ability(o->oBehParams2ndByte);
+                if (o->oBehParams2ndByte != ABILITY_MARBLE) { //hamsterball is a weird one
+                    change_ability(o->oBehParams2ndByte);
+                }
                 save_file_set_ability_dpad();
                 o->oAction = 2;
             }

@@ -709,6 +709,7 @@ enum {
 /* LEVEL G END */
 
 /* LEVEL H START */
+#define MODEL_HLOADER 0x150
 /* LEVEL H END */
 
 /* LEVEL I START */

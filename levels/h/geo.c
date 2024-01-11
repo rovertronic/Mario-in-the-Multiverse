@@ -15,3 +15,5 @@
 
 
 #include "levels/h/geo.inc.c"
+
+#include "levels/h/hloader/geo.inc.c"

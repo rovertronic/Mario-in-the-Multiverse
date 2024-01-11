@@ -12,3 +12,7 @@
 
 
 #include "levels/h/leveldata.inc.c"
+
+#include "levels/h/hloader/anims/data.inc.c"
+#include "levels/h/hloader/anims/table.inc.c"
+#include "levels/h/hloader/model.inc.c"

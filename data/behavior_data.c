@@ -6713,6 +6713,20 @@ const BehaviorScript bhvHLoader[] = {
         CALL_NATIVE(bhv_whomp_loop),
     END_LOOP(),
 };
+
+extern void bhv_hglass_loop(void);
+const BehaviorScript bhvHGlass[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST | OBJ_FLAG_E__SG_COLLISION_BREAKABLE)),
+    LOAD_COLLISION_DATA(hglass_collision),
+    SET_FLOAT(oCollisionDistance, 3000),
+    SET_FLOAT(oDrawingDistance, 32000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_hglass_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+    BREAK(),
+};
 /* GROUP H END */
 
 /* GROUP I START */

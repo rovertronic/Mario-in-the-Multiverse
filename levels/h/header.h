@@ -13,4 +13,10 @@ extern const LevelScript level_h_entry[];
 
 #include "levels/h/hloader/geo_header.h"
 
+#include "levels/h/hsky/header.h"
+
+#include "levels/h/hglass/geo_header.h"
+
+#include "levels/h/hglass/collision_header.h"
+
 #endif

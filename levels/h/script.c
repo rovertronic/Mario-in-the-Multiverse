@@ -24,12 +24,16 @@
 const LevelScript level_h_entry[] = {
 	INIT_LEVEL(),
 	LOAD_YAY0(0x7, _h_segment_7SegmentRomStart, _h_segment_7SegmentRomEnd), 
+	LOAD_YAY0(0x05, _group1_yay0SegmentRomStart, _group1_yay0SegmentRomEnd), 
+	LOAD_RAW(0x0C, _group1_geoSegmentRomStart, _group1_geoSegmentRomEnd), 
 	LOAD_YAY0(0x06, _group14_yay0SegmentRomStart, _group14_yay0SegmentRomEnd), 
 	LOAD_RAW(0x0D, _group14_geoSegmentRomStart, _group14_geoSegmentRomEnd), 
 	ALLOC_LEVEL_POOL(),
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
 	JUMP_LINK(script_func_global_15), 
-	LOAD_MODEL_FROM_GEO(MODEL_HLOADER, hloader_geo), 
+	JUMP_LINK(script_func_global_2), 
+	LOAD_MODEL_FROM_GEO(MODEL_HLOADER, hloader_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_HGLASS, hglass_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -41,7 +45,7 @@ const LevelScript level_h_entry[] = {
 		OBJECT(MODEL_ABILITY, -5630, -1410, -581, 0, 0, 0, (ABILITY_PHASEWALK << 16), bhvAbilityUnlock),
 		OBJECT(MODEL_ABILITY_SIGN, -7588, -1410, -1171, 0, 90, 0, (ABILITY_PHASEWALK << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, 8936, -318, 13217, 0, 25, 0, (ABILITY_HM_FLY << 16), bhvStaticObject),
-		OBJECT(MODEL_ABILITY_SIGN, 11795, -3385, -7808, 0, 25, 0, (ABILITY_HM_FLY << 16), bhvStaticObject),
+		OBJECT(MODEL_ABILITY_SIGN, 11905, -3385, -7831, 0, 14, 0, (ABILITY_E_SHOTGUN << 16), bhvStaticObject),
 		OBJECT(MODEL_CHECKPOINT_FLAG, -3303, -1410, -592, 0, 90, 0, (0 << 16), bhvCheckpointFlag),
 		OBJECT(MODEL_CHECKPOINT_FLAG, 10329, -2218, 1671, 0, 0, 0, (1 << 16), bhvCheckpointFlag),
 		OBJECT(MODEL_NONE, 2106, -1410, 7095, 0, 0, 0, 0x00000000, bhvCoinFormation),
@@ -66,6 +70,7 @@ const LevelScript level_h_entry[] = {
 		OBJECT(MODEL_HEAVE_HO, 11530, -1410, 13403, 0, 178, 0, 0x00000000, bhvHeaveHo),
 		OBJECT(MODEL_HEAVE_HO, 10473, -3385, -7751, 0, -112, 0, 0x00000000, bhvHeaveHo),
 		OBJECT(MODEL_HEAVE_HO, -2430, -1410, -2896, 0, 45, 0, 0x00000000, bhvHeaveHo),
+		OBJECT(MODEL_HGLASS, 11735, -2208, -8718, 0, 0, 0, 0x00000000, bhvHGlass),
 		OBJECT(MODEL_HLOADER, 169, -1410, 629, 0, 0, 0, 0x00000000, bhvHLoader),
 		OBJECT(MODEL_HLOADER, 10978, -1410, 10905, 0, 134, 0, 0x00000000, bhvHLoader),
 		OBJECT(MODEL_HLOADER, 12823, -3385, -7235, 0, -56, 0, 0x00000000, bhvHLoader),

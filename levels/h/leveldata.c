@@ -16,3 +16,6 @@
 #include "levels/h/hloader/anims/data.inc.c"
 #include "levels/h/hloader/anims/table.inc.c"
 #include "levels/h/hloader/model.inc.c"
+#include "levels/h/hsky/model.inc.c"
+#include "levels/h/hglass/model.inc.c"
+#include "levels/h/hglass/collision.inc.c"

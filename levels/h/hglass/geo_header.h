@@ -1,0 +1,10 @@
+extern const GeoLayout hglass_geo[];
+extern Lights1 hglass_HyperionWindowSeetrhu_lights;
+extern u8 hglass_WindowHyperion_ci4[];
+extern u8 hglass_WindowHyperion_pal_rgba16[];
+extern Vtx hglass_SmallerBits_001_mesh_layer_5_vtx_0[12];
+extern Gfx hglass_SmallerBits_001_mesh_layer_5_tri_0[];
+extern Gfx mat_hglass_HyperionWindowSeetrhu[];
+extern Gfx mat_revert_hglass_HyperionWindowSeetrhu[];
+extern Gfx hglass_SmallerBits_001_mesh_layer_5[];
+extern Gfx hglass_material_revert_render_settings[];

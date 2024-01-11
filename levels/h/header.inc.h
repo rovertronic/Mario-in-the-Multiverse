@@ -101,7 +101,7 @@ extern Vtx h_dl_Platforms_mesh_layer_1_vtx_0[324];
 extern Gfx h_dl_Platforms_mesh_layer_1_tri_0[];
 extern Vtx h_dl_Sewers_mesh_layer_1_vtx_0[373];
 extern Gfx h_dl_Sewers_mesh_layer_1_tri_0[];
-extern Vtx h_dl_SmallerBits_mesh_layer_1_vtx_0[157];
+extern Vtx h_dl_SmallerBits_mesh_layer_1_vtx_0[168];
 extern Gfx h_dl_SmallerBits_mesh_layer_1_tri_0[];
 extern Vtx h_dl_SmallerBits_mesh_layer_1_vtx_1[418];
 extern Gfx h_dl_SmallerBits_mesh_layer_1_tri_1[];

@@ -638,6 +638,7 @@ extern const BehaviorScript bhvGCOStar[];
 
 /* GROUP H START */
 extern const BehaviorScript bhvHLoader[];
+extern const BehaviorScript bhvHGlass[];
 /* GROUP H END */
 
 /* GROUP I START */

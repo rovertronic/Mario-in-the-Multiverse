@@ -14,6 +14,7 @@ const GeoLayout h_area_1_geo[] = {
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -4192, -3257, 12445, -90, 0, 180, h_dl_Sewers_mesh_layer_1),
 		GEO_ASM(0, e__shotgun_effects),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, h_dl_SmallerBits_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, h_dl_SmallerBits_002_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

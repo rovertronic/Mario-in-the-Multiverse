@@ -1597,18 +1597,20 @@ void print_toad_token(s16 x, s16 y) {
     }
 }
 
+
+#define HUD_RED_COIN_Y 32
 void render_pause_red_coins(void) {
     s8 x;
 
     if (gRedCoinsCollected <= 9) {
         if(gCurrCourseNum != COURSE_CCM){
             for (x = 0; x < gRedCoinsCollected; x++) {
-                print_animated_red_coin(GFX_DIMENSIONS_FROM_RIGHT_EDGE(50) - x * 20, 16);
+                print_animated_red_coin(GFX_DIMENSIONS_FROM_RIGHT_EDGE(50) - x * 20, HUD_RED_COIN_Y);
             }
         }
     }
     else {
-        print_animated_red_coin(GFX_DIMENSIONS_FROM_RIGHT_EDGE(108), 16);
+        print_animated_red_coin(GFX_DIMENSIONS_FROM_RIGHT_EDGE(108), HUD_RED_COIN_Y);
         Mtx *mtx;
 
         mtx = alloc_display_list(sizeof(*mtx));
@@ -1625,11 +1627,11 @@ void render_pause_red_coins(void) {
         }
 
         add_glyph_texture(GLYPH_MULTIPLY);
-        render_textrect(GFX_DIMENSIONS_FROM_RIGHT_EDGE(100), 16, 0);
+        render_textrect(GFX_DIMENSIONS_FROM_RIGHT_EDGE(100), HUD_RED_COIN_Y, 0);
         add_glyph_texture(char_to_glyph_index((char) (48 + (redCoinCount / 10))));
-        render_textrect(GFX_DIMENSIONS_FROM_RIGHT_EDGE(86), 16, 0);
+        render_textrect(GFX_DIMENSIONS_FROM_RIGHT_EDGE(86), HUD_RED_COIN_Y, 0);
         add_glyph_texture(char_to_glyph_index((char) (48 + (redCoinCount % 10))));
-        render_textrect(GFX_DIMENSIONS_FROM_RIGHT_EDGE(86), 16, 1);
+        render_textrect(GFX_DIMENSIONS_FROM_RIGHT_EDGE(86), HUD_RED_COIN_Y, 1);
 
         gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
     }

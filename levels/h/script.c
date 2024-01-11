@@ -32,7 +32,7 @@ const LevelScript level_h_entry[] = {
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
 	JUMP_LINK(script_func_global_15), 
 	JUMP_LINK(script_func_global_2), 
-	LOAD_MODEL_FROM_GEO(MODEL_HLOADER, hloader_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_HLOADER, hloader_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_HGLASS, hglass_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
@@ -47,7 +47,7 @@ const LevelScript level_h_entry[] = {
 		OBJECT(MODEL_ABILITY_SIGN, 8936, -318, 13217, 0, 25, 0, (ABILITY_HM_FLY << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, 11905, -3385, -7831, 0, 14, 0, (ABILITY_E_SHOTGUN << 16), bhvStaticObject),
 		OBJECT(MODEL_CHECKPOINT_FLAG, -3303, -1410, -592, 0, 90, 0, (0 << 16), bhvCheckpointFlag),
-		OBJECT(MODEL_CHECKPOINT_FLAG, 10329, -2218, 1671, 0, 0, 0, (1 << 16), bhvCheckpointFlag),
+		OBJECT(MODEL_CHECKPOINT_FLAG, 10329, -2218, 1671, 0, 90, 0, (1 << 16), bhvCheckpointFlag),
 		OBJECT(MODEL_NONE, 2106, -1410, 7095, 0, 0, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_NONE, 3900, -2615, -7912, 0, 90, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_NONE, 6881, -2925, -7888, 0, 90, 0, 0x00000000, bhvCoinFormation),
@@ -78,6 +78,7 @@ const LevelScript level_h_entry[] = {
 		OBJECT(MODEL_HLOADER, -4652, -3366, 8165, 0, -172, 0, 0x00000000, bhvHLoader),
 		OBJECT(MODEL_HLOADER, -4418, -1410, -6475, 0, 119, 0, 0x00000000, bhvHLoader),
 		OBJECT(MODEL_HLOADER, 3132, -1410, -3098, 0, -71, 0, 0x00000000, bhvHLoader),
+		OBJECT(MODEL_HLOADER, 11673, -2218, -1420, 0, -1, 0, 0x00000000, bhvHLoader),
 		OBJECT(MODEL_NONE, 2115, -886, 10467, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 2115, -1410, 10467, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		MARIO_POS(0x01, 0, 2115, -1410, 10467),

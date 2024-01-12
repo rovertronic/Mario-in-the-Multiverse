@@ -1,40 +1,158 @@
 {
     "comment": "ADD 2 TO THE USUAL HEXADECIMAL SOUNDBANK ID FOR SEQUENCES - THIS IS BECAUSE WE HAVE 2 EXTRA SFX BANKS",
-    "00_sound_player": ["00", "01_terrain", "02_water", "03", "04", "05", "06", "07", "08_mario", "09", "0A_mario_peach", "0B_mitm_ability", "0C_mitm_level"],
-    "01_cutscene_collect_star": ["24"],
-    "02_menu_title_screen": ["13"],
-    "03_level_grass": ["24"],
-    "04_level_inside_castle": ["10"],
-    "05_level_water": ["15"],
-    "06_level_hot": ["11"],
-    "07_level_boss_koopa": ["14"],
-    "08_level_snow": ["0D"],
-    "09_level_slide": ["0F"],
-    "0A_level_spooky": ["12", "23"],
-    "0B_event_piranha_plant": ["16_piranha_music_box"],
-    "0C_level_underground": ["17"],
-    "0D_menu_star_select": ["18_course_start"],
-    "0E_event_powerup": ["19"],
-    "0F_event_metal_cap": ["1A"],
-    "10_event_koopa_message": ["14"],
-    "11_level_koopa_road": ["1B"],
-    "12_event_high_score": ["21"],
-    "13_event_merry_go_round": ["23"],
-    "14_event_race": ["1C"],
-    "15_cutscene_star_spawn": ["10"],
-    "16_event_boss": ["1D"],
-    "17_cutscene_collect_key": ["1C"],
-    "18_event_endless_stairs": ["1E_endless_stairs"],
-    "19_level_boss_koopa_final": ["1F_bowser_organ"],
-    "1A_cutscene_credits": ["27"],
-    "1B_event_solve_puzzle": ["16_piranha_music_box"],
-    "1C_event_toad_message": ["22"],
-    "1D_event_peach_message": ["20"],
-    "1E_cutscene_intro": ["1D"],
-    "1F_cutscene_victory": ["1C"],
-    "20_cutscene_ending": ["25"],
-    "21_menu_file_select": ["26"],
-    "22_cutscene_lakitu": {"ifdef": ["VERSION_US", "VERSION_EU", "VERSION_SH"], "banks": ["1D"]},
-    "23_Matt_Monro_Walk_Away": ["25"],
-    "24_INRBIO": ["25"]
+    "00_sound_player": [
+        "00",
+        "01_terrain",
+        "02_water",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08_mario",
+        "09",
+        "0A_mario_peach",
+        "0B_mitm_ability",
+        "0C_mitm_level"
+    ],
+    "01_cutscene_collect_star": [
+        "24"
+    ],
+    "02_menu_title_screen": [
+        "13"
+    ],
+    "03_level_grass": [
+        "24"
+    ],
+    "04_level_inside_castle": [
+        "10"
+    ],
+    "05_level_water": [
+        "15"
+    ],
+    "06_level_hot": [
+        "11"
+    ],
+    "07_level_boss_koopa": [
+        "14"
+    ],
+    "08_level_snow": [
+        "0D"
+    ],
+    "09_level_slide": [
+        "0F"
+    ],
+    "0A_level_spooky": [
+        "12",
+        "23"
+    ],
+    "0B_event_piranha_plant": [
+        "16_piranha_music_box"
+    ],
+    "0C_level_underground": [
+        "17"
+    ],
+    "0D_menu_star_select": [
+        "18_course_start"
+    ],
+    "0E_event_powerup": [
+        "19"
+    ],
+    "0F_event_metal_cap": [
+        "1A"
+    ],
+    "10_event_koopa_message": [
+        "14"
+    ],
+    "11_level_koopa_road": [
+        "1B"
+    ],
+    "12_event_high_score": [
+        "21"
+    ],
+    "13_event_merry_go_round": [
+        "23"
+    ],
+    "14_event_race": [
+        "1C"
+    ],
+    "15_cutscene_star_spawn": [
+        "10"
+    ],
+    "16_event_boss": [
+        "1D"
+    ],
+    "17_cutscene_collect_key": [
+        "1C"
+    ],
+    "18_event_endless_stairs": [
+        "1E_endless_stairs"
+    ],
+    "19_level_boss_koopa_final": [
+        "1F_bowser_organ"
+    ],
+    "1A_cutscene_credits": [
+        "27"
+    ],
+    "1B_event_solve_puzzle": [
+        "16_piranha_music_box"
+    ],
+    "1C_event_toad_message": [
+        "22"
+    ],
+    "1D_event_peach_message": [
+        "20"
+    ],
+    "1E_cutscene_intro": [
+        "1D"
+    ],
+    "1F_cutscene_victory": [
+        "1C"
+    ],
+    "20_cutscene_ending": [
+        "25"
+    ],
+    "21_menu_file_select": [
+        "26"
+    ],
+    "22_cutscene_lakitu": {
+        "ifdef": [
+            "VERSION_US",
+            "VERSION_EU",
+            "VERSION_SH"
+        ],
+        "banks": [
+            "1D"
+        ]
+    },
+    "23_Matt_Monro_Walk_Away": [
+        "25"
+    ],
+    "24_INRBIO": [
+        "25"
+    ],
+    "25_custom_peanut_plains": [
+        "0E_extended_bank"
+    ],
+    "26_custom_kirby_boss": [
+        "0E_extended_bank"
+    ],
+    "27_custom_save_hut": [
+        "0E_extended_bank"
+    ],
+    "28_custom_crystal_field": [
+        "0E_extended_bank"
+    ],
+    "29_custom_trees_in_the_depths": [
+        "0E_extended_bank"
+    ],
+    "2A_marx": [
+        "0E_extended_bank"
+    ],
+    "2B_o_easystreet": [
+        "o_easystreet"
+    ],
+    "2C_o_maintrack": [
+        "o_maintrack"
+    ]
 }

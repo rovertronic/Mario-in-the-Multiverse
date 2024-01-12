@@ -1,0 +1,16 @@
+extern const GeoLayout o_tree_geo[];
+extern u8 o_tree_tree_a_i4[];
+extern u8 o_tree_tree_b_rgba16[];
+extern u8 o_tree_tree_wood_ci8[];
+extern u8 o_tree_tree_wood_pal_rgba16[];
+extern Vtx o_tree_tree_mesh_layer_4_vtx_0[8];
+extern Gfx o_tree_tree_mesh_layer_4_tri_0[];
+extern Vtx o_tree_tree_mesh_layer_1_vtx_0[66];
+extern Gfx o_tree_tree_mesh_layer_1_tri_0[];
+extern Gfx mat_o_tree_TreeLeaves_layer4[];
+extern Gfx mat_revert_o_tree_TreeLeaves_layer4[];
+extern Gfx mat_o_tree_TreeWood[];
+extern Gfx mat_revert_o_tree_TreeWood[];
+extern Gfx o_tree_tree_mesh_layer_4[];
+extern Gfx o_tree_tree_mesh_layer_1[];
+extern Gfx o_tree_material_revert_render_settings[];

@@ -549,6 +549,7 @@ extern const BehaviorScript bhvNoteblock[];
 extern const BehaviorScript bhvStarPieceSwitch[];
 extern const BehaviorScript bhvStarPiece[];
 extern const BehaviorScript bhvDashBoosterParticle[];
+extern const BehaviorScript bhvAbilityRecoveryHeart[];
 
 /* GROUP A START */
 /* GROUP A END */
@@ -598,6 +599,19 @@ extern const BehaviorScript bhvFfence[];
 
 /* GROUP G START */
 extern const BehaviorScript bhvCutterBlade[];
+extern const BehaviorScript bhvCutterBlast[];
+extern const BehaviorScript bhvSlashParticle[];
+extern const BehaviorScript bhvSirKibble[];
+extern const BehaviorScript bhvStarProjectile[];
+extern const BehaviorScript bhvGCannonSwitch[];
+extern const BehaviorScript bhvLevelGCutscenes[];
+extern const BehaviorScript bhvStarDrop[];
+extern const BehaviorScript bhvGAttachedRope[];
+extern const BehaviorScript bhvGAttachedBlock[];
+extern const BehaviorScript bhvStarDoorStar[];
+extern const BehaviorScript bhvGStarDoor[];
+extern const BehaviorScript bhvGSpring[];
+extern const BehaviorScript bhvGCutRock[];
 /* GROUP G END */
 
 /* GROUP H START */
@@ -629,10 +643,17 @@ extern const BehaviorScript bhvPhysicsMarble[];
 /* GROUP N END */
 
 /* GROUP O START */
+extern const BehaviorScript bhvOZombie[];
+extern const BehaviorScript bhvOZombieSpawner[];
+extern const BehaviorScript bhvOTree[];
+extern const BehaviorScript bhvOuvstar[];
+extern const BehaviorScript bhvOlift[];
+extern const BehaviorScript bhvOgarage[];
+extern const BehaviorScript bhvOspeaker[];
+extern const BehaviorScript bhvOeasystreetcontroller[];
 /* GROUP O END */
 
 #endif // BEHAVIOR_DATA_H
 
-
-extern const BehaviorScript bhvCutterBlast[];
-extern const BehaviorScript bhvSlashParticle[];
+extern const BehaviorScript bhvGCannon[];
+extern const BehaviorScript bhvGreatCaveOffensiveController[];

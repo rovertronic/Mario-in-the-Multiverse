@@ -8,6 +8,8 @@
 #include "camera.h"
 #include "envfx_snow.h"
 #include "level_geo.h"
+#include "level_update.h"
+#include "ability.h"
 
 /**
  * Geo function that generates a displaylist for environment effects such as
@@ -74,4 +76,72 @@ Gfx *geo_skybox_main(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx) 
     }
 
     return gfx;
+}
+
+//course O uv light
+#include "levels/o/header.inc.h"
+extern Gfx o_spooky_sky_Sphere_001_mesh[];
+
+Vtx *uv_light_vtx_list[] = {
+    o_dl_zuvlight_mesh_layer_5_vtx_0,
+    o_dl_zuvlight_mesh_layer_5_vtx_1,
+    o_dl_zuvlight_mesh_layer_5_vtx_2,
+    o_dl_zuvlight_mesh_layer_5_vtx_3,
+    o_dl_zuvlight_mesh_layer_5_vtx_4,
+};
+
+u16 uv_light_vtx_list_sizes[] = {
+    sizeof(o_dl_zuvlight_mesh_layer_5_vtx_0),
+    sizeof(o_dl_zuvlight_mesh_layer_5_vtx_1),
+    sizeof(o_dl_zuvlight_mesh_layer_5_vtx_2),
+    sizeof(o_dl_zuvlight_mesh_layer_5_vtx_3),
+    sizeof(o_dl_zuvlight_mesh_layer_5_vtx_4),
+};
+
+Gfx cool_display_list[4];
+Mtx cool_matrix;
+Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    s32 i;
+    f32 dist;
+    s32 light;
+    Vtx *vert;
+    Vec3s marioPos;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        vec3f_to_vec3s(marioPos, gMarioState->pos);
+
+        for (int j = 0; j<5; j++) {
+            vert = segmented_to_virtual(uv_light_vtx_list[j]);
+            if (using_ability(ABILITY_GADGET_WATCH)) {
+                //uv light on
+                for (i = 0; i < uv_light_vtx_list_sizes[j] / sizeof(o_dl_zuvlight_mesh_layer_5_vtx_0[0]); i++) {
+                    dist = sqrtf((marioPos[0] - vert[i].v.ob[0]) * (marioPos[0] - vert[i].v.ob[0]) + 
+                                 (marioPos[1] - vert[i].v.ob[1]) * (marioPos[1] - vert[i].v.ob[1]) + 
+                                 (marioPos[2] - vert[i].v.ob[2]) * (marioPos[2] - vert[i].v.ob[2]));
+
+                    light = 255 - (dist/4);
+                    if (light < 0) {
+                        light = 0;
+                    }
+                    vert[i].v.cn[3] = light;
+                }
+            } else {
+                //uv light off
+                for (i = 0; i < uv_light_vtx_list_sizes[j] / sizeof(o_dl_zuvlight_mesh_layer_5_vtx_0[0]); i++) {
+                    vert[i].v.cn[3] = 0;
+                }
+            }
+
+            guTranslate(&cool_matrix, gLakituState.curPos[0], gLakituState.curPos[1], gLakituState.curPos[2]);
+
+            gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+            gSPDisplayList(&cool_display_list[1], segmented_to_virtual(o_spooky_sky_Sphere_001_mesh));
+            gSPPopMatrix(&cool_display_list[2], G_MTX_MODELVIEW);
+            gSPEndDisplayList(&cool_display_list[3]);
+
+            geo_append_display_list(cool_display_list, LAYER_FORCE);
+        }
+
+    }
+    return NULL;
 }

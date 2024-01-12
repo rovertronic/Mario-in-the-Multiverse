@@ -442,6 +442,7 @@
 #define MODEL_TTM_SLIDE_EXIT_PODIUM       0x7B        // ttm_geo_000DF4
 #define MODEL_WOODEN_SIGNPOST             0x7C        // wooden_signpost_geo
 #define MODEL_UNKNOWN_7D                  0x7D        // referenced in macro presets. Unknown usage
+#define MODEL_ABILITY_HEART               0x7E        // heart_geo
 // find me
 #define MODEL_CANNON_BARREL               0x7F        // cannon_barrel_geo
 #define MODEL_CANNON_BASE                 0x80        // cannon_base_geo
@@ -604,6 +605,7 @@ enum GLOBAL_MODELS {
     MODEL_CONCRETE_BLOCK_CRACK1,
     MODEL_CONCRETE_BLOCK_CRACK2,
     MODEL_DBP,//Dash Booster Particle
+    MODEL_ATTACHED_ROPE,
 
     // Custom Mario Models
     MODEL_E__MARIO,
@@ -651,6 +653,15 @@ enum {
 /* LEVEL F END */
 
 /* LEVEL G START */
+#define MODEL_G_SIR_KIBBLE                      0x150
+#define MODEL_G_STAR_BLOCK                      0x151
+#define MODEL_G_STAR_PROJECTILE                      0x152
+#define MODEL_G_CHECKER_BLOCK_1                      0x153
+#define MODEL_G_SPRING                      0x154
+#define MODEL_G_CUT_ROCK                      0x155
+#define MODEL_G_CUT_ROCK2                      0x156
+#define MODEL_G_CUT_ROCK3                      0x157
+#define MODEL_G_CANNON                      0x158
 /* LEVEL G END */
 
 /* LEVEL H START */
@@ -675,6 +686,17 @@ enum {
 /* LEVEL N END */
 
 /* LEVEL O START */
+#define MODEL_O_ZOMBIE_1  0x151
+#define MODEL_O_ZOMBIE_2  0x152
+#define MODEL_O_ZOMBIE_3  0x153
+#define MODEL_ZOMBLOOD    0x154
+#define MODEL_O_TREE      0x155
+#define MODEL_O_UVSTAR    0x156
+#define MODEL_O_LIFT      0x157
+#define MODEL_O_GARAGE    0x158
+#define MODEL_O_SPEAKER_1 0x159
+#define MODEL_O_SPEAKER_2 0x15A
+#define MODEL_O_SPEAKER_3 0x15B
 /* LEVEL O END */
 
 #endif // MODEL_IDS_H

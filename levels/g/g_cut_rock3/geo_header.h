@@ -1,0 +1,14 @@
+extern const GeoLayout g_cut_rock3_geo[];
+extern u8 g_cut_rock3_starrocktexture_ci8[];
+extern u8 g_cut_rock3_starrocktexture_pal_rgba16[];
+extern u8 g_cut_rock3_rockstar_rgba16[];
+extern Vtx g_cut_rock3_Cube_004_mesh_layer_1_vtx_0[42];
+extern Gfx g_cut_rock3_Cube_004_mesh_layer_1_tri_0[];
+extern Vtx g_cut_rock3_Cube_004_mesh_layer_1_vtx_1[43];
+extern Gfx g_cut_rock3_Cube_004_mesh_layer_1_tri_1[];
+extern Gfx mat_g_cut_rock3_f3dlite_material_027[];
+extern Gfx mat_revert_g_cut_rock3_f3dlite_material_027[];
+extern Gfx mat_g_cut_rock3_f3dlite_material_028[];
+extern Gfx mat_revert_g_cut_rock3_f3dlite_material_028[];
+extern Gfx g_cut_rock3_Cube_004_mesh_layer_1[];
+extern Gfx g_cut_rock3_material_revert_render_settings[];

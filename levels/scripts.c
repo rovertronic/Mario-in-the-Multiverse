@@ -145,6 +145,7 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_CONCRETE_BLOCK_CRACK1,   concrete_block_crack1_geo),
     LOAD_MODEL_FROM_GEO(MODEL_CONCRETE_BLOCK_CRACK2,   concrete_block_crack2_geo),
     LOAD_MODEL_FROM_GEO(MODEL_DBP,                     dbp_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_ATTACHED_ROPE,           attached_rope_geo),
     FREE_LEVEL_POOL(),
     POP_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),
@@ -227,6 +228,7 @@ const LevelScript script_func_global_1[] = {
     LOAD_MODEL_FROM_GEO(MODEL_FLYGUY,                  flyguy_geo),
     LOAD_MODEL_FROM_GEO(MODEL_CHUCKYA,                 chuckya_geo),
     LOAD_MODEL_FROM_GEO(MODEL_TRAJECTORY_MARKER_BALL,      bowling_ball_track_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_ABILITY_HEART,                   ability_heart_geo),
     RETURN(),
 };
 

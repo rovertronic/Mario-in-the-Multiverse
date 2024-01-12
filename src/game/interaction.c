@@ -768,6 +768,11 @@ void reset_mario_pitch(struct MarioState *m) {
 }
 
 u32 interact_coin(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
+
+    if (GET_BPARAM3(obj->oBehParams) == 0xF0) {
+        return FALSE;
+    }
+
     gMarioState->numGlobalCoins += obj->oDamageOrCoinValue;
     if (gMarioState->numGlobalCoins > 999) {gMarioState->numGlobalCoins = 999;} //CLAMP
 
@@ -956,6 +961,9 @@ u32 interact_warp(struct MarioState *m, UNUSED u32 interactType, struct Object *
 
             mario_stop_riding_object(m);
             if ((gCurrLevelNum==LEVEL_F)&&(gCurrAreaIndex==2)) { //hardcoded check for james bond level
+                return set_mario_action(m, ACT_TELEPORT_FADE_OUT, 0);
+            }
+            if (gCurrLevelNum==LEVEL_O) { //hardcoded check for walking dead level
                 return set_mario_action(m, ACT_TELEPORT_FADE_OUT, 0);
             }
             return set_mario_action(m, ACT_DISAPPEARED, (WARP_OP_WARP_OBJECT << 16) + 2);

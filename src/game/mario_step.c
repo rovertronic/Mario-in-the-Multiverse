@@ -10,6 +10,7 @@
 #include "interaction.h"
 #include "mario_step.h"
 #include "ability.h"
+#include "include/behavior_data.h"
 
 #include "config.h"
 
@@ -165,6 +166,15 @@ u32 mario_update_quicksand(struct MarioState *m, f32 sinkingSpeed) {
                 update_mario_sound_and_camera(m);
                 return drop_and_set_mario_action(m, ACT_QUICKSAND_DEATH, 0);
                 break;
+
+            case SURFACE_STAR_DOOR_WARP:;
+                f32 dist;
+                struct Object *starDoorHandler = cur_obj_find_nearest_object_with_behavior(bhvGStarDoor, &dist);
+
+                if (starDoorHandler) {
+                    starDoorHandler->oAction = 1;
+                }
+            break;
 
             default:
                 m->quicksandDepth = 0.0f;

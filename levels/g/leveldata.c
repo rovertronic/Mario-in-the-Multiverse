@@ -12,3 +12,19 @@
 
 
 #include "levels/g/leveldata.inc.c"
+
+#include "levels/g/sir_kibble/model.inc.c"
+#include "levels/g/sir_kibble/anims/data.inc.c"
+#include "levels/g/sir_kibble/anims/table.inc.c"
+#include "levels/g/star_block/model.inc.c"
+#include "levels/g/star_projectile/model.inc.c"
+#include "levels/g/checker_block_1/model.inc.c"
+#include "levels/g/checker_block_1/collision.inc.c"
+#include "levels/g/g_spring/model.inc.c"
+#include "levels/g/g_spring/collision.inc.c"
+#include "levels/g/g_cut_rock/model.inc.c"
+#include "levels/g/g_cut_rock/collision.inc.c"
+#include "levels/g/g_cut_rock2/model.inc.c"
+#include "levels/g/g_cut_rock3/model.inc.c"
+#include "levels/g/g_cannon/collision.inc.c"
+#include "levels/g/g_cannon/model.inc.c"

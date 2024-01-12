@@ -443,6 +443,42 @@ static s32 obj_resolve_object_collisions(s32 *targetYaw) {
     return FALSE;
 }
 
+static s32 obj_resolve_object_collisions_zombie(s32 *targetYaw) {
+    struct Object *otherObject;
+    f32 dx, dz;
+    s16 angle;
+    f32 radius, otherRadius, relativeRadius;
+
+    if (o->numCollidedObjs != 0) {
+        s32 i;
+        for (i = 0; i < o->numCollidedObjs; i++) {
+            otherObject = o->collidedObjs[i];
+            if (otherObject->behavior != segmented_to_virtual(bhvOZombie)) continue;
+            if (otherObject == gMarioObject) continue;
+            if (otherObject->oInteractType & INTERACT_MASK_NO_OBJ_COLLISIONS) continue;
+
+            dx = o->oPosX - otherObject->oPosX;
+            dz = o->oPosZ - otherObject->oPosZ;
+
+            radius = o->hurtboxRadius > 0 ? o->hurtboxRadius : o->hitboxRadius;
+            otherRadius = otherObject->hurtboxRadius > 0 ? otherObject->hurtboxRadius : otherObject->hitboxRadius;
+            relativeRadius = radius + otherRadius;
+
+            if ((sqr(dx) + sqr(dz)) > sqr(relativeRadius)) continue;
+            angle    = atan2s(dz, dx);
+            o->oPosX = otherObject->oPosX + (relativeRadius * sins(angle));
+            o->oPosZ = otherObject->oPosZ + (relativeRadius * coss(angle));
+
+            if (targetYaw != NULL && abs_angle_diff(o->oMoveAngleYaw, angle) < 0x4000) {
+                *targetYaw = (s16)(angle - o->oMoveAngleYaw + angle + 0x8000);
+                return TRUE;
+            }
+        }
+    }
+
+    return FALSE;
+}
+
 static s32 obj_bounce_off_walls_edges_objects(s32 *targetYaw) {
     if (o->oMoveFlags & OBJ_MOVE_HIT_WALL) {
         *targetYaw = cur_obj_reflect_move_angle_off_wall();
@@ -903,6 +939,7 @@ void obj_spit_fire(s16 relativePosX, s16 relativePosY, s16 relativePosZ, f32 sca
 #include "behaviors/reds_star_marker.inc.c"
 #include "behaviors/triplet_butterfly.inc.c"
 #include "behaviors/bubba.inc.c"
+#include "behaviors/sir_kibble.inc.c"
 
 #include "behaviors/behaviors_a.inc.c"
 #include "behaviors/behaviors_b.inc.c"

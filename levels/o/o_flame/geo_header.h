@@ -1,0 +1,10 @@
+extern const GeoLayout o_flame_geo[];
+extern Lights1 o_flame_barrelflame_lights;
+extern u8 o_flame_WorldEndFlames_ci8[];
+extern u8 o_flame_WorldEndFlames_pal_rgba16[];
+extern Vtx o_flame_Plane_mesh_layer_5_vtx_0[18];
+extern Gfx o_flame_Plane_mesh_layer_5_tri_0[];
+extern Gfx mat_o_flame_barrelflame[];
+extern Gfx mat_revert_o_flame_barrelflame[];
+extern Gfx o_flame_Plane_mesh_layer_5[];
+extern Gfx o_flame_material_revert_render_settings[];

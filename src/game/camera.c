@@ -5315,6 +5315,9 @@ u8 get_cutscene_from_mario_status(struct Camera *c) {
             case ACT_STAR_DANCE_NO_EXIT:
                 cutscene = CUTSCENE_DANCE_DEFAULT;
                 break;
+            case ACT_ABILITY_DANCE:
+                cutscene = CUTSCENE_DANCE_DEFAULT;
+                break;
         }
         switch (sMarioCamState->cameraEvent) {
             case CAM_EVENT_START_INTRO:
@@ -6455,6 +6458,9 @@ struct CameraTrigger sCamD[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger sCamN[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamH[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger sCamC[] = {
@@ -10856,7 +10862,7 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 0), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 1, 1), 
-	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 0), 
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), 
 };

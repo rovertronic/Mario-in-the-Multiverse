@@ -60,6 +60,7 @@
 #include "levels/d/header.h"
 #include "levels/i/header.h"
 #include "levels/g/header.h"
+#include "levels/h/header.h"
 #include "levels/c/header.h"
 
 #include "make_const_nonconst.h"
@@ -6178,12 +6179,14 @@ const BehaviorScript bhvLevelPipe[] = {
     END_LOOP(),
 };
 
+extern void bhv_ability(void);
 const BehaviorScript bhvAbilityUnlock[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     BILLBOARD(),
     SET_FLOAT(oGraphYOffset, 100),
     BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ability),
     END_LOOP(),
 };
 
@@ -6754,6 +6757,35 @@ const BehaviorScript bhvCutterBlade[] = {
 /* GROUP G END */
 
 /* GROUP H START */
+const BehaviorScript bhvHLoader[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    SET_INT(oNumLootCoins, 5),
+    // Whomp - common:
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, hloader_anims),
+    LOAD_COLLISION_DATA(whomp_seg6_collision_06020A0C),
+    SET_HITBOX(/*Radius*/ 200, /*Height*/ 400),//--E
+    ANIMATE(WHOMP_ANIM_WALK),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 0, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 0, /*Friction*/ 0, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_whomp_loop),
+    END_LOOP(),
+};
+
+extern void bhv_hglass_loop(void);
+const BehaviorScript bhvHGlass[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST | OBJ_FLAG_E__SG_COLLISION_BREAKABLE)),
+    LOAD_COLLISION_DATA(hglass_collision),
+    SET_FLOAT(oCollisionDistance, 3000),
+    SET_FLOAT(oDrawingDistance, 32000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_hglass_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+    BREAK(),
+};
 /* GROUP H END */
 
 /* GROUP I START */

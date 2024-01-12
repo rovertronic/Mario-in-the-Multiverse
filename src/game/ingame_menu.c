@@ -1597,18 +1597,20 @@ void print_toad_token(s16 x, s16 y) {
     }
 }
 
+
+#define HUD_RED_COIN_Y 32
 void render_pause_red_coins(void) {
     s8 x;
 
     if (gRedCoinsCollected <= 9) {
         if(gCurrCourseNum != COURSE_CCM){
             for (x = 0; x < gRedCoinsCollected; x++) {
-                print_animated_red_coin(GFX_DIMENSIONS_FROM_RIGHT_EDGE(50) - x * 20, 16);
+                print_animated_red_coin(GFX_DIMENSIONS_FROM_RIGHT_EDGE(50) - x * 20, HUD_RED_COIN_Y);
             }
         }
     }
     else {
-        print_animated_red_coin(GFX_DIMENSIONS_FROM_RIGHT_EDGE(108), 16);
+        print_animated_red_coin(GFX_DIMENSIONS_FROM_RIGHT_EDGE(108), HUD_RED_COIN_Y);
         Mtx *mtx;
 
         mtx = alloc_display_list(sizeof(*mtx));
@@ -1625,11 +1627,11 @@ void render_pause_red_coins(void) {
         }
 
         add_glyph_texture(GLYPH_MULTIPLY);
-        render_textrect(GFX_DIMENSIONS_FROM_RIGHT_EDGE(100), 16, 0);
+        render_textrect(GFX_DIMENSIONS_FROM_RIGHT_EDGE(100), HUD_RED_COIN_Y, 0);
         add_glyph_texture(char_to_glyph_index((char) (48 + (redCoinCount / 10))));
-        render_textrect(GFX_DIMENSIONS_FROM_RIGHT_EDGE(86), 16, 0);
+        render_textrect(GFX_DIMENSIONS_FROM_RIGHT_EDGE(86), HUD_RED_COIN_Y, 0);
         add_glyph_texture(char_to_glyph_index((char) (48 + (redCoinCount % 10))));
-        render_textrect(GFX_DIMENSIONS_FROM_RIGHT_EDGE(86), 16, 1);
+        render_textrect(GFX_DIMENSIONS_FROM_RIGHT_EDGE(86), HUD_RED_COIN_Y, 1);
 
         gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
     }
@@ -1982,6 +1984,7 @@ void set_ability_slot(u8 index, u8 ability_id) {
 }
 
 s32 render_pause_courses_and_castle(void) {
+    u8 question_str[] = {TEXT_QUESTION};
     s16 index;
     u8 i;
 
@@ -2061,29 +2064,35 @@ s32 render_pause_courses_and_castle(void) {
                     menu_ability_y_offset[i] = 0;
                 }
 
-                render_ability_icon(55+(i%4)*33, menu_ability_y_offset[i] + 195-((i/4)*33), gDialogTextAlpha, i);
+                u8 img = 17;
+                if (save_file_check_ability_unlocked(i) || (i==0)) {
+                    img = i;
+                }
+                render_ability_icon(55+(i%4)*33, menu_ability_y_offset[i] + 195-((i/4)*33), gDialogTextAlpha, img);
             }
 
             handle_menu_scrolling_2way(&ability_menu_x, &ability_menu_y, 0, 3);
             ability_menu_index = (ability_menu_x)+(ability_menu_y*4);
 
-            if (gPlayer1Controller->buttonPressed & U_JPAD) {
-                set_ability_slot(0, ability_menu_index);
-            }
-            if (gPlayer1Controller->buttonPressed & R_JPAD) {
-                set_ability_slot(1, ability_menu_index);
-            }
-            if (gPlayer1Controller->buttonPressed & D_JPAD) {
-                set_ability_slot(2, ability_menu_index);
-            }
-            if (gPlayer1Controller->buttonPressed & L_JPAD) {
-                set_ability_slot(3, ability_menu_index);
-            }
-            if (gPlayer1Controller->buttonPressed & A_BUTTON) {
-                menu_ability_gravity[ability_menu_index] = 2;
-                menu_ability_y_offset[ability_menu_index] = 1;
-                change_ability(ability_menu_index);
-                play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+            if (save_file_check_ability_unlocked(ability_menu_index) || (ability_menu_index == 0)) {
+                if (gPlayer1Controller->buttonPressed & U_JPAD) {
+                    set_ability_slot(0, ability_menu_index);
+                }
+                if (gPlayer1Controller->buttonPressed & R_JPAD) {
+                    set_ability_slot(1, ability_menu_index);
+                }
+                if (gPlayer1Controller->buttonPressed & D_JPAD) {
+                    set_ability_slot(2, ability_menu_index);
+                }
+                if (gPlayer1Controller->buttonPressed & L_JPAD) {
+                    set_ability_slot(3, ability_menu_index);
+                }
+                if (gPlayer1Controller->buttonPressed & A_BUTTON) {
+                    menu_ability_gravity[ability_menu_index] = 2;
+                    menu_ability_y_offset[ability_menu_index] = 1;
+                    change_ability(ability_menu_index);
+                    play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+                }
             }
 
             create_dl_translation_matrix(MENU_MTX_PUSH, 55+(ability_menu_index%4)*33, 195-((ability_menu_index/4)*33), 0);
@@ -2092,7 +2101,11 @@ s32 render_pause_courses_and_castle(void) {
 
             gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
-            print_generic_string(43, 58, ability_string(ability_menu_index));
+            if (save_file_check_ability_unlocked(ability_menu_index) || (ability_menu_index == 0)) {
+                print_generic_string(43, 58, ability_string(ability_menu_index));
+            } else {
+                print_generic_string(43, 58, question_str);
+            }
             gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 
             //print_hud_pause_colorful_str();

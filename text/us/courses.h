@@ -17,7 +17,7 @@ COURSE_ACTS(COURSE_CCM, _(" 4 MUSHROOM HAVOC"),
        _("SHOCK ROCKET CHALLENGE")             , _("???")             , _("SAVE THE CAGED TOADS"),
        _("GADGET GATE")  , _("SLICED PLUM")       , _("???"))
 
-COURSE_ACTS(COURSE_BBH, _(" 5 BIG BOO'S HAUNT"),
+COURSE_ACTS(COURSE_BBH, _(" 5 OPPORTUNITY"),
        _("GO ON A GHOST HUNT")            , _("RIDE BIG BOO'S MERRY-GO-ROUND") , _("SECRET OF THE HAUNTED BOOKS"),
        _("SEEK THE 8 RED COINS")          , _("BIG BOO'S BALCONY")             , _("EYE TO EYE IN THE SECRET ROOM"))
 

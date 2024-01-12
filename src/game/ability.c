@@ -116,7 +116,10 @@ ALIGNED8 u8 ability_images[][2048] = {
     { /*Ability M*/
     #include "actors/ability_images/custom_ability_m.rgba16.inc.c"
     },
-    {/*Locked*/
+    { /*None*/
+    #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
+    },
+    { /*Locked*/
     #include "actors/ability_images/custom_ability_locked.rgba16.inc.c"
     }
 };
@@ -179,6 +182,16 @@ void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index) {
     
     gDPSetTextureFilter(gDisplayListHead++,G_TF_BILERP);
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+}
+
+void load_ability_texture(u8 index) {
+    if (index == ABILITY_NONE) return;
+
+	gDPPipeSync(gDisplayListHead++);
+    gDPSetTextureFilter(gDisplayListHead++,G_TF_POINT);
+	gDPSetTextureImage(gDisplayListHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, &ability_images[index]);
+	gDPSetTile(gDisplayListHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0);
+	gDPLoadBlock(gDisplayListHead++,7, 0, 0, 1023, 256);
 }
 
 Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context) {
@@ -319,6 +332,53 @@ u8 ability_ready(u8 ability_id) {
     ability_cooldown_flags &= ~(1<<ability_id);
 }
 
+static struct ObjectHitbox sCollectAbilityHitbox = {
+    /* interactType:      */ INTERACT_STAR_OR_KEY,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 0,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 80,
+    /* height:            */ 80,
+    /* hurtboxRadius:     */ 0,
+    /* hurtboxHeight:     */ 0,
+};
+
+void bhv_ability(void) {
+    switch(o->oAction) {
+        case 0:
+            if (save_file_check_ability_unlocked(o->oBehParams2ndByte)) {
+/* When debugging, you should always be able to test ability collection*/
+#ifdef UNLOCK_ABILITIES_DEBUG
+                o->oAction = 1;
+                obj_set_hitbox(o, &sCollectAbilityHitbox);
+#else
+                cur_obj_hide();
+                o->oAction = 2;
+#endif
+            } else {
+                o->oAction = 1;
+                obj_set_hitbox(o, &sCollectAbilityHitbox);
+            }
+        break;
+        case 1:
+            if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+                cur_obj_hide();
+                for (int i=0;i<4;i++) {
+                    if (ability_slot[i] == ABILITY_NONE) {
+                        ability_slot[i] = o->oBehParams2ndByte;
+                        break;
+                    }
+                }
+                if (o->oBehParams2ndByte != ABILITY_MARBLE) { //hamsterball is a weird one
+                    change_ability(o->oBehParams2ndByte);
+                }
+                save_file_set_ability_dpad();
+                o->oAction = 2;
+            }
+        break;
+    }
+}
 
 //--E
 

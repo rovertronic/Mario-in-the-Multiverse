@@ -4,7 +4,7 @@
 #include "text_menu_strings.h"
 
 #define TEXT_PIPE_NOT_ENOUGH    _("Needed ★: ....")
-#define TEXT_PIPE_NO_ABILITY    _("???")
+#define TEXT_QUESTION           _("???")
 #define TEXT_PIPE_ENTER         _(" :Enter   :Cancel")
 #define TEXT_PIPE_A             _("A")
 #define TEXT_PIPE_B             _("         B")
@@ -41,6 +41,9 @@
 #define TEXT_ABILITY_M          _("Dash Booster: Allows Mario to air dash.\nPress [Z] to go up, [L] to go horizontal.\nLimit of 3 dashes per jump.")
 #define TEXT_ABILITY_N          _("Hamster Ball: A hollow ball that Mario can\nenter. Use the analog stick to roll around\nwith sphere physics!")
 #define TEXT_ABILITY_O          _("Esteemed Mortal: A walker slaying saw-axe.\nReplaces your dive with an axe jump.\nHold [B] to hop and hold [A] to jump higher.")
+
+#define TEXT_FILE_ACTIONS       _("Begin\nErase")
+#define TEXT_FILE_DELETE        _("Are you sure?\nNo\nYes")
 
 #if defined(PUPPYCAM)
 #define NC_CAMX_EN              _("Camera Sensitivity")

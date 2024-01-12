@@ -80,7 +80,7 @@ u8 hub_star_string[] = {0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,DIALOG_CHAR_TERM
 struct mitm_hub_level hub_levels[] = {
           /* Author */      /* Level */  /*Star Flags*/   /*Star Req*/  /*Start Area*/
     /*G*/ {&author_string_g, LEVEL_G,     COURSE_BOB,      0/*0 */,      3},
-    /*A*/ {&author_string_a, LEVEL_BOB,   COURSE_WF ,      0/*1 */,      1},
+    /*A*/ {&author_string_a, LEVEL_A,     COURSE_WF,       0/*1 */,      1},
     /*C*/ {&author_string_c, LEVEL_C,     COURSE_JRB,      0/*1 */,      1},
     /*I*/ {&author_string_i, LEVEL_I,     COURSE_CCM,      0/*3 */,      1},
     /*H*/ {&author_string_h, LEVEL_BOB,   COURSE_BBH,      0/*5 */,      1},
@@ -194,7 +194,7 @@ void render_mitm_hub_hud(void) {
         }
 
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hub_titlecard_alpha);
-        print_generic_string(110,25,pipe_string_enter);
+        print_generic_string(112,25,pipe_string_enter);
         gDPSetEnvColor(gDisplayListHead++, 0, 0, 255, (u8)hub_titlecard_alpha);
         print_generic_string(110,25,pipe_string_a);
         gDPSetEnvColor(gDisplayListHead++, 0, 150, 0, (u8)hub_titlecard_alpha);

@@ -850,10 +850,6 @@ s32 act_walking(struct MarioState *m) {
 
     Vec3f startPos;
     s16 startYaw = m->faceAngle[1];
-
-    if (using_ability(ABILITY_BUBBLE_HAT) && m->input & INPUT_B_PRESSED) {
-        return set_mario_action(m, ACT_BUBBLE_HAT_ATTACK, 0);
-    }
     
     mario_drop_held_object(m);
 

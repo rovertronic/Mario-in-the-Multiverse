@@ -1,0 +1,13 @@
+extern const GeoLayout bh_red_button_geo[];
+extern u8 bh_red_button__18061_ci8[];
+extern u8 bh_red_button__18061_pal_rgba16[];
+extern Vtx bh_red_button_Cube_mesh_layer_1_vtx_0[16];
+extern Gfx bh_red_button_Cube_mesh_layer_1_tri_0[];
+extern Vtx bh_red_button_Cube_mesh_layer_1_vtx_1[23];
+extern Gfx bh_red_button_Cube_mesh_layer_1_tri_1[];
+extern Gfx mat_bh_red_button_f3dlite_material_001[];
+extern Gfx mat_revert_bh_red_button_f3dlite_material_001[];
+extern Gfx mat_bh_red_button_f3dlite_material[];
+extern Gfx mat_revert_bh_red_button_f3dlite_material[];
+extern Gfx bh_red_button_Cube_mesh_layer_1[];
+extern Gfx bh_red_button_material_revert_render_settings[];

@@ -554,6 +554,28 @@ extern const BehaviorScript bhvAbilityRecoveryHeart[];
 
 
 /* GROUP A START */
+extern const BehaviorScript bhvJelly[];
+extern const BehaviorScript bhvJellyfishFieldsPlatform[];
+extern const BehaviorScript bhvTaxiStop[];
+extern const BehaviorScript bhvtsBoat[];
+extern const BehaviorScript bhvTikiBox[];
+extern const BehaviorScript bhvTramp[];
+extern const BehaviorScript bhvFloatingCheckerPlatform[];
+extern const BehaviorScript bhvKingJelly[];
+extern const BehaviorScript bhvKingJellyShock[];
+extern const BehaviorScript bhvSquidward[];
+extern const BehaviorScript bhvKKTable[];
+extern const BehaviorScript bhvKKPlatform[];
+extern const BehaviorScript bhvKKB[];
+extern const BehaviorScript bhvBhButton[];
+extern const BehaviorScript bhvBhButton2[];
+extern const BehaviorScript bhvRBridge[];
+extern const BehaviorScript bhvRPlank[];
+extern const BehaviorScript bhvGooSwitch[];
+extern const BehaviorScript bhvSpawnJellyKJ[];
+extern const BehaviorScript bhvGooDrop[];
+extern const BehaviorScript bhvAcage[];
+extern const BehaviorScript bhvKingJellyZap[];
 /* GROUP A END */
 
 /* GROUP B START */

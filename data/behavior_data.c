@@ -6253,6 +6253,257 @@ const BehaviorScript bhvDashBoosterParticle[] = {
 };
 
 /* GROUP A START */
+extern const struct Animation *const jelly_anims[];
+const BehaviorScript bhvJelly[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY)),
+    LOAD_ANIMATIONS(oAnimations, jelly_anims),
+    CALL_NATIVE(jelly_init),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(jelly_loop),
+    END_LOOP(),
+};
+
+extern const Collision jfplatform_collision[];
+const BehaviorScript bhvJellyfishFieldsPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(jfplatform_collision),
+    SET_FLOAT(oDrawingDistance, 8000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(jfplatform_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern const Collision taxistop_collision[];
+const BehaviorScript bhvTaxiStop[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(taxistop_collision),
+    SCALE(0, 200),
+    SET_FLOAT(oDrawingDistance, 30000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(taxistop_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern const struct Animation *const boat_anims[];
+const BehaviorScript bhvtsBoat[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, boat_anims),
+    ANIMATE(0),
+    SCALE(0, 200),
+    BEGIN_LOOP(),
+        CALL_NATIVE(tsboat_loop),
+    END_LOOP(),
+};
+
+extern const Collision tikibox_collision[];
+const BehaviorScript bhvTikiBox[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(tikibox_collision),
+    SCALE(0, 150),
+    CALL_NATIVE(tiki_box_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(tiki_box_loop),
+    END_LOOP(),
+};
+
+extern const Collision tramp_collision[];
+const BehaviorScript bhvTramp[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(tramp_collision),
+    SET_FLOAT(oDrawingDistance, 9000.0f),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(trampoline_loop),
+    END_LOOP(), 
+};
+
+extern const Collision floating_checker_platform_collision[];
+extern const struct Animation *const floating_checker_platform_anims[];
+const BehaviorScript bhvFloatingCheckerPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(floating_checker_platform_collision),
+    ANIMATE(0),
+    SCALE(0, 160),
+    LOAD_ANIMATIONS(oAnimations, floating_checker_platform_anims),
+    SET_FLOAT(oDrawingDistance, 8000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(fcp_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern const struct Animation *const kingjelly_anims[];
+const BehaviorScript bhvKingJelly[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    SCALE(0, 400),
+    ANIMATE(0),
+    LOAD_ANIMATIONS(oAnimations, kingjelly_anims),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(king_jelly_boss_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvKingJellyZap[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY)),//--E
+    LOAD_ANIMATIONS(oAnimations, dAmpAnimsList),
+    ANIMATE(AMP_ANIM_DEFAULT),
+    SCALE(0, 600),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvKingJellyShock[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY)),
+    SCALE(0, 120),
+    BEGIN_LOOP(),
+        //CALL_NATIVE(king_jelly_boss_shock),
+    END_LOOP(),
+};
+
+extern const struct Animation *const squidward_anims[];
+const BehaviorScript bhvSquidward[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    ANIMATE(0),
+    LOAD_ANIMATIONS(oAnimations, squidward_anims),
+    CALL_NATIVE(squidward_init),
+    SCALE(0, 230),
+    BEGIN_LOOP(),
+        CALL_NATIVE(squidward_loop),
+        SET_INT(oInteractStatus, 0),
+    END_LOOP(),
+};
+
+extern const Collision kktable_collision[];
+const BehaviorScript bhvKKTable[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(kktable_collision),
+    SCALE(0, 180),
+    CALL_NATIVE(load_object_static_model),
+    BEGIN_LOOP(),
+        //CALL_NATIVE(kktable_loop),
+    END_LOOP(),
+};
+
+extern const Collision kkb_collision[];
+const BehaviorScript bhvKKB[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(kkb_collision),
+    SCALE(0, 180),
+    CALL_NATIVE(load_object_static_model),
+    BEGIN_LOOP(),
+        //CALL_NATIVE(kktable_loop),
+    END_LOOP(),
+};
+
+extern const Collision bh_red_button_collision[];
+const BehaviorScript bhvBhButton[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(bh_red_button_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(button_for_bridge_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBhButton2[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(bh_red_button_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(button_for_bridge_loop_2),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern const Collision bhbridge_collision[];
+extern const struct Animation *const bhbridge_anims[];
+const BehaviorScript bhvRBridge[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(bhbridge_collision),
+    LOAD_ANIMATIONS(oAnimations, bhbridge_anims),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bridge_loop),
+        //CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern const Collision a_plank_collision[];
+extern const struct Animation *const a_plank_anims[];
+const BehaviorScript bhvRPlank[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, a_plank_anims),
+    ANIMATE(0),
+    LOAD_COLLISION_DATA(a_plank_collision),
+    BEGIN_LOOP(),
+        //CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bridge2_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGooSwitch[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(bh_red_button_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        //CALL_NATIVE(king_jelly_boss_goo_switch),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvSpawnJellyKJ[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_E__SG_ENEMY)),
+    LOAD_ANIMATIONS(oAnimations, jelly_anims),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+        //CALL_NATIVE(king_jelly_boss_jelly),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGooDrop[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        //CALL_NATIVE(king_jellyfish_goo_loop),
+    END_LOOP(),
+};
+
+extern const Collision a_cage_collision[];
+void a_cage_loop(void);
+const BehaviorScript bhvAcage[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ATTACHABLE_BY_ROPE)),
+    LOAD_COLLISION_DATA(a_cage_collision),
+    SET_FLOAT(oDrawingDistance, 9000.0f),
+    SET_FLOAT(oCollisionDistance, 9000.0f),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(a_cage_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(), 
+};
 /* GROUP A END */
 
 /* GROUP B START */

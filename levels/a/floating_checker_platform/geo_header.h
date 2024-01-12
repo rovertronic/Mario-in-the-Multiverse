@@ -1,0 +1,12 @@
+extern const GeoLayout floating_checker_platform_geo[];
+extern u8 floating_checker_platform_tex1_128x128_m_ca2f657301a5572d_14_ci4[];
+extern u8 floating_checker_platform_tex1_128x128_m_ca2f657301a5572d_14_pal_rgba16[];
+extern Vtx floating_checker_platform_main_mesh_layer_1_vtx_0[140];
+extern Gfx floating_checker_platform_main_mesh_layer_1_tri_0[];
+extern Vtx floating_checker_platform_spin_mesh_layer_1_vtx_0[96];
+extern Gfx floating_checker_platform_spin_mesh_layer_1_tri_0[];
+extern Gfx mat_floating_checker_platform_f3dlite_material[];
+extern Gfx mat_revert_floating_checker_platform_f3dlite_material[];
+extern Gfx floating_checker_platform_main_mesh_layer_1[];
+extern Gfx floating_checker_platform_spin_mesh_layer_1[];
+extern Gfx floating_checker_platform_material_revert_render_settings[];

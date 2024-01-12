@@ -606,6 +606,7 @@ enum GLOBAL_MODELS {
     MODEL_CONCRETE_BLOCK_CRACK2,
     MODEL_DBP,//Dash Booster Particle
     MODEL_ATTACHED_ROPE,
+    MODEL_ZAP,
 
     // Custom Mario Models
     MODEL_E__MARIO,
@@ -620,6 +621,29 @@ enum GLOBAL_MODELS {
 /* LEVEL INTRO END */
 
 /* LEVEL A START */
+#define MODEL_JELLY                               0x154
+#define MODEL_JF_PLATFORM                         0x155
+#define MODEL_TAXISTOP                            0x156
+#define MODEL_TSBOAT                              0x157
+#define MODEL_TIKI_WOOD                           0x158
+#define MODEL_TIKI_STONE                          0x159
+#define MODEL_TIKI_FLOAT                          0x15A
+#define MODEL_TRAMP                               0x15B
+#define MODEL_FLOATING_CHECKER_PLATFORM           0x15C
+#define MODEL_KING_JELLY                          0x15D
+#define MODEL_KING_JELLY_SHOCK                    0x15E
+#define MODEL_BUBBLENET_RED_BUTTON                0x15F
+#define MODEL_JELLYS                              0x154 //0x160
+// I made these objects since whenever I would export them into the level from blender the game would crash.
+// I also had an idea for the tables to move around but I dont have enough time to make that happen.
+#define MODEL_KKTABLE                             0x161
+#define MODEL_KKB                                 0x162
+#define MODEL_SQUIDWARD                           0x163
+#define MODEL_BHBRIDGE                            0x164
+#define MODEL_A_PLANK                             0x165
+#define MODEL_GOO_DROP                            0x166
+#define MODEL_A_CAGE                              0x167
+#define MODEL_PISSWAVE                            0x168
 /* LEVEL A END */
 
 /* LEVEL B START */

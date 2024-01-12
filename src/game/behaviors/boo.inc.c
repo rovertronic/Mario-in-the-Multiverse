@@ -254,7 +254,7 @@ static s32 boo_update_after_bounced_on(f32 a0) {
 }
 
 // called iff big boo nonlethally hit
-static s32 big_boo_update_during_nonlethal_hit(f32 a0) {
+s32 big_boo_update_during_nonlethal_hit(f32 a0) {
     boo_stop();
 
     if (o->oTimer == 0) {

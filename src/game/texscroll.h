@@ -4,6 +4,7 @@
 #include "src/game/texscroll/group0_texscroll.inc.h"
 #include "src/game/texscroll/g_texscroll.inc.h"
 #include "src/game/texscroll/B_texscroll.inc.h"
+#include "src/game/texscroll/a_texscroll.inc.h"
 #include "src/game/texscroll/f_texscroll.inc.h"
 #include "src/game/texscroll/i_texscroll.inc.h"
 #include "src/game/texscroll/J_texscroll.inc.h"

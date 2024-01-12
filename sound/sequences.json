@@ -190,5 +190,11 @@
     ],
     "38_level_i_ambush": [
         "0E_extended_bank"
+    ],
+    "39_jellyfish_fields": [
+        "15"
+    ],
+    "3A_jellyfish_secret":[
+        "15"
     ]
 }

@@ -127,3 +127,4 @@
 
 #include "dbp/model.inc.c"
 #include "attached_rope/model.inc.c"
+#include "bubblehat_hand/model.inc.c"

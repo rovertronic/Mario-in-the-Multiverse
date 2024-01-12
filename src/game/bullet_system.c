@@ -16,6 +16,7 @@
 #include "level_update.h"
 
 #include "ge_translation.h"
+#include "levels/B/turret_bullet/geo_header.h"
 
 
 //--MISC
@@ -42,7 +43,12 @@ static Gfx *sBulletMesh    = NULL;
 
 //-- * Spawn *
 
-
+static void bullet_b_params(struct Bullet *b) {
+	b->velF          = 100.f;
+	b->gravity       = 0.f;
+	b->hitSphereSize = 100.f;
+	b->damage        = 1;
+}
 static void bullet_f_params(struct Bullet *b) {
 	b->velF          = 0.f;
 	b->gravity       = 0.f;
@@ -103,6 +109,11 @@ Gfx *dobj_bullets(s32 callContext) {
 	switch (callContext) {
 	case GEO_CONTEXT_CREATE:
 		switch (gCurrLevelNum) {
+			case LEVEL_B:
+			sBulletParamFn = bullet_b_params;
+			sBulletMat     = mat_turret_bullet_f3dlite_material_layer7;
+			sBulletMesh    = turret_bullet_turret_bullet_mesh_layer_7_tri_0;
+			break;
 		/*
 		case LEVEL_F:
 			sBulletParamFn = bullet_f_params;
@@ -186,7 +197,8 @@ Gfx *dobj_bullets(s32 callContext) {
 					if ((m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH)
 						|| (m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR)) {
 						//deflect
-						b->yaw   =   m->faceAngle[1];
+						print_text(100, 100, "deflect", 0);
+						b->yaw   =   b->yaw+0x8000;
 						b->velY  =  -b->velY;
 						b->flags |=  BULLET_FLAG_DEFLECTED;
 
@@ -284,4 +296,22 @@ Gfx *dobj_bullets(s32 callContext) {
 	}
 
 	return NULL;
+}
+
+s32 obj_hit_by_bullet(struct Object *obj, f32 objHitSphereSize) {
+    for (s32 i = sBulletCount - 1; i >= 0; i--) {
+        f32 dist = 0.f;
+        Vec3f pos = { obj->oPosX, obj->oPosY + (obj->hitboxRadius * 0.5f), obj->oPosZ };
+        struct Bullet *b = &sBulletList[i];
+        vec3f_get_dist(pos, b->pos, &dist);
+
+        if (dist < (b->hitSphereSize + objHitSphereSize)) {
+            if (b->flags & BULLET_FLAG_DEFLECTED) {
+                return 2;
+            } else {
+                return 1;
+            }
+        }
+    }
+    return 0;
 }

@@ -1,0 +1,10 @@
+extern const GeoLayout airlock_button_geo[];
+extern Lights1 airlock_button_f3dlite_material_008_lights;
+extern u8 airlock_button_green_button_ci4[];
+extern u8 airlock_button_green_button_pal_rgba16[];
+extern Vtx airlock_button_airlock_button_mesh_layer_1_vtx_0[20];
+extern Gfx airlock_button_airlock_button_mesh_layer_1_tri_0[];
+extern Gfx mat_airlock_button_f3dlite_material_008[];
+extern Gfx mat_revert_airlock_button_f3dlite_material_008[];
+extern Gfx airlock_button_airlock_button_mesh_layer_1[];
+extern Gfx airlock_button_material_revert_render_settings[];

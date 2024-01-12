@@ -10,6 +10,7 @@
 #define BULLET_FLAG_DEFLECTED  (1 << 1)
 
 enum BulletType {
+    BULLET_B,
     BULLET_F,
     BULLET_I,
     BULLET_K,
@@ -29,5 +30,7 @@ struct Bullet {
 void dobj_spawn_bullet(Vec3f pos, s16 rX, s16 rY);
 
 Gfx *dobj_bullets(s32 callContext);
+
+s32 obj_hit_by_bullet(struct Object *obj, f32 objHitSphereSize);
 
 #endif //BULLET_SYSTEM_H

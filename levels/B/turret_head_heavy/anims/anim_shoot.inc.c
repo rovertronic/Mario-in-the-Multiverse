@@ -1,0 +1,23 @@
+static const s16 turret_head_heavy_anim_shoot_values[] = {
+	0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0xF911, 
+	0xF1EC, 0xEAAA, 0xE368, 0xDC42, 0x0000, 0xFFFF, 
+};
+
+static const u16 turret_head_heavy_anim_shoot_indices[] = {
+	0x0001, 0x0000, 0x0001, 0x0001, 0x0001, 0x0002, 0x0001, 0x0003, 0x0001, 
+	0x0004, 0x0001, 0x0005, 0x0001, 0x0006, 0x0006, 0x0007, 0x0002, 0x000D, 
+	
+};
+
+static const struct Animation turret_head_heavy_anim_shoot = {
+	0,
+	0,
+	0,
+	1,
+	6,
+	ANIMINDEX_NUMPARTS(turret_head_heavy_anim_shoot_indices),
+	turret_head_heavy_anim_shoot_values,
+	turret_head_heavy_anim_shoot_indices,
+	0,
+};
+

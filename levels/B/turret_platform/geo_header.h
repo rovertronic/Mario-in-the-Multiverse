@@ -1,0 +1,17 @@
+extern const GeoLayout turret_platform_geo[];
+extern Lights1 turret_platform_engine_edge_lights;
+extern Lights1 turret_platform_engine_floor_lights;
+extern u8 turret_platform_bioshock_edge_ci8[];
+extern u8 turret_platform_bioshock_edge_pal_rgba16[];
+extern u8 turret_platform_riveted_metal_2_ci8[];
+extern u8 turret_platform_riveted_metal_2_pal_rgba16[];
+extern Vtx turret_platform_Cube_014_mesh_layer_1_vtx_0[32];
+extern Gfx turret_platform_Cube_014_mesh_layer_1_tri_0[];
+extern Vtx turret_platform_Cube_014_mesh_layer_1_vtx_1[8];
+extern Gfx turret_platform_Cube_014_mesh_layer_1_tri_1[];
+extern Gfx mat_turret_platform_engine_edge[];
+extern Gfx mat_revert_turret_platform_engine_edge[];
+extern Gfx mat_turret_platform_engine_floor[];
+extern Gfx mat_revert_turret_platform_engine_floor[];
+extern Gfx turret_platform_Cube_014_mesh_layer_1[];
+extern Gfx turret_platform_material_revert_render_settings[];

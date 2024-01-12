@@ -31,4 +31,44 @@ extern const LevelScript level_B_entry[];
 
 #include "levels/B/debris/geo_header.h"
 
+#include "levels/B/airlock/collision_header.h"
+
+#include "levels/B/airlock/geo_header.h"
+
+#include "levels/B/airlock_button/collision_header.h"
+
+#include "levels/B/airlock_button/geo_header.h"
+
+#include "levels/B/airlock_water/collision_header.h"
+
+#include "levels/B/airlock_water/geo_header.h"
+
+#include "levels/B/little_sister/anim_header.h"
+
+#include "levels/B/bigdaddy/anim_header.h"
+
+#include "levels/B/crusher/collision_header.h"
+
+#include "levels/B/crusher/geo_header.h"
+
+#include "levels/B/turret_body/geo_header.h"
+
+#include "levels/B/turret_head/geo_header.h"
+
+#include "levels/B/turret_bullet/geo_header.h"
+
+#include "levels/B/turret_head_heavy/geo_header.h"
+
+#include "levels/B/turret_head_heavy/anim_header.h"
+
+#include "levels/B/turret_platform/collision_header.h"
+
+#include "levels/B/turret_platform/geo_header.h"
+
+#include "levels/B/turret_cover/geo_header.h"
+
+#include "levels/B/turret_cover/collision_header.h"
+
+#include "levels/B/airlock_water_collision/collision_header.h"
+
 #endif

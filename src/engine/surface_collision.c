@@ -10,7 +10,7 @@
 #include "surface_load.h"
 #include "game/puppyprint.h"
 #include "game/ability.h"
-
+Bool8 cam_submerged;
 /**************************************************
  *                      WALLS                     *
  **************************************************/
@@ -577,6 +577,28 @@ struct Surface *find_water_floor_from_list(struct SurfaceNode *surfaceNode, s32 
 f32 find_floor_height(f32 x, f32 y, f32 z) {
     struct Surface *floor;
     return find_floor(x, y, z, &floor);
+}
+
+/**
+ * made specifically to check for camera, but can be used for any coordinates
+ * uses a raycast directly upward to see if it hits SURFACE_NEW_WATER or SURFACE_NEW_WATER_BOTTOM and return accordingly
+ * as a consequence, all SURFACE_NEW_WATER surfaces must have a downward facing normal
+ * downward normals do not affect the usability of the water surface
+ */
+Bool8 is_camera_submerged(f32 xPos, f32 yPos, f32 zPos) {
+    Vec3f cameraPos = {xPos, yPos, zPos};
+    Vec3f dir = {0, 0x4000, 0};
+    struct Surface *hitSurface;
+    Vec3f hitPos = {0.f, 0.f, 0.f};
+    find_surface_on_ray(cameraPos, dir, &hitSurface, hitPos, RAYCAST_FIND_WATER);
+    if (hitSurface != NULL) {
+        if (hitSurface->type == SURFACE_NEW_WATER){
+            return TRUE; 
+        }else if (hitSurface->type == SURFACE_NEW_WATER_BOTTOM){
+            return FALSE;
+        }
+    }
+    return FALSE;
 }
 
 /**

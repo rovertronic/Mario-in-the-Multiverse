@@ -562,6 +562,19 @@ extern const BehaviorScript bhvGauge[];
 extern const BehaviorScript bhvWaterfall[];
 extern const BehaviorScript bhvWaterfallHidden[];
 extern const BehaviorScript bhvDebris[];
+extern const BehaviorScript bhvAirlock[];
+extern const BehaviorScript bhvAirlockButton[];
+extern const BehaviorScript bhvAirlockWater[];
+extern const BehaviorScript bhvBigDaddy[];
+extern const BehaviorScript bhvLittleSister[];
+extern const BehaviorScript bhvCrusher[];
+extern const BehaviorScript bhvTurretBody[];
+extern const BehaviorScript bhvTurretHead[];
+extern const BehaviorScript bhvTurretHeavy[];
+extern const BehaviorScript bhvTurretPlatform[];
+extern const BehaviorScript bhvTurretCover[];
+extern const BehaviorScript bhvTurretPanel[];
+
 /* GROUP B END */
 
 /* GROUP C START */

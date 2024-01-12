@@ -32,7 +32,7 @@
 
 #define CBUTTON_MASK (U_CBUTTONS | D_CBUTTONS | L_CBUTTONS | R_CBUTTONS)
 
-Bool8 cam_submerged;
+extern Bool8 cam_submerged;
 /**
  * @file camera.c
  * Implements the camera system, including C-button input, camera modes, camera triggers, and cutscenes.
@@ -2919,11 +2919,8 @@ void update_lakitu(struct Camera *c) {
     f32 distToFloor;
     s16 newYaw;
 
-    if (c->pos[1] < find_water_level(c->pos[0], c->pos[2])){
-        cam_submerged = TRUE;
-    } else {
-        cam_submerged = FALSE;
-    }
+    cam_submerged = is_camera_submerged(gLakituState.pos[0], gLakituState.pos[1], gLakituState.pos[2]);
+    
     if (!(gCameraMovementFlags & CAM_MOVE_PAUSE_SCREEN)) {
         newYaw = next_lakitu_state(newPos, newFoc, c->pos, c->focus, sOldPosition, sOldFocus,
                                    c->nextYaw);

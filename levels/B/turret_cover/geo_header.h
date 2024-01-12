@@ -1,0 +1,17 @@
+extern const GeoLayout turret_cover_geo[];
+extern Lights1 turret_cover_engine_floor_lights;
+extern Lights1 turret_cover_f3dlite_material_006_lights;
+extern u8 turret_cover_riveted_metal_2_ci8[];
+extern u8 turret_cover_riveted_metal_2_pal_rgba16[];
+extern u8 turret_cover_caution_ci8[];
+extern u8 turret_cover_caution_pal_rgba16[];
+extern Vtx turret_cover_turret_cover_mesh_layer_1_vtx_0[4];
+extern Gfx turret_cover_turret_cover_mesh_layer_1_tri_0[];
+extern Vtx turret_cover_turret_cover_mesh_layer_1_vtx_1[8];
+extern Gfx turret_cover_turret_cover_mesh_layer_1_tri_1[];
+extern Gfx mat_turret_cover_engine_floor[];
+extern Gfx mat_revert_turret_cover_engine_floor[];
+extern Gfx mat_turret_cover_f3dlite_material_006[];
+extern Gfx mat_revert_turret_cover_f3dlite_material_006[];
+extern Gfx turret_cover_turret_cover_mesh_layer_1[];
+extern Gfx turret_cover_material_revert_render_settings[];

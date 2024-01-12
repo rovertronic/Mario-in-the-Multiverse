@@ -1,0 +1,17 @@
+extern const GeoLayout airlock_geo[];
+extern Lights1 airlock_f3dlite_material_007_lights;
+extern Lights1 airlock_engine_edge_lights;
+extern u8 airlock_airlock_alt_ci4_ci4[];
+extern u8 airlock_airlock_alt_ci4_pal_rgba16[];
+extern u8 airlock_bioshock_edge_ci8[];
+extern u8 airlock_bioshock_edge_pal_rgba16[];
+extern Vtx airlock_Airlock_mesh_layer_1_vtx_0[25];
+extern Gfx airlock_Airlock_mesh_layer_1_tri_0[];
+extern Vtx airlock_Airlock_mesh_layer_1_vtx_1[20];
+extern Gfx airlock_Airlock_mesh_layer_1_tri_1[];
+extern Gfx mat_airlock_f3dlite_material_007[];
+extern Gfx mat_revert_airlock_f3dlite_material_007[];
+extern Gfx mat_airlock_engine_edge[];
+extern Gfx mat_revert_airlock_engine_edge[];
+extern Gfx airlock_Airlock_mesh_layer_1[];
+extern Gfx airlock_material_revert_render_settings[];

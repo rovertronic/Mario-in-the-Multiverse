@@ -59,6 +59,8 @@ s32 get_room_at_pos(f32 x, f32 y, f32 z);
 s32 find_water_level_and_floor(s32 x, s32 y, s32 z, struct Surface **pfloor);
 s32 find_water_level(s32 x, s32 z);
 s32 find_poison_gas_level(s32 x, s32 z);
+f32 find_cam_water_height(f32 x, f32 y, f32 z);
+Bool8 is_camera_submerged(f32 xPos, f32 yPos, f32 zPos);
 #ifdef VANILLA_DEBUG
 void debug_surface_list_info(f32 xPos, f32 zPos);
 #endif

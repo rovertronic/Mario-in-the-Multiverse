@@ -12,6 +12,8 @@
 #define SCRAM "scram--"
 #endif
 
+
+
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 200, _("\
 Wow! You're smack in the\n\
 middle of the battlefield.\n\
@@ -2097,3 +2099,42 @@ Arrgghh!\n\
 Anyone entering this cave\n\
 without permission will\n\
 meet certain disaster."))
+
+DEFINE_DIALOG(BIG_DADDY_HELP, 1, 5, 30, 200, _("\
+Stop right there, you're\n\
+tresspassing! Now, I might\n\
+be willing to overlook\n\
+it if you do me a favor.\n\
+\n\
+My @519cb5FFLittle Sister@--------\n\
+wandered off through this\n\
+area, and I need someone\n\
+a bit more nimble to go\n\
+retrieve her.\n\
+I'll even sweeten the\n\
+deal, if you bring her\n\
+back to me, I'll give you\n\
+a @ccb741FFPower Star@--------."))
+
+DEFINE_DIALOG(BIG_DADDY_HELP_REPEAT, 1, 2, 30, 200, _("\
+What are you waiting for?\n\
+Go find my @519cb5FFLittle Sister@--------!"))
+
+DEFINE_DIALOG(BIG_DADDY_STAR, 1, 2, 30, 200, _("\
+I was so worried, here's\n\
+your @ccb741FFPower Star@--------."))
+
+DEFINE_DIALOG(BIG_DADDY_ABILITY_TEXT, 1, 6, 30, 200, _("\
+Say, if you're looking for\n\
+more stars, you'll need\n\
+a way to @86d9d2FFbreathe underwater@--------.\n\
+Take this, it's an older\n\
+model, but it should do\n\
+the trick."))
+
+DEFINE_DIALOG(LITTLE_SISTER_TEXT, 1, 2, 30, 200, _("\
+Thanks for saving me!"))
+
+
+
+

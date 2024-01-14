@@ -1,0 +1,14 @@
+extern const GeoLayout fdynamite_geo[];
+extern u8 fdynamite_Really_Dark_metal_ci4[];
+extern u8 fdynamite_Really_Dark_metal_pal_rgba16[];
+extern u8 fdynamite_Dynamite_rgba16[];
+extern Vtx fdynamite_Dynamite__Retrieve___beginning__Timer_mesh_layer_1_vtx_0[85];
+extern Gfx fdynamite_Dynamite__Retrieve___beginning__Timer_mesh_layer_1_tri_0[];
+extern Vtx fdynamite_Dynamite__Retrieve___beginning__Timer_mesh_layer_1_vtx_1[119];
+extern Gfx fdynamite_Dynamite__Retrieve___beginning__Timer_mesh_layer_1_tri_1[];
+extern Gfx mat_fdynamite_Dark_Dark_Metal[];
+extern Gfx mat_revert_fdynamite_Dark_Dark_Metal[];
+extern Gfx mat_fdynamite_Dynamite[];
+extern Gfx mat_revert_fdynamite_Dynamite[];
+extern Gfx fdynamite_Dynamite__Retrieve___beginning__Timer_mesh_layer_1[];
+extern Gfx fdynamite_material_revert_render_settings[];

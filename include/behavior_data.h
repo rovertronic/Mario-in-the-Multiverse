@@ -616,6 +616,10 @@ extern const BehaviorScript bhvBriefcase[];
 extern const BehaviorScript bhvFdoor[];
 extern const BehaviorScript bhvKeypad[];
 extern const BehaviorScript bhvFfence[];
+extern const BehaviorScript bhvFTrinket[];
+extern const BehaviorScript bhvFblastwall[];
+extern const BehaviorScript bhvFdynamite[];
+extern const BehaviorScript bhvFSGkeypad[];
 /* GROUP F END */
 
 /* GROUP G START */

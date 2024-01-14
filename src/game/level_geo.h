@@ -23,5 +23,7 @@ Gfx *geo_skybox_main(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
 Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *context);
 Gfx *geo_update_j_invisible_path_2(s32 callContext, struct GraphNode *node, UNUSED void *context);
 Gfx *geo_update_h_sky(s32 callContext, struct GraphNode *node, UNUSED void *context);
+Gfx *geo_zbuffer_clear(s32 callContext, UNUSED struct GraphNode *node, UNUSED Mat4 *mtx);
+Gfx *geo_update_f_sky(s32 callContext, struct GraphNode *node, UNUSED void *context);
 
 #endif // LEVEL_GEO_H

@@ -10,6 +10,7 @@
 #include "level_geo.h"
 #include "level_update.h"
 #include "ability.h"
+#include "game_init.h"
 
 /**
  * Geo function that generates a displaylist for environment effects such as
@@ -203,6 +204,81 @@ Gfx *geo_update_h_sky(s32 callContext, struct GraphNode *node, UNUSED void *cont
         gSPEndDisplayList(&cool_display_list[3]);
 
         geo_append_display_list(cool_display_list, LAYER_FORCE);
+    }
+    return NULL;
+}
+
+Gfx *geo_zbuffer_clear(s32 callContext, UNUSED struct GraphNode *node, UNUSED Mat4 *mtx) {
+    Gfx *dl = NULL;
+        if (callContext == GEO_CONTEXT_RENDER) {
+            struct GraphNodeGenerated *asGenerated = (struct GraphNodeGenerated *) node;
+            Gfx *dlHead = NULL;
+            dl = alloc_display_list(13 * sizeof(*dl));
+            dlHead = dl;
+            gDPPipeSync(dlHead++);
+            gDPSetRenderMode(dlHead++, G_RM_NOOP, G_RM_NOOP2);
+            gDPSetCycleType(dlHead++, G_CYC_FILL);
+            gDPSetDepthSource(dlHead++, G_ZS_PIXEL);
+            gDPSetDepthImage(dlHead++, gPhysicalZBuffer);
+            gDPSetColorImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, gPhysicalZBuffer);
+            gDPSetFillColor(dlHead++,
+                            GPACK_ZDZ(G_MAXFBZ, 0) << 16 | GPACK_ZDZ(G_MAXFBZ, 0));
+            gDPFillRectangle(dlHead++, 0, gBorderHeight, SCREEN_WIDTH - 1,
+                            SCREEN_HEIGHT - 1 - gBorderHeight);
+            gDPPipeSync(dlHead++);
+            gDPSetCycleType(dlHead++, G_CYC_1CYCLE);
+            gDPSetColorImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH,
+                            gPhysicalFramebuffers[sRenderingFramebuffer]);
+            gDPSetScissor(dlHead++, G_SC_NON_INTERLACE, 0, gBorderHeight, SCREEN_WIDTH,
+                    SCREEN_HEIGHT - gBorderHeight);
+            gSPEndDisplayList(dlHead++);
+            SET_GRAPH_NODE_LAYER(asGenerated->fnNode.node.flags, LAYER_OPAQUE);
+    }
+    return dl;
+}
+
+//Course F skybox
+extern Gfx fsky_sky_mesh[];
+Gfx *geo_update_f_sky(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    s32 i;
+    f32 dist;
+    s32 light;
+    Vtx *vert;
+    Vec3s marioPos;
+    Gfx *dl = NULL;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        guTranslate(&cool_matrix, gLakituState.curPos[0]*.75f, gLakituState.curPos[1]*.75f, gLakituState.curPos[2]*.75f);
+        gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+        gSPDisplayList(&cool_display_list[1], segmented_to_virtual(fsky_sky_mesh));
+        gSPPopMatrix(&cool_display_list[2], G_MTX_MODELVIEW);
+        gSPEndDisplayList(&cool_display_list[3]);
+
+        geo_append_display_list(cool_display_list, LAYER_FORCE);
+
+        struct GraphNodeGenerated *asGenerated = (struct GraphNodeGenerated *) node;
+        Gfx *dlHead = NULL;
+        dl = alloc_display_list(13 * sizeof(*dl));
+        dlHead = dl;
+        gDPPipeSync(dlHead++);
+        gDPSetRenderMode(dlHead++, G_RM_NOOP, G_RM_NOOP2);
+        gDPSetCycleType(dlHead++, G_CYC_FILL);
+        gDPSetDepthSource(dlHead++, G_ZS_PIXEL);
+        gDPSetDepthImage(dlHead++, gPhysicalZBuffer);
+        gDPSetColorImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, gPhysicalZBuffer);
+        gDPSetFillColor(dlHead++,
+                        GPACK_ZDZ(G_MAXFBZ, 0) << 16 | GPACK_ZDZ(G_MAXFBZ, 0));
+        gDPFillRectangle(dlHead++, 0, gBorderHeight, SCREEN_WIDTH - 1,
+                        SCREEN_HEIGHT - 1 - gBorderHeight);
+        gDPPipeSync(dlHead++);
+        gDPSetCycleType(dlHead++, G_CYC_1CYCLE);
+        gDPSetColorImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH,
+                        gPhysicalFramebuffers[sRenderingFramebuffer]);
+        gDPSetScissor(dlHead++, G_SC_NON_INTERLACE, 0, gBorderHeight, SCREEN_WIDTH,
+                SCREEN_HEIGHT - gBorderHeight);
+        gSPEndDisplayList(dlHead++);
+        //SET_GRAPH_NODE_LAYER(asGenerated->fnNode.node.flags, LAYER_FORCE);
+        geo_append_display_list(dl, LAYER_FORCE);
     }
     return NULL;
 }

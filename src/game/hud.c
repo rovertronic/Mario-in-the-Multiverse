@@ -940,6 +940,13 @@ void render_hud(void) {
         }
 
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_TIMER) {
+
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+            create_dl_translation_matrix(MENU_MTX_PUSH, 0, -25, 0);
+            gSPDisplayList(gDisplayListHead++, &hudbar_hudbar_mesh);
+            gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+
             render_hud_timer();
         }
 

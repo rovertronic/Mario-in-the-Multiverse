@@ -1349,6 +1349,7 @@ static void update_game_sound(void) {
                         case SOUND_BANK_OBJ2:
                         case SOUND_BANK_MITM_ABILITY:
                         case SOUND_BANK_MITM_LEVEL:
+                        case SOUND_BANK_TEST_BANK:
 #if defined(VERSION_EU) || defined(VERSION_SH)
                             func_802ad770(0x05020000 | ((channelIndex & 0xff) << 8),
                                           get_sound_reverb(bank, soundIndex, channelIndex));
@@ -1517,6 +1518,7 @@ static void update_game_sound(void) {
                         case SOUND_BANK_OBJ2:
                         case SOUND_BANK_MITM_ABILITY:
                         case SOUND_BANK_MITM_LEVEL:
+                        case SOUND_BANK_TEST_BANK:
 #if defined(VERSION_EU) || defined(VERSION_SH)
                             func_802ad770(0x05020000 | ((channelIndex & 0xff) << 8),
                                           get_sound_reverb(bank, soundIndex, channelIndex));

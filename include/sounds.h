@@ -38,6 +38,7 @@ enum SoundBank {
     SOUND_BANK_OBJ2,
     SOUND_BANK_MITM_ABILITY,
     SOUND_BANK_MITM_LEVEL,
+    SOUND_BANK_TEST_BANK,
     SOUND_BANK_COUNT
 };
 
@@ -59,7 +60,8 @@ enum SoundBank {
     (1 << SOUND_BANK_VOICE) |\
     (1 << SOUND_BANK_GENERAL) |\
     (1 << SOUND_BANK_MITM_ABILITY) |\
-    (1 << SOUND_BANK_MITM_LEVEL))
+    (1 << SOUND_BANK_MITM_LEVEL)) |\
+    (1 << SOUND_BANK_TEST_BANK)
 
 /* Audio playback bitflags. */
 #define SOUND_NO_VOLUME_LOSS        0x1000000 // No volume loss with distance
@@ -635,4 +637,5 @@ enum SoundBank {
 #define SOUND_MITM_LEVEL_G_0_STAR_DOOR                            SOUND_ARG_LOAD(SOUND_BANK_MITM_LEVEL, 0x0E, 0xFF, SOUND_DISCRETE)
 
 
+#define SOUND_TEST_BANK_TEST_SOUND                                SOUND_ARG_LOAD(SOUND_BANK_TEST_BANK, 0x00, 0xFF, SOUND_DISCRETE)
 #endif // SOUNDS_H

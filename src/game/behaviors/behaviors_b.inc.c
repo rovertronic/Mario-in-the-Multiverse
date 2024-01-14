@@ -829,8 +829,11 @@ void bhv_turret_cover(void){
 void bhv_turret_panel(void){
     if (o->oDistanceToMario < 500.0f){
         o->oAction = 1;
-        obj_mark_for_deletion(o);
+        //obj_mark_for_deletion(o);
     }
+    if (gPlayer1Controller->buttonPressed & L_TRIG){
+        play_sound(SOUND_TEST_BANK_TEST_SOUND, gGlobalSoundSource);
+        }
 }
 
 

@@ -13,7 +13,8 @@
         "09",
         "0A_mario_peach",
         "0B_mitm_ability",
-        "0C_mitm_level"
+        "0C_mitm_level",
+        "28_test_bank"
     ],
     "01_cutscene_collect_star": [
         "24"

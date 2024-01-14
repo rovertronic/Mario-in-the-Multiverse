@@ -62,9 +62,9 @@ enum ObjFlags {
     OBJ_FLAG_E__SG_ENEMY                       = (1 << 24),//Used for common enemies - flattens the enemy against the surface that they were shot against, spawns their coins
     OBJ_FLAG_E__SG_BOSS                        = (1 << 25),//Used for bosses mostly. Pushes them back, if they don't take damage from being shot
     OBJ_FLAG_E__SG_BREAKABLE                   = (1 << 26),//Usually used for small static objects - creates a small breaking effect and spawns the object's contents
-    OBJ_FLAG_E__SG_COLLISION_BREAKABLE         = (1 << 27),//Used for larger objects with collision models. If oHealth is set to 0 (or has its default value of 2048), it'll break in one shot.\
-                                                            Otherwise, oHealth will determine how many shots it takes to break, and will increment its model ID by 1, to show that damage is being done to the object\
-                                                            (Load all model IDs of different states of damage in a row, going from least to most damaged)
+    OBJ_FLAG_E__SG_COLLISION_BREAKABLE         = (1 << 27),//Used for larger objects with collision models. If oHealth is set to 0 (or has its default value of 2048), it'll break in one shot.
+                                                           //Otherwise, oHealth will determine how many shots it takes to break, and will increment its model ID by 1, to show that damage is being done to the object
+                                                           //(Load all model IDs of different states of damage in a row, going from least to most damaged)
 
     /*
     Note: Objects that use either of these 'custom' flags need to reset oShotByShotgun back to 0 again after they're shot, if you want them to be able to be shot more than once.

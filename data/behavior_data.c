@@ -6682,6 +6682,49 @@ const BehaviorScript bhvFfence[] = {
         CALL_NATIVE(bhv_ffence_loop),
     END_LOOP(),
 };
+
+extern void bhv_ftrinket_loop(void);
+const BehaviorScript bhvFTrinket[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ftrinket_loop),
+    END_LOOP(),
+};
+
+extern void bhv_fblastwall_loop(void);
+const BehaviorScript bhvFblastwall[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW),//--E
+    LOAD_COLLISION_DATA(blastwall1_collision),
+    SET_FLOAT(oDrawingDistance, 25000),
+    SET_FLOAT(oCollisionDistance, 5000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_fblastwall_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void bhv_fdynamite_loop(void);
+const BehaviorScript bhvFdynamite[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_HOLDABLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    DROP_TO_FLOOR(),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_fdynamite_loop),
+    END_LOOP(),
+};
+
+extern void bhv_fsg_keypad_loop(void);
+const BehaviorScript bhvFSGkeypad[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, OBJ_FLAG_E__SG_CUSTOM),//--E
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_fsg_keypad_loop),
+    END_LOOP(),
+};
 /* GROUP F END */
 
 /* GROUP G START */

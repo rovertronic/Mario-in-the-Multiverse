@@ -45,7 +45,7 @@ struct ability {
 };
 
 extern Gfx gfx_ability_hand[2];
-extern Gfx gfx_ability_hat[2];
+extern Gfx gfx_ability_hat[3];
 extern u8 ability_slot[4];
 
 

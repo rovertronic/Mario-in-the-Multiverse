@@ -1,4 +1,7 @@
+#include "levels/f/header.h"
 #define WATCH_DISTANCE 1300.0f
+
+u8 trinkets_shot_f = 0;
 
 u32 targetable_behavior_list[] = {
     bhvFloorSwitchAnimatesObject,
@@ -13,23 +16,34 @@ u32 targetable_behavior_list[] = {
     bhvStarPieceSwitch,
     bhvKeypad,
     bhvGMarxDoor,
-    bhvWoodenLever
+    bhvWoodenLever,
+    bhvFTrinket,
+    bhvFblastwall,
+    bhvSignOnWall,
 };
 
 struct Object *find_nearest_watch_target(void) {
     //stupid ass function
     struct Object *result;
+    struct Object *closest = NULL;
+    struct Object *myself = o;
+    f32 closest_dist = WATCH_DISTANCE;
 
     for (u8 i=0; i < sizeof(targetable_behavior_list)/4; i++) {
+        //shitty hack, make this function run from mario instead of the aimer itself
+        o = gMarioObject;
         result = cur_obj_nearest_object_with_behavior(targetable_behavior_list[i]);
+        o = myself;
         if (result) {
-            if (dist_between_objects(gMarioObject,result) < WATCH_DISTANCE) {
-                return result;
+            f32 this_dist = dist_between_objects(gMarioObject,result);
+            if (this_dist < closest_dist) {
+                closest_dist = this_dist;
+                closest = result;
             }
         }
     }
 
-    return NULL;
+    return closest;
 }
 
 f32 bruh_scale = 1.0f;
@@ -109,6 +123,22 @@ void bhv_gadget_aim(void) {
                 if(target->oAction == 0){
                     target->oAction = 1;
                 }
+            } else if (target->behavior == segmented_to_virtual(bhvFTrinket)) {
+                trinkets_shot_f++;
+                cur_obj_play_sound_2(SOUND_GENERAL_BOWSER_KEY_LAND);
+                spawn_object(target,MODEL_EXPLOSION,bhvExplosionVisual);
+                mark_obj_for_deletion(target);
+
+                if (trinkets_shot_f == 3) {
+                    spawn_default_star(-1832, 484, 2022);
+                }
+            } else if (target->behavior == segmented_to_virtual(bhvFblastwall)) {
+                target->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BLASTWALL_2];
+                target->collisionData = segmented_to_virtual(blastwall2_collision);
+                target->oAction=1;
+            } else if (target->behavior == segmented_to_virtual(bhvSignOnWall)) {
+                gMarioState->usedObj = target;
+                set_mario_action(gMarioState, ACT_READING_SIGN, 0);
             }
         }
 
@@ -150,4 +180,133 @@ void bhv_ffence_loop(void) {
             }
         break;
     }
+}
+
+void bhv_ftrinket_loop(void) {
+    switch(o->oAction) {
+        case 0:
+            trinkets_shot_f = 0;
+            o->oAction++;
+        break;
+    }
+    switch(o->oBehParams2ndByte) {
+        case 0:
+            o->oPosY = o->oHomeY + sins(o->oTimer*0x200)*20.0f;
+        break;
+        case 1:
+            o->oFaceAnglePitch = sins(o->oTimer*0x200)*0x400;
+        break;
+    }
+}
+
+void bhv_fblastwall_loop(void) {
+    switch(o->oAction) {
+        case 1:
+            for (u8 i=0; i<3; i++) {
+                struct Object * boom = spawn_object(o,MODEL_EXPLOSION,bhvExplosionVisual);
+                boom->oPosX += 50.0f-random_float()*100.0f;
+                boom->oPosY += 50.0f-random_float()*100.0f;
+                boom->oPosZ += 50.0f-random_float()*100.0f;
+            }
+            if (o->oTimer > 30) {
+                o->oAction++;
+            }
+        break;
+    }
+}
+
+struct ObjectHitbox sDynamiteHitbox = {
+    /* interactType:      */ INTERACT_GRABBABLE,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 0,
+    /* health:            */ 1,
+    /* numLootCoins:      */ 0,//--E
+    /* radius:            */ 100,
+    /* height:            */ 190,
+    /* hurtboxRadius:     */ 100,
+    /* hurtboxHeight:     */ 190,
+};
+
+void bhv_fdynamite_loop(void) {    
+    switch (o->oHeldState) {
+        case HELD_FREE:
+            cur_obj_unhide();
+            cur_obj_become_tangible();
+            break;
+
+        case HELD_HELD:
+            cur_obj_hide();
+            cur_obj_become_intangible();
+            vec3f_copy(&o->oPosVec,gMarioState->pos);
+            break;
+
+        case HELD_THROWN:
+            cur_obj_unhide();
+            cur_obj_become_tangible();
+            break;
+
+        case HELD_DROPPED:
+            cur_obj_unhide();
+            cur_obj_become_tangible();
+            break;
+    }
+
+    switch(o->oAction) {
+        case 0:
+            obj_set_hitbox(o, &sDynamiteHitbox);
+            if (o->oHeldState == HELD_HELD) {
+                o->oAction = 1;
+                level_control_timer(TIMER_CONTROL_SHOW);
+                gHudDisplay.timer = 450;
+            }
+        break;
+        case 1:
+            cur_obj_play_sound_1(SOUND_AIR_BOBOMB_LIT_FUSE);
+            if (gHudDisplay.timer > 0) {
+                gHudDisplay.timer --;
+            } else {
+                struct Object * dynamite_waypoint = cur_obj_nearest_object_with_behavior(bhvStaticObject);
+                if (dynamite_waypoint && (lateral_dist_between_objects(o,dynamite_waypoint) < 400.0f)) {
+                    o->oAction = 2;
+                    spawn_default_star(o->oPosX,o->oPosY+200.0f,o->oPosZ);
+                } else {
+                    //reset
+                    mario_drop_held_object(gMarioState);
+                    o->oAction = 0;
+                    o->oHeldState = HELD_FREE;
+                    spawn_object(o,MODEL_EXPLOSION,bhvExplosion);
+                    vec3f_copy(&o->oPosVec,&o->oHomeVec);
+                    level_control_timer(TIMER_CONTROL_HIDE);
+                }
+            }
+        break;
+        case 2:
+            o->oInteractType = INT_NONE;
+            cur_obj_become_intangible();
+        break;
+    }
+
+    o->oInteractStatus = INT_STATUS_NONE;
+}
+
+struct ObjectHitbox sFSGkeypad = {
+    /* interactType:      */ INTERACT_NONE,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 0,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,//--E
+    /* radius:            */ 100,
+    /* height:            */ 100,
+    /* hurtboxRadius:     */ 100,
+    /* hurtboxHeight:     */ 100,
+};
+
+void bhv_fsg_keypad_loop(void) {
+    obj_set_hitbox(o, &sFSGkeypad);
+    if (o->oShotByShotgun > 0) {
+        play_sound(SOUND_GENERAL_BOWSER_KEY_LAND, gGlobalSoundSource);
+        gMarioState->keypad_id = o->oBehParams2ndByte;
+        mark_obj_for_deletion(o);
+    }
+    o->oInteractStatus = INT_STATUS_NONE;
 }

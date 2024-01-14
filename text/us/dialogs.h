@@ -300,6 +300,16 @@ the magic 8-ball to get\n\
 the final star of this\n\
 level."))
 
+DEFINE_DIALOG(DIALOG_F_BOND1, 1, 4, 95, 190, _("\
+Ah, Bond, a slight\n\
+oversight in our\n\
+communication. I forgot to\n\
+mention a crucial detail.\n\
+For the upcoming endeavor,\n\
+you'll require a formidable\n\
+weapon to deal with the\n\
+keypad in your path."))
+
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 190, _("\
 Wow! You're smack in the\n\
 middle of the battlefield.\n\

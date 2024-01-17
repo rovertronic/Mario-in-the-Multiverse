@@ -35,6 +35,8 @@ const LevelScript level_c_entry[] = {
 	JUMP_LINK(script_func_global_16), 
 	LOAD_MODEL_FROM_GEO(MODEL_CRANE_ARROW, crane_arrow_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_PAINT_GUN, paint_gun_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_CRANE_HEAD, crane_head_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_CRANE, crane_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -43,8 +45,9 @@ const LevelScript level_c_entry[] = {
 		WARP_NODE(/*entry*/ 0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death*/ 0xF1, LEVEL_X, /*this area*/ 0x01, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death entry*/ 0x01, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_NONE, 4729, 6014, 9275, 0, 0, 0, 0x00000000, bhvCamera),
+		OBJECT(MODEL_CRANE, 11068, 3395, 3658, 0, 0, 0, 0x00000000, bhvCrane),
 		OBJECT(MODEL_NONE, 8073, 3848, 7233, 0, 0, 0, 0x00000000, bhvCraneArrowController),
-		OBJECT(MODEL_METAL_BOX, 8091, 4126, 6533, 0, 0, 0, 0x00000000, bhvCrane),
 		OBJECT(MODEL_LEVEL_PIPE, 0, 1850, 691, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_NONE, 4041, 980, -1958, 0, 0, 0, 0x00000000, bhvFightWavesManager),
 		OBJECT(MODEL_NONE, 0, 2165, -365, 0, 0, 0, (0x01 << 16), bhvDeathWarp),
@@ -59,7 +62,7 @@ const LevelScript level_c_entry[] = {
 		OBJECT(MODEL_STAR, -9195, 548, 6641, 0, 0, 0, (2 << 24), bhvStar),
 		TERRAIN(c_area_1_collision),
 		MACRO_OBJECTS(c_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_C_SEA_ME_NOW),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

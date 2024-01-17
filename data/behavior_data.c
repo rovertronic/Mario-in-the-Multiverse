@@ -6587,6 +6587,12 @@ const BehaviorScript bhvPaintGun[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvCamera[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BREAK(),
+};
+
 /* GROUP C END */
 
 /* GROUP D START */
@@ -7079,7 +7085,7 @@ const BehaviorScript bhvBarrierAttachedToRope[] = {
 
 const BehaviorScript bhvFunkyShell[] = {
     BEGIN(OBJ_LIST_LEVEL),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)), //! Silhouette doesn't show up in-game, due to combiner modes.
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
     SET_HOME(),
     BEGIN_LOOP(),
@@ -7158,7 +7164,7 @@ const BehaviorScript bhvMasterKaag[] = {
     SET_HOME(),
     DROP_TO_FLOOR(),
     ANIMATE(0),
-    SCALE(0, 150),//SPAWN_OBJ(/*Model*/ MODEL_NONE, /*Behavior*/ bhvBobombAnchorMario),
+    SCALE(0, 150),
     SET_INT(oHealth, 3),
     SET_INT(oDamageOrCoinValue, 3),
     BEGIN_LOOP(),

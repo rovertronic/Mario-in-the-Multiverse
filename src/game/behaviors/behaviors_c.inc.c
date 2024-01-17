@@ -69,6 +69,7 @@ void bhv_crane_arrow_loop(void) {
                 cur_obj_play_sound_2(SOUND_GENERAL2_PURPLE_SWITCH);
                 o->oAction = PURPLE_SWITCH_ACT_TICKING;
                 cur_obj_shake_screen(SHAKE_POS_SMALL);
+                gLakituState.mode = CAMERA_MODE_CRANE;
 #if ENABLE_RUMBLE
                 queue_rumble_data(5, 80);
 #endif
@@ -93,6 +94,7 @@ void bhv_crane_arrow_loop(void) {
             cur_obj_scale_over_time(SCALE_AXIS_Y, 3, 0.2f, 2.0f);
             if (o->oTimer == 3) {
                 o->oAction = PURPLE_SWITCH_ACT_IDLE;
+                gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
             }
             break;
     }
@@ -100,11 +102,11 @@ void bhv_crane_arrow_loop(void) {
 }
 
 void bhv_crane_init(void) {
-    o->oObjF4 = spawn_object_relative_with_scale(0, 250, 0, 0, 0.7f, o, MODEL_METAL_BOX, bhvCraneHead);
+    o->oObjF4 = spawn_object_relative_with_scale(0, 0, 700, 3000, 1.0f, o, MODEL_CRANE_HEAD, bhvCraneHead);
 }
 
 void bhv_crane_head_loop(void) {
-    cur_obj_set_pos_relative(o->parentObj, 250, 0, 0);
+    cur_obj_set_pos_relative(o->parentObj, 0, 700, 3000);
     o->oMoveAngleYaw = o->parentObj->oMoveAngleYaw;
     o->oFaceAnglePitch += 300;
 }

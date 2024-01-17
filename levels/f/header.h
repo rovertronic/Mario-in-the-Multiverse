@@ -41,4 +41,8 @@ extern const LevelScript level_f_entry[];
 
 #include "levels/f/fsg_keypad/geo_header.h"
 
+#include "levels/f/fsky2/header.h"
+
+#include "levels/f/fhidden/geo_header.h"
+
 #endif

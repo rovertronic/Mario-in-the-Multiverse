@@ -99,8 +99,9 @@ u16 uv_light_vtx_list_sizes[] = {
     sizeof(o_dl_zuvlight_mesh_layer_5_vtx_4),
 };
 
-Gfx cool_display_list[4];
+Gfx cool_display_list[10];
 Mtx cool_matrix;
+Mtx cool_matrix_2;
 Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *context) {
     s32 i;
     f32 dist;
@@ -239,6 +240,7 @@ Gfx *geo_zbuffer_clear(s32 callContext, UNUSED struct GraphNode *node, UNUSED Ma
 
 //Course F skybox
 extern Gfx fsky_sky_mesh[];
+extern Gfx fsky2_fsky2_mesh[];
 Gfx *geo_update_f_sky(s32 callContext, struct GraphNode *node, UNUSED void *context) {
     s32 i;
     f32 dist;
@@ -248,11 +250,16 @@ Gfx *geo_update_f_sky(s32 callContext, struct GraphNode *node, UNUSED void *cont
     Gfx *dl = NULL;
 
     if (callContext == GEO_CONTEXT_RENDER) {
-        guTranslate(&cool_matrix, gLakituState.curPos[0]*.75f, gLakituState.curPos[1]*.75f, gLakituState.curPos[2]*.75f);
+        guTranslate(&cool_matrix, gLakituState.curPos[0], gLakituState.curPos[1], gLakituState.curPos[2]);
         gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
-        gSPDisplayList(&cool_display_list[1], segmented_to_virtual(fsky_sky_mesh));
+        gSPDisplayList(&cool_display_list[1], segmented_to_virtual(fsky2_fsky2_mesh));
         gSPPopMatrix(&cool_display_list[2], G_MTX_MODELVIEW);
-        gSPEndDisplayList(&cool_display_list[3]);
+
+        guTranslate(&cool_matrix_2, gLakituState.curPos[0]*.75f, gLakituState.curPos[1]*.75f, gLakituState.curPos[2]*.75f);
+        gSPMatrix(&cool_display_list[3], &cool_matrix_2, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+        gSPDisplayList(&cool_display_list[4], segmented_to_virtual(fsky_sky_mesh));
+        gSPPopMatrix(&cool_display_list[5], G_MTX_MODELVIEW);
+        gSPEndDisplayList(&cool_display_list[6]);
 
         geo_append_display_list(cool_display_list, LAYER_FORCE);
 
@@ -279,6 +286,26 @@ Gfx *geo_update_f_sky(s32 callContext, struct GraphNode *node, UNUSED void *cont
         gSPEndDisplayList(dlHead++);
         //SET_GRAPH_NODE_LAYER(asGenerated->fnNode.node.flags, LAYER_FORCE);
         geo_append_display_list(dl, LAYER_FORCE);
+    }
+    return NULL;
+}
+
+Gfx *geo_update_f_sky2(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    s32 i;
+    f32 dist;
+    s32 light;
+    Vtx *vert;
+    Vec3s marioPos;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        guTranslate(&cool_matrix, gLakituState.curPos[0], gLakituState.curPos[1], gLakituState.curPos[2]);
+
+        gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+        gSPDisplayList(&cool_display_list[1], segmented_to_virtual(fsky2_fsky2_mesh));
+        gSPPopMatrix(&cool_display_list[2], G_MTX_MODELVIEW);
+        gSPEndDisplayList(&cool_display_list[3]);
+
+        geo_append_display_list(cool_display_list, LAYER_FORCE);
     }
     return NULL;
 }

@@ -27,3 +27,4 @@
 #include "levels/f/blastwall2/geo.inc.c"
 #include "levels/f/fdynamite/geo.inc.c"
 #include "levels/f/fsg_keypad/geo.inc.c"
+#include "levels/f/fhidden/geo.inc.c"

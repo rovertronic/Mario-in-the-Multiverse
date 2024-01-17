@@ -397,6 +397,7 @@ enum BehaviorCommands {
     BC_B(BHV_CMD_SPAWN_WATER_DROPLET), \
     BC_PTR(dropletParams)
 
+extern void bhv_hidden_by_uv(void);
 
 const BehaviorScript bhvStarDoor[] = {
     BEGIN(OBJ_LIST_SURFACE),
@@ -4606,6 +4607,16 @@ const BehaviorScript bhvStar[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvUVstar[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    CALL_NATIVE(bhv_collect_star_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_hidden_by_uv),
+        CALL_NATIVE(bhv_collect_star_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvStarSpawnCoordinates[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
@@ -6647,7 +6658,7 @@ const BehaviorScript bhvGadgetAim[] = {
 const BehaviorScript bhvBriefcase[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
-    SET_HITBOX(/*Radius*/ 150, /*Height*/ 100),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 100),
     SET_INT(oIntangibleTimer, 0),
     BEGIN_LOOP(),
         ADD_INT(oFaceAngleYaw, 0x100),
@@ -6720,9 +6731,26 @@ const BehaviorScript bhvFdynamite[] = {
 extern void bhv_fsg_keypad_loop(void);
 const BehaviorScript bhvFSGkeypad[] = {
     BEGIN(OBJ_LIST_LEVEL),
-    OR_LONG(oFlags, OBJ_FLAG_E__SG_CUSTOM),//--E
+    OR_LONG(oFlags, (OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_PERSISTENT_RESPAWN)),//--E
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_fsg_keypad_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvFhidden[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_PERSISTENT_RESPAWN)),//--E
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_hidden_by_uv),
+    END_LOOP(),
+};
+
+extern void bhv_poof_on_watch(void);
+const BehaviorScript bhvPoofOnWatch[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_poof_on_watch),
     END_LOOP(),
 };
 /* GROUP F END */
@@ -7662,7 +7690,6 @@ const BehaviorScript bhvOTree[] = {
     END_LOOP(),
 };
 
-extern void bhv_hidden_by_uv(void);
 const BehaviorScript bhvOuvstar[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),

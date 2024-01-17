@@ -70,6 +70,8 @@ enum SeqId {
     SEQ_JELLYFISH_FIELDS,
     SEQ_JELLYFISH_SECRET,
     SEQ_H_GEOTHERMAL,
+    SEQ_F_FRWL,
+    SEQ_F_BOND,
     SEQ_COUNT,
 };
 

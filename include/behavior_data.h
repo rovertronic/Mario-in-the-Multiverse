@@ -620,6 +620,9 @@ extern const BehaviorScript bhvFTrinket[];
 extern const BehaviorScript bhvFblastwall[];
 extern const BehaviorScript bhvFdynamite[];
 extern const BehaviorScript bhvFSGkeypad[];
+extern const BehaviorScript bhvFhidden[];
+extern const BehaviorScript bhvUVstar[];
+extern const BehaviorScript bhvPoofOnWatch[];
 /* GROUP F END */
 
 /* GROUP G START */

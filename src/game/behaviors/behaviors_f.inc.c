@@ -232,6 +232,7 @@ void bhv_fdynamite_loop(void) {
         case HELD_FREE:
             cur_obj_unhide();
             cur_obj_become_tangible();
+            object_step();
             break;
 
         case HELD_HELD:
@@ -243,21 +244,27 @@ void bhv_fdynamite_loop(void) {
         case HELD_THROWN:
             cur_obj_unhide();
             cur_obj_become_tangible();
+            object_step();
             break;
 
         case HELD_DROPPED:
             cur_obj_unhide();
             cur_obj_become_tangible();
+            object_step();
             break;
     }
 
     switch(o->oAction) {
         case 0:
             obj_set_hitbox(o, &sDynamiteHitbox);
+            o->oGravity = 2.5f;
+            o->oFriction = 0.8f;
+            o->oBuoyancy = 1.3f;
             if (o->oHeldState == HELD_HELD) {
                 o->oAction = 1;
                 level_control_timer(TIMER_CONTROL_SHOW);
                 gHudDisplay.timer = 450;
+                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_F_BOND), 0);
             }
         break;
         case 1:
@@ -265,13 +272,18 @@ void bhv_fdynamite_loop(void) {
             if (gHudDisplay.timer > 0) {
                 gHudDisplay.timer --;
             } else {
+                stop_background_music(SEQUENCE_ARGS(4, SEQ_F_BOND));
+
                 struct Object * dynamite_waypoint = cur_obj_nearest_object_with_behavior(bhvStaticObject);
                 if (dynamite_waypoint && (lateral_dist_between_objects(o,dynamite_waypoint) < 400.0f)) {
                     o->oAction = 2;
                     spawn_default_star(o->oPosX,o->oPosY+200.0f,o->oPosZ);
                 } else {
                     //reset
-                    mario_drop_held_object(gMarioState);
+                    if (gMarioState->heldObj != NULL) {
+                        mario_drop_held_object(gMarioState);
+                        set_mario_action(gMarioState, ACT_BACKWARD_AIR_KB, 0);
+                    }
                     o->oAction = 0;
                     o->oHeldState = HELD_FREE;
                     spawn_object(o,MODEL_EXPLOSION,bhvExplosion);
@@ -309,4 +321,13 @@ void bhv_fsg_keypad_loop(void) {
         mark_obj_for_deletion(o);
     }
     o->oInteractStatus = INT_STATUS_NONE;
+}
+
+void bhv_poof_on_watch(void) {
+    u8 has_watch = using_ability(ABILITY_GADGET_WATCH);
+
+    if (o->oBehParams2ndByte != has_watch) {
+        o->oBehParams2ndByte = has_watch;
+        spawn_mist_particles();
+    }
 }

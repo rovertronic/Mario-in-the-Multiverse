@@ -29,3 +29,5 @@
 #include "levels/f/blastwall1/collision.inc.c"
 #include "levels/f/fdynamite/model.inc.c"
 #include "levels/f/fsg_keypad/model.inc.c"
+#include "levels/f/fsky2/model.inc.c"
+#include "levels/f/fhidden/model.inc.c"

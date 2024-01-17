@@ -14,6 +14,7 @@ const GeoLayout f_area_2_geo[] = {
 const GeoLayout f_dl_room1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_ASM(0, geo_update_f_sky2),
 		GEO_ASM(0, e__shotgun_effects),
 		GEO_ROTATION_NODE(LAYER_OPAQUE, 0, -180, 0),
 		GEO_ROTATION_NODE_WITH_DL(LAYER_TRANSPARENT, 90, 0, 0, f_dl_vis_mesh_layer_5),

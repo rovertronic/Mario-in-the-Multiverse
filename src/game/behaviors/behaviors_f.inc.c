@@ -169,12 +169,12 @@ void bhv_ffence_loop(void) {
     switch(o->oAction) {
         case 0:
             load_object_collision_model();
-            if (gMarioState->keypad_id == 0) {
+            if (gMarioState->keypad_id == o->oBehParams2ndByte) {
                 o->oAction ++;
             }
         break;
         case 1:
-            o->oPosY -= 15.0f;
+            o->oPosY += 15.0f;
             if (o->oTimer >= 30) {
                 o->oAction++;
             }
@@ -329,5 +329,52 @@ void bhv_poof_on_watch(void) {
     if (o->oBehParams2ndByte != has_watch) {
         o->oBehParams2ndByte = has_watch;
         spawn_mist_particles();
+    }
+}
+
+void bhv_sch_board_loop(void) {
+    switch(o->oAction) {
+        case 0:
+            o->oAction++;
+            o->oHealth = 2;
+        break;
+        case 1:
+            if (o->oHealth == 1) {
+                o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_F_SCH_BOARD_2];
+            }
+            if (o->oHealth < 1) {
+                spawn_triangle_break_particles(20, MODEL_DIRT_ANIMATION, 3.0f, 4);
+                create_sound_spawner(SOUND_GENERAL_WALL_EXPLOSION);
+                obj_mark_for_deletion(o);
+            }
+        break;
+    }
+}
+
+void bhv_f_trapdoor(void) {
+    struct Object *rocketbutton = cur_obj_nearest_object_with_behavior(bhvFRocketButtonGold);
+    switch(o->oAction) {
+        case 0: //wait for button press
+            if ((rocketbutton) && (rocketbutton->oAction > 0)) {
+                o->oAction ++;
+            }
+        break;
+        case 1://wait a second
+            if (o->oTimer > 30) {
+                play_puzzle_jingle();
+                o->oAction ++;
+            }
+        break;
+        case 2: //lower for 5 frames
+            o->oPosY -= 2.0f;
+            if (o->oTimer > 5) {
+                o->oAction++;
+            }
+        break;
+        case 3://go to side
+            if (o->oTimer < 30) {
+                o->oPosX += 7.0f;
+            }
+        break;
     }
 }

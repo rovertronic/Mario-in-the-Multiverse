@@ -623,6 +623,9 @@ extern const BehaviorScript bhvFSGkeypad[];
 extern const BehaviorScript bhvFhidden[];
 extern const BehaviorScript bhvUVstar[];
 extern const BehaviorScript bhvPoofOnWatch[];
+extern const BehaviorScript bhvFRocketButtonGold[];
+extern const BehaviorScript bhvF_SchBoard[];
+extern const BehaviorScript bhvFtrapdoor[];
 /* GROUP F END */
 
 /* GROUP G START */

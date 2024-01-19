@@ -28,3 +28,8 @@
 #include "levels/f/fdynamite/geo.inc.c"
 #include "levels/f/fsg_keypad/geo.inc.c"
 #include "levels/f/fhidden/geo.inc.c"
+#include "levels/f/fbtnoff/geo.inc.c"
+#include "levels/f/fbtnon/geo.inc.c"
+#include "levels/f/f_sch_board_1/geo.inc.c"
+#include "levels/f/f_sch_board_2/geo.inc.c"
+#include "levels/f/f_trapdoor/geo.inc.c"

@@ -33,3 +33,4 @@
 #include "levels/f/f_sch_board_1/geo.inc.c"
 #include "levels/f/f_sch_board_2/geo.inc.c"
 #include "levels/f/f_trapdoor/geo.inc.c"
+#include "levels/f/f_key/geo.inc.c"

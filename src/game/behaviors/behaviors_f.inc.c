@@ -378,3 +378,27 @@ void bhv_f_trapdoor(void) {
         break;
     }
 }
+
+void bhv_f_key(void) {
+    switch(o->oAction) {
+        case 0:
+            o->oFaceAngleYaw += 0x200;
+            if (o->oDistanceToMario < 150.0f) {
+                o->oAction = 1;
+                o->oHomeY = 1.0f;
+                //save_file_set_flags(SAVE_FLAG_HAVE_KEY_1|SAVE_FLAG_HAVE_KEY_2);
+                save_file_do_save(gCurrSaveFileNum - 1);
+                cur_obj_play_sound_2(SOUND_GENERAL_BOWSER_KEY_LAND);
+            }
+        break;
+        case 1:
+            o->oAngleVelYaw += 0x70;
+            o->oFaceAngleYaw += o->oAngleVelYaw;
+            cur_obj_scale(o->oHomeY);
+            o->oHomeY = o->oHomeY *.98f;
+            if (o->oHomeY < .2f) {
+                obj_mark_for_deletion(o);
+            }
+        break;
+    }
+}

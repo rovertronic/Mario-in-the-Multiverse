@@ -59,4 +59,6 @@ extern const LevelScript level_f_entry[];
 
 #include "levels/f/f_trapdoor/geo_header.h"
 
+#include "levels/f/f_key/geo_header.h"
+
 #endif

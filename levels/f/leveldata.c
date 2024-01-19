@@ -38,3 +38,4 @@
 #include "levels/f/f_sch_board/collision.inc.c"
 #include "levels/f/f_trapdoor/collision.inc.c"
 #include "levels/f/f_trapdoor/model.inc.c"
+#include "levels/f/f_key/model.inc.c"

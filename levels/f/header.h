@@ -45,4 +45,18 @@ extern const LevelScript level_f_entry[];
 
 #include "levels/f/fhidden/geo_header.h"
 
+#include "levels/f/fbtnoff/geo_header.h"
+
+#include "levels/f/fbtnon/geo_header.h"
+
+#include "levels/f/f_sch_board_1/geo_header.h"
+
+#include "levels/f/f_sch_board_2/geo_header.h"
+
+#include "levels/f/f_sch_board/collision_header.h"
+
+#include "levels/f/f_trapdoor/collision_header.h"
+
+#include "levels/f/f_trapdoor/geo_header.h"
+
 #endif

@@ -6689,6 +6689,7 @@ const BehaviorScript bhvFfence[] = {
     OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW),//--E
     LOAD_COLLISION_DATA(f_fence_collision),
     SET_FLOAT(oDrawingDistance, 25000),
+    SET_FLOAT(oCollisionDistance, 5000),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_ffence_loop),
     END_LOOP(),
@@ -6751,6 +6752,45 @@ const BehaviorScript bhvPoofOnWatch[] = {
     OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_poof_on_watch),
+    END_LOOP(),
+};
+
+extern void bhv_gold_button_f_init(void);
+const BehaviorScript bhvFRocketButtonGold[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW | OBJ_FLAG_E__SG_CUSTOM)),
+    SET_INT(oIntangibleTimer, 0),
+    SET_FLOAT(oDrawingDistance, 16000),
+    SET_HITBOX(/*Radius*/ 80, /*Height*/ 130),
+    //SET_FLOAT(oGraphYOffset, 65),
+    CALL_NATIVE(bhv_gold_button_f_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rocket_button_loop),
+    END_LOOP(),
+};
+
+extern void bhv_sch_board_loop(void);
+const BehaviorScript bhvF_SchBoard[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST | OBJ_FLAG_E__SG_COLLISION_BREAKABLE)),//--E
+    LOAD_COLLISION_DATA(f_sch_board_collision),
+    SET_FLOAT(oDrawingDistance, 25000),
+    SET_FLOAT(oCollisionDistance, 5000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_sch_board_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void bhv_f_trapdoor(void);
+const BehaviorScript bhvFtrapdoor[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(f_trapdoor_collision),
+    SET_FLOAT(oDrawingDistance, 25000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_trapdoor),
+        CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
 /* GROUP F END */

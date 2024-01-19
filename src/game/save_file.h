@@ -28,6 +28,7 @@ struct SaveFile {
     u16 coins; //amount of coins
     u16 abilities;
     u8 ability_dpad[4];
+    u8 level_f_flags;
     u32 flags;
 
     // Star flags for each course.

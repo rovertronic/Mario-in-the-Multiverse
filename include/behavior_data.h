@@ -626,6 +626,7 @@ extern const BehaviorScript bhvPoofOnWatch[];
 extern const BehaviorScript bhvFRocketButtonGold[];
 extern const BehaviorScript bhvF_SchBoard[];
 extern const BehaviorScript bhvFtrapdoor[];
+extern const BehaviorScript bhvFkey[];
 /* GROUP F END */
 
 /* GROUP G START */

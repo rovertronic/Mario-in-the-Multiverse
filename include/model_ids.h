@@ -688,6 +688,7 @@ enum {
 #define MODEL_F_SCH_BOARD_1 0x15F
 #define MODEL_F_SCH_BOARD_2 0x160
 #define MODEL_F_TRAPDOOR 0x161
+#define MODEL_F_KEY 0x162
 /* LEVEL F END */
 
 /* LEVEL G START */

@@ -43,7 +43,7 @@ const LevelScript level_d_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_D_TREE2, palm_tree_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_D_ELEVATOR, d_elevator_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_D_BRIDGE, d_bridge_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_D_GATE, d_gate_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_D_GATE, d_gate_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -151,7 +151,7 @@ const LevelScript level_d_entry[] = {
 		OBJECT(MODEL_NONE, -1845, 3189, -3930, 0, 0, 0, 0x00000000, bhvWaterfallSoundLoop),
 		TERRAIN(d_area_1_collision),
 		MACRO_OBJECTS(d_area_1_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_D_OVER),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
@@ -180,7 +180,7 @@ const LevelScript level_d_entry[] = {
 		OBJECT(MODEL_NONE, 866, -1802, -12, 0, 0, 0, (4 << 24), bhvHiddenRedCoinStar),
 		TERRAIN(d_area_2_collision),
 		MACRO_OBJECTS(d_area_2_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_D_UNDER),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
@@ -241,7 +241,7 @@ const LevelScript level_d_entry[] = {
 		OBJECT(MODEL_D_UKAUKA, 1161, 570, 601, 0, -90, 0, (7 << 24), bhvBigBullyWithMinions),
 		TERRAIN(d_area_3_collision),
 		MACRO_OBJECTS(d_area_3_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_D_UNDER),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

@@ -72,6 +72,8 @@ enum SeqId {
     SEQ_H_GEOTHERMAL,
     SEQ_F_FRWL,
     SEQ_F_BOND,
+    SEQ_D_OVER,
+    SEQ_D_UNDER,
     SEQ_COUNT,
 };
 

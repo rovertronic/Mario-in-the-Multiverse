@@ -6802,6 +6802,23 @@ const BehaviorScript bhvFkey[] = {
         CALL_NATIVE(bhv_f_key),
     END_LOOP(),
 };
+
+extern void bhv_f_shooter(void);
+const BehaviorScript bhvFshooter[] = {
+    BEGIN(OBJ_LIST_PUSHABLE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_ENEMY)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_shooter),
+    END_LOOP(),
+};
+
+extern void bhv_f_shooter_star(void);
+const BehaviorScript bhvFshooterStar[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_shooter_star),
+    END_LOOP(),
+};
 /* GROUP F END */
 
 /* GROUP G START */

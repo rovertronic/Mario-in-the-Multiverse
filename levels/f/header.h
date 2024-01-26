@@ -61,4 +61,8 @@ extern const LevelScript level_f_entry[];
 
 #include "levels/f/f_key/geo_header.h"
 
+#include "levels/f/f_shooter/geo_header.h"
+
+#include "levels/f/fbullet/header.h"
+
 #endif

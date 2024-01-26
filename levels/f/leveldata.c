@@ -39,3 +39,5 @@
 #include "levels/f/f_trapdoor/collision.inc.c"
 #include "levels/f/f_trapdoor/model.inc.c"
 #include "levels/f/f_key/model.inc.c"
+#include "levels/f/f_shooter/model.inc.c"
+#include "levels/f/fbullet/model.inc.c"

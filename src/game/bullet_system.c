@@ -15,6 +15,7 @@
 #include "game_init.h"
 #include "level_update.h"
 #include "levels/i/hoodmonger_bullet/geo_header.h"
+extern Gfx fbullet_Cube_mesh[];
 
 #include "ge_translation.h"
 
@@ -43,12 +44,17 @@ static Gfx *sBulletMesh    = NULL;
 
 //-- * Spawn *
 
-
-static void bullet_f_params(struct Bullet *b) {
+static void bullet_default_params(struct Bullet *b) {
 	b->velF          = 0.f;
 	b->gravity       = 0.f;
 	b->hitSphereSize = 0.f;
 	b->damage        = 0;
+}
+static void bullet_f_params(struct Bullet *b) {
+	b->velF          = 40.f;
+	b->gravity       = 0.f;
+	b->hitSphereSize = 50.f;
+	b->damage        = 2;
 }
 static void bullet_i_params(struct Bullet *b) {
 	b->velF          = 15.f;
@@ -104,13 +110,12 @@ Gfx *dobj_bullets(s32 callContext) {
 	switch (callContext) {
 	case GEO_CONTEXT_CREATE:
 		switch (gCurrLevelNum) {
-		/*
+		
 		case LEVEL_F:
 			sBulletParamFn = bullet_f_params;
-			sBulletMat     = NULL;
-			sBulletMesh    = NULL;
+			sBulletMat     = mat_e_sg_piece_mat_f3d_layer1;
+			sBulletMesh    = fbullet_Cube_mesh;
 			break;
-		*/
 		
 		case LEVEL_I:
 			sBulletParamFn = bullet_i_params;
@@ -128,7 +133,7 @@ Gfx *dobj_bullets(s32 callContext) {
 		//default DL and params, basically just to prevent crashes in case someone forgets to set their DLs,\
 		  or if bullets are spawned in a level that wasn't planned to have bullets
 		default:
-			sBulletParamFn = bullet_f_params;
+			sBulletParamFn = bullet_default_params;
 			sBulletMat     = mat_e_sg_piece_mat_f3d_layer1;
 			sBulletMesh    = e_sg_piece_piece_mesh_tri_0;
 		}

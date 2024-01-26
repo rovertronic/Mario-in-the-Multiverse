@@ -402,3 +402,94 @@ void bhv_f_key(void) {
         break;
     }
 }
+
+static struct ObjectHitbox sFshooterHitbox = {
+    /* interactType:      */ INTERACT_BOUNCE_TOP,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 1,
+    /* health:            */ 1,
+    /* numLootCoins:      */ 3,
+    /* radius:            */ 60,
+    /* height:            */ 200,
+    /* hurtboxRadius:     */ 60,
+    /* hurtboxHeight:     */ 160,
+};
+
+void bhv_f_shooter(void) {
+    u16 view_angle = ABS(o->oAngleToMario-o->oFaceAngleYaw);
+    
+    Vec3f hitPos;
+    struct Surface * surf = NULL;
+
+    Vec3f bullet_origin = //where the bullet spawns relative to the enemy
+    {o->oPosX+(sins(o->oFaceAngleYaw)*50.0f)+(sins(o->oFaceAngleYaw-0x4000)*30.0f),
+    o->oPosY+155.0f,
+    o->oPosZ+(coss(o->oFaceAngleYaw)*50.0f)+(coss(o->oFaceAngleYaw-0x4000)*30.0f)};
+
+    Vec3f ray_start = {o->oPosX,o->oPosY+100.0f,o->oPosZ};
+    Vec3f ray_vector = {gMarioState->pos[0]-o->oPosX,(gMarioState->pos[1]-o->oPosY)+100.0f,gMarioState->pos[2]-o->oPosZ};
+    if (o->oDistanceToMario < 2500.0f) {
+        find_surface_on_ray(ray_start, ray_vector, &surf, hitPos, (RAYCAST_FIND_FLOOR | RAYCAST_FIND_CEIL | RAYCAST_FIND_WALL));
+    }
+
+    switch(o->oAction) {
+        case 0:
+            o->oAction=1;
+            obj_set_hitbox(o, &sFshooterHitbox);
+            cur_obj_scale(1.5f);
+            o->oGravity = -2.0f;
+        break;
+        case 1: //patrol
+            o->oAnimState = 1; //no muzzle flash
+            if ((view_angle < 0x3000)&&(o->oDistanceToMario < 1500.0f)&&(!surf)) {
+                o->oAction = 2;
+            }
+            if (o->oShotByShotgun > 0) {
+                o->oShotByShotgun = 0;
+                o->oAction = 2;
+            }
+        break;
+        case 2: //attack
+            o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, o->oAngleToMario, 0x500);
+            o->oFaceAngleYaw = o->oMoveAngleYaw;
+
+            //fire every 5 frames and if mario's in sightlines
+            o->oAnimState = 1;
+            if ((o->oTimer % 5 == 0)&&(view_angle < 0x1500)&&(!surf)) {
+                o->oAnimState = 0;
+                cur_obj_play_sound_2(SOUND_OBJ_SNUFIT_SHOOT);
+                o->oFaceAnglePitch = -obj_turn_pitch_toward_mario(0.0f, 0x2000);
+                dobj_spawn_bullet(bullet_origin,o->oFaceAnglePitch,o->oFaceAngleYaw);
+                o->oFaceAnglePitch = 0;
+            }
+
+            if (o->oDistanceToMario > 2500.0f) {
+                o->oAction = 1; //patrol
+            }
+        break;
+    }
+
+    if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+        if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
+            spawn_mist_particles();
+            obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 20.0f);
+            obj_mark_for_deletion(o);
+        }
+    }
+
+    cur_obj_update_floor_and_walls();
+    cur_obj_move_standard(78);
+
+    o->oInteractStatus = INTERACT_NONE;
+}
+
+void bhv_f_shooter_star(void) {
+    switch(o->oAction) {
+        case 0:
+            if (!cur_obj_nearest_object_with_behavior(bhvFshooter)) {
+                spawn_default_star(o->oPosX,o->oPosY,o->oPosZ);
+                o->oAction++;
+            }
+        break;
+    }
+}

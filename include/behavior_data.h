@@ -627,6 +627,8 @@ extern const BehaviorScript bhvFRocketButtonGold[];
 extern const BehaviorScript bhvF_SchBoard[];
 extern const BehaviorScript bhvFtrapdoor[];
 extern const BehaviorScript bhvFkey[];
+extern const BehaviorScript bhvFshooter[];
+extern const BehaviorScript bhvFshooterStar[];
 /* GROUP F END */
 
 /* GROUP G START */

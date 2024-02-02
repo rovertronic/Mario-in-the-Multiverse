@@ -49,9 +49,12 @@ const LevelScript level_f_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_F_KEY, f_key_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_F_SHOOTER, f_shooter_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_F_KEYDOOR, f_keydoor_geo), 
+<<<<<<< HEAD
 	LOAD_MODEL_FROM_GEO(MODEL_CURTAINPLATFORM1, f_curtainplatform1_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_CURTAINPLATFORM2, f_curtainplatform2_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_F_MISSILES, f_missiles_geo), 
+=======
+>>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -64,6 +67,7 @@ const LevelScript level_f_entry[] = {
 		WARP_NODE(0x03, LEVEL_F, 0x02, 0x05, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x04/*lexit*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x05/*rexit*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+<<<<<<< HEAD
 		OBJECT(MODEL_NONE, -22507, 2838, -8213, 0, 0, 0, 0x00000000, bhvFBlowVent),
 		OBJECT(MODEL_NONE, -21033, 2977, -8213, 0, 0, 0, 0x00000000, bhvFBlowVent),
 		OBJECT(MODEL_NONE, -19562, 2676, -8213, 0, 0, 0, 0x00000000, bhvFBlowVent),
@@ -76,6 +80,11 @@ const LevelScript level_f_entry[] = {
 		OBJECT(MODEL_CURTAINPLATFORM1, -17357, 3246, -7917, 0, 0, 0, (3 << 16), bhvFCurtainPlatform),
 		OBJECT(MODEL_LEVEL_PIPE, -23953, 595, -7278, 0, -180, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_F_KEYPAD, -21630, 669, -7590, 0, -180, 0, (3 << 16), bhvKeypad),
+=======
+		OBJECT(MODEL_CHECKPOINT_FLAG, 1238, 2271, 7015, 0, -180, 0, (0 << 16), bhvCheckpointFlag),
+		OBJECT(MODEL_CHECKPOINT_FLAG, 1238, 2271, 6715, 0, -180, 0, (1 << 16), bhvCheckpointFlag),
+		OBJECT(MODEL_LEVEL_PIPE, -23953, 595, -7278, 0, -180, 0, 0x00000000, bhvLevelPipe),
+>>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 		OBJECT(MODEL_NONE, -23439, 919, -7278, 0, 90, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, -22470, 595, -8285, 0, 0, 0, (0x04 << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_NONE, -13677, 595, -8285, 0, 0, 0, (0x05 << 16), bhvInstantActiveWarp),
@@ -96,7 +105,14 @@ const LevelScript level_f_entry[] = {
 		OBJECT(MODEL_F_SHOOTER, -19719, 595, -6466, 0, -128, 0, 0x00000000, bhvFshooter),
 		OBJECT(MODEL_F_SHOOTER, -20243, 595, -7906, 0, 6, 0, 0x00000000, bhvFshooter),
 		OBJECT(MODEL_F_SHOOTER, -21164, 595, -7722, 0, 25, 0, 0x00000000, bhvFshooter),
+<<<<<<< HEAD
 		OBJECT(MODEL_NONE, -12209, 3245, -7854, 0, -180, 0, (5 << 24), bhvStar),
+=======
+		OBJECT(MODEL_NONE, -123, 2275, 7031, 0, -180, 0, (2 << 24), bhvStar),
+		OBJECT(MODEL_NONE, 77, 2275, 7031, 0, -180, 0, (3 << 24), bhvStar),
+		OBJECT(MODEL_NONE, 277, 2275, 7031, 0, -180, 0, (4 << 24), bhvStar),
+		OBJECT(MODEL_NONE, 477, 2275, 7031, 0, -180, 0, (5 << 24), bhvStar),
+>>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 		OBJECT(MODEL_NONE, 677, 2275, 7031, 0, -180, 0, (6 << 24), bhvStar),
 		OBJECT(MODEL_NONE, 877, 2275, 7031, 0, -180, 0, (7 << 24), bhvStar),
 		OBJECT(MODEL_NONE, -22501, 595, -8786, 0, 0, 0, (10 << 24) | (2 << 16), bhvWarp),

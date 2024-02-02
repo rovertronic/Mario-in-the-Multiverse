@@ -223,7 +223,10 @@ u32 eu_get_language(void);
 enum level_f_flag_ids {
     LEVEL_F_FLAG_TRAPDOOR,
     LEVEL_F_FLAG_KEY,
+<<<<<<< HEAD
     LEVEL_F_FLAG_MISSILE,
+=======
+>>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 };
 
 #endif // SAVE_FILE_H

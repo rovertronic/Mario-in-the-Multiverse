@@ -440,7 +440,6 @@ extern u8 f_dl_Note_ci8[];
 extern u8 f_dl_Note_pal_rgba16[];
 extern Vtx f_dl_Map_mesh_layer_1_vtx_0[6];
 extern Gfx f_dl_Map_mesh_layer_1_tri_0[];
-<<<<<<< HEAD
 extern Vtx f_dl_Map_mesh_layer_1_vtx_1[1437];
 extern Gfx f_dl_Map_mesh_layer_1_tri_1[];
 extern Vtx f_dl_Map_mesh_layer_1_vtx_2[381];
@@ -462,45 +461,17 @@ extern Gfx f_dl_Map_mesh_layer_1_tri_9[];
 extern Vtx f_dl_Map_mesh_layer_1_vtx_10[150];
 extern Gfx f_dl_Map_mesh_layer_1_tri_10[];
 extern Vtx f_dl_Map_mesh_layer_1_vtx_11[568];
-=======
-extern Vtx f_dl_Map_mesh_layer_1_vtx_1[1486];
-extern Gfx f_dl_Map_mesh_layer_1_tri_1[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_2[400];
-extern Gfx f_dl_Map_mesh_layer_1_tri_2[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_3[233];
-extern Gfx f_dl_Map_mesh_layer_1_tri_3[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_4[438];
-extern Gfx f_dl_Map_mesh_layer_1_tri_4[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_5[468];
-extern Gfx f_dl_Map_mesh_layer_1_tri_5[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_6[787];
-extern Gfx f_dl_Map_mesh_layer_1_tri_6[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_7[971];
-extern Gfx f_dl_Map_mesh_layer_1_tri_7[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_8[1072];
-extern Gfx f_dl_Map_mesh_layer_1_tri_8[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_9[224];
-extern Gfx f_dl_Map_mesh_layer_1_tri_9[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_10[160];
-extern Gfx f_dl_Map_mesh_layer_1_tri_10[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_11[602];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_Map_mesh_layer_1_tri_11[];
 extern Vtx f_dl_Map_mesh_layer_1_vtx_12[512];
 extern Gfx f_dl_Map_mesh_layer_1_tri_12[];
 extern Vtx f_dl_Map_mesh_layer_1_vtx_13[88];
 extern Gfx f_dl_Map_mesh_layer_1_tri_13[];
-<<<<<<< HEAD
 extern Vtx f_dl_Map_mesh_layer_1_vtx_14[445];
-=======
-extern Vtx f_dl_Map_mesh_layer_1_vtx_14[449];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_Map_mesh_layer_1_tri_14[];
 extern Vtx f_dl_Map_mesh_layer_1_vtx_15[256];
 extern Gfx f_dl_Map_mesh_layer_1_tri_15[];
 extern Vtx f_dl_Map_mesh_layer_1_vtx_16[48];
 extern Gfx f_dl_Map_mesh_layer_1_tri_16[];
-<<<<<<< HEAD
 extern Vtx f_dl_Map_mesh_layer_1_vtx_17[370];
 extern Gfx f_dl_Map_mesh_layer_1_tri_17[];
 extern Vtx f_dl_Map_mesh_layer_1_vtx_18[225];
@@ -546,81 +517,22 @@ extern Gfx f_dl_Map_mesh_layer_1_tri_37[];
 extern Vtx f_dl_Map_mesh_layer_1_vtx_38[477];
 extern Gfx f_dl_Map_mesh_layer_1_tri_38[];
 extern Vtx f_dl_Map_mesh_layer_1_vtx_39[125];
-=======
-extern Vtx f_dl_Map_mesh_layer_1_vtx_17[382];
-extern Gfx f_dl_Map_mesh_layer_1_tri_17[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_18[248];
-extern Gfx f_dl_Map_mesh_layer_1_tri_18[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_19[52];
-extern Gfx f_dl_Map_mesh_layer_1_tri_19[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_20[8];
-extern Gfx f_dl_Map_mesh_layer_1_tri_20[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_21[439];
-extern Gfx f_dl_Map_mesh_layer_1_tri_21[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_22[27];
-extern Gfx f_dl_Map_mesh_layer_1_tri_22[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_23[84];
-extern Gfx f_dl_Map_mesh_layer_1_tri_23[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_24[41];
-extern Gfx f_dl_Map_mesh_layer_1_tri_24[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_25[168];
-extern Gfx f_dl_Map_mesh_layer_1_tri_25[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_26[277];
-extern Gfx f_dl_Map_mesh_layer_1_tri_26[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_27[1228];
-extern Gfx f_dl_Map_mesh_layer_1_tri_27[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_28[121];
-extern Gfx f_dl_Map_mesh_layer_1_tri_28[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_29[57];
-extern Gfx f_dl_Map_mesh_layer_1_tri_29[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_30[124];
-extern Gfx f_dl_Map_mesh_layer_1_tri_30[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_31[125];
-extern Gfx f_dl_Map_mesh_layer_1_tri_31[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_32[70];
-extern Gfx f_dl_Map_mesh_layer_1_tri_32[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_33[30];
-extern Gfx f_dl_Map_mesh_layer_1_tri_33[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_34[42];
-extern Gfx f_dl_Map_mesh_layer_1_tri_34[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_35[14];
-extern Gfx f_dl_Map_mesh_layer_1_tri_35[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_36[246];
-extern Gfx f_dl_Map_mesh_layer_1_tri_36[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_37[31];
-extern Gfx f_dl_Map_mesh_layer_1_tri_37[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_38[514];
-extern Gfx f_dl_Map_mesh_layer_1_tri_38[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_39[122];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_Map_mesh_layer_1_tri_39[];
 extern Vtx f_dl_Map_mesh_layer_1_vtx_40[4];
 extern Gfx f_dl_Map_mesh_layer_1_tri_40[];
 extern Vtx f_dl_Map_mesh_layer_1_vtx_41[7];
 extern Gfx f_dl_Map_mesh_layer_1_tri_41[];
-<<<<<<< HEAD
 extern Vtx f_dl_Map_mesh_layer_1_vtx_42[88];
 extern Gfx f_dl_Map_mesh_layer_1_tri_42[];
 extern Vtx f_dl_Map_mesh_layer_1_vtx_43[27];
 extern Gfx f_dl_Map_mesh_layer_1_tri_43[];
 extern Vtx f_dl_Map_mesh_layer_1_vtx_44[155];
-=======
-extern Vtx f_dl_Map_mesh_layer_1_vtx_42[108];
-extern Gfx f_dl_Map_mesh_layer_1_tri_42[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_43[31];
-extern Gfx f_dl_Map_mesh_layer_1_tri_43[];
-extern Vtx f_dl_Map_mesh_layer_1_vtx_44[196];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_Map_mesh_layer_1_tri_44[];
 extern Vtx f_dl_Map_mesh_layer_1_vtx_45[42];
 extern Gfx f_dl_Map_mesh_layer_1_tri_45[];
 extern Vtx f_dl_Map_mesh_layer_5_vtx_0[22];
 extern Gfx f_dl_Map_mesh_layer_5_tri_0[];
-<<<<<<< HEAD
 extern Vtx f_dl_Map_mesh_layer_5_vtx_1[69];
-=======
-extern Vtx f_dl_Map_mesh_layer_5_vtx_1[71];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_Map_mesh_layer_5_tri_1[];
 extern Vtx f_dl_Map_mesh_layer_5_vtx_2[4];
 extern Gfx f_dl_Map_mesh_layer_5_tri_2[];
@@ -634,7 +546,6 @@ extern Vtx f_dl_Map_mesh_layer_2_vtx_1[12];
 extern Gfx f_dl_Map_mesh_layer_2_tri_1[];
 extern Vtx f_dl_Map_mesh_layer_6_vtx_0[80];
 extern Gfx f_dl_Map_mesh_layer_6_tri_0[];
-<<<<<<< HEAD
 extern Vtx f_dl_vis_mesh_layer_5_vtx_0[244];
 extern Gfx f_dl_vis_mesh_layer_5_tri_0[];
 extern Vtx f_dl_vis_mesh_layer_5_vtx_1[74];
@@ -642,15 +553,6 @@ extern Gfx f_dl_vis_mesh_layer_5_tri_1[];
 extern Vtx f_dl_vis_mesh_layer_5_vtx_2[26];
 extern Gfx f_dl_vis_mesh_layer_5_tri_2[];
 extern Vtx f_dl_vis_mesh_layer_5_vtx_3[1376];
-=======
-extern Vtx f_dl_vis_mesh_layer_5_vtx_0[246];
-extern Gfx f_dl_vis_mesh_layer_5_tri_0[];
-extern Vtx f_dl_vis_mesh_layer_5_vtx_1[80];
-extern Gfx f_dl_vis_mesh_layer_5_tri_1[];
-extern Vtx f_dl_vis_mesh_layer_5_vtx_2[26];
-extern Gfx f_dl_vis_mesh_layer_5_tri_2[];
-extern Vtx f_dl_vis_mesh_layer_5_vtx_3[1440];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_vis_mesh_layer_5_tri_3[];
 extern Vtx f_dl_vis_mesh_layer_5_vtx_4[384];
 extern Gfx f_dl_vis_mesh_layer_5_tri_4[];
@@ -658,7 +560,6 @@ extern Vtx f_dl_vis_mesh_layer_5_vtx_5[120];
 extern Gfx f_dl_vis_mesh_layer_5_tri_5[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_0[152];
 extern Gfx f_dl_vis_mesh_layer_1_tri_0[];
-<<<<<<< HEAD
 extern Vtx f_dl_vis_mesh_layer_1_vtx_1[495];
 extern Gfx f_dl_vis_mesh_layer_1_tri_1[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_2[254];
@@ -676,25 +577,6 @@ extern Gfx f_dl_vis_mesh_layer_1_tri_7[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_8[263];
 extern Gfx f_dl_vis_mesh_layer_1_tri_8[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_9[34];
-=======
-extern Vtx f_dl_vis_mesh_layer_1_vtx_1[503];
-extern Gfx f_dl_vis_mesh_layer_1_tri_1[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_2[253];
-extern Gfx f_dl_vis_mesh_layer_1_tri_2[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_3[252];
-extern Gfx f_dl_vis_mesh_layer_1_tri_3[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_4[114];
-extern Gfx f_dl_vis_mesh_layer_1_tri_4[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_5[130];
-extern Gfx f_dl_vis_mesh_layer_1_tri_5[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_6[80];
-extern Gfx f_dl_vis_mesh_layer_1_tri_6[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_7[16];
-extern Gfx f_dl_vis_mesh_layer_1_tri_7[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_8[266];
-extern Gfx f_dl_vis_mesh_layer_1_tri_8[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_9[35];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_vis_mesh_layer_1_tri_9[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_10[8];
 extern Gfx f_dl_vis_mesh_layer_1_tri_10[];
@@ -704,7 +586,6 @@ extern Vtx f_dl_vis_mesh_layer_1_vtx_12[35];
 extern Gfx f_dl_vis_mesh_layer_1_tri_12[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_13[8];
 extern Gfx f_dl_vis_mesh_layer_1_tri_13[];
-<<<<<<< HEAD
 extern Vtx f_dl_vis_mesh_layer_1_vtx_14[64];
 extern Gfx f_dl_vis_mesh_layer_1_tri_14[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_15[52];
@@ -716,45 +597,23 @@ extern Gfx f_dl_vis_mesh_layer_1_tri_17[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_18[791];
 extern Gfx f_dl_vis_mesh_layer_1_tri_18[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_19[373];
-=======
-extern Vtx f_dl_vis_mesh_layer_1_vtx_14[72];
-extern Gfx f_dl_vis_mesh_layer_1_tri_14[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_15[60];
-extern Gfx f_dl_vis_mesh_layer_1_tri_15[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_16[52];
-extern Gfx f_dl_vis_mesh_layer_1_tri_16[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_17[12];
-extern Gfx f_dl_vis_mesh_layer_1_tri_17[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_18[883];
-extern Gfx f_dl_vis_mesh_layer_1_tri_18[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_19[377];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_vis_mesh_layer_1_tri_19[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_20[12];
 extern Gfx f_dl_vis_mesh_layer_1_tri_20[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_21[20];
 extern Gfx f_dl_vis_mesh_layer_1_tri_21[];
-<<<<<<< HEAD
 extern Vtx f_dl_vis_mesh_layer_1_vtx_22[132];
-=======
-extern Vtx f_dl_vis_mesh_layer_1_vtx_22[139];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_vis_mesh_layer_1_tri_22[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_23[424];
 extern Gfx f_dl_vis_mesh_layer_1_tri_23[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_24[13];
 extern Gfx f_dl_vis_mesh_layer_1_tri_24[];
-<<<<<<< HEAD
 extern Vtx f_dl_vis_mesh_layer_1_vtx_25[584];
-=======
-extern Vtx f_dl_vis_mesh_layer_1_vtx_25[607];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_vis_mesh_layer_1_tri_25[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_26[86];
 extern Gfx f_dl_vis_mesh_layer_1_tri_26[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_27[24];
 extern Gfx f_dl_vis_mesh_layer_1_tri_27[];
-<<<<<<< HEAD
 extern Vtx f_dl_vis_mesh_layer_1_vtx_28[60];
 extern Gfx f_dl_vis_mesh_layer_1_tri_28[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_29[18];
@@ -766,19 +625,6 @@ extern Gfx f_dl_vis_mesh_layer_1_tri_31[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_32[12];
 extern Gfx f_dl_vis_mesh_layer_1_tri_32[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_33[98];
-=======
-extern Vtx f_dl_vis_mesh_layer_1_vtx_28[71];
-extern Gfx f_dl_vis_mesh_layer_1_tri_28[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_29[18];
-extern Gfx f_dl_vis_mesh_layer_1_tri_29[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_30[28];
-extern Gfx f_dl_vis_mesh_layer_1_tri_30[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_31[60];
-extern Gfx f_dl_vis_mesh_layer_1_tri_31[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_32[12];
-extern Gfx f_dl_vis_mesh_layer_1_tri_32[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_33[99];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_vis_mesh_layer_1_tri_33[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_34[704];
 extern Gfx f_dl_vis_mesh_layer_1_tri_34[];
@@ -806,19 +652,11 @@ extern Vtx f_dl_vis_mesh_layer_1_vtx_45[252];
 extern Gfx f_dl_vis_mesh_layer_1_tri_45[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_46[40];
 extern Gfx f_dl_vis_mesh_layer_1_tri_46[];
-<<<<<<< HEAD
 extern Vtx f_dl_vis_mesh_layer_1_vtx_47[738];
 extern Gfx f_dl_vis_mesh_layer_1_tri_47[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_48[393];
 extern Gfx f_dl_vis_mesh_layer_1_tri_48[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_49[200];
-=======
-extern Vtx f_dl_vis_mesh_layer_1_vtx_47[754];
-extern Gfx f_dl_vis_mesh_layer_1_tri_47[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_48[444];
-extern Gfx f_dl_vis_mesh_layer_1_tri_48[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_49[220];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_vis_mesh_layer_1_tri_49[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_50[18];
 extern Gfx f_dl_vis_mesh_layer_1_tri_50[];
@@ -826,17 +664,12 @@ extern Vtx f_dl_vis_mesh_layer_1_vtx_51[28];
 extern Gfx f_dl_vis_mesh_layer_1_tri_51[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_52[20];
 extern Gfx f_dl_vis_mesh_layer_1_tri_52[];
-<<<<<<< HEAD
 extern Vtx f_dl_vis_mesh_layer_1_vtx_53[20];
-=======
-extern Vtx f_dl_vis_mesh_layer_1_vtx_53[24];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_vis_mesh_layer_1_tri_53[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_54[18];
 extern Gfx f_dl_vis_mesh_layer_1_tri_54[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_55[12];
 extern Gfx f_dl_vis_mesh_layer_1_tri_55[];
-<<<<<<< HEAD
 extern Vtx f_dl_vis_mesh_layer_1_vtx_56[369];
 extern Gfx f_dl_vis_mesh_layer_1_tri_56[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_57[15];
@@ -848,19 +681,6 @@ extern Gfx f_dl_vis_mesh_layer_1_tri_59[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_60[40];
 extern Gfx f_dl_vis_mesh_layer_1_tri_60[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_61[238];
-=======
-extern Vtx f_dl_vis_mesh_layer_1_vtx_56[421];
-extern Gfx f_dl_vis_mesh_layer_1_tri_56[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_57[15];
-extern Gfx f_dl_vis_mesh_layer_1_tri_57[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_58[38];
-extern Gfx f_dl_vis_mesh_layer_1_tri_58[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_59[392];
-extern Gfx f_dl_vis_mesh_layer_1_tri_59[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_60[40];
-extern Gfx f_dl_vis_mesh_layer_1_tri_60[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_61[248];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_vis_mesh_layer_1_tri_61[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_62[16];
 extern Gfx f_dl_vis_mesh_layer_1_tri_62[];
@@ -878,19 +698,11 @@ extern Vtx f_dl_vis_mesh_layer_1_vtx_68[8];
 extern Gfx f_dl_vis_mesh_layer_1_tri_68[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_69[4];
 extern Gfx f_dl_vis_mesh_layer_1_tri_69[];
-<<<<<<< HEAD
 extern Vtx f_dl_vis_mesh_layer_1_vtx_70[151];
 extern Gfx f_dl_vis_mesh_layer_1_tri_70[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_71[40];
 extern Gfx f_dl_vis_mesh_layer_1_tri_71[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_72[40];
-=======
-extern Vtx f_dl_vis_mesh_layer_1_vtx_70[165];
-extern Gfx f_dl_vis_mesh_layer_1_tri_70[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_71[40];
-extern Gfx f_dl_vis_mesh_layer_1_tri_71[];
-extern Vtx f_dl_vis_mesh_layer_1_vtx_72[45];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_vis_mesh_layer_1_tri_72[];
 extern Vtx f_dl_vis_mesh_layer_1_vtx_73[442];
 extern Gfx f_dl_vis_mesh_layer_1_tri_73[];
@@ -900,31 +712,20 @@ extern Vtx f_dl_vis_mesh_layer_2_vtx_1[64];
 extern Gfx f_dl_vis_mesh_layer_2_tri_1[];
 extern Vtx f_dl_vis_mesh_layer_4_vtx_0[34];
 extern Gfx f_dl_vis_mesh_layer_4_tri_0[];
-<<<<<<< HEAD
 extern Vtx f_dl_vis_mesh_layer_4_vtx_1[104];
-=======
-extern Vtx f_dl_vis_mesh_layer_4_vtx_1[100];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_vis_mesh_layer_4_tri_1[];
 extern Vtx f_dl_vis_mesh_layer_4_vtx_2[460];
 extern Gfx f_dl_vis_mesh_layer_4_tri_2[];
 extern Vtx f_dl_vis_mesh_layer_6_vtx_0[4];
 extern Gfx f_dl_vis_mesh_layer_6_tri_0[];
-<<<<<<< HEAD
 extern Vtx f_dl_visr2_mesh_layer_5_vtx_0[244];
 extern Gfx f_dl_visr2_mesh_layer_5_tri_0[];
 extern Vtx f_dl_visr2_mesh_layer_5_vtx_1[263];
-=======
-extern Vtx f_dl_visr2_mesh_layer_5_vtx_0[246];
-extern Gfx f_dl_visr2_mesh_layer_5_tri_0[];
-extern Vtx f_dl_visr2_mesh_layer_5_vtx_1[266];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_visr2_mesh_layer_5_tri_1[];
 extern Vtx f_dl_visr2_mesh_layer_5_vtx_2[35];
 extern Gfx f_dl_visr2_mesh_layer_5_tri_2[];
 extern Vtx f_dl_visr2_mesh_layer_5_vtx_3[8];
 extern Gfx f_dl_visr2_mesh_layer_5_tri_3[];
-<<<<<<< HEAD
 extern Vtx f_dl_visr2_mesh_layer_5_vtx_4[64];
 extern Gfx f_dl_visr2_mesh_layer_5_tri_4[];
 extern Vtx f_dl_visr2_mesh_layer_5_vtx_5[12];
@@ -934,17 +735,6 @@ extern Gfx f_dl_visr2_mesh_layer_5_tri_6[];
 extern Vtx f_dl_visr2_mesh_layer_5_vtx_7[26];
 extern Gfx f_dl_visr2_mesh_layer_5_tri_7[];
 extern Vtx f_dl_visr2_mesh_layer_5_vtx_8[1376];
-=======
-extern Vtx f_dl_visr2_mesh_layer_5_vtx_4[72];
-extern Gfx f_dl_visr2_mesh_layer_5_tri_4[];
-extern Vtx f_dl_visr2_mesh_layer_5_vtx_5[12];
-extern Gfx f_dl_visr2_mesh_layer_5_tri_5[];
-extern Vtx f_dl_visr2_mesh_layer_5_vtx_6[80];
-extern Gfx f_dl_visr2_mesh_layer_5_tri_6[];
-extern Vtx f_dl_visr2_mesh_layer_5_vtx_7[26];
-extern Gfx f_dl_visr2_mesh_layer_5_tri_7[];
-extern Vtx f_dl_visr2_mesh_layer_5_vtx_8[1440];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_visr2_mesh_layer_5_tri_8[];
 extern Vtx f_dl_visr2_mesh_layer_5_vtx_9[384];
 extern Gfx f_dl_visr2_mesh_layer_5_tri_9[];
@@ -952,7 +742,6 @@ extern Vtx f_dl_visr2_mesh_layer_5_vtx_10[120];
 extern Gfx f_dl_visr2_mesh_layer_5_tri_10[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_0[152];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_0[];
-<<<<<<< HEAD
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_1[495];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_1[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_2[254];
@@ -968,29 +757,11 @@ extern Gfx f_dl_visr2_mesh_layer_1_tri_6[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_7[16];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_7[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_8[34];
-=======
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_1[503];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_1[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_2[253];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_2[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_3[252];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_3[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_4[114];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_4[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_5[130];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_5[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_6[80];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_6[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_7[16];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_7[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_8[35];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_visr2_mesh_layer_1_tri_8[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_9[8];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_9[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_10[8];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_10[];
-<<<<<<< HEAD
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_11[52];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_11[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_12[48];
@@ -998,41 +769,23 @@ extern Gfx f_dl_visr2_mesh_layer_1_tri_12[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_13[791];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_13[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_14[373];
-=======
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_11[60];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_11[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_12[52];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_12[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_13[883];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_13[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_14[377];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_visr2_mesh_layer_1_tri_14[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_15[12];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_15[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_16[20];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_16[];
-<<<<<<< HEAD
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_17[132];
-=======
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_17[139];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_visr2_mesh_layer_1_tri_17[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_18[424];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_18[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_19[13];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_19[];
-<<<<<<< HEAD
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_20[584];
-=======
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_20[607];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_visr2_mesh_layer_1_tri_20[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_21[86];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_21[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_22[24];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_22[];
-<<<<<<< HEAD
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_23[60];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_23[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_24[18];
@@ -1044,19 +797,6 @@ extern Gfx f_dl_visr2_mesh_layer_1_tri_26[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_27[12];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_27[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_28[98];
-=======
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_23[71];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_23[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_24[18];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_24[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_25[28];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_25[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_26[60];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_26[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_27[12];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_27[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_28[99];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_visr2_mesh_layer_1_tri_28[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_29[704];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_29[];
@@ -1084,19 +824,11 @@ extern Vtx f_dl_visr2_mesh_layer_1_vtx_40[252];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_40[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_41[40];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_41[];
-<<<<<<< HEAD
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_42[738];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_42[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_43[393];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_43[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_44[200];
-=======
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_42[754];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_42[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_43[444];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_43[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_44[220];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_visr2_mesh_layer_1_tri_44[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_45[18];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_45[];
@@ -1104,17 +836,12 @@ extern Vtx f_dl_visr2_mesh_layer_1_vtx_46[28];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_46[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_47[20];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_47[];
-<<<<<<< HEAD
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_48[20];
-=======
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_48[24];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_visr2_mesh_layer_1_tri_48[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_49[18];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_49[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_50[12];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_50[];
-<<<<<<< HEAD
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_51[369];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_51[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_52[15];
@@ -1126,19 +853,6 @@ extern Gfx f_dl_visr2_mesh_layer_1_tri_54[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_55[40];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_55[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_56[238];
-=======
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_51[421];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_51[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_52[15];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_52[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_53[38];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_53[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_54[392];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_54[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_55[40];
-extern Gfx f_dl_visr2_mesh_layer_1_tri_55[];
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_56[248];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_visr2_mesh_layer_1_tri_56[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_57[16];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_57[];
@@ -1156,11 +870,7 @@ extern Vtx f_dl_visr2_mesh_layer_1_vtx_63[8];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_63[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_64[4];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_64[];
-<<<<<<< HEAD
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_65[151];
-=======
-extern Vtx f_dl_visr2_mesh_layer_1_vtx_65[165];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_visr2_mesh_layer_1_tri_65[];
 extern Vtx f_dl_visr2_mesh_layer_1_vtx_66[40];
 extern Gfx f_dl_visr2_mesh_layer_1_tri_66[];
@@ -1170,17 +880,12 @@ extern Vtx f_dl_visr2_mesh_layer_2_vtx_1[64];
 extern Gfx f_dl_visr2_mesh_layer_2_tri_1[];
 extern Vtx f_dl_visr2_mesh_layer_4_vtx_0[34];
 extern Gfx f_dl_visr2_mesh_layer_4_tri_0[];
-<<<<<<< HEAD
 extern Vtx f_dl_visr2_mesh_layer_4_vtx_1[104];
-=======
-extern Vtx f_dl_visr2_mesh_layer_4_vtx_1[100];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_visr2_mesh_layer_4_tri_1[];
 extern Vtx f_dl_visr2_mesh_layer_4_vtx_2[460];
 extern Gfx f_dl_visr2_mesh_layer_4_tri_2[];
 extern Vtx f_dl_visr2_mesh_layer_6_vtx_0[4];
 extern Gfx f_dl_visr2_mesh_layer_6_tri_0[];
-<<<<<<< HEAD
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_0[973];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_0[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_1[651];
@@ -1212,45 +917,11 @@ extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_13[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_14[1279];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_14[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_15[24];
-=======
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_0[1011];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_0[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_1[652];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_1[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_2[116];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_2[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_3[663];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_3[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_4[92];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_4[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_5[262];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_5[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_6[156];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_6[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_7[10];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_7[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_8[66];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_8[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_9[120];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_9[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_10[54];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_10[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_11[103];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_11[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_12[32];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_12[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_13[70];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_13[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_14[1457];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_14[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_15[26];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_15[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_16[32];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_16[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_17[48];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_17[];
-<<<<<<< HEAD
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_18[186];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_18[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_19[68];
@@ -1278,41 +949,11 @@ extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_29[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_30[150];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_30[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_31[44];
-=======
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_18[188];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_18[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_19[70];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_19[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_20[79];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_20[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_21[32];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_21[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_22[12];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_22[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_23[81];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_23[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_24[24];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_24[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_25[40];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_25[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_26[55];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_26[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_27[26];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_27[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_28[173];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_28[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_29[101];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_29[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_30[168];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_30[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_31[46];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_31[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_32[20];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_32[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_33[12];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_33[];
-<<<<<<< HEAD
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_34[216];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_34[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_35[156];
@@ -1322,23 +963,11 @@ extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_36[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_37[141];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_37[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_38[638];
-=======
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_34[222];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_34[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_35[140];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_35[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_36[140];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_36[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_37[140];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_37[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_38[645];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_38[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_39[100];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_39[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_40[120];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_40[];
-<<<<<<< HEAD
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_41[78];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_41[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_42[70];
@@ -1366,35 +995,6 @@ extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_52[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_53[560];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_53[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_54[67];
-=======
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_41[76];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_41[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_42[76];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_42[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_43[40];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_43[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_44[150];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_44[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_45[58];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_45[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_46[874];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_46[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_47[82];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_47[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_48[58];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_48[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_49[508];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_49[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_50[162];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_50[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_51[97];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_51[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_52[4];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_52[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_53[580];
-extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_53[];
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_54[68];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_54[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_55[12];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_55[];
@@ -1408,11 +1008,7 @@ extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_59[6];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_59[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_60[4];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_60[];
-<<<<<<< HEAD
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_61[24];
-=======
-extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_61[29];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_61[];
 extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_62[4];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_62[];
@@ -1422,11 +1018,7 @@ extern Vtx f_dl_Area3Vis_mesh_layer_1_vtx_64[4];
 extern Gfx f_dl_Area3Vis_mesh_layer_1_tri_64[];
 extern Vtx f_dl_Area3Vis_mesh_layer_5_vtx_0[32];
 extern Gfx f_dl_Area3Vis_mesh_layer_5_tri_0[];
-<<<<<<< HEAD
 extern Vtx f_dl_Area3Vis_mesh_layer_5_vtx_1[20];
-=======
-extern Vtx f_dl_Area3Vis_mesh_layer_5_vtx_1[22];
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 extern Gfx f_dl_Area3Vis_mesh_layer_5_tri_1[];
 extern Vtx f_dl_Area3Vis_mesh_layer_6_vtx_0[26];
 extern Gfx f_dl_Area3Vis_mesh_layer_6_tri_0[];

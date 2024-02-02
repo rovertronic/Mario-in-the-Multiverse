@@ -510,7 +510,6 @@ void bhv_f_keydoor(void) {
             }
         break;
     }
-<<<<<<< HEAD
 }
 
 void bhv_f_curtainplatform(void) {
@@ -568,6 +567,4 @@ void bhv_f_blowvent(void) {
     if ((curtain_platform)&&(curtain_platform->oAction == 3)) {
         cur_obj_spawn_strong_wind_particles(12, 3.0f, 0.0f, -50.0f, 120.0f);
     }
-=======
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 }

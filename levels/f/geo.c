@@ -35,11 +35,7 @@
 #include "levels/f/f_trapdoor/geo.inc.c"
 #include "levels/f/f_key/geo.inc.c"
 #include "levels/f/f_shooter/geo.inc.c"
-<<<<<<< HEAD
 #include "levels/f/f_keydoor/geo.inc.c"
 #include "levels/f/f_curtainplatform1/geo.inc.c"
 #include "levels/f/f_curtainplatform2/geo.inc.c"
 #include "levels/f/f_missiles/geo.inc.c"
-=======
-#include "levels/f/f_keydoor/geo.inc.c"
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3

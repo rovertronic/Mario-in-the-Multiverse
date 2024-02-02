@@ -44,12 +44,8 @@
 #include "levels/f/f_keydoor/model.inc.c"
 #include "levels/f/f_keydoor/collision.inc.c"
 #include "levels/f/keydoor/anims/data.inc.c"
-<<<<<<< HEAD
 #include "levels/f/keydoor/anims/table.inc.c"
 #include "levels/f/f_curtainplatform1/model.inc.c"
 #include "levels/f/f_curtainplatform2/model.inc.c"
 #include "levels/f/f_curtainplatform/collision.inc.c"
 #include "levels/f/f_missiles/model.inc.c"
-=======
-#include "levels/f/keydoor/anims/table.inc.c"
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3

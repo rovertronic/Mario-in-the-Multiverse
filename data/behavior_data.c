@@ -6831,7 +6831,6 @@ const BehaviorScript bhvFKeydoor[] = {
         CALL_NATIVE(bhv_f_keydoor),
     END_LOOP(),
 };
-<<<<<<< HEAD
 
 extern void bhv_f_curtainplatform(void);
 const BehaviorScript bhvFCurtainPlatform[] = {
@@ -6861,8 +6860,6 @@ const BehaviorScript bhvFBlowVent[] = {
         CALL_NATIVE(bhv_f_blowvent),
     END_LOOP(),
 };
-=======
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 /* GROUP F END */
 
 /* GROUP G START */

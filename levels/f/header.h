@@ -71,7 +71,6 @@ extern const LevelScript level_f_entry[];
 
 #include "levels/f/keydoor/anim_header.h"
 
-<<<<<<< HEAD
 #include "levels/f/f_curtainplatform1/geo_header.h"
 
 #include "levels/f/f_curtainplatform2/geo_header.h"
@@ -80,6 +79,4 @@ extern const LevelScript level_f_entry[];
 
 #include "levels/f/f_missiles/geo_header.h"
 
-=======
->>>>>>> f9f6cd919e322a6e77cc3dd4c7030d0aa86555f3
 #endif

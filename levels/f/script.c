@@ -48,6 +48,7 @@ const LevelScript level_f_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_F_TRAPDOOR, f_trapdoor_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_F_KEY, f_key_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_F_SHOOTER, f_shooter_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_F_KEYDOOR, f_keydoor_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -122,6 +123,7 @@ const LevelScript level_f_entry[] = {
 		OBJECT(MODEL_GOLD_BTN_OFF, -2200, 782, 1047, 0, 0, 0, 0x00000000, bhvFRocketButtonGold),
 		OBJECT(MODEL_FHIDDEN, 2803, 1694, 0, 0, 0, 0, 0x00000000, bhvFhidden),
 		OBJECT(MODEL_F_KEY, -1362, -271, -524, 0, 0, 0, 0x00000000, bhvFkey),
+		OBJECT(MODEL_F_KEYDOOR, -1363, -226, -672, 0, 0, 0, 0x00000000, bhvFKeydoor),
 		OBJECT(MODEL_F_KEYPAD, 3956, 181, -3707, 29, 90, 0, (2 << 16), bhvKeypad),
 		OBJECT(MODEL_NONE, 4215, -704, 3746, 0, -180, 0, (0x04 << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_NONE, 4215, -704, -3350, 0, 0, 0, (0x05 << 16), bhvInstantActiveWarp),

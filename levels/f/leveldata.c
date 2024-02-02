@@ -41,3 +41,7 @@
 #include "levels/f/f_key/model.inc.c"
 #include "levels/f/f_shooter/model.inc.c"
 #include "levels/f/fbullet/model.inc.c"
+#include "levels/f/f_keydoor/model.inc.c"
+#include "levels/f/f_keydoor/collision.inc.c"
+#include "levels/f/keydoor/anims/data.inc.c"
+#include "levels/f/keydoor/anims/table.inc.c"

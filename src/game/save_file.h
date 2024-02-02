@@ -220,4 +220,9 @@ u32 eu_get_language(void);
 #define LANGUAGE_ENGLISH 0
 #endif
 
+enum level_f_flag_ids {
+    LEVEL_F_FLAG_TRAPDOOR,
+    LEVEL_F_FLAG_KEY,
+};
+
 #endif // SAVE_FILE_H

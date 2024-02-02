@@ -6819,6 +6819,18 @@ const BehaviorScript bhvFshooterStar[] = {
         CALL_NATIVE(bhv_f_shooter_star),
     END_LOOP(),
 };
+
+extern void bhv_f_keydoor(void);
+const BehaviorScript bhvFKeydoor[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(f_keydoor_collision),
+    LOAD_ANIMATIONS(oAnimations, keydoor_anims),
+    SET_FLOAT(oDrawingDistance, 25000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_keydoor),
+    END_LOOP(),
+};
 /* GROUP F END */
 
 /* GROUP G START */

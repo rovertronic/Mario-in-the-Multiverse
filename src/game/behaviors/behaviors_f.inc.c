@@ -1,4 +1,6 @@
 #include "levels/f/header.h"
+#include "src/game/save_file.h"
+#include "src/buffers/buffers.h"
 #define WATCH_DISTANCE 1300.0f
 
 u8 trinkets_shot_f = 0;
@@ -355,8 +357,12 @@ void bhv_f_trapdoor(void) {
     struct Object *rocketbutton = cur_obj_nearest_object_with_behavior(bhvFRocketButtonGold);
     switch(o->oAction) {
         case 0: //wait for button press
+            if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags & (1<<LEVEL_F_FLAG_TRAPDOOR)) {
+                o->oAction = 2;
+            }
             if ((rocketbutton) && (rocketbutton->oAction > 0)) {
-                o->oAction ++;
+                gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags |= (1<<LEVEL_F_FLAG_TRAPDOOR);
+                o->oAction = 1;
             }
         break;
         case 1://wait a second
@@ -386,7 +392,7 @@ void bhv_f_key(void) {
             if (o->oDistanceToMario < 150.0f) {
                 o->oAction = 1;
                 o->oHomeY = 1.0f;
-                //save_file_set_flags(SAVE_FLAG_HAVE_KEY_1|SAVE_FLAG_HAVE_KEY_2);
+                gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags |= (1<<LEVEL_F_FLAG_KEY);
                 save_file_do_save(gCurrSaveFileNum - 1);
                 cur_obj_play_sound_2(SOUND_GENERAL_BOWSER_KEY_LAND);
             }
@@ -488,6 +494,18 @@ void bhv_f_shooter_star(void) {
         case 0:
             if (!cur_obj_nearest_object_with_behavior(bhvFshooter)) {
                 spawn_default_star(o->oPosX,o->oPosY,o->oPosZ);
+                o->oAction++;
+            }
+        break;
+    }
+}
+
+void bhv_f_keydoor(void) {
+    switch(o->oAction) {
+        case 0:
+            load_object_collision_model();
+            if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags & (1<<LEVEL_F_FLAG_KEY)) {
+                cur_obj_init_animation_with_sound(0);
                 o->oAction++;
             }
         break;

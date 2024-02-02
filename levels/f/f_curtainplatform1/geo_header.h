@@ -1,0 +1,15 @@
+extern const GeoLayout f_curtainplatform1_geo[];
+extern u8 f_curtainplatform1_Red_Curtain_ci4[];
+extern u8 f_curtainplatform1_Red_Curtain_pal_rgba16[];
+extern u8 f_curtainplatform1_Golden_Curtain_Detail_ci8[];
+extern u8 f_curtainplatform1_Golden_Curtain_Detail_pal_rgba16[];
+extern Vtx f_curtainplatform1_Present_BEFORE_keypad_mesh_layer_1_vtx_0[44];
+extern Gfx f_curtainplatform1_Present_BEFORE_keypad_mesh_layer_1_tri_0[];
+extern Vtx f_curtainplatform1_Present_BEFORE_keypad_mesh_layer_1_vtx_1[44];
+extern Gfx f_curtainplatform1_Present_BEFORE_keypad_mesh_layer_1_tri_1[];
+extern Gfx mat_f_curtainplatform1_Red_Curtain_002[];
+extern Gfx mat_revert_f_curtainplatform1_Red_Curtain_002[];
+extern Gfx mat_f_curtainplatform1_Golden_Curtain_Detail_001[];
+extern Gfx mat_revert_f_curtainplatform1_Golden_Curtain_Detail_001[];
+extern Gfx f_curtainplatform1_Present_BEFORE_keypad_mesh_layer_1[];
+extern Gfx f_curtainplatform1_material_revert_render_settings[];

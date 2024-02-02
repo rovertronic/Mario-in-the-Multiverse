@@ -71,4 +71,12 @@ extern const LevelScript level_f_entry[];
 
 #include "levels/f/keydoor/anim_header.h"
 
+#include "levels/f/f_curtainplatform1/geo_header.h"
+
+#include "levels/f/f_curtainplatform2/geo_header.h"
+
+#include "levels/f/f_curtainplatform/collision_header.h"
+
+#include "levels/f/f_missiles/geo_header.h"
+
 #endif

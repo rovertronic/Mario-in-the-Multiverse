@@ -511,3 +511,60 @@ void bhv_f_keydoor(void) {
         break;
     }
 }
+
+void bhv_f_curtainplatform(void) {
+    switch(o->oAction) {
+        case 0:
+            if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags & (1<<LEVEL_F_FLAG_MISSILE)) {
+                o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_CURTAINPLATFORM2];
+                o->oAction = 2;
+                struct Object * missiles = spawn_object(o,MODEL_F_MISSILES,bhvFMissiles);
+                missiles->oAction = 2;
+            }
+            if (gMarioState->keypad_id == o->oBehParams2ndByte) {
+                gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags |= (1<<LEVEL_F_FLAG_MISSILE);
+                o->oAction = 1;
+                struct Object * missiles = spawn_object(o,MODEL_F_MISSILES,bhvFMissiles);
+                missiles->oPosZ += 6000.0f;
+                missiles->oAction = 0;
+            }
+            break;
+        case 1:
+            if (o->oTimer >= 60) {
+                create_sound_spawner(SOUND_GENERAL2_PYRAMID_TOP_EXPLOSION);
+                o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_CURTAINPLATFORM2];
+                o->oAction++;
+            }
+            break;
+        case 2:
+            load_object_static_model();
+            o->oAction ++;
+            break;
+    }
+}
+
+void bhv_f_missiles(void) {
+    switch(o->oAction) {
+        case 0:
+            vec3f_copy(&gLakituState.curFocus,&o->oPosVec);
+            if (o->parentObj->oAction != 2) {
+                o->oPosZ -= 100.0f;
+            } else {
+                o->oAction++;
+            }
+        break;
+        case 1:
+            vec3f_copy(&gLakituState.curFocus,&o->oPosVec);
+            if (o->oTimer > 30) {
+                o->oAction++;
+            }
+        break;
+    }
+}
+
+void bhv_f_blowvent(void) {
+    struct Object * curtain_platform = cur_obj_nearest_object_with_behavior(bhvFCurtainPlatform);
+    if ((curtain_platform)&&(curtain_platform->oAction == 3)) {
+        cur_obj_spawn_strong_wind_particles(12, 3.0f, 0.0f, -50.0f, 120.0f);
+    }
+}

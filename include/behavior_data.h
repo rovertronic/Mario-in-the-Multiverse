@@ -630,6 +630,9 @@ extern const BehaviorScript bhvFkey[];
 extern const BehaviorScript bhvFshooter[];
 extern const BehaviorScript bhvFshooterStar[];
 extern const BehaviorScript bhvFKeydoor[];
+extern const BehaviorScript bhvFCurtainPlatform[];
+extern const BehaviorScript bhvFMissiles[];
+extern const BehaviorScript bhvFBlowVent[];
 /* GROUP F END */
 
 /* GROUP G START */

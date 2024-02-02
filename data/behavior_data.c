@@ -6831,6 +6831,35 @@ const BehaviorScript bhvFKeydoor[] = {
         CALL_NATIVE(bhv_f_keydoor),
     END_LOOP(),
 };
+
+extern void bhv_f_curtainplatform(void);
+const BehaviorScript bhvFCurtainPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(f_curtainplatform_collision),
+    SET_FLOAT(oDrawingDistance, 32000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_curtainplatform),
+    END_LOOP(),
+};
+
+extern void bhv_f_missiles(void);
+const BehaviorScript bhvFMissiles[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 32000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_missiles),
+    END_LOOP(),
+};
+
+extern void bhv_f_blowvent(void);
+const BehaviorScript bhvFBlowVent[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_blowvent),
+    END_LOOP(),
+};
 /* GROUP F END */
 
 /* GROUP G START */

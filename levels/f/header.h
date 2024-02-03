@@ -79,4 +79,8 @@ extern const LevelScript level_f_entry[];
 
 #include "levels/f/f_missiles/geo_header.h"
 
+#include "levels/f/f_boat/collision_header.h"
+
+#include "levels/f/f_boat/geo_header.h"
+
 #endif

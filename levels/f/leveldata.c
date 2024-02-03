@@ -49,3 +49,6 @@
 #include "levels/f/f_curtainplatform2/model.inc.c"
 #include "levels/f/f_curtainplatform/collision.inc.c"
 #include "levels/f/f_missiles/model.inc.c"
+
+#include "levels/f/f_boat/collision.inc.c"
+#include "levels/f/f_boat/model.inc.c"

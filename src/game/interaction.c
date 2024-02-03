@@ -1545,8 +1545,10 @@ u32 interact_koopa_shell(struct MarioState *m, UNUSED u32 interactType, struct O
 
             attack_object(obj, interaction);
             update_mario_sound_and_camera(m);
-            if(!obj_has_behavior(m->riddenObj, bhvFunkyShell)){
-                play_shell_music();
+            if (gCurrLevelNum != LEVEL_F) {
+                if(!obj_has_behavior(m->riddenObj, bhvFunkyShell)){
+                    play_shell_music();
+                }
             }
             mario_drop_held_object(m);
 

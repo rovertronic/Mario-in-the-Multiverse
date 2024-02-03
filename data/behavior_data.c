@@ -6860,6 +6860,17 @@ const BehaviorScript bhvFBlowVent[] = {
         CALL_NATIVE(bhv_f_blowvent),
     END_LOOP(),
 };
+
+extern void bhv_f_boat(void);
+const BehaviorScript bhvFBoat[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(f_boat_collision),
+    SET_FLOAT(oDrawingDistance, 32000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_boat),
+    END_LOOP(),
+};
 /* GROUP F END */
 
 /* GROUP G START */

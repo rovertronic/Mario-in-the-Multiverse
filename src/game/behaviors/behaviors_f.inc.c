@@ -568,3 +568,87 @@ void bhv_f_blowvent(void) {
         cur_obj_spawn_strong_wind_particles(12, 3.0f, 0.0f, -50.0f, 120.0f);
     }
 }
+
+struct ObjectHitbox sFBoatHitbox = {
+    .interactType      = INTERACT_KOOPA_SHELL,
+    .downOffset        = 0,
+    .damageOrCoinValue = 4,
+    .health            = 1,
+    .numLootCoins      = 1,
+    .radius            = 50,
+    .height            = 200,
+    .hurtboxRadius     = 50,
+    .hurtboxHeight     = 50,
+};
+
+void bhv_f_boat(void) {
+    struct Surface *floor;
+
+    obj_set_hitbox(o, &sFBoatHitbox);
+    cur_obj_scale(1.0f);
+
+    switch (o->oAction) {
+        case KOOPA_SHELL_ACT_MARIO_NOT_RIDING:
+            if (o->oTimer > 30) {
+                cur_obj_become_tangible();
+            }
+
+            load_object_collision_model();
+
+            cur_obj_update_floor_and_walls();
+            cur_obj_if_hit_wall_bounce_away();
+
+            if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+                o->oAction = KOOPA_SHELL_ACT_MARIO_RIDING;
+                gMarioState->pos[1] = o->oPosY;
+                gMarioState->faceAngle[1] = o->oFaceAngleYaw;
+            }
+
+            cur_obj_move_standard(-20);
+            koopa_shell_spawn_sparkles(10.0f);
+            o->oForwardVel *= 0.98f;
+            o->oFaceAngleRoll *= 0.9f;
+            break;
+
+        case KOOPA_SHELL_ACT_MARIO_RIDING:
+            obj_copy_pos(o, gMarioObject);
+            o->oPosX += sins(gMarioState->faceAngle[1])*gMarioState->forwardVel;
+            o->oPosZ += coss(gMarioState->faceAngle[1])*gMarioState->forwardVel;
+            //^ this code is needed to accomodate for the 1 frame of delay
+            floor = cur_obj_update_floor_height_and_get_floor();
+
+            if (absf(find_water_level(o->oPosX, o->oPosZ) - o->oPosY) < 10.0f) {
+                koopa_shell_spawn_water_drop();
+            } else if (absf(o->oPosY - o->oFloorHeight) < 5.0f) {
+                if (floor != NULL && floor->type == SURFACE_BURNING) {
+                    bhv_koopa_shell_flame_spawn();
+                } else {
+                    koopa_shell_spawn_sparkles(10.0f);
+                }
+            } else {
+                koopa_shell_spawn_sparkles(10.0f);
+            }
+
+            o->oFaceAngleYaw = gMarioObject->oMoveAngleYaw;
+            o->oFaceAngleRoll = gMarioState->angleVel[1]*-3;
+            o->oForwardVel = gMarioState->forwardVel;
+
+            if (o->oInteractStatus & INT_STATUS_STOP_RIDING) {
+                gMarioState->pos[1] += 150.0f;
+                o->oMoveAngleYaw = gMarioState->faceAngle[1];
+                o->oAction = KOOPA_SHELL_ACT_MARIO_NOT_RIDING;
+                cur_obj_become_intangible();
+            }
+            break;
+    }
+
+    o->oOpacity = o->oForwardVel*5;
+    if (o->oForwardVel*5 < 0.0f) {
+        o->oOpacity = 0;
+    }
+    if (o->oForwardVel*5 > 255.0f) {
+        o->oOpacity = 255;
+    }
+
+    o->oInteractStatus = INT_STATUS_NONE;
+}

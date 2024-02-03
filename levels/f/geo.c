@@ -39,3 +39,5 @@
 #include "levels/f/f_curtainplatform1/geo.inc.c"
 #include "levels/f/f_curtainplatform2/geo.inc.c"
 #include "levels/f/f_missiles/geo.inc.c"
+
+#include "levels/f/f_boat/geo.inc.c"

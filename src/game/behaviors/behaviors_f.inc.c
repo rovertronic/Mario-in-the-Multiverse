@@ -533,6 +533,7 @@ void bhv_f_curtainplatform(void) {
                 struct Object * missiles = spawn_object(o,MODEL_F_MISSILES,bhvFMissiles);
                 missiles->oPosZ += 6000.0f;
                 missiles->oAction = 0;
+                gCamera->cutscene = 1;
             }
             break;
         case 1:
@@ -552,7 +553,11 @@ void bhv_f_curtainplatform(void) {
 void bhv_f_missiles(void) {
     switch(o->oAction) {
         case 0:
-            vec3f_copy(&gLakituState.curFocus,&o->oPosVec);
+            vec3f_copy(&gLakituState.goalFocus,&o->oPosVec);
+            gLakituState.goalPos[0] = -23953;
+            gLakituState.goalPos[1] = 1000;
+            gLakituState.goalPos[2] = -7278;
+
             if (o->parentObj->oAction != 2) {
                 o->oPosZ -= 100.0f;
             } else {
@@ -560,9 +565,14 @@ void bhv_f_missiles(void) {
             }
         break;
         case 1:
-            vec3f_copy(&gLakituState.curFocus,&o->oPosVec);
+            vec3f_copy(&gLakituState.goalFocus,&o->oPosVec);
+            gLakituState.goalPos[0] = -23953;
+            gLakituState.goalPos[1] = 1000;
+            gLakituState.goalPos[2] = -7278;
+
             if (o->oTimer > 30) {
                 o->oAction++;
+                gCamera->cutscene = 0;
             }
         break;
     }

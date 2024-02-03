@@ -652,3 +652,141 @@ void bhv_f_boat(void) {
 
     o->oInteractStatus = INT_STATUS_NONE;
 }
+
+struct ObjectHitbox sHelicopterHitbox = {
+    .interactType      = INTERACT_DAMAGE,
+    .downOffset        = 200,
+    .damageOrCoinValue = 4,
+    .health            = 3,
+    .numLootCoins      = 0,
+    .radius            = 400,
+    .height            = 400,
+    .hurtboxRadius     = 400,
+    .hurtboxHeight     = 400,
+};
+
+void bhv_f_heli(void) {
+    Vec3f bullet_origin = //where the bullet spawns relative to the helicopter
+    {o->oPosX+(sins(o->oFaceAngleYaw)*150.0f), o->oPosY-155.0f, o->oPosZ+(coss(o->oFaceAngleYaw)*150.0f)};
+
+    switch(o->oAction) {
+        case 0: //Hidden. Wait until proper conditions are met for the battle to start.
+            o->oAnimState = 1;
+            cur_obj_hide();
+            obj_set_hitbox(o, &sHelicopterHitbox);
+            if (!cur_obj_nearest_object_with_behavior(bhvFshooter)) {
+                if (o->oTimer > 30) {
+                    cur_obj_unhide();
+                    o->oAction = 1;
+                    play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_F_BOND), 0);
+                    gCamera->cutscene = 1;
+                    o->prevObj = spawn_object(o,MODEL_F_HELISHADOW,bhvStaticObject);
+                    o->prevObj->oPosY = 600.0f;
+                }
+            } else {
+                o->oTimer = 0;
+            }
+            break;
+        case 1: //Drop in cutscene.
+            o->oPosY = approach_f32_asymptotic(o->oPosY,o->oHomeY-800.0f,0.02f);
+            vec3f_copy(&gLakituState.goalFocus,&o->oPosVec);
+            vec3f_copy(&gLakituState.goalPos,&o->oHomeVec);
+            gLakituState.goalPos[0] -= 4000.0f;
+            gLakituState.goalPos[2] += 2000.0f;
+            if (o->oTimer > 90) {
+                o->oAction = 2;
+                gCamera->cutscene = 0;
+            }
+            break;
+
+        case 2: //Patrol and fire
+            switch(o->oSubAction) {
+                case 0: //patrol forward
+                    if (o->oVelX > -45.0f) {
+                        o->oVelX -= 0.4f;
+                    }
+                    if (o->oPosX < o->oHomeX-8000.0f) {
+                        o->oSubAction = 1;
+                    }
+                    break;
+                case 1: //patrol backward
+                    if (o->oVelX < 45.0f) {
+                        o->oVelX += 0.4f;
+                    }
+                    if (o->oPosX > o->oHomeX-2500.0f) {
+                        o->oSubAction = 0;
+                    }
+                    break;
+            }
+
+            if (o->oShotByShotgun > 0) {
+                // The helicopter is too strong to be beat by the shotgun ツ
+                cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
+            }
+
+            if ((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED)) {
+                gCamera->cutscene = 1;
+                o->oAction = 3;
+                o->oHealth --;
+            }
+
+            // Fire at the player every 100 frames for 100 frames (200 frame cycle)
+            o->oAnimState = 1;
+            if (o->oTimer%200>99) {
+                if (o->oTimer%3==0) {
+                    o->oAnimState = 0;
+                    cur_obj_play_sound_2(SOUND_MITM_ABILITY_E_SHOTGUN);
+                    o->oFaceAnglePitch = obj_turn_pitch_toward_mario(0.0f, 0x4000);
+                    struct Object * bullet = spawn_object(o,MODEL_BOWLING_BALL,bhvHeliBalls);
+                    bullet->oMoveAnglePitch = o->oFaceAnglePitch-0x280+(random_u16()%0x500);
+                    bullet->oMoveAngleYaw = o->oFaceAngleYaw-0x280+(random_u16()%0x500);
+                    vec3f_copy(&bullet->oPosVec,bullet_origin);
+                    o->oFaceAnglePitch = 0;
+                }
+            }
+
+            o->oPosX += o->oVelX;
+            o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, o->oAngleToMario, 0x500);
+            o->oFaceAngleYaw = o->oMoveAngleYaw;
+
+            o->prevObj->oPosX = o->oPosX;
+            o->prevObj->oPosZ = o->oPosZ;
+            o->prevObj->oFaceAngleYaw = o->oFaceAngleYaw;
+            break;
+
+        case 3: // Damaged
+            vec3f_copy(&gLakituState.goalFocus,&o->oPosVec);
+            vec3f_copy(&gLakituState.goalPos,&o->oPosVec);
+            gLakituState.goalPos[0] -= 3000.0f;
+            gLakituState.goalPos[1] += 3000.0f;
+            gLakituState.goalPos[2] += 3000.0f;
+
+            cur_obj_become_intangible();
+            if (big_boo_update_during_nonlethal_hit(40.0f)) {
+                if (o->oHealth < 1) {
+                    //die
+                    o->oAction = 4;
+                } else {
+                    //return to patrol
+                    o->oAction = 2;
+                    gCamera->cutscene = 0;
+                    o->oFaceAnglePitch = 0;
+                    o->oFaceAngleRoll = 0;
+                }
+            }
+            break;
+
+        case 4: // Defeated
+
+            break;
+    }
+
+    if (o->oTimer % 8 == 0) {
+        for (u8 i = o->oHealth; i<3; i++) {
+            spawn_object_relative(0, 100.0f-(random_float()*200.0f), 200, 100.0f-(random_float()*200.0f), o, MODEL_BURN_SMOKE, bhvBlackSmokeHoodboomer);
+        }
+    }
+
+    o->oInteractStatus = INT_STATUS_NONE;
+    o->oShotByShotgun = 0;
+}

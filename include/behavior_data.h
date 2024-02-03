@@ -634,6 +634,8 @@ extern const BehaviorScript bhvFCurtainPlatform[];
 extern const BehaviorScript bhvFMissiles[];
 extern const BehaviorScript bhvFBlowVent[];
 extern const BehaviorScript bhvFBoat[];
+extern const BehaviorScript bhvFHeli[];
+extern const BehaviorScript bhvHeliBalls[];
 /* GROUP F END */
 
 /* GROUP G START */

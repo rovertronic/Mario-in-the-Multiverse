@@ -56,6 +56,8 @@ const LevelScript level_f_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_CURTAINPLATFORM2, f_curtainplatform2_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_F_MISSILES, f_missiles_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_F_BOAT, f_boat_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_F_HELI, f_heli_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_F_HELISHADOW, f_helishadow_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -75,11 +77,10 @@ const LevelScript level_f_entry[] = {
 		OBJECT(MODEL_NONE, -15139, 3121, -8215, 0, 0, 0, 0x00000000, bhvFBlowVent),
 		OBJECT(MODEL_NONE, -13662, 2723, -8216, 0, 0, 0, 0x00000000, bhvFBlowVent),
 		OBJECT(MODEL_NONE, -12210, 2967, -8213, 0, 0, 0, 0x00000000, bhvFBlowVent),
-		OBJECT(MODEL_F_BOAT, -15095, -281, -5403, 0, 0, 0, 0x00000000, bhvFBoat),
-		OBJECT(MODEL_CHECKPOINT_FLAG, 1238, 2271, 7015, 0, -180, 0, (0 << 16), bhvCheckpointFlag),
-		OBJECT(MODEL_CHECKPOINT_FLAG, 1238, 2271, 6715, 0, -180, 0, (1 << 16), bhvCheckpointFlag),
+		OBJECT(MODEL_F_BOAT, -12153, -281, -5228, 0, -90, 0, 0x00000000, bhvFBoat),
 		OBJECT(MODEL_CURTAINPLATFORM1, -17357, 3246, -7917, 0, 0, 0, (3 << 16), bhvFCurtainPlatform),
 		OBJECT(MODEL_LEVEL_PIPE, -23953, 595, -7278, 0, -180, 0, 0x00000000, bhvLevelPipe),
+		OBJECT(MODEL_F_HELI, -13231, 2351, -6905, 0, -90, 0, (7 << 24), bhvFHeli),
 		OBJECT(MODEL_F_KEYPAD, -21630, 669, -7590, 0, -180, 0, (3 << 16), bhvKeypad),
 		OBJECT(MODEL_NONE, -23439, 919, -7278, 0, 90, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, -22470, 595, -8285, 0, 0, 0, (0x04 << 16), bhvInstantActiveWarp),
@@ -119,7 +120,6 @@ const LevelScript level_f_entry[] = {
 		OBJECT(MODEL_SNUFIT, -23030, 85, -2424, 0, 76, 0, 0x00000000, bhvSnufit),
 		OBJECT(MODEL_NONE, -12209, 3245, -7854, 0, -180, 0, (5 << 24), bhvStar),
 		OBJECT(MODEL_NONE, -14324, 255, -5906, 0, -180, 0, (6 << 24), bhvHiddenRedCoinStar),
-		OBJECT(MODEL_NONE, 877, 2275, 7031, 0, -180, 0, (7 << 24), bhvStar),
 		OBJECT(MODEL_NONE, -22501, 595, -8786, 0, 0, 0, (10 << 24) | (2 << 16), bhvWarp),
 		OBJECT(MODEL_NONE, -13677, 595, -8786, 0, 0, 0, (10 << 24) | (3 << 16), bhvWarp),
 		TERRAIN(f_area_1_collision),

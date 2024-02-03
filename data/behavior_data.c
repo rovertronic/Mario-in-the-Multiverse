@@ -6871,6 +6871,34 @@ const BehaviorScript bhvFBoat[] = {
         CALL_NATIVE(bhv_f_boat),
     END_LOOP(),
 };
+
+extern void bhv_f_heli(void);
+const BehaviorScript bhvFHeli[] = {
+    BEGIN(OBJ_LIST_PUSHABLE),
+    SET_FLOAT(oDrawingDistance, 32000),
+    LOAD_ANIMATIONS(oAnimations, f_heli_anims),
+    ANIMATE(0),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_E__SG_CUSTOM)),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_heli),
+    END_LOOP(),
+};
+
+extern void bhv_helicopter_ball_loop(void);
+const BehaviorScript bhvHeliBalls[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_BREAKABLE)),//--E
+    BILLBOARD(),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 10, /*Gravity*/ 0, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    CALL_NATIVE(bhv_init_room),
+    SET_FLOAT(oGraphYOffset, 10),
+    SCALE(/*Unused*/ 0, /*Field*/ 20),
+    SET_FLOAT(oDrawingDistance, 32000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_helicopter_ball_loop),
+    END_LOOP(),
+};
 /* GROUP F END */
 
 /* GROUP G START */

@@ -41,3 +41,5 @@
 #include "levels/f/f_missiles/geo.inc.c"
 
 #include "levels/f/f_boat/geo.inc.c"
+#include "levels/f/f_heli/geo.inc.c"
+#include "levels/f/f_helishadow/geo.inc.c"

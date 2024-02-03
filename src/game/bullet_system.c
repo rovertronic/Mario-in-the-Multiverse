@@ -51,7 +51,7 @@ static void bullet_default_params(struct Bullet *b) {
 	b->damage        = 0;
 }
 static void bullet_f_params(struct Bullet *b) {
-	b->velF          = 40.f;
+	b->velF          = 50.f;
 	b->gravity       = 0.f;
 	b->hitSphereSize = 50.f;
 	b->damage        = 2;

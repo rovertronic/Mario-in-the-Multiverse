@@ -502,4 +502,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "desconly/header.h"
 
+#include "f_laser/geo_header.h"
+
 #endif

@@ -636,6 +636,7 @@ extern const BehaviorScript bhvFBlowVent[];
 extern const BehaviorScript bhvFBoat[];
 extern const BehaviorScript bhvFHeli[];
 extern const BehaviorScript bhvHeliBalls[];
+extern const BehaviorScript bhvFLaser[];
 /* GROUP F END */
 
 /* GROUP G START */

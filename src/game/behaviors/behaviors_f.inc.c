@@ -69,6 +69,10 @@ void bhv_gadget_aim(void) {
 
         if (gPlayer1Controller->buttonPressed & L_TRIG) {
 
+            struct Object * laser = spawn_object(gMarioObject,MODEL_F_LASER,bhvFLaser);
+            vec3f_copy(&laser->oPosVec, mario_hand_position);
+            vec3f_copy(&laser->oHomeVec,&target->oPosVec);
+
             //no switch cases for ptrs : (
             if (target->behavior == segmented_to_virtual(bhvBreakableBox)) {
                 spawn_object(target,MODEL_EXPLOSION,bhvExplosion);
@@ -676,7 +680,7 @@ void bhv_f_heli(void) {
             o->oAnimState = 1;
             cur_obj_hide();
             obj_set_hitbox(o, &sHelicopterHitbox);
-            if (!cur_obj_nearest_object_with_behavior(bhvFshooter)) {
+            if (!cur_obj_nearest_object_with_behavior(bhvFshooter) && save_file_check_ability_unlocked(ABILITY_GADGET_WATCH)) {
                 if (o->oTimer > 30) {
                     cur_obj_unhide();
                     o->oAction = 1;
@@ -826,4 +830,30 @@ void bhv_f_heli(void) {
 
     o->oInteractStatus = INT_STATUS_NONE;
     o->oShotByShotgun = 0;
+}
+
+void bhv_f_laser(void) {
+    Vec3f origin;
+    Vec3f dir;
+    Vec3f hitpos;
+    f32 a, b;
+
+    vec3f_copy(origin, mario_hand_position); // Source
+    vec3f_copy(hitpos,&o->oHomeVec); // Target
+
+    dir[0] = hitpos[0] - origin[0];
+    dir[1] = hitpos[1] - origin[1];
+    dir[2] = hitpos[2] - origin[2];
+
+    o->header.gfx.scale[2] = (sqrtf(dir[0]*dir[0] + dir[1]*dir[1] + dir[2]*dir[2])/100.0f);
+
+    a=hitpos[0] - o->oPosX;
+    b=hitpos[2] - o->oPosZ;
+
+    o->oFaceAngleYaw = atan2s(b,a);
+    o->oFaceAnglePitch = atan2s( sqrtf((a*a) + (b*b)) ,origin[1]-hitpos[1]);
+
+    if (o->oTimer > 1) {
+        mark_obj_for_deletion(o);
+    }
 }

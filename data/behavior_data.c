@@ -6899,6 +6899,15 @@ const BehaviorScript bhvHeliBalls[] = {
         CALL_NATIVE(bhv_helicopter_ball_loop),
     END_LOOP(),
 };
+
+extern void bhv_f_laser(void);
+const BehaviorScript bhvFLaser[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_laser),
+    END_LOOP(),
+};
 /* GROUP F END */
 
 /* GROUP G START */

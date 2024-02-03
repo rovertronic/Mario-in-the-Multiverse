@@ -607,6 +607,7 @@ enum GLOBAL_MODELS {
     MODEL_DBP,//Dash Booster Particle
     MODEL_ATTACHED_ROPE,
     MODEL_ZAP,
+    MODEL_F_LASER,
 
     // Custom Mario Models
     MODEL_E__MARIO,

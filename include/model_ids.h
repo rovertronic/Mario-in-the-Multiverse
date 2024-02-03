@@ -697,6 +697,7 @@ enum {
 #define MODEL_F_BOAT 0x168
 #define MODEL_F_HELI 0x169
 #define MODEL_F_HELISHADOW 0x16A
+#define MODEL_F_HELIDEAD 0x16B
 /* LEVEL F END */
 
 /* LEVEL G START */

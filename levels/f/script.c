@@ -58,6 +58,7 @@ const LevelScript level_f_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_F_BOAT, f_boat_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_F_HELI, f_heli_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_F_HELISHADOW, f_helishadow_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_F_HELIDEAD, f_helidead_geo),
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */

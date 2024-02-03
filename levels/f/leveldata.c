@@ -56,3 +56,4 @@
 #include "levels/f/f_heli/anims/data.inc.c"
 #include "levels/f/f_heli/anims/table.inc.c"
 #include "levels/f/f_helishadow/model.inc.c"
+#include "levels/f/f_helidead/model.inc.c"

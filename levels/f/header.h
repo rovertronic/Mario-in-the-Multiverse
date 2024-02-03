@@ -89,4 +89,6 @@ extern const LevelScript level_f_entry[];
 
 #include "levels/f/f_helishadow/geo_header.h"
 
+#include "levels/f/f_helidead/geo_header.h"
+
 #endif

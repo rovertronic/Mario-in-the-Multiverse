@@ -135,9 +135,11 @@ void bhv_gadget_aim(void) {
                     spawn_default_star(-1832, 484, 2022);
                 }
             } else if (target->behavior == segmented_to_virtual(bhvFblastwall)) {
-                target->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BLASTWALL_2];
-                target->collisionData = segmented_to_virtual(blastwall2_collision);
-                target->oAction=1;
+                if (target->oAction == 0) {
+                    target->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BLASTWALL_2];
+                    target->collisionData = segmented_to_virtual(blastwall2_collision);
+                    target->oAction=1;
+                }
             } else if (target->behavior == segmented_to_virtual(bhvSignOnWall)) {
                 gMarioState->usedObj = target;
                 set_mario_action(gMarioState, ACT_READING_SIGN, 0);
@@ -766,6 +768,8 @@ void bhv_f_heli(void) {
                 if (o->oHealth < 1) {
                     //die
                     o->oAction = 4;
+                    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_F_HELIDEAD];
+                    stop_background_music(SEQUENCE_ARGS(4, SEQ_F_BOND));
                 } else {
                     //return to patrol
                     o->oAction = 2;
@@ -776,8 +780,35 @@ void bhv_f_heli(void) {
             }
             break;
 
-        case 4: // Defeated
+        case 4: // Defeated P1
+            cur_obj_become_intangible();
+            o->oPosY -= 15.0f;
+            o->oMoveAngleYaw += 0x800;
+            o->oFaceAngleYaw = o->oMoveAngleYaw;
 
+            o->prevObj->oPosX = o->oPosX;
+            o->prevObj->oPosZ = o->oPosZ;
+            o->prevObj->oFaceAngleYaw = o->oFaceAngleYaw;
+
+            if (o->oPosY < 700.0f) {
+                create_sound_spawner(SOUND_GENERAL2_PYRAMID_TOP_EXPLOSION);
+                o->oAction = 5;
+            }
+            break;
+
+        case 5: // Defeated P2
+            if (o->oTimer == 60) {
+                gCamera->cutscene = 0;
+            }
+            if (o->oTimer > 60) {
+                spawn_mist_particles_variable(0, 0, 100.0f);
+                spawn_triangle_break_particles(20, MODEL_DIRT_ANIMATION, 3.0f, 4);
+                cur_obj_shake_screen(SHAKE_POS_SMALL);
+                create_sound_spawner(SOUND_GENERAL2_PYRAMID_TOP_EXPLOSION);
+                spawn_default_star(o->oHomeX,o->oHomeY-1300.0f,o->oHomeZ);
+                mark_obj_for_deletion(o->prevObj);
+                mark_obj_for_deletion(o);
+            }
             break;
     }
 
@@ -785,6 +816,12 @@ void bhv_f_heli(void) {
         for (u8 i = o->oHealth; i<3; i++) {
             spawn_object_relative(0, 100.0f-(random_float()*200.0f), 200, 100.0f-(random_float()*200.0f), o, MODEL_BURN_SMOKE, bhvBlackSmokeHoodboomer);
         }
+    }
+
+    if ((o->oAction != 0)&&(gMarioState->pos[2] > -6288.0f)) {
+        // Keep mario in boss area
+        gMarioState->pos[2] = -6288.0f;
+        gMarioObject->oPosZ = gMarioState->pos[2];
     }
 
     o->oInteractStatus = INT_STATUS_NONE;

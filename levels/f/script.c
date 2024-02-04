@@ -58,14 +58,14 @@ const LevelScript level_f_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_F_BOAT, f_boat_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_F_HELI, f_heli_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_F_HELISHADOW, f_helishadow_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_F_HELIDEAD, f_helidead_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_F_HELIDEAD, f_helidead_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, f_area_1),
 		WARP_NODE(/*entry*/ 0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(/*death*/ 0xF1, LEVEL_F, /*this area*/ 0x01, 0x01, WARP_NO_CHECKPOINT),
+		WARP_NODE(/*death*/ 0xF1, LEVEL_F, 0x02, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death entry*/ 0x01, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x02, LEVEL_F, 0x02, 0x04, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x03, LEVEL_F, 0x02, 0x05, WARP_NO_CHECKPOINT),
@@ -149,13 +149,13 @@ const LevelScript level_f_entry[] = {
 		OBJECT(MODEL_F_BRIEFCASE, -1860, 138, 2151, 0, 0, 0, 0x00000000, bhvBriefcase),
 		OBJECT(MODEL_F_BRIEFCASE, -2200, 782, -1043, 0, 0, 0, 0x00000000, bhvBriefcase),
 		OBJECT(MODEL_F_BRIEFCASE, 355, -358, -3240, 0, 0, 0, 0x00000000, bhvBriefcase),
-		OBJECT(MODEL_NONE, 4589, -563, 200, 0, 0, 0, (0 << 16), bhvCoinFormation),
 		OBJECT(MODEL_F_FENCE, -1365, 151, 1872, 0, 0, 0, (2 << 16), bhvFfence),
 		OBJECT(MODEL_GOLD_BTN_OFF, -2200, 782, 1047, 0, 0, 0, 0x00000000, bhvFRocketButtonGold),
 		OBJECT(MODEL_FHIDDEN, 2803, 1694, 0, 0, 0, 0, 0x00000000, bhvFhidden),
 		OBJECT(MODEL_F_KEY, -1362, -271, -524, 0, 0, 0, 0x00000000, bhvFkey),
 		OBJECT(MODEL_F_KEYDOOR, -1363, -226, -672, 0, 0, 0, 0x00000000, bhvFKeydoor),
 		OBJECT(MODEL_F_KEYPAD, 3956, 181, -3707, 29, 90, 0, (2 << 16), bhvKeypad),
+		OBJECT(MODEL_NONE, 4215, -500, 3541, 0, 0, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 4215, -704, 3746, 0, -180, 0, (0x04 << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_NONE, 4215, -704, -3350, 0, 0, 0, (0x05 << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_NONE, -1363, -429, -306, 0, -180, 0, (0x07 << 16), bhvInstantActiveWarp),

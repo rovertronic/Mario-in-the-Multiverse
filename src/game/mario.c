@@ -35,6 +35,8 @@
 #include "ability.h"
 #include "seq_ids.h"
 #include "rigid_body.h"
+#include "src/buffers/buffers.h"
+#include "dialog_ids.h"
 
 s16 check_water_height = -10000;
 Bool8 have_splashed;
@@ -1909,6 +1911,35 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         // If Mario is OOB, stop executing actions.
         if (gMarioState->floor == NULL) {
             return ACTIVE_PARTICLE_NONE;
+        }
+
+        if ((gCurrLevelNum == LEVEL_F) && ((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_STATIONARY)) {
+            // Level F automatic dialog
+
+            // Get watch dialog
+            if (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags & (1<<LEVEL_F_FLAG_BOND_MESSAGE_1))) {
+                if (save_file_check_ability_unlocked(ABILITY_GADGET_WATCH)) {
+                    set_mario_action(gMarioState, ACT_READING_AUTOMATIC_DIALOG, DIALOG_F_BOND2);
+                    gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags |= (1<<LEVEL_F_FLAG_BOND_MESSAGE_1);
+                }
+            }
+        
+            // Blow up wall dialog
+            if (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags & (1<<LEVEL_F_FLAG_BOND_MESSAGE_2))) {
+                struct Object * bombwall = cur_obj_nearest_object_with_behavior(bhvFblastwall);
+                if ((bombwall) && (bombwall->oAction == 2)) {
+                    set_mario_action(gMarioState, ACT_READING_AUTOMATIC_DIALOG, DIALOG_F_BOND4);
+                    gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags |= (1<<LEVEL_F_FLAG_BOND_MESSAGE_2);
+                }
+            }
+
+            // Get 1st star dialog
+            if (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags & (1<<LEVEL_F_FLAG_BOND_MESSAGE_3))) {
+                if (save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_SL)) & 1) {
+                    set_mario_action(gMarioState, ACT_READING_AUTOMATIC_DIALOG, DIALOG_F_BOND3);
+                    gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags |= (1<<LEVEL_F_FLAG_BOND_MESSAGE_3);
+                }
+            }
         }
 
         f32 dist_to_nearest_star = 9999.0f;

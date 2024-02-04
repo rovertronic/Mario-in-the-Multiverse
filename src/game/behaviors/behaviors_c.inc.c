@@ -102,11 +102,11 @@ void bhv_crane_arrow_loop(void) {
 }
 
 void bhv_crane_init(void) {
-    o->oObjF4 = spawn_object_relative_with_scale(0, 0, 700, 3000, 1.0f, o, MODEL_CRANE_HEAD, bhvCraneHead);
+    o->oObjF4 = spawn_object_relative_with_scale(0, 0, 800, 4000, 1.0f, o, MODEL_CRANE_HEAD, bhvCraneHead);
 }
 
 void bhv_crane_head_loop(void) {
-    cur_obj_set_pos_relative(o->parentObj, 0, 700, 3000);
+    cur_obj_set_pos_relative(o->parentObj, 0, 900, 4200);
     o->oMoveAngleYaw = o->parentObj->oMoveAngleYaw;
     o->oFaceAnglePitch += 300;
 }

@@ -166,7 +166,7 @@ s32 act_idle(struct MarioState *m) {
         return set_mario_action(m, ACT_IN_QUICKSAND, 0);
     }
 
-    if (m->input & INPUT_IN_POISON_GAS && m->actionState != ACT_STATE_IDLE_ROCKET) {
+    if ((m->input & INPUT_IN_POISON_GAS || m->floor->type == SURFACE_TOXIC_INK) && m->actionState != ACT_STATE_IDLE_ROCKET) {
         return set_mario_action(m, ACT_COUGHING, 0);
     }
 

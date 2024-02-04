@@ -6678,7 +6678,7 @@ const BehaviorScript bhvFdoor[] = {
 
 const BehaviorScript bhvKeypad[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW),//--E
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_PERSISTENT_RESPAWN)),//--E
     BEGIN_LOOP(),
     END_LOOP(),
 };

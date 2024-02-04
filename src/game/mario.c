@@ -338,10 +338,14 @@ void adjust_sound_for_speed(struct MarioState *m) {
  */
 void play_sound_and_spawn_particles(struct MarioState *m, u32 soundBits, u32 waveParticleType) {
     if (m->terrainSoundAddend == (SOUND_TERRAIN_WATER << 16)) {
-        if (waveParticleType != 0) {
-            m->particleFlags |= PARTICLE_SHALLOW_WATER_SPLASH;
+        if(m->floor->type != SURFACE_TOXIC_INK){
+            if (waveParticleType != 0) {
+                m->particleFlags |= PARTICLE_SHALLOW_WATER_SPLASH;
+            } else {
+                m->particleFlags |= PARTICLE_SHALLOW_WATER_WAVE;
+            }
         } else {
-            m->particleFlags |= PARTICLE_SHALLOW_WATER_WAVE;
+            m->particleFlags |= PARTICLE_PLUNGE_BUBBLE;
         }
     } else {
         if (m->terrainSoundAddend == (SOUND_TERRAIN_SAND << 16)) {
@@ -532,7 +536,9 @@ u32 mario_get_terrain_sound_addend(struct MarioState *m) {
             ret = SOUND_TERRAIN_WATER << 16;
         } else if (SURFACE_IS_QUICKSAND(floorType)) {
             ret = SOUND_TERRAIN_SAND << 16;
-        } else {
+        } else if (floorType == SURFACE_TOXIC_INK) {
+            ret = SOUND_TERRAIN_WATER << 16;
+        }else {
             switch (floorType) {
                 default:
                     floorSoundType = 0;
@@ -1425,7 +1431,7 @@ void update_mario_geometry_inputs(struct MarioState *m) {
             m->input |= INPUT_IN_WATER;
         }
 
-        if (m->pos[1] < (gasLevel - 100.0f)) {
+        if (m->pos[1] < (gasLevel - 100.0f) || m->floor->type == SURFACE_TOXIC_INK) {
             m->input |= INPUT_IN_POISON_GAS;
         }
 

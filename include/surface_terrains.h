@@ -96,7 +96,7 @@ enum SurfaceTypes {
     SURFACE_SQUID_INK,                  // 0x007C // Squid Ink
     SURFACE_STAR_DOOR_WARP,             // 0x007D // Starts star door warp
     SURFACE_VANISH_FLOOR,               // 0x007E // Unused
-    SURFACE_007F,                       // 0x007F // Unused
+    SURFACE_TOXIC_INK,                  // 0x007F // Unused
     SURFACE_0080,                       // 0x0080 // Unused
     SURFACE_0081,                       // 0x0081 // Unused
     SURFACE_0082,                       // 0x0082 // Unused

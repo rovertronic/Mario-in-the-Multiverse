@@ -1,0 +1,16 @@
+extern const GeoLayout blastwall2_geo[];
+extern u8 blastwall2_Explosive_Barrel_ci4[];
+extern u8 blastwall2_Explosive_Barrel_pal_rgba16[];
+extern u8 blastwall2_Window_Mesh_Overlay_Transparent_ci4[];
+extern u8 blastwall2_Window_Mesh_Overlay_Transparent_pal_rgba16[];
+extern Vtx blastwall2_Barrel_Tower_BREAKS_GLASS_001_mesh_layer_1_vtx_0[91];
+extern Gfx blastwall2_Barrel_Tower_BREAKS_GLASS_001_mesh_layer_1_tri_0[];
+extern Vtx blastwall2_Barrel_Tower_BREAKS_GLASS_001_mesh_layer_5_vtx_0[50];
+extern Gfx blastwall2_Barrel_Tower_BREAKS_GLASS_001_mesh_layer_5_tri_0[];
+extern Gfx mat_blastwall2_Explosive_Barrel_boomed[];
+extern Gfx mat_revert_blastwall2_Explosive_Barrel_boomed[];
+extern Gfx mat_blastwall2_Window_Mesh_Overlay_Transparent[];
+extern Gfx mat_revert_blastwall2_Window_Mesh_Overlay_Transparent[];
+extern Gfx blastwall2_Barrel_Tower_BREAKS_GLASS_001_mesh_layer_1[];
+extern Gfx blastwall2_Barrel_Tower_BREAKS_GLASS_001_mesh_layer_5[];
+extern Gfx blastwall2_material_revert_render_settings[];

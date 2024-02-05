@@ -1000,9 +1000,6 @@ u32 interact_warp(struct MarioState *m, UNUSED u32 interactType, struct Object *
 #endif
 
             mario_stop_riding_object(m);
-            if ((gCurrLevelNum==LEVEL_F)&&(gCurrAreaIndex==2)) { //hardcoded check for james bond level
-                return set_mario_action(m, ACT_TELEPORT_FADE_OUT, 0);
-            }
             if (gCurrLevelNum==LEVEL_O) { //hardcoded check for walking dead level
                 return set_mario_action(m, ACT_TELEPORT_FADE_OUT, 0);
             }
@@ -1548,8 +1545,10 @@ u32 interact_koopa_shell(struct MarioState *m, UNUSED u32 interactType, struct O
 
             attack_object(obj, interaction);
             update_mario_sound_and_camera(m);
-            if(!obj_has_behavior(m->riddenObj, bhvFunkyShell)){
-                play_shell_music();
+            if (gCurrLevelNum != LEVEL_F) {
+                if(!obj_has_behavior(m->riddenObj, bhvFunkyShell)){
+                    play_shell_music();
+                }
             }
             mario_drop_held_object(m);
 

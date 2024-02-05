@@ -75,7 +75,8 @@ s32 mario_update_punch_sequence(struct MarioState *m) {
                     && !obj_has_behavior(interactObj, bhvMips)
                     && !obj_has_behavior(interactObj, bhvBreakableBoxSmall) 
                     && !obj_has_behavior(interactObj, bhvJumpingBox)
-                    && !obj_has_behavior(interactObj, bhvPlum)) {
+                    && !obj_has_behavior(interactObj, bhvPlum)
+                    && !obj_has_behavior(interactObj, bhvFdynamite)) {
                         interactObj->oAction = OBJ_ACT_STUN_KNOCKBACK;
                         interactObj->oFlags &= ~OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW;
                         interactObj->oMoveAngleYaw = obj_angle_to_object(m->marioObj, interactObj);

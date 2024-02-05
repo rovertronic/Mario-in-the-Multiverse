@@ -12,6 +12,7 @@ u16 ability_is_cooling_down(u8 ability_id);
 u8 cool_down_ability(u8 ability_id);
 u8 ability_ready(u8 ability_id);
 
+extern Vec3f mario_hand_position;
 extern s16 check_water_height;
 extern Bool8 bd_submerged;
 
@@ -45,7 +46,7 @@ struct ability {
 };
 
 extern Gfx gfx_ability_hand[2];
-extern Gfx gfx_ability_hat[2];
+extern Gfx gfx_ability_hat[3];
 extern u8 ability_slot[4];
 
 

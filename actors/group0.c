@@ -129,3 +129,4 @@
 #include "attached_rope/model.inc.c"
 #include "bubblehat_hand/model.inc.c"
 #include "desconly/model.inc.c"
+#include "f_laser/model.inc.c"

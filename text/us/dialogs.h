@@ -300,6 +300,70 @@ the magic 8-ball to get\n\
 the final star of this\n\
 level."))
 
+DEFINE_DIALOG(DIALOG_F_BOND1, 1, 4, 95, 190, _("\
+Ah, Bond, a slight\n\
+oversight in our\n\
+communication. I forgot to\n\
+mention a crucial detail.\n\
+For the upcoming endeavor,\n\
+you'll require a formidable\n\
+weapon to deal with the\n\
+keypad in your path."))
+
+DEFINE_DIALOG(DIALOG_F_BOND2, 1, 6, 95, 190, _("\
+Mr Bond, it appears you've\n\
+stumbled upon my message.\n\
+I trust it reached you in\n\
+the clandestine manner\n\
+befitting our covert\n\
+communications.\n\
+Ah, the gadget watch, a\n\
+marvel of Q's ingenuity,\n\
+now gracing your wrist.\n\
+Its capabilities extend\n\
+beyond mere timekeeping,\n\
+allowing you to perceive\n\
+phantom apparitions and\n\
+wreak havoc from a discreet\n\
+distance. Exercise caution,\n\
+007, for its power is as\n\
+potent as it is perilous.\n\
+\n\
+May the shadows favor you,\n\
+Bond!"))
+
+DEFINE_DIALOG(DIALOG_F_BOND3, 1, 6, 95, 190, _("\
+Ah, Bond, it appears\n\
+you've become quite adept\n\
+at harnessing the\n\
+capabilities of that gadget\n\
+timepiece. Mastery comes\n\
+with responsibility, 007.\n\
+Employ its functions\n\
+sparingly. Your discretion\n\
+in utilizing such tools\n\
+is of utmost importance,\n\
+We rely on your savvy\n\
+judgment in navigating\n\
+the intricate web of\n\
+espionage. Godspeed, Bond."))
+
+DEFINE_DIALOG(DIALOG_F_BOND4, 1, 7, 95, 190, _("\
+Bond, a matter of urgency\n\
+requires your immediate\n\
+attention. There's a cache\n\
+of dynamite located at the\n\
+terminus of the facility.\n\
+\n\
+\n\
+I need you to retrieve it\n\
+posthaste and strategically\n\
+position it across the\n\
+ventilation system on the\n\
+platform, This task demands\n\
+precision and discretion.\n\
+Move with purpose, Bond."))
+
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 190, _("\
 Wow! You're smack in the\n\
 middle of the battlefield.\n\

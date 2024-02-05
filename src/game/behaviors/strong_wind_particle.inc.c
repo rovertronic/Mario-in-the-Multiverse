@@ -17,7 +17,7 @@ void bhv_strong_wind_particle_loop(void) {
     f32 distanceFromPenguin;
     f32 penguinXDist, penguinZDist;
 
-    obj_set_hitbox(o, &sStrongWindParticleHitbox);
+    //obj_set_hitbox(o, &sStrongWindParticleHitbox);
 
     if (o->oTimer == 0) {
         o->oStrongWindParticlePenguinObj = cur_obj_nearest_object_with_behavior(bhvSLWalkingPenguin);

@@ -219,6 +219,15 @@ void bhv_rocket_button_init(void){
     if (o->oModelStateOFF == 0) o->oModelStateOFF = MODEL_ROCKET_BUTTON_OFF;
 }
 
+void bhv_gold_button_f_init(void){
+    //if Bparam 3 is set, change the model ID for the ON state
+    o->oModelStateON = ((o->oBehParams >> 8) & 0xFF);
+    if (o->oModelStateON == 0) o->oModelStateON = MODEL_GOLD_BTN_ON;
+    //if Bparam 4 is set, change the model ID for the OFF state
+    o->oModelStateOFF = ((o->oBehParams) & 0xFF);
+    if (o->oModelStateOFF == 0) o->oModelStateOFF = MODEL_GOLD_BTN_OFF;
+}
+
 void bhv_rocket_button_group_loop(void){
     if(o->oAction == ROCKET_BUTTON_GROUP_WAITING && 
         count_objects_with_behavior_bparam1_action(bhvRocketButton, o->oBehParams >> 24, ROCKET_BUTTON_ACT_OFF) == 0){

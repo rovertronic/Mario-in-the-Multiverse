@@ -61,10 +61,11 @@ u8 phasewalk_state = 0;
 u16 phasewalk_timer = 0;
 u16 chronos_timer = 0;
 u8 chronos_expended = FALSE;
+Vec3f mario_hand_position = {0.0f,0.0f,0.0f};
 //
 
 Gfx gfx_ability_hand[2] = {gsSPDisplayList(mario_right_hand_closed),gsSPEndDisplayList()};
-Gfx gfx_ability_hat[2] = {gsSPEndDisplayList()};
+Gfx gfx_ability_hat[3] = {gsSPEndDisplayList()};
 
 //Graphics data for abilities
 ALIGNED8 u8 ability_images[][2048] = {
@@ -265,12 +266,14 @@ void change_ability(s8 picked_ability) {
     gSPEndDisplayList(&gfx_ability_hand[1]);
 
     //Hat Display List
-    if (ability_struct[gMarioState->abilityId].hat == NULL) {
-        gSPEndDisplayList(&gfx_ability_hat[0]);
-    } else {
-        gSPDisplayList(&gfx_ability_hat[0], ability_struct[gMarioState->abilityId].hat);
-        gSPEndDisplayList(&gfx_ability_hat[1]);
+    u8 hat_dl_head = 0;
+    if (ability_struct[gMarioState->abilityId].hat != NULL) {
+        gSPDisplayList(&gfx_ability_hat[hat_dl_head++], ability_struct[gMarioState->abilityId].hat);
     }
+    if ((gCurrLevelNum == LEVEL_F)&&(gMarioState->abilityId != ABILITY_GADGET_WATCH)) {
+        gSPDisplayList(&gfx_ability_hat[hat_dl_head++], &hat_f_hat_mesh);
+    }
+    gSPEndDisplayList(&gfx_ability_hat[hat_dl_head++]);
 
     // Mario Model
     gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];

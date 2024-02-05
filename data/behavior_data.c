@@ -398,6 +398,7 @@ enum BehaviorCommands {
     BC_B(BHV_CMD_SPAWN_WATER_DROPLET), \
     BC_PTR(dropletParams)
 
+extern void bhv_hidden_by_uv(void);
 
 const BehaviorScript bhvStarDoor[] = {
     BEGIN(OBJ_LIST_SURFACE),
@@ -4607,6 +4608,16 @@ const BehaviorScript bhvStar[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvUVstar[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    CALL_NATIVE(bhv_collect_star_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_hidden_by_uv),
+        CALL_NATIVE(bhv_collect_star_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvStarSpawnCoordinates[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
@@ -6712,7 +6723,7 @@ const BehaviorScript bhvGadgetAim[] = {
 const BehaviorScript bhvBriefcase[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
-    SET_HITBOX(/*Radius*/ 150, /*Height*/ 100),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 100),
     SET_INT(oIntangibleTimer, 0),
     BEGIN_LOOP(),
         ADD_INT(oFaceAngleYaw, 0x100),
@@ -6743,8 +6754,223 @@ const BehaviorScript bhvFfence[] = {
     OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW),//--E
     LOAD_COLLISION_DATA(f_fence_collision),
     SET_FLOAT(oDrawingDistance, 25000),
+    SET_FLOAT(oCollisionDistance, 5000),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_ffence_loop),
+    END_LOOP(),
+};
+
+extern void bhv_ftrinket_loop(void);
+const BehaviorScript bhvFTrinket[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ftrinket_loop),
+    END_LOOP(),
+};
+
+extern void bhv_fblastwall_loop(void);
+const BehaviorScript bhvFblastwall[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW),//--E
+    LOAD_COLLISION_DATA(blastwall1_collision),
+    SET_FLOAT(oDrawingDistance, 25000),
+    SET_FLOAT(oCollisionDistance, 5000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_fblastwall_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void bhv_fdynamite_loop(void);
+const BehaviorScript bhvFdynamite[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_HOLDABLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    DROP_TO_FLOOR(),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_fdynamite_loop),
+    END_LOOP(),
+};
+
+extern void bhv_fsg_keypad_loop(void);
+const BehaviorScript bhvFSGkeypad[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_PERSISTENT_RESPAWN)),//--E
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_fsg_keypad_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvFhidden[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_PERSISTENT_RESPAWN)),//--E
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_hidden_by_uv),
+    END_LOOP(),
+};
+
+extern void bhv_poof_on_watch(void);
+const BehaviorScript bhvPoofOnWatch[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_poof_on_watch),
+    END_LOOP(),
+};
+
+extern void bhv_gold_button_f_init(void);
+const BehaviorScript bhvFRocketButtonGold[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW | OBJ_FLAG_E__SG_CUSTOM)),
+    SET_INT(oIntangibleTimer, 0),
+    SET_FLOAT(oDrawingDistance, 16000),
+    SET_HITBOX(/*Radius*/ 80, /*Height*/ 130),
+    //SET_FLOAT(oGraphYOffset, 65),
+    CALL_NATIVE(bhv_gold_button_f_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rocket_button_loop),
+    END_LOOP(),
+};
+
+extern void bhv_sch_board_loop(void);
+const BehaviorScript bhvF_SchBoard[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST | OBJ_FLAG_E__SG_COLLISION_BREAKABLE)),//--E
+    LOAD_COLLISION_DATA(f_sch_board_collision),
+    SET_FLOAT(oDrawingDistance, 25000),
+    SET_FLOAT(oCollisionDistance, 5000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_sch_board_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void bhv_f_trapdoor(void);
+const BehaviorScript bhvFtrapdoor[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(f_trapdoor_collision),
+    SET_FLOAT(oDrawingDistance, 25000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_trapdoor),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void bhv_f_key(void);
+const BehaviorScript bhvFkey[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE|OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_key),
+    END_LOOP(),
+};
+
+extern void bhv_f_shooter(void);
+const BehaviorScript bhvFshooter[] = {
+    BEGIN(OBJ_LIST_PUSHABLE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_ENEMY)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_shooter),
+    END_LOOP(),
+};
+
+extern void bhv_f_shooter_star(void);
+const BehaviorScript bhvFshooterStar[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_shooter_star),
+    END_LOOP(),
+};
+
+extern void bhv_f_keydoor(void);
+const BehaviorScript bhvFKeydoor[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(f_keydoor_collision),
+    LOAD_ANIMATIONS(oAnimations, keydoor_anims),
+    SET_FLOAT(oDrawingDistance, 25000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_keydoor),
+    END_LOOP(),
+};
+
+extern void bhv_f_curtainplatform(void);
+const BehaviorScript bhvFCurtainPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(f_curtainplatform_collision),
+    SET_FLOAT(oDrawingDistance, 32000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_curtainplatform),
+    END_LOOP(),
+};
+
+extern void bhv_f_missiles(void);
+const BehaviorScript bhvFMissiles[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 32000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_missiles),
+    END_LOOP(),
+};
+
+extern void bhv_f_blowvent(void);
+const BehaviorScript bhvFBlowVent[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_blowvent),
+    END_LOOP(),
+};
+
+extern void bhv_f_boat(void);
+const BehaviorScript bhvFBoat[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(f_boat_collision),
+    SET_FLOAT(oDrawingDistance, 32000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_boat),
+    END_LOOP(),
+};
+
+extern void bhv_f_heli(void);
+const BehaviorScript bhvFHeli[] = {
+    BEGIN(OBJ_LIST_PUSHABLE),
+    SET_FLOAT(oDrawingDistance, 32000),
+    LOAD_ANIMATIONS(oAnimations, f_heli_anims),
+    ANIMATE(0),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_E__SG_CUSTOM)),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_heli),
+    END_LOOP(),
+};
+
+extern void bhv_helicopter_ball_loop(void);
+const BehaviorScript bhvHeliBalls[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_BREAKABLE)),//--E
+    BILLBOARD(),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 10, /*Gravity*/ 0, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    CALL_NATIVE(bhv_init_room),
+    SET_FLOAT(oGraphYOffset, 10),
+    SCALE(/*Unused*/ 0, /*Field*/ 20),
+    SET_FLOAT(oDrawingDistance, 32000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_helicopter_ball_loop),
+    END_LOOP(),
+};
+
+extern void bhv_f_laser(void);
+const BehaviorScript bhvFLaser[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_f_laser),
     END_LOOP(),
 };
 /* GROUP F END */
@@ -7684,7 +7910,6 @@ const BehaviorScript bhvOTree[] = {
     END_LOOP(),
 };
 
-extern void bhv_hidden_by_uv(void);
 const BehaviorScript bhvOuvstar[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),

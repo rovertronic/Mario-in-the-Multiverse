@@ -28,6 +28,7 @@ struct SaveFile {
     u16 coins; //amount of coins
     u16 abilities;
     u8 ability_dpad[4];
+    u8 level_f_flags;
     u32 flags;
 
     // Star flags for each course.
@@ -218,5 +219,14 @@ u32 eu_get_language(void);
 #else
 #define LANGUAGE_ENGLISH 0
 #endif
+
+enum level_f_flag_ids {
+    LEVEL_F_FLAG_TRAPDOOR,
+    LEVEL_F_FLAG_KEY,
+    LEVEL_F_FLAG_MISSILE,
+    LEVEL_F_FLAG_BOND_MESSAGE_1,
+    LEVEL_F_FLAG_BOND_MESSAGE_2,
+    LEVEL_F_FLAG_BOND_MESSAGE_3,
+};
 
 #endif // SAVE_FILE_H

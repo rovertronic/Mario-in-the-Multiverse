@@ -623,6 +623,27 @@ extern const BehaviorScript bhvBriefcase[];
 extern const BehaviorScript bhvFdoor[];
 extern const BehaviorScript bhvKeypad[];
 extern const BehaviorScript bhvFfence[];
+extern const BehaviorScript bhvFTrinket[];
+extern const BehaviorScript bhvFblastwall[];
+extern const BehaviorScript bhvFdynamite[];
+extern const BehaviorScript bhvFSGkeypad[];
+extern const BehaviorScript bhvFhidden[];
+extern const BehaviorScript bhvUVstar[];
+extern const BehaviorScript bhvPoofOnWatch[];
+extern const BehaviorScript bhvFRocketButtonGold[];
+extern const BehaviorScript bhvF_SchBoard[];
+extern const BehaviorScript bhvFtrapdoor[];
+extern const BehaviorScript bhvFkey[];
+extern const BehaviorScript bhvFshooter[];
+extern const BehaviorScript bhvFshooterStar[];
+extern const BehaviorScript bhvFKeydoor[];
+extern const BehaviorScript bhvFCurtainPlatform[];
+extern const BehaviorScript bhvFMissiles[];
+extern const BehaviorScript bhvFBlowVent[];
+extern const BehaviorScript bhvFBoat[];
+extern const BehaviorScript bhvFHeli[];
+extern const BehaviorScript bhvHeliBalls[];
+extern const BehaviorScript bhvFLaser[];
 /* GROUP F END */
 
 /* GROUP G START */

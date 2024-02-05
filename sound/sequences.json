@@ -198,9 +198,21 @@
         "15"
     ],
     "3B_h_geothermal":[
-        "17"
+        "0E_extended_bank"
     ],
-    "3C_c_sea_me_now":[
+    "3C_level_f_frwl":[
+        "0E_extended_bank"
+    ],
+    "3D_level_f_bond":[
+        "0E_extended_bank"
+    ],
+    "3E_level_d_over":[
+        "0E_extended_bank"
+    ],
+    "3F_level_d_under":[
+        "0E_extended_bank"
+    ],
+    "40_c_sea_me_now":[
         "0E_extended_bank"
     ]
 }

@@ -435,6 +435,52 @@ void update_shell_speed(struct MarioState *m) {
     }
 }
 
+void update_boat_speed(struct MarioState *m) {
+    f32 maxTargetSpeed;
+    f32 targetSpeed;
+
+    if (m->floorHeight < m->waterLevel) {
+        set_mario_floor(m, &gWaterSurfacePseudoFloor, m->waterLevel);
+        m->floor->originOffset = -m->waterLevel;
+        // m->floor->originOffset = m->waterLevel; //! (Original code) Negative origin offset
+    }
+
+    if (m->floor != NULL && m->floor->type == SURFACE_SLOW) {
+        maxTargetSpeed = 48.0f;
+    } else {
+        maxTargetSpeed = 64.0f;
+    }
+
+    targetSpeed = gPlayer1Controller->rawStickY * 2.0f;
+    if (targetSpeed > maxTargetSpeed) {
+        targetSpeed = maxTargetSpeed;
+    }
+    if (targetSpeed < 10.0f) {
+        targetSpeed = 10.0f;
+    }
+
+    if (m->forwardVel <= 0.0f) {
+        m->forwardVel += 1.1f;
+    } else if (m->forwardVel <= targetSpeed) {
+        m->forwardVel += 1.1f - m->forwardVel / 58.0f;
+    } else if (m->floor->normal.y >= 0.95f) {
+        m->forwardVel -= 1.0f;
+    }
+
+    //! No backward speed cap (shell hyperspeed)
+    if (m->forwardVel > 64.0f) {
+        m->forwardVel = 64.0f;
+    }
+
+    m->faceAngle[1] += m->angleVel[1];
+    m->angleVel[1] *= .94f;
+    if (ABS(gPlayer1Controller->rawStickX) > 20.0f) {
+        m->angleVel[1] += gPlayer1Controller->rawStickX*-1.0f;
+    }
+
+    apply_slope_accel(m);
+}
+
 s32 apply_slope_decel(struct MarioState *m, f32 decelCoef) {
     f32 decel;
     s32 stopped = FALSE;
@@ -1360,11 +1406,13 @@ s32 act_riding_shell_ground(struct MarioState *m) {
 
     s16 startYaw = m->faceAngle[1];
 
-    if (m->input & INPUT_A_PRESSED) {
-        return set_mario_action(m, ACT_RIDING_SHELL_JUMP, 0);
+    if (gCurrLevelNum != LEVEL_F) {
+        if (m->input & INPUT_A_PRESSED) {
+            return set_mario_action(m, ACT_RIDING_SHELL_JUMP, 0);
+        }
     }
 
-    if (!obj_has_behavior(m->riddenObj, bhvFunkyShell) && m->input & INPUT_Z_PRESSED) {
+    if (m->riddenObj && !obj_has_behavior(m->riddenObj, bhvFunkyShell) && m->input & INPUT_Z_PRESSED) {
         mario_stop_riding_object(m);
         if (m->forwardVel < 24.0f) {
             mario_set_forward_vel(m, 24.0f);
@@ -1372,7 +1420,11 @@ s32 act_riding_shell_ground(struct MarioState *m) {
         return set_mario_action(m, ACT_CROUCH_SLIDE, 0);
     }
 
-    update_shell_speed(m);
+    if (gCurrLevelNum == LEVEL_F) {
+        update_boat_speed(m);
+    } else {
+        update_shell_speed(m);
+    }
     set_mario_animation(m, m->actionArg == 0 ? MARIO_ANIM_START_RIDING_SHELL : MARIO_ANIM_RIDING_SHELL);
 
     switch (perform_ground_step(m)) {
@@ -1393,7 +1445,7 @@ s32 act_riding_shell_ground(struct MarioState *m) {
     if (m->floor->type == SURFACE_BURNING) {
         play_sound(SOUND_MOVING_RIDING_SHELL_LAVA, m->marioObj->header.gfx.cameraToObject);
     } else {
-        if(obj_has_behavior(m->riddenObj, bhvFunkyShell)){
+        if(m->riddenObj && obj_has_behavior(m->riddenObj, bhvFunkyShell)){
             play_sound(SOUND_MOVING_TERRAIN_RIDING_SHELL,
                    m->marioObj->header.gfx.cameraToObject);
         } else {
@@ -1401,6 +1453,11 @@ s32 act_riding_shell_ground(struct MarioState *m) {
                    m->marioObj->header.gfx.cameraToObject);
         }
         
+    }
+
+    if (gCurrLevelNum == LEVEL_F) {
+        set_mario_animation(m, MARIO_ANIM_SLIDE_MOTIONLESS);
+        m->marioObj->header.gfx.pos[1] += 35.0f;
     }
 
     adjust_sound_for_speed(m);

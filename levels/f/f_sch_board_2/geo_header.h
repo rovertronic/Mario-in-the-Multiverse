@@ -1,0 +1,9 @@
+extern const GeoLayout f_sch_board_2_geo[];
+extern u8 f_sch_board_2_Schedule_Board_Cracked_ci4[];
+extern u8 f_sch_board_2_Schedule_Board_Cracked_pal_rgba16[];
+extern Vtx f_sch_board_2_Schedule_Board_SHOTGUN_CRACKED_mesh_layer_1_vtx_0[4];
+extern Gfx f_sch_board_2_Schedule_Board_SHOTGUN_CRACKED_mesh_layer_1_tri_0[];
+extern Gfx mat_f_sch_board_2_Schedule_Board_Cracked[];
+extern Gfx mat_revert_f_sch_board_2_Schedule_Board_Cracked[];
+extern Gfx f_sch_board_2_Schedule_Board_SHOTGUN_CRACKED_mesh_layer_1[];
+extern Gfx f_sch_board_2_material_revert_render_settings[];

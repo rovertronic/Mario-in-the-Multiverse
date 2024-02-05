@@ -1799,6 +1799,7 @@ s32 act_cutter_dash(struct MarioState *m) {
 //BEWARE OF CHICKEN SCRATCH CODE
 
 struct Surface *squid_wall;
+struct Surface *squid_old_ray_surface;
 
 s32 act_squid(struct MarioState *m){
     struct Surface *surfie;
@@ -1809,6 +1810,12 @@ s32 act_squid(struct MarioState *m){
     f32 fheight;
     Vec3f v3;
     s16 wall_angle;
+
+    Vec3f ray_vec;
+    Vec3f ray_origin;
+    Vec3f ray_hit_pos;
+    struct Surface * ray_surface;
+
     set_custom_mario_animation(m, 6);
 
     switch(m->actionState) {
@@ -1820,7 +1827,11 @@ s32 act_squid(struct MarioState *m){
                 m->actionState = 1;
                 //go in da ink
             }
-        break;
+            if (surfie && fheight+10.0f > m->pos[1] && m->actionState == 0) {
+                // On ground, but not valid ink
+                stationary_ground_step(m);
+            }
+            break;
 
         case 1: //ink ground move
             intend_x = m->pos[0] + sins(m->intendedYaw)*m->intendedMag;
@@ -1852,9 +1863,7 @@ s32 act_squid(struct MarioState *m){
                     //check for a wall below
                     resolve_and_return_wall_collisions(v3, -40.0f, 120.0f, &wall);
                     if (wall.numWalls > 0 && wall.walls[0]->type == SURFACE_SQUID_INK) {
-                        //m->pos[0] = intend_x;
                         m->pos[1] -= 10.0f;
-                        //m->pos[2] = intend_z;
                         squid_wall = wall.walls[0];
                         m->actionState = 2;
                         return FALSE;
@@ -1864,57 +1873,70 @@ s32 act_squid(struct MarioState *m){
 
             vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
             vec3s_set(m->marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
-        break;
+            break;
 
         case 2: //ink wall move
-            if (squid_wall) {
-                wall_angle = atan2s(squid_wall->normal.z,squid_wall->normal.x);
-                intend_x = m->pos[0] + sins(wall_angle+0x4000) * 5.0f * (gPlayer1Controller->rawStickX/10.0f);
-                intend_y = m->pos[1] + (gPlayer1Controller->rawStickY/3.0f);
-                intend_z = m->pos[2] + coss(wall_angle+0x4000) * 5.0f * (gPlayer1Controller->rawStickX/10.0f);
+            resolve_and_return_wall_collisions(m->pos, 0.0f, 0.0f, &wall);
 
-                m->pos[0] = intend_x;
-                m->pos[1] = intend_y;
-                m->pos[2] = intend_z;
+            vec3f_copy(ray_origin,m->pos);
+            ray_origin[0] += squid_wall->normal.x*30.0f;
+            ray_origin[1] += 10.0f;
+            ray_origin[2] += squid_wall->normal.x*30.0f;
+
+            ray_vec[0] = squid_wall->normal.x*-100.0f;
+            ray_vec[1] = 0.0f;
+            ray_vec[2] = squid_wall->normal.z*-100.0f;
+
+            find_surface_on_ray(ray_origin, ray_vec, &ray_surface, ray_hit_pos, RAYCAST_FIND_WALL);
+
+            if (ray_surface && ray_surface->type == SURFACE_SQUID_INK) {
+                if (squid_old_ray_surface != ray_surface) {
+                    squid_old_ray_surface = ray_surface;
+                    squid_wall = ray_surface;
+                    vec3f_copy(m->pos,ray_hit_pos);
+                    m->pos[1] -= 10.0f;
+                }
+
+                wall_angle = atan2s(ray_surface->normal.z,ray_surface->normal.x);
+                m->pos[0] += sins(wall_angle+0x4000) * 0.3f * gPlayer1Controller->rawStickX;
+                m->pos[1] += (gPlayer1Controller->rawStickY/4.0f);
+                m->pos[2] += coss(wall_angle+0x4000) * 0.3f * gPlayer1Controller->rawStickX;
 
                 vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
                 vec3s_set(m->marioObj->header.gfx.angle, -0x4000, wall_angle+0x8000, 0);
 
-                resolve_and_return_wall_collisions(m->pos, 0.0f, 50.0f, &wall);
-                squid_wall = wall.walls[0];
-
-                if (wall.numWalls == 0 || squid_wall->type != SURFACE_SQUID_INK) {
-                    //falling off wal? check infront first/.
-                    fheight = find_floor(m->pos[0]+(sins(wall_angle+0x8000)*40.0f) ,m->pos[1]+20.0f,m->pos[2]+(coss(wall_angle+0x8000)*40.0f), &surfie);
-                    if (surfie && surfie->type == SURFACE_SQUID_INK) {
-                        m->actionState = 1;
-                        m->pos[0] = m->pos[0]+(sins(wall_angle+0x8000)*10.0f);
-                        m->pos[2] = m->pos[2]+(coss(wall_angle+0x8000)*10.0f);
-                    } else {
-                        m->vel[1] = 0.0f;
-                        m->actionState = 0;
+                if (intend_y < 0.0f) { // Player attempting to go from wall ink -> floor ink
+                    fheight = find_floor(intend_x,m->pos[1]+15.0f,intend_z, &surfie);
+                    if (surfie && fheight+10.0f > m->pos[1]) {
+                        m->pos[1] = fheight;
+                        if (surfie->type == SURFACE_SQUID_INK) {
+                            m->actionState = 1;
+                        } else {
+                            m->vel[1] = 0.0f;
+                            m->actionState = 0;
+                        }
                     }
                 }
-
-                fheight = find_floor(intend_x,m->pos[1]+15.0f,intend_z, &surfie);
-                if (surfie && fheight+10.0f > m->pos[1]) {
-                    m->pos[1] = fheight;
-                    if (surfie->type == SURFACE_SQUID_INK) {
-                        m->actionState = 1;
-                    } else {
-                        m->vel[1] = 0.0f;
-                        m->actionState = 0;
-                    }
-                }
+            } else {
+                //falling off wal? check infront first/.
+                fheight = find_floor(m->pos[0]+(sins(wall_angle+0x8000)*40.0f) ,m->pos[1]+20.0f,m->pos[2]+(coss(wall_angle+0x8000)*40.0f), &surfie);
+                if (surfie && surfie->type == SURFACE_SQUID_INK) {
+                    m->actionState = 1;
+                    m->pos[0] = m->pos[0]+(sins(wall_angle+0x8000)*10.0f);
+                    m->pos[2] = m->pos[2]+(coss(wall_angle+0x8000)*10.0f);
+                } else {
+                    m->vel[1] = 0.0f;
+                    m->actionState = 0;
+                } 
             }
-        break;
+            break;
     }
 
     if (!using_ability(ABILITY_SQUID)) {
         obj_set_model(m->marioObj, MODEL_MARIO);
         return set_mario_action(m, ACT_IDLE, 0);
     }
-    stationary_ground_step(m);
+    //stationary_ground_step(m);
 
     return FALSE;
 }

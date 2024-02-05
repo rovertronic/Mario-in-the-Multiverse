@@ -2061,7 +2061,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             change_ability(ABILITY_BUBBLE_HAT);
         }
 
-        if ((!force_marble)&&(gMarioState->action != ACT_BUBBLE_HAT_JUMP)) {
+        if ((!force_marble)&&(gMarioState->action != ACT_BUBBLE_HAT_JUMP)&&(gMarioState->action != ACT_SQUID)) {
             control_ability_dpad();
         }
 
@@ -2252,15 +2252,21 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             gMarioObject->hitboxDownOffset = 0;
         }
 
+        struct SpawnParticlesInfo D_8032F270 = { 2, 20, MODEL_MIST, 0, 40, 5, 30, 20, 252, 30, 10.0f, 10.0f };
+
         //Squid Ability
+        gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
         if(using_ability(ABILITY_SQUID)){
             if (gPlayer1Controller->buttonPressed & L_TRIG){
+                cur_obj_spawn_particles(&D_8032F270);
                 if (gMarioState->action == ACT_SQUID) {
                     obj_set_model(gMarioObject, MODEL_MARIO);
                     set_mario_action(gMarioState, ACT_IDLE, 0);
+                    gMarioState->marioObj->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
                 } else {
                     obj_set_model(gMarioObject, MODEL_SQUID);
                     set_mario_action(gMarioState, ACT_SQUID, 0);
+                    gMarioState->marioObj->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
                 }
             }
         }

@@ -878,8 +878,6 @@ s32 act_marble(struct MarioState *m) {
         vec3f_copy(m->pos,&marble->oPosVec);
         vec3f_copy(&m->marioObj->oPosVec,&marble->oPosVec);
         m->marioObj->header.gfx.throwMatrix = marble->transform;
-    } else {
-
     }
     return FALSE;
 }

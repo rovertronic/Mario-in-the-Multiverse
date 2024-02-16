@@ -2205,6 +2205,16 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
 
+        // Kick Mario out of the marble if he is forcibly set to another state
+        if (gMarioState->action != ACT_MARBLE) {
+            struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
+            if (marble) {
+                deallocate_rigid_body(marble->rigidBody);
+                obj_mark_for_deletion(marble);
+                change_ability(ABILITY_DEFAULT);
+            }
+        }
+
         //Marble Ability
         if (force_marble) {
             gMarioState->canHMFly = TRUE;
@@ -2229,10 +2239,14 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             gMarioObject->hitboxHeight = 200;
             gMarioObject->hitboxRadius = 100;
             gMarioObject->hitboxDownOffset = 50;
+            gMarioObject->hurtboxHeight = 200;
+            gMarioObject->hurtboxRadius = 100;
+
         } else {
             struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
             if (marble) {
                 vec3f_copy(gMarioState->vel,marble->rigidBody->linearVel);
+                marble->rigidBody->linearVel[1] = 0.0f;
                 gMarioState->forwardVel = vec3_mag(marble->rigidBody->linearVel);
                 gMarioState->faceAngle[1] = atan2s(marble->rigidBody->linearVel[2],marble->rigidBody->linearVel[0]);
                 gMarioState->action = ACT_FREEFALL;
@@ -2244,6 +2258,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             gMarioObject->hitboxHeight = 160;
             gMarioObject->hitboxRadius = 37;
             gMarioObject->hitboxDownOffset = 0;
+            gMarioObject->hurtboxHeight = 160;
+            gMarioObject->hurtboxRadius = 37;
         }
 
         //Squid Ability

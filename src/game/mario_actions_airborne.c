@@ -2504,6 +2504,9 @@ s32 act_hm_fly(struct MarioState *m){
 }
 
 s32 act_knight_jump(struct MarioState *m) {
+    if (!using_ability(ABILITY_KNIGHT)) {
+        return set_mario_action(m, ACT_FREEFALL,0);
+    }
 
     if (m->knightDoubleJump) {
         set_mario_animation(m, MARIO_ANIM_FORWARD_SPINNING_FLIP);
@@ -2543,7 +2546,12 @@ s32 act_knight_jump(struct MarioState *m) {
 }
 
 s32 act_dash_boost(struct MarioState *m) {
+    if (!using_ability(ABILITY_DASH_BOOSTER)) {
+        return set_mario_action(m, ACT_FREEFALL,0);
+    }
+
     update_air_without_turn(m);
+    set_mario_animation(m, MARIO_ANIM_FLY_FROM_CANNON);
     
     if (m->actionTimer%2==0) {
         spawn_object(m->marioObj,MODEL_DBP,bhvDashBoosterParticle);
@@ -2552,15 +2560,27 @@ s32 act_dash_boost(struct MarioState *m) {
     if (m->actionArg == 0) {
         m->forwardVel = 70.0f;
         m->vel[1] = 0.0f;
+        m->marioObj->header.gfx.angle[0] = 0;
     } else {
         m->forwardVel = 0.0f;
-        m->vel[1] = 70.0f;   
+        m->vel[1] = 70.0f;
+        m->marioObj->header.gfx.angle[0] = 0x4000;
     }
 
     switch (perform_air_step(m, 0)) {
         case AIR_STEP_HIT_WALL:
                 return set_mario_action(m, ACT_BACKWARD_AIR_KB,0);
             break;
+    }
+
+    if (m->actionArg == 0) {
+        m->forwardVel = 70.0f;
+        m->vel[1] = 0.0f;
+        m->marioObj->header.gfx.angle[0] = 0;
+    } else {
+        m->forwardVel = 0.0f;
+        m->vel[1] = 70.0f;
+        m->marioObj->header.gfx.angle[0] = -0x4000;
     }
 
     if (m->actionTimer != 0) {

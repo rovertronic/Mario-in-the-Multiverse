@@ -25,6 +25,7 @@
 #include "rumble_init.h"
 #include "config.h"
 #include "ability.h"
+#include "rigid_body.h"
 
 u8  sDelayInvincTimer;
 s16 sInvulnerable;
@@ -233,6 +234,17 @@ u32 determine_interaction(struct MarioState *m, struct Object *obj) {
 
     if (action == ACT_CUTTER_DASH) {
         interaction = INT_KICK;
+    }
+
+    if (action == ACT_MARBLE) {
+        interaction = INT_NONE;
+        struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
+        if (marble) {
+            f32 speed = vec3_mag(marble->rigidBody->linearVel);
+            if (speed > 40.0f) {
+                interaction = INT_KICK;
+            }
+        }
     }
 
     // Prior to this, the interaction type could be overwritten. This requires, however,
@@ -830,14 +842,6 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
     u32 grandStar = (obj->oInteractionSubtype & INT_SUBTYPE_GRAND_STAR) != 0;
 
     if (m->health >= 0x100) {
-        if (using_ability(ABILITY_MARBLE)) {
-            struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
-            if (marble) {
-                deallocate_rigid_body(marble->rigidBody);
-                obj_mark_for_deletion(marble);
-                change_ability(ABILITY_DEFAULT);
-            }
-        }
         mario_stop_riding_and_holding(m);
 #if ENABLE_RUMBLE
         queue_rumble_data(5, 80);

@@ -2,7 +2,7 @@
 static void spawn_multiple_enemies(const BehaviorScript *behavior, ModelID32 modelId, u8 amount){
     u8 i;
     for (i = 0; i < amount; i++) {
-        struct Object *obj = spawn_object_relative(0, 0, 0, 0, o, modelId, behavior);
+        struct Object *obj = spawn_object_relative(0, random_float() * random_sign() * 1000.0f, 0, random_float() * random_sign() * 1000.0f, o, modelId, behavior);
         SET_BPARAM1(obj->oBehParams, 3);
     }
 }
@@ -17,12 +17,12 @@ void bhv_fight_waves_manager_loop(void) {
             break;
         case 1: //wait for wave 1 to end
             if(count_objects_with_behavior(bhvGoomba) == 0){
-                spawn_multiple_enemies(bhvBobomb, MODEL_BLACK_BOBOMB, 5);
+                spawn_multiple_enemies(bhvOctoball, MODEL_OCTOBALL, 5);
                 o->oAction++;
             }
             break;
         case 2: //wait for wave 2 to end
-            if(count_objects_with_behavior(bhvBobomb) == 0){
+            if(count_objects_with_behavior(bhvOctoball) == 0){
                 spawn_multiple_enemies(bhvChuckya, MODEL_CHUCKYA, 5);
                 o->oAction++;
             }
@@ -109,6 +109,51 @@ void bhv_crane_head_loop(void) {
     cur_obj_set_pos_relative(o->parentObj, 0, 900, 4200);
     o->oMoveAngleYaw = o->parentObj->oMoveAngleYaw;
     o->oFaceAnglePitch += 300;
+}
+
+void bhv_crane_rock_init(void) {
+    o->oHomeY = o->oPosY;
+    o->craneHeadObj = cur_obj_nearest_object_with_behavior(bhvCraneHead);
+    o->oCarvingTimer = 0;
+}
+
+void bhv_crane_rock_loop(void) {
+    switch(o->oAction){
+        case 0: //wait
+            o->craneHeadObj = cur_obj_nearest_object_with_behavior(bhvCraneHead);
+            if(o->craneHeadObj != NULL) {
+                if(dist_between_objects(o->craneHeadObj, o) < 2000) {
+                    o->oAction++;
+                }
+            }
+        break;
+
+        case 1: //carve
+            o->oCarvingTimer++;
+            //rumble effect
+            o->oPosY = o->oTimer % 2 ? o->oHomeY + 20.0f : o->oHomeY - 20.0f;
+            //explode if carved enough
+            if(o->oCarvingTimer > 250){
+                o->oAction++;
+            }
+            //stop carving if the crane head is too far
+            if(dist_between_objects(o->craneHeadObj, o) > 2000) {
+                o->oCarvingTimer = 0;
+                o->oAction = 0;
+            }
+        break;
+        case 2: //explode
+            create_sound_spawner(SOUND_GENERAL2_PYRAMID_TOP_EXPLOSION);
+            spawn_mist_particles_variable(0, 0, 80.0f);
+            spawn_triangle_break_particles(30, MODEL_DIRT_ANIMATION, 3.0f, 4);
+            //if it was the last rock
+            if(count_objects_with_behavior(bhvCraneRock) == 1){
+                //play_puzzle_jingle();
+                bhv_spawn_star_no_level_exit_at_object(3, gMarioObject);
+            }
+            obj_mark_for_deletion(o);
+        break;
+    }
 }
 
 //--------------------PAINT GUN--------------------//

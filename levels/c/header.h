@@ -19,4 +19,6 @@ extern const LevelScript level_c_entry[];
 
 #include "levels/c/crane/geo_header.h"
 
+#include "levels/c/octoball/geo_header.h"
+
 #endif

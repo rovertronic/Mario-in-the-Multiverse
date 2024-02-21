@@ -37,6 +37,7 @@ const LevelScript level_c_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_PAINT_GUN, paint_gun_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_CRANE_HEAD, crane_head_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_CRANE, crane_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_OCTOBALL, octoball_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -48,10 +49,12 @@ const LevelScript level_c_entry[] = {
 		OBJECT(MODEL_NONE, 4729, 6014, 9275, 0, 0, 0, 0x00000000, bhvCamera),
 		OBJECT(MODEL_CRANE, 13029, 1922, 1682, 0, 0, 0, 0x00000000, bhvCrane),
 		OBJECT(MODEL_NONE, 8073, 3848, 7233, 0, 0, 0, 0x00000000, bhvCraneArrowController),
+		OBJECT(MODEL_METAL_BOX, 10986, 2047, -3248, 0, 0, 0, 0x00000000, bhvCraneRock),
 		OBJECT(MODEL_LEVEL_PIPE, 0, 1850, 691, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_NONE, 4041, 980, -1958, 0, 0, 0, 0x00000000, bhvFightWavesManager),
 		OBJECT(MODEL_NONE, -1454, 1948, 7061, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 0, 1850, -761, 0, 0, 0, (0x0A << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_OCTOBALL, 978, 1568, -2072, 0, 0, 0, 0x00000000, bhvOctoball),
 		OBJECT(MODEL_PAINT_GUN, -1050, 2332, -460, 0, 0, 0, 0x00000000, bhvPaintGun),
 		OBJECT(MODEL_FLIPSWITCH_1, -1265, 2529, 2230, 0, 0, 0, (1 << 24), bhvFlipswitch),
 		OBJECT(MODEL_FLIPSWITCH_1, -4788, 695, 2175, 0, 0, 0, (1 << 24), bhvFlipswitch),

@@ -20,3 +20,4 @@
 #include "levels/c/paint_gun/geo.inc.c"
 #include "levels/c/crane_head/geo.inc.c"
 #include "levels/c/crane/geo.inc.c"
+#include "levels/c/octoball/geo.inc.c"

@@ -6585,6 +6585,16 @@ const BehaviorScript bhvCraneArrow[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvCraneRock[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 9000.0f),
+    CALL_NATIVE(bhv_crane_rock_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_crane_rock_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvPaintGun[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
@@ -6602,6 +6612,20 @@ const BehaviorScript bhvCamera[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     BREAK(),
+};
+
+const BehaviorScript bhvOctoball[] = {
+    BEGIN(OBJ_LIST_DESTRUCTIVE),
+    OR_LONG(oFlags, (OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),//--E
+    DROP_TO_FLOOR(),
+    SET_INT(oIntangibleTimer, 0),
+    SET_FLOAT(oGraphYOffset, 85),
+    SCALE(0, 85.0f),
+    SET_HOME(),
+    CALL_NATIVE(bhv_octoball_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_octoball_loop),
+    END_LOOP(),
 };
 
 /* GROUP C END */

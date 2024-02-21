@@ -590,8 +590,10 @@ extern const BehaviorScript bhvCrane[];
 extern const BehaviorScript bhvCraneHead[];
 extern const BehaviorScript bhvCraneArrowController[];
 extern const BehaviorScript bhvCraneArrow[];
+extern const BehaviorScript bhvCraneRock[];
 extern const BehaviorScript bhvPaintGun[];
 extern const BehaviorScript bhvCamera[];
+extern const BehaviorScript bhvOctoball[];
 /* GROUP C END */
 
 /* GROUP D START */

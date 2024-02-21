@@ -18,3 +18,4 @@
 #include "levels/c/paint_gun/model.inc.c"
 #include "levels/c/crane_head/model.inc.c"
 #include "levels/c/crane/model.inc.c"
+#include "levels/c/octoball/model.inc.c"

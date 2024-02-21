@@ -655,6 +655,7 @@ enum GLOBAL_MODELS {
 #define MODEL_PAINT_GUN             0x37 //paint_gun_geo
 #define MODEL_CRANE_HEAD            0x38 //crane_head_geo
 #define MODEL_CRANE                 0x39 //crane_geo
+#define MODEL_OCTOBALL              0x3A //octoball_geo
 /* LEVEL C END */
 
 /* LEVEL D START */

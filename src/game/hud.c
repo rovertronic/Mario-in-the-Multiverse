@@ -797,7 +797,7 @@ f32 hud_alpha = 255.0f;
  * Render HUD strings using hudDisplayFlags with it's render functions,
  * excluding the cannon reticle which detects a camera preset for it.
  */
-
+extern u8 pipe_string_a[];
 void render_hud(void) {
     s16 hudDisplayFlags = gHudDisplay.flags;
 
@@ -825,8 +825,47 @@ void render_hud(void) {
         gSPMatrix(gDisplayListHead++, VIRTUAL_TO_PHYSICAL(mtx),
                   G_MTX_PROJECTION | G_MTX_MUL | G_MTX_NOPUSH);
 #else
-        if (cm_cutscene_on) {return;}
         create_dl_ortho_matrix();
+
+        if (cm_cutscene_on) {
+            if (cm_textbox_alpha > 0.1f) {
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)cm_textbox_alpha);
+                create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
+                gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+                gSPDisplayList(gDisplayListHead++, desconly_onlybox_mesh);
+                gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+                if (cm_textbox_text != NULL) {
+                    gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+                    switch(cm_textbox_speaker) {
+                        case CM_SPEAKER_PEACH:
+                            gDPSetEnvColor(gDisplayListHead++, 255, 40, 200, (u8)cm_textbox_text_alpha);
+                            print_generic_string_ascii(43, 58, "Peach:");
+                            break;
+                        case CM_SPEAKER_EGADD:
+                            gDPSetEnvColor(gDisplayListHead++, 150, 200, 255, (u8)cm_textbox_text_alpha);
+                            print_generic_string_ascii(43, 58, "E.Gadd:");
+                            break;
+                        case CM_SPEAKER_BOWSER:
+                            gDPSetEnvColor(gDisplayListHead++, 255, 40, 40, (u8)cm_textbox_text_alpha);
+                            print_generic_string_ascii(43, 58, "Bowser:");
+                            break;
+                    }
+
+
+                    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)cm_textbox_text_alpha);
+                    print_generic_string_ascii(43, 44, cm_textbox_text);
+
+                    if (cm_textbox_a_signal) {
+                        //gDPSetEnvColor(gDisplayListHead++, 0, 0, 255, (u8)cm_textbox_text_alpha);
+                        //print_generic_string(200, 28, pipe_string_a);
+                    }
+
+                    gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+                }
+            }
+            return;
+        }
 #endif
 
         if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )) {

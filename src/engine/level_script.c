@@ -30,6 +30,7 @@
 #include "game/puppyprint.h"
 #include "game/puppylights.h"
 #include "game/emutest.h"
+#include "game/cutscene_manager.h"
 
 #include "config.h"
 
@@ -361,6 +362,7 @@ void unmap_tlbs(void) {
 }
 
 static void level_cmd_clear_level(void) {
+    cm_cutscene_on = FALSE;
     clear_objects();
     clear_area_graph_nodes();
     clear_areas();

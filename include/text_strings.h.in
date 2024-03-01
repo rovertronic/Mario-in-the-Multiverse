@@ -6,8 +6,8 @@
 #define TEXT_PIPE_NOT_ENOUGH    _("Needed ★: ....")
 #define TEXT_QUESTION           _("???")
 #define TEXT_PIPE_ENTER         _(" :Enter   :Cancel")
-#define TEXT_PIPE_A             _("A")
-#define TEXT_PIPE_B             _("         B")
+#define TEXT_PIPE_A             _("[A]")
+#define TEXT_PIPE_B             _("         [B]")
 
 #define AUTHOR_A                _("By: JoshTheBosh")
 #define AUTHOR_B                _("By: furyiousfight")

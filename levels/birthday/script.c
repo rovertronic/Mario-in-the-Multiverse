@@ -32,8 +32,15 @@ const LevelScript level_birthday_entry[] = {
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, birthday_area_1),
+		WARP_NODE(0x01, LEVEL_CASTLE, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, (0 << 16), bhvCutsceneManager),
 		OBJECT(MODEL_NONE, -17, 291, 1572, 26, -180, 0, (0 << 16), bhvCutsceneCamera),
+		OBJECT(MODEL_NONE, 440, 399, 31, 12, -159, 0, (1 << 16), bhvCutsceneCamera),
+		OBJECT(MODEL_NONE, -17, -271, 462, 4, 0, 0, (2 << 16), bhvCutsceneCamera),
+		OBJECT(MODEL_NONE, -642, 81, -252, 6, -94, 0, (3 << 16), bhvCutsceneCamera),
+		OBJECT(MODEL_NONE, 979, 243, -421, -10, 155, 0, (4 << 16), bhvCutsceneCamera),
+		OBJECT(MODEL_NONE, -1200, 31, -689, 0, -49, 0, (5 << 16), bhvCutsceneCamera),
+		OBJECT(MODEL_NONE, -1564, 20, -544, 0, 52, 0, (6 << 16), bhvCutsceneCamera),
 		MARIO_POS(0x01, 0, -20, -383, 805),
 		TERRAIN(birthday_area_1_collision),
 		MACRO_OBJECTS(birthday_area_1_macro_objs),

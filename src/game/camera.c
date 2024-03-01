@@ -3493,6 +3493,7 @@ void update_camera(struct Camera *c) {
         vec3f_copy(gLakituState.pos,cm_camera_pos);
         vec3f_copy(gLakituState.focus,cm_camera_foc);
         sFOVState.fov = cm_fov;
+        sFOVState.fovOffset = 0.0f;
     }
 
     //print_text_fmt_int(20,50, "MODE %d", c->mode);

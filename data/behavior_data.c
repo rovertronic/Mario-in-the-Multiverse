@@ -13,6 +13,7 @@
 #include "menu/file_select.h"
 #include "engine/surface_load.h"
 #include "game/mitm_hub.h"
+#include "game/cutscene_manager.h"
 
 #include "actors/common0.h"
 #include "actors/common1.h"
@@ -6262,6 +6263,19 @@ const BehaviorScript bhvDashBoosterParticle[] = {
     BILLBOARD(),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_dash_booster_particle),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvCutsceneManager[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    BEGIN_LOOP(),
+        CALL_NATIVE(cm_manager_object_loop),
+    END_LOOP(),
+};
+const BehaviorScript bhvCutsceneCamera[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    BEGIN_LOOP(),
+        CALL_NATIVE(cm_camera_object_loop),
     END_LOOP(),
 };
 

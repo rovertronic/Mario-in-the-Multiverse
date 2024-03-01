@@ -1305,11 +1305,11 @@ s32 init_level(void) {
             }
         }
 #endif
-        if (fadeFromColor) {
-            play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 0x5A, 0xFF, 0xFF, 0xFF);
-        } else {
-            play_transition(WARP_TRANSITION_FADE_FROM_STAR, 0x10, 0xFF, 0xFF, 0xFF);
-        }
+        //if (fadeFromColor) {
+            play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 0x10, 0xFF, 0xFF, 0xFF);
+        //} else {
+        //    play_transition(WARP_TRANSITION_FADE_FROM_STAR, 0x10, 0xFF, 0xFF, 0xFF);
+        //}
 
         if (gCurrDemoInput == NULL) {
 #ifdef BETTER_REVERB

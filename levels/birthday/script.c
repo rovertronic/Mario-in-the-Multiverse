@@ -32,6 +32,8 @@ const LevelScript level_birthday_entry[] = {
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, birthday_area_1),
+		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, (0 << 16), bhvCutsceneManager),
+		OBJECT(MODEL_NONE, -17, 291, 1572, 26, -180, 0, (0 << 16), bhvCutsceneCamera),
 		MARIO_POS(0x01, 0, -20, -383, 805),
 		TERRAIN(birthday_area_1_collision),
 		MACRO_OBJECTS(birthday_area_1_macro_objs),

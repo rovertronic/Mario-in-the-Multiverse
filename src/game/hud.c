@@ -18,6 +18,7 @@
 #include "puppycam2.h"
 #include "puppyprint.h"
 #include "actors/group0.h"
+#include "cutscene_manager.h"
 
 #include "config.h"
 #include "ability.h"
@@ -824,6 +825,7 @@ void render_hud(void) {
         gSPMatrix(gDisplayListHead++, VIRTUAL_TO_PHYSICAL(mtx),
                   G_MTX_PROJECTION | G_MTX_MUL | G_MTX_NOPUSH);
 #else
+        if (cm_cutscene_on) {return;}
         create_dl_ortho_matrix();
 #endif
 

@@ -551,6 +551,8 @@ extern const BehaviorScript bhvStarPieceSwitch[];
 extern const BehaviorScript bhvStarPiece[];
 extern const BehaviorScript bhvDashBoosterParticle[];
 extern const BehaviorScript bhvAbilityRecoveryHeart[];
+extern const BehaviorScript bhvCutsceneManager[];
+extern const BehaviorScript bhvCutsceneCamera[];
 
 
 /* GROUP A START */

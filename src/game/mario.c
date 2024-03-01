@@ -37,6 +37,7 @@
 #include "rigid_body.h"
 #include "src/buffers/buffers.h"
 #include "dialog_ids.h"
+#include "cutscene_manager.h"
 
 s16 check_water_height = -10000;
 Bool8 have_splashed;
@@ -1452,8 +1453,10 @@ void update_mario_inputs(struct MarioState *m) {
     }
 #endif
 
-    update_mario_button_inputs(m);
-    update_mario_joystick_inputs(m);
+    if (!cm_cutscene_on) {
+        update_mario_button_inputs(m);
+        update_mario_joystick_inputs(m);
+    }
     update_mario_geometry_inputs(m);
 #ifdef VANILLA_DEBUG
     debug_print_speed_action_normal(m);

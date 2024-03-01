@@ -29,6 +29,7 @@
 #include "puppyprint.h"
 #include "profiling.h"
 #include "ability.h"
+#include "cutscene_manager.h"
 
 #define CBUTTON_MASK (U_CBUTTONS | D_CBUTTONS | L_CBUTTONS | R_CBUTTONS)
 
@@ -3469,6 +3470,8 @@ void update_camera(struct Camera *c) {
             }
         }
         puppycam_loop();
+
+
         // Apply camera shakes
         shake_camera_pitch(gLakituState.pos, gLakituState.focus);
         shake_camera_yaw(gLakituState.pos, gLakituState.focus);
@@ -3485,6 +3488,12 @@ void update_camera(struct Camera *c) {
 #endif
     gLakituState.lastFrameAction = sMarioCamState->action;
     profiler_update(PROFILER_TIME_CAMERA, profiler_get_delta(PROFILER_DELTA_COLLISION) - first);
+
+    if (cm_cutscene_on) {
+        vec3f_copy(gLakituState.pos,cm_camera_pos);
+        vec3f_copy(gLakituState.focus,cm_camera_foc);
+        sFOVState.fov = cm_fov;
+    }
 
     //print_text_fmt_int(20,50, "MODE %d", c->mode);
 }

@@ -643,7 +643,7 @@ enum MarioActionFlags {
 #define ACT_UNUSED_17B                 0x0000017B // (0x17B)
 #define ACT_UNUSED_17C                 0x0000017C // (0x17C)
 #define ACT_UNUSED_17D                 0x0000017D // (0x17D)
-#define ACT_UNUSED_17E                 0x0000017E // (0x17E)
+#define ACT_CM_CUTSCENE                0x0000017E // (0x17E)
 #define ACT_MARBLE                     (0x0000017F | ACT_FLAG_ATTACKING) // (0x17F)
 
 // group 0x180: object actions

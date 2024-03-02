@@ -53,7 +53,7 @@ const LevelScript level_main_menu_entry_file_select[] = {
     SLEEP(/*frames*/ 16),
     CLEAR_LEVEL(),
     SLEEP_BEFORE_EXIT(/*frames*/ 1),
-    SET_REG(LEVEL_BIRTHDAY),
+    FILESELECT_CHECK(/*op*/ OP_SET, /*var*/ VAR_CURR_SAVE_FILE_NUM),
     EXIT_AND_EXECUTE(/*seg*/ SEGMENT_GLOBAL_LEVEL_SCRIPT, _scriptsSegmentRomStart, _scriptsSegmentRomEnd, level_main_scripts_entry),
 };
 

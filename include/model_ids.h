@@ -619,6 +619,8 @@ enum GLOBAL_MODELS {
 
 /* LEVEL INTRO START */
 #define MODEL_INTRO_SKYBOX                        0x150
+#define MODEL_INTRO_BREAKDOOR                     0x151 // Part of the birthday level data, not intro level data
+#define MODEL_INTRO_CLOTH                         0x152
 /* LEVEL INTRO END */
 
 /* LEVEL A START */

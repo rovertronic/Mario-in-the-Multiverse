@@ -553,7 +553,10 @@ extern const BehaviorScript bhvDashBoosterParticle[];
 extern const BehaviorScript bhvAbilityRecoveryHeart[];
 extern const BehaviorScript bhvCutsceneManager[];
 extern const BehaviorScript bhvCutsceneCamera[];
-
+extern const BehaviorScript bhvIntroBreakdoor[];
+extern const BehaviorScript bhvIntroCloth[];
+extern const BehaviorScript bhvIntroPeach[];
+extern const BehaviorScript bhvIntroToad[];
 
 /* GROUP A START */
 extern const BehaviorScript bhvJelly[];

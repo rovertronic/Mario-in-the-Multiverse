@@ -6274,8 +6274,39 @@ const BehaviorScript bhvCutsceneManager[] = {
 };
 const BehaviorScript bhvCutsceneCamera[] = {
     BEGIN(OBJ_LIST_DEFAULT),
+    SET_HOME(),
     BEGIN_LOOP(),
         CALL_NATIVE(cm_camera_object_loop),
+    END_LOOP(),
+};
+const BehaviorScript bhvIntroBreakdoor[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+const BehaviorScript bhvIntroCloth[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+const BehaviorScript bhvIntroPeach[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_INT(oOpacity, 255),
+    LOAD_ANIMATIONS(oAnimations, peach_seg5_anims_0501C41C),
+    ANIMATE(PEACH_ANIM_WAVING),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+const BehaviorScript bhvIntroToad[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_ANIMATIONS(oAnimations, toad_seg6_anims_0600FB58),
+    ANIMATE(TOAD_ANIM_WEST_WAVING_BOTH_ARMS),
+    SET_INT(oOpacity, 255),
+    BEGIN_LOOP(),
     END_LOOP(),
 };
 

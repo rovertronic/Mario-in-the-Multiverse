@@ -34,6 +34,7 @@
 #include "puppylights.h"
 #include "level_commands.h"
 #include "ability.h"
+#include "cutscene_manager.h"
 
 #include "config.h"
 
@@ -190,7 +191,7 @@ u32 pressed_pause(void) {
     }
 #endif
 
-    if (!intangible && !dialogActive && !gWarpTransition.isActive && sDelayedWarpOp == WARP_OP_NONE
+    if (!intangible && !dialogActive && !gWarpTransition.isActive && sDelayedWarpOp == WARP_OP_NONE && !cm_cutscene_on
         && (gPlayer1Controller->buttonPressed & START_BUTTON)) {
         return TRUE;
     }

@@ -828,6 +828,7 @@ void render_hud(void) {
         create_dl_ortho_matrix();
 
         if (cm_cutscene_on) {
+            u8 colorFade = sins(gGlobalTimer*0x500) * 50.0f + 200.0f;
             if (cm_textbox_alpha > 0.1f) {
                 gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)cm_textbox_alpha);
                 create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
@@ -856,9 +857,9 @@ void render_hud(void) {
                     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)cm_textbox_text_alpha);
                     print_generic_string_ascii(43, 44, cm_textbox_text);
 
-                    if (cm_textbox_a_signal) {
-                        //gDPSetEnvColor(gDisplayListHead++, 0, 0, 255, (u8)cm_textbox_text_alpha);
-                        //print_generic_string(200, 28, pipe_string_a);
+                    if ((cm_textbox_a_signal)&&(cm_textbox_text_alpha >= 254.0f)) {
+                        gDPSetEnvColor(gDisplayListHead++, 50, 50, 255, colorFade);
+                        print_generic_string(157, 14, pipe_string_a);
                     }
 
                     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);

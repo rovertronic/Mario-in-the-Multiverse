@@ -15,3 +15,4 @@
 
 #include "levels/birthday/intro_breakdoor/model.inc.c"
 #include "levels/birthday/intro_cloth/model.inc.c"
+#include "levels/birthday/intro_rock/model.inc.c"

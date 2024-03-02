@@ -6309,6 +6309,14 @@ const BehaviorScript bhvIntroToad[] = {
     BEGIN_LOOP(),
     END_LOOP(),
 };
+const BehaviorScript bhvIntroEgadd[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_ANIMATIONS(oAnimations, egadd_anims),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
 
 /* GROUP A START */
 extern const struct Animation *const jelly_anims[];

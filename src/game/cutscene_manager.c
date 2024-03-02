@@ -107,13 +107,32 @@ char ascii_bowser5[] = {
 struct Object * intro_breakdoor;
 struct Object * intro_cloth;
 struct Object * intro_peach;
+struct Object * intro_egadd;
+static struct SpawnParticlesInfo sIntroDoorParticles = {
+    /* behParam:        */ 0,
+    /* count:           */ 8,
+    /* model:           */ MODEL_INTRO_ROCK,
+    /* offsetY:         */ 0,
+    /* forwardVelBase:  */ 4,
+    /* forwardVelRange: */ 4,
+    /* velYBase:        */ 10,
+    /* velYRange:       */ 30,
+    /* gravity:         */ -4,
+    /* dragStrength:    */ 0,
+    /* sizeBase:        */ 10.0f,
+    /* sizeRange:       */ 20.0f,
+};
+
 
 void cm_intro_cutscene(void) {
+    struct Object * normal_o;
+
     switch(cm_cutscene_timer) {
         case 0:
             intro_breakdoor = cur_obj_nearest_object_with_behavior(bhvIntroBreakdoor);
             intro_cloth = cur_obj_nearest_object_with_behavior(bhvIntroCloth);
             intro_peach = cur_obj_nearest_object_with_behavior(bhvIntroPeach);
+            intro_egadd = cur_obj_nearest_object_with_behavior(bhvIntroEgadd);
 
             //play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_LEVEL_INSIDE_CASTLE), 0);
             cm_fov = 64.0f;
@@ -166,51 +185,51 @@ void cm_intro_cutscene(void) {
                 cm_target_camera_object = 3;
             }
             break;
-        case 165:
+        case 170:
             if (cm_press_a_or_b()) {
                 cm_textbox_text_target = &ascii_egadd_mm;
             }
             break;
-        case 166:
+        case 190:
             if (cm_wait_for_transition()) {
                 //reveal thingy
                 play_sound(SOUND_GENERAL_WING_FLAP, gGlobalSoundSource);
             }
             break;
-        case 170:
+        case 200:
             if (cm_press_a_or_b()) {
                 cm_textbox_text_target = &ascii_egadd2;
             }
             break;
-        case 180:
+        case 210:
             if (cm_press_a_or_b()) {
                 cm_textbox_text_target = &ascii_egadd3;
             }
             break;
-        case 190:
+        case 220:
             if (cm_press_a_or_b()) {
                 cm_textbox_text_target = &ascii_egadd4;
             }
             break;
-        case 200:
+        case 230:
             if (cm_press_a_or_b()) {
                 cm_textbox_text_target = &ascii_egadd5;
             }
             break;
-        case 210:
+        case 240:
             if (cm_press_a_or_b()) {
                 cm_target_camera_object = 1;
                 cm_textbox_target_speaker = CM_SPEAKER_PEACH;
                 cm_textbox_text_target = &ascii_peach5;
             }
             break;
-        case 220:
+        case 250:
             if (cm_press_a_or_b()) {
-                cm_target_camera_object = 0;
+                cm_target_camera_object = 7;
                 cm_textbox_text_target = &ascii_peach6;
             }
             break;
-        case 221:
+        case 251:
             if (cm_wait_for_transition()) {
                 cur_obj_play_sound_2(SOUND_GENERAL2_PYRAMID_TOP_SPIN);
                 cm_mario_anim(MARIO_ANIM_MISSING_CAP);
@@ -232,8 +251,13 @@ void cm_intro_cutscene(void) {
 
         case 325:
             //blow open door
+            normal_o = o;
+            o = intro_breakdoor;
+            cur_obj_spawn_particles(&sIntroDoorParticles);
             play_sound(SOUND_GENERAL2_PYRAMID_TOP_EXPLOSION, gGlobalSoundSource);
             obj_mark_for_deletion(intro_breakdoor);
+            o = normal_o;
+            //so fucking zeevil
             break;
 
         case 350:
@@ -304,10 +328,14 @@ void cm_intro_cutscene(void) {
     if (cm_cutscene_timer > 449) {
         cur_obj_play_sound_1(SOUND_ENV_WIND1);
     }
-    if (cm_cutscene_timer > 166) {
+    if (cm_cutscene_timer > 170) {
+        if (intro_cloth && intro_egadd) {
+            obj_turn_toward_object(intro_egadd, intro_cloth, O_FACE_ANGLE_YAW_INDEX, 0x800);
+        }
+    }
+    if (cm_cutscene_timer > 190) {
         if (intro_cloth) {
             intro_cloth->header.gfx.scale[1] = approach_f32_asymptotic(intro_cloth->header.gfx.scale[1],0.05f,0.1f);
-
             intro_cloth->header.gfx.scale[0] = approach_f32_asymptotic(intro_cloth->header.gfx.scale[0],1.2f,0.1f);
             intro_cloth->header.gfx.scale[2] = approach_f32_asymptotic(intro_cloth->header.gfx.scale[2],1.2f,0.1f);
         }
@@ -374,7 +402,7 @@ void cm_camera_object_loop(void) {
     //print_text_fmt_int(210, 72, "CAM %d", cm_camera_object);
     //print_text_fmt_int(210, 92, "TIME %d", cm_cutscene_timer);
 
-    if ((o->oBehParams2ndByte==0)&&(cm_cutscene_timer > 221)&&(cm_cutscene_timer<300)) {
+    if ((o->oBehParams2ndByte==7)&&(cm_cutscene_timer > 251)&&(cm_cutscene_timer<300)) {
         o->oPosX = o->oHomeX + random_float()*20.0f;
         o->oPosY = o->oHomeY + random_float()*20.0f;
         o->oPosZ = o->oHomeZ + random_float()*20.0f;

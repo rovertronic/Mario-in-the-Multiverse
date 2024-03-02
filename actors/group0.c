@@ -130,3 +130,6 @@
 #include "bubblehat_hand/model.inc.c"
 #include "desconly/model.inc.c"
 #include "f_laser/model.inc.c"
+#include "egadd/model.inc.c"
+#include "egadd/anims/data.inc.c"
+#include "egadd/anims/table.inc.c"

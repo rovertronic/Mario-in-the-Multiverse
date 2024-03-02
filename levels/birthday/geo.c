@@ -18,3 +18,4 @@
 
 #include "levels/birthday/intro_breakdoor/geo.inc.c"
 #include "levels/birthday/intro_cloth/geo.inc.c"
+#include "levels/birthday/intro_rock/geo.inc.c"

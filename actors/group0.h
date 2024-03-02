@@ -504,4 +504,7 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "f_laser/geo_header.h"
 
+#include "egadd/geo_header.h"
+#include "egadd/anim_header.h"
+
 #endif

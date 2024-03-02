@@ -38,6 +38,7 @@ const LevelScript level_birthday_entry[] = {
 	JUMP_LINK(script_func_global_16), 
 	LOAD_MODEL_FROM_GEO(MODEL_INTRO_BREAKDOOR, intro_breakdoor_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_INTRO_CLOTH, intro_cloth_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_INTRO_ROCK, intro_rock_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -53,6 +54,8 @@ const LevelScript level_birthday_entry[] = {
 		OBJECT(MODEL_NONE, 979, 243, -421, -10, 155, 0, (4 << 16), bhvCutsceneCamera),
 		OBJECT(MODEL_NONE, -1200, 31, -689, 0, -49, 0, (5 << 16), bhvCutsceneCamera),
 		OBJECT(MODEL_NONE, -1564, 20, -544, 0, 52, 0, (6 << 16), bhvCutsceneCamera),
+		OBJECT(MODEL_NONE, 347, -297, 1272, -4, -150, 0, (7 << 16), bhvCutsceneCamera),
+		OBJECT(MODEL_EGADD, -1687, -150, -230, 0, 90, 0, 0x00000000, bhvIntroEgadd),
 		OBJECT(MODEL_INTRO_BREAKDOOR, 1477, 339, -1162, 0, 0, 0, 0x00000000, bhvIntroBreakdoor),
 		MARIO_POS(0x01, 0, -20, -383, 805),
 		OBJECT(MODEL_PEACH, 251, 129, -540, 0, 14, 0, 0x00000000, bhvIntroPeach),

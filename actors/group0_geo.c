@@ -56,3 +56,4 @@
 #include "attached_rope/geo.inc.c"
 
 #include "f_laser/geo.inc.c"
+#include "egadd/geo.inc.c"

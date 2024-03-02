@@ -281,8 +281,8 @@ s32 obj_turn_toward_object(struct Object *obj, struct Object *target, s16 angleI
             break;
     }
 
-    startAngle = o->rawData.asU32[angleIndex];
-    o->rawData.asU32[angleIndex] = approach_s16_symmetric(startAngle, targetAngle, turnAmount);
+    startAngle = obj->rawData.asU32[angleIndex];
+    obj->rawData.asU32[angleIndex] = approach_s16_symmetric(startAngle, targetAngle, turnAmount);
     return targetAngle;
 }
 

@@ -133,3 +133,6 @@
 #include "egadd/model.inc.c"
 #include "egadd/anims/data.inc.c"
 #include "egadd/anims/table.inc.c"
+#include "machine/model.inc.c"
+#include "machine/anims/data.inc.c"
+#include "machine/anims/table.inc.c"

@@ -94,6 +94,60 @@ Gfx *geo_update_layer_transparency(s32 callContext, struct GraphNode *node, UNUS
     return dlStart;
 }
 
+Gfx *geo_update_layer_redness(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    Gfx *dlStart = NULL;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        struct Object *objectGraphNode = (struct Object *) gCurGraphNodeObject; // TODO: change this to object pointer?
+        struct GraphNodeGenerated *currentGraphNode = (struct GraphNodeGenerated *) node;
+        s32 parameter = currentGraphNode->parameter;
+
+        if (gCurGraphNodeHeldObject != NULL) {
+            objectGraphNode = gCurGraphNodeHeldObject->objNode;
+        }
+
+        s32 objectOpacity = objectGraphNode->oOpacity;
+        dlStart = alloc_display_list(sizeof(Gfx) * 3);
+
+        Gfx *dlHead = dlStart;
+
+        if (objectOpacity == 0xFF) {
+            if (parameter == GEO_TRANSPARENCY_MODE_DECAL) {
+                //SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_TRANSPARENT_DECAL);
+            } else {
+                //SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_OPAQUE);
+            }
+
+            objectGraphNode->oAnimState = TRANSPARENCY_ANIM_STATE_OPAQUE;
+        } else {
+            if (parameter == GEO_TRANSPARENCY_MODE_DECAL) {
+                //SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_TRANSPARENT_DECAL);
+            } else if (parameter == GEO_TRANSPARENCY_MODE_INTER) {
+                //SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_TRANSPARENT_INTER);
+            } else {
+                //SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_TRANSPARENT);
+            }
+
+            SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_OPAQUE);
+
+            objectGraphNode->oAnimState = TRANSPARENCY_ANIM_STATE_TRANSPARENT;
+
+            //if (objectOpacity == 0x00 && segmented_to_virtual(bhvBowser) == objectGraphNode->behavior) {
+            //    objectGraphNode->oAnimState = BOWSER_ANIM_STATE_INVISIBLE;
+            //}
+
+            if (parameter != GEO_TRANSPARENCY_MODE_NO_DITHER
+                && (objectGraphNode->activeFlags & ACTIVE_FLAG_DITHERED_ALPHA)) {
+                gDPSetAlphaCompare(dlHead++, G_AC_DITHER);
+            }
+        }
+        gDPSetEnvColor(dlHead++, 255, 255-objectOpacity, 255-objectOpacity, 255);
+        gSPEndDisplayList(dlHead);
+    }
+
+    return dlStart;
+}
+
 Gfx *geo_switch_anim_state(s32 callContext, struct GraphNode *node, UNUSED void *context) {
     if (callContext == GEO_CONTEXT_RENDER) {
         struct Object *obj = gCurGraphNodeObjectNode;

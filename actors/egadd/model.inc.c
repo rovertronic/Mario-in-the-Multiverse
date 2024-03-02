@@ -2388,6 +2388,9 @@ Gfx mat_revert_egadd_Spots_f3d[] = {
 };
 
 Gfx egadd_root_mesh_layer_1[] = {
+    gsSPLightColor(LIGHT_1, 0xffffffff),
+    gsSPLightColor(LIGHT_2, 0x7f7f7fff),
+
 	gsSPDisplayList(mat_egadd_Palette_f3d),
 	gsSPDisplayList(egadd_root_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_egadd_Palette_f3d),

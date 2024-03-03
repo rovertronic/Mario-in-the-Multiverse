@@ -35,6 +35,7 @@
 #include "level_commands.h"
 #include "ability.h"
 #include "cutscene_manager.h"
+#include "mitm_hub.h"
 
 #include "config.h"
 
@@ -1098,7 +1099,7 @@ s32 play_mode_paused(void) {
             set_play_mode(PLAY_MODE_NORMAL);
             level_trigger_warp(gMarioState, WARP_OP_DEATH);
 #else
-            initiate_warp(EXIT_COURSE_LEVEL, EXIT_COURSE_AREA, EXIT_COURSE_NODE, WARP_FLAG_EXIT_COURSE);
+            initiate_warp(LEVEL_CASTLE, 0x01, get_hub_return_id(hub_level_current_index), WARP_FLAGS_NONE);
             fade_into_special_warp(WARP_SPECIAL_NONE, 0);
             gSavedCourseNum = COURSE_NONE;
 #endif

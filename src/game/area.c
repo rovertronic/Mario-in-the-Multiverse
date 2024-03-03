@@ -436,7 +436,9 @@ void render_game(void) {
 
         if (gCurrLevelNum == LEVEL_CASTLE) {
             render_mitm_hub_hud();
-            }
+        } else {
+            render_mitm_return_to_hub_hud();
+        }
 
         if (gMenuOptSelectIndex != 0) {
             gSaveOptSelectIndex = gMenuOptSelectIndex;

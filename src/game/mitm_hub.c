@@ -78,30 +78,59 @@ u8 hub_star_string[] = {0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,DIALOG_CHAR_TERM
 //In course order, not alphabetical!
 //Only mess with /* Level */ entry, everything else is pre-configured
 struct mitm_hub_level hub_levels[] = {
-          /* Author */      /* Level */  /*Star Flags*/   /*Star Req*/  /*Start Area*/
-    /*G*/ {&author_string_g, LEVEL_G,     COURSE_BOB,      0/*0 */,      3},
-    /*A*/ {&author_string_a, LEVEL_A,     COURSE_WF,       0/*1 */,      1},
-    /*C*/ {&author_string_c, LEVEL_CCM,   COURSE_JRB,      0/*1 */,      1},
-    /*I*/ {&author_string_i, LEVEL_I,     COURSE_CCM,      0/*3 */,      1},
-    /*H*/ {&author_string_h, LEVEL_H,     COURSE_BBH,      0/*5 */,      1},
-    /*B*/ {&author_string_b, LEVEL_B,     COURSE_HMC,      0/*10*/,      1},
-    /*L*/ {&author_string_l, LEVEL_BOB,   COURSE_LLL,      0/*15*/,      1},
-    /*K*/ {&author_string_k, LEVEL_BOB,   COURSE_SSL,      0/*15*/,      1},
-    /*E*/ {&author_string_e, LEVEL_E,     COURSE_DDD,      0/*20*/,      1},
-    /*F*/ {&author_string_f, LEVEL_F,     COURSE_SL ,      0/*20*/,      1},
-    /*J*/ {&author_string_j, LEVEL_J,     COURSE_WDW,      0/*25*/,      1},
-    /*D*/ {&author_string_d, LEVEL_D,     COURSE_TTM,      0/*30*/,      1},
-    /*O*/ {&author_string_o, LEVEL_O,     COURSE_THI,      0/*30*/,      1},
-    /*N*/ {&author_string_n, LEVEL_N,     COURSE_TTC,      0/*50*/,      1},
-    /*M*/ {&author_string_m, LEVEL_BOB,   COURSE_RR ,      0/*50*/,      1},
+          /* Author */      /* Level */  /*Star Flags*/   /*Star Req*/  /*Start Area*/  /*Return Hub Warp ID*/
+    /*G*/ {&author_string_g, LEVEL_G,     COURSE_BOB,      0/*0 */,      3,             0x0A},
+    /*A*/ {&author_string_a, LEVEL_A,     COURSE_WF,       0/*1 */,      1,             0x0A},
+    /*C*/ {&author_string_c, LEVEL_CCM,   COURSE_JRB,      0/*1 */,      1,             0x0A},
+    /*I*/ {&author_string_i, LEVEL_I,     COURSE_CCM,      0/*3 */,      1,             0x0A},
+    /*H*/ {&author_string_h, LEVEL_H,     COURSE_BBH,      0/*5 */,      1,             0x0A},
+    /*B*/ {&author_string_b, LEVEL_B,     COURSE_HMC,      0/*10*/,      1,             0x0A},
+    /*L*/ {&author_string_l, LEVEL_BOB,   COURSE_LLL,      0/*15*/,      1,             0x0A},
+    /*K*/ {&author_string_k, LEVEL_BOB,   COURSE_SSL,      0/*15*/,      1,             0x0A},
+    /*E*/ {&author_string_e, LEVEL_E,     COURSE_DDD,      0/*20*/,      1,             0x0A},
+    /*F*/ {&author_string_f, LEVEL_F,     COURSE_SL ,      0/*20*/,      1,             0x0A},
+    /*J*/ {&author_string_j, LEVEL_J,     COURSE_WDW,      0/*25*/,      1,             0x0A},
+    /*D*/ {&author_string_d, LEVEL_D,     COURSE_TTM,      0/*30*/,      1,             0x0A},
+    /*O*/ {&author_string_o, LEVEL_O,     COURSE_THI,      0/*30*/,      1,             0x0A},
+    /*N*/ {&author_string_n, LEVEL_N,     COURSE_TTC,      0/*50*/,      1,             0x0A},
+    /*M*/ {&author_string_m, LEVEL_BOB,   COURSE_RR ,      0/*50*/,      1,             0x0A},
 };
 
 s8 hub_level_index = -1;
 s8 hub_dma_index = -1;
+s8 hub_level_current_index = 0; // temp val
 f32 hub_titlecard_alpha = 0.0f;
+
+void level_pipe_in_level_loop(void) {
+    switch(o->oAction) {
+        case 0:
+            if ((lateral_dist_between_objects(o, gMarioObject) < 120.0f)&&(gMarioState->pos[1] < o->oPosY+500.0f)&&(gMarioState->pos[1] > o->oPosY)) {
+                gMarioState->interactObj = o;
+
+                if (gMarioState->action != ACT_ENTER_HUB_PIPE) {
+                    set_mario_action(gMarioState,ACT_ENTER_HUB_PIPE,0);
+                    o->oAction = 3;
+                }
+            }
+
+            load_object_collision_model();
+            break;
+        case 3: // Choose
+        case 2: //Cancel
+
+            if (lateral_dist_between_objects(o, gMarioObject) > 120.0f) {
+                o->oAction = 0;
+            }
+            load_object_collision_model();
+            break;
+        case 4: // Level being entered
+            break;
+    }
+}
 
 void level_pipe_loop(void) {
     if (gCurrLevelNum != LEVEL_CASTLE) {
+        level_pipe_in_level_loop();
         return;
     }
 
@@ -109,6 +138,7 @@ void level_pipe_loop(void) {
         case 0:
             if ((lateral_dist_between_objects(o, gMarioObject) < 120.0f)&&(gMarioState->pos[1] < o->oPosY+500.0f)&&(gMarioState->pos[1] > o->oPosY)) {
                 hub_level_index = o->oBehParams2ndByte;
+                hub_level_current_index = o->oBehParams2ndByte;
                 gMarioState->interactObj = o;
 
                 if (gMarioState->action != ACT_ENTER_HUB_PIPE) {
@@ -121,7 +151,7 @@ void level_pipe_loop(void) {
             }
 
             load_object_collision_model();
-        break;
+            break;
         case 1: // Choose
         case 3: // 
             hub_level_index = o->oBehParams2ndByte;
@@ -134,7 +164,7 @@ void level_pipe_loop(void) {
         break;
         case 4: // Level being entered
             hub_level_index = -1;
-        break;
+            break;
     }
 }
 
@@ -206,10 +236,49 @@ void render_mitm_hub_hud(void) {
     hub_level_index = -1;
 }
 
+void render_mitm_return_to_hub_hud(void) {
+    if (gMarioState->action == ACT_ENTER_HUB_PIPE) {
+        hub_titlecard_alpha = approach_f32_asymptotic(hub_titlecard_alpha,255.0f,0.1f);
+    } else {
+        hub_titlecard_alpha = approach_f32_asymptotic(hub_titlecard_alpha,0.0f,0.15f);
+    }
+    if (hub_titlecard_alpha > 1.0f) {
+        create_dl_ortho_matrix();
+
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hub_titlecard_alpha);
+
+        create_dl_translation_matrix(MENU_MTX_PUSH, 160, 45, 0);
+        gSPDisplayList(gDisplayListHead++, round_box_roundbox_mesh);
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hub_titlecard_alpha);
+        print_generic_string_ascii(113,49,"Return To Hub?");
+        print_generic_string(113,33,pipe_string_enter);
+        gDPSetEnvColor(gDisplayListHead++, 0, 0, 255, (u8)hub_titlecard_alpha);
+        print_generic_string(110,33,pipe_string_a);
+        gDPSetEnvColor(gDisplayListHead++, 0, 150, 0, (u8)hub_titlecard_alpha);
+        print_generic_string(109,33,pipe_string_b);
+
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+    }
+}
+
 u8 get_hub_level(u8 id) {
     return hub_levels[id].level ;
 }
 
 u8 get_hub_area(u8 id) {
     return hub_levels[id].start_area ;
+}
+
+u8 get_hub_return_id(u8 id) {
+    return hub_levels[id].return_id;
+}
+
+void hub_reset_variables(void) {
+    hub_dma_index = -1;
+    hub_level_index = -1;
 }

@@ -362,6 +362,7 @@ void unmap_tlbs(void) {
 }
 
 static void level_cmd_clear_level(void) {
+    hub_reset_variables();
     cm_cutscene_on = FALSE;
     clear_objects();
     clear_area_graph_nodes();

@@ -15,4 +15,6 @@ extern const LevelScript level_birthday_entry[];
 
 #include "levels/birthday/intro_rock/geo_header.h"
 
+#include "levels/birthday/crackglass/header.h"
+
 #endif

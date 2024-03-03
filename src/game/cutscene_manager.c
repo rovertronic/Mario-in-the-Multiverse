@@ -13,6 +13,7 @@
 #include "cutscene_manager.h"
 #include "audio/external.h"
 #include "seq_ids.h"
+#include "main.h"
 
 // Quick, dirty, and simple cutscene system. Not the most sophisticated solution, but it gets the job done for what this project actually needs.
 
@@ -26,6 +27,7 @@ s8 cm_target_camera_object = 0;
 u8 cm_textbox_speaker = CM_SPEAKER_NEUTRAL;
 u8 cm_textbox_target_speaker = CM_SPEAKER_NEUTRAL;
 u8 cm_textbox_a_signal = FALSE;
+u8 cm_crack_signal = FALSE;
 f32 cm_textbox_alpha = 0.0f;
 f32 cm_textbox_text_alpha = 0.0f;
 char * cm_textbox_text = NULL;
@@ -108,6 +110,7 @@ struct Object * intro_breakdoor;
 struct Object * intro_cloth;
 struct Object * intro_peach;
 struct Object * intro_egadd;
+struct Object * intro_machine;
 static struct SpawnParticlesInfo sIntroDoorParticles = {
     /* behParam:        */ 0,
     /* count:           */ 8,
@@ -133,6 +136,7 @@ void cm_intro_cutscene(void) {
             intro_cloth = cur_obj_nearest_object_with_behavior(bhvIntroCloth);
             intro_peach = cur_obj_nearest_object_with_behavior(bhvIntroPeach);
             intro_egadd = cur_obj_nearest_object_with_behavior(bhvIntroEgadd);
+            intro_machine = cur_obj_nearest_object_with_behavior(bhvIntroMachine);
 
             //play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_LEVEL_INSIDE_CASTLE), 0);
             cm_fov = 64.0f;
@@ -301,22 +305,35 @@ void cm_intro_cutscene(void) {
                 cm_textbox_text_target = NULL;
             }
             break;
+        case 411:
+            cm_wait_for_transition();
+            break;
 
+        // Bowser blows fire on the machine, it overheats and explodes
         case 420:
             // don't forget- do a dolly zoom
             stop_background_music(SEQUENCE_ARGS(4, SEQ_LEVEL_BOSS_KOOPA));
             cm_camera_object = 3;
+            cm_target_camera_object = 3;
             break;
 
+        case 429:
+            cm_crack_signal = TRUE;
+        break;
         case 430: //CRACK!
             play_sound(SOUND_GENERAL2_PYRAMID_TOP_EXPLOSION, gGlobalSoundSource);
-            break;
-
-        case 440:
+            for (u8 i=0; i<250; i++) {
+                osRecvMesg(&gGameVblankQueue, &gMainReceivedMesg, OS_MESG_BLOCK);
+            }
             cm_camera_object = 6;
+            cm_target_camera_object = 6;
             break;
 
-        case 450:
+        case 431:
+            play_sound(SOUND_MARIO_WAAAOOOW, gGlobalSoundSource);
+            break;
+
+        case 550:
             initiate_warp(LEVEL_G, 0x01, 0x0A, WARP_FLAGS_NONE);
             fade_into_special_warp(WARP_SPECIAL_NONE, 0);
             break;
@@ -325,10 +342,7 @@ void cm_intro_cutscene(void) {
     if (cm_cutscene_timer < 60) {
         gMarioObject->header.gfx.pos[2] -= 4.0f;
     }
-    if (cm_cutscene_timer > 449) {
-        cur_obj_play_sound_1(SOUND_ENV_WIND1);
-    }
-    if (cm_cutscene_timer > 170) {
+    if ((cm_cutscene_timer > 170)&&(cm_cutscene_timer < 250)) {
         if (intro_cloth && intro_egadd) {
             obj_turn_toward_object(intro_egadd, intro_cloth, O_FACE_ANGLE_YAW_INDEX, 0x800);
         }
@@ -339,6 +353,31 @@ void cm_intro_cutscene(void) {
             intro_cloth->header.gfx.scale[0] = approach_f32_asymptotic(intro_cloth->header.gfx.scale[0],1.2f,0.1f);
             intro_cloth->header.gfx.scale[2] = approach_f32_asymptotic(intro_cloth->header.gfx.scale[2],1.2f,0.1f);
         }
+    }
+    if (cm_cutscene_timer > 251) {
+        if (intro_egadd) {
+            obj_turn_toward_object(intro_egadd, gMarioObject, O_FACE_ANGLE_YAW_INDEX, 0x800);
+        }
+    }
+    if (intro_egadd && cm_cutscene_timer > 411 && cm_cutscene_timer < 420) {
+        intro_egadd->oPosX-=23.0f;
+    }
+    if (intro_egadd && intro_machine && cm_cutscene_timer > 420) {
+        intro_egadd->header.gfx.animInfo.animFrame = 0;
+        if (gGlobalTimer % 2 == 0) {
+            intro_egadd->oPosZ += 4.0f;
+        } else {
+            intro_egadd->oPosZ -= 4.0f;
+        }
+        obj_turn_toward_object(intro_egadd, intro_machine, O_FACE_ANGLE_YAW_INDEX, 0x800);
+        if (intro_machine->oOpacity < 250) {
+            intro_machine->oOpacity+=2;
+            cur_obj_play_sound_1(SOUND_AIR_BOWSER_SPIT_FIRE);
+            cm_cutscene_timer = 420;
+        }
+    }
+    if (cm_cutscene_timer > 430) {
+        cur_obj_play_sound_1(SOUND_ENV_WIND1);
     }
 }
 
@@ -354,6 +393,7 @@ void cm_manager_object_loop(void) {
         cm_textbox_alpha = 0.0f;
         cm_textbox_text = NULL;
         cm_textbox_speaker = CM_SPEAKER_NEUTRAL;
+        cm_crack_signal = FALSE;
         set_mario_action(gMarioState,ACT_CM_CUTSCENE,0);
         set_mario_animation(gMarioState,MARIO_ANIM_FIRST_PERSON);
     }

@@ -12,6 +12,7 @@ extern f32 cm_textbox_text_alpha;
 extern char * cm_textbox_text;
 extern u8 cm_textbox_speaker;
 extern u8 cm_textbox_a_signal;
+extern u8 cm_crack_signal;
 
 extern void cm_manager_object_loop(void);
 extern void cm_camera_object_loop(void);

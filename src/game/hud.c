@@ -798,6 +798,7 @@ f32 hud_alpha = 255.0f;
  * excluding the cannon reticle which detects a camera preset for it.
  */
 extern u8 pipe_string_a[];
+extern Gfx crackglass_Plane_mesh[];
 void render_hud(void) {
     s16 hudDisplayFlags = gHudDisplay.flags;
 
@@ -864,6 +865,9 @@ void render_hud(void) {
 
                     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
                 }
+            }
+            if (cm_crack_signal) {
+                gSPDisplayList(gDisplayListHead++, crackglass_Plane_mesh);
             }
             return;
         }

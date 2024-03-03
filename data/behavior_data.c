@@ -6322,7 +6322,7 @@ const BehaviorScript bhvIntroMachine[] = {
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
     LOAD_ANIMATIONS(oAnimations, machine_anims),
     ANIMATE(0),
-    SET_INT(oOpacity, 255),
+    SET_INT(oOpacity, 0),
     BEGIN_LOOP(),
     END_LOOP(),
 };

@@ -104,6 +104,11 @@
             "release_rate": 0,
             "envelope": "envelope0",
             "sound": "g_marx_explode"
+        },
+        "inst_magic_mirror": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "magic_mirror"
         }
     },
     "instrument_list": [
@@ -125,6 +130,7 @@
         "inst_ability_e_shotgun_rack",
         "inst_g_marx_hp",
         "inst_g_marx_final_hit",
-        "inst_g_marx_explode"
+        "inst_g_marx_explode",
+        "inst_magic_mirror"
     ]
 }

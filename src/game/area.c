@@ -307,7 +307,6 @@ void change_area(s32 index) {
     if (gCurrAreaIndex != index) {
         unload_area();
         load_area(index);
-        gMarioState->numCheckpointFlag = -1;
 
         gCurrentArea->flags = areaFlags;
         gMarioObject->oActiveParticleFlags = ACTIVE_PARTICLE_NONE;

@@ -2127,6 +2127,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                     vec3f_add(gLakituState.curFocus, displacement);
                     vec3f_add(gLakituState.goalPos, displacement);
                     vec3f_add(gLakituState.goalFocus, displacement);
+
+                    play_sound(SOUND_ABILITY_MAGIC_MIRROR, gGlobalSoundSource);
                 }
             } else {
                 play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);

@@ -1,10 +1,4 @@
-Lights1 milk_hand_Gloves_lights = gdSPDefLights1(
-	0x7F, 0x7F, 0x7F,
-	0xFF, 0xFF, 0xFF, 0x28, 0x28, 0x28);
 
-Lights1 milk_hand_mat_Lonlonmilk_f3d_lights = gdSPDefLights1(
-	0x7F, 0x7F, 0x7F,
-	0xFF, 0xFF, 0xFF, 0x28, 0x28, 0x28);
 
 Gfx milk_hand_MilkDiffuse128_rgba16_aligner[] = {gsSPEndDisplayList()};
 u8 milk_hand_MilkDiffuse128_rgba16[] = {

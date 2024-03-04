@@ -712,6 +712,9 @@ struct Object *find_nearest_mission_target(void) {
 }
 
 void bhv_red_arrow(void) {
+    o->oFaceAngleRoll = 0;
+    o->oFaceAnglePitch = 0;
+
     struct Object * target = find_nearest_mission_target();
     if (target!=NULL) {
         o->oFaceAngleYaw = obj_angle_to_object(o, target);

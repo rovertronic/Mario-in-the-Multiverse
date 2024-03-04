@@ -767,7 +767,7 @@ void save_file_get_ability_dpad(void) {
 }
 
 //-1 is because ABILITY_DEFAULT should not count
-u16 save_file_check_ability_unlocked(u8 ability_id) {
+s32 save_file_check_ability_unlocked(u8 ability_id) {
     #ifndef UNLOCK_ABILITIES_DEBUG
     return gSaveBuffer.files[gCurrSaveFileNum - 1][0].abilities & (1 << (ability_id-1));
     #else

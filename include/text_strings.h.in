@@ -42,6 +42,10 @@
 #define TEXT_ABILITY_N          _("Hamster Ball: A hollow ball that Mario can\nenter. Use the analog stick to roll around\nwith sphere physics!")
 #define TEXT_ABILITY_O          _("Esteemed Mortal: A walker slaying saw-axe.\nReplaces your dive with an axe jump.\nHold [B] to hop and hold [A] to jump higher.")
 
+#define TEXT_ABILITY_UTIL_1     _("Compass: Powered by Redstone!\nWhen held, will point to the nearest red coin or\nstar mission specific object.")
+#define TEXT_ABILITY_UTIL_2     _("Lon Lon Milk: Highly nutritious!\nPress [L] to drink and restore 5 HP.\nRefills between levels and after deaths.")
+#define TEXT_ABILITY_UTIL_3     _("Magic Mirror: Gaze in the mirror to return home.\nPress [L] to warp to the last checkpoint.")
+
 #define TEXT_FILE_ACTIONS       _("Begin\nErase")
 #define TEXT_FILE_DELETE        _("Are you sure?\nNo\nYes")
 

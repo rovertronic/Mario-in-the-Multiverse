@@ -136,3 +136,7 @@
 #include "machine/model.inc.c"
 #include "machine/anims/data.inc.c"
 #include "machine/anims/table.inc.c"
+#include "compass_hand/model.inc.c"
+#include "redarrow/model.inc.c"
+#include "mirror_hand/model.inc.c"
+#include "milk_hand/model.inc.c"

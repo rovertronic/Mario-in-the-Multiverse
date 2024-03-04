@@ -36,6 +36,7 @@
 #include "ability.h"
 #include "cutscene_manager.h"
 #include "mitm_hub.h"
+#include "ability.h"
 
 #include "config.h"
 
@@ -918,6 +919,9 @@ void initiate_delayed_warp(void) {
 
                     initiate_warp(gCurrCreditsEntry->levelNum, gCurrCreditsEntry->areaIndex, destWarpNode, WARP_FLAGS_NONE);
                     break;
+
+                case WARP_OP_DEATH:
+                    milk_drunk = FALSE;
 
                 default:
                     warpNode = area_get_warp_node(sSourceWarpNodeId);

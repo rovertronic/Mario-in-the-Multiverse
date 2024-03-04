@@ -14,9 +14,9 @@ void bhv_checkpoint_flag(void) {
             //move the death warp to me
             struct Object *dw = cur_obj_nearest_object_with_behavior(bhvDeathWarp);
             if (dw) {
-                dw->oPosX = o->oPosX;
+                dw->oPosX = o->oPosX+sins(o->oFaceAngleYaw)*101.0f;
                 dw->oPosY = o->oPosY+150.0f;
-                dw->oPosZ = o->oPosZ;
+                dw->oPosZ = o->oPosZ+coss(o->oFaceAngleYaw)*101.0f;
             }
         }
     }
@@ -676,4 +676,48 @@ void bhv_o_easystreet_mission_controller(void) {
     }
 
     easystreet_mission_state = o->oAction;
+}
+
+u32 mission_behavior_list[] = {
+    bhvRedCoin,
+    bhvBriefcase,
+    bhvOuvstar,
+    bhvHiddenStarTrigger,
+    bhvCagedToad,
+    bhvFlipswitch,
+};
+
+struct Object *find_nearest_mission_target(void) {
+    //stupid ass function
+    struct Object *result;
+    struct Object *closest = NULL;
+    struct Object *myself = o;
+    f32 closest_dist = 9999.0f;
+
+    for (u8 i=0; i < sizeof(mission_behavior_list)/4; i++) {
+        //shitty hack, make this function run from mario instead of the aimer itself
+        o = gMarioObject;
+        result = cur_obj_nearest_object_with_behavior(mission_behavior_list[i]);
+        o = myself;
+        if (result) {
+            f32 this_dist = dist_between_objects(gMarioObject,result);
+            if (this_dist < closest_dist) {
+                closest_dist = this_dist;
+                closest = result;
+            }
+        }
+    }
+
+    return closest;
+}
+
+void bhv_red_arrow(void) {
+    struct Object * target = find_nearest_mission_target();
+    if (target!=NULL) {
+        o->oFaceAngleYaw = obj_angle_to_object(o, target);
+    } else {
+        o->oFaceAngleYaw += 0x200;
+    }
+
+    vec3f_copy(&o->oPosVec,gMarioState->pos);
 }

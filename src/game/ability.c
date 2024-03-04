@@ -62,6 +62,7 @@ u16 phasewalk_timer = 0;
 u16 chronos_timer = 0;
 u8 chronos_expended = FALSE;
 Vec3f mario_hand_position = {0.0f,0.0f,0.0f};
+u8 milk_drunk = FALSE;
 //
 
 Gfx gfx_ability_hand[2] = {gsSPDisplayList(mario_right_hand_closed),gsSPEndDisplayList()};
@@ -117,11 +118,23 @@ ALIGNED8 u8 ability_images[][2048] = {
     { /*Ability M*/
     #include "actors/ability_images/custom_ability_m.rgba16.inc.c"
     },
+    { /*Utility 1*/
+    #include "actors/ability_images/custom_ability_u1.rgba16.inc.c"
+    },
+    { /*Utility 2*/
+    #include "actors/ability_images/custom_ability_u2.rgba16.inc.c"
+    },
+    { /*Utility 3*/
+    #include "actors/ability_images/custom_ability_u3.rgba16.inc.c"
+    },
     { /*None*/
     #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
     },
     { /*Locked*/
     #include "actors/ability_images/custom_ability_locked.rgba16.inc.c"
+    },
+    { /*Utility 2 Used*/
+    #include "actors/ability_images/custom_ability_u2_used.rgba16.inc.c"
     }
 };
 
@@ -142,6 +155,10 @@ u8 abstr_m[] = {TEXT_ABILITY_M};
 u8 abstr_n[] = {TEXT_ABILITY_N};
 u8 abstr_o[] = {TEXT_ABILITY_O};
 
+u8 abstr_util_1[] = {TEXT_ABILITY_UTIL_1};
+u8 abstr_util_2[] = {TEXT_ABILITY_UTIL_2};
+u8 abstr_util_3[] = {TEXT_ABILITY_UTIL_3};
+
 struct ability ability_struct[] = {
     /*           HAND DISPLAY LIST        HAT DISPLAY LIST     MARIO MODEL ID     STRING */
     /*Default*/{&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_def},
@@ -160,12 +177,17 @@ struct ability ability_struct[] = {
     /*O*/      {&saw_hand_skinned_016_mesh, NULL               ,MODEL_MARIO       ,&abstr_o  },
     /*N*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_n  },
     /*M*/      {&hand_m_hand_mesh         , NULL               ,MODEL_MARIO       ,&abstr_m  },
+
+    /*Util1*/  {&compass_hand_hand_mesh   , NULL               ,MODEL_MARIO       ,&abstr_util_1},
+    /*Util2*/  {&milk_hand_hand_mesh      , NULL               ,MODEL_MARIO       ,&abstr_util_2},
+    /*Util3*/  {&mirror_hand_hand_mesh    , NULL               ,MODEL_MARIO       ,&abstr_util_3},
 };
 
 u16 ability_cooldown_flags = 0; //Flags that determine if their ability icon is "greyed out" or not; 0 = normal, 1 = cooling down
 
 void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index) {
     if (index == ABILITY_NONE) return;
+    if (index == ABILITY_UTIL_MILK && milk_drunk) {index = 21;}
     if (ability_is_cooling_down(index)) {
         alpha = 100+(sins(gGlobalTimer*0x600)*30);
     }

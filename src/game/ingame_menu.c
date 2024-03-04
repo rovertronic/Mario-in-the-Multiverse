@@ -2022,8 +2022,8 @@ u8 ability_menu_index = 0;
 s8 ability_menu_x = 0;
 s8 ability_menu_y = 0;
 
-s8 menu_ability_y_offset[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-s8 menu_ability_gravity[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+s8 menu_ability_y_offset[19] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+s8 menu_ability_gravity[19] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 void set_ability_slot(u8 index, u8 ability_id) {
     u8 ability_already_on_dpad = FALSE;

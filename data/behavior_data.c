@@ -7868,6 +7868,15 @@ const BehaviorScript bhvMarbleCannon[] = {
 /* GROUP N END */
 
 /* GROUP O START */
+extern void bhv_red_arrow(void);
+const BehaviorScript bhvRedArrow[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_red_arrow),
+    END_LOOP(),
+};
+
 extern void bhv_o_walker_update(void);
 const BehaviorScript bhvOZombie[] = {
     BEGIN(OBJ_LIST_PUSHABLE),

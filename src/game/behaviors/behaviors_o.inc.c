@@ -687,6 +687,32 @@ u32 mission_behavior_list[] = {
     bhvFlipswitch,
 };
 
+struct Object *mario_find_nearest_object_with_behavior_exclude_used_mission_objects(const BehaviorScript *behavior) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+    struct Object *closestObj = NULL;
+    f32 minDist = 0x20000;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            // discriminate against used mission objects
+            && (!(obj_has_behavior(obj,bhvFlipswitch)&&obj->oSwitchState == TRUE))
+        ) {
+            f32 objDist = dist_between_objects(gMarioObject, obj);
+            if (objDist < minDist) {
+                closestObj = obj;
+                minDist = objDist;
+            }
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+
+    return closestObj;
+}
+
 struct Object *find_nearest_mission_target(void) {
     //stupid ass function
     struct Object *result;
@@ -695,10 +721,7 @@ struct Object *find_nearest_mission_target(void) {
     f32 closest_dist = 9999.0f;
 
     for (u8 i=0; i < sizeof(mission_behavior_list)/4; i++) {
-        //shitty hack, make this function run from mario instead of the aimer itself
-        o = gMarioObject;
-        result = cur_obj_nearest_object_with_behavior(mission_behavior_list[i]);
-        o = myself;
+        result = mario_find_nearest_object_with_behavior_exclude_used_mission_objects(mission_behavior_list[i]);
         if (result) {
             f32 this_dist = dist_between_objects(gMarioObject,result);
             if (this_dist < closest_dist) {

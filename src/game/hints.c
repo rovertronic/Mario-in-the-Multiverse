@@ -14,7 +14,7 @@ hint course_1_hints[] = {
     0},
 
     {"Cross the bronto burt bridges and climb\n\
-    he mountain to find the star.",
+    the mountain to find the star.",
     0},
 
     {"Cut down all the heavy objects to activate\n\

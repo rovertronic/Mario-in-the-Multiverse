@@ -308,8 +308,10 @@ s32 obj_hit_by_bullet(struct Object *obj, f32 objHitSphereSize) {
         if (dist < (b->hitSphereSize + objHitSphereSize)) {
             if (b->flags & BULLET_FLAG_DEFLECTED) {
                 return 2;
+				DELETE_BULLET();
             } else {
                 return 1;
+				DELETE_BULLET();
             }
         }
     }

@@ -71,4 +71,14 @@ extern const LevelScript level_B_entry[];
 
 #include "levels/B/airlock_water_collision/collision_header.h"
 
+#include "levels/B/gate/geo_header.h"
+
+#include "levels/B/gate/collision_header.h"
+
+#include "levels/B/alarm_lit/geo_header.h"
+
+#include "levels/B/alarm/geo_header.h"
+
+#include "levels/B/alarm/anim_header.h"
+
 #endif

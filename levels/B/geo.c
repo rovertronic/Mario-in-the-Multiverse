@@ -32,3 +32,6 @@
 #include "levels/B/turret_head_heavy/geo.inc.c"
 #include "levels/B/turret_platform/geo.inc.c"
 #include "levels/B/turret_cover/geo.inc.c"
+#include "levels/B/gate/geo.inc.c"
+#include "levels/B/alarm_lit/geo.inc.c"
+#include "levels/B/alarm/geo.inc.c"

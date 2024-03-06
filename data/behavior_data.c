@@ -6341,8 +6341,8 @@ const BehaviorScript bhvLittleSister[] = {
     LOAD_ANIMATIONS(oAnimations, little_sister_anims),
     ANIMATE(0),
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ -400, /*Bounciness*/ 0, /*Drag strength*/ 0, /*Friction*/ 0, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
-    SET_INT(oInteractType, INTERACT_GRABBABLE),
-    SET_INT(oInteractionSubtype, INT_SUBTYPE_HOLDABLE_NPC),
+    SET_INT(oInteractType, INTERACT_TEXT),
+    //SET_INT(oInteractionSubtype, INT_SUBTYPE_HOLDABLE_NPC),
     SET_INT(oIntangibleTimer, 0),
     SET_HITBOX(/*Radius*/ 55, /*Height*/ 230),
     SET_HOME(),
@@ -6427,10 +6427,35 @@ const BehaviorScript bhvTurretPanel[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags,(OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_ACTIVE_FROM_AFAR)),
     SET_FLOAT(oDrawingDistance, 4000),
+    CALL_NATIVE(bhv_turret_panel_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_turret_panel),
     END_LOOP(),
 };
+
+const BehaviorScript bhvGate[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags,(OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_ACTIVE_FROM_AFAR)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(gate_collision),
+    SET_FLOAT(oDrawingDistance, 4000),
+    CALL_NATIVE(bhv_gate_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_gate),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvAlarm[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_ANIMATIONS(oAnimations, alarm_anims),
+    ANIMATE(0),
+    SET_FLOAT(oDrawingDistance, 4000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_alarm),
+    END_LOOP(),
+};
+
 
 /* GROUP B END */
 

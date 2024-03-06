@@ -6,6 +6,11 @@
 Bool8 inCutscene = FALSE;
 Bool8 littleSisterCutscene = FALSE;
 u8 curCutsceneState = 0;
+Vec3f cutsceneFocus = {0, 0, 0};
+Vec3f cutscenePos = {0, 0, 0};
+Vec3f cutsceneNextFocus = {0, 0, 0};
+Vec3f cutsceneNextPos = {0, 0, 0};
+u16 cutsceneTimer = 0;
 
     struct ObjectHitbox sConcreteBlockHitbox = {
     /* interactType:      */ INTERACT_BREAKABLE,
@@ -337,14 +342,33 @@ void bhv_big_daddy_loop(void) {
 enum sister_states {
     LS_NPC_START,
     LS_IDLE,
+    LS_CUTSCENE,
     LS_SIT,
     LS_NPC_END,
     LS_CRUSHED,
 };
 
 void bhv_little_sister_loop(void) {
+    print_text_fmt_int(20, 40, "oAction: %d", o->oAction);
+    print_text_fmt_int(20, 60, "oF4: %d", o->oF4);
     cur_obj_update_floor_and_walls();
     cur_obj_move_standard(-78);
+    if (obj_hit_by_bullet(o, 300.0f) == 1 && o->oF4 == 0 && o->oTimer > 10){
+        o->oF4 = 1;
+        o->oHeldState = HELD_DROPPED;
+        gMarioState->action = ACT_IDLE;
+        gMarioState->heldObj = NULL;
+        o->oTimer = 0;
+        spawn_mist_particles_with_sound(SOUND_ACTION_TELEPORT);
+        o->oPosX = o->oHomeX;
+        o->oPosY = o->oHomeY;
+        o->oPosZ = o->oHomeZ;
+        o->oAction = LS_IDLE;
+        cur_obj_init_animation(0);
+    }
+    if (o->oPosX == o->oHomeX && o->oPosZ == o->oHomeZ){
+        o->oF4 = 0;
+    }
     //print_text_fmt_int(20, 20, "oAction: %d", o->oAction);
     /*
         if (inCutscene == FALSE){
@@ -391,11 +415,79 @@ void bhv_little_sister_loop(void) {
     }
     if (o->oDistanceToMario < 500.0f && o->oAction == LS_NPC_START && gMarioState->floorHeight == gMarioState->pos[1]){
         if (cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP,
-            DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, BIG_DADDY_STAR)) {
+            DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG_NO_ZOOM, BIG_DADDY_STAR)) {
                 o->oInteractStatus = INT_STATUS_NONE;
                 o->oInteractType = INTERACT_GRABBABLE;
                 o->oInteractionSubtype = INT_SUBTYPE_HOLDABLE_NPC;
+                o->oAction = LS_CUTSCENE;
+                
+                
+        }
+    }
+    if (o->oAction == LS_CUTSCENE){
+        inCutscene = TRUE;
+        switch (curCutsceneState) {
+            case 0:
+                curCutsceneState = 1;
+                break;
+            case 1:
+                cutsceneFocus[0] = 2702;
+                cutsceneFocus[1] = 595;
+                cutsceneFocus[2] = -1389;
+                cutscenePos[0] = 3000;
+                cutscenePos[1] = 595;
+                cutscenePos[2] = -1389;
+                gLakituState.mode = CAMERA_MODE_NONE;
+                gMarioState->controller = &gControllers[5];
+                curCutsceneState = 2;
+                break;
+            case 2:
+                gLakituState.goalPos[0] = cutscenePos[0];
+                gLakituState.goalPos[1] = cutscenePos[1];
+                gLakituState.goalPos[2] = cutscenePos[2];
+                gLakituState.goalFocus[0] = cutsceneFocus[0];
+                gLakituState.goalFocus[1] = cutsceneFocus[1];
+                gLakituState.goalFocus[2] = cutsceneFocus[2];
+                cutsceneTimer++;
+                if (cutsceneTimer > 15){
+                curCutsceneState = 3;
+                cutsceneTimer = 0;
+                }
+                break;
+            case 3:
+                cutsceneTimer++;
+                if (cutsceneTimer > 15){
+                curCutsceneState = 4;
+                cutsceneTimer = 0;
+                }
+                break;
+            case 4:
+                set_or_approach_f32_asymptotic(&gLakituState.goalPos[0], 3500, 0.05f);
+                set_or_approach_f32_asymptotic(&gLakituState.goalFocus[1], 350, 0.05f);
+                if (gLakituState.goalPos[0] > 3499.0f){
+                    curCutsceneState = 4;
+                }
+                break;
+            case 5:
+                gLakituState.goalPos[0] = 4200;
+                gLakituState.goalPos[1] = 800;
+                gLakituState.goalPos[2] = -2194;
+                gLakituState.goalFocus[0] = 5700;
+                gLakituState.goalFocus[1] = 82;
+                gLakituState.goalFocus[2] = -1389;
+                cutsceneTimer++;
+                if (cutsceneTimer > 60){
+                curCutsceneState = 6;
+                }
+                break;
+            case 6:
+                gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
+                gMarioState->controller = &gControllers[0];
+                inCutscene = FALSE;
                 o->oAction = LS_IDLE;
+                curCutsceneState = 0;
+                break;
+
         }
     }
     if (o->oAction == LS_NPC_END){
@@ -414,7 +506,10 @@ void bhv_little_sister_loop(void) {
     }
     switch (o->oHeldState) {  
         case HELD_HELD:
-            cur_obj_unrender_set_action_and_anim(1, 2);
+            if (phasewalk_state != 0){
+                gMarioState->action = ACT_PLACING_DOWN;
+            }
+            cur_obj_unrender_set_action_and_anim(1, LS_SIT);
             if (cur_obj_check_if_at_animation_end() && o->oAction == LS_IDLE) {
                 o->oAction = LS_SIT;
             }
@@ -496,68 +591,87 @@ void bhv_crusher_loop(void){
     }
 
 void bhv_turret_body_init(void){
-    if (GET_BPARAM2(o->oBehParams) == 0){
-        spawn_object_relative(0, 0, 0, 0, o, MODEL_TURRET_HEAD, bhvTurretHead);
-    } else if (GET_BPARAM2(o->oBehParams) == 1){
-        spawn_object_relative(1, 0, 0, 0, o, MODEL_TURRET_HEAVY, bhvTurretHead);
-    }
-    if (GET_BPARAM1(o->oBehParams) != 0){
-        o->oObjF4 = find_object_with_behaviors_bparam1(bhvTurretPanel, GET_BPARAM1(o->oBehParams));
-    }
-    if (o->oObjF4 == NULL){
-        SET_BPARAM1(o->oBehParams, 0);
-    }
-    struct Object *turretHead = cur_obj_nearest_object_with_behavior(bhvTurretHead);
-    o->prevObj = turretHead;
-    if (o->parentObj->oFaceAnglePitch == 0x08000 || o->parentObj->oFaceAnglePitch == -0x08000){
-        obj_set_hitbox(o, &sCeilingTurretHitbox);
-    } else {
-        obj_set_hitbox(o, &sTurretHitbox);
-    }
+    // Spawn the appropriate object based on the behavior parameter
+    spawn_object_relative(GET_BPARAM2(o->oBehParams), 0, 0, 0, o, 
+                          GET_BPARAM2(o->oBehParams) == 0 ? MODEL_TURRET_HEAD : MODEL_TURRET_HEAVY, 
+                          bhvTurretHead);
 
+    // Set the previous object to the nearest object with the specified behavior
+    o->prevObj = cur_obj_nearest_object_with_behavior(bhvTurretHead);
+
+    // Set the hitbox based on the parent object's face angle pitch
+    obj_set_hitbox(o, o->parentObj->oFaceAnglePitch == 0x08000 || o->parentObj->oFaceAnglePitch == -0x08000 ? 
+                   &sCeilingTurretHitbox : &sTurretHitbox);
+
+    // Find the nearest object with the specified behavior and get the distance
     f32 dist;
     struct Object *turretPlatform = cur_obj_find_nearest_object_with_behavior(bhvTurretPlatform, &dist);
+
+    // If the distance is less than 100.0f, set the parent object and behavior parameter accordingly
     if (dist < 100.0f){
         o->parentObj = turretPlatform;
+        SET_BPARAM1(o->oBehParams, GET_BPARAM1(o->parentObj->oBehParams));
     } else {
-        o->oMoveAngleYaw = o->oMoveAngleYaw+0x4000;
+        o->oMoveAngleYaw += 0x4000;
     }
+
+    // Find the object with the specified behavior and parameter
+    o->oObjF4 = find_object_with_behaviors_bparam(bhvTurretPanel, GET_BPARAM1(o->oBehParams), 1);
 }
 
 
 void bhv_turret_body_loop(void){
-    if (o->parentObj->o10C == 1){
-        mark_obj_for_deletion(o->prevObj);
-        mark_obj_for_deletion(o);
+    if (o->oDistanceToMario < 500){
+        print_text_fmt_int(20, 60, "bparam1 %d", GET_BPARAM1(o->oBehParams));
+    }
+    if (o->parentObj != NULL){
+        if (o->parentObj->o10C == 1){
+            if (o->prevObj != NULL) {
+                mark_obj_for_deletion(o->prevObj);
+            }
+            mark_obj_for_deletion(o);
+            return; // Exit the function since 'o' has been deleted
+        }
+        o->oPosY = o->parentObj->oPosY;
     }
     if (obj_hit_by_bullet(o, 750.0f) == 2){
         spawn_object_relative(0, 0, 0, 0, o, MODEL_EXPLOSION, bhvExplosion);
-        mark_obj_for_deletion(o);
-        mark_obj_for_deletion(o->prevObj);
-    }
-    
-    if (GET_BPARAM1(o->oBehParams) != 0){
-
-        if (o->oObjF4->oAction == 1){
-            spawn_object_relative(0, 0, 0, 0, o, MODEL_EXPLOSION, bhvExplosion);
+        if (o->prevObj != NULL) {
             mark_obj_for_deletion(o->prevObj);
+        }
+        mark_obj_for_deletion(o);
+        return; // Exit the function since 'o' has been deleted
+    }
+    if (o->oObjF4 != NULL && o->oObjF4->oAction == 1){
+        spawn_object_relative(0, 0, 0, 0, o, MODEL_EXPLOSION, bhvExplosion);
+        if (o->prevObj != NULL) {
+            mark_obj_for_deletion(o->prevObj);
+        }
+        mark_obj_for_deletion(o);
+        return; // Exit the function since 'o' has been deleted
+    }
+    if (o->oInteractStatus & INT_STATUS_INTERACTED){
+        if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED){
+            if (o->oObjF4 != NULL) {
+                o->oObjF4->oF4 -= 1;
+            }
+            spawn_mist_particles_with_sound(SOUND_GENERAL_EXPLOSION6);
+            if (o->prevObj != NULL) {
+                mark_obj_for_deletion(o->prevObj);
+            }
             mark_obj_for_deletion(o);
+            return; // Exit the function since 'o' has been deleted
+        } else {
+            o->oInteractStatus = INT_STATUS_NONE;
         }
     }
-    o->oPosY = o->parentObj->oPosY;
-if (o->oInteractStatus & INT_STATUS_INTERACTED){
-    if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED){
-        spawn_mist_particles_with_sound(SOUND_GENERAL_EXPLOSION6);
-        mark_obj_for_deletion(o);
-        mark_obj_for_deletion(o->prevObj);
-    } else {
-        o->oInteractStatus = INT_STATUS_NONE;
-    }
-
-    } if (o->oShotByShotgun > 0){
+    if (o->oShotByShotgun > 0){
         spawn_object_relative(0, 0, 0, 0, o, MODEL_EXPLOSION, bhvExplosion);
+        if (o->prevObj != NULL) {
+            mark_obj_for_deletion(o->prevObj);
+        }
         mark_obj_for_deletion(o);
-        mark_obj_for_deletion(o->prevObj);
+        return; // Exit the function since 'o' has been deleted
     }
 }
 
@@ -725,7 +839,7 @@ void bhv_turret_head_loop(void){
 */
 void bhv_turret_platform_init(void){
     if (GET_BPARAM1(o->oBehParams) != 0){
-        o->oObj100 = find_object_with_behaviors_bparam1(bhvTurretPanel, GET_BPARAM1(o->oBehParams));
+        o->oObj100 = find_object_with_behaviors_bparam(bhvTurretPanel, GET_BPARAM1(o->oBehParams), 1);
     }
     if (o->oObj100 == NULL){
         SET_BPARAM1(o->oBehParams, 0);
@@ -739,7 +853,14 @@ void bhv_turret_platform_init(void){
 }
 
 void bhv_turret_platform(void){
-    
+    if (GET_BPARAM1(o->oBehParams) == 1){
+        if (curCutsceneState == 5 && o->o110 == 0){
+            o->oAction = 1;
+            o->o110 = 1;
+            o->oObjF4->oAction = 1;
+            o->oObjF8->oAction = 1;
+        }
+    }
     if (gMarioState->floor->type == SURFACE_TURRET_ACTIVATOR){
         if (GET_BPARAM3(o->oBehParams) == gMarioState->floor->force && o->o110 == 0){
             o->oAction = 1;
@@ -785,17 +906,22 @@ void bhv_turret_platform(void){
         case 2:
             if (o->oFaceAnglePitch == 0x08000 || o->oFaceAnglePitch == -0x08000){
                 if (o->oPosY > o->oHomeY - 262.617f){
+                    play_sound(SOUND_ENV_ELEVATOR4, &o->oPosVec);
                     o->oPosY -= 7.5;
                 } else {
                     o->oPosY = o->oHomeY - 262.617f;
                     o->oAction = 3;
+                    play_sound(SOUND_ENV_METAL_BOX_PUSH, &o->oPosVec);
                 }
             } else {
                 if (o->oPosY < o->oHomeY + 262.617f){
+                    play_sound(SOUND_ENV_ELEVATOR4, &o->oPosVec);
                     o->oPosY += 7.5;
                 } else {
                     o->oPosY = o->oHomeY + 262.617f;
                     o->oAction = 3;
+                    play_sound(SOUND_ENV_METAL_BOX_PUSH, &o->oPosVec);
+                    
                 }
             }
         break;
@@ -826,19 +952,80 @@ void bhv_turret_cover(void){
     }
 }
 
-void bhv_turret_panel(void){
-    if (o->oDistanceToMario < 500.0f){
-        o->oAction = 1;
-        //obj_mark_for_deletion(o);
-    }
-    if (gPlayer1Controller->buttonPressed & L_TRIG){
-        play_sound(SOUND_TEST_BANK_TEST_SOUND, gGlobalSoundSource);
-        }
+
+void bhv_turret_panel_init(void){
+    o->oF4 = GET_BPARAM2(o->oBehParams);
 }
 
+void bhv_turret_panel(void){
+    print_text_fmt_int(20, 60 + (20*GET_BPARAM2(o->oBehParams)), "oF4: %d", o->oF4);
+    if (o->oDistanceToMario < 500.0f){
+        o->oAction = 1;
+        obj_mark_for_deletion(o);
+    }
+    if (o->oF4 == 0){
+        o->oAction = 1;
+        obj_mark_for_deletion(o);
+    }
+}
 
+void bhv_gate_init(void){
+    if (GET_BPARAM2(o->oBehParams) != 1){
+        o->oObjF4 = find_object_with_behaviors_bparam(bhvTurretPanel, GET_BPARAM1(o->oBehParams), 1);
+    }
+}
+void bhv_gate(void){
+    if (GET_BPARAM2(o->oBehParams) == 1){
+        if (curCutsceneState == 4){
+        cutsceneFocus[1] = o->oPosY;
+        if (o->oPosY > o->oHomeY - 455.9f){
+            o->oPosY -= 7.5;
+            play_sound(SOUND_ENV_ELEVATOR2, &o->oPosVec);
+        } else {
+            o->oPosY = o->oHomeY - 455.9f;
+            play_sound(SOUND_OBJ_BOWSER_WALK, &o->oPosVec);
+            curCutsceneState = 5;
+        }
+    }
+    if (GET_BPARAM2(o->oBehParams) == 0){
+        if (o->oObjF4->oAction == 1){
+            o->oAction = 1;
+        }
+    }
+    }
+    
+    
 
-void b_cutscene_handler(frames, nextState){
+}
+
+void bhv_alarm(void){
+    if (curCutsceneState == 3){
+        cur_obj_set_model(MODEL_ALARM_LIT);
+        o->oAction = 1;
+    } else if (curCutsceneState == 0){
+        o->oAction = 0;
+    }
+    if (o->oAction == 1){
+        if (o->oTimer > 15){
+            cur_obj_play_sound_2(SOUND_GENERAL_COIN_DROP);
+            o->oTimer = 0;
+        }
+    }
+
+}
+
+/*
+void b_cutscene_handler(){
+    if (inCutscene == TRUE){
+        gMarioState->controller = &gControllers[5];
+        print_text_fmt_int(20, 20, "Cutscene State: %d", curCutsceneState);
+        if (curCutsceneState == 0){
+            curCutsceneState = 1;
+        }
+    } else {
+        gMarioState->controller = &gControllers[0];
+    }
+    
     if (frames > 0){
         if (o->oTimer >= frames){
             o->oTimer = 0;
@@ -847,7 +1034,9 @@ void b_cutscene_handler(frames, nextState){
     } else {
         curCutsceneState = nextState;
     }
+    
 }
+*/
 
 
 /*

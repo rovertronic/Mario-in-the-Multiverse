@@ -8822,6 +8822,29 @@ void cutscene_dialog(struct Camera *c) {
     }
 }
 
+void cutscene_dialog_no_zoom(struct Camera *c) {
+cutscene_event(cutscene_dialog_start, c, 0, 0);
+    cutscene_event(cutscene_dialog_move_mario_shoulder, c, 0, -1);
+    cutscene_event(cutscene_dialog_create_dialog_box, c, 10, 10);
+    sStatusFlags |= CAM_FLAG_SMOOTH_MOVEMENT;
+
+    if (gDialogResponse != DIALOG_RESPONSE_NONE) {
+        sCutsceneDialogResponse = gDialogResponse;
+    }
+
+    if ((get_dialog_id() == DIALOG_NONE) && (sCutsceneVars[8].angle[0] != 0)) {
+        if (c->cutscene != CUTSCENE_RACE_DIALOG) {
+            sCutsceneDialogResponse = DIALOG_RESPONSE_NOT_DEFINED;
+        }
+
+        gCutsceneTimer = CUTSCENE_LOOP;
+        retrieve_info_star(c);
+        transition_next_state(c, 15);
+        sStatusFlags |= CAM_FLAG_UNUSED_CUTSCENE_ACTIVE;
+        cutscene_unsoften_music(c);
+    }
+}
+
 /**
  * Sets the CAM_FLAG_UNUSED_CUTSCENE_ACTIVE flag, which does nothing.
  */
@@ -10537,6 +10560,12 @@ struct Cutscene sCutsceneDialog[] = {
     { cutscene_dialog_end, 0 }
 };
 
+struct Cutscene sCutsceneDialogNoZoom[] = {
+    { cutscene_dialog_no_zoom, CUTSCENE_LOOP },
+    { cutscene_dialog_set_flag, 12 },
+    { cutscene_dialog_end, 0 }
+};
+
 /**
  * Cutscene that plays when Mario reads a sign or message.
  */
@@ -11006,6 +11035,7 @@ void play_cutscene(struct Camera *c) {
         CUTSCENE(CUTSCENE_EXIT_FALL_WMOTR,      sCutsceneFallToCastleGrounds)
         CUTSCENE(CUTSCENE_NONPAINTING_DEATH,    sCutsceneNonPaintingDeath)
         CUTSCENE(CUTSCENE_DIALOG,               sCutsceneDialog)
+        CUTSCENE(CUTSCENE_DIALOG_NO_ZOOM,       sCutsceneDialogNoZoom)
         CUTSCENE(CUTSCENE_READ_MESSAGE,         sCutsceneReadMessage)
         CUTSCENE(CUTSCENE_RACE_DIALOG,          sCutsceneDialog)
         CUTSCENE(CUTSCENE_ENTER_PYRAMID_TOP,    sCutsceneEnterPyramidTop)

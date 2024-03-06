@@ -639,6 +639,10 @@ enum GLOBAL_MODELS {
 #define MODEL_TURRET_HEAVY                       0x15E
 #define MODEL_TURRET_PLATFORM                    0x15F  
 #define MODEL_TURRET_COVER                       0x160
+#define MODEL_GATE                               0x161
+#define MODEL_ALARM                              0x162
+#define MODEL_ALARM_LIT                          0x163
+
 /* LEVEL B END */
 
 /* LEVEL C START */

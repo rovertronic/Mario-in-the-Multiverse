@@ -60,8 +60,8 @@ enum SoundBank {
     (1 << SOUND_BANK_VOICE) |\
     (1 << SOUND_BANK_GENERAL) |\
     (1 << SOUND_BANK_MITM_ABILITY) |\
-    (1 << SOUND_BANK_MITM_LEVEL) |\
-    (1 << SOUND_BANK_TEST_BANK))
+    (1 << SOUND_BANK_MITM_LEVEL)) |\
+    (1 << SOUND_BANK_TEST_BANK)
 
 /* Audio playback bitflags. */
 #define SOUND_NO_VOLUME_LOSS        0x1000000 // No volume loss with distance

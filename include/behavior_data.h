@@ -560,6 +560,7 @@ extern const BehaviorScript bhvIntroToad[];
 extern const BehaviorScript bhvIntroEgadd[];
 extern const BehaviorScript bhvIntroMachine[];
 extern const BehaviorScript bhvRedArrow[];
+extern const BehaviorScript bhvIntroBowser[];
 
 /* GROUP A START */
 extern const BehaviorScript bhvJelly[];

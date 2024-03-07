@@ -611,6 +611,7 @@ enum GLOBAL_MODELS {
     MODEL_EGADD,
     MODEL_MACHINE,
     MODEL_RED_ARROW,
+    MODEL_WEDSER,
 
     // Custom Mario Models
     MODEL_E__MARIO,

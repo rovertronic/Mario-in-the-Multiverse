@@ -318,6 +318,7 @@ const LevelScript script_func_global_11[] = {
     LOAD_MODEL_FROM_GEO(MODEL_BIRDS,                   birds_geo),
     LOAD_MODEL_FROM_GEO(MODEL_PEACH,                   peach_geo),
     LOAD_MODEL_FROM_GEO(MODEL_YOSHI,                   yoshi_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WEDSER,                  wedser_geo),
     RETURN(),
 };
 

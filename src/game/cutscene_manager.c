@@ -111,15 +111,16 @@ struct Object * intro_cloth;
 struct Object * intro_peach;
 struct Object * intro_egadd;
 struct Object * intro_machine;
+struct Object * intro_bowser;
 static struct SpawnParticlesInfo sIntroDoorParticles = {
     /* behParam:        */ 0,
     /* count:           */ 8,
     /* model:           */ MODEL_INTRO_ROCK,
     /* offsetY:         */ 0,
-    /* forwardVelBase:  */ 4,
-    /* forwardVelRange: */ 4,
-    /* velYBase:        */ 10,
-    /* velYRange:       */ 30,
+    /* forwardVelBase:  */ 16,
+    /* forwardVelRange: */ 8,
+    /* velYBase:        */ 20,
+    /* velYRange:       */ 40,
     /* gravity:         */ -4,
     /* dragStrength:    */ 0,
     /* sizeBase:        */ 10.0f,
@@ -258,7 +259,11 @@ void cm_intro_cutscene(void) {
             normal_o = o;
             o = intro_breakdoor;
             cur_obj_spawn_particles(&sIntroDoorParticles);
+            spawn_mist_particles_variable(0, 0, 200.0f);
             play_sound(SOUND_GENERAL2_PYRAMID_TOP_EXPLOSION, gGlobalSoundSource);
+            intro_bowser = spawn_object(o,MODEL_WEDSER,bhvIntroBowser);
+            intro_bowser->oFaceAngleYaw -= 0x2000;
+            intro_bowser->oForwardVel = 20.0f;
             obj_mark_for_deletion(intro_breakdoor);
             o = normal_o;
             //so fucking zeevil
@@ -291,6 +296,11 @@ void cm_intro_cutscene(void) {
                 cm_target_camera_object = 4;
                 cm_textbox_target_speaker = CM_SPEAKER_BOWSER;
                 cm_textbox_text_target = &ascii_bowser4;
+            }
+            break;
+        case 391:
+            if (cm_wait_for_transition()) {
+                obj_init_animation(intro_bowser,2);
             }
             break;
         case 400:
@@ -343,26 +353,20 @@ void cm_intro_cutscene(void) {
         gMarioObject->header.gfx.pos[2] -= 4.0f;
     }
     if ((cm_cutscene_timer > 170)&&(cm_cutscene_timer < 250)) {
-        if (intro_cloth && intro_egadd) {
-            obj_turn_toward_object(intro_egadd, intro_cloth, O_FACE_ANGLE_YAW_INDEX, 0x800);
-        }
+        obj_turn_toward_object(intro_egadd, intro_cloth, O_FACE_ANGLE_YAW_INDEX, 0x800);
     }
     if (cm_cutscene_timer > 190) {
-        if (intro_cloth) {
-            intro_cloth->header.gfx.scale[1] = approach_f32_asymptotic(intro_cloth->header.gfx.scale[1],0.05f,0.1f);
-            intro_cloth->header.gfx.scale[0] = approach_f32_asymptotic(intro_cloth->header.gfx.scale[0],1.2f,0.1f);
-            intro_cloth->header.gfx.scale[2] = approach_f32_asymptotic(intro_cloth->header.gfx.scale[2],1.2f,0.1f);
-        }
+        intro_cloth->header.gfx.scale[1] = approach_f32_asymptotic(intro_cloth->header.gfx.scale[1],0.05f,0.1f);
+        intro_cloth->header.gfx.scale[0] = approach_f32_asymptotic(intro_cloth->header.gfx.scale[0],1.2f,0.1f);
+        intro_cloth->header.gfx.scale[2] = approach_f32_asymptotic(intro_cloth->header.gfx.scale[2],1.2f,0.1f);
     }
     if (cm_cutscene_timer > 251) {
-        if (intro_egadd) {
-            obj_turn_toward_object(intro_egadd, gMarioObject, O_FACE_ANGLE_YAW_INDEX, 0x800);
-        }
+        obj_turn_toward_object(intro_egadd, gMarioObject, O_FACE_ANGLE_YAW_INDEX, 0x800);
     }
-    if (intro_egadd && cm_cutscene_timer > 411 && cm_cutscene_timer < 420) {
+    if (cm_cutscene_timer > 411 && cm_cutscene_timer < 420) {
         intro_egadd->oPosX-=23.0f;
     }
-    if (intro_egadd && intro_machine && cm_cutscene_timer > 420) {
+    if (cm_cutscene_timer > 420) {
         intro_egadd->header.gfx.animInfo.animFrame = 0;
         if (gGlobalTimer % 2 == 0) {
             intro_egadd->oPosZ += 4.0f;
@@ -378,6 +382,16 @@ void cm_intro_cutscene(void) {
     }
     if (cm_cutscene_timer > 430) {
         cur_obj_play_sound_1(SOUND_ENV_WIND1);
+    }
+    if ((cm_cutscene_timer > 325)&&(cm_cutscene_timer < 391)) {
+        intro_bowser->oPosX += sins(intro_bowser->oFaceAngleYaw) * intro_bowser->oForwardVel;
+        intro_bowser->oPosZ += coss(intro_bowser->oFaceAngleYaw) * intro_bowser->oForwardVel;
+        if (intro_bowser->oForwardVel < 1.0f) {
+            obj_init_animation(intro_bowser,0);
+            intro_bowser->oForwardVel = 0.0f;
+        } else {
+            intro_bowser->oForwardVel *= 0.93f;
+        }
     }
 }
 

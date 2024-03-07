@@ -6327,6 +6327,16 @@ const BehaviorScript bhvIntroMachine[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvIntroBowser[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_ANIMATIONS(oAnimations, wedser_anims),
+    ANIMATE(1),
+    DROP_TO_FLOOR(),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+
 /* GROUP A START */
 extern const struct Animation *const jelly_anims[];
 const BehaviorScript bhvJelly[] = {

@@ -7985,6 +7985,7 @@ sound_ref .sound_g_marx_hp
 sound_ref .sound_g_marx_final_hit
 sound_ref .sound_g_marx_explode
 sound_ref .sound_magic_mirror
+sound_ref .sound_multiverse_crack
 
 .sound_ability_x_0:
 chan_setbank 11
@@ -8159,6 +8160,16 @@ chan_end
 
 .layer_g_marx_secondary:
 layer_note1 39, 0x7f, 127
+layer_end
+
+.sound_multiverse_crack:
+chan_setbank 11
+chan_setinstr 20
+chan_setlayer 0, .layer_multiverse_crack
+chan_end
+
+.layer_multiverse_crack:
+layer_note1 39, 0x300, 127
 layer_end
 
 // MitM Level Sound Effects

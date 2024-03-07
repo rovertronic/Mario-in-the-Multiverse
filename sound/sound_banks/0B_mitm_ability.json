@@ -109,6 +109,11 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "magic_mirror"
+        },
+        "inst_multiverse_crack": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "multiverse_crack"
         }
     },
     "instrument_list": [
@@ -131,6 +136,7 @@
         "inst_g_marx_hp",
         "inst_g_marx_final_hit",
         "inst_g_marx_explode",
-        "inst_magic_mirror"
+        "inst_magic_mirror",
+        "inst_multiverse_crack"
     ]
 }

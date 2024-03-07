@@ -3132,6 +3132,10 @@ void update_lakitu(struct Camera *c) {
 
         gLakituState.roll = 0;
 
+        if (cm_cutscene_on) {
+            gLakituState.roll = cm_roll;
+        }
+
         // Apply camera shakes
         shake_camera_pitch(gLakituState.pos, gLakituState.focus);
         shake_camera_yaw(gLakituState.pos, gLakituState.focus);

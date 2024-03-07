@@ -28,6 +28,7 @@ u8 cm_textbox_speaker = CM_SPEAKER_NEUTRAL;
 u8 cm_textbox_target_speaker = CM_SPEAKER_NEUTRAL;
 u8 cm_textbox_a_signal = FALSE;
 u8 cm_crack_signal = FALSE;
+s16 cm_roll = 0;
 f32 cm_textbox_alpha = 0.0f;
 f32 cm_textbox_text_alpha = 0.0f;
 char * cm_textbox_text = NULL;
@@ -236,6 +237,7 @@ void cm_intro_cutscene(void) {
             break;
         case 251:
             if (cm_wait_for_transition()) {
+                cm_roll = 0x500; // dutch angle
                 cur_obj_play_sound_2(SOUND_GENERAL2_PYRAMID_TOP_SPIN);
                 cm_mario_anim(MARIO_ANIM_MISSING_CAP);
                 stop_background_music(SEQUENCE_ARGS(4, SEQ_LEVEL_INSIDE_CASTLE));
@@ -250,6 +252,7 @@ void cm_intro_cutscene(void) {
             break;
         case 301:
             if (cm_wait_for_transition()) {
+                cm_roll = 0;
                 //play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_LEVEL_BOSS_KOOPA), 0);
             }
             break;
@@ -325,13 +328,13 @@ void cm_intro_cutscene(void) {
             stop_background_music(SEQUENCE_ARGS(4, SEQ_LEVEL_BOSS_KOOPA));
             cm_camera_object = 3;
             cm_target_camera_object = 3;
+            play_sound(SOUND_ABILITY_MULTIVERSE_CRACK, gGlobalSoundSource);
             break;
 
         case 429:
             cm_crack_signal = TRUE;
         break;
         case 430: //CRACK!
-            play_sound(SOUND_GENERAL2_PYRAMID_TOP_EXPLOSION, gGlobalSoundSource);
             for (u8 i=0; i<250; i++) {
                 osRecvMesg(&gGameVblankQueue, &gMainReceivedMesg, OS_MESG_BLOCK);
             }
@@ -374,8 +377,8 @@ void cm_intro_cutscene(void) {
             intro_egadd->oPosZ -= 4.0f;
         }
         obj_turn_toward_object(intro_egadd, intro_machine, O_FACE_ANGLE_YAW_INDEX, 0x800);
-        if (intro_machine->oOpacity < 250) {
-            intro_machine->oOpacity+=2;
+        if (intro_machine->oOpacity < 157) {
+            intro_machine->oOpacity++;
             cur_obj_play_sound_1(SOUND_AIR_BOWSER_SPIT_FIRE);
             cm_cutscene_timer = 420;
         }
@@ -408,6 +411,7 @@ void cm_manager_object_loop(void) {
         cm_textbox_text = NULL;
         cm_textbox_speaker = CM_SPEAKER_NEUTRAL;
         cm_crack_signal = FALSE;
+        cm_roll = 0;
         set_mario_action(gMarioState,ACT_CM_CUTSCENE,0);
         set_mario_animation(gMarioState,MARIO_ANIM_FIRST_PERSON);
     }
@@ -460,6 +464,12 @@ void cm_camera_object_loop(void) {
         o->oPosX = o->oHomeX + random_float()*20.0f;
         o->oPosY = o->oHomeY + random_float()*20.0f;
         o->oPosZ = o->oHomeZ + random_float()*20.0f;
+    }
+
+    if (o->oBehParams2ndByte==3 &&(cm_cutscene_timer > 420)) {
+        // dolly zoom
+        o->oPosX-=4.0f;
+        cm_fov +=0.6f;
     }
 
     if (o->oBehParams2ndByte == cm_camera_object) {

@@ -140,7 +140,7 @@ void cm_intro_cutscene(void) {
             intro_egadd = cur_obj_nearest_object_with_behavior(bhvIntroEgadd);
             intro_machine = cur_obj_nearest_object_with_behavior(bhvIntroMachine);
 
-            //play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_LEVEL_INSIDE_CASTLE), 0);
+            play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_PEACHS_BIRTHDAY), 0);
             cm_fov = 64.0f;
             gMarioObject->header.gfx.angle[1] += 0x8000;
             gMarioObject->header.gfx.pos[2] += 240.0f;
@@ -240,7 +240,7 @@ void cm_intro_cutscene(void) {
                 cm_roll = 0x500; // dutch angle
                 cur_obj_play_sound_2(SOUND_GENERAL2_PYRAMID_TOP_SPIN);
                 cm_mario_anim(MARIO_ANIM_MISSING_CAP);
-                stop_background_music(SEQUENCE_ARGS(4, SEQ_LEVEL_INSIDE_CASTLE));
+                stop_background_music(SEQUENCE_ARGS(4, SEQ_PEACHS_BIRTHDAY));
             }
             break;
         case 300:
@@ -253,7 +253,7 @@ void cm_intro_cutscene(void) {
         case 301:
             if (cm_wait_for_transition()) {
                 cm_roll = 0;
-                //play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_LEVEL_BOSS_KOOPA), 0);
+                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_BOWSER_TIME), 0);
             }
             break;
 
@@ -338,7 +338,7 @@ void cm_intro_cutscene(void) {
         // Bowser blows fire on the machine, it overheats and explodes
         case 450:
             // don't forget- do a dolly zoom
-            stop_background_music(SEQUENCE_ARGS(4, SEQ_LEVEL_BOSS_KOOPA));
+            stop_background_music(SEQUENCE_ARGS(4, SEQ_BOWSER_TIME));
             cm_camera_object = 8;
             cm_target_camera_object = 8;
             play_sound(SOUND_ABILITY_MULTIVERSE_CRACK, gGlobalSoundSource);

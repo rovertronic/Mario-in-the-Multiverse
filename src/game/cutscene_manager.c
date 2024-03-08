@@ -453,6 +453,19 @@ void cm_intro_cutscene(void) {
     }
 }
 
+void cm_kirby_cutscene(void) {
+    switch(cm_cutscene_timer) {
+        case 0:
+            set_mario_action(gMarioState,ACT_SLEEPING,0);
+            cm_target_camera_object = 0;
+            cm_camera_object = 0;
+        break;
+        case 90:
+            cm_cutscene_on = FALSE;
+        break;
+    }
+}
+
 void cm_manager_object_loop(void) {
     if (o->oAction == 0) {
         //init a cutscene
@@ -473,6 +486,9 @@ void cm_manager_object_loop(void) {
     switch(o->oBehParams2ndByte) {
         case 0:
             cm_intro_cutscene();
+        break;
+        case 1:
+            cm_kirby_cutscene();
         break;
     }
 

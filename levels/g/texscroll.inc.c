@@ -13,8 +13,6 @@ void scroll_g_dl_Circle_006_mesh_layer_1_vtx_0() {
 		deltaX -= (int)(absi(currentX) / width) * width * signum_positive(deltaX);
 	}
 
-	deltaX *= gMarxArenaScroll;
-
 	for (i = 0; i < count; i++) {
 		vertices[i].n.tc[0] += deltaX;
 	}
@@ -35,8 +33,6 @@ void scroll_g_dl_Circle_006_mesh_layer_1_vtx_1() {
 	if (absi(currentX) > width) {
 		deltaX -= (int)(absi(currentX) / width) * width * signum_positive(deltaX);
 	}
-
-	deltaX *= gMarxArenaScroll;
 
 	for (i = 0; i < count; i++) {
 		vertices[i].n.tc[0] += deltaX;
@@ -59,12 +55,9 @@ void scroll_g_dl_Circle_006_mesh_layer_1_vtx_2() {
 		deltaX -= (int)(absi(currentX) / width) * width * signum_positive(deltaX);
 	}
 
-	deltaX *= gMarxArenaScroll;
-
 	for (i = 0; i < count; i++) {
 		vertices[i].n.tc[0] += deltaX;
 	}
-
 	currentX += deltaX;
 }
 
@@ -82,8 +75,6 @@ void scroll_g_dl_Circle_006_mesh_layer_1_vtx_3() {
 	if (absi(currentX) > width) {
 		deltaX -= (int)(absi(currentX) / width) * width * signum_positive(deltaX);
 	}
-
-	deltaX *= gMarxArenaScroll;
 
 	for (i = 0; i < count; i++) {
 		vertices[i].n.tc[0] += deltaX;
@@ -105,8 +96,6 @@ void scroll_g_dl_Circle_006_mesh_layer_4_vtx_0() {
 	if (absi(currentX) > width) {
 		deltaX -= (int)(absi(currentX) / width) * width * signum_positive(deltaX);
 	}
-
-	deltaX *= gMarxArenaScroll;
 
 	for (i = 0; i < count; i++) {
 		vertices[i].n.tc[0] += deltaX;

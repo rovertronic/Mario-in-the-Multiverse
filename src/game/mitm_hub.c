@@ -73,7 +73,7 @@ u8 pipe_string_enter[] = {TEXT_PIPE_ENTER};
 u8 pipe_string_a[] = {TEXT_PIPE_A};
 u8 pipe_string_b[] = {TEXT_PIPE_B};
 
-u8 hub_star_string[] = {0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,0xFA,DIALOG_CHAR_TERMINATOR};
+u8 hub_star_string[] = {0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,DIALOG_CHAR_TERMINATOR};
 
 //In course order, not alphabetical!
 //Only mess with /* Level */ entry, everything else is pre-configured

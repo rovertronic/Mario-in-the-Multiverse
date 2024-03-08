@@ -55,6 +55,7 @@ const LevelScript level_birthday_entry[] = {
 		OBJECT(MODEL_NONE, -1200, 31, -689, 0, -49, 0, (5 << 16), bhvCutsceneCamera),
 		OBJECT(MODEL_NONE, -1564, 20, -544, 0, 52, 0, (6 << 16), bhvCutsceneCamera),
 		OBJECT(MODEL_NONE, 347, -297, 1272, -4, -150, 0, (7 << 16), bhvCutsceneCamera),
+		OBJECT(MODEL_NONE, -957, 81, -610, 0, -94, 0, (8 << 16), bhvCutsceneCamera),
 		OBJECT(MODEL_EGADD, -1687, -150, -207, 0, 90, 0, 0x00000000, bhvIntroEgadd),
 		OBJECT(MODEL_INTRO_BREAKDOOR, 1477, 339, -1162, 0, 0, 0, 0x00000000, bhvIntroBreakdoor),
 		OBJECT(MODEL_MACHINE, -1669, -150, -631, 0, 0, 0, 0x00000000, bhvIntroMachine),

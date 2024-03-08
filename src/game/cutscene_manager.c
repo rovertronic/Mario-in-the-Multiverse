@@ -313,40 +313,55 @@ void cm_intro_cutscene(void) {
                 cm_textbox_text_target = &ascii_bowser5;
             }
             break;
+        case 401:
+            if (cm_wait_for_transition()) {
+                vec3f_copy(&intro_bowser->oPosVec,&intro_egadd->oPosVec);
+                intro_bowser->oPosZ += 400.0f;
+                intro_bowser->oFaceAngleYaw = 0x8000;
+                intro_bowser->oMoveAngleYaw = 0x8000;
+                obj_init_animation(intro_bowser,0);
+            }
+            break;
         case 410:
             if (cm_press_a_or_b()) {
                 cm_textbox_text_target = NULL;
+                cm_target_camera_object = 3;
             }
             break;
         case 411:
             cm_wait_for_transition();
             break;
+        case 412:
+            obj_init_animation(intro_bowser,3);
+            break;
 
         // Bowser blows fire on the machine, it overheats and explodes
-        case 420:
+        case 450:
             // don't forget- do a dolly zoom
             stop_background_music(SEQUENCE_ARGS(4, SEQ_LEVEL_BOSS_KOOPA));
-            cm_camera_object = 3;
-            cm_target_camera_object = 3;
+            cm_camera_object = 8;
+            cm_target_camera_object = 8;
             play_sound(SOUND_ABILITY_MULTIVERSE_CRACK, gGlobalSoundSource);
             break;
 
-        case 429:
+        case 459:
             cm_crack_signal = TRUE;
         break;
-        case 430: //CRACK!
+        case 460: //CRACK!
             for (u8 i=0; i<250; i++) {
                 osRecvMesg(&gGameVblankQueue, &gMainReceivedMesg, OS_MESG_BLOCK);
             }
             cm_camera_object = 6;
             cm_target_camera_object = 6;
+            cm_fov = 45;
             break;
 
-        case 431:
+        case 461:
+            cm_crack_signal = FALSE;
             play_sound(SOUND_MARIO_WAAAOOOW, gGlobalSoundSource);
             break;
 
-        case 550:
+        case 600:
             initiate_warp(LEVEL_G, 0x01, 0x0A, WARP_FLAGS_NONE);
             fade_into_special_warp(WARP_SPECIAL_NONE, 0);
             break;
@@ -366,6 +381,16 @@ void cm_intro_cutscene(void) {
     if (cm_cutscene_timer > 251) {
         obj_turn_toward_object(intro_egadd, gMarioObject, O_FACE_ANGLE_YAW_INDEX, 0x800);
     }
+    if ((cm_cutscene_timer > 325)&&(cm_cutscene_timer < 391)) {
+        intro_bowser->oPosX += sins(intro_bowser->oFaceAngleYaw) * intro_bowser->oForwardVel;
+        intro_bowser->oPosZ += coss(intro_bowser->oFaceAngleYaw) * intro_bowser->oForwardVel;
+        if (intro_bowser->oForwardVel < 1.0f) {
+            obj_init_animation(intro_bowser,0);
+            intro_bowser->oForwardVel = 0.0f;
+        } else {
+            intro_bowser->oForwardVel *= 0.93f;
+        }
+    }
     if (cm_cutscene_timer > 411 && cm_cutscene_timer < 420) {
         intro_egadd->oPosX-=23.0f;
     }
@@ -377,24 +402,54 @@ void cm_intro_cutscene(void) {
             intro_egadd->oPosZ -= 4.0f;
         }
         obj_turn_toward_object(intro_egadd, intro_machine, O_FACE_ANGLE_YAW_INDEX, 0x800);
-        if (intro_machine->oOpacity < 157) {
-            intro_machine->oOpacity++;
-            cur_obj_play_sound_1(SOUND_AIR_BOWSER_SPIT_FIRE);
-            cm_cutscene_timer = 420;
+        if (intro_machine->oOpacity < 187) {
+            if (intro_bowser->header.gfx.animInfo.animFrame > 10) {
+                intro_machine->oOpacity++;
+                cur_obj_play_sound_1(SOUND_AIR_BOWSER_SPIT_FIRE);
+                struct Object * flame = spawn_object(intro_bowser, MODEL_RED_FLAME, bhvFlameMovingForwardGrowing);
+                flame->oPosY += 180.0f;
+                flame->oPosZ -= 120.0f;
+            }
+            if (cm_cutscene_timer > 450) {
+                cm_cutscene_timer = 451;
+            }
         }
     }
-    if (cm_cutscene_timer > 430) {
+    if (cm_cutscene_timer > 460) {
         cur_obj_play_sound_1(SOUND_ENV_WIND1);
-    }
-    if ((cm_cutscene_timer > 325)&&(cm_cutscene_timer < 391)) {
-        intro_bowser->oPosX += sins(intro_bowser->oFaceAngleYaw) * intro_bowser->oForwardVel;
-        intro_bowser->oPosZ += coss(intro_bowser->oFaceAngleYaw) * intro_bowser->oForwardVel;
-        if (intro_bowser->oForwardVel < 1.0f) {
-            obj_init_animation(intro_bowser,0);
-            intro_bowser->oForwardVel = 0.0f;
-        } else {
-            intro_bowser->oForwardVel *= 0.93f;
+        cm_roll += 0x100;
+        cm_fov += 0.6f;
+
+        //suck everyone
+        // this implementation utterly fucking sucks. too bad!
+        struct ObjectNode *listHead = &gObjectLists[OBJ_LIST_DEFAULT];
+        struct Object *obj = (struct Object *) listHead->next;
+
+        while (obj != (struct Object *) listHead) {
+            f32 dx = intro_machine->header.gfx.pos[0] - obj->oPosX;
+            f32 dy = intro_machine->header.gfx.pos[1] - obj->oPosY + 120.0f;
+            f32 dz = intro_machine->header.gfx.pos[2] - obj->oPosZ;
+            s16 targetPitch = atan2s(sqrtf(sqr(dx) + sqr(dz)), dy);
+
+            obj_turn_toward_object(obj, intro_machine, O_MOVE_ANGLE_YAW_INDEX, 0x1000);
+
+            obj->oMoveAnglePitch = approach_s16_symmetric(obj->oMoveAnglePitch, targetPitch, 0x1000);
+            obj->oPosY += sins(obj->oMoveAnglePitch) * 30.0f;
+
+            obj->oPosX += sins(obj->oMoveAngleYaw) * 30.0f;
+            obj->oPosZ += coss(obj->oMoveAngleYaw) * 30.0f;
+
+            obj->oFaceAngleRoll += 0x600;
+
+            obj = (struct Object *) obj->header.next;
         }
+
+        obj = gMarioObject;
+        cm_mario_anim(MARIO_ANIM_FLY_FROM_CANNON);
+
+        obj->header.gfx.pos[1] += 15.0f;
+        obj->header.gfx.pos[0] += sins(0x8000) * 30.0f;
+        obj->header.gfx.pos[2] += coss(0x8000) * 30.0f;
     }
 }
 
@@ -466,10 +521,10 @@ void cm_camera_object_loop(void) {
         o->oPosZ = o->oHomeZ + random_float()*20.0f;
     }
 
-    if (o->oBehParams2ndByte==3 &&(cm_cutscene_timer > 420)) {
+    if (o->oBehParams2ndByte==8 &&(cm_cutscene_timer > 450)&&(cm_cutscene_timer < 460)) {
         // dolly zoom
-        o->oPosX-=4.0f;
-        cm_fov +=0.6f;
+        o->oPosX-=2.0f;
+        cm_fov +=0.3f;
     }
 
     if (o->oBehParams2ndByte == cm_camera_object) {

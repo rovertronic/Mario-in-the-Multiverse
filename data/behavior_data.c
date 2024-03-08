@@ -6273,7 +6273,7 @@ const BehaviorScript bhvCutsceneManager[] = {
     END_LOOP(),
 };
 const BehaviorScript bhvCutsceneCamera[] = {
-    BEGIN(OBJ_LIST_DEFAULT),
+    BEGIN(OBJ_LIST_GENACTOR),
     SET_HOME(),
     BEGIN_LOOP(),
         CALL_NATIVE(cm_camera_object_loop),
@@ -6318,7 +6318,7 @@ const BehaviorScript bhvIntroEgadd[] = {
     END_LOOP(),
 };
 const BehaviorScript bhvIntroMachine[] = {
-    BEGIN(OBJ_LIST_DEFAULT),
+    BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
     LOAD_ANIMATIONS(oAnimations, machine_anims),
     ANIMATE(0),

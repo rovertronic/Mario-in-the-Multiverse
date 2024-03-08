@@ -1,0 +1,13 @@
+extern Lights1 mirror_hand_Gloves_lights;
+extern Lights1 mirror_hand_magicmirror_lights;
+extern u8 mirror_hand_custom_ability_u3_rgba16_ci4[];
+extern u8 mirror_hand_custom_ability_u3_rgba16_pal_rgba16[];
+extern Vtx mirror_hand_hand_mesh_vtx_cull[8];
+extern Vtx mirror_hand_hand_mesh_vtx_0[42];
+extern Gfx mirror_hand_hand_mesh_tri_0[];
+extern Vtx mirror_hand_hand_mesh_vtx_1[175];
+extern Gfx mirror_hand_hand_mesh_tri_1[];
+extern Gfx mat_mirror_hand_Gloves[];
+extern Gfx mat_mirror_hand_magicmirror[];
+extern Gfx mat_revert_mirror_hand_magicmirror[];
+extern Gfx mirror_hand_hand_mesh[];

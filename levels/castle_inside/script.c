@@ -58,6 +58,7 @@ const LevelScript level_castle_inside_entry[] = {
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, castle_inside_area_1),
+		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_ABILITY, -365, 0, 2423, 0, 142, 0, (ABILITY_ESTEEMED_MORTAL << 16), bhvAbilityUnlock),
 
 		//2 blank objects for testing
@@ -86,6 +87,8 @@ const LevelScript level_castle_inside_entry[] = {
 		OBJECT(MODEL_LEVEL_PIPE, -800, 0, -800, 0, 0, 0, (12 << 16), bhvLevelPipe),
 		OBJECT(MODEL_LEVEL_PIPE, -800, 0, -200, 0, 0, 0, (13 << 16), bhvLevelPipe),
 		OBJECT(MODEL_LEVEL_PIPE, -800, 0, 400, 0, 0, 0, (14 << 16), bhvLevelPipe),
+
+		OBJECT(MODEL_NONE, 0,0,0, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		MARIO_POS(0x01, 0, 0, 0, 0),
 		OBJECT(MODEL_ABILITY_SIGN, -787, 0, 2423, 0, 142, 0, (ABILITY_ESTEEMED_MORTAL << 16), bhvStaticObject),
 		TERRAIN(castle_inside_area_1_collision),

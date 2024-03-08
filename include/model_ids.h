@@ -608,6 +608,10 @@ enum GLOBAL_MODELS {
     MODEL_ATTACHED_ROPE,
     MODEL_ZAP,
     MODEL_F_LASER,
+    MODEL_EGADD,
+    MODEL_MACHINE,
+    MODEL_RED_ARROW,
+    MODEL_WEDSER,
 
     // Custom Mario Models
     MODEL_E__MARIO,
@@ -619,6 +623,9 @@ enum GLOBAL_MODELS {
 
 /* LEVEL INTRO START */
 #define MODEL_INTRO_SKYBOX                        0x150
+#define MODEL_INTRO_BREAKDOOR                     0x151 // Part of the birthday level data, not intro level data
+#define MODEL_INTRO_CLOTH                         0x152
+#define MODEL_INTRO_ROCK                          0x153
 /* LEVEL INTRO END */
 
 /* LEVEL A START */

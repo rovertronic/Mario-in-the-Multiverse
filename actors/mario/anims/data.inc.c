@@ -5,3 +5,4 @@
 #include "anim_Cutter_3.inc.c"
 #include "anim_cutter_dash.inc.c"
 #include "anim_squid.inc.c"
+#include "anim_ArmatureAction.inc.c"

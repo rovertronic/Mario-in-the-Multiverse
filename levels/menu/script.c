@@ -49,11 +49,11 @@ const LevelScript level_main_menu_entry_file_select[] = {
     CALL_LOOP(/*arg*/ 0, /*func*/ lvl_update_obj_and_load_file_selected),
     GET_OR_SET(/*op*/ OP_SET, /*var*/ VAR_CURR_SAVE_FILE_NUM),
     STOP_MUSIC(/*fadeOutTime*/ 0x00BE),
-    TRANSITION(/*transType*/ WARP_TRANSITION_FADE_INTO_COLOR, /*time*/ 16, /*color*/ 0xFF, 0xFF, 0xFF),
+    TRANSITION(/*transType*/ WARP_TRANSITION_FADE_INTO_COLOR, /*time*/ 16, /*color*/ 0x00, 0x00, 0x00),
     SLEEP(/*frames*/ 16),
     CLEAR_LEVEL(),
     SLEEP_BEFORE_EXIT(/*frames*/ 1),
-    SET_REG(START_LEVEL),
+    FILESELECT_CHECK(/*op*/ OP_SET, /*var*/ VAR_CURR_SAVE_FILE_NUM),
     EXIT_AND_EXECUTE(/*seg*/ SEGMENT_GLOBAL_LEVEL_SCRIPT, _scriptsSegmentRomStart, _scriptsSegmentRomEnd, level_main_scripts_entry),
 };
 

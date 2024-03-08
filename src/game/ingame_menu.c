@@ -66,6 +66,37 @@ void *languageTable[][3] = {
 #endif
 };
 
+u8 ascii_lut[] = {
+    0,0,0,0,0,0,0,0, // 0 - 7
+    0,0,0xFE,0,0,0,0,0, // 8 - 15
+    0x54,0x55,0x57,0x58,0,0,0,0, // 16 - 23
+    0,0,0,0,0,0,0,0, // 24 - 31
+    0x9E, /* */ 0xF2, /*!*/ 0x00, /*"*/ 0x00, /*#*/
+    0x00, /*$*/ 0x00, /*%*/ 0xE5, /*&*/ 0x3E, /*'*/
+    0xE1, /*(*/ 0xE3, /*)*/ 0x00, /***/ 0x00, /*+*/
+    0x6F, /*,*/ 0x9F, /*-*/ 0x3F, /*.*/ 0x00, /*/*/
+    0x00, /*0*/ 0x01, /*1*/ 0x02, /*2*/ 0x03, /*3*/
+    0x04, /*4*/ 0x05, /*5*/ 0x06, /*6*/ 0x07, /*7*/
+    0x08, /*8*/ 0x09, /*9*/ 0xE6, /*:*/ 0x00, /*;*/
+    0x52, /*<*/ 0x00, /*=*/ 0x53, /*>*/ 0xF4, /*?*/
+    0x00, /*@*/ 0x0A, /*A*/ 0x0B, /*B*/ 0x0C, /*C*/
+    0x0D, /*D*/ 0x0E, /*E*/ 0x0F, /*F*/ 0x10, /*G*/
+    0x11, /*H*/ 0x12, /*I*/ 0x13, /*J*/ 0x14, /*K*/
+    0x15, /*L*/ 0x16, /*M*/ 0x17, /*N*/ 0x18, /*O*/
+    0x19, /*P*/ 0x1A, /*Q*/ 0x1B, /*R*/ 0x1C, /*S*/
+    0x1D, /*T*/ 0x1E, /*U*/ 0x1F, /*V*/ 0x20, /*W*/
+    0x21, /*X*/ 0x22, /*Y*/ 0x23, /*Z*/ 0x00, /*[*/
+    0x00, /*\*/ 0x00, /*]*/ 0x50, /*^*/ 0x00, /*_*/
+    0x00, /*`*/ 0x24, /*a*/ 0x25, /*b*/ 0x26, /*c*/
+    0x27, /*d*/ 0x28, /*e*/ 0x29, /*f*/ 0x2A, /*g*/
+    0x2B, /*h*/ 0x2C, /*i*/ 0x2D, /*j*/ 0x2E, /*k*/
+    0x2F, /*l*/ 0x30, /*m*/ 0x31, /*n*/ 0x32, /*o*/
+    0x33, /*p*/ 0x34, /*q*/ 0x35, /*r*/ 0x36, /*s*/
+    0x37, /*t*/ 0x38, /*u*/ 0x39, /*v*/ 0x3A, /*w*/
+    0x3B, /*x*/ 0x3C, /*y*/ 0x3D, /*z*/ 0x00, /*{*/
+    0x51, /*|*/ 0x00, /*}*/ 0x00, /*~*/
+};
+
 extern u8 gLastCompletedCourseNum;
 extern u8 gLastCompletedStarNum;
 
@@ -347,6 +378,39 @@ void render_multi_text_string(s8 multiTextID) {
 #define MAX_STRING_WIDTH 16
 #define CHAR_WIDTH_SPACE (f32)(gDialogCharWidths[DIALOG_CHAR_SPACE])
 #define CHAR_WIDTH_DEFAULT (f32)(gDialogCharWidths[str[strPos]])
+
+void print_generic_string_ascii(s16 x, s16 y, const u8 *str) {
+    s32 strPos = 0;
+    u8 lineNum = 1;
+
+    s16 colorLoop;
+    ColorRGBA rgbaColors = { 0x00, 0x00, 0x00, 0x00 };
+    u8 customColor = 0;
+    u8 diffTmp     = 0;
+
+    create_dl_translation_matrix(MENU_MTX_PUSH, x, y, 0.0f);
+
+    while (str[strPos] != 0) {
+        switch(str[strPos]) {
+            case ' ':
+            case '_':
+                create_dl_translation_matrix(MENU_MTX_NOPUSH, CHAR_WIDTH_SPACE, 0.0f, 0.0f);
+            break;
+            case '\n':
+                gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+                create_dl_translation_matrix(MENU_MTX_PUSH, x, y - (lineNum * MAX_STRING_WIDTH), 0.0f);
+                lineNum++;
+            break;
+            default:
+                render_generic_char(ascii_lut[str[strPos]]);
+                create_dl_translation_matrix(MENU_MTX_NOPUSH, gDialogCharWidths[ascii_lut[str[strPos]]], 0.0f, 0.0f);
+            break;
+        }
+        strPos++;
+    }
+
+    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+}
 
 /**
  * Prints a generic white string.
@@ -1958,8 +2022,8 @@ u8 ability_menu_index = 0;
 s8 ability_menu_x = 0;
 s8 ability_menu_y = 0;
 
-s8 menu_ability_y_offset[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-s8 menu_ability_gravity[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+s8 menu_ability_y_offset[19] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+s8 menu_ability_gravity[19] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 void set_ability_slot(u8 index, u8 ability_id) {
     u8 ability_already_on_dpad = FALSE;

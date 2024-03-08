@@ -13,6 +13,7 @@
 #include "menu/file_select.h"
 #include "engine/surface_load.h"
 #include "game/mitm_hub.h"
+#include "game/cutscene_manager.h"
 
 #include "actors/common0.h"
 #include "actors/common1.h"
@@ -6266,6 +6267,77 @@ const BehaviorScript bhvDashBoosterParticle[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvCutsceneManager[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    BEGIN_LOOP(),
+        CALL_NATIVE(cm_manager_object_loop),
+    END_LOOP(),
+};
+const BehaviorScript bhvCutsceneCamera[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(cm_camera_object_loop),
+    END_LOOP(),
+};
+const BehaviorScript bhvIntroBreakdoor[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+const BehaviorScript bhvIntroCloth[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+const BehaviorScript bhvIntroPeach[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_INT(oOpacity, 255),
+    LOAD_ANIMATIONS(oAnimations, peach_seg5_anims_0501C41C),
+    ANIMATE(PEACH_ANIM_WAVING),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+const BehaviorScript bhvIntroToad[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_ANIMATIONS(oAnimations, toad_seg6_anims_0600FB58),
+    ANIMATE(TOAD_ANIM_WEST_WAVING_BOTH_ARMS),
+    SET_INT(oOpacity, 255),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+const BehaviorScript bhvIntroEgadd[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_ANIMATIONS(oAnimations, egadd_anims),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+const BehaviorScript bhvIntroMachine[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_ANIMATIONS(oAnimations, machine_anims),
+    ANIMATE(0),
+    SET_INT(oOpacity, 0),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvIntroBowser[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_ANIMATIONS(oAnimations, wedser_anims),
+    ANIMATE(1),
+    DROP_TO_FLOOR(),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+
 /* GROUP A START */
 extern const struct Animation *const jelly_anims[];
 const BehaviorScript bhvJelly[] = {
@@ -6767,7 +6839,7 @@ const BehaviorScript bhvFdoor[] = {
 
 const BehaviorScript bhvKeypad[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW),//--E
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_PERSISTENT_RESPAWN)),//--E
     BEGIN_LOOP(),
     END_LOOP(),
 };
@@ -7895,6 +7967,15 @@ const BehaviorScript bhvMarbleCannon[] = {
 /* GROUP N END */
 
 /* GROUP O START */
+extern void bhv_red_arrow(void);
+const BehaviorScript bhvRedArrow[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_red_arrow),
+    END_LOOP(),
+};
+
 extern void bhv_o_walker_update(void);
 const BehaviorScript bhvOZombie[] = {
     BEGIN(OBJ_LIST_PUSHABLE),

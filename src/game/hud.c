@@ -18,6 +18,7 @@
 #include "puppycam2.h"
 #include "puppyprint.h"
 #include "actors/group0.h"
+#include "cutscene_manager.h"
 
 #include "config.h"
 #include "ability.h"
@@ -796,7 +797,8 @@ f32 hud_alpha = 255.0f;
  * Render HUD strings using hudDisplayFlags with it's render functions,
  * excluding the cannon reticle which detects a camera preset for it.
  */
-
+extern u8 pipe_string_a[];
+extern Gfx crackglass_Plane_mesh[];
 void render_hud(void) {
     s16 hudDisplayFlags = gHudDisplay.flags;
 
@@ -825,6 +827,50 @@ void render_hud(void) {
                   G_MTX_PROJECTION | G_MTX_MUL | G_MTX_NOPUSH);
 #else
         create_dl_ortho_matrix();
+
+        if (cm_cutscene_on) {
+            u8 colorFade = sins(gGlobalTimer*0x500) * 50.0f + 200.0f;
+            if (cm_textbox_alpha > 0.1f) {
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)cm_textbox_alpha);
+                create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
+                gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+                gSPDisplayList(gDisplayListHead++, desconly_onlybox_mesh);
+                gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+                if (cm_textbox_text != NULL) {
+                    gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+                    switch(cm_textbox_speaker) {
+                        case CM_SPEAKER_PEACH:
+                            gDPSetEnvColor(gDisplayListHead++, 255, 40, 200, (u8)cm_textbox_text_alpha);
+                            print_generic_string_ascii(43, 58, "Peach:");
+                            break;
+                        case CM_SPEAKER_EGADD:
+                            gDPSetEnvColor(gDisplayListHead++, 150, 200, 255, (u8)cm_textbox_text_alpha);
+                            print_generic_string_ascii(43, 58, "E.Gadd:");
+                            break;
+                        case CM_SPEAKER_BOWSER:
+                            gDPSetEnvColor(gDisplayListHead++, 255, 40, 40, (u8)cm_textbox_text_alpha);
+                            print_generic_string_ascii(43, 58, "Bowser:");
+                            break;
+                    }
+
+
+                    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)cm_textbox_text_alpha);
+                    print_generic_string_ascii(43, 44, cm_textbox_text);
+
+                    if ((cm_textbox_a_signal)&&(cm_textbox_text_alpha >= 254.0f)) {
+                        gDPSetEnvColor(gDisplayListHead++, 50, 50, 255, colorFade);
+                        print_generic_string(157, 14, pipe_string_a);
+                    }
+
+                    gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+                }
+            }
+            if (cm_crack_signal) {
+                gSPDisplayList(gDisplayListHead++, crackglass_Plane_mesh);
+            }
+            return;
+        }
 #endif
 
         if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )) {

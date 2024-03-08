@@ -74,6 +74,8 @@ enum SeqId {
     SEQ_F_BOND,
     SEQ_D_OVER,
     SEQ_D_UNDER,
+    SEQ_PEACHS_BIRTHDAY,
+    SEQ_BOWSER_TIME,
     SEQ_C_SEA_ME_NOW,
     SEQ_COUNT,
 };

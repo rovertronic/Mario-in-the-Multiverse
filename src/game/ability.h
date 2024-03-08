@@ -35,6 +35,9 @@ enum ability_ids {
     ABILITY_ESTEEMED_MORTAL,
     ABILITY_MARBLE,
     ABILITY_DASH_BOOSTER,
+    ABILITY_UTIL_COMPASS,
+    ABILITY_UTIL_MILK,
+    ABILITY_UTIL_MIRROR,
     ABILITY_NONE,
 };
 
@@ -83,6 +86,7 @@ extern u8 phasewalk_state;
 extern u16 phasewalk_timer;
 extern u16 chronos_timer;
 extern u8 chronos_expended;
+extern u8 milk_drunk;
 //
 
 extern struct ability ability_struct[];

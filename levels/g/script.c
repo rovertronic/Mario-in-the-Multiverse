@@ -127,6 +127,9 @@
 #include "actors/common1.h"
 #include "actors/common1.h"
 #include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
 
 /* Fast64 begin persistent block [includes] */
 #include "actors/common1.h"
@@ -182,14 +185,17 @@ const LevelScript level_g_entry[] = {
 	AREA(1, g_area_1),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(0xF1, LEVEL_G, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF1, LEVEL_G, 0x01, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0B, LEVEL_G, 0x02, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0x01 /*death entry*/, LEVEL_G, 0x02, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_CHECKPOINT_FLAG, -10084, 3308, -12948, 0, 0, 0, (0 << 16), bhvCheckpointFlag),
+		OBJECT(MODEL_NONE, -523, 1906, -2769, 32, -14, 0, (0 << 16), bhvCutsceneCamera),
 		OBJECT(MODEL_G_WADDLE_DEE, -3059, 1788, -9944, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_G_WADDLE_DEE, -10203, 1732, -10329, 0, 0, 0, 0x00000000, bhvGWaddleDee),
-		MARIO_POS(0x01, -180, -1155, 304, -1246),
-		OBJECT(MODEL_NONE, 0, 365, -365, 0, 0, 0, (0x01 << 16), bhvDeathWarp),
-		OBJECT(MODEL_NONE, -1155, 354, -1415, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_NONE, -1353, 329, -1757, 0, 0, 0, (1 << 16), bhvCutsceneManager),
+		MARIO_POS(0x01, -180, -1155, 304, -605),
+		OBJECT(MODEL_NONE, -1155, 573, -775, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
+		OBJECT(MODEL_NONE, -1155, 346, -775, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_G_STAR_BLOCK, -1630, 3325, -12477, 0, 0, 0, 0x00000000, bhvStarProjectile),
 		OBJECT(MODEL_G_STAR_BLOCK, -1370, 3332, -12184, 0, -63, 0, 0x00000000, bhvStarProjectile),
 		OBJECT(MODEL_G_STAR_BLOCK, -1787, 3331, -12088, 0, 40, 0, 0x00000000, bhvStarProjectile),
@@ -282,7 +288,7 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_G_WADDLE_DEE, -3820, 2763, -5266, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_G_WADDLE_DEE, -358, 2763, -7213, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_G_WADDLE_DEE, 4410, 3237, -4660, 0, 0, 0, 0x00000000, bhvGWaddleDee),
-		OBJECT(MODEL_NONE, 2212, -1780, -10226, 0, 0, 0, (70 << 24) | (11 << 16), bhvWarp),
+		OBJECT(MODEL_NONE, 2212, -1780, -10226, 0, 0, 0, (90 << 24) | (11 << 16), bhvWarp),
 		OBJECT(MODEL_LEVEL_PIPE, 909, 981, 219, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_GOOMBA, -496, -2108, 11816, 0, 0, 0, 0x00000000, bhvGoomba),
 		OBJECT(MODEL_GOOMBA, -1072, -1653, 8393, 0, 0, 0, 0x00000000, bhvGoomba),
@@ -418,7 +424,7 @@ const LevelScript level_g_entry[] = {
 	END_AREA(),
 
 	FREE_LEVEL_POOL(),
-	MARIO_POS(0x01, -180, -1155, 304, -1246),
+	MARIO_POS(0x01, -180, -1155, 304, -605),
 	CALL(0, lvl_init_or_update),
 	CALL_LOOP(1, lvl_init_or_update),
 	CLEAR_LEVEL(),

@@ -34,6 +34,9 @@
 #include "puppylights.h"
 #include "level_commands.h"
 #include "ability.h"
+#include "cutscene_manager.h"
+#include "mitm_hub.h"
+#include "ability.h"
 
 #include "config.h"
 
@@ -190,7 +193,7 @@ u32 pressed_pause(void) {
     }
 #endif
 
-    if (!intangible && !dialogActive && !gWarpTransition.isActive && sDelayedWarpOp == WARP_OP_NONE
+    if (!intangible && !dialogActive && !gWarpTransition.isActive && sDelayedWarpOp == WARP_OP_NONE && !cm_cutscene_on
         && (gPlayer1Controller->buttonPressed & START_BUTTON)) {
         return TRUE;
     }
@@ -368,6 +371,7 @@ void init_mario_after_warp(void) {
         }
 
         if (sWarpDest.type == WARP_TYPE_CHANGE_LEVEL || sWarpDest.type == WARP_TYPE_CHANGE_AREA) {
+            gMarioState->numCheckpointFlag = -1;
             gPlayerSpawnInfos[0].areaIndex = sWarpDest.areaIdx;
             load_mario_area();
             chronos_timer = 360;
@@ -917,6 +921,9 @@ void initiate_delayed_warp(void) {
                     initiate_warp(gCurrCreditsEntry->levelNum, gCurrCreditsEntry->areaIndex, destWarpNode, WARP_FLAGS_NONE);
                     break;
 
+                case WARP_OP_DEATH:
+                    milk_drunk = FALSE;
+
                 default:
                     warpNode = area_get_warp_node(sSourceWarpNodeId);
 
@@ -1097,7 +1104,7 @@ s32 play_mode_paused(void) {
             set_play_mode(PLAY_MODE_NORMAL);
             level_trigger_warp(gMarioState, WARP_OP_DEATH);
 #else
-            initiate_warp(EXIT_COURSE_LEVEL, EXIT_COURSE_AREA, EXIT_COURSE_NODE, WARP_FLAG_EXIT_COURSE);
+            initiate_warp(LEVEL_CASTLE, 0x01, get_hub_return_id(hub_level_current_index), WARP_FLAGS_NONE);
             fade_into_special_warp(WARP_SPECIAL_NONE, 0);
             gSavedCourseNum = COURSE_NONE;
 #endif
@@ -1305,11 +1312,11 @@ s32 init_level(void) {
             }
         }
 #endif
-        if (fadeFromColor) {
-            play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 0x5A, 0xFF, 0xFF, 0xFF);
-        } else {
-            play_transition(WARP_TRANSITION_FADE_FROM_STAR, 0x10, 0xFF, 0xFF, 0xFF);
-        }
+        //if (fadeFromColor) {
+            play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 0x10, 0xFF, 0xFF, 0xFF);
+        //} else {
+        //    play_transition(WARP_TRANSITION_FADE_FROM_STAR, 0x10, 0xFF, 0xFF, 0xFF);
+        //}
 
         if (gCurrDemoInput == NULL) {
 #ifdef BETTER_REVERB

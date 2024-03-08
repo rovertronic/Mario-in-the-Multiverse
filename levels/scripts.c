@@ -147,6 +147,9 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_DBP,                     dbp_geo),
     LOAD_MODEL_FROM_GEO(MODEL_ATTACHED_ROPE,           attached_rope_geo),
     LOAD_MODEL_FROM_GEO(MODEL_F_LASER,                 f_laser_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_EGADD,                   egadd_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_MACHINE,                 machine_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_RED_ARROW,               redarrow_geo),
     FREE_LEVEL_POOL(),
     POP_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),
@@ -315,6 +318,7 @@ const LevelScript script_func_global_11[] = {
     LOAD_MODEL_FROM_GEO(MODEL_BIRDS,                   birds_geo),
     LOAD_MODEL_FROM_GEO(MODEL_PEACH,                   peach_geo),
     LOAD_MODEL_FROM_GEO(MODEL_YOSHI,                   yoshi_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WEDSER,                  wedser_geo),
     RETURN(),
 };
 

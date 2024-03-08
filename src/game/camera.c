@@ -29,6 +29,7 @@
 #include "puppyprint.h"
 #include "profiling.h"
 #include "ability.h"
+#include "cutscene_manager.h"
 
 #define CBUTTON_MASK (U_CBUTTONS | D_CBUTTONS | L_CBUTTONS | R_CBUTTONS)
 
@@ -3139,6 +3140,10 @@ void update_lakitu(struct Camera *c) {
 
         gLakituState.roll = 0;
 
+        if (cm_cutscene_on) {
+            gLakituState.roll = cm_roll;
+        }
+
         // Apply camera shakes
         shake_camera_pitch(gLakituState.pos, gLakituState.focus);
         shake_camera_yaw(gLakituState.pos, gLakituState.focus);
@@ -3485,6 +3490,8 @@ void update_camera(struct Camera *c) {
             }
         }
         puppycam_loop();
+
+
         // Apply camera shakes
         shake_camera_pitch(gLakituState.pos, gLakituState.focus);
         shake_camera_yaw(gLakituState.pos, gLakituState.focus);
@@ -3501,6 +3508,13 @@ void update_camera(struct Camera *c) {
 #endif
     gLakituState.lastFrameAction = sMarioCamState->action;
     profiler_update(PROFILER_TIME_CAMERA, profiler_get_delta(PROFILER_DELTA_COLLISION) - first);
+
+    if (cm_cutscene_on) {
+        vec3f_copy(gLakituState.pos,cm_camera_pos);
+        vec3f_copy(gLakituState.focus,cm_camera_foc);
+        sFOVState.fov = cm_fov;
+        sFOVState.fovOffset = 0.0f;
+    }
 
     //print_text_fmt_int(20,50, "MODE %d", c->mode);
 }
@@ -6480,6 +6494,9 @@ struct CameraTrigger sCamH[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger sCamC[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamBirthday[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger *sCameraTriggers[LEVEL_COUNT + 1] = {
@@ -10879,7 +10896,7 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(1, 0, 1, 1, 1, 0, 0, 0), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 0), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), 
-	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), 
 };
 
 //STATIC_ASSERT(ARRAY_COUNT(sZoomOutAreaMasks) - 1 == LEVEL_MAX / 2, "Make sure you edit sZoomOutAreaMasks when adding / removing courses.");

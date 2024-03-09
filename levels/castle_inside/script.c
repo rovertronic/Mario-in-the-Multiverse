@@ -52,7 +52,8 @@ const LevelScript level_castle_inside_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_CASTLE_STAR_DOOR_30_STARS, castle_geo_000F00), 
 	LOAD_MODEL_FROM_GEO(MODEL_CASTLE_STAR_DOOR_8_STARS, castle_geo_000F00), 
 	LOAD_MODEL_FROM_GEO(MODEL_CASTLE_STAR_DOOR_50_STARS, castle_geo_000F00), 
-	LOAD_MODEL_FROM_GEO(MODEL_CASTLE_STAR_DOOR_70_STARS, castle_geo_000F00), 
+	LOAD_MODEL_FROM_GEO(MODEL_CASTLE_STAR_DOOR_70_STARS, castle_geo_000F00),
+	LOAD_MODEL_FROM_GEO(MODEL_LAYTON, layton_geo),
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -64,7 +65,7 @@ const LevelScript level_castle_inside_entry[] = {
 		//2 blank objects for testing
 												   /*0 is BehParam2*/
 		OBJECT(MODEL_NITRO_BOX, -601, 0, 1572, 0, 94, 0, 0x00000000, bhvNitroBox),
-		OBJECT(MODEL_ROCKET_BUTTON_OFF, -601, 0, 1061, 0, 87, 0, 0x01300000, bhvRocketButton),
+		OBJECT(MODEL_LAYTON, -601, 0, 1061, 0, 87, 0, 0x01300000, bhvLayton),
 		OBJECT(MODEL_BLUE_COIN_SWITCH, 0, 0, 1572, 0, 94, 0, 0x00000000, bhvStarPieceSwitch),
 		OBJECT(MODEL_STAR_PIECE, -200, 0, 1572, 0, 94, 0, 0x00000000, bhvStarPiece),
 		OBJECT(MODEL_STAR_PIECE, -200, 50, 1572, 0, 94, 0, 0x00000000, bhvStarPiece),

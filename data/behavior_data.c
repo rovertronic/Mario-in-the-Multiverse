@@ -6337,6 +6337,17 @@ const BehaviorScript bhvIntroBowser[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvLayton[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, layton_anims),
+    DROP_TO_FLOOR(),
+    SCALE(0, 45),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+
 /* GROUP A START */
 extern const struct Animation *const jelly_anims[];
 const BehaviorScript bhvJelly[] = {

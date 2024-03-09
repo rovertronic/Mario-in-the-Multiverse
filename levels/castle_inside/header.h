@@ -159,4 +159,8 @@ extern const LevelScript level_castle_inside_entry[];
 
 #include "levels/castle_inside/title_card/header.h"
 
+#include "levels/castle_inside/layton/anim_header.h"
+
+#include "levels/castle_inside/layton/geo_header.h"
+
 #endif

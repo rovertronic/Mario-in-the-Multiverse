@@ -87,3 +87,6 @@
 #include "levels/castle_inside/leveldata.inc.c"
 
 #include "levels/castle_inside/title_card/model.inc.c"
+#include "levels/castle_inside/layton/anims/data.inc.c"
+#include "levels/castle_inside/layton/anims/table.inc.c"
+#include "levels/castle_inside/layton/model.inc.c"

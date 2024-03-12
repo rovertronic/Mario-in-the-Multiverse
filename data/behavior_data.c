@@ -6343,7 +6343,7 @@ const BehaviorScript bhvLayton[] = {
     LOAD_ANIMATIONS(oAnimations, layton_anims),
     DROP_TO_FLOOR(),
     SCALE(0, 45),
-    ANIMATE(0),
+    ANIMATE(1),
     BEGIN_LOOP(),
     END_LOOP(),
 };

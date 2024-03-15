@@ -1,0 +1,16 @@
+extern const GeoLayout shopitem3_geo[];
+extern Lights1 shopitem3_mat_Lonlonmilk_f3d_lights;
+extern u8 shopitem3_MilkDiffuse128_rgba16[];
+extern u8 shopitem3_Glass_ia8[];
+extern Vtx shopitem3_obj_milk_mesh_layer_1_vtx_cull[8];
+extern Vtx shopitem3_obj_milk_mesh_layer_1_vtx_0[233];
+extern Gfx shopitem3_obj_milk_mesh_layer_1_tri_0[];
+extern Vtx shopitem3_obj_milk_mesh_layer_5_vtx_cull[8];
+extern Vtx shopitem3_obj_milk_mesh_layer_5_vtx_0[334];
+extern Gfx shopitem3_obj_milk_mesh_layer_5_tri_0[];
+extern Gfx mat_shopitem3_mat_Lonlonmilk_f3d[];
+extern Gfx mat_shopitem3_mat_glass_f3d_layer5[];
+extern Gfx mat_revert_shopitem3_mat_glass_f3d_layer5[];
+extern Gfx shopitem3_obj_milk_mesh_layer_1[];
+extern Gfx shopitem3_obj_milk_mesh_layer_5[];
+extern Gfx shopitem3_material_revert_render_settings[];

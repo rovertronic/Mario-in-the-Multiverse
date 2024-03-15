@@ -6190,6 +6190,29 @@ const BehaviorScript bhvLevelPipe[] = {
     END_LOOP(),
 };
 
+extern void bhv_hub_platform_loop(void);
+const BehaviorScript bhvHubPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(hub_platform_collision),
+    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 20000),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_hub_platform_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void bhv_shopitem_loop(void);
+const BehaviorScript bhvShopItem[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_FLOAT(oDrawingDistance, 20000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_shopitem_loop),
+    END_LOOP(),
+};
+
 extern void bhv_ability(void);
 const BehaviorScript bhvAbilityUnlock[] = {
     BEGIN(OBJ_LIST_LEVEL),

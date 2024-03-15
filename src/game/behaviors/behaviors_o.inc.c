@@ -747,3 +747,61 @@ void bhv_red_arrow(void) {
 
     vec3f_copy(&o->oPosVec,gMarioState->pos);
 }
+
+void bhv_hub_platform_loop(void) {
+    if (o->oTimer==0) {
+        o->oFaceAngleYaw = random_u16();
+    }
+    if (gMarioObject->platform == o) {
+        o->oFaceAngleYaw += 80;
+        o->oPosY = approach_f32_asymptotic(o->oPosY,o->oHomeY-50.0f,0.2f);
+    } else {
+        o->oPosY = approach_f32_asymptotic(o->oPosY,o->oHomeY,0.2f);
+        o->oFaceAngleYaw += 40;
+    }
+}
+
+// Shop code in here
+char * shop_text[] = {
+    "Compass, Mirror, Milk? You want it? It's yours\nmy friend, as long as you have enough coins.",
+    "Redstone Compass - 250 coins\nPoints to the nearest mission-specific object.\nCrafted with 4 iron bars and 1 redstone.",
+    "Magic Mirror - 200 coins\nAllows you to instantly warp to the last checkpoint.\nGaze in the mirror to return home.",
+    "Lon Lon Milk - 350 coins\nDrink it to heal yourself.\nThe highest quality milk in Hyrule.",
+    "121st Power Star - 200 coins\nAn additional power star.\nWas uncovered deep within the icy slide.",
+    "Atreus' Artifact - 500 coins\nAn eye that pierces the fabric of universes.\nRequired to repair the Multiverse Machine.",
+};
+
+void render_shop(void) {
+    
+}
+
+void bhv_shopitem_loop(void) {
+    switch(o->oAction) {
+        case 0:
+            switch(o->oBehParams2ndByte) {
+                case 0: // Compass
+                    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_SHOPITEM_1];
+                    cur_obj_scale(.5f);
+                    break;
+                case 1: // Magic Mirror
+                    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_SHOPITEM_2];
+                    cur_obj_scale(.5f);
+                    break;
+                case 2: // Lon Lon Milk
+                    cur_obj_scale(.75f);
+                    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_SHOPITEM_3];
+                    break;
+                //case 3: // 121st Star
+
+                //    break;
+                case 4: // Atreus' Artifact
+                    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_SHOPITEM_4];
+                    break;
+            }
+            o->oAction = 1;
+            break;
+        case 1:
+            o->oFaceAngleYaw += 0x100;
+            break;
+    }
+}

@@ -519,4 +519,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "milk_hand/header.h"
 
+#include "shopitem3/geo_header.h"
+
 #endif

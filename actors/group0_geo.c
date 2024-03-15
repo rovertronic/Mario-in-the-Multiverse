@@ -59,3 +59,4 @@
 #include "egadd/geo.inc.c"
 #include "machine/geo.inc.c"
 #include "redarrow/geo.inc.c"
+#include "shopitem3/geo.inc.c"

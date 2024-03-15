@@ -1,0 +1,11 @@
+extern const GeoLayout shopitem1_geo[];
+extern Lights1 shopitem1_compass_lights;
+extern u8 shopitem1_custom_ability_u1_rgba16_ci4[];
+extern u8 shopitem1_custom_ability_u1_rgba16_pal_rgba16[];
+extern Vtx shopitem1_hand_mesh_layer_1_vtx_cull[8];
+extern Vtx shopitem1_hand_mesh_layer_1_vtx_0[170];
+extern Gfx shopitem1_hand_mesh_layer_1_tri_0[];
+extern Gfx mat_shopitem1_compass[];
+extern Gfx mat_revert_shopitem1_compass[];
+extern Gfx shopitem1_hand_mesh_layer_1[];
+extern Gfx shopitem1_material_revert_render_settings[];

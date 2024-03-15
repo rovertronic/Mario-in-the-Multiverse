@@ -91,6 +91,11 @@
 #define MODEL_CASTLE_CLOCK_HOUR_HAND           0x38        // castle_geo_001548
 #define MODEL_CASTLE_CLOCK_PENDULUM            0x39        // castle_geo_001518
 #define MODEL_LAYTON                           0x3A        // layton_geo
+#define MODEL_HUBPLATFORM                      0x3B
+#define MODEL_SHOPITEM_1                       0x3C
+#define MODEL_SHOPITEM_2                       0x3D
+//#define MODEL_SHOPITEM_3                       0x3E
+#define MODEL_SHOPITEM_4                       0x3E
 
 // hmc
 #define MODEL_HMC_METAL_PLATFORM               0x36        // hmc_geo_0005A0
@@ -613,6 +618,7 @@ enum GLOBAL_MODELS {
     MODEL_MACHINE,
     MODEL_RED_ARROW,
     MODEL_WEDSER,
+    MODEL_SHOPITEM_3, // accident
 
     // Custom Mario Models
     MODEL_E__MARIO,

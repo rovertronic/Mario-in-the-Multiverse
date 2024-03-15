@@ -793,6 +793,19 @@ u8 ability_get_confirm = TRUE;
 
 u16 hud_display_coins = 0;
 f32 hud_alpha = 255.0f;
+
+// Shop logic in behaviors_o.inc.c
+u8 shop_show_ui = FALSE;
+char * shop_text[] = {
+    "Compass, Mirror, Milk? You want it? It's yours\nmy friend, as long as you have enough coins.\nUse ^ and | to browse, A to buy, B to exit.",
+    "Redstone Compass - 250 coins\nPoints to the nearest mission-specific object.\nCrafted with 4 iron bars and 1 redstone.",
+    "Magic Mirror - 200 coins\nLets you instantly warp to the last checkpoint.\nGaze in the mirror to return home.",
+    "Lon Lon Milk - 350 coins\nDrink it to heal yourself.\nThe highest quality milk in Hyrule.",
+    "121st Power Star - 200 coins\nAn additional power star.\nWas uncovered deep within the icy slide.",
+    "Atreus' Artifact - 500 coins\nAn eye that pierces the fabric of universes.\nRequired to repair the Multiverse Machine.",
+};
+extern s8 shop_target_item;
+
 /**
  * Render HUD strings using hudDisplayFlags with it's render functions,
  * excluding the cannon reticle which detects a camera preset for it.
@@ -873,10 +886,11 @@ void render_hud(void) {
         }
 #endif
 
-        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )) {
+        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )||(shop_show_ui)) {
             hud_alpha = approach_f32_asymptotic(hud_alpha,0.0f,0.2f);
         } else {
             hud_alpha = approach_f32_asymptotic(hud_alpha,255.0f,0.2f);
+            render_hud_camera_status();
         }
 
         if (hud_display_coins == 0) {
@@ -961,6 +975,25 @@ void render_hud(void) {
             gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
         }
 
+        if (shop_show_ui) {
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
+            create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
+            gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+            gSPDisplayList(gDisplayListHead++, desconly_onlybox_mesh);
+            gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-ability_get_alpha);
+            print_generic_string_ascii(43, 58, shop_text[shop_target_item+1]);
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+
+            gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-ability_get_alpha);
+            int_to_str_000(hud_display_coins, &hudbar_coin[2]);
+            print_hud_lut_string(HUD_LUT_GLOBAL, 43, 148, hudbar_coin);
+            gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
+        }
+
         //revert (prolly not needed)
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
 
@@ -976,13 +1009,6 @@ void render_hud(void) {
 
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_CAMERA_AND_POWER) {
             //render_hud_power_meter();
-#ifdef PUPPYCAM
-            if (!gPuppyCam.enabled) {
-#endif
-            render_hud_camera_status();
-#ifdef PUPPYCAM
-            }
-#endif
         }
 
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_TIMER) {

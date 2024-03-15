@@ -111,6 +111,7 @@ const LevelScript level_castle_inside_entry[] = {
 		MARIO_POS(0x01, 0, -2062, 1612, -687),
 		OBJECT(MODEL_NITRO_BOX, 607, 2658, -8024, 0, 0, 0, 0x00000000, bhvNitroBox),
 		OBJECT(MODEL_NITRO_BOX, -584, 2658, -7787, 0, 0, 0, 0x00000000, bhvNitroBox),
+		OBJECT(MODEL_NONE, 0, 2994, 0, 0, 0, 0, 0x00000000, bhvShopController),
 		OBJECT(MODEL_STAR, -230, 3486, -191, 0, 0, 0, (2 << 16), bhvShopItem),
 		OBJECT(MODEL_STAR, -265, 3315, 36, 0, 0, 0, (0 << 16), bhvShopItem),
 		OBJECT(MODEL_STAR, 260, 3360, 63, 0, 0, 0, (1 << 16), bhvShopItem),

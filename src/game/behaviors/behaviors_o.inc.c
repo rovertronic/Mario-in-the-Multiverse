@@ -761,19 +761,84 @@ void bhv_hub_platform_loop(void) {
     }
 }
 
-// Shop code in here
-char * shop_text[] = {
-    "Compass, Mirror, Milk? You want it? It's yours\nmy friend, as long as you have enough coins.",
-    "Redstone Compass - 250 coins\nPoints to the nearest mission-specific object.\nCrafted with 4 iron bars and 1 redstone.",
-    "Magic Mirror - 200 coins\nAllows you to instantly warp to the last checkpoint.\nGaze in the mirror to return home.",
-    "Lon Lon Milk - 350 coins\nDrink it to heal yourself.\nThe highest quality milk in Hyrule.",
-    "121st Power Star - 200 coins\nAn additional power star.\nWas uncovered deep within the icy slide.",
-    "Atreus' Artifact - 500 coins\nAn eye that pierces the fabric of universes.\nRequired to repair the Multiverse Machine.",
-};
+// Shop code in here, rendering in hud.c
+s8 shop_target_item = -1;
+extern u8 shop_show_ui;
+struct Object * shop_item_objects[5];
 
 void render_shop(void) {
-    
+
 }
+
+void bhv_shop_controller(void) {
+    Vec3f camera_target;
+    switch(o->oAction) {
+        case 0: // Init
+            o->oAction = 1;
+            shop_target_item = -1;
+            break;
+
+        case 1: // Wait for mario
+            if ((lateral_dist_between_objects(gMarioObject,o) < 800.0f)&&(gMarioState->pos[1] > o->oPosY-50.0f)&&(gMarioState->pos[1] < o->oPosY+50.0f)) {
+                o->oAction = 2;
+                gCamera->cutscene = 1;
+                set_mario_action(gMarioState, ACT_CUTSCENE_CONTROLLED, 0);
+                shop_show_ui = TRUE;
+            }
+            for (s32 i = 0; i < 5; i++) {
+                shop_item_objects[i]->oFaceAngleYaw += 0x100;
+            }
+            break;
+
+        case 2: // In-Shop
+
+            // Pos
+            o->oFaceAngleYaw = obj_angle_to_object(o,gMarioObject);
+            gLakituState.goalPos[0] = o->oPosX + sins(o->oFaceAngleYaw) * 800.0f;
+            gLakituState.goalPos[2] = o->oPosZ + coss(o->oFaceAngleYaw) * 800.0f;
+            gLakituState.goalPos[1] = o->oPosY + 200.0f;
+
+            // Foc
+            vec3f_copy(&camera_target,&o->oPosVec);
+            camera_target[1] += 100.0f;
+            if (shop_target_item != -1) {
+                vec3f_copy(&camera_target,&shop_item_objects[shop_target_item]->oPosVec);
+            }
+            for (s32 i = 0; i < 3; i++) {
+                gLakituState.goalFocus[i] = approach_f32_asymptotic(gLakituState.goalFocus[i],camera_target[i],0.1f);
+            }
+
+            // Item Objects
+            for (s32 i = 0; i < 5; i++) {
+                shop_item_objects[i]->oFaceAngleYaw += 0x200;
+                if (i != shop_target_item) {
+                    shop_item_objects[i]->oFaceAngleYaw = obj_angle_to_object(o,gMarioObject);
+                }
+            }
+
+            // Control
+            if (o->oTimer > 30) {
+                handle_menu_scrolling(MENU_SCROLL_INVERTICAL, &shop_target_item, -1, 4);
+            }
+            if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
+
+            } else if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
+                shop_target_item = -1;
+                o->oAction = 3;
+                gCamera->cutscene = 0;
+                set_mario_action(gMarioState, ACT_IDLE, 0);
+                shop_show_ui = FALSE;
+            }
+            break;
+        
+        case 3: // Wait for mario to move away
+            if ((lateral_dist_between_objects(gMarioObject,o) > 900.0f)&&(gMarioState->pos[1] > o->oPosY-50.0f)) {
+                o->oAction = 1;
+            }
+            break;
+    }
+}
+
 
 void bhv_shopitem_loop(void) {
     switch(o->oAction) {
@@ -798,10 +863,8 @@ void bhv_shopitem_loop(void) {
                     o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_SHOPITEM_4];
                     break;
             }
+            shop_item_objects[o->oBehParams2ndByte] = o;
             o->oAction = 1;
-            break;
-        case 1:
-            o->oFaceAngleYaw += 0x100;
             break;
     }
 }

@@ -6213,6 +6213,15 @@ const BehaviorScript bhvShopItem[] = {
     END_LOOP(),
 };
 
+extern void bhv_shop_controller(void);
+const BehaviorScript bhvShopController[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_shop_controller),
+    END_LOOP(),
+};
+
 extern void bhv_ability(void);
 const BehaviorScript bhvAbilityUnlock[] = {
     BEGIN(OBJ_LIST_LEVEL),

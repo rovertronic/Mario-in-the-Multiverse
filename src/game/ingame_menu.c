@@ -643,6 +643,9 @@ void handle_menu_scrolling(s8 scrollDirection, s8 *currentIndex, s8 minIndex, s8
     } else if (scrollDirection == MENU_SCROLL_HORIZONTAL) {
         if ((gPlayer1Controller->rawStickX >  60) || (gPlayer1Controller->buttonDown & (R_CBUTTONS))) index += 2;
         if ((gPlayer1Controller->rawStickX < -60) || (gPlayer1Controller->buttonDown & (L_CBUTTONS))) index++;
+    } else if (scrollDirection == MENU_SCROLL_INVERTICAL) {
+        if ((gPlayer1Controller->rawStickY >  60) || (gPlayer1Controller->buttonDown & (U_CBUTTONS))) index += 2;
+        if ((gPlayer1Controller->rawStickY < -60) || (gPlayer1Controller->buttonDown & (D_CBUTTONS))) index++;
     }
 
     if (((index ^ gMenuHoldKeyIndex) & index) == 2) {

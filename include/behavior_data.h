@@ -564,6 +564,7 @@ extern const BehaviorScript bhvIntroBowser[];
 extern const BehaviorScript bhvLayton[];
 extern const BehaviorScript bhvHubPlatform[];
 extern const BehaviorScript bhvShopItem[];
+extern const BehaviorScript bhvShopController[];
 
 /* GROUP A START */
 extern const BehaviorScript bhvJelly[];

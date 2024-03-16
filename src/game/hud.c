@@ -800,11 +800,15 @@ char * shop_text[] = {
     "Compass, Mirror, Milk? You want it? It's yours\nmy friend, as long as you have enough coins.\nUse ^ and | to browse, A to buy, B to exit.",
     "Redstone Compass - 250 coins\nPoints to the nearest mission-specific object.\nCrafted with 4 iron bars and 1 redstone.",
     "Magic Mirror - 200 coins\nLets you instantly warp to the last checkpoint.\nGaze in the mirror to return home.",
-    "Lon Lon Milk - 350 coins\nDrink it to heal yourself.\nThe highest quality milk in Hyrule.",
+    "Lon Lon Milk - 350 coins\nDrink it to instantly heal yourself.\nThe highest quality milk in Hyrule.",
     "121st Power Star - 200 coins\nAn additional power star.\nWas uncovered deep within the icy slide.",
     "Atreus' Artifact - 500 coins\nAn eye that pierces the fabric of universes.\nRequired to repair the Multiverse Machine.",
 };
+char shop_cant_afford_text[] = "Sorry Mario, I can't give credit!\nCome back when you're a little, mmm... richer!";
+char shop_sold_out_text[] = "OUT OF STOCK";
 extern s8 shop_target_item;
+u8 shop_cant_afford = FALSE;
+u8 shop_sold_out = FALSE;
 
 /**
  * Render HUD strings using hudDisplayFlags with it's render functions,
@@ -898,6 +902,10 @@ void render_hud(void) {
         }
         if (hud_display_coins > gMarioState->numGlobalCoins) {
             hud_display_coins --;
+            // go fast if it's a lot
+            if (hud_display_coins > gMarioState->numGlobalCoins+10) {
+                hud_display_coins -=5;
+            }
         }
         if ((hud_display_coins < gMarioState->numGlobalCoins)&&(gGlobalTimer%3==0)) {
             hud_display_coins ++;
@@ -983,12 +991,22 @@ void render_hud(void) {
             gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 
             gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
-            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-ability_get_alpha);
-            print_generic_string_ascii(43, 58, shop_text[shop_target_item+1]);
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
+            char * text_to_print = shop_text[shop_target_item+1];
+            if (shop_cant_afford) {
+                text_to_print = &shop_cant_afford_text;
+            }
+            if (shop_sold_out) {
+                text_to_print = &shop_sold_out_text;
+            }
+            print_generic_string_ascii(43, 58, text_to_print);
             gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 
             gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
-            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-ability_get_alpha);
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
+            if (shop_cant_afford) {
+                gDPSetEnvColor(gDisplayListHead++, 255, 126.0f+sins(gGlobalTimer*0x1000)*126.0f, 126.0f+sins(gGlobalTimer*0x1000)*126.0f, 255.0f-hud_alpha);
+            }
             int_to_str_000(hud_display_coins, &hudbar_coin[2]);
             print_hud_lut_string(HUD_LUT_GLOBAL, 43, 148, hudbar_coin);
             gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);

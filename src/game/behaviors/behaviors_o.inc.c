@@ -764,18 +764,42 @@ void bhv_hub_platform_loop(void) {
 // Shop code in here, rendering in hud.c
 s8 shop_target_item = -1;
 extern u8 shop_show_ui;
+extern u8 shop_cant_afford;
+extern u8 shop_sold_out;
 struct Object * shop_item_objects[5];
 
 void render_shop(void) {
 
 }
 
+s32 try_to_buy(s32 price) {
+    if (gMarioState->numGlobalCoins >= price) {
+        gMarioState->numGlobalCoins -= price;
+        shop_sold_out = TRUE;
+        return TRUE;
+    } else {
+        shop_cant_afford = TRUE;
+        play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+    }
+    return FALSE;
+}
+
 void bhv_shop_controller(void) {
+    u8 sold_out[5];
+    sold_out[0] = (save_file_check_ability_unlocked(ABILITY_UTIL_COMPASS) != 0);
+    sold_out[1] = (save_file_check_ability_unlocked(ABILITY_UTIL_MIRROR) != 0);
+    sold_out[2] = (save_file_check_ability_unlocked(ABILITY_UTIL_MILK) != 0);
+    sold_out[3] = (save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_NONE)) & 1);
+    sold_out[4] = ((save_file_get_flags() & SAVE_FLAG_ARTREUS_ARTIFACT) != 0);
+
     Vec3f camera_target;
     switch(o->oAction) {
         case 0: // Init
             o->oAction = 1;
             shop_target_item = -1;
+            shop_cant_afford = FALSE;
+            shop_show_ui = FALSE;
+            shop_sold_out = FALSE;
             break;
 
         case 1: // Wait for mario
@@ -784,9 +808,14 @@ void bhv_shop_controller(void) {
                 gCamera->cutscene = 1;
                 set_mario_action(gMarioState, ACT_CUTSCENE_CONTROLLED, 0);
                 shop_show_ui = TRUE;
+                shop_cant_afford = FALSE;
+                shop_sold_out = FALSE;
             }
             for (s32 i = 0; i < 5; i++) {
                 shop_item_objects[i]->oFaceAngleYaw += 0x100;
+                if (sold_out[i]) {
+                    shop_item_objects[i]->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
+                }
             }
             break;
 
@@ -804,8 +833,81 @@ void bhv_shop_controller(void) {
             if (shop_target_item != -1) {
                 vec3f_copy(&camera_target,&shop_item_objects[shop_target_item]->oPosVec);
             }
+            if (o->oTimer == 0) {
+                vec3f_copy(&gLakituState.goalFocus,&camera_target);
+            }
             for (s32 i = 0; i < 3; i++) {
                 gLakituState.goalFocus[i] = approach_f32_asymptotic(gLakituState.goalFocus[i],camera_target[i],0.1f);
+            }
+
+            // Control
+            if (o->oTimer > 30) {
+                s8 old_shop_target_item = shop_target_item;
+                handle_menu_scrolling(MENU_SCROLL_INVERTICAL, &shop_target_item, -1, 4);
+                if (old_shop_target_item != shop_target_item) {
+                    shop_cant_afford = FALSE;
+                }
+                if (shop_target_item != -1) {
+                    shop_sold_out = sold_out[shop_target_item];
+                }
+            }
+            if ((gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) && !shop_sold_out) {
+                switch(shop_target_item) {
+                    case 0:
+                        if (try_to_buy(250)) {
+                            save_file_unlock_ability(ABILITY_UTIL_COMPASS);
+                            save_file_set_coins();
+                            play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
+                            save_file_do_save(gCurrSaveFileNum - 1);
+                        }
+                        break;
+                    case 1:
+                        if (try_to_buy(200)) {
+                            save_file_unlock_ability(ABILITY_UTIL_MIRROR);
+                            save_file_set_coins();
+                            play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
+                            save_file_do_save(gCurrSaveFileNum - 1);
+                        }
+                        break;
+                    case 2:
+                        if (try_to_buy(350)) {
+                            save_file_unlock_ability(ABILITY_UTIL_MILK);
+                            save_file_set_coins();
+                            play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
+                            save_file_do_save(gCurrSaveFileNum - 1);
+                        }
+                        break;
+                    case 3:
+                        if (try_to_buy(200)) { // Star
+                            save_file_set_coins();
+
+                            shop_target_item = -1;
+                            o->oAction = 3;
+                            gCamera->cutscene = 0;
+                            shop_show_ui = FALSE;
+
+                            gMarioState->interactObj = shop_item_objects[4];
+                            gMarioState->usedObj = shop_item_objects[4];
+                            set_mario_action(gMarioState, ACT_STAR_DANCE_NO_EXIT, 3);
+                            save_file_collect_star_or_key(gMarioState->numCoins, 0);
+                            gMarioState->numStars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
+                        }
+                        break;
+                    case 4:
+                        if (try_to_buy(500)) {
+                            save_file_set_coins();
+                            save_file_set_flags(SAVE_FLAG_ARTREUS_ARTIFACT);
+                            play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
+                            save_file_do_save(gCurrSaveFileNum - 1);
+                        }
+                        break;
+                }
+            } else if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
+                shop_target_item = -1;
+                o->oAction = 3;
+                gCamera->cutscene = 0;
+                set_mario_action(gMarioState, ACT_IDLE, 0);
+                shop_show_ui = FALSE;
             }
 
             // Item Objects
@@ -814,20 +916,9 @@ void bhv_shop_controller(void) {
                 if (i != shop_target_item) {
                     shop_item_objects[i]->oFaceAngleYaw = obj_angle_to_object(o,gMarioObject);
                 }
-            }
-
-            // Control
-            if (o->oTimer > 30) {
-                handle_menu_scrolling(MENU_SCROLL_INVERTICAL, &shop_target_item, -1, 4);
-            }
-            if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
-
-            } else if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
-                shop_target_item = -1;
-                o->oAction = 3;
-                gCamera->cutscene = 0;
-                set_mario_action(gMarioState, ACT_IDLE, 0);
-                shop_show_ui = FALSE;
+                if (sold_out[i]) {
+                    shop_item_objects[i]->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
+                }
             }
             break;
         
@@ -836,6 +927,7 @@ void bhv_shop_controller(void) {
                 o->oAction = 1;
             }
             break;
+            
     }
 }
 

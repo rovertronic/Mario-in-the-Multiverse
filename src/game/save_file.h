@@ -102,12 +102,13 @@ enum CourseFlags {
 };
 
 #define SAVE_FLAG_HAVE_WING_CAP 0
+#define SAVE_FLAG_HAVE_METAL_CAP 0
 
 // game progress flags
 enum SaveProgressFlags {
     SAVE_FLAG_FILE_EXISTS            = (1 <<  0), /* 0x00000001 */
     SAVE_FLAG_SCREENSHOT             = (1 <<  1), /* 0x00000002 */
-    SAVE_FLAG_HAVE_METAL_CAP         = (1 <<  2), /* 0x00000004 */
+    SAVE_FLAG_ARTREUS_ARTIFACT       = (1 <<  2), /* 0x00000004 */
     SAVE_FLAG_HAVE_VANISH_CAP        = (1 <<  3), /* 0x00000008 */
     SAVE_FLAG_HAVE_KEY_1             = (1 <<  4), /* 0x00000010 */
     SAVE_FLAG_HAVE_KEY_2             = (1 <<  5), /* 0x00000020 */

@@ -1,3 +1,4 @@
+#include "actors/level_pipe/texscroll.inc.h"
 #include "actors/machine/texscroll.inc.h"
 #include "actors/e_sg_smoke/texscroll.inc.h"
 #include "actors/e_sg_spark/texscroll.inc.h"

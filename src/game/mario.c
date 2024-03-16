@@ -2438,6 +2438,7 @@ void init_mario_from_save_file(void) {
         save_file_get_ability_dpad();
     } else {
         save_file_init_ability_dpad();
+        gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked = 1;
     }
     gMarioState->numCheckpointFlag = -1;
     gMarioState->abilityId = 0;

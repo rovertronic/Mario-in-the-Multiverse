@@ -48,6 +48,7 @@
 #include "puppylights.h"
 #include "actors/group0.h"
 #include "engine/surface_load.h"
+#include "buffers/buffers.h"
 
 #include "mitm_hub.h"
 #include "ability.h"
@@ -128,14 +129,53 @@ void level_pipe_in_level_loop(void) {
     }
 }
 
+u8 queued_pipe_cutscene = FALSE;
+
+void level_pipe_init(void) {
+    queued_pipe_cutscene = FALSE;
+    o->oUnk94 = random_u16();
+
+    o->oOpacity = 0;
+    if (gCurrLevelNum != LEVEL_CASTLE) {
+        o->oOpacity = 250;
+        return;
+    }
+}
+
 void level_pipe_loop(void) {
+    o->oUnk94++;
     if (gCurrLevelNum != LEVEL_CASTLE) {
         level_pipe_in_level_loop();
         return;
     }
 
+    if ((gMarioState->numStars >= hub_levels[o->oBehParams2ndByte].star_requirement)&&(!queued_pipe_cutscene)&&
+        !(gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked & (1 << o->oBehParams2ndByte))) {
+        if (o->oTimer > 30) {
+            queued_pipe_cutscene = TRUE;
+            o->oAction = 5;
+            o->oOpacity = 0;
+            gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked |= (1 << o->oBehParams2ndByte);
+            gSaveFileModified = TRUE;
+        }
+        return;
+    }
+
+    if ((!queued_pipe_cutscene)&&(o->oAction == 5)) {
+        //free mario if there is no longer any queued cutscenes
+        //and every pipe is satisfied
+        o->oAction = 0;
+        if (gCamera->cutscene == 1) {
+            gCamera->cutscene = 0;
+            set_mario_action(gMarioState, ACT_IDLE, 0);
+            save_file_do_save(gCurrSaveFileNum - 1);
+        }
+        return;
+    }
+
     switch(o->oAction) {
         case 0:
+            o->oOpacity = 250;
             if ((lateral_dist_between_objects(o, gMarioObject) < 120.0f)&&(gMarioState->pos[1] < o->oPosY+500.0f)&&(gMarioState->pos[1] > o->oPosY)) {
                 hub_level_index = o->oBehParams2ndByte;
                 hub_level_current_index = o->oBehParams2ndByte;
@@ -164,6 +204,37 @@ void level_pipe_loop(void) {
         break;
         case 4: // Level being entered
             hub_level_index = -1;
+            break;
+
+        case 5: // Unlock cutscene
+            switch(o->oTimer) {
+                case 0:
+                    gCamera->cutscene = 1;
+                    o->oHomeX = 0.0f;
+                    o->oHomeZ = 0.0f;
+                    o->oMoveAngleYaw = cur_obj_angle_to_home();
+                    //gCamera->cutscene = 1;
+                    set_mario_action(gMarioState, ACT_CUTSCENE_CONTROLLED, 0);
+                    vec3f_copy(&gLakituState.goalFocus, &o->oPosVec);
+                    vec3f_copy(&gLakituState.goalPos, &o->oPosVec);
+                    gLakituState.goalPos[0] += sins(o->oMoveAngleYaw)*2000.0f;
+                    gLakituState.goalPos[2] += coss(o->oMoveAngleYaw)*2000.0f;
+
+                    gLakituState.goalFocus[1] += 200.0f;
+                    gLakituState.goalPos[1] += 2000.0f;
+                    break;
+
+                case 15:
+                    spawn_object(o, MODEL_STAR, bhvUnlockDoorStar);
+                    break;
+
+                case 140:
+                    queued_pipe_cutscene = FALSE;
+                    break;
+            }
+            if ((o->oTimer > 30)&&(o->oOpacity < 240)) {
+                o->oOpacity+=3;
+            }
             break;
     }
 }
@@ -281,4 +352,199 @@ u8 get_hub_return_id(u8 id) {
 void hub_reset_variables(void) {
     hub_dma_index = -1;
     hub_level_index = -1;
+}
+
+// Shop code in here, rendering in hud.c
+s8 shop_target_item = -1;
+extern u8 shop_show_ui;
+extern u8 shop_cant_afford;
+extern u8 shop_sold_out;
+struct Object * shop_item_objects[5];
+
+s32 try_to_buy(s32 price) {
+    if (gMarioState->numGlobalCoins >= price) {
+        gMarioState->numGlobalCoins -= price;
+        shop_sold_out = TRUE;
+        return TRUE;
+    } else {
+        shop_cant_afford = TRUE;
+        play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+    }
+    return FALSE;
+}
+
+void bhv_shop_controller(void) {
+    u8 sold_out[5];
+    sold_out[0] = (save_file_check_ability_unlocked(ABILITY_UTIL_COMPASS) != 0);
+    sold_out[1] = (save_file_check_ability_unlocked(ABILITY_UTIL_MIRROR) != 0);
+    sold_out[2] = (save_file_check_ability_unlocked(ABILITY_UTIL_MILK) != 0);
+    sold_out[3] = (save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_NONE)) & 1);
+    sold_out[4] = ((save_file_get_flags() & SAVE_FLAG_ARTREUS_ARTIFACT) != 0);
+
+    Vec3f camera_target;
+    switch(o->oAction) {
+        case 0: // Init
+            o->oAction = 1;
+            shop_target_item = -1;
+            shop_cant_afford = FALSE;
+            shop_show_ui = FALSE;
+            shop_sold_out = FALSE;
+            break;
+
+        case 1: // Wait for mario
+            if ((lateral_dist_between_objects(gMarioObject,o) < 800.0f)&&(gMarioState->pos[1] > o->oPosY-50.0f)&&(gMarioState->pos[1] < o->oPosY+50.0f)) {
+                o->oAction = 2;
+                gCamera->cutscene = 1;
+                set_mario_action(gMarioState, ACT_CUTSCENE_CONTROLLED, 0);
+                shop_show_ui = TRUE;
+                shop_cant_afford = FALSE;
+                shop_sold_out = FALSE;
+            }
+            for (s32 i = 0; i < 5; i++) {
+                shop_item_objects[i]->oFaceAngleYaw += 0x100;
+                if (sold_out[i]) {
+                    shop_item_objects[i]->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
+                }
+            }
+            break;
+
+        case 2: // In-Shop
+
+            // Pos
+            o->oFaceAngleYaw = obj_angle_to_object(o,gMarioObject);
+            gLakituState.goalPos[0] = o->oPosX + sins(o->oFaceAngleYaw) * 800.0f;
+            gLakituState.goalPos[2] = o->oPosZ + coss(o->oFaceAngleYaw) * 800.0f;
+            gLakituState.goalPos[1] = o->oPosY + 200.0f;
+
+            // Foc
+            vec3f_copy(&camera_target,&o->oPosVec);
+            camera_target[1] += 100.0f;
+            if (shop_target_item != -1) {
+                vec3f_copy(&camera_target,&shop_item_objects[shop_target_item]->oPosVec);
+            }
+            if (o->oTimer == 0) {
+                vec3f_copy(&gLakituState.goalFocus,&camera_target);
+            }
+            for (s32 i = 0; i < 3; i++) {
+                gLakituState.goalFocus[i] = approach_f32_asymptotic(gLakituState.goalFocus[i],camera_target[i],0.1f);
+            }
+
+            // Control
+            if (o->oTimer > 30) {
+                s8 old_shop_target_item = shop_target_item;
+                handle_menu_scrolling(MENU_SCROLL_INVERTICAL, &shop_target_item, -1, 4);
+                if (old_shop_target_item != shop_target_item) {
+                    shop_cant_afford = FALSE;
+                }
+                if (shop_target_item != -1) {
+                    shop_sold_out = sold_out[shop_target_item];
+                }
+            }
+            if ((gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) && !shop_sold_out) {
+                switch(shop_target_item) {
+                    case 0:
+                        if (try_to_buy(250)) {
+                            save_file_unlock_ability(ABILITY_UTIL_COMPASS);
+                            save_file_set_coins();
+                            play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
+                            save_file_do_save(gCurrSaveFileNum - 1);
+                        }
+                        break;
+                    case 1:
+                        if (try_to_buy(200)) {
+                            save_file_unlock_ability(ABILITY_UTIL_MIRROR);
+                            save_file_set_coins();
+                            play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
+                            save_file_do_save(gCurrSaveFileNum - 1);
+                        }
+                        break;
+                    case 2:
+                        if (try_to_buy(350)) {
+                            save_file_unlock_ability(ABILITY_UTIL_MILK);
+                            save_file_set_coins();
+                            play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
+                            save_file_do_save(gCurrSaveFileNum - 1);
+                        }
+                        break;
+                    case 3:
+                        if (try_to_buy(200)) { // Star
+                            save_file_set_coins();
+
+                            shop_target_item = -1;
+                            o->oAction = 3;
+                            gCamera->cutscene = 0;
+                            shop_show_ui = FALSE;
+
+                            gMarioState->interactObj = shop_item_objects[4];
+                            gMarioState->usedObj = shop_item_objects[4];
+                            set_mario_action(gMarioState, ACT_STAR_DANCE_NO_EXIT, 3);
+                            save_file_collect_star_or_key(gMarioState->numCoins, 0);
+                            gMarioState->numStars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
+                        }
+                        break;
+                    case 4:
+                        if (try_to_buy(500)) {
+                            save_file_set_coins();
+                            save_file_set_flags(SAVE_FLAG_ARTREUS_ARTIFACT);
+                            play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
+                            save_file_do_save(gCurrSaveFileNum - 1);
+                        }
+                        break;
+                }
+            } else if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
+                shop_target_item = -1;
+                o->oAction = 3;
+                gCamera->cutscene = 0;
+                set_mario_action(gMarioState, ACT_IDLE, 0);
+                shop_show_ui = FALSE;
+            }
+
+            // Item Objects
+            for (s32 i = 0; i < 5; i++) {
+                shop_item_objects[i]->oFaceAngleYaw += 0x200;
+                if (i != shop_target_item) {
+                    shop_item_objects[i]->oFaceAngleYaw = obj_angle_to_object(o,gMarioObject);
+                }
+                if (sold_out[i]) {
+                    shop_item_objects[i]->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
+                }
+            }
+            break;
+        
+        case 3: // Wait for mario to move away
+            if ((lateral_dist_between_objects(gMarioObject,o) > 900.0f)&&(gMarioState->pos[1] > o->oPosY-50.0f)) {
+                o->oAction = 1;
+            }
+            break;
+            
+    }
+}
+
+void bhv_shopitem_loop(void) {
+    switch(o->oAction) {
+        case 0:
+            switch(o->oBehParams2ndByte) {
+                case 0: // Compass
+                    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_SHOPITEM_1];
+                    cur_obj_scale(.5f);
+                    break;
+                case 1: // Magic Mirror
+                    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_SHOPITEM_2];
+                    cur_obj_scale(.5f);
+                    break;
+                case 2: // Lon Lon Milk
+                    cur_obj_scale(.75f);
+                    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_SHOPITEM_3];
+                    break;
+                //case 3: // 121st Star
+
+                //    break;
+                case 4: // Atreus' Artifact
+                    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_SHOPITEM_4];
+                    break;
+            }
+            shop_item_objects[o->oBehParams2ndByte] = o;
+            o->oAction = 1;
+            break;
+    }
 }

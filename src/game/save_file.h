@@ -25,17 +25,13 @@ struct SaveBlockSignature {
 };
 
 struct SaveFile {
-    u16 coins; //amount of coins
     u32 abilities;
+    u32 flags;
+    u16 levels_unlocked;
+    u16 coins;
     u8 ability_dpad[4];
     u8 level_f_flags;
-    u32 flags;
-
-    // Star flags for each course.
-    // The most significant bit of the byte *following* each course is set if the
-    // cannon is open.
     u8 courseStars[COURSE_COUNT]; // 200 bits
-
     u8 courseCoinScores[COURSE_STAGES_COUNT]; // 120 bits
 
     struct SaveBlockSignature signature; // 32 bits

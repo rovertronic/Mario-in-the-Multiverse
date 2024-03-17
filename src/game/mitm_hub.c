@@ -720,19 +720,18 @@ void bhv_layton_hint_loop(void) {
             }
 
             if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
-                if ((gMarioState->numGlobalCoins >= 20)&&
-                (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].hints_unlocked[hint_level] & (1<<hint_index)))) {
-                    gSaveBuffer.files[gCurrSaveFileNum - 1][0].hints_unlocked[hint_level] |= (1<<hint_index);
-                    gMarioState->numGlobalCoins-=20;
-                    save_file_set_coins();
-                    play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
-                    gSaveFileModified = TRUE;
-                    save_file_do_save(gCurrSaveFileNum - 1);
-                } else {
-                    if (gMarioState->numGlobalCoins < 20) {
+                if (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].hints_unlocked[hint_level] & (1<<hint_index))) {
+                    if (gMarioState->numGlobalCoins >= 20) {
+                        gSaveBuffer.files[gCurrSaveFileNum - 1][0].hints_unlocked[hint_level] |= (1<<hint_index);
+                        gMarioState->numGlobalCoins-=20;
+                        save_file_set_coins();
+                        play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
+                        gSaveFileModified = TRUE;
+                        save_file_do_save(gCurrSaveFileNum - 1);
+                    } else {
                         shop_cant_afford = TRUE;
+                        play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
                     }
-                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
                 }
             } else if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
                 o->oAction = 1;

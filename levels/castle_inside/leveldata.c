@@ -97,3 +97,4 @@
 #include "levels/castle_inside/shopitem1/model.inc.c"
 #include "levels/castle_inside/shopitem2/model.inc.c"
 #include "levels/castle_inside/shopitem4/model.inc.c"
+#include "levels/castle_inside/hint_menu/model.inc.c"

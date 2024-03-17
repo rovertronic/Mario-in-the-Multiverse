@@ -6370,14 +6370,20 @@ const BehaviorScript bhvIntroBowser[] = {
     END_LOOP(),
 };
 
+extern void bhv_layton_hint_loop(void);
 const BehaviorScript bhvLayton[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_ANIMATIONS(oAnimations, layton_anims),
     DROP_TO_FLOOR(),
     SCALE(0, 45),
-    ANIMATE(1),
+    ANIMATE(0),
+    SET_INTERACT_TYPE(INTERACT_TEXT),
+    SET_INT(oInteractionSubtype, INT_SUBTYPE_NPC),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 250),
     BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_layton_hint_loop),
     END_LOOP(),
 };
 

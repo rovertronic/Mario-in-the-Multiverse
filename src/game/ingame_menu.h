@@ -157,6 +157,7 @@ void print_generic_string(s16 x, s16 y, const u8 *str);
 void print_hud_lut_string(s8 hudLUT, s16 x, s16 y, const u8 *str);
 void print_menu_generic_string(s16 x, s16 y, const u8 *str);
 void handle_menu_scrolling(s8 scrollDirection, s8 *currentIndex, s8 minIndex, s8 maxIndex);
+void handle_menu_scrolling_2way(s8 *currentIndex2, s8 *currentIndex, s8 minIndex, s8 maxIndex, s8 maxIndex2);
 s32 get_str_x_pos_from_center(s16 centerPos, u8 *str, f32 scale);
 void print_hud_my_score_coins(s32 useCourseCoinScore, s8 fileIndex, s8 courseIndex, s16 x, s16 y);
 void int_to_str(s32 num, u8 *dst);

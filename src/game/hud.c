@@ -794,7 +794,7 @@ u8 ability_get_confirm = TRUE;
 u16 hud_display_coins = 0;
 f32 hud_alpha = 255.0f;
 
-// Shop logic in behaviors_o.inc.c
+// Shop logic in mitm_hub.c
 u8 shop_show_ui = FALSE;
 char * shop_text[] = {
     "Compass, Mirror, Milk? You want it? It's yours\nmy friend, as long as you have enough coins.\nUse ^ and | to browse, A to buy, B to exit.",
@@ -810,12 +810,16 @@ extern s8 shop_target_item;
 u8 shop_cant_afford = FALSE;
 u8 shop_sold_out = FALSE;
 
+// Hint logic ALSO in mitm_hub.c
+u8 hint_show_ui = FALSE;
+
 /**
  * Render HUD strings using hudDisplayFlags with it's render functions,
  * excluding the cannon reticle which detects a camera preset for it.
  */
 extern u8 pipe_string_a[];
 extern Gfx crackglass_Plane_mesh[];
+
 void render_hud(void) {
     s16 hudDisplayFlags = gHudDisplay.flags;
 
@@ -890,7 +894,7 @@ void render_hud(void) {
         }
 #endif
 
-        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )||(shop_show_ui)) {
+        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )||(shop_show_ui)||(hint_show_ui)) {
             hud_alpha = approach_f32_asymptotic(hud_alpha,0.0f,0.2f);
         } else {
             hud_alpha = approach_f32_asymptotic(hud_alpha,255.0f,0.2f);
@@ -1010,6 +1014,10 @@ void render_hud(void) {
             int_to_str_000(hud_display_coins, &hudbar_coin[2]);
             print_hud_lut_string(HUD_LUT_GLOBAL, 43, 148, hudbar_coin);
             gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
+        }
+
+        if (hint_show_ui) {
+            render_hint_ui(hud_alpha);
         }
 
         //revert (prolly not needed)

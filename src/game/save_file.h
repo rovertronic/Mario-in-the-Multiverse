@@ -33,6 +33,7 @@ struct SaveFile {
     u8 level_f_flags;
     u8 courseStars[COURSE_COUNT]; // 200 bits
     u8 courseCoinScores[COURSE_STAGES_COUNT]; // 120 bits
+    u8 hints_unlocked[15];
 
     struct SaveBlockSignature signature; // 32 bits
 };

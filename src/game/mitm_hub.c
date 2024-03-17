@@ -52,6 +52,7 @@
 
 #include "mitm_hub.h"
 #include "ability.h"
+#include "hints.h"
 
 u8 author_string_a[] = {AUTHOR_A};
 u8 author_string_b[] = {AUTHOR_B};
@@ -546,5 +547,203 @@ void bhv_shopitem_loop(void) {
             shop_item_objects[o->oBehParams2ndByte] = o;
             o->oAction = 1;
             break;
+    }
+}
+
+extern u8 hint_show_ui;
+extern void *languageTable[][3];
+
+u8 hint_index = 0;
+u8 hint_level = 0;
+u8 hint_ix = 0;
+u8 hint_iy = 0;
+u8 hint_layer = 0;
+
+extern u16 hud_display_coins;
+extern u8 hudbar_coin[];
+void render_hint_ui(u8 hud_alpha) {
+    char stringBuf[20];
+
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
+    create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
+    gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+    gSPDisplayList(gDisplayListHead++, hint_menu_roundbox_002_mesh);
+    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);  
+
+    if (hint_layer == 0) {
+        create_dl_translation_matrix(MENU_MTX_PUSH, 40+(33*hint_ix), 197-(18*hint_iy), 0);
+        gSPDisplayList(gDisplayListHead++, dl_draw_triangle);
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
+        print_generic_string_ascii(45, 95, "Need help finding a\npower star?");
+
+        void **courseNameTbl = segmented_to_virtual(languageTable[gInGameLanguage][1]);
+        u8 *courseName = segmented_to_virtual(courseNameTbl[hint_index]);
+        print_generic_string(45, 56, &courseName[3]);
+
+        for (s32 i = 0; i < 15; i++) {
+            u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(i+1));
+            sprintf(stringBuf,"C%02d",i+1);
+
+            if (star_flags == 0xFF) {
+                // level has been filled
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 0, 255.0f-hud_alpha);
+            } else {
+                // level has remaining stars
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
+            }
+
+            print_generic_string_ascii(50+(33*(i%3)), 197-(18*(i/3)), stringBuf);
+        }
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+    } else {
+        // Hint Abilities
+        s32 ability_amount = 0;
+        s32 ability_x_offset = 0;
+        u32 hint_ability_flags = hintlist[hint_level][hint_index].dependancies;
+        u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(hint_level+1));
+
+        for (s32 i = 0; i < 19; i++) {
+            if (hint_ability_flags & (1 << i)) {
+                render_ability_icon(59+ability_x_offset, 95, 255, i);
+                ability_x_offset += 34;
+            }
+        }
+
+        // Selection Triangle
+        create_dl_translation_matrix(MENU_MTX_PUSH, 40+(50*hint_ix), 197-(18*hint_iy), 0);
+        gSPDisplayList(gDisplayListHead++, dl_draw_triangle);
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+        // Hint Text
+        char * hint_text = hintlist[hint_level][hint_index].hint_text;
+
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+
+        for (s32 i = 0; i < 8; i++) {
+            if (star_flags & (1<<i)) {
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 0, 255.0f-hud_alpha);
+            } else {
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
+            }
+            sprintf(stringBuf,"Star %d",i+1);
+            print_generic_string_ascii(50+(50*(i%2)), 197-(18*(i/2)), stringBuf);
+        }
+
+        if (star_flags & (1<<hint_index)) {
+            hint_text = "You've got this one!";
+            gSaveBuffer.files[gCurrSaveFileNum - 1][0].hints_unlocked[hint_level] |= (1<<hint_index);
+        }
+        if (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].hints_unlocked[hint_level] & (1<<hint_index))) {
+            hint_text = "Reveal Solution - 20 Coins";
+        }
+
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
+        print_generic_string_ascii(43, 58, hint_text);
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+
+        gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
+        int_to_str_000(hud_display_coins, &hudbar_coin[2]);
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
+        if (shop_cant_afford) {
+            gDPSetEnvColor(gDisplayListHead++, 255, 126.0f+sins(gGlobalTimer*0x1000)*126.0f, 126.0f+sins(gGlobalTimer*0x1000)*126.0f, 255.0f-hud_alpha);
+        }
+        print_hud_lut_string(HUD_LUT_GLOBAL, 160, 143, hudbar_coin);
+        gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
+    }
+
+}
+
+void bhv_layton_hint_loop(void) {
+    s8 old_hint_index;
+
+    o->oAnimState = 0;
+    if (o->oTimer%90 < 4) {
+        o->oAnimState = 1;
+    }
+    switch(o->oAction) {
+        case 0: // wait
+            if (o->oInteractStatus == INT_STATUS_INTERACTED) {
+                hint_show_ui = TRUE;
+                hint_index = 0;
+                hint_layer = 0;
+                hint_ix = 0;
+                hint_iy = 0;
+                hint_level = 0;
+                shop_cant_afford = 0;
+                o->oAction = 1;
+                gCamera->cutscene = 1;
+
+                vec3f_copy(&gLakituState.goalFocus, &o->oPosVec);
+                vec3f_copy(&gLakituState.goalPos, &o->oPosVec);
+                gLakituState.goalPos[0] += sins(o->oMoveAngleYaw)*800.0f + sins(o->oMoveAngleYaw - 0x4000)*150.0f;
+                gLakituState.goalPos[2] += coss(o->oMoveAngleYaw)*800.0f + coss(o->oMoveAngleYaw - 0x4000)*150.0f;
+
+                gLakituState.goalFocus[0] += sins(o->oMoveAngleYaw - 0x4000)*150.0f;
+                gLakituState.goalFocus[2] += coss(o->oMoveAngleYaw - 0x4000)*150.0f;
+
+                gLakituState.goalFocus[1] += 140.0f;
+                gLakituState.goalPos[1] += 190.0f;
+
+                cur_obj_init_animation_with_sound(1);
+            }
+            o->oInteractStatus = 0;
+        break;
+        case 1: // select course
+            //handle_menu_scrolling(MENU_SCROLL_INVERTICAL, &shop_target_item, -1, 4);
+            handle_menu_scrolling_2way(&hint_ix, &hint_iy, 0, 4, 2);
+            hint_index = (hint_iy *3)+(hint_ix%3);
+            if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
+                o->oAction = 2;
+                hint_level = hint_index;
+                hint_layer = 1;
+                hint_index = 0;
+                hint_ix = 0;
+                hint_iy = 0;
+                cur_obj_init_animation_with_sound(2);
+            } else if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
+                set_mario_action(gMarioState, ACT_IDLE, 0);
+                gCamera->cutscene = 0;
+                hint_show_ui = FALSE;
+                o->oAction = 0;
+                cur_obj_init_animation_with_sound(0);
+            }
+        break;
+        case 2:
+            old_hint_index = hint_index;
+            handle_menu_scrolling_2way(&hint_ix, &hint_iy, 0, 3, 1);
+            hint_index = (hint_iy*2)+(hint_ix%4);
+            if (old_hint_index != hint_index) {
+                shop_cant_afford = FALSE;
+            }
+
+            if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
+                if ((gMarioState->numGlobalCoins >= 20)&&
+                (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].hints_unlocked[hint_level] & (1<<hint_index)))) {
+                    gSaveBuffer.files[gCurrSaveFileNum - 1][0].hints_unlocked[hint_level] |= (1<<hint_index);
+                    gMarioState->numGlobalCoins-=20;
+                    save_file_set_coins();
+                    play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
+                    gSaveFileModified = TRUE;
+                    save_file_do_save(gCurrSaveFileNum - 1);
+                } else {
+                    if (gMarioState->numGlobalCoins < 20) {
+                        shop_cant_afford = TRUE;
+                    }
+                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                }
+            } else if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
+                o->oAction = 1;
+                hint_layer = 0;
+                hint_index = 0;
+                hint_ix = 0;
+                hint_iy = 0;
+                shop_cant_afford = 0;
+
+                cur_obj_init_animation_with_sound(1);
+            }
+        break; // select hint
     }
 }

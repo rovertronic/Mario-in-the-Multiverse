@@ -76,6 +76,8 @@ enum SeqId {
     SEQ_D_UNDER,
     SEQ_PEACHS_BIRTHDAY,
     SEQ_BOWSER_TIME,
+    SEQ_L_HOT_SPAGHETTI,
+    SEQ_L_MONDAYS,
     SEQ_COUNT,
 };
 

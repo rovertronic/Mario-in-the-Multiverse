@@ -122,7 +122,7 @@ enum SurfaceTypes {
     SURFACE_0096,                       // 0x0096 // Unused
     SURFACE_0097,                       // 0x0097 // Unused
     SURFACE_0098,                       // 0x0098 // Unused
-    SURFACE_0099,                       // 0x0099 // Unused
+    SURFACE_SEMISOLID,                  // 0x0099 // Unused
     SURFACE_009A,                       // 0x009A // Unused
     SURFACE_009B,                       // 0x009B // Unused
     SURFACE_009C,                       // 0x009C // Unused

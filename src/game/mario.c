@@ -1334,6 +1334,11 @@ void update_mario_joystick_inputs(struct MarioState *m) {
     struct Controller *controller = m->controller;
     f32 mag = ((controller->stickMag / 64.0f) * (controller->stickMag / 64.0f)) * 64.0f;
 
+    f32 fake_stick_y = controller->stickY;
+    if (gCurrLevelNum == LEVEL_L) {
+        fake_stick_y = 0.0f;
+    }
+
     if (m->squishTimer == 0) {
         m->intendedMag = mag / 2.0f;
     } else {
@@ -1341,10 +1346,21 @@ void update_mario_joystick_inputs(struct MarioState *m) {
     }
 
     if (m->intendedMag > 0.0f) {
-        m->intendedYaw = atan2s(-controller->stickY, controller->stickX) + m->area->camera->yaw;
+        m->intendedYaw = atan2s(-fake_stick_y, controller->stickX) + m->area->camera->yaw;
         m->input |= INPUT_NONZERO_ANALOG;
     } else {
         m->intendedYaw = m->faceAngle[1];
+    }
+
+    if (gCurrLevelNum == LEVEL_L) {
+        if (gPlayer1Controller->rawStickX > 0.0f) {
+            m->intendedYaw = -0x4000;
+        } else if (gPlayer1Controller->rawStickX < 0.0f) {
+            m->intendedYaw = 0x4000;
+        } else {
+            m->intendedYaw = 0x4000;
+            m->input &= ~INPUT_NONZERO_ANALOG;
+        }
     }
 }
 
@@ -2028,6 +2044,16 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 case 3:
                     gHudDisplay.abilityMeter = 8;
                 break;
+            }
+        }
+
+        // Pizza Tower 2D
+        if (gCurrLevelNum == LEVEL_L) {
+            gMarioState->pos[2] = 0.0f;
+            if (gMarioState->faceAngle[1] > 0) {
+                gMarioState->faceAngle[1] = 0x4000;
+            } else {
+                gMarioState->faceAngle[1] = -0x4000;
             }
         }
 

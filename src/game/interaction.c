@@ -1021,7 +1021,7 @@ u32 interact_warp_door(struct MarioState *m, UNUSED u32 interactType, struct Obj
     s16 warpDoorId = (obj->oBehParams >> 24);
 #endif
 
-    if (m->action == ACT_WALKING || m->action == ACT_DECELERATING) {
+    if (m->action == ACT_WALKING || m->action == ACT_DECELERATING || gCurrLevelNum == LEVEL_L) {
 #ifndef UNLOCK_ALL
         if (warpDoorId == 1 && !(saveFlags & SAVE_FLAG_UNLOCKED_UPSTAIRS_DOOR)) {
             if (!(saveFlags & SAVE_FLAG_HAVE_KEY_2)) {
@@ -1053,7 +1053,7 @@ u32 interact_warp_door(struct MarioState *m, UNUSED u32 interactType, struct Obj
         }
 #endif
 
-        if (m->action == ACT_WALKING || m->action == ACT_DECELERATING) {
+        if (m->action == ACT_WALKING || m->action == ACT_DECELERATING || gCurrLevelNum == LEVEL_L) {
             u32 actionArg = should_push_or_pull_door(m, obj) + WARP_FLAG_DOOR_IS_WARP;
 
             if (doorAction == 0) {

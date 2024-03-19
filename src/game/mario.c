@@ -2050,10 +2050,13 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         // Pizza Tower 2D
         if (gCurrLevelNum == LEVEL_L) {
             gMarioState->pos[2] = 0.0f;
-            if (gMarioState->faceAngle[1] > 0) {
-                gMarioState->faceAngle[1] = 0x4000;
-            } else {
-                gMarioState->faceAngle[1] = -0x4000;
+            // Only angle-lock the knight suit ability
+            if (using_ability(ABILITY_KNIGHT)) {
+                if (gMarioState->faceAngle[1] > 0) {
+                    gMarioState->faceAngle[1] = 0x4000;
+                } else {
+                    gMarioState->faceAngle[1] = -0x4000;
+                }
             }
         }
 

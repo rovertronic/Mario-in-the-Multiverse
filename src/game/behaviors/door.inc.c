@@ -88,6 +88,46 @@ void bhv_door_loop(void) {
     bhv_door_rendering_loop();
 }
 
+void bhv_l_door_loop(void) {
+    s32 index = 0;
+
+    while (sDoorActions[index].flag != 0xFFFFFFFF) {
+        if (cur_obj_clear_interact_status_flag(sDoorActions[index].flag)) {
+            set_door_camera_event();
+            cur_obj_change_action(sDoorActions[index].action);
+        }
+        index++;
+    }
+
+    switch (o->oAction) {
+        case DOOR_ACT_CLOSED:
+            cur_obj_init_animation_with_sound(DOOR_ANIM_CLOSED);
+            break;
+        case DOOR_ACT_PULLED:
+            door_animation_and_reset(DOOR_ANIM_PULLED);
+            play_door_open_noise();
+            break;
+        case DOOR_ACT_PUSHED:
+            door_animation_and_reset(DOOR_ANIM_PUSHED);
+            play_door_open_noise();
+            break;
+        case DOOR_ACT_WARP_PULLED:
+            door_animation_and_reset(DOOR_ANIM_WARP_PULLED);
+            play_warp_door_open_noise();
+            break;
+        case DOOR_ACT_WARP_PUSHED:
+            door_animation_and_reset(DOOR_ANIM_WARP_PUSHED);
+            play_warp_door_open_noise();
+            break;
+    }
+
+    if (gPlayer1Controller->rawStickY > 32.0f) {
+        cur_obj_become_tangible();
+    } else {
+        cur_obj_become_intangible();
+    }
+}
+
 void bhv_door_init(void) {
     const f32 checkDist = 200.0f;
 

@@ -7905,6 +7905,24 @@ const BehaviorScript bhvPtMetalBox[] = {
         CALL_NATIVE(bhv_pt_mb),
     END_LOOP(),
 };
+
+extern void bhv_l_door_loop(void);
+const BehaviorScript bhvLDoor[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    SET_INT(oInteractType, INTERACT_WARP_DOOR),
+    // Door - common:
+    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, door_seg3_anims_030156C0),
+    ANIMATE(DOOR_ANIM_CLOSED),
+    SET_HITBOX(/*Radius*/ 80, /*Height*/ 100),
+    SET_INT(oIntangibleTimer, 0),
+    SET_FLOAT(oCollisionDistance, 1000),
+    SET_HOME(),
+    CALL_NATIVE(bhv_door_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_l_door_loop),
+    END_LOOP(),
+};
 /* GROUP L END */
 
 /* GROUP M START */

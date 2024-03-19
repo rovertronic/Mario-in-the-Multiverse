@@ -751,6 +751,7 @@ extern const BehaviorScript bhvMagikarp[];
 
 /* GROUP L START */
 extern const BehaviorScript bhvPtMetalBox[];
+extern const BehaviorScript bhvLDoor[];
 /* GROUP L END */
 
 /* GROUP M START */

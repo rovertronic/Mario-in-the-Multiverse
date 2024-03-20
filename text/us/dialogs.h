@@ -365,6 +365,63 @@ precision and discretion.\n\
 Move with purpose, Bond."))
 
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 190, _("\
+
+DEFINE_DIALOG(DIALOG_C9_1, 1, 3, 95, 200, _("\
+//It's time for a\n\
+Shotgun Mario tutorialTM\n\
+//Press L to fire!"))
+
+DEFINE_DIALOG(DIALOG_C9_2, 3, 4, 95, 200, _("\
+\n\
+///Nicely done!\n\
+\n\
+\n\
+When firing in the air,\n\
+the shot always goes\n\
+straight down, boosting\n\
+your jump height.\n\
+Jump on top of these\n\
+targets using that boost,\n\
+and blast them straight\n\
+down to break them."))
+
+DEFINE_DIALOG(DIALOG_C9_3, 3, 4, 95, 200, _("\
+\n\
+///Nicely done!\n\
+\n\
+\n\
+You have a third camera:\n\
+////Aim Mode\n\
+It's one mode after Mario\n\
+cam, so cycle to it now.\n\
+If you're in Lakitu cam,\n\
+double tap R to switch to\n\
+Aim Mode. If you're in\n\
+Mario cam, tap once.\n\
+If firing in mid-air,\n\
+you'll still fire straight\n\
+down as a jump boost,\n\
+as usual."))
+
+DEFINE_DIALOG(DIALOG_C9_4, 2, 3, 95, 200, _("\
+\n\
+Well done, tutorial's over!\n\
+\n\
+Remember to use aim mode,\n\
+/and that jump boost!\n\
+You'll need those a lot."))
+
+/*
+Check options in the pause\n\
+menu if you'd like to\n\
+invert Aim Mode controls.\n\
+*/
+
+
+
+
+
+DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 200, _("\
 Wow! You're smack in the\n\
 middle of the battlefield.\n\
 You'll find the Power\n\

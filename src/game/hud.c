@@ -19,6 +19,8 @@
 #include "puppyprint.h"
 #include "actors/group0.h"
 #include "cutscene_manager.h"
+//--E
+#include "levels/e/header.h"
 
 #include "config.h"
 #include "ability.h"
@@ -535,10 +537,8 @@ void set_hud_camera_status(s16 status) {
  * Renders camera HUD glyphs using a table list, depending of
  * the camera status called, a defined glyph is rendered.
  */
-void render_hud_camera_status(void) {
+void render_hud_camera_status(s32 x, s32 y) {//--E
     Texture *(*cameraLUT)[6] = segmented_to_virtual(&main_hud_camera_lut);
-    s32 x = GFX_DIMENSIONS_RECT_FROM_RIGHT_EDGE(HUD_CAMERA_X);
-    s32 y = 205;
 
     if (sCameraHUD.status == CAM_STATUS_NONE) {
         return;
@@ -559,7 +559,7 @@ void render_hud_camera_status(void) {
             break;
             //--E C
         case CAM_STATUS_AIM:
-            render_hud_tex_lut(x + 16, y, (*cameraLUT)[6]);//--**
+            render_hud_tex_lut(x + 16, y, (*cameraLUT)[6]);
             if (gE_ShotgunFlags & E_SGF_AIM_FIRE) {
                 gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
                 gSPDisplayList(gDisplayListHead++, dl_e__crosshair);
@@ -820,7 +820,159 @@ u8 hint_show_ui = FALSE;
 extern u8 pipe_string_a[];
 extern Gfx crackglass_Plane_mesh[];
 
+
+
+//--E
+
+static u8 *sE_HeadTexGroupD1[3][2] = {
+    { e_hud_m_D1L_U_rgba16, e_hud_m_D1L_L_rgba16 }, { e_hud_m_D1M_U_rgba16, e_hud_m_D1M_L_rgba16 }, { e_hud_m_D1R_U_rgba16, e_hud_m_D1R_L_rgba16 }
+};
+static u8 *sE_HeadTexGroupD2[3][2] = {
+    { e_hud_m_D2L_U_rgba16, e_hud_m_D2L_L_rgba16 }, { e_hud_m_D2M_U_rgba16, e_hud_m_D2M_L_rgba16 }, { e_hud_m_D2R_U_rgba16, e_hud_m_D2R_L_rgba16 }
+};
+static u8 *sE_HeadTexGroupD3[3][2] = {
+    { e_hud_m_D3L_U_rgba16, e_hud_m_D3L_L_rgba16 }, { e_hud_m_D3M_U_rgba16, e_hud_m_D3M_L_rgba16 }, { e_hud_m_D3R_U_rgba16, e_hud_m_D3R_L_rgba16 }
+};
+static u8 *sE_HeadTexGroupD4[3][2] = {
+    { e_hud_m_D4L_U_rgba16, e_hud_m_D4L_L_rgba16 }, { e_hud_m_D4M_U_rgba16, e_hud_m_D4M_L_rgba16 }, { e_hud_m_D4R_U_rgba16, e_hud_m_D4R_L_rgba16 }
+};
+
+u8 gE_C9MarioHealth = 100;
+static u8 sE_HeadDirTimer = 0;
+static u8 sE_CurrHeadDir  = 0;
+
+
+static void e__x_offset(s32 *x, s32 printedVal) {
+    if (printedVal > 99) {
+        *x -= 24;
+    } else if (printedVal > 9) {
+        *x -= 12;
+    }
+}
+
+
 void render_hud(void) {
+    //--E
+    if (gCurrLevelNum == LEVEL_E) {
+        create_dl_ortho_matrix();
+        //--**
+        create_dl_scale_matrix(MENU_MTX_PUSH, 0.75f, 0.75f, 0);
+
+        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )) {
+            hud_alpha = approach_f32_asymptotic(hud_alpha,0.0f,0.2f);
+        } else {
+            hud_alpha = approach_f32_asymptotic(hud_alpha,255.0f,0.2f);
+        }
+
+        if (hud_display_coins == 0) {
+            hud_display_coins = gMarioState->numGlobalCoins;
+        }
+        if (hud_display_coins > gMarioState->numGlobalCoins) {
+            hud_display_coins --;
+        }
+        if ((hud_display_coins < gMarioState->numGlobalCoins)&&(gGlobalTimer%3==0)) {
+            hud_display_coins ++;
+        }
+
+        render_ability_dpad(60,265,(u8)hud_alpha);
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hud_alpha);
+
+        render_hud_ability_meter();
+        if (sAbilityMeterHUD.y > 0) {
+            render_meter(253, 185, sAbilityMeterHUD.x, sAbilityMeterStoredValue, (u8)hud_alpha * (sAbilityMeterHUD.y / 255.0f));
+        }        
+
+
+        //BG
+        gSPDisplayList(gDisplayListHead++, e_hud_model_mesh);
+
+        //status
+        s32 x = 0;
+        s32 displayCoinCount = TRUE;
+        if (using_ability(ABILITY_E_SHOTGUN)) {
+            if (hud_display_coins <= 0) {
+                if (gE_ShotgunTimer > 20) {
+                    displayCoinCount = FALSE; }
+            }
+        }
+        if (displayCoinCount) {
+            x = 42;
+            e__x_offset(&x, gMarioState->numGlobalCoins);
+            print_text_fmt_int(x, 15, "%d", gMarioState->numGlobalCoins);
+        }        
+
+        x = 99;
+        e__x_offset(&x, gE_C9MarioHealth);
+        print_text_fmt_int(x, 15, "%d", gE_C9MarioHealth);
+
+        x  = 220;
+        e__x_offset(&x, gMarioState->numStars);
+        print_text_fmt_int(x, 15, "%d", gMarioState->numStars);
+
+        print_text(99 + 16, 15, "/");
+
+        //keys
+        if (gMarioState->numKeys & BIT(0)) {
+            print_text(255, 26, "!");
+        }
+        if (gMarioState->numKeys & BIT(1)) {
+            print_text(255, 15, "#");
+        }
+        if (gMarioState->numKeys & BIT(2)) {
+            print_text(255, 4, "?");
+        }
+
+        //cam
+        render_hud_camera_status(277, 213);
+
+        //Mario head
+        if (sE_HeadDirTimer) {
+            sE_HeadDirTimer--;
+        } else {
+            sE_HeadDirTimer = (random_u16() / 1500);
+            sE_CurrHeadDir  = (random_u16() / 21846);            
+        }
+
+        u8 *upper = NULL;
+        u8 *lower = NULL;
+        if (gE_C9MarioHealth == 0) {//:Deadge:
+            upper = e_hud_m_D5_U_rgba16;
+            lower = e_hud_m_D5_L_rgba16;
+        } else {
+            u8 *currHeadTexGroup = NULL;
+
+            if (gE_C9MarioHealth >= 80) {
+                upper = sE_HeadTexGroupD1[sE_CurrHeadDir][0];
+                lower = sE_HeadTexGroupD1[sE_CurrHeadDir][1];
+            } else if (gE_C9MarioHealth >= 60) {
+                upper = sE_HeadTexGroupD2[sE_CurrHeadDir][0];
+                lower = sE_HeadTexGroupD2[sE_CurrHeadDir][1];
+            } else if (gE_C9MarioHealth >= 40) {
+                upper = sE_HeadTexGroupD3[sE_CurrHeadDir][0];
+                lower = sE_HeadTexGroupD3[sE_CurrHeadDir][1];
+            } else {
+                currHeadTexGroup = &sE_HeadTexGroupD4;
+                upper = sE_HeadTexGroupD4[sE_CurrHeadDir][0];
+                lower = sE_HeadTexGroupD4[sE_CurrHeadDir][1];                
+            }
+        }
+
+        Gfx *tex = segmented_to_virtual(&mat_e_hud_m_d2r_u_f3d_layer1[7]);
+        tex->words.w1 = upper;
+        tex = segmented_to_virtual(&mat_e_hud_m_d2r_l_f3d_layer1[7]);
+        tex->words.w1 = lower;
+
+        gSPDisplayList(gDisplayListHead++, e_hud_m_modelH_mesh);
+
+        return;
+    }
+
+
+
+
+
     s16 hudDisplayFlags = gHudDisplay.flags;
 
     if (hudDisplayFlags == HUD_DISPLAY_NONE) {
@@ -1035,6 +1187,13 @@ void render_hud(void) {
 
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_CAMERA_AND_POWER) {
             //render_hud_power_meter();
+#ifdef PUPPYCAM
+            if (!gPuppyCam.enabled) {
+#endif
+            render_hud_camera_status(GFX_DIMENSIONS_RECT_FROM_RIGHT_EDGE(HUD_CAMERA_X), 205);
+#ifdef PUPPYCAM
+            }
+#endif
         }
 
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_TIMER) {

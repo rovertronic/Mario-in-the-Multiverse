@@ -1,3 +1,5 @@
+//Warning: rushed & bad
+
 #include <PR/gbi.h>
 #include "actors/group0.h"
 #include "include/macros.h"
@@ -169,7 +171,7 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
 									  + (1 + (sSGEffectCurrCounts[SG_EFFECT_TYPE_SMOKE] * 4))
 									  + (1 + (sSGEffectCurrCounts[SG_EFFECT_TYPE_PIECE] * 3))
 									  + (1 + (sSGEffectCurrCounts[SG_EFFECT_TYPE_SPARK] * 3))
-									  + (SG_EFFECT_AMOUNT * 7)
+									  + (SG_EFFECT_AMOUNT * 6)
 									  + 1)  +  1) * sizeof(Gfx));
         Gfx *dlH = dlS;
 		if (dlS == NULL) { return NULL; }
@@ -307,11 +309,10 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
 
 
 		//revert for any other generated display list functions after this
-		gSPGeometryMode(dlH++, 0, G_LIGHTING);
+		gSPGeometryMode(dlH++, G_TEXTURE_GEN, G_CULL_BACK | G_LIGHTING);
 		gDPSetCycleType(dlH++, G_CYC_1CYCLE);
-		gDPSetRenderMode(dlH++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
+		gDPSetRenderMode(dlH++, G_RM_AA_ZB_XLU_INTER, G_RM_AA_ZB_XLU_INTER2);
 		gSPSetGeometryMode(dlH++, G_LIGHTING);
-		gSPClearGeometryMode(dlH++, G_TEXTURE_GEN);
 		gDPSetCombineLERP(dlH++, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT);
 		gSPTexture(dlH++, 65535, 65535, 0, 0, 0);
 
@@ -320,7 +321,7 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
 		gSPEndDisplayList(dlH);
 
         struct GraphNodeGenerated *graphNode = (struct GraphNodeGenerated *) node;
-		graphNode->fnNode.node.flags = (graphNode->fnNode.node.flags & 0xFF) | 0x700;//--GBPI (0x700)
+		SET_GRAPH_NODE_LAYER(graphNode->fnNode.node.flags, LAYER_TRANSPARENT_INTER);
 		return dlS;
 	  }
 	}

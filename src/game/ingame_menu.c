@@ -2455,10 +2455,52 @@ s32 render_course_complete_screen(void) {
     return MENU_OPT_NONE;
 }
 
+//--E
+u8 gE_KeyMessageTimer = 0;
+u8 gE_KeyMessageIndex = 0;
+static u8 sE_TextFade = 0;
+
+static u8 sTextKeyRedDoor[]    = { TEXT_E_KEY_RED_DOOR };
+static u8 sTextKeyBlueDoor[]   = { TEXT_E_KEY_BLUE_DOOR };
+static u8 sTextKeyYellowDoor[] = { TEXT_E_KEY_YELLOW_DOOR };
+
+static u8 *sE_KeyRequirementMessages[3] = {
+    sTextKeyRedDoor, sTextKeyBlueDoor, sTextKeyYellowDoor
+};
+
+
 s32 render_menus_and_dialogs(void) {
     s32 mode = MENU_OPT_NONE;
 
     create_dl_ortho_matrix();
+
+    //--E | Key message
+    if (gE_KeyMessageTimer) {
+        gE_KeyMessageTimer++;
+
+        if (gE_KeyMessageTimer <= 60) {
+            sE_TextFade = (u8)(approach_s32((s32)(sE_TextFade), 255, 26, 26)); }
+        else {
+            sE_TextFade = (u8)(approach_s32((s32)(sE_TextFade), 0, 26, 26));
+            if (sE_TextFade == 0) {
+                gE_KeyMessageTimer = 0; }
+        }
+
+        switch (gE_KeyMessageTimer) {
+        case 2:
+        case 17:
+        case 32:
+            play_sound(SOUND_MITM_LEVEL_E_KEY_NEEDED, gGlobalSoundSource);
+        }
+
+        u8 colorFade = (u8)((sins(gE_KeyMessageTimer * 4369) * 50.f) + 200.f);
+
+        gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
+        gDPSetEnvColor(gDisplayListHead++, colorFade, colorFade, colorFade, sE_TextFade);
+        print_hud_lut_string(HUD_LUT_GLOBAL, 34, 130, sE_KeyRequirementMessages[gE_KeyMessageIndex]);
+        gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
+    }
+
 
     if (gMenuMode != MENU_MODE_NONE) {
         switch (gMenuMode) {

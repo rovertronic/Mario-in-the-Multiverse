@@ -5,6 +5,8 @@
 #include <PR/gbi.h>
 //--E
 #include "src/game/e__shotgun_effects.h"
+#include "src/game/e__door_light.h"
+#include "src/game/e__c9_dobj.h"
 
 enum EnvFxMode {
     /* 0*/ ENVFX_MODE_NONE,         // no effects

@@ -608,9 +608,22 @@ extern const BehaviorScript bhvDbridge[];
 
 /* GROUP E START */
 
+extern const BehaviorScript bhvE_PistolGuy[];
+extern const BehaviorScript bhvE_ChaingunGuy[];
 extern const BehaviorScript bhvE_Caco[];
 extern const BehaviorScript bhvE_Enemy[];
-
+extern const BehaviorScript bhvE_Door[];
+extern const BehaviorScript bhvE_Key[];
+extern const BehaviorScript bhvE_KeyCollect[];
+extern const BehaviorScript bhvE_Elevator[];
+extern const BehaviorScript bhvE_ElevatorBase[];
+extern const BehaviorScript bhvE_Candelabra[];
+extern const BehaviorScript bhvE_Switch[];
+extern const BehaviorScript bhvE_Teleport[];
+extern const BehaviorScript bhvE_TeleportEffect[];
+extern const BehaviorScript bhvE_Medkit[];
+extern const BehaviorScript bhvE_Tutorial[];
+extern const BehaviorScript bhvE_Target[];
 
 extern const BehaviorScript bhvE_RocketBlast[];
 

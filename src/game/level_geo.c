@@ -332,3 +332,24 @@ Gfx *geo_update_hub_sky(s32 callContext, struct GraphNode *node, UNUSED void *co
     }
     return NULL;
 }
+
+extern Gfx ptbg_Plane_mesh[];
+Gfx *geo_update_l_sky(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    s32 i;
+    f32 dist;
+    s32 light;
+    Vtx *vert;
+    Vec3s marioPos;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        guTranslate(&cool_matrix, gLakituState.pos[0]-(gMarioState->pos[0]/10.0f), gLakituState.pos[1]-(gMarioState->pos[1]/10.0f), gLakituState.pos[2]);
+
+        gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+        gSPDisplayList(&cool_display_list[1], segmented_to_virtual(ptbg_Plane_mesh));
+        gSPPopMatrix(&cool_display_list[2], G_MTX_MODELVIEW);
+        gSPEndDisplayList(&cool_display_list[3]);
+
+        geo_append_display_list(cool_display_list, LAYER_FORCE);
+    }
+    return NULL;
+}

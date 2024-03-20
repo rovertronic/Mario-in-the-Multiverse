@@ -27,5 +27,6 @@ Gfx *geo_zbuffer_clear(s32 callContext, UNUSED struct GraphNode *node, UNUSED Ma
 Gfx *geo_update_f_sky(s32 callContext, struct GraphNode *node, UNUSED void *context);
 Gfx *geo_update_f_sky2(s32 callContext, struct GraphNode *node, UNUSED void *context);
 Gfx *geo_update_hub_sky(s32 callContext, struct GraphNode *node, UNUSED void *context);
+Gfx *geo_update_l_sky(s32 callContext, struct GraphNode *node, UNUSED void *context);
 
 #endif // LEVEL_GEO_H

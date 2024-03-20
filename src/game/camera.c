@@ -3500,6 +3500,14 @@ void update_camera(struct Camera *c) {
         sFOVState.fovOffset = 0.0f;
     }
 
+    if ((gCurrLevelNum == LEVEL_L)&&(gCamera->cutscene == 0)) {
+        s8DirModeYawOffset = 0x8000;
+        gLakituState.pos[0] = gMarioState->pos[0];
+        gLakituState.focus[0] = gMarioState->pos[0];
+        gLakituState.focus[2] = gMarioState->pos[2];
+        gLakituState.pos[2] = -2500.0f;
+    }
+
     //print_text_fmt_int(20,50, "MODE %d", c->mode);
 }
 

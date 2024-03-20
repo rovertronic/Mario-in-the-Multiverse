@@ -2359,6 +2359,8 @@ s32 quicksand_jump_land_action(struct MarioState *m, s32 animation1, s32 animati
 }
 
 s32 act_knight_slide(struct MarioState *m) {
+    m->vel[1] = 0.0f;
+
     //visuals
     set_mario_animation(m, MARIO_ANIM_RIDING_SHELL);
     align_with_floor(m);

@@ -9,4 +9,6 @@ extern const LevelScript level_l_entry[];
 
 #include "levels/l/header.inc.h"
 
+#include "levels/l/ptbg/header.h"
+
 #endif

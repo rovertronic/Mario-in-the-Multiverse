@@ -8181,20 +8181,6 @@ sound_ref .sound_level_e_caco_damage
 sound_ref .sound_level_e_caco_damage2
 sound_ref .sound_level_e_caco_death
 sound_ref .sound_level_e_caco_death2
-sound_ref .sound_level_e_door_open
-sound_ref .sound_level_e_door_close
-sound_ref .sound_level_e_elevator
-sound_ref .sound_level_e_item
-sound_ref .sound_level_e_teleport
-sound_ref .sound_level_e_switch
-sound_ref .sound_level_e_missile_fire
-sound_ref .sound_level_e_missile_explode
-sound_ref .sound_level_e_gun_guy_alert
-sound_ref .sound_level_e_gun_guy_alert2
-sound_ref .sound_level_e_gun_guy_roaming
-sound_ref .sound_level_e_gun_guy_damage
-sound_ref .sound_level_e_gun_guy_death
-
 
 sound_ref .sound_o_walker_aggressive_1
 sound_ref .sound_o_walker_aggressive_2
@@ -8203,10 +8189,13 @@ sound_ref .sound_o_walker_aggressive_4
 sound_ref .sound_o_walker_die
 sound_ref .sound_o_walker_hit
 sound_ref .sound_o_walker_eat
+
 sound_ref .sound_level_g_0_stardoor
+
 sound_ref .sound_level_j_hooh
 sound_ref .sound_level_j_miltank
 sound_ref .sound_level_j_geodude
+
 sound_ref .sound_marxlaugh1
 sound_ref .sound_marxlaugh2
 sound_ref .sound_marxlaugh3
@@ -8217,6 +8206,7 @@ sound_ref .sound_marxcutter
 sound_ref .sound_marxlaser
 sound_ref .sound_marxscream
 sound_ref .sound_marxteleport
+
 sound_ref .sound_level_i_hoodboomer_death
 sound_ref .sound_level_i_hoodboomer_laugh
 sound_ref .sound_level_i_hoodboomer_haha
@@ -8235,6 +8225,19 @@ sound_ref .sound_level_i_hoodmonger_alert
 sound_ref .sound_level_i_hoodmonger_death1
 sound_ref .sound_level_i_hoodmonger_parry
 
+sound_ref .sound_level_e_door_open
+sound_ref .sound_level_e_door_close
+sound_ref .sound_level_e_elevator
+sound_ref .sound_level_e_item
+sound_ref .sound_level_e_teleport
+sound_ref .sound_level_e_switch
+sound_ref .sound_level_e_missile_fire
+sound_ref .sound_level_e_missile_explode
+sound_ref .sound_level_e_gun_guy_alert
+sound_ref .sound_level_e_gun_guy_alert2
+sound_ref .sound_level_e_gun_guy_roaming
+sound_ref .sound_level_e_gun_guy_damage
+sound_ref .sound_level_e_gun_guy_death
 
 .sound_level_x_0:
 chan_setbank 12
@@ -8391,13 +8394,13 @@ layer_end
 
 .sound_level_e_door_open:
 chan_setbank 12
-chan_setinstr 5
+chan_setinstr 43
 chan_setlayer 0, .layer_level_e_door
 chan_end
 
 .sound_level_e_door_close:
 chan_setbank 12
-chan_setinstr 6
+chan_setinstr 44
 chan_setlayer 0, .layer_level_e_door
 chan_end
 
@@ -8411,7 +8414,7 @@ layer_end
 
 .sound_level_e_elevator:
 chan_setbank 12
-chan_setinstr 7
+chan_setinstr 45
 chan_setlayer 0, .layer_level_e_elevator
 chan_end
 
@@ -8425,7 +8428,7 @@ layer_end
 
 .sound_level_e_item:
 chan_setbank 12
-chan_setinstr 8
+chan_setinstr 46
 chan_setlayer 0, .layer_level_e_item
 chan_end
 
@@ -8439,7 +8442,7 @@ layer_end
 
 .sound_level_e_teleport:
 chan_setbank 12
-chan_setinstr 9
+chan_setinstr 47
 chan_setlayer 0, .layer_level_e_teleport
 chan_end
 
@@ -8453,7 +8456,7 @@ layer_end
 
 .sound_level_e_switch:
 chan_setbank 12
-chan_setinstr 10
+chan_setinstr 48
 chan_setlayer 0, .layer_level_e_switch
 chan_end
 
@@ -8467,35 +8470,35 @@ layer_end
 
 .sound_level_e_missile_fire:
 chan_setbank 12
-chan_setinstr 11
+chan_setinstr 49
 chan_setlayer 0, .layer_level_e_gun_guy_damage
 chan_end
 
 
 .sound_level_e_missile_explode:
 chan_setbank 12
-chan_setinstr 12
+chan_setinstr 50
 chan_setlayer 0, .layer_level_e_gun_guy_damage
 chan_end
 
 
 .sound_level_e_gun_guy_alert:
 chan_setbank 12
-chan_setinstr 13
+chan_setinstr 51
 chan_setlayer 0, .layer_level_e_gun_guy_damage
 chan_end
 
 
 .sound_level_e_gun_guy_alert2:
 chan_setbank 12
-chan_setinstr 14
+chan_setinstr 52
 chan_setlayer 0, .layer_level_e_gun_guy_damage
 chan_end
 
 
 .sound_level_e_gun_guy_roaming:
 chan_setbank 12
-chan_setinstr 15
+chan_setinstr 53
 chan_setlayer 0, .layer_level_e_gun_guy_roaming
 chan_end
 
@@ -8506,7 +8509,7 @@ layer_end
 
 .sound_level_e_gun_guy_damage:
 chan_setbank 12
-chan_setinstr 16
+chan_setinstr 54
 chan_setlayer 0, .layer_level_e_gun_guy_damage
 chan_end
 
@@ -8517,7 +8520,7 @@ layer_end
 
 .sound_level_e_gun_guy_death:
 chan_setbank 12
-chan_setinstr 17
+chan_setinstr 55
 chan_setlayer 0, .layer_level_e_gun_guy_death
 chan_end
 

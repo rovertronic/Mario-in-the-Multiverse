@@ -1093,7 +1093,7 @@ void bhv_e__tutorial(void) {
         gMarioState->health = 0x880;
         //-gE_C9MarioHealth = 100;
 
-		if ((save_file_get_flags() & SAVE_FLAG_HAVE_VANISH_CAP) || ((gPlayer1Controller->buttonDown & Z_TRIG) && (gPlayer1Controller->buttonDown & R_TRIG) && (gPlayer1Controller->buttonDown & B_BUTTON))) {//--T1
+		if ((save_file_get_flags() & SAVE_FLAG_SHOTGUN_TUTORIAL) || ((gPlayer1Controller->buttonDown & Z_TRIG) && (gPlayer1Controller->buttonDown & R_TRIG) && (gPlayer1Controller->buttonDown & B_BUTTON))) {//--T1
 			o->oAction = 4;
 			return;
 		}
@@ -1137,7 +1137,7 @@ void bhv_e__tutorial(void) {
 				play_puzzle_jingle(); }
 
 			if (cur_obj_update_dialog(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TEXT_DEFAULT, DIALOG_C9_4, 0)) {
-                save_file_set_flags(SAVE_FLAG_HAVE_VANISH_CAP);
+                save_file_set_flags(SAVE_FLAG_SHOTGUN_TUTORIAL);
 				o->activeFlags = 0;
             }
 		}

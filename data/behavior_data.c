@@ -6345,11 +6345,6 @@ const BehaviorScript bhvE_Caco[] = {
     GOTO(bhvE_Enemy + 1),
 };
 
-const BehaviorScript bhvE_Enemy[] = {//base enemy behavior
-    BEGIN(OBJ_LIST_PUSHABLE),
-    BEGIN_LOOP(),
-    END_LOOP(),
-};
 const BehaviorScript bhvIntroCloth[] = {
     BEGIN(OBJ_LIST_DEFAULT),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -6452,12 +6447,6 @@ const BehaviorScript bhvE_Target[] = {
 };
 
 //--Ability
-const BehaviorScript bhvE_RocketBlast[] = {
-    BEGIN(OBJ_LIST_GENACTOR),
-    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-    BEGIN_LOOP(),
-    END_LOOP(),
-};
 /* GROUP E END */
 
 const BehaviorScript bhvIntroPeach[] = {
@@ -6844,12 +6833,6 @@ const BehaviorScript bhvDbridge[] = {
 /* GROUP E START */
 
 //--Level
-const BehaviorScript bhvE_Caco[] = {
-    BEGIN(OBJ_LIST_PUSHABLE),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_E__SG_ENEMY)),
-    SET_INT(oBehParams2ndByte, 0),
-    GOTO(bhvE_Enemy + 1),
-};
 
 const BehaviorScript bhvE_Enemy[] = {//base enemy behavior
     BEGIN(OBJ_LIST_PUSHABLE),
@@ -6888,20 +6871,6 @@ const BehaviorScript bhvE_PushObj[] = {
         CALL_NATIVE(bhv_e__push_obj),
     END_LOOP(),
 };
-
-const BehaviorScript bhvD[] = {
-    BEGIN(OBJ_LIST_GENACTOR),
-    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-
-    BILLBOARD(),//
-    SET_HOME(),//
-
-    BEGIN_LOOP(),
-        CALL_NATIVE(bhv_e__d),
-    END_LOOP(),
-};
-
-
 
 /* GROUP E END */
 

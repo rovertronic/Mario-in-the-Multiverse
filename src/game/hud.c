@@ -1050,7 +1050,7 @@ void render_hud(void) {
             hud_alpha = approach_f32_asymptotic(hud_alpha,0.0f,0.2f);
         } else {
             hud_alpha = approach_f32_asymptotic(hud_alpha,255.0f,0.2f);
-            render_hud_camera_status();
+            render_hud_camera_status(GFX_DIMENSIONS_RECT_FROM_RIGHT_EDGE(HUD_CAMERA_X), 205);
         }
 
         if (hud_display_coins == 0) {
@@ -1185,6 +1185,7 @@ void render_hud(void) {
         }
 #endif
 
+/*
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_CAMERA_AND_POWER) {
             //render_hud_power_meter();
 #ifdef PUPPYCAM
@@ -1195,6 +1196,7 @@ void render_hud(void) {
             }
 #endif
         }
+*/
 
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_TIMER) {
 

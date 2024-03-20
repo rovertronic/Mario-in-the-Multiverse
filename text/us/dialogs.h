@@ -364,8 +364,6 @@ platform, This task demands\n\
 precision and discretion.\n\
 Move with purpose, Bond."))
 
-DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 190, _("\
-
 DEFINE_DIALOG(DIALOG_C9_1, 1, 3, 95, 200, _("\
 //It's time for a\n\
 Shotgun Mario tutorialTM\n\

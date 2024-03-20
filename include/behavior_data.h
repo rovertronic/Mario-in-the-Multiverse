@@ -630,7 +630,7 @@ extern const BehaviorScript bhvE_RocketBlast[];
 extern const BehaviorScript bhvE_MuzzleFlash[];
 extern const BehaviorScript bhvE_FlattenedObj[];
 extern const BehaviorScript bhvE_PushObj[];
-extern const BehaviorScript bhvD[];
+
 
 
 

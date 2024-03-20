@@ -8,7 +8,7 @@ const GeoLayout e_area_1_geo[] = {
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, e_dl__model2_mesh_layer_5),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, e_dl__model2_mesh_layer_6),
 		GEO_ASM(0, e__shotgun_effects),
-		GEO_ASM(0, e__door_light),
+		//GEO_ASM(0, e__door_light),
 		GEO_ASM(0, e__c9_dobj),
 		GEO_ASM(0, e__c9_sky),
 	GEO_CLOSE_NODE(),

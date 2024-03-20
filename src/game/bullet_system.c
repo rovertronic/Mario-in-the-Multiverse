@@ -1,3 +1,5 @@
+//Warning: rushed & bad
+
 #include <PR/gbi.h>
 #include "actors/group0.h"
 #include "include/behavior_data.h"
@@ -270,10 +272,9 @@ Gfx *dobj_bullets(s32 callContext) {
 		}
 
 
-		//revert for any other generated display list functions after this
-		gSPGeometryMode(dlH++, 0, G_LIGHTING);
+		gSPGeometryMode(dlH++, G_TEXTURE_GEN, G_CULL_BACK | G_LIGHTING);
 		gDPSetCycleType(dlH++, G_CYC_1CYCLE);
-		gDPSetRenderMode(dlH++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
+		gDPSetRenderMode(dlH++, G_RM_AA_ZB_XLU_INTER, G_RM_AA_ZB_XLU_INTER2);
 		gSPSetGeometryMode(dlH++, G_LIGHTING);
 		gSPClearGeometryMode(dlH++, G_TEXTURE_GEN);
 		gDPSetCombineLERP(dlH++, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT);

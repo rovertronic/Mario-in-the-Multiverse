@@ -118,6 +118,12 @@
 #define TEXT_PAUSE _("PAUSE") // Pause text, Castle Courses
 #define TEXT_HUD_CONGRATULATIONS _("CONGRATULATIONS") // Course Complete Text, Bowser Courses
 
+//--E | Key messages
+#define TEXT_E_KEY_RED_DOOR     _(" RED SKULL KEY NEEDED")
+#define TEXT_E_KEY_BLUE_DOOR    _(" BLUE SKULL KEY NEEDED")
+#define TEXT_E_KEY_YELLOW_DOOR  _("YELLOW SKULL KEY NEEDED")
+
+
 //Widescreen stuff
 #if defined(WIDE) && !defined(PUPPYCAM)
 #define TEXT_HUD_CURRENT_RATIO_43 _("ASPECT RATIO: 4:3")

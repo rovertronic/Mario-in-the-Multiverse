@@ -6258,15 +6258,15 @@ layer_portamento 0x81, 32, 255
 layer_note1 22, 0x24, 110
 layer_end
 
+//--E
 .sound_obj_eyerok_sound_long:
 chan_setbank 7
-chan_setinstr 12
+chan_setinstr 13
 chan_setlayer 0, .layer_26D7
 chan_end
 
 .layer_26D7:
-layer_portamento 0x81, 26, 255
-layer_note1 19, 0x60, 127
+layer_note1_mario 39, 0x55, 110
 layer_end
 
 .sound_obj_wiggler_high_pitch:
@@ -8138,6 +8138,21 @@ sound_ref .sound_level_e_caco_damage
 sound_ref .sound_level_e_caco_damage2
 sound_ref .sound_level_e_caco_death
 sound_ref .sound_level_e_caco_death2
+sound_ref .sound_level_e_door_open
+sound_ref .sound_level_e_door_close
+sound_ref .sound_level_e_elevator
+sound_ref .sound_level_e_item
+sound_ref .sound_level_e_teleport
+sound_ref .sound_level_e_switch
+sound_ref .sound_level_e_missile_fire
+sound_ref .sound_level_e_missile_explode
+sound_ref .sound_level_e_gun_guy_alert
+sound_ref .sound_level_e_gun_guy_alert2
+sound_ref .sound_level_e_gun_guy_roaming
+sound_ref .sound_level_e_gun_guy_damage
+sound_ref .sound_level_e_gun_guy_death
+
+
 sound_ref .sound_o_walker_aggressive_1
 sound_ref .sound_o_walker_aggressive_2
 sound_ref .sound_o_walker_aggressive_3
@@ -8227,6 +8242,150 @@ layer_end
     .layer_level_e_caco_death2:
     layer_note1 38, 0x5A, 127
     layer_end
+
+
+
+//door
+
+.sound_level_e_door_open:
+chan_setbank 12
+chan_setinstr 5
+chan_setlayer 0, .layer_level_e_door
+chan_end
+
+.sound_level_e_door_close:
+chan_setbank 12
+chan_setinstr 6
+chan_setlayer 0, .layer_level_e_door
+chan_end
+
+.layer_level_e_door:
+layer_note1 39, 0xAD, 127
+layer_end
+
+
+
+//elevator
+
+.sound_level_e_elevator:
+chan_setbank 12
+chan_setinstr 7
+chan_setlayer 0, .layer_level_e_elevator
+chan_end
+
+.layer_level_e_elevator:
+layer_note1 39, 0xBE, 127
+layer_end
+
+
+
+//item
+
+.sound_level_e_item:
+chan_setbank 12
+chan_setinstr 8
+chan_setlayer 0, .layer_level_e_item
+chan_end
+
+.layer_level_e_item:
+layer_note1 39, 0x2B, 127
+layer_end
+
+
+
+//teleport
+
+.sound_level_e_teleport:
+chan_setbank 12
+chan_setinstr 9
+chan_setlayer 0, .layer_level_e_teleport
+chan_end
+
+.layer_level_e_teleport:
+layer_note1 39, 0xAD, 127
+layer_end
+
+
+
+//switch
+
+.sound_level_e_switch:
+chan_setbank 12
+chan_setinstr 10
+chan_setlayer 0, .layer_level_e_switch
+chan_end
+
+.layer_level_e_switch:
+layer_note1 39, 0x36, 127
+layer_end
+
+
+
+//gun guy
+
+.sound_level_e_missile_fire:
+chan_setbank 12
+chan_setinstr 11
+chan_setlayer 0, .layer_level_e_gun_guy_damage
+chan_end
+
+
+.sound_level_e_missile_explode:
+chan_setbank 12
+chan_setinstr 12
+chan_setlayer 0, .layer_level_e_gun_guy_damage
+chan_end
+
+
+.sound_level_e_gun_guy_alert:
+chan_setbank 12
+chan_setinstr 13
+chan_setlayer 0, .layer_level_e_gun_guy_damage
+chan_end
+
+
+.sound_level_e_gun_guy_alert2:
+chan_setbank 12
+chan_setinstr 14
+chan_setlayer 0, .layer_level_e_gun_guy_damage
+chan_end
+
+
+.sound_level_e_gun_guy_roaming:
+chan_setbank 12
+chan_setinstr 15
+chan_setlayer 0, .layer_level_e_gun_guy_roaming
+chan_end
+
+.layer_level_e_gun_guy_roaming:
+layer_note1 39, 0x55, 127
+layer_end
+
+
+.sound_level_e_gun_guy_damage:
+chan_setbank 12
+chan_setinstr 16
+chan_setlayer 0, .layer_level_e_gun_guy_damage
+chan_end
+
+.layer_level_e_gun_guy_damage:
+layer_note1 39, 0xAD, 127
+layer_end
+
+
+.sound_level_e_gun_guy_death:
+chan_setbank 12
+chan_setinstr 17
+chan_setlayer 0, .layer_level_e_gun_guy_death
+chan_end
+
+.layer_level_e_gun_guy_death:
+layer_note1 39, 0x6C, 127
+layer_end
+
+
+
+
 
 // walker
 

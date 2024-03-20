@@ -2025,6 +2025,8 @@ s32 act_ground_bonk(struct MarioState *m) {
     return FALSE;
 }
 
+extern u8 gE_C9MarioHealth;
+
 s32 act_death_exit_land(struct MarioState *m) {
     s32 animFrame;
 
@@ -2043,6 +2045,8 @@ s32 act_death_exit_land(struct MarioState *m) {
     if (is_anim_at_end(m)) {
         set_mario_action(m, ACT_IDLE, 0);
     }
+
+    gE_C9MarioHealth = 100;
 
     return FALSE;
 }

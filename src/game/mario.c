@@ -1865,7 +1865,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     //if (gPlayer1Controller->buttonPressed & D_JPAD) {
     //    initiate_warp(LEVEL_G, 4, 0x0A, 0);
     //}
-
+    
     // Updates once per frame:
     vec3f_get_dist_and_lateral_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->lateralSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);
     vec3f_copy(gMarioState->prevPos, gMarioState->pos);
@@ -1922,6 +1922,11 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             if (!(m->floor->normal.y < COS73)) {
                 if (!mario_is_in_air_action()) {
                     gE_ShotgunFlags &= ~E_SGF_AIR_SHOT_USED; }
+            }
+        }
+        if (gCurrLevelNum == LEVEL_E) {//--C9
+            if ((gGlobalTimer % 3) == 0) {
+                gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
             }
         }
 

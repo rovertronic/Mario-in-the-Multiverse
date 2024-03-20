@@ -1988,6 +1988,8 @@ void pss_end_slide(struct MarioState *m) {
     }
 }
 
+extern u8 gE_C9MarioHealth;
+
 void mario_handle_special_floors(struct MarioState *m) {
     if ((m->action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE) {
         return;
@@ -2012,6 +2014,42 @@ void mario_handle_special_floors(struct MarioState *m) {
 
             case SURFACE_TIMER_END:
                 pss_end_slide(m);
+                break;
+
+            case SURFACE_SQUID_INK:
+                if (gCurrLevelNum == LEVEL_E) {
+                    if (!mario_is_in_air_action()) {
+                        if ((!((m->action & ACT_FLAG_INTANGIBLE) || (m->action & ACT_FLAG_INVULNERABLE) || (m->invincTimer != 0)))
+                            && !(m->flags & MARIO_VANISH_CAP)
+                            && (aku_invincibility == 0)
+                            && (!using_ability(ABILITY_KNIGHT))
+                            && (!using_ability(ABILITY_SQUID))
+                            && ((gGlobalTimer % 9) == 0)) {
+
+                            s32 health = (gE_C9MarioHealth - 3);
+                            if (health <= 0) {
+                                gE_C9MarioHealth = 0;
+                                play_sound(SOUND_MARIO_WAAAOOOW, m->marioObj->header.gfx.cameraToObject);
+
+                                if (using_ability(ABILITY_E_SHOTGUN)) {
+                                    //-spawn_object(gMarioObject, MODEL_ID_05, bhvStaticObject);
+                                    set_mario_action(m, ACT_E_DOOM_DEATH, 1);
+                                } else {
+                                    set_mario_action(m, ACT_E_DOOM_DEATH, 0);
+                                }
+
+                                if (gCamera->mode == CAMERA_MODE_C_UP) {//--**
+                                    set_camera_mode_8_directions(gCamera);
+                                }
+                            } else {
+                                gE_C9MarioHealth = health;
+                                play_sound(SOUND_MARIO_UH, m->marioObj->header.gfx.cameraToObject);
+                            }
+                        }
+
+                    }
+                }
+
                 break;
         }
 

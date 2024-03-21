@@ -1,3 +1,5 @@
+//Warning: rushed & bad
+
 #include <PR/gbi.h>
 #include "actors/group0.h"
 #include "behavior_data.h"

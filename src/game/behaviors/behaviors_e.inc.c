@@ -1,5 +1,7 @@
+//Warning: rushed & bad
 
 #include "levels/e/header.h"
+#include "game/e__c9_dobj.h"
 
 
 
@@ -37,7 +39,9 @@ idle, roaming, attacked, range_or_close, close, death
 #define oEERoamingSoundTimer OBJECT_FIELD_S32(0x20)
 #define oEETurnedFromWall    OBJECT_FIELD_S32(0x21)
 #define oEETargetObj         OBJECT_FIELD_OBJ(0x22)
+#define oEEAttackedByMario   OBJECT_FIELD_S32(0x4A)
 #define oEEDistToTarget      oHomeX
+#define oEEAttackedByEnemy   oAnimState
 
 
 enum {
@@ -78,25 +82,69 @@ static struct E_EnemyClass {
 
 //--Enemy-specific
 
-//caco
+static s32 e__enemy_raycast(void);
+
+static s32 e__pistol_guy_attack(void) {
+    cur_obj_init_animation(3);
+
+    approach_s16_asymptotic(o->oFaceAngleYaw, obj_angle_to_object(o, o->oEETargetObj), 3);
+
+    if (o->oTimer == 0) {
+        s16 yaw = obj_angle_to_object(o, o->oEETargetObj);
+        o->oFaceAngleYaw = yaw;
+
+        Vec3f pos = { (o->oPosX + (sins(yaw) * 100.f)), (o->oPosY + 120.f), (o->oPosZ + (coss(yaw) * 100.f)) };
+		e__spawn_c9_dobj(o, o->oEETargetObj, 0, pos, 120.f, 40.f, yaw);
+        play_sound(SOUND_OBJ2_EYEROK_SOUND_LONG, o->header.gfx.cameraToObject);
+
+        struct Object *flash = spawn_object(o, MODEL_ID_1D, bhvE_MuzzleFlash);
+        vec3f_copy(&flash->oPosX, pos);
+
+    } else if (o->oTimer == 9) {
+        return TRUE; }
+
+    return FALSE;
+}
+
+static s32 e__chaingun_guy_attack(void) {
+    cur_obj_init_animation(3);
+
+    o->oFaceAngleYaw = approach_s16_asymptotic(o->oFaceAngleYaw, obj_angle_to_object(o, o->oEETargetObj), 3);
+
+    if ((o->oTimer % 4) == 0) {
+        s16 yaw = obj_angle_to_object(o, o->oEETargetObj);
+        Vec3f pos = { (o->oPosX + (sins(yaw) * 120.f)), (o->oPosY + 120.f), (o->oPosZ + (coss(yaw) * 120.f)) };
+		e__spawn_c9_dobj(o, o->oEETargetObj, 0, pos, 120.f, 30.f, yaw);
+        play_sound(SOUND_OBJ2_EYEROK_SOUND_LONG, o->header.gfx.cameraToObject);
+
+        struct Object *flash = spawn_object(o, MODEL_ID_1D, bhvE_MuzzleFlash);
+        flash->oPosY = (o->oPosY + 120.f);
+
+        if ((!e__enemy_raycast()) || o->oTimer > (30 + (random_u16() / 2184))) {
+            return TRUE; }
+    }
+
+    return FALSE;
+}
+
 static s32 e__caco_attack(void) {
     cur_obj_init_animation(3);
 
     o->oFaceAngleYaw = approach_s16_asymptotic(o->oFaceAngleYaw, obj_angle_to_object(o, o->oEETargetObj), 5);
 
-    if (o->oTimer == 0) {//--**temp
+    if (o->oTimer == 0) {//--**
         cur_obj_set_model(MODEL_ID_04);
     } else if (o->oTimer == 12) {
         cur_obj_set_model(MODEL_ID_03);
     }
 
     if (o->oTimer == 5) {
-        //--**bullet
         //-if (dist_between_objects(o, o->oEETargetObj) < 400.f) {//close attack
-        o->oFaceAngleYaw   = calculate_yaw(&o->oPosX, gMarioState->pos);
-        o->oFaceAnglePitch = calculate_pitch(&o->oPosX, gMarioState->pos);
-        spawn_object_relative(0, 0, 140, 140, o, MODEL_ID_05, bhvSnufitBalls);
-        o->oFaceAnglePitch = 0;
+        s16 yaw = calculate_yaw(&o->oPosX, &o->oEETargetObj->oPosX);
+        o->oFaceAngleYaw = yaw;
+        Vec3f pos = { (o->oPosX + (sins(yaw) * 100.f)), (o->oPosY + 120.f), (o->oPosZ + (coss(yaw) * 100.f)) };
+		e__spawn_c9_dobj(o, o->oEETargetObj, 2, pos, 60.f, 40.f, o->oFaceAngleYaw);
+        play_sound(SOUND_MITM_LEVEL_E_MISSILE_FIRE, o->header.gfx.cameraToObject);
     } else if (o->oTimer == 24) {
         return TRUE; }
 
@@ -108,24 +156,53 @@ static s32 e__caco_attack(void) {
 
 static struct E_EnemyClass sE_EnemyClasses[E_ENEMY_TYPE_COUNT] = {
     //pistol
+    { SOUND_MITM_LEVEL_E_GUN_GUY_ALERT,  SOUND_MITM_LEVEL_E_GUN_GUY_ALERT2,
+    SOUND_MITM_LEVEL_E_GUN_GUY_ROAMING,  SOUND_MITM_LEVEL_E_GUN_GUY_ROAMING,
+    SOUND_MITM_LEVEL_E_GUN_GUY_DAMAGE,   SOUND_MITM_LEVEL_E_GUN_GUY_DAMAGE,
+    SOUND_MITM_LEVEL_E_GUN_GUY_DAMAGE,   SOUND_MITM_LEVEL_E_GUN_GUY_DEATH,
+    &pistol_guy_anims, 140.f, 180.f, 10.f, &e__pistol_guy_attack,   2, 0, 1, 5,   0, 0, 1 },
 
     //chaingun
+    { SOUND_MITM_LEVEL_E_GUN_GUY_ALERT,  SOUND_MITM_LEVEL_E_GUN_GUY_ALERT2,
+    SOUND_MITM_LEVEL_E_GUN_GUY_ROAMING,  SOUND_MITM_LEVEL_E_GUN_GUY_ROAMING,
+    SOUND_MITM_LEVEL_E_GUN_GUY_DAMAGE,   SOUND_MITM_LEVEL_E_GUN_GUY_DAMAGE,
+    SOUND_MITM_LEVEL_E_GUN_GUY_DAMAGE,   SOUND_MITM_LEVEL_E_GUN_GUY_DEATH,
+    &chaingun_guy_anims, 150.f, 210.f, 10.f, &e__chaingun_guy_attack,   3, 0, 1, 10,   0, 0, 1 },
 
     //lost soul
+    { 0000000000000000,  0000000000000000,
+    0000000000000000,    0000000000000000,
+    0000000000000000,   0000000000000000,
+    0000000000000000,    0000000000000000,
+    &pistol_guy_anims, 60.f, 160.f, 10.f, &e__pistol_guy_attack,   2, 50, 1, 3,   0, 0, 1 },    
 
     //caco
     { SOUND_MITM_LEVEL_E_CACO_ALERT,  SOUND_MITM_LEVEL_E_CACO_ALERT2,
     SOUND_MITM_LEVEL_E_CACO_ALERT,    SOUND_MITM_LEVEL_E_CACO_ALERT2,//--**
     SOUND_MITM_LEVEL_E_CACO_DAMAGE,   SOUND_MITM_LEVEL_E_CACO_DAMAGE2,
     SOUND_MITM_LEVEL_E_CACO_DEATH,    SOUND_MITM_LEVEL_E_CACO_DEATH2,
-    &caco_anims, 140.f, 280.f, 15.f, &e__caco_attack,   (3 * 4), 50, 4, 3,   1, 1, 1 },
+    &caco_anims, 140.f, 280.f, 15.f, &e__caco_attack,   (3 * 4), 25, 4, 3,   1, 1, 1 },
 
     //revenant
+    { 0000000000000000,  0000000000000000,
+    0000000000000000,    0000000000000000,
+    0000000000000000,   0000000000000000,
+    0000000000000000,    0000000000000000,
+    &pistol_guy_anims, 60.f, 160.f, 10.f, &e__pistol_guy_attack,   2, 50, 1, 3,   0, 0, 1 },
 
     //mancubus
+    { 0000000000000000,  0000000000000000,
+    0000000000000000,    0000000000000000,
+    0000000000000000,   0000000000000000,
+    0000000000000000,    0000000000000000,
+    &pistol_guy_anims, 60.f, 160.f, 10.f, &e__pistol_guy_attack,   2, 50, 1, 3,   0, 0, 1 },
 
     //mastermind
-
+    { 0000000000000000,  0000000000000000,
+    0000000000000000,    0000000000000000,
+    0000000000000000,   0000000000000000,
+    0000000000000000,    0000000000000000,
+    &pistol_guy_anims, 60.f, 160.f, 10.f, &e__pistol_guy_attack,   2, 50, 1, 3,   0, 0, 1 },
 };
 
 
@@ -133,13 +210,13 @@ static struct E_EnemyClass sE_EnemyClasses[E_ENEMY_TYPE_COUNT] = {
 //--Process
 
 static s32 e__enemy_raycast(void) {
-    if (o->oEEDistToTarget < 4000.f) {
+    if (o->oEEDistToTarget < 3000.f) {//4000.f
         struct Surface *surf;
         Vec3f orig = { o->oPosX, (o->oPosY + (o->hitboxHeight * 0.5f)), o->oPosZ }; 
         Vec3f soundSource = { o->oEETargetObj->oPosX, (o->oEETargetObj->oPosY + 80.f), o->oEETargetObj->oPosZ };
         Vec3f hitPos, dir = { (soundSource[0] - orig[0]), (soundSource[1] - orig[1]), (soundSource[2] - orig[2]) };
 
-        find_surface_on_ray(orig, dir, &surf, hitPos, (RAYCAST_FIND_FLOOR | RAYCAST_FIND_CEIL | RAYCAST_FIND_WALL));//--**no water (keep depending on level)
+        find_surface_on_ray(orig, dir, &surf, hitPos, (RAYCAST_FIND_FLOOR | RAYCAST_FIND_CEIL | RAYCAST_FIND_WALL));
         if (!surf) {
             return TRUE; }
     }
@@ -147,7 +224,7 @@ static s32 e__enemy_raycast(void) {
 }
 
 static s32 e__alerted_sound(void) {
-    if ((gE_ShotgunTimer == 25)) {//--**|| mario makes a sound
+    if ((gE_ShotgunTimer == 25)) {//--**
         return e__enemy_raycast(); }
     return FALSE;
 }
@@ -160,7 +237,7 @@ static s32 e__alerted_sight(void) {
     return FALSE;
 }
 
-static void e__attacked_common(void) {
+static void e__attacked_common(s32 targetMario) {//--**
     struct E_EnemyClass *enemyClass = &sE_EnemyClasses[o->oBehParams2ndByte];
     if (o->oHealth <= 0) {
         play_sound(E_RANDOM_SOUND(enemyClass->deathSound), o->header.gfx.cameraToObject); }
@@ -173,10 +250,12 @@ static void e__attacked_common(void) {
         o->oAction = EE_ACT_ATTACKED;
     }
 
-    o->oEETargetObj = gMarioObject;
+    if (targetMario) {
+        o->oEETargetObj = gMarioObject;
+    }
 }
 static void e__attacked_by_enemy(void) {
-    e__attacked_common();
+    e__attacked_common(0);
 
     //non-shotgun death
     if (o->oHealth <= 0) {
@@ -195,7 +274,7 @@ static s32 e__movement_step(void) {
     Vec3f nextPos = { o->oPosX, o->oPosY, o->oPosZ };
     vec3f_add(nextPos, &o->oVelX);
 
-    //--**maybe 2nd cast at obj top
+    //--**
    //wall
     struct Surface *surf;
     f32 collDist = (o->hitboxRadius + (sE_EnemyClasses[o->oBehParams2ndByte].speed * 3.f));
@@ -203,7 +282,7 @@ static s32 e__movement_step(void) {
 
     Vec3f orig = { nextPos[0], (nextPos[1] + offsetY), nextPos[2] };
     Vec3f hitPos, dir = { (sins(o->oMoveAngleYaw) * collDist), 0.f, (coss(o->oMoveAngleYaw) * collDist) };
-    find_surface_on_ray(orig, dir, &surf, hitPos, (RAYCAST_FIND_FLOOR | RAYCAST_FIND_CEIL | RAYCAST_FIND_WALL | RAYCAST_FIND_WATER));//--**?water
+    find_surface_on_ray(orig, dir, &surf, hitPos, (RAYCAST_FIND_FLOOR | RAYCAST_FIND_CEIL | RAYCAST_FIND_WALL | RAYCAST_FIND_WATER));//--**
 
     if (surf != NULL) {
         o->oWallAngle = atan2s(surf->normal.z, surf->normal.x);
@@ -231,7 +310,9 @@ static s32 e__movement_step(void) {
    //enemy collision
     if (o->collidedObjs[0] != NULL) {
         BehaviorScript behavior = o->collidedObjs[0]->behavior;
-        if ((behavior == segmented_to_virtual(bhvE_Caco))) {//--**add other enemy behaviors later
+        if ((behavior == segmented_to_virtual(bhvE_Caco))
+         || (behavior == segmented_to_virtual(bhvE_PistolGuy))
+         || (behavior == segmented_to_virtual(bhvE_ChaingunGuy))) {//--**
             stepResult = E_MOVE_STEP_ENEMY; }
     }
 
@@ -253,11 +334,13 @@ static void e__flying_movement(void) {
 
 
 void bhv_e__enemy(void) {
-    s32 hitByEnemyProjectile = ((o->oDistanceToMario < 500.f) && (gE_ShotgunTimer == 25));//--**shot by enemy bullet | Note: temp activation is source of '1HP at a time' glitch
+    if (o->oDistanceToMario > 5000.f) {
+        return; }
 
     //attacked
     if (o->oShotByShotgun) {
-        e__attacked_common();
+        o->oEEAttackedByMario = TRUE;
+        e__attacked_common(1);
         o->oShotByShotgun = 0;
     } else {
         if ((o->oIntangibleTimer == 0) && (o->oInteractStatus & INT_STATUS_WAS_ATTACKED)) {
@@ -268,13 +351,12 @@ void bhv_e__enemy(void) {
             e__attacked_by_enemy();
             o->oIntangibleTimer = 18;
 
-        } else if (hitByEnemyProjectile) {
-            o->oHealth -= 1;//--**enemyBullet->damage
+        } else if (o->oEEAttackedByEnemy) {
+            o->oHealth -= o->oEEAttackedByEnemy;
             e__attacked_by_enemy();
-            if (o->oHealth == sE_EnemyClasses[o->oBehParams2ndByte].health) {
-                o->oEETargetObj = cur_obj_nearest_object_with_behavior(bhvE_Caco); }//--**enemyBullet->enemy
         }
     }
+    o->oEEAttackedByEnemy = FALSE;
 
 
     //reset target & check if target is defeated
@@ -282,7 +364,7 @@ void bhv_e__enemy(void) {
         if (o->oEETargetObj == gMarioObject) {
             if (gMarioState->health == 0) {
                 o->oAction = EE_ACT_IDLE; }
-        } else if (o->oEETargetObj->activeFlags == 0) {//--**make sure it works
+        } else if (o->oEETargetObj->activeFlags == 0) {//--**
             if (gMarioState->health == 0) {
                 o->oAction = EE_ACT_IDLE; }
             else {
@@ -296,19 +378,20 @@ void bhv_e__enemy(void) {
         o->oInteractType = INTERACT_E__DOOM_ENEMY;
         o->oIntangibleTimer = 0;
         o->oEEMovementTimer = 255;
+        o->oDrawingDistance = 5000.f;
         
       {
         struct E_EnemyClass *enemyClass = &sE_EnemyClasses[o->oBehParams2ndByte];
 
         E_SET_ROAMING_SOUND_DELAY()
         E_SET_ATTACK_DELAY(enemyClass->attackRate)   
-        //-o->oDeathSound = E_RANDOM_SOUND(enemyClass->deathSound);//--**Maybe play death sound when shot, then have default obj death sound when disappearing
+        //-o->oDeathSound = E_RANDOM_SOUND(enemyClass->deathSound);//--**
         o->oAnimations       = enemyClass->anims;
         o->hitboxRadius      = enemyClass->hitboxRadius;
         o->hurtboxRadius     = enemyClass->hitboxRadius;
         o->hitboxHeight      = enemyClass->hitboxHeight;
         o->hurtboxHeight     = enemyClass->hitboxHeight;
-        //-o->hitboxDownOffset  = enemyClass->offsetY;//--**remove hitboxDownOffset implementation
+        //-o->hitboxDownOffset  = enemyClass->offsetY;//--**
         o->oHealth           = enemyClass->health;
         o->oNumLootCoins     = enemyClass->lootCoins;
         o->oEETargetObj = gMarioObject;
@@ -332,8 +415,7 @@ void bhv_e__enemy(void) {
 
 
 
-    case EE_ACT_ROAMING:
-        ;
+    case EE_ACT_ROAMING:;
         struct E_EnemyClass *enemyClass = &sE_EnemyClasses[o->oBehParams2ndByte];
 
         //movement
@@ -367,7 +449,7 @@ void bhv_e__enemy(void) {
                 || (o->oEEMovementTimer++ > ((random_u16() / 200) + 20))) {
                 o->oEEMovementTimer      = 0;
                 o->oEETurnedFromWall = FALSE;
-                if ((random_u16() % 6) == 0) {
+                if (((random_u16() % 6) == 0) || ((o->oEETargetObj == gMarioObject) && (gMarioState->action == ACT_E_DOOM_DEATH))) {
                     o->oMoveAngleYaw = random_u16(); }
                 else {
                     o->oMoveAngleYaw = angleToTarget; }
@@ -412,15 +494,14 @@ void bhv_e__enemy(void) {
                 closeAttack = TRUE; }
         }
 
-        if (notFalling) {
+        if (notFalling && (!((o->oEETargetObj == gMarioObject) && (gMarioState->action == ACT_E_DOOM_DEATH)))) {
             if (closeAttack) {
                 o->oAction = EE_ACT_ATTACK; }
             else if (enemyClass->range) {
                 if (o->oTimer > o->oEEAttackDelay) {
                     if (e__enemy_raycast()) {
-                        o->oAction = EE_ACT_ATTACK;
-                        E_SET_ATTACK_DELAY(enemyClass->attackRate)
-                    }
+                        o->oAction = EE_ACT_ATTACK; }
+                    E_SET_ATTACK_DELAY(enemyClass->attackRate)//
                 }
             }
         }
@@ -451,15 +532,15 @@ void bhv_e__enemy(void) {
         }
     }
 
-    o->oPosY -= o->hitboxDownOffset;
-    cur_obj_push_mario_away_from_cylinder((o->hitboxRadius - 20.f), (o->hitboxHeight - 20.f));
-    o->oPosY += o->hitboxDownOffset;
+
+    if (gMarioState->action != ACT_E_DOOM_DEATH) {
+        o->oPosY -= o->hitboxDownOffset;
+        cur_obj_push_mario_away_from_cylinder((o->hitboxRadius - 20.f), (o->hitboxHeight - 20.f));
+        o->oPosY += o->hitboxDownOffset;
+    }
 
     o->oInteractStatus = 0;
     o->collidedObjs[0] = NULL;
-
-    print_text_fmt_int(20, 40, "HEALTH %d", o->oHealth);
-    print_text_fmt_int(20, 20, "ACTION %d", o->oAction);
 }
 
 #undef oEEMovementTimer
@@ -471,6 +552,658 @@ void bhv_e__enemy(void) {
 #undef oEETurnedFromWall
 #undef oEETargetObj
 #undef oEEDistToTarget
+
+
+
+
+
+
+
+
+//-- door
+
+enum {
+    ED_ACT_INIT,
+    ED_ACT_CLOSED,
+    ED_ACT_OPENING,
+    ED_ACT_OPEN,
+};
+
+#define oEDRequiredKey  OBJECT_FIELD_S32(0x1B)
+#define oEDCloseDelay   OBJECT_FIELD_U32(0x1C)
+
+extern u8 gE_KeyMessageTimer;
+extern u8 gE_KeyMessageIndex;
+
+static Collision *sE_DoorCollision[] = {
+    e_door_collision,
+};
+
+
+
+static e__open_door(void) {
+    play_sound(SOUND_MITM_LEVEL_E_DOOR_OPEN, o->header.gfx.cameraToObject);
+    o->oAction = ED_ACT_OPENING;
+}
+
+
+void bhv_e__door(void) {
+    switch (o->oAction) {
+    case ED_ACT_INIT:
+        o->oPosY = find_floor_height(o->oPosX, o->oPosY, o->oPosZ);
+        obj_set_collision_data(o, sE_DoorCollision[0/*o->oBehParams >> 24*/]);
+        o->oEDCloseDelay = 135;
+
+        if (o->oBehParams >> 24) {
+            e__create_door_light(o); }
+
+        vec3f_copy(&o->oHomeX, &o->oPosX);
+        o->oDrawingDistance = 20000.f;
+        o->oCollisionDistance = 20000.f;
+        o->oAction = ED_ACT_CLOSED;
+        o->oEDRequiredKey = (o->oBehParams & 0x000000FF);
+        break;
+
+        
+    case ED_ACT_CLOSED:;
+        s32 open = FALSE;
+        
+        switch (o->oBehParams2ndByte) {
+        case 1://common
+            if (o->oTimer > 15) {            
+                f32 dX = (o->oHomeX - gMarioState->pos[0]);
+                f32 dZ = (o->oHomeZ - gMarioState->pos[2]);
+                s16 oNegYaw = -o->oFaceAngleYaw;
+                f32 cY = coss(oNegYaw);
+                f32 sY = sins(oNegYaw);
+                f32 dXR = ((cY * dX) + (sY * dZ));
+                f32 dZR = ((sY * dX) - (cY * dZ));
+
+                if (absf(dX) < 750.f) {
+                    f32 dY = (gMarioState->pos[1] - o->oHomeY);
+                    if ((dY >= 0.f) && (dY < 600.f)) {
+                        if (absf(dZ) < 750.f) {
+                            if (o->oEDRequiredKey) {//key
+                                if (gMarioState->numKeys & o->oEDRequiredKey) {
+                                    e__open_door(); }
+                                else {//key message
+                                    if (o->oSubAction == 0) {
+                                        o->oSubAction = 120;
+                                        gE_KeyMessageTimer = 1;
+                                        gE_KeyMessageIndex = (o->oEDRequiredKey - 1);
+                                        if (gE_KeyMessageIndex > 2) {
+                                            gE_KeyMessageIndex = 2; }
+                                    }
+                                }
+                            } else {
+                                e__open_door(); }
+                        }
+                    }
+                }
+            }
+
+            //key message cool down
+            if (o->oSubAction) {
+                o->oSubAction--; }
+
+            //close
+            o->oPosY = approach_f32(o->oPosY, o->oHomeY, 20.f, 20.f);
+            break;
+
+        case 0:;//
+            struct Object *coin = cur_obj_nearest_object_with_behavior(bhvRedCoin);
+            if (dist_between_objects(coin, gMarioObject) < 200.f) {
+                o->oEDCloseDelay = 65535;
+                e__open_door();
+            }
+            break;
+
+        case 2:
+            if (gMarioState->numKeys & 1) {
+                o->oEDCloseDelay = 65535;
+                e__open_door();
+            }
+            break;
+
+        case 3:
+            if (dist_between_objects(o, gMarioObject) < 380.f) {
+                o->oEDCloseDelay = 65535;
+                e__open_door();
+            }
+        }
+        break;
+
+        
+    case ED_ACT_OPENING:
+        if (!approach_f32_bool(&o->oPosY, (o->oHomeY + 700.f), 20.f, 20.f)) {
+            o->oAction = ED_ACT_OPEN; }
+        break;
+
+        
+    case ED_ACT_OPEN:
+        if (o->oTimer > o->oEDCloseDelay) {
+            play_sound(SOUND_MITM_LEVEL_E_DOOR_CLOSE, o->header.gfx.cameraToObject);
+            o->oAction = ED_ACT_CLOSED;
+        }
+    }
+
+    //-if (obj_has_model(o, MODEL_ID_14)) {\
+        print_text_fmt_int(20, 80, "TIMER %d", (s32)(o->oTimer)); }
+
+    load_object_collision_model();
+}
+
+
+
+
+
+
+
+//--key
+
+
+
+void bhv_e__key(void) {
+    enum { EK_ACT_INIT, EK_ACT_COLLECTABLE };
+
+    switch (o->oAction) {
+    case EK_ACT_INIT:
+        o->oPosY = find_floor_height(o->oPosX, o->oPosY, o->oPosZ);
+        o->oDrawingDistance = 20000.f;
+        o->oAction = EK_ACT_COLLECTABLE;
+        o->oIntangibleTimer = 0;
+        o->hitboxRadius = 60.f;
+        o->hitboxHeight = 100.f;
+        break;
+
+        
+    case EK_ACT_COLLECTABLE:
+        if (o->oShotByShotgun) {
+            o->oShotByShotgun = 0;
+            o->oMoveAngleYaw = DEGREES(33);
+        }
+        o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, DEGREES(3), DEGREES(1));
+        o->oFaceAngleYaw += o->oMoveAngleYaw;
+
+        if (o->oDistanceToMario < 110.f) {
+            play_sound(SOUND_MITM_LEVEL_E_ITEM, o->header.gfx.cameraToObject);
+            spawn_object(o, (obj_get_model_id(o) + 3), bhvE_KeyCollect);
+            o->activeFlags = 0;
+            gMarioState->numKeys |= o->oBehParams2ndByte;
+        }
+    }
+}
+
+void bhv_e__key_collect(void) {
+    f32 scaleX = (o->header.gfx.scale[0] = approach_f32(o->header.gfx.scale[0], 0.f, 0.3f, 0.3f));
+    o->header.gfx.scale[1] = scaleX;
+    o->header.gfx.scale[2] = scaleX;
+
+    if (scaleX == 0.f) {
+        o->activeFlags = 0; }
+}
+
+
+
+
+
+//--elevator
+
+void bhv_e__elevator(void) {
+    enum {
+        EEL_ACT_INIT,
+        EEL_ACT_DOWN,
+        EEL_ACT_RISE,
+        EEL_ACT_UP,
+        EEL_ACT_LOWER,
+    };
+
+
+    switch (o->oAction) {
+    case EEL_ACT_INIT:
+        spawn_object(o, MODEL_ID_0E, bhvE_ElevatorBase);
+
+        o->oPosY -= (1400.f + 10.f);
+        o->oHomeY = o->oPosY;
+
+        if (o->oBehParams2ndByte) {
+            o->oEDCloseDelay = 0x7FFFFFFF; }
+        else {
+            o->oEDCloseDelay = 105; }
+
+        obj_set_collision_data(o, e_elevator_collision);
+        o->oDrawingDistance = 20000.f;
+        o->oAction = EEL_ACT_DOWN;
+        break;
+
+        
+    case EEL_ACT_DOWN:
+        if (o->oBehParams2ndByte) {
+            struct Object *swltch = cur_obj_nearest_object_with_behavior(bhvE_Switch);
+            if (swltch->oAction != 3) {
+                break; }
+        } else {
+            if (gMarioObject->platform != o) {
+                break; }
+        }
+        play_sound(SOUND_MITM_LEVEL_E_ELEVATOR, o->header.gfx.cameraToObject);
+        o->oAction = EEL_ACT_RISE;
+        break;
+
+        
+    case EEL_ACT_RISE:
+        if (!approach_f32_bool(&o->oPosY, (o->oHomeY + 1400.f), 40.f, 40.f)) {
+            o->oAction = EEL_ACT_UP; }
+        break;
+
+        
+    case EEL_ACT_UP:
+        if (o->oTimer > o->oEDCloseDelay) {
+            play_sound(SOUND_MITM_LEVEL_E_ELEVATOR, o->header.gfx.cameraToObject);
+            o->oAction = EEL_ACT_LOWER;
+        }
+        break;
+        
+
+    case EEL_ACT_LOWER:
+        if (!approach_f32_bool(&o->oPosY, o->oHomeY, 40.f, 40.f)) {
+            o->oAction = EEL_ACT_DOWN; }
+        break;
+    }
+
+    load_object_collision_model();
+}
+
+
+
+
+
+//--candelabra
+
+
+void bhv_e__candelabra(void) {
+    enum {
+        EC_ACT_INIT,
+        EC_ACT_STILL,
+        EC_ACT_SHOT,
+    };
+
+
+    switch (o->oAction) {
+    case EC_ACT_INIT:
+        o->oPosY = find_floor_height(o->oPosX, o->oPosY, o->oPosZ);
+        o->oInteractType = INTERACT_IGLOO_BARRIER;
+        o->oIntangibleTimer = 0;
+        o->hitboxRadius     = 100;
+        o->hitboxHeight     = 500;
+        o->oAction = EC_ACT_STILL;
+        break;
+
+        
+    case EC_ACT_STILL:
+
+
+        break;
+
+        
+    case EC_ACT_SHOT:;
+
+
+    }
+}
+
+
+
+
+
+//--switch
+
+void bhv_e__switch(void) {
+    enum {
+        ES_ACT_INIT,
+        ES_ACT_NOT_USED,
+        ES_ACT_USED_DELAY,
+        ES_ACT_USED,
+    };
+
+
+    switch (o->oAction) {
+    case ES_ACT_INIT:
+        o->oPosY = find_floor_height(o->oPosX, o->oPosY, o->oPosZ);
+        o->oEDRequiredKey = (o->oBehParams & 0x000000FF);
+        o->oDrawingDistance = 20000.f;
+        o->oAction = ES_ACT_NOT_USED;
+
+        obj_set_collision_data(o, e_switch_collision);
+        break;
+
+        
+    case ES_ACT_NOT_USED:
+        if ((o->oDistanceToMario < 200.f) || o->oShotByShotgun) {
+            if (o->oEDRequiredKey) {
+                if (!(gMarioState->numKeys & o->oEDRequiredKey)) {
+                    if (o->oSubAction == 0) {
+                        o->oSubAction = 120;
+                        gE_KeyMessageTimer = 1;
+                        gE_KeyMessageIndex = (o->oEDRequiredKey - 1);
+                        if (gE_KeyMessageIndex > 2) {
+                            gE_KeyMessageIndex = 2; }
+                    }
+                    break;
+                }
+            }
+
+            play_sound(SOUND_MITM_LEVEL_E_SWITCH, o->header.gfx.cameraToObject);
+            cur_obj_set_model(MODEL_ID_11);
+            o->oAction = ES_ACT_USED;
+        }
+        break;
+
+        
+    case ES_ACT_USED_DELAY:
+        if (o->oTimer >= 10) {
+            o->oAction = ES_ACT_USED; }
+        break;
+
+        
+    case ES_ACT_USED:;
+    }
+
+    //key message cool down
+    if (o->oSubAction) {
+        o->oSubAction--; }
+
+    //print_text_fmt_int(20, 20, "DIST %d", (s32)(o->oDistanceToMario));
+    o->oShotByShotgun = 0;
+    load_object_collision_model();
+}
+
+
+
+
+
+//--teleport
+
+#define oETDestTeleport  OBJECT_FIELD_OBJ(0x1B)
+
+void bhv_e__teleport(void) {
+    enum {
+        ET_ACT_INIT,
+        ET_ACT_TELEPORT,
+        ET_ACT_STOOD_ON,
+    };
+
+    switch (o->oAction) {
+    case ET_ACT_INIT:
+        o->oAction = ET_ACT_TELEPORT;
+        if (o->oBehParams2ndByte) {
+            o->oETDestTeleport = o->header.next; }
+        else {
+            o->oETDestTeleport = o->header.prev; }
+        obj_set_collision_data(o, e_teleport_collision);
+        load_object_static_model();
+        break;
+
+        
+    case ET_ACT_TELEPORT:
+        if (gMarioState->floor->object == o) {
+            struct Object *next = (struct Object *)(o->oETDestTeleport);
+            o->oETDestTeleport->oAction = ET_ACT_STOOD_ON;
+
+            gMarioState->pos[0] += (o->oETDestTeleport->oPosX - o->oPosX);
+            gMarioState->pos[1] += (o->oETDestTeleport->oPosY - o->oPosY);
+            gMarioState->pos[2] += (o->oETDestTeleport->oPosZ - o->oPosZ);
+
+            spawn_object_relative(0, 0, (gMarioState->pos[1] - o->oPosY) + 80.f,                  0, o,                  MODEL_ID_13, bhvE_TeleportEffect);//teleported from
+            spawn_object_relative(0, 0, (gMarioState->pos[1] - o->oETDestTeleport->oPosY) + 80.f, 0, o->oETDestTeleport, MODEL_ID_13, bhvE_TeleportEffect);//teleported to
+
+            gLakituState.focHSpeed = 1.f;
+            gLakituState.focVSpeed = 1.f;
+            gLakituState.posHSpeed = 1.f;
+            gLakituState.posVSpeed = 1.f;
+
+            play_sound(SOUND_MITM_LEVEL_E_TELEPORT, o->header.gfx.cameraToObject);
+        }
+        break;
+
+        
+    case ET_ACT_STOOD_ON:
+        if (o->oTimer > 1) {
+            if (gMarioState->floor->object != o) {
+                o->oAction = ET_ACT_TELEPORT; }
+        } else if (o->oTimer == 1) {
+            gLakituState.focHSpeed = 0.8f;
+            gLakituState.focVSpeed = 0.3f;
+            gLakituState.posHSpeed = 0.3f;
+            gLakituState.posVSpeed = 0.3f;
+        }
+    }
+
+    o->oVelY = 0.f;
+}
+
+
+void bhv_e__teleport_effect(void) {
+    enum {
+        ETE_ACT_INIT,
+        ETE_ACT_LOOP,
+    };
+
+    switch (o->oAction) {
+    case ETE_ACT_INIT:
+        o->header.gfx.scale[0] = 0.f;
+        o->oAction = ETE_ACT_LOOP;
+        break;
+
+        
+    case ETE_ACT_LOOP:;
+        f32 scaleY = (1.f - (o->header.gfx.scale[0] = approach_f32(o->header.gfx.scale[0], 1.f, 0.1f, 0.1f)));
+        o->header.gfx.scale[1] = scaleY;
+        if (scaleY == 0.f) {
+            o->activeFlags = 0; }
+    }
+}
+
+
+
+//--medkit
+
+extern u8 gE_C9MarioHealth;
+
+void bhv_e__medkit(void) {
+    enum { EM_ACT_INIT, EM_ACT_COLLECTABLE };
+
+    switch (o->oAction) {
+    case EM_ACT_INIT:
+        o->oPosY = find_floor_height(o->oPosX, o->oPosY, o->oPosZ);
+        o->oDrawingDistance = 20000.f;
+        o->oAction = EM_ACT_COLLECTABLE;
+        //o->oIntangibleTimer = 0;
+        //o->hitboxRadius = 90.f;
+        //o->hitboxHeight = 100.f;
+        break;
+
+        
+    case EM_ACT_COLLECTABLE:
+        if (o->oDistanceToMario < 110.f) {
+            switch (o->oBehParams2ndByte) {
+            case 0://medkit
+                if (gE_C9MarioHealth < 100) {
+                    gE_C9MarioHealth += 25;
+                    if (gE_C9MarioHealth > 100) {
+                        gE_C9MarioHealth = 100; }
+
+                    play_sound(SOUND_MITM_LEVEL_E_ITEM, o->header.gfx.cameraToObject);
+                    spawn_object(o, MODEL_ID_1B, bhvE_KeyCollect);
+                    o->activeFlags = 0;
+                }
+                break;
+
+            case 1://shells/coins
+                play_sound(SOUND_MITM_LEVEL_E_ITEM, o->header.gfx.cameraToObject);
+                spawn_object(o, MODEL_ID_1B, bhvE_KeyCollect);
+                gMarioState->numGlobalCoins += 10;
+                o->activeFlags = 0;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+//--tutorial
+
+
+#define oTTarget1 OBJECT_FIELD_OBJ(0x1B)
+#define oTTarget2 OBJECT_FIELD_OBJ(0x1C)
+#define oTTarget3 OBJECT_FIELD_OBJ(0x1D)
+
+static void spawn_target(s32 index, s32 model, f32 offsetY, f32 dist, s16 angle) {
+	angle += DEGREES(180);
+
+	o->OBJECT_FIELD_OBJ(index) = spawn_object(o, model, bhvE_Target);
+
+	o->OBJECT_FIELD_OBJ(index)->oBehParams2ndByte = index;
+	o->OBJECT_FIELD_OBJ(index)->oPosX += (sins(angle) * dist);
+	o->OBJECT_FIELD_OBJ(index)->oPosY += offsetY;
+	o->OBJECT_FIELD_OBJ(index)->oPosZ += (coss(angle) * dist);
+	o->OBJECT_FIELD_OBJ(index)->oFaceAngleYaw = obj_angle_to_object(o->OBJECT_FIELD_OBJ(index), o);
+}
+
+void bhv_e__tutorial(void) {
+	if ((o->oTTarget1 != NULL) || (o->oTTarget2 != NULL) || (o->oTTarget3 != NULL)) {
+		o->oTimer = 0; }
+
+	if (o->oSubAction == 0) {
+		play_sound(SOUND_OBJ_DEFAULT_DEATH, gGlobalSoundSource);
+		o->oSubAction++;
+	}
+
+    //--
+    if (gMarioState->numGlobalCoins <= 0) {
+        gMarioState->numGlobalCoins = 1;
+    }
+
+	switch (o->oAction) {
+	case 0:
+        gMarioState->health = 0x880;
+        //-gE_C9MarioHealth = 100;
+
+		if ((save_file_get_flags() & SAVE_FLAG_SHOTGUN_TUTORIAL) || ((gPlayer1Controller->buttonDown & Z_TRIG) && (gPlayer1Controller->buttonDown & R_TRIG) && (gPlayer1Controller->buttonDown & B_BUTTON))) {//--T1
+			o->oAction = 4;
+			return;
+		}
+		if (cur_obj_update_dialog(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TEXT_DEFAULT, DIALOG_C9_1, 0)) {
+			spawn_target(0x1B, MODEL_ID_21, 100.f, 1400.f, DEGREES(45));
+			spawn_target(0x1C, MODEL_ID_21, 100.f, 1400.f, DEGREES(-45));
+			spawn_target(0x1D, MODEL_ID_21, 100.f, 1400.f, DEGREES(240));
+
+			o->oAction = 1;
+		}
+		break;
+
+		
+	case 1:
+		if (o->oTimer >= 35) {
+			if (cur_obj_update_dialog(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TEXT_DEFAULT, DIALOG_C9_2, 0)) {
+				spawn_target(0x1B, MODEL_ID_24, -100.f, 500.f, DEGREES(78));
+				spawn_target(0x1C, MODEL_ID_24, 750.f,  700.f, DEGREES(330));
+				spawn_target(0x1D, MODEL_ID_24, 500.f,  800.f, DEGREES(240));
+				o->oAction = 2;
+			}
+		}
+		break;
+
+		
+	case 2:
+		if (o->oTimer >= 35) {
+			if (cur_obj_update_dialog(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TEXT_DEFAULT, DIALOG_C9_3, 0)) {
+				spawn_target(0x1B, MODEL_ID_22, 700.f,  1400.f, DEGREES(45));
+				spawn_target(0x1C, MODEL_ID_22, 700.f,  1400.f, DEGREES(340));
+				spawn_target(0x1D, MODEL_ID_23, 350.f,  1400.f, DEGREES(270));
+				o->oAction = 3;
+			}
+		}
+		break;
+
+		
+	case 3:
+		if (o->oTimer >= 35) {
+			if (o->oTimer == 35) {
+				play_puzzle_jingle(); }
+
+			if (cur_obj_update_dialog(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TEXT_DEFAULT, DIALOG_C9_4, 0)) {
+                save_file_set_flags(SAVE_FLAG_SHOTGUN_TUTORIAL);
+				o->activeFlags = 0;
+            }
+		}
+		break;
+
+
+	case 4:
+		//-if (cur_obj_update_dialog(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TEXT_DEFAULT, DIALOG_005, 0)) {
+		o->activeFlags = 0;
+		//-}
+	}
+
+	f32 lateralDistToM = lateral_dist_between_objects(o, gMarioObject);
+	if (lateralDistToM > 1340.f) {
+		s16 angleToMario = obj_angle_to_object(o, gMarioObject);
+		gMarioState->pos[0] = o->oPosX + (sins(angleToMario) * 1340.f);
+		gMarioState->pos[2] = o->oPosZ + (coss(angleToMario) * 1340.f);
+	}
+}
+
+void bhv_e__target(void) {
+	switch (o->oAction) {
+	case 0:
+		if (cur_obj_has_model(MODEL_ID_24)) {
+			o->oFlags |= OBJ_FLAG_E__SG_COLLISION_CUSTOM;
+			o->oAction = 2;
+		} else {
+			o->oFlags |= OBJ_FLAG_E__SG_CUSTOM;
+			o->oAction = 1;
+		}
+
+		o->hitboxRadius = 150.f;
+		o->hitboxHeight = 300.f;
+		o->oIntangibleTimer = 0;
+
+		spawn_mist_particles_variable(0, 0, 92.f);
+		break;
+
+		
+	case 1:
+		if (o->oShotByShotgun) {
+			o->activeFlags = 0;
+			o->parentObj->OBJECT_FIELD_OBJ(o->oBehParams2ndByte) = NULL;
+			e__sg_obj_explode(o, 12);
+		}
+		break;
+
+		
+	case 2:
+		load_object_collision_model();
+		if (o->oShotByShotgun) {
+			if (mario_is_in_air_action()) {
+				o->activeFlags = 0;
+				o->parentObj->OBJECT_FIELD_OBJ(o->oBehParams2ndByte) = NULL;
+				e__sg_obj_explode(o, 12);
+				//-play_sound(SOUND_GENERAL2_RIGHT_ANSWER, gGlobalSoundSource);
+			}
+		}		
+		o->oShotByShotgun = 0;
+	}
+}
+
+
+
+
+
 
 
 
@@ -570,101 +1303,6 @@ void bhv_e__push_obj(void) {
         o->activeFlags = 0; }
 }
 
-//static s16 eq = DEGREES(35);//good: 45
-
-void bhv_e__d(void) {
-    //--D
-    if (o->oTimer > 233) {
-        o->activeFlags = 0;
-    }
-
-
-    f32 dist;
-    vec3f_get_dist(&o->oPosX, &o->oHomeX, &dist);
-
-    f32 div = (dist * 0.005f);
-    if (div < 1.f) {
-        div = 1.f;
-    }
-    s16 eq = (dist / div);
-    o->header.gfx.scale[0] = eq;
-    o->header.gfx.scale[1] = eq;
-    o->header.gfx.scale[2] = eq;
-
-    print_text_fmt_int(20, 50, "EQ %d", eq);
-
-    o->oPosX += (sins(o->oFaceAngleYaw) * coss(o->oFaceAnglePitch)) * 70.f;
-    o->oPosY += (sins(o->oFaceAnglePitch))                          * 70.f;
-    o->oPosZ += (coss(o->oFaceAngleYaw) * coss(o->oFaceAnglePitch)) * 70.f;
-    return;
-
-
-
-#ifdef NEVER_DEFINED
-    if (o->oTimer > 233) {
-        o->activeFlags = 0;
-    }
-    
-
-    f32 origDist = (f32)(o->oTimer * 70);
-    s16 pitch = o->oFaceAnglePitch;
-    s16 yaw = o->oFaceAngleYaw;
-
-
-    s32 base = 8;
-    f32 mul  = 6.f;
-    /*if (origDist < 300.f) {//--D
-        base = 45;
-        mul  = 4.f;
-    }*/
-
-    //-f32 eq = ((DEGREES(base)) - ((s32)(sins(origDist + 1200.f) * (DEGREES(mul)))));
-
-
-//    eq = approach_s16_asymptotic(eq, DEGREES(2), 75);//good: (eq, DEGREES(3), 60);
-//    eq = ();
-    f32 div = (origDist * 0.005f);
-    if (div < 1.f) {
-        div = 1.f; }
-    s16 eq = (origDist * 0.7f/* + (sins((origDist) + 12000.f) * 546.f)*/);//((546.f / (origDist * 0.00025f)) + (sins((origDist) + 12000.f) * 546.f));//another good: (DEGREES(5) / (origDist * 0.0005f));
-    print_text_fmt_int(20, 50, "EQ %d", eq);
-
-    switch (o->oBehParams2ndByte) {
-    case 1:
-        yaw += eq;
-        break;
-    case 2:
-        pitch -= eq;
-        break;
-    case 3:
-        yaw -= eq;
-        break;
-    default:
-        pitch += eq;
-    }
-
-    f32 dist = origDist + (origDist * sins(eq * 2));
-
-    o->oPosX = o->oHomeX + (sins(yaw) * coss(pitch)) * dist;
-    o->oPosY = o->oHomeY + (sins(pitch)) * dist;
-    o->oPosZ = o->oHomeZ + (coss(yaw) * coss(pitch)) * dist;
-#endif
-
-
-    //--D
-    /*
-    o->header.gfx.scale[0] = 0.2f;
-    o->header.gfx.scale[2] = 20.f;
-
-    f32 div = (cur_obj_lateral_dist_to_home() * 0.0025f);
-    if (div < 1.f) {
-        div = 1.f; }
-    o->oFaceAngleYaw = o->oMoveAngleYaw + ((7280.f / div)/* + (sins((origDist) + 12000.f) * 546.f)*R/);
-    vec3f_copy(&o->oPosX, gMarioState->pos);*/
-
-
-
-}
 
 
 
@@ -674,55 +1312,26 @@ void bhv_e__d(void) {
 
 
 
-//--Geo
 
 
-//obj
 
-Gfx *e__geo_caco_eye_color(s32 callContext, struct GraphNode *node, Mat4 *context) {
-    if (callContext == GEO_CONTEXT_RENDER) {
-        Gfx *dlS = alloc_display_list(sizeof(Gfx) * 2);
-        Gfx *dlH = dlS;
-        
-        if (dlS == NULL) {
-            return; }
 
-        print_text_fmt_int(20, 100, "GEO %d", 1);
 
-        struct Object *obj = (struct Object *) gCurGraphNodeObject;
-        s32 color = 0;
-        if (obj->oAction == EE_ACT_ATTACK) {
-            color = ((s32)(sins(o->oTimer * 6553) * 255.f)); }
-        gDPSetEnvColor(dlH++, 0, 0, 0, 0xFF);//**
-        gSPEndDisplayList(dlH);
 
-        return dlS;
-    }
 
+
+
+
+
+
+
+
+Gfx *e__geo_caco_eye_color(s32 callContext, struct GraphNode *node, Mat4 *unused) {
     return NULL;
 }
 
 
-Gfx *e__0(s32 callContext, struct GraphNode *node, Mat4 *context) {
-    /*if (callContext == GEO_CONTEXT_RENDER) {
-        Gfx *dlS = alloc_display_list(sizeof(Gfx) * 3);
-        Gfx *dlH = dlS
-        
-        if (dlS == NULL) {
-            return; }
-
-        struct Object *obj = (struct Object *) gCurGraphNodeObject;
-        if (obj->oShotByShotgun) {
-            
-
-            gDPSetLights1(dlHead++, 255, 255, 255, objectOpacity);
-            gSPEndDisplayList(dlHead);
-        }
-
-        return dlStart;
-    }
-
-    return NULL;*/
+Gfx *e__0(s32 callContext, struct GraphNode *node, Mat4 *unused) {
 }
 
 

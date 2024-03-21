@@ -1877,12 +1877,18 @@ s32 check_dashboost_inputs(struct MarioState *m) {
     return FALSE;
 }
 
+u8 magic_mirror_timer = 20;
+
 /**
  * Main function for executing Mario's behavior. Returns particleFlags.
  */
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
+    //if (gPlayer1Controller->buttonPressed & D_JPAD) {
+    //    initiate_warp(LEVEL_G, 4, 0x0A, 0);
+    //}
+    
     // Updates once per frame:
     vec3f_get_dist_and_lateral_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->lateralSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);
     vec3f_copy(gMarioState->prevPos, gMarioState->pos);
@@ -1983,6 +1989,11 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             if (!(m->floor->normal.y < COS73)) {
                 if (!mario_is_in_air_action()) {
                     gE_ShotgunFlags &= ~E_SGF_AIR_SHOT_USED; }
+            }
+        }
+        if (gCurrLevelNum == LEVEL_E) {//--C9
+            if ((gGlobalTimer % 3) == 0) {
+                gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
             }
         }
 
@@ -2138,6 +2149,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         if ((!milk_drunk)&&(using_ability(ABILITY_UTIL_MILK))&&(gPlayer1Controller->buttonPressed & L_TRIG)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
             milk_drunk = TRUE;
             gMarioState->healCounter += 20;
+            play_sound(SOUND_GENERAL_HEART_SPIN, gGlobalSoundSource);
         }
 
         // Magic Mirror Code
@@ -2149,19 +2161,37 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                     vec3f_diff(displacement,&dw->oPosVec,gMarioState->pos);
 
                     vec3f_add(gMarioState->pos,displacement);
-                    vec3f_copy(&gMarioObject->oPosVec,displacement);
-                    vec3f_copy(&gMarioObject->header.gfx.pos,displacement);
 
-                    vec3f_add(gLakituState.curPos, displacement);
-                    vec3f_add(gLakituState.curFocus, displacement);
-                    vec3f_add(gLakituState.goalPos, displacement);
-                    vec3f_add(gLakituState.goalFocus, displacement);
+                    magic_mirror_timer = 0;
+                    
+                    gLakituState.curPos[1] += displacement[1];
+                    gLakituState.curFocus[1] += displacement[1];
+                    gLakituState.goalPos[1] += displacement[1];
+                    gLakituState.goalFocus[1] += displacement[1];
+                    
+                    gLakituState.focHSpeed = 1.f;
+                    gLakituState.focVSpeed = 1.f;
+                    gLakituState.posHSpeed = 1.f;
+                    gLakituState.posVSpeed = 1.f;
 
                     play_sound(SOUND_ABILITY_MAGIC_MIRROR, gGlobalSoundSource);
                 }
             } else {
                 play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
             }
+        }
+        if (magic_mirror_timer == 2) {
+            gLakituState.focHSpeed = 0.8f;
+            gLakituState.focVSpeed = 0.3f;
+            gLakituState.posHSpeed = 0.3f;
+            gLakituState.posVSpeed = 0.3f;
+        }
+        if (magic_mirror_timer < 20) {
+            struct Object *sparkleObj = spawn_object(o, MODEL_SPARKLES, bhvCoinSparkles);
+            sparkleObj->oPosX += random_float() * 100.0f - 50.0f;
+            sparkleObj->oPosY += random_float() * 100.0f;
+            sparkleObj->oPosZ += random_float() * 100.0f - 50.0f;
+            magic_mirror_timer ++;
         }
 
         // Compass Code

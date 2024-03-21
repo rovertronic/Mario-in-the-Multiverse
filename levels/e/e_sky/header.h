@@ -1,0 +1,12 @@
+extern u8 e_sky_clouds_i8[];
+extern u8 e_sky_Mountains_ia8[];
+extern Vtx e_sky_main_mesh_vtx_cull[8];
+extern Vtx e_sky_main_mesh_vtx_0[61];
+extern Gfx e_sky_main_mesh_tri_0[];
+extern Vtx e_sky_main_mesh_vtx_1[30];
+extern Gfx e_sky_main_mesh_tri_1[];
+extern Gfx mat_e_sky_cloud_f3d_layer1[];
+extern Gfx mat_revert_e_sky_cloud_f3d_layer1[];
+extern Gfx mat_e_sky_mountain_f3d_layer1[];
+extern Gfx mat_revert_e_sky_mountain_f3d_layer1[];
+extern Gfx e_sky_main_mesh[];

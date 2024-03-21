@@ -61,8 +61,18 @@ void scroll_castle_inside_dl_Map_mesh_layer_5_vtx_1() {
 	currentY += deltaY;
 }
 
+void scroll_gfx_mat_castle_inside_dl_acid_f3d_layer5() {
+	Gfx *mat = segmented_to_virtual(mat_castle_inside_dl_acid_f3d_layer5);
+
+
+	shift_t(mat, 11, PACK_TILESIZE(0, 16));
+	shift_t(mat, 13, PACK_TILESIZE(0, 19));
+
+};
+
 void scroll_castle_inside() {
 	scroll_castle_inside_dl_Map_mesh_layer_1_vtx_6();
 	scroll_castle_inside_dl_Map_mesh_layer_5_vtx_0();
 	scroll_castle_inside_dl_Map_mesh_layer_5_vtx_1();
+	scroll_gfx_mat_castle_inside_dl_acid_f3d_layer5();
 };

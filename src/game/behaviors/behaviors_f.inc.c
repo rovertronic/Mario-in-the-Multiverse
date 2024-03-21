@@ -469,7 +469,7 @@ void bhv_f_shooter(void) {
             o->oAnimState = 1;
             if ((o->oTimer % 5 == 0)&&(view_angle < 0x1500)&&(!surf)) {
                 o->oAnimState = 0;
-                cur_obj_play_sound_2(SOUND_OBJ_SNUFIT_SHOOT);
+                cur_obj_play_sound_2(SOUND_OBJ2_EYEROK_SOUND_LONG);
                 o->oFaceAnglePitch = -obj_turn_pitch_toward_mario(0.0f, 0x2000);
                 dobj_spawn_bullet(bullet_origin,o->oFaceAnglePitch,o->oFaceAngleYaw);
                 o->oFaceAnglePitch = 0;
@@ -751,7 +751,7 @@ void bhv_f_heli(void) {
             if (o->oTimer%200>99) {
                 if (o->oTimer%3==0) {
                     o->oAnimState = 0;
-                    cur_obj_play_sound_2(SOUND_MITM_ABILITY_E_SHOTGUN);
+                    cur_obj_play_sound_2(SOUND_OBJ2_EYEROK_SOUND_LONG);
                     o->oFaceAnglePitch = obj_turn_pitch_toward_mario(0.0f, 0x4000);
                     struct Object * bullet = spawn_object(o,MODEL_BOWLING_BALL,bhvHeliBalls);
                     bullet->oMoveAnglePitch = o->oFaceAnglePitch-0x280+(random_u16()%0x500);

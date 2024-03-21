@@ -224,6 +224,71 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "level_I_hoodmonger_parry"
+        },
+        "inst_level_e_door_open": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_e_door_open"
+        },
+        "inst_level_e_door_close": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_e_door_close"
+        },
+        "inst_level_e_elevator": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_e_elevator"
+        },
+        "inst_level_e_item": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_e_item"
+        },
+        "inst_level_e_teleport": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_e_teleport"
+        },
+        "inst_level_e_switch": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_e_switch"
+        },
+        "inst_level_e_missile_fire": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_e_missile"
+        },
+        "inst_level_e_missile_explode": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_e_missile_explode"
+        },
+        "inst_level_e_gun_guy_alert": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_e_gun_guy_alert"
+        },
+        "inst_level_e_gun_guy_alert2": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_e_gun_guy_alert2"
+        },
+        "inst_level_e_gun_guy_roaming": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_e_gun_guy_roaming"
+        },
+        "inst_level_e_gun_guy_damage": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_e_gun_guy_damage"
+        },
+        "inst_level_e_gun_guy_death": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_e_gun_guy_death"
         }
     },
     "instrument_list": [
@@ -274,6 +339,22 @@
         "inst_level_i_master_kaag_damage",
         "inst_level_i_hoodmonger_alert",
         "inst_level_i_hoodmonger_death1",
-        "inst_level_i_hoodmonger_parry"
+        "inst_level_i_hoodmonger_parry",
+
+        "inst_level_e_door_open",
+        "inst_level_e_door_close",
+
+        "inst_level_e_elevator",
+        "inst_level_e_item",
+        "inst_level_e_teleport",
+        "inst_level_e_switch",
+
+        "inst_level_e_missile_fire",
+        "inst_level_e_missile_explode",
+        "inst_level_e_gun_guy_alert",
+        "inst_level_e_gun_guy_alert2",
+        "inst_level_e_gun_guy_roaming",
+        "inst_level_e_gun_guy_damage",
+        "inst_level_e_gun_guy_death"
     ]
 }

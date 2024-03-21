@@ -1,6 +1,7 @@
 #ifndef ABILITY_H
 #define ABILITY_H
 
+void render_hint_ui(u8 hud_alpha);
 void render_ability_dpad(s16 x, s16 y, u8 alpha);
 void control_ability_dpad(void);
 void change_ability(s8 picked_ability);

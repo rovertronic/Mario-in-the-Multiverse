@@ -159,4 +159,24 @@ extern const LevelScript level_castle_inside_entry[];
 
 #include "levels/castle_inside/title_card/header.h"
 
+#include "levels/castle_inside/layton/anim_header.h"
+
+#include "levels/castle_inside/layton/geo_header.h"
+
+#include "levels/castle_inside/hubsky/header.h"
+
+#include "levels/castle_inside/hubsky2/header.h"
+
+#include "levels/castle_inside/hub_platform/collision_header.h"
+
+#include "levels/castle_inside/hub_platform/geo_header.h"
+
+#include "levels/castle_inside/shopitem1/geo_header.h"
+
+#include "levels/castle_inside/shopitem2/geo_header.h"
+
+#include "levels/castle_inside/shopitem4/geo_header.h"
+
+#include "levels/castle_inside/hint_menu/header.h"
+
 #endif

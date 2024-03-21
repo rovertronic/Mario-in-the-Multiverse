@@ -1767,6 +1767,36 @@ s32 act_feet_stuck_in_ground(struct MarioState *m) {
     return FALSE;
 }
 
+//--E
+s32 act_e_doom_death(struct MarioState *m) {
+    if (perform_air_step(m, AIR_STEP_CHECK_NONE) == AIR_STEP_LANDED) {
+        vec3f_set(m->vel, 0.f, 0.f, 0.f);
+    }
+
+    set_mario_animation(m, MARIO_ANIM_CREDITS_RETURN_FROM_LOOK_UP);
+
+    if (m->actionArg == 1) {
+		gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_MARIO];
+    }
+
+    if (++m->actionTimer >= 35) {
+        if (m->actionState == 0) {
+            if (m->input & INPUT_A_PRESSED) {
+                m->actionState = 1;
+                level_trigger_warp(m, WARP_OP_DEATH);
+            }
+        }
+    } else {
+        m->faceAngle[1] = calculate_yaw(gLakituState.focus, gLakituState.pos) - DEGREES(38);
+    }
+
+    align_with_floor(m);
+
+    return FALSE;
+}
+
+
+
 /**
  * advance_cutscene_step: Advances the current step in the current cutscene.
  * Resets action state and action timer, adds 1 to the action arg (responsible
@@ -2799,6 +2829,8 @@ s32 mario_execute_cutscene_action(struct MarioState *m) {
         case ACT_FEET_STUCK_IN_GROUND:       cancel = act_feet_stuck_in_ground(m);       break;
         case ACT_PUTTING_ON_CAP:             cancel = act_putting_on_cap(m);             break;
         case ACT_ENTER_HUB_PIPE:             cancel = act_enter_hub_pipe(m);             break;
+        //--E
+        case ACT_E_DOOM_DEATH:               cancel = act_e_doom_death(m);               break;
     }
     /* clang-format on */
 

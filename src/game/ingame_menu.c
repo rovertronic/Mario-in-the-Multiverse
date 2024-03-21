@@ -643,6 +643,9 @@ void handle_menu_scrolling(s8 scrollDirection, s8 *currentIndex, s8 minIndex, s8
     } else if (scrollDirection == MENU_SCROLL_HORIZONTAL) {
         if ((gPlayer1Controller->rawStickX >  60) || (gPlayer1Controller->buttonDown & (R_CBUTTONS))) index += 2;
         if ((gPlayer1Controller->rawStickX < -60) || (gPlayer1Controller->buttonDown & (L_CBUTTONS))) index++;
+    } else if (scrollDirection == MENU_SCROLL_INVERTICAL) {
+        if ((gPlayer1Controller->rawStickY >  60) || (gPlayer1Controller->buttonDown & (U_CBUTTONS))) index += 2;
+        if ((gPlayer1Controller->rawStickY < -60) || (gPlayer1Controller->buttonDown & (D_CBUTTONS))) index++;
     }
 
     if (((index ^ gMenuHoldKeyIndex) & index) == 2) {
@@ -672,7 +675,7 @@ void handle_menu_scrolling(s8 scrollDirection, s8 *currentIndex, s8 minIndex, s8
     }
 }
 
-void handle_menu_scrolling_2way(s8 *currentIndex2, s8 *currentIndex, s8 minIndex, s8 maxIndex) {
+void handle_menu_scrolling_2way(s8 *currentIndex2, s8 *currentIndex, s8 minIndex, s8 maxIndex, s8 maxIndex2) {
     u8 index = 0;
     u8 index2 = 0;
 
@@ -696,7 +699,7 @@ void handle_menu_scrolling_2way(s8 *currentIndex2, s8 *currentIndex, s8 minIndex
     }
 
     if (((index2 ^ gMenuHoldKeyIndex2) & index2) == 2) {
-        if (*currentIndex2 != maxIndex) {
+        if (*currentIndex2 != maxIndex2) {
             play_sound(SOUND_MENU_CHANGE_SELECT, gGlobalSoundSource);
             (*currentIndex2)++;
         }
@@ -2115,9 +2118,9 @@ s32 render_pause_courses_and_castle(void) {
             gSPDisplayList(gDisplayListHead++, main_menu_roundbox_001_mesh);
             gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 
-            render_ability_dpad(233,142,gDialogTextAlpha);
+            render_ability_dpad(233,165,gDialogTextAlpha);
 
-            for (i=0;i<16;i++) {
+            for (i=0;i<19;i++) {
                 if (menu_ability_y_offset[i] > 0) {
                     menu_ability_y_offset[i] += menu_ability_gravity[i];
                     menu_ability_gravity[i] -= 1;
@@ -2128,15 +2131,24 @@ s32 render_pause_courses_and_castle(void) {
                     menu_ability_y_offset[i] = 0;
                 }
 
-                u8 img = 17;
+                u8 img = 20;
                 if (save_file_check_ability_unlocked(i) || (i==0)) {
                     img = i;
                 }
-                render_ability_icon(55+(i%4)*33, menu_ability_y_offset[i] + 195-((i/4)*33), gDialogTextAlpha, img);
+                if (i < 16) {
+                    render_ability_icon(55+(i%4)*33, menu_ability_y_offset[i] + 195-((i/4)*33), gDialogTextAlpha, img);
+                } else {
+                    // utility icons have special case
+                    render_ability_icon(200+(i%4)*33, menu_ability_y_offset[i] + 95, gDialogTextAlpha, img);
+                }
             }
 
-            handle_menu_scrolling_2way(&ability_menu_x, &ability_menu_y, 0, 3);
+            handle_menu_scrolling_2way(&ability_menu_x, &ability_menu_y, 0, 3, 6);
             ability_menu_index = (ability_menu_x)+(ability_menu_y*4);
+            if (ability_menu_x > 3) {
+                // i should be punished for this awful implementation
+                ability_menu_index = 12+ability_menu_x;
+            }
 
             if (save_file_check_ability_unlocked(ability_menu_index) || (ability_menu_index == 0)) {
                 if (gPlayer1Controller->buttonPressed & U_JPAD) {
@@ -2159,7 +2171,11 @@ s32 render_pause_courses_and_castle(void) {
                 }
             }
 
-            create_dl_translation_matrix(MENU_MTX_PUSH, 55+(ability_menu_index%4)*33, 195-((ability_menu_index/4)*33), 0);
+            if (ability_menu_index < 16) {
+                create_dl_translation_matrix(MENU_MTX_PUSH, 55+(ability_menu_index%4)*33, 195-((ability_menu_index/4)*33), 0);
+            } else {
+                create_dl_translation_matrix(MENU_MTX_PUSH, 200+(ability_menu_index%4)*33, 95, 0);
+            }
             gSPDisplayList(gDisplayListHead++, selector_selector_mesh);
             gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 
@@ -2439,10 +2455,52 @@ s32 render_course_complete_screen(void) {
     return MENU_OPT_NONE;
 }
 
+//--E
+u8 gE_KeyMessageTimer = 0;
+u8 gE_KeyMessageIndex = 0;
+static u8 sE_TextFade = 0;
+
+static u8 sTextKeyRedDoor[]    = { TEXT_E_KEY_RED_DOOR };
+static u8 sTextKeyBlueDoor[]   = { TEXT_E_KEY_BLUE_DOOR };
+static u8 sTextKeyYellowDoor[] = { TEXT_E_KEY_YELLOW_DOOR };
+
+static u8 *sE_KeyRequirementMessages[3] = {
+    sTextKeyRedDoor, sTextKeyBlueDoor, sTextKeyYellowDoor
+};
+
+
 s32 render_menus_and_dialogs(void) {
     s32 mode = MENU_OPT_NONE;
 
     create_dl_ortho_matrix();
+
+    //--E | Key message
+    if (gE_KeyMessageTimer) {
+        gE_KeyMessageTimer++;
+
+        if (gE_KeyMessageTimer <= 60) {
+            sE_TextFade = (u8)(approach_s32((s32)(sE_TextFade), 255, 26, 26)); }
+        else {
+            sE_TextFade = (u8)(approach_s32((s32)(sE_TextFade), 0, 26, 26));
+            if (sE_TextFade == 0) {
+                gE_KeyMessageTimer = 0; }
+        }
+
+        switch (gE_KeyMessageTimer) {
+        case 2:
+        case 17:
+        case 32:
+            play_sound(SOUND_MITM_LEVEL_E_KEY_NEEDED, gGlobalSoundSource);
+        }
+
+        u8 colorFade = (u8)((sins(gE_KeyMessageTimer * 4369) * 50.f) + 200.f);
+
+        gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
+        gDPSetEnvColor(gDisplayListHead++, colorFade, colorFade, colorFade, sE_TextFade);
+        print_hud_lut_string(HUD_LUT_GLOBAL, 34, 130, sE_KeyRequirementMessages[gE_KeyMessageIndex]);
+        gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
+    }
+
 
     if (gMenuMode != MENU_MODE_NONE) {
         switch (gMenuMode) {

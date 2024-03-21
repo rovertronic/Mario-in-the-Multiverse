@@ -24,3 +24,9 @@
 #include "levels/castle_inside/areas/3/geo.inc.c"
 
 #include "levels/castle_inside/geo.inc.c"
+
+#include "levels/castle_inside/layton/geo.inc.c"
+#include "levels/castle_inside/hub_platform/geo.inc.c"
+#include "levels/castle_inside/shopitem1/geo.inc.c"
+#include "levels/castle_inside/shopitem2/geo.inc.c"
+#include "levels/castle_inside/shopitem4/geo.inc.c"

@@ -1,3 +1,5 @@
+//Warning: rushed & bad
+
 #ifndef BULLET_SYSTEM_H
 #define BULLET_SYSTEM_H
 

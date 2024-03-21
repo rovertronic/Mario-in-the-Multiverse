@@ -90,6 +90,12 @@
 #define MODEL_CASTLE_CLOCK_MINUTE_HAND         0x37        // castle_geo_001530
 #define MODEL_CASTLE_CLOCK_HOUR_HAND           0x38        // castle_geo_001548
 #define MODEL_CASTLE_CLOCK_PENDULUM            0x39        // castle_geo_001518
+#define MODEL_LAYTON                           0x3A        // layton_geo
+#define MODEL_HUBPLATFORM                      0x3B
+#define MODEL_SHOPITEM_1                       0x3C
+#define MODEL_SHOPITEM_2                       0x3D
+//#define MODEL_SHOPITEM_3                       0x3E
+#define MODEL_SHOPITEM_4                       0x3E
 
 // hmc
 #define MODEL_HMC_METAL_PLATFORM               0x36        // hmc_geo_0005A0
@@ -612,6 +618,7 @@ enum GLOBAL_MODELS {
     MODEL_MACHINE,
     MODEL_RED_ARROW,
     MODEL_WEDSER,
+    MODEL_SHOPITEM_3, // accident
 
     // Custom Mario Models
     MODEL_E__MARIO,
@@ -680,6 +687,10 @@ enum {
     MODEL_ID_00, MODEL_ID_01, MODEL_ID_02, MODEL_ID_03, MODEL_ID_04, MODEL_ID_05,
     MODEL_ID_06, MODEL_ID_07, MODEL_ID_08, MODEL_ID_09, MODEL_ID_0A, MODEL_ID_0B,
     MODEL_ID_0C, MODEL_ID_0D, MODEL_ID_0E, MODEL_ID_0F, MODEL_ID_10, MODEL_ID_11,
+    MODEL_ID_12, MODEL_ID_13, MODEL_ID_14, MODEL_ID_15, MODEL_ID_16, MODEL_ID_17,
+    MODEL_ID_18, MODEL_ID_19, MODEL_ID_1A, MODEL_ID_1B, MODEL_ID_1C, MODEL_ID_1D,
+    MODEL_ID_1E, MODEL_ID_1F, MODEL_ID_20, MODEL_ID_21, MODEL_ID_22, MODEL_ID_23,
+    MODEL_ID_24, MODEL_ID_25
 };
 /* LEVEL E END */
 

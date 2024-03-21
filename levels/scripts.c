@@ -150,6 +150,7 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_EGADD,                   egadd_geo),
     LOAD_MODEL_FROM_GEO(MODEL_MACHINE,                 machine_geo),
     LOAD_MODEL_FROM_GEO(MODEL_RED_ARROW,               redarrow_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SHOPITEM_3,              shopitem3_geo),
     FREE_LEVEL_POOL(),
     POP_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),

@@ -10,6 +10,8 @@ struct hint {
 
 typedef struct hint hint;
 
+extern hint * hintlist[];
+
 #define ABILITY_FLAG_DEFAULT           (1 << 0)
 #define ABILITY_FLAG_CUTTER            (1 << 1)
 #define ABILITY_FLAG_BUBBLE_HAT        (1 << 2)

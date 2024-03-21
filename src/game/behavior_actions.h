@@ -636,23 +636,28 @@ extern struct WaterDropletParams gShallowWaterWaveDropletParams;
 //--E
 
 void bhv_e__enemy(void);
+void bhv_e__door(void);
+void bhv_e__key(void);
+void bhv_e__key_collect(void);
+void bhv_e__elevator(void);
+void bhv_e__candelabra(void);
+void bhv_e__switch(void);
+void bhv_e__teleport(void);
+void bhv_e__teleport_effect(void);
+void bhv_e__medkit(void);
+void bhv_e__tutorial(void);
+void bhv_e__target(void);
 
-
-\
-\
 void bhv_e__rocket_blast(void);
 
 void e__sg_mtxf_align_with_surface(Mat4 dest, Vec3f upDir, Vec3f pos, Vec3f scale, s16 yaw);//used in e__shotgun_effects
 void bhv_e__flattened_obj(void);
 void bhv_e__push_obj(void);
-void bhv_e__d(void);
 
 
 
 
 Gfx *e__geo_caco_eye_color(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
-\
-\
 
 Gfx *geo_e__mario_torso_rotation(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
 Gfx *geo_e__mario_head_rotation(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);

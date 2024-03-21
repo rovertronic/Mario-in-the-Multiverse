@@ -747,3 +747,16 @@ void bhv_red_arrow(void) {
 
     vec3f_copy(&o->oPosVec,gMarioState->pos);
 }
+
+void bhv_hub_platform_loop(void) {
+    if (o->oTimer==0) {
+        o->oFaceAngleYaw = random_u16();
+    }
+    if (gMarioObject->platform == o) {
+        o->oFaceAngleYaw += 80;
+        o->oPosY = approach_f32_asymptotic(o->oPosY,o->oHomeY-50.0f,0.2f);
+    } else {
+        o->oPosY = approach_f32_asymptotic(o->oPosY,o->oHomeY,0.2f);
+        o->oFaceAngleYaw += 40;
+    }
+}

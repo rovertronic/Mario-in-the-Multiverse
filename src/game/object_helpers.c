@@ -148,6 +148,36 @@ Gfx *geo_update_layer_redness(s32 callContext, struct GraphNode *node, UNUSED vo
     return dlStart;
 }
 
+Gfx *geo_update_mverse_pipe(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    Gfx *dlStart = NULL;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        struct Object *objectGraphNode = (struct Object *) gCurGraphNodeObject; // TODO: change this to object pointer?
+        struct GraphNodeGenerated *currentGraphNode = (struct GraphNodeGenerated *) node;
+        s32 parameter = currentGraphNode->parameter;
+
+        if (gCurGraphNodeHeldObject != NULL) {
+            objectGraphNode = gCurGraphNodeHeldObject->objNode;
+        }
+
+        f32 grade = (objectGraphNode->oOpacity/255.0f);
+        s32 timer = objectGraphNode->oUnk94;
+        dlStart = alloc_display_list(sizeof(Gfx) * 3);
+
+        Gfx *dlHead = dlStart;
+
+        SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_OPAQUE);
+
+        s32 r = 120 + sins(timer*0x300 + 0x0000)*55.0f*grade;
+        s32 g = 120 + sins(timer*0x300 + 0x5555)*55.0f*grade;
+        s32 b = 120 + sins(timer*0x300 + 0xAAAA)*55.0f*grade;
+        gDPSetEnvColor(dlHead++, r, g, b, grade*255.0f-255.0f);
+        gSPEndDisplayList(dlHead);
+    }
+
+    return dlStart;
+}
+
 Gfx *geo_switch_anim_state(s32 callContext, struct GraphNode *node, UNUSED void *context) {
     if (callContext == GEO_CONTEXT_RENDER) {
         struct Object *obj = gCurGraphNodeObjectNode;

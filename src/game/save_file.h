@@ -25,18 +25,15 @@ struct SaveBlockSignature {
 };
 
 struct SaveFile {
-    u16 coins; //amount of coins
     u32 abilities;
+    u32 flags;
+    u16 levels_unlocked;
+    u16 coins;
     u8 ability_dpad[4];
     u8 level_f_flags;
-    u32 flags;
-
-    // Star flags for each course.
-    // The most significant bit of the byte *following* each course is set if the
-    // cannon is open.
     u8 courseStars[COURSE_COUNT]; // 200 bits
-
     u8 courseCoinScores[COURSE_STAGES_COUNT]; // 120 bits
+    u8 hints_unlocked[15];
 
     struct SaveBlockSignature signature; // 32 bits
 };
@@ -102,13 +99,15 @@ enum CourseFlags {
 };
 
 #define SAVE_FLAG_HAVE_WING_CAP 0
+#define SAVE_FLAG_HAVE_METAL_CAP 0
+#define SAVE_FLAG_HAVE_VANISH_CAP 0
 
 // game progress flags
 enum SaveProgressFlags {
     SAVE_FLAG_FILE_EXISTS            = (1 <<  0), /* 0x00000001 */
     SAVE_FLAG_SCREENSHOT             = (1 <<  1), /* 0x00000002 */
-    SAVE_FLAG_HAVE_METAL_CAP         = (1 <<  2), /* 0x00000004 */
-    SAVE_FLAG_HAVE_VANISH_CAP        = (1 <<  3), /* 0x00000008 */
+    SAVE_FLAG_ARTREUS_ARTIFACT       = (1 <<  2), /* 0x00000004 */
+    SAVE_FLAG_SHOTGUN_TUTORIAL       = (1 <<  3), /* 0x00000008 */
     SAVE_FLAG_HAVE_KEY_1             = (1 <<  4), /* 0x00000010 */
     SAVE_FLAG_HAVE_KEY_2             = (1 <<  5), /* 0x00000020 */
     SAVE_FLAG_UNLOCKED_BASEMENT_DOOR = (1 <<  6), /* 0x00000040 */

@@ -1,5 +1,4 @@
-//This is a way of dealing with an issue I mentioned in #mverse-general \
-  (search 'TRANSLATION_IS_WEIRD' to find the messages)
+//Note: maybe something to do with world scale
 #ifndef GE_TRANSLATION_H
 #define GE_TRANSLATION_H
 

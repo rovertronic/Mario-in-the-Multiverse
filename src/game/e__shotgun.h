@@ -1,3 +1,5 @@
+//Warning: rushed & bad
+
 #ifndef E_SHOTGUN_H
 #define E_SHOTGUN_H
 

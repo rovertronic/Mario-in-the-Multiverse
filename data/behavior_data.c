@@ -55,6 +55,7 @@
 #include "levels/wf/header.h"
 #include "levels/bowser_2/header.h"
 #include "levels/ttm/header.h"
+#include "levels/e/header.h"
 #include "levels/f/header.h"
 #include "levels/J/header.h"
 #include "levels/o/header.h"
@@ -6186,8 +6187,41 @@ const BehaviorScript bhvLevelPipe[] = {
     LOAD_COLLISION_DATA(level_pipe_collision),
     OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     SET_FLOAT(oDrawingDistance, 20000),
+    CALL_NATIVE(level_pipe_init),
     BEGIN_LOOP(),
         CALL_NATIVE(level_pipe_loop),
+    END_LOOP(),
+};
+
+extern void bhv_hub_platform_loop(void);
+const BehaviorScript bhvHubPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(hub_platform_collision),
+    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 20000),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_hub_platform_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void bhv_shopitem_loop(void);
+const BehaviorScript bhvShopItem[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_FLOAT(oDrawingDistance, 20000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_shopitem_loop),
+    END_LOOP(),
+};
+
+extern void bhv_shop_controller(void);
+const BehaviorScript bhvShopController[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_shop_controller),
     END_LOOP(),
 };
 
@@ -6286,12 +6320,136 @@ const BehaviorScript bhvIntroBreakdoor[] = {
     BEGIN_LOOP(),
     END_LOOP(),
 };
+/* GROUP D END */
+
+/* GROUP E START */
+
+//--Level
+const BehaviorScript bhvE_PistolGuy[] = {
+    BEGIN(OBJ_LIST_PUSHABLE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_ENEMY)),
+    SET_INT(oBehParams2ndByte, 0),
+    GOTO(bhvE_Enemy + 1),
+};
+
+const BehaviorScript bhvE_ChaingunGuy[] = {
+    BEGIN(OBJ_LIST_PUSHABLE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_ENEMY)),
+    SET_INT(oBehParams2ndByte, 1),
+    GOTO(bhvE_Enemy + 1),
+};
+
+const BehaviorScript bhvE_Caco[] = {
+    BEGIN(OBJ_LIST_PUSHABLE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_ENEMY)),
+    SET_INT(oBehParams2ndByte, 3),
+    GOTO(bhvE_Enemy + 1),
+};
+
 const BehaviorScript bhvIntroCloth[] = {
     BEGIN(OBJ_LIST_DEFAULT),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     BEGIN_LOOP(),
     END_LOOP(),
 };
+
+const BehaviorScript bhvE_Door[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_COLLISION_CUSTOM)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_e__door),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvE_Key[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_CUSTOM)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_e__key),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvE_KeyCollect[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_e__key_collect),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvE_Elevator[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_e__elevator),
+    END_LOOP(),
+};
+const BehaviorScript bhvE_ElevatorBase[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    LOAD_COLLISION_DATA(e_elevator_base_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    CALL_NATIVE(load_object_static_model),
+    BREAK(),
+};
+
+const BehaviorScript bhvE_Candelabra[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_CUSTOM)),
+    CALL_NATIVE(bhv_e__candelabra),
+    BREAK(),
+};
+
+const BehaviorScript bhvE_Switch[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_COLLISION_CUSTOM)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_e__switch),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvE_Teleport[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_e__teleport),
+    END_LOOP(),
+};
+const BehaviorScript bhvE_TeleportEffect[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BILLBOARD(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_e__teleport_effect),
+    END_LOOP(),
+};
+const BehaviorScript bhvE_Medkit[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_CUSTOM)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_e__medkit),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvE_Tutorial[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_e__tutorial),
+    END_LOOP(),
+};
+const BehaviorScript bhvE_Target[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_COLLISION_DATA(e_tb_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_e__target),
+    END_LOOP(),
+};
+
+//--Ability
+/* GROUP E END */
+
 const BehaviorScript bhvIntroPeach[] = {
     BEGIN(OBJ_LIST_DEFAULT),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
@@ -6335,6 +6493,25 @@ const BehaviorScript bhvIntroBowser[] = {
     ANIMATE(1),
     DROP_TO_FLOOR(),
     BEGIN_LOOP(),
+    END_LOOP(),
+};
+
+/* GROUP F START */
+
+extern void bhv_layton_hint_loop(void);
+const BehaviorScript bhvLayton[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, layton_anims),
+    DROP_TO_FLOOR(),
+    SCALE(0, 45),
+    ANIMATE(0),
+    SET_INTERACT_TYPE(INTERACT_TEXT),
+    SET_INT(oInteractionSubtype, INT_SUBTYPE_NPC),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 250),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_layton_hint_loop),
     END_LOOP(),
 };
 
@@ -6745,12 +6922,6 @@ const BehaviorScript bhvDbridge[] = {
 /* GROUP E START */
 
 //--Level
-const BehaviorScript bhvE_Caco[] = {
-    BEGIN(OBJ_LIST_PUSHABLE),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_E__SG_ENEMY)),
-    SET_INT(oBehParams2ndByte, 0),
-    GOTO(bhvE_Enemy + 1),
-};
 
 const BehaviorScript bhvE_Enemy[] = {//base enemy behavior
     BEGIN(OBJ_LIST_PUSHABLE),
@@ -6789,20 +6960,6 @@ const BehaviorScript bhvE_PushObj[] = {
         CALL_NATIVE(bhv_e__push_obj),
     END_LOOP(),
 };
-
-const BehaviorScript bhvD[] = {
-    BEGIN(OBJ_LIST_GENACTOR),
-    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-
-    BILLBOARD(),//
-    SET_HOME(),//
-
-    BEGIN_LOOP(),
-        CALL_NATIVE(bhv_e__d),
-    END_LOOP(),
-};
-
-
 
 /* GROUP E END */
 

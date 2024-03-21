@@ -2,6 +2,7 @@
 #define MITM_HUB_H
 
 void level_pipe_loop(void);
+void level_pipe_init(void);
 void hub_reset_variables(void);
 u8 get_hub_level(u8 id);
 u8 get_hub_area(u8 id);

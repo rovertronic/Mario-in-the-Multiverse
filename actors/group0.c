@@ -140,3 +140,4 @@
 #include "redarrow/model.inc.c"
 #include "mirror_hand/model.inc.c"
 #include "milk_hand/model.inc.c"
+#include "shopitem3/model.inc.c"

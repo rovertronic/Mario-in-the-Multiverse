@@ -1,0 +1,13 @@
+extern const GeoLayout e_tb_geo[];
+extern u8 e_tb_target_i8[];
+extern u8 e_tb_BasicGlass_ia16[];
+extern Vtx e_tb_model_mesh_layer_1_vtx_0[64];
+extern Gfx e_tb_model_mesh_layer_1_tri_0[];
+extern Vtx e_tb_model_mesh_layer_6_vtx_0[64];
+extern Gfx e_tb_model_mesh_layer_6_tri_0[];
+extern Gfx mat_e_tb_target_f3d[];
+extern Gfx mat_e_tb_ref_f3d[];
+extern Gfx mat_revert_e_tb_ref_f3d[];
+extern Gfx e_tb_model_mesh_layer_1[];
+extern Gfx e_tb_model_mesh_layer_6[];
+extern Gfx e_tb_material_revert_render_settings[];

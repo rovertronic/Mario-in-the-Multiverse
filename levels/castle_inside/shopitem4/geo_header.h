@@ -1,0 +1,15 @@
+extern const GeoLayout shopitem4_geo[];
+extern u8 shopitem4_zold_ci8[];
+extern u8 shopitem4_zold_pal_rgba16[];
+extern u8 shopitem4_silver_ci8[];
+extern u8 shopitem4_silver_pal_rgba16[];
+extern Vtx shopitem4_Cylinder_002_mesh_layer_1_vtx_0[320];
+extern Gfx shopitem4_Cylinder_002_mesh_layer_1_tri_0[];
+extern Vtx shopitem4_Cylinder_002_mesh_layer_1_vtx_1[125];
+extern Gfx shopitem4_Cylinder_002_mesh_layer_1_tri_1[];
+extern Gfx mat_shopitem4_Gold[];
+extern Gfx mat_revert_shopitem4_Gold[];
+extern Gfx mat_shopitem4_Silver[];
+extern Gfx mat_revert_shopitem4_Silver[];
+extern Gfx shopitem4_Cylinder_002_mesh_layer_1[];
+extern Gfx shopitem4_material_revert_render_settings[];

@@ -2120,6 +2120,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         if ((!milk_drunk)&&(using_ability(ABILITY_UTIL_MILK))&&(gPlayer1Controller->buttonPressed & L_TRIG)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
             milk_drunk = TRUE;
             gMarioState->healCounter += 20;
+            play_sound(SOUND_GENERAL_HEART_SPIN, gGlobalSoundSource);
         }
 
         // Magic Mirror Code

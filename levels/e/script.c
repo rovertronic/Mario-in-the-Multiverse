@@ -332,7 +332,7 @@ const LevelScript level_e_entry[] = {
 		OBJECT(MODEL_NONE, -20147, 5564, -13239, 0, 0, 0, (4 << 24), bhvStar),
 		OBJECT(MODEL_NONE, -8092, 4849, -4954, 0, 0, 0, (5 << 24), bhvHiddenRedCoinStar),
 		OBJECT(MODEL_NONE, -5003, 8964, -926, 0, 0, 0, (6 << 24), bhvStar),
-		OBJECT(MODEL_NONE, 53, 9964, 1474, 0, 0, 0, (7 << 24), bhvStar),
+		//OBJECT(MODEL_NONE, 53, 9964, 1474, 0, 0, 0, (7 << 24), bhvStar),
 		OBJECT(MODEL_STAR_PIECE, 4000, 6400, -14900, 0, 0, 0, 0x00000000, bhvStarPiece),
 		OBJECT(MODEL_STAR_PIECE, 1600, 6000, -12500, 0, 0, 0, 0x00000000, bhvStarPiece),
 		OBJECT(MODEL_STAR_PIECE, 4100, 4451, -13200, 0, 0, 0, 0x00000000, bhvStarPiece),

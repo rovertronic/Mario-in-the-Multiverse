@@ -850,6 +850,27 @@ static void e__x_offset(s32 *x, s32 printedVal) {
     }
 }
 
+void render_ability_get_hud(void) {
+    if ((gMarioState->action == ACT_ABILITY_DANCE)&&(gMarioState->actionState == ACT_STATE_STAR_DANCE_DO_SAVE)) {
+        ability_get_alpha = approach_f32_asymptotic(ability_get_alpha,255.0f,0.2f);
+    } else {
+        ability_get_alpha = approach_f32_asymptotic(ability_get_alpha,0.0f,0.2f);
+    }
+
+    if (ability_get_alpha > 0.1f) {
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)ability_get_alpha);
+        create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
+        gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+        gSPDisplayList(gDisplayListHead++, desconly_onlybox_mesh);
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)ability_get_alpha);
+        print_generic_string(43, 58, ability_string(gMarioState->usedObj->oBehParams2ndByte));
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+    }
+}
+
 
 void render_hud(void) {
     //--E
@@ -965,6 +986,10 @@ void render_hud(void) {
         tex->words.w1 = lower;
 
         gSPDisplayList(gDisplayListHead++, e_hud_m_modelH_mesh);
+
+        create_dl_translation_matrix(MENU_MTX_PUSH, 0.f, 20.f, 0);
+        render_ability_get_hud();
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 
         return;
     }
@@ -1120,24 +1145,7 @@ void render_hud(void) {
             render_marx_health();
         }
 
-        if ((gMarioState->action == ACT_ABILITY_DANCE)&&(gMarioState->actionState == ACT_STATE_STAR_DANCE_DO_SAVE)) {
-            ability_get_alpha = approach_f32_asymptotic(ability_get_alpha,255.0f,0.2f);
-        } else {
-            ability_get_alpha = approach_f32_asymptotic(ability_get_alpha,0.0f,0.2f);
-        }
-
-        if (ability_get_alpha > 0.1f) {
-            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)ability_get_alpha);
-            create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
-            gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
-            gSPDisplayList(gDisplayListHead++, desconly_onlybox_mesh);
-            gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
-
-            gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
-            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)ability_get_alpha);
-            print_generic_string(43, 58, ability_string(gMarioState->usedObj->oBehParams2ndByte));
-            gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
-        }
+        render_ability_get_hud();
 
         if (shop_show_ui) {
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);

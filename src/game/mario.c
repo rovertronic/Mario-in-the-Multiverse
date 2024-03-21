@@ -1861,6 +1861,8 @@ s32 check_dashboost_inputs(struct MarioState *m) {
     return FALSE;
 }
 
+u8 magic_mirror_timer = 20;
+
 /**
  * Main function for executing Mario's behavior. Returns particleFlags.
  */
@@ -2129,19 +2131,37 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                     vec3f_diff(displacement,&dw->oPosVec,gMarioState->pos);
 
                     vec3f_add(gMarioState->pos,displacement);
-                    vec3f_copy(&gMarioObject->oPosVec,displacement);
-                    vec3f_copy(&gMarioObject->header.gfx.pos,displacement);
 
-                    vec3f_add(gLakituState.curPos, displacement);
-                    vec3f_add(gLakituState.curFocus, displacement);
-                    vec3f_add(gLakituState.goalPos, displacement);
-                    vec3f_add(gLakituState.goalFocus, displacement);
+                    magic_mirror_timer = 0;
+                    
+                    gLakituState.curPos[1] += displacement[1];
+                    gLakituState.curFocus[1] += displacement[1];
+                    gLakituState.goalPos[1] += displacement[1];
+                    gLakituState.goalFocus[1] += displacement[1];
+                    
+                    gLakituState.focHSpeed = 1.f;
+                    gLakituState.focVSpeed = 1.f;
+                    gLakituState.posHSpeed = 1.f;
+                    gLakituState.posVSpeed = 1.f;
 
                     play_sound(SOUND_ABILITY_MAGIC_MIRROR, gGlobalSoundSource);
                 }
             } else {
                 play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
             }
+        }
+        if (magic_mirror_timer == 2) {
+            gLakituState.focHSpeed = 0.8f;
+            gLakituState.focVSpeed = 0.3f;
+            gLakituState.posHSpeed = 0.3f;
+            gLakituState.posVSpeed = 0.3f;
+        }
+        if (magic_mirror_timer < 20) {
+            struct Object *sparkleObj = spawn_object(o, MODEL_SPARKLES, bhvCoinSparkles);
+            sparkleObj->oPosX += random_float() * 100.0f - 50.0f;
+            sparkleObj->oPosY += random_float() * 100.0f;
+            sparkleObj->oPosZ += random_float() * 100.0f - 50.0f;
+            magic_mirror_timer ++;
         }
 
         // Compass Code

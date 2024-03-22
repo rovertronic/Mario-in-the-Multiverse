@@ -2031,14 +2031,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
 
-        //Knight Suit
-        if (using_ability(ABILITY_KNIGHT) && (gMarioState->action != ACT_KNIGHT_SLIDE) &&
-        (gMarioState->action != ACT_KNIGHT_JUMP)) {
-            if (gMarioState->forwardVel > 10.0f) {
-                gMarioState->forwardVel = 10.0f;
-            }
-        }
-
         //Dash Booster Meter
         if (using_ability(ABILITY_DASH_BOOSTER)) {
             gHudDisplay.abilityMeterStyle = METER_STYLE_DASH_BOOSTER;
@@ -2062,7 +2054,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         if (gCurrLevelNum == LEVEL_L) {
             gMarioState->pos[2] = 0.0f;
             // Only angle-lock the knight suit ability
-            if (using_ability(ABILITY_KNIGHT)) {
+            if ((gMarioState->action == ACT_KNIGHT_SLIDE)||(gMarioState->action == ACT_KNIGHT_JUMP)) {
                 if (gMarioState->faceAngle[1] > 0) {
                     gMarioState->faceAngle[1] = 0x4000;
                 } else {

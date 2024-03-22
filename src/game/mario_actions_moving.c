@@ -530,6 +530,10 @@ void update_walking_speed(struct MarioState *m) {
         maxTargetSpeed = 32.0f;
     }
 
+    if (using_ability(ABILITY_KNIGHT) && (m->action != ACT_KNIGHT_SLIDE) && (m->action != ACT_KNIGHT_JUMP)) {
+        maxTargetSpeed = 24.0f;
+    }
+
     targetSpeed = m->intendedMag < maxTargetSpeed ? m->intendedMag : maxTargetSpeed;
 
     if (phasewalk_state > 0) {

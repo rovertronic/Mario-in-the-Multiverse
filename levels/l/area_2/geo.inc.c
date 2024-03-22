@@ -6,6 +6,8 @@ const GeoLayout l_area_2_geo[] = {
 		GEO_ASM(0, geo_update_l_sky),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, l_dl_MITM02_002_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, l_dl_MITM02_002_mesh_layer_4),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 7738, 5740, 5),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

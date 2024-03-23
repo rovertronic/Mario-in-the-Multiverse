@@ -853,6 +853,10 @@ s16 level_trigger_warp(struct MarioState *m, s32 warpOp) {
                 break;
         }
 
+        if (pizza_time) {
+            fadeMusic = FALSE;
+        }
+
         if (fadeMusic && gCurrDemoInput == NULL) {
             fadeout_music((3 * sDelayedWarpTimer / 2) * 8 - 2);
         }

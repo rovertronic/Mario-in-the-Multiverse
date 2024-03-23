@@ -14,3 +14,5 @@
 #include "levels/l/leveldata.inc.c"
 
 #include "levels/l/ptbg/model.inc.c"
+#include "levels/l/johnp/model.inc.c"
+#include "levels/l/lportal/model.inc.c"

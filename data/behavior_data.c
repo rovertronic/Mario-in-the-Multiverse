@@ -8030,6 +8030,16 @@ const BehaviorScript bhvLDoor[] = {
         CALL_NATIVE(bhv_l_door_loop),
     END_LOOP(),
 };
+
+extern void bhv_l_pillar(void);
+const BehaviorScript bhvL_JohnPillar[] = {
+    BEGIN(OBJ_LIST_PUSHABLE),
+    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_CUSTOM),
+    SET_HITBOX(/*Radius*/ 212, /*Height*/ 1000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_l_pillar),
+    END_LOOP(),
+};
 /* GROUP L END */
 
 /* GROUP M START */

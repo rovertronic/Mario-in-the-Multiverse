@@ -1335,7 +1335,7 @@ void update_mario_joystick_inputs(struct MarioState *m) {
     f32 mag = ((controller->stickMag / 64.0f) * (controller->stickMag / 64.0f)) * 64.0f;
 
     f32 fake_stick_y = controller->stickY;
-    if (gCurrLevelNum == LEVEL_L) {
+    if (is_2d_area()) {
         fake_stick_y = 0.0f;
     }
 
@@ -1352,7 +1352,7 @@ void update_mario_joystick_inputs(struct MarioState *m) {
         m->intendedYaw = m->faceAngle[1];
     }
 
-    if (gCurrLevelNum == LEVEL_L) {
+    if (is_2d_area()) {
         if (gPlayer1Controller->rawStickX > 0.0f) {
             m->intendedYaw = -0x4000;
         } else if (gPlayer1Controller->rawStickX < 0.0f) {
@@ -1877,7 +1877,14 @@ s32 check_dashboost_inputs(struct MarioState *m) {
     return FALSE;
 }
 
+u8 pizza_time = FALSE;
+u16 pizza_timer = 0;
+
 u8 magic_mirror_timer = 20;
+
+s32 is_2d_area(void) {
+    return (gCurrLevelNum == LEVEL_L);
+}
 
 /**
  * Main function for executing Mario's behavior. Returns particleFlags.
@@ -1892,6 +1899,16 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     // Updates once per frame:
     vec3f_get_dist_and_lateral_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->lateralSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);
     vec3f_copy(gMarioState->prevPos, gMarioState->pos);
+
+    if (pizza_time) {
+        level_control_timer(TIMER_CONTROL_SHOW);
+        gHudDisplay.timer = pizza_timer;
+        if (pizza_timer > 0) {
+            pizza_timer --;
+        }
+    } else {
+        level_control_timer(TIMER_CONTROL_HIDE);
+    }
 
     if (toZeroMeter) {  // Reset ability meter if it's not set past this point
         gHudDisplay.abilityMeter = 0;
@@ -2051,7 +2068,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         }
 
         // Pizza Tower 2D
-        if (gCurrLevelNum == LEVEL_L) {
+        if (is_2d_area()) {
             gMarioState->pos[2] = 0.0f;
             // Only angle-lock the knight suit ability
             if ((gMarioState->action == ACT_KNIGHT_SLIDE)||(gMarioState->action == ACT_KNIGHT_JUMP)) {

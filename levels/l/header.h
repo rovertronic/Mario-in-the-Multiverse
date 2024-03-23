@@ -11,4 +11,8 @@ extern const LevelScript level_l_entry[];
 
 #include "levels/l/ptbg/header.h"
 
+#include "levels/l/johnp/geo_header.h"
+
+#include "levels/l/lportal/geo_header.h"
+
 #endif

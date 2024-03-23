@@ -602,10 +602,12 @@ void bhv_o_speaker(void) {
             o->oAction++;
             o->oInteractType = INTERACT_BOUNCE_TOP;
             o->oVelY = 0.0f;
+            cur_obj_become_intangible();
         break;
         case 1://wait to play
             if (easystreet_mission_state == 2) {
                 o->oAction++;
+                cur_obj_become_tangible();
             }
         break;
         case 2://playing

@@ -15,3 +15,6 @@
 
 
 #include "levels/l/geo.inc.c"
+
+#include "levels/l/johnp/geo.inc.c"
+#include "levels/l/lportal/geo.inc.c"

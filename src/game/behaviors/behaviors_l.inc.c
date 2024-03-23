@@ -16,3 +16,44 @@ void bhv_pt_mb(void) {
         load_object_collision_model(); //normal
     }
 }
+
+void bhv_l_pillar(void) {
+    switch(o->oAction) {
+        case 0:
+            if (pizza_time) {
+                mark_obj_for_deletion(o);
+            } else {
+                o->oAction++;
+                o->oInteractType = INTERACT_BOUNCE_TOP;
+                o->oVelY = 0.0f;
+            }
+        break;
+        case 1:
+            if (o->oDistanceToMario < 2000.0f) {
+                play_secondary_music(SEQ_SOUND_PLAYER, 0, 255, 500);
+            } else {
+                func_80321080(50);
+            }
+            if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
+                o->oAction++;
+                o->oVelY = 30.0f;
+        
+                pizza_time = TRUE;
+                pizza_timer = 6900;
+                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_F_BOND), 0);
+                func_80321080(1);
+
+                cur_obj_become_intangible();
+                o->oInteractType = INTERACT_NONE;
+            }
+        break;
+        case 2:
+            o->oPosY += o->oVelY;
+            o->oVelY -= 1.0f;
+            o->oPosZ -= 10.0f;
+        break;
+    }
+
+    o->oInteractStatus = 0;
+    o->oIntangibleTimer = 0;
+}

@@ -1033,19 +1033,19 @@ u8 airlock_water_water_galaxy_i4_i4[] = {
 	
 };
 
-Vtx airlock_water_airlock_water_mesh_layer_5_vtx_0[8] = {
-	{{ {-989, 748, -534}, 0, {3056, 2032}, {0, 127, 0, 185} }},
-	{{ {-989, 748, 534}, 0, {3056, -16}, {0, 127, 0, 185} }},
-	{{ {989, 748, 534}, 0, {-1040, -16}, {0, 127, 0, 185} }},
-	{{ {989, 748, -534}, 0, {-1040, 2032}, {0, 127, 0, 185} }},
-	{{ {-989, 748, -534}, 0, {-1040, 2032}, {0, 0, 129, 185} }},
-	{{ {989, 748, -534}, 0, {3056, 2032}, {0, 0, 129, 185} }},
+Vtx airlock_water_airlock_water_mesh_layer_6_vtx_0[8] = {
+	{{ {-989, 846, -534}, 0, {3056, 2032}, {0, 127, 0, 185} }},
+	{{ {-989, 846, 534}, 0, {3056, -16}, {0, 127, 0, 185} }},
+	{{ {989, 846, 534}, 0, {-1040, -16}, {0, 127, 0, 185} }},
+	{{ {989, 846, -534}, 0, {-1040, 2032}, {0, 127, 0, 185} }},
+	{{ {-989, 846, -534}, 0, {-1040, 2032}, {0, 0, 129, 185} }},
+	{{ {989, 846, -534}, 0, {3056, 2032}, {0, 0, 129, 185} }},
 	{{ {989, 0, -534}, 0, {3056, -16}, {0, 0, 129, 185} }},
 	{{ {-989, 0, -534}, 0, {-1040, -16}, {0, 0, 129, 185} }},
 };
 
-Gfx airlock_water_airlock_water_mesh_layer_5_tri_0[] = {
-	gsSPVertex(airlock_water_airlock_water_mesh_layer_5_vtx_0 + 0, 8, 0),
+Gfx airlock_water_airlock_water_mesh_layer_6_tri_0[] = {
+	gsSPVertex(airlock_water_airlock_water_mesh_layer_6_vtx_0 + 0, 8, 0),
 	gsSP1Triangle(0, 1, 2, 0),
 	gsSP1Triangle(0, 2, 3, 0),
 	gsSP1Triangle(4, 5, 6, 0),
@@ -1054,10 +1054,10 @@ Gfx airlock_water_airlock_water_mesh_layer_5_tri_0[] = {
 };
 
 Vtx airlock_water_airlock_water_mesh_layer_7_vtx_0[4] = {
-	{{ {-989, 748, -534}, 0, {6128, 2032}, {255, 255, 255, 240} }},
-	{{ {-989, 748, 534}, 0, {6128, -16}, {255, 255, 255, 240} }},
-	{{ {989, 748, 534}, 0, {-2064, -16}, {255, 255, 255, 240} }},
-	{{ {989, 748, -534}, 0, {-2064, 2032}, {255, 255, 255, 240} }},
+	{{ {-989, 846, -534}, 0, {6128, 2032}, {255, 255, 255, 240} }},
+	{{ {-989, 846, 534}, 0, {6128, -16}, {255, 255, 255, 240} }},
+	{{ {989, 846, 534}, 0, {-2064, -16}, {255, 255, 255, 240} }},
+	{{ {989, 846, -534}, 0, {-2064, 2032}, {255, 255, 255, 240} }},
 };
 
 Gfx airlock_water_airlock_water_mesh_layer_7_tri_0[] = {
@@ -1111,9 +1111,9 @@ Gfx mat_revert_airlock_water_water_2_layer7[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx airlock_water_airlock_water_mesh_layer_5[] = {
+Gfx airlock_water_airlock_water_mesh_layer_6[] = {
 	gsSPDisplayList(mat_airlock_water_water_tunnel),
-	gsSPDisplayList(airlock_water_airlock_water_mesh_layer_5_tri_0),
+	gsSPDisplayList(airlock_water_airlock_water_mesh_layer_6_tri_0),
 	gsSPEndDisplayList(),
 };
 

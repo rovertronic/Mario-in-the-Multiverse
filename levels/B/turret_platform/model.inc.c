@@ -313,7 +313,7 @@ u8 turret_platform_riveted_metal_2_pal_rgba16[] = {
 	0x9c, 0xe9, 0x84, 0x1f, 
 };
 
-Vtx turret_platform_Cube_014_mesh_layer_1_vtx_0[32] = {
+Vtx turret_platform_turret_platform_mesh_layer_1_vtx_0[32] = {
 	{{ {73, 0, -176}, 0, {-528, 1008}, {0, 127, 0, 255} }},
 	{{ {-73, 0, -176}, 0, {1520, 1008}, {0, 127, 0, 255} }},
 	{{ {-57, 0, -136}, 0, {1520, -16}, {0, 127, 0, 255} }},
@@ -348,8 +348,8 @@ Vtx turret_platform_Cube_014_mesh_layer_1_vtx_0[32] = {
 	{{ {136, 0, 57}, 0, {-528, -16}, {0, 127, 0, 255} }},
 };
 
-Gfx turret_platform_Cube_014_mesh_layer_1_tri_0[] = {
-	gsSPVertex(turret_platform_Cube_014_mesh_layer_1_vtx_0 + 0, 16, 0),
+Gfx turret_platform_turret_platform_mesh_layer_1_tri_0[] = {
+	gsSPVertex(turret_platform_turret_platform_mesh_layer_1_vtx_0 + 0, 16, 0),
 	gsSP1Triangle(0, 1, 2, 0),
 	gsSP1Triangle(0, 2, 3, 0),
 	gsSP1Triangle(4, 5, 6, 0),
@@ -358,7 +358,7 @@ Gfx turret_platform_Cube_014_mesh_layer_1_tri_0[] = {
 	gsSP1Triangle(8, 10, 11, 0),
 	gsSP1Triangle(12, 13, 14, 0),
 	gsSP1Triangle(12, 14, 15, 0),
-	gsSPVertex(turret_platform_Cube_014_mesh_layer_1_vtx_0 + 16, 16, 0),
+	gsSPVertex(turret_platform_turret_platform_mesh_layer_1_vtx_0 + 16, 16, 0),
 	gsSP1Triangle(0, 1, 2, 0),
 	gsSP1Triangle(0, 2, 3, 0),
 	gsSP1Triangle(4, 5, 6, 0),
@@ -370,7 +370,7 @@ Gfx turret_platform_Cube_014_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx turret_platform_Cube_014_mesh_layer_1_vtx_1[8] = {
+Vtx turret_platform_turret_platform_mesh_layer_1_vtx_1[8] = {
 	{{ {136, 0, -57}, 0, {-2698, 2109}, {0, 127, 0, 255} }},
 	{{ {57, 0, -136}, 0, {-945, 3862}, {0, 127, 0, 255} }},
 	{{ {-57, 0, -136}, 0, {1534, 3862}, {0, 127, 0, 255} }},
@@ -381,8 +381,8 @@ Vtx turret_platform_Cube_014_mesh_layer_1_vtx_1[8] = {
 	{{ {136, 0, 57}, 0, {-2698, -371}, {0, 127, 0, 255} }},
 };
 
-Gfx turret_platform_Cube_014_mesh_layer_1_tri_1[] = {
-	gsSPVertex(turret_platform_Cube_014_mesh_layer_1_vtx_1 + 0, 8, 0),
+Gfx turret_platform_turret_platform_mesh_layer_1_tri_1[] = {
+	gsSPVertex(turret_platform_turret_platform_mesh_layer_1_vtx_1 + 0, 8, 0),
 	gsSP1Triangle(0, 1, 2, 0),
 	gsSP1Triangle(0, 2, 3, 0),
 	gsSP1Triangle(2, 4, 3, 0),
@@ -398,8 +398,8 @@ Gfx mat_turret_platform_engine_edge[] = {
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsDPSetTextureLUT(G_TT_RGBA16),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-    gsSPLightColor(LIGHT_1, 0xffffffff),
-    gsSPLightColor(LIGHT_2, 0x7f7f7fff),
+    gsSPLightColor(LIGHT_1, 0xf8fff1ff),
+    gsSPLightColor(LIGHT_2, 0x7c7f78ff),
 	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, turret_platform_bioshock_edge_pal_rgba16),
 	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadTLUTCmd(5, 63),
@@ -422,8 +422,8 @@ Gfx mat_turret_platform_engine_floor[] = {
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsDPSetTextureLUT(G_TT_RGBA16),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-    gsSPLightColor(LIGHT_1, 0xe2d5c6ff),
-    gsSPLightColor(LIGHT_2, 0x706961ff),
+    gsSPLightColor(LIGHT_1, 0xe2d7b7ff),
+    gsSPLightColor(LIGHT_2, 0x706b5aff),
 	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, turret_platform_riveted_metal_2_pal_rgba16),
 	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadTLUTCmd(5, 85),
@@ -441,12 +441,12 @@ Gfx mat_revert_turret_platform_engine_floor[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx turret_platform_Cube_014_mesh_layer_1[] = {
+Gfx turret_platform_turret_platform_mesh_layer_1[] = {
 	gsSPDisplayList(mat_turret_platform_engine_edge),
-	gsSPDisplayList(turret_platform_Cube_014_mesh_layer_1_tri_0),
+	gsSPDisplayList(turret_platform_turret_platform_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_turret_platform_engine_edge),
 	gsSPDisplayList(mat_turret_platform_engine_floor),
-	gsSPDisplayList(turret_platform_Cube_014_mesh_layer_1_tri_1),
+	gsSPDisplayList(turret_platform_turret_platform_mesh_layer_1_tri_1),
 	gsSPDisplayList(mat_revert_turret_platform_engine_floor),
 	gsSPEndDisplayList(),
 };

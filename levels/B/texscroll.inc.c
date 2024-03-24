@@ -1,11 +1,11 @@
-void scroll_B_dl_airlock_water_collision_mesh_layer_5_vtx_0() {
+void scroll_B_dl_airlock_water_collision_mesh_layer_6_vtx_0() {
 	int i = 0;
 	int count = 4;
 	int height = 64 * 0x20;
 
 	static int currentY = 0;
 	int deltaY;
-	Vtx *vertices = segmented_to_virtual(B_dl_airlock_water_collision_mesh_layer_5_vtx_0);
+	Vtx *vertices = segmented_to_virtual(B_dl_airlock_water_collision_mesh_layer_6_vtx_0);
 
 	deltaY = (int)(-0.25 * 0x20) % height;
 
@@ -103,14 +103,14 @@ void scroll_B_dl_Cube_002_mesh_layer_7_vtx_0() {
 	currentX += deltaX;
 }
 
-void scroll_B_dl_Cube_009_mesh_layer_5_vtx_0() {
+void scroll_B_dl_Cube_009_mesh_layer_6_vtx_0() {
 	int i = 0;
-	int count = 123;
+	int count = 114;
 	int height = 64 * 0x20;
 
 	static int currentY = 0;
 	int deltaY;
-	Vtx *vertices = segmented_to_virtual(B_dl_Cube_009_mesh_layer_5_vtx_0);
+	Vtx *vertices = segmented_to_virtual(B_dl_Cube_009_mesh_layer_6_vtx_0);
 
 	deltaY = (int)(-0.25 * 0x20) % height;
 
@@ -135,11 +135,11 @@ void scroll_gfx_mat_B_dl_water_2_layer7() {
 };
 
 void scroll_B() {
-	scroll_B_dl_airlock_water_collision_mesh_layer_5_vtx_0();
+	scroll_B_dl_airlock_water_collision_mesh_layer_6_vtx_0();
 	scroll_B_dl_Cube_001_mesh_layer_7_vtx_1();
 	scroll_B_dl_Cube_001_mesh_layer_5_vtx_0();
 	scroll_B_dl_Cube_002_mesh_layer_5_vtx_0();
 	scroll_B_dl_Cube_002_mesh_layer_7_vtx_0();
-	scroll_B_dl_Cube_009_mesh_layer_5_vtx_0();
+	scroll_B_dl_Cube_009_mesh_layer_6_vtx_0();
 	scroll_gfx_mat_B_dl_water_2_layer7();
 };

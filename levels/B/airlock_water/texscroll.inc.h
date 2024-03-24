@@ -1,4 +1,4 @@
-extern void scroll_airlock_water_airlock_water_mesh_layer_5_vtx_0();
+extern void scroll_airlock_water_airlock_water_mesh_layer_6_vtx_0();
 extern void scroll_airlock_water_airlock_water_mesh_layer_7_vtx_0();
 extern void scroll_gfx_mat_airlock_water_water_2_layer7();
 extern void scroll_B_level_geo_airlock_water();

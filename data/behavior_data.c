@@ -6308,8 +6308,8 @@ const BehaviorScript bhvAirlockButton[] = {
 };
 
 const BehaviorScript bhvAirlockWater[] = {
-    BEGIN(OBJ_LIST_SURFACE),
-    LOAD_COLLISION_DATA(airlock_water_collision_collision),
+    BEGIN(OBJ_LIST_SPAWNER),
+    LOAD_COLLISION_DATA(airlock_water_collision),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
     SET_HOME(),
     BEGIN_LOOP(),
@@ -6414,11 +6414,11 @@ const BehaviorScript bhvTurretPlatform[] = {
 const BehaviorScript bhvTurretCover[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags,(OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_ACTIVE_FROM_AFAR)),
-    LOAD_COLLISION_DATA(turret_cover_collision),
+    //LOAD_COLLISION_DATA(turret_cover_collision),
     SET_FLOAT(oDrawingDistance, 4000),
     CALL_NATIVE(bhv_turret_cover_init),
     BEGIN_LOOP(),
-        CALL_NATIVE(load_object_collision_model),
+        //CALL_NATIVE(load_object_collision_model),
         CALL_NATIVE(bhv_turret_cover),
     END_LOOP(),
 };
@@ -6427,8 +6427,10 @@ const BehaviorScript bhvTurretPanel[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags,(OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_ACTIVE_FROM_AFAR)),
     SET_FLOAT(oDrawingDistance, 4000),
+    LOAD_COLLISION_DATA(turret_panel_collision),
     CALL_NATIVE(bhv_turret_panel_init),
     BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
         CALL_NATIVE(bhv_turret_panel),
     END_LOOP(),
 };

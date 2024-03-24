@@ -49,7 +49,7 @@ u16 cutsceneTimer = 0;
 };
 
     static struct ObjectHitbox sAirlockWater = {
-    /* interactType:      */ INTERACT_BREAKABLE,
+    /* interactType:      */ INTERACT_NONE,
     /* downOffset:        */ 0,
     /* damageOrCoinValue: */ 0,
     /* health:            */ 0,
@@ -94,6 +94,18 @@ u16 cutsceneTimer = 0;
     /* height:            */ 210,
     /* hurtboxRadius:     */ 110,
     /* hurtboxHeight:     */ 210,
+};
+
+    static struct ObjectHitbox sTurretPanelHitbox = {
+    /* interactType:      */ INTERACT_BREAKABLE,
+    /* downOffset:        */ 90,
+    /* damageOrCoinValue: */ 1,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 1,
+    /* radius:            */ 46,
+    /* height:            */ 179,
+    /* hurtboxRadius:     */ 46,
+    /* hurtboxHeight:     */ 179,
 };
 
 enum {
@@ -236,10 +248,10 @@ void bhv_airlock_button_loop(){
 void bhv_airlock_water_loop(){
     cur_obj_update_floor_and_walls();
     if (isWet == TRUE && airlockState == AIRLOCK_STATE_CLOSED_FINISHED){
-        if (o->oPosY >= o->oHomeY - 749.0f){
+        if (o->oPosY >= o->oHomeY - 846.0f){
             o->oPosY-= 10;
         } else {
-            o->oPosY = o->oHomeY - 749.0f;
+            o->oPosY = o->oHomeY - 846.0f;
             isWet = FALSE;
             airlockState = AIRLOCK_STATE_DRY;
 
@@ -349,16 +361,21 @@ enum sister_states {
 };
 
 void bhv_little_sister_loop(void) {
-    print_text_fmt_int(20, 40, "oAction: %d", o->oAction);
-    print_text_fmt_int(20, 60, "oF4: %d", o->oF4);
+    static u8 sisterTimer;
+    if (sisterTimer <= 10){
+        sisterTimer++;
+    }
+    //print_text_fmt_int(20, 40, "oAction: %d", o->oAction);
+    //print_text_fmt_int(20, 60, "oF4: %d", o->oF4);
+    //print_text_fmt_int(20, 80, "oTimer: %d", sisterTimer);
     cur_obj_update_floor_and_walls();
     cur_obj_move_standard(-78);
-    if (obj_hit_by_bullet(o, 300.0f) == 1 && o->oF4 == 0 && o->oTimer > 10){
+    if (obj_hit_by_bullet(o, 144.0f) == 1 && sisterTimer > 10){
         o->oF4 = 1;
         o->oHeldState = HELD_DROPPED;
         gMarioState->action = ACT_IDLE;
         gMarioState->heldObj = NULL;
-        o->oTimer = 0;
+        sisterTimer = 0;
         spawn_mist_particles_with_sound(SOUND_ACTION_TELEPORT);
         o->oPosX = o->oHomeX;
         o->oPosY = o->oHomeY;
@@ -366,8 +383,12 @@ void bhv_little_sister_loop(void) {
         o->oAction = LS_IDLE;
         cur_obj_init_animation(0);
     }
-    if (o->oPosX == o->oHomeX && o->oPosZ == o->oHomeZ){
-        o->oF4 = 0;
+    if (o->oFloorType == SURFACE_INSTANT_QUICKSAND && o->oFloorHeight == o->oPosY){
+        sisterTimer = 0;
+        o->oPosX = o->oHomeX;
+        o->oPosY = o->oHomeY;
+        o->oPosZ = o->oHomeZ;
+        play_sound(SOUND_ACTION_TELEPORT, gGlobalSoundSource);
     }
     //print_text_fmt_int(20, 20, "oAction: %d", o->oAction);
     /*
@@ -399,15 +420,17 @@ void bhv_little_sister_loop(void) {
     struct Object *crusher = cur_obj_find_nearest_object_with_behavior(bhvCrusher, &dist);
     if (dist < 250.0f){
         o->header.gfx.scale[1] = .2f;
+        o->oInteractType = INTERACT_NONE;
         //print_text(20, 20, "Too Close!");
-        o->oTimer = 0;
+        sisterTimer = 0;
         o->oAction = LS_CRUSHED;
     } if (o->oAction == LS_CRUSHED){
-        if (o->oTimer > 10){
+        if (sisterTimer > 10){
             spawn_mist_particles_with_sound(SOUND_ACTION_TELEPORT);
             o->oPosX = o->oHomeX;
             o->oPosY = o->oHomeY;
             o->oPosZ = o->oHomeZ;
+            o->oInteractType = INTERACT_GRABBABLE;
             o->oAction = LS_IDLE;
             o->header.gfx.scale[1] = 1.0f;
             cur_obj_init_animation(0);
@@ -506,6 +529,7 @@ void bhv_little_sister_loop(void) {
     }
     switch (o->oHeldState) {  
         case HELD_HELD:
+            o->header.gfx.scale[1] = 1.0f;
             if (phasewalk_state != 0){
                 gMarioState->action = ACT_PLACING_DOWN;
             }
@@ -621,8 +645,9 @@ void bhv_turret_body_init(void){
 
 
 void bhv_turret_body_loop(void){
+    print_text_fmt_int(20, 120, "base yaw %d", o->oMoveAngleYaw);
     if (o->oDistanceToMario < 500){
-        print_text_fmt_int(20, 60, "bparam1 %d", GET_BPARAM1(o->oBehParams));
+        //print_text_fmt_int(20, 60, "bparam1 %d", GET_BPARAM1(o->oBehParams));
     }
     if (o->parentObj != NULL){
         if (o->parentObj->o10C == 1){
@@ -710,6 +735,10 @@ void bhv_turret_head_init(void){
 }
 
 void bhv_turret_head_loop(void){
+    print_text_fmt_int(20, 80, "Relative Yaw: %d", (o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw));
+    print_text_fmt_int(20, 100, "Raw Yaw: %d", (o->oMoveAngleYaw));
+    print_text_fmt_int(20, 140, "os16F4: %d", (o->os16F4));
+    print_text_fmt_int(20, 160, "180yaw: %d", (o->os16F4 + 0x8000));
     Vec3f d;
     d[0] = gMarioState->pos[0] - o->oPosX;
     d[1] = -gMarioState->pos[1] + o->oPosY;
@@ -723,12 +752,20 @@ void bhv_turret_head_loop(void){
     }
     o->oPosZ = o->parentObj->oPosZ;
     o->oFaceAnglePitch = o->oMoveAnglePitch;
-    o->oFaceAngleYaw = o->oMoveAngleYaw;
+    if (o->parentObj->oMoveAngleYaw <= -32768 && o->os16F4 == 0){
+        o->os16F4 = o->parentObj->oMoveAngleYaw + 65536;
+    } else if (o->parentObj->oMoveAngleYaw >= 32768 && o->os16F4 == 0){
+        o->os16F4 = o->parentObj->oMoveAngleYaw - 65536;
+    } else {
+        o->os16F4 = o->parentObj->oMoveAngleYaw;
+    }
     struct Surface *surf;
+    /*
     if (gPlayer1Controller->buttonPressed & D_CBUTTONS){
             dobj_spawn_bullet((&o->oPosVec), -o->oFaceAnglePitch, o->oMoveAngleYaw);
             play_sound(SOUND_OBJ_SNUFIT_SHOOT, gGlobalSoundSource);
         }
+        */
     Vec3f orig = { o->oPosX, o->oPosY, o->oPosZ }; 
     Vec3f marioPos = { gMarioState->pos[0], gMarioState->pos[1], gMarioState->pos[2] };
     Vec3f hitPos, dir = { (marioPos[0] - orig[0]), (marioPos[1]+10 - orig[1]), (marioPos[2] - orig[2]) };
@@ -763,18 +800,18 @@ void bhv_turret_head_loop(void){
                     
                     if (o->oTimer == 1){
                         if (abs_angle_diff(o->oFaceAngleYaw, o->oAngleToMario) < 0x500 ){
-                            dobj_spawn_bullet((&o->oPosVec), -o->oFaceAnglePitch, o->oMoveAngleYaw);
+                            dobj_spawn_bullet((&o->oPosVec), -o->oFaceAnglePitch, o->oFaceAngleYaw);
                             play_sound(SOUND_OBJ_SNUFIT_SHOOT, gGlobalSoundSource);
                         }
                     }
                     break;
                 } 
-                /*
+                
         } else if (o->oTimer > 40 && abs_angle_diff(o->oFaceAngleYaw, o->oAngleToMario) < 0x500){
-            dobj_spawn_bullet((&o->oPosVec), -o->oFaceAnglePitch, o->oMoveAngleYaw);
+            dobj_spawn_bullet((&o->oPosVec), -o->oFaceAnglePitch, o->oFaceAngleYaw);
             play_sound(SOUND_OBJ_SNUFIT_SHOOT, gGlobalSoundSource);
             o->oTimer = 0;
-            */
+            
         }
         
         o->oSubAction = STATE_NONE;
@@ -799,24 +836,39 @@ void bhv_turret_head_loop(void){
                     break;
             }
         }
+        //char hex_str[10];
+        //sprintf(hex_str, "%08X", o->oMoveAngleYaw);
+        //print_text(20, 80, hex_str);
+        
         switch (o->oSubAction){
             case STATE_NONE:
-                if (o->oSubAction == STATE_NONE){
-                    if (o->oMoveAngleYaw > 0){
-                        o->oSubAction = STATE_RIGHT;
-                    } else {
-                        o->oSubAction = STATE_LEFT;
-                    }
-                }
+            
+    print_text(20, 20, "STATE_NONE");
+    if (o->os16F6 < o->os16F4 + 0x8000){
+        print_text(20, 40, "should go right");
+        o->os16F6 = approach_s32(o->oMoveAngleYaw, (o->os16F4 - 0x2000), 0x75, 0x75);
+        if (o->oMoveAngleYaw == (o->os16F4 - 0x2000)){
+        o->oSubAction = STATE_RIGHT;
+        }
+    } else if (o->oMoveAngleYaw > o->os16F4 + 0x8000){  
+        print_text(20, 40, "should go left");
+        o->oMoveAngleYaw = approach_s32(o->oMoveAngleYaw, (o->os16F4 + 0x2000), -0x75, -0x75);
+        if (o->oMoveAngleYaw == (o->os16F4 + 0x2000)){
+        o->oSubAction = STATE_LEFT;
+        }
+    }
+    break;
             case STATE_LEFT:
-                o->oMoveAngleYaw = approach_s32_symmetric(o->oMoveAngleYaw, -0x2000 + o->parentObj->oMoveAngleYaw, 0x75);
-                if (o->oMoveAngleYaw == -0x2000 + o->parentObj->oMoveAngleYaw){
+                print_text(20, 40, "STATE_LEFT");
+                o->oMoveAngleYaw = approach_s32(o->oMoveAngleYaw, (o->os16F4 - 0x2000), 0x75, 0x75);
+                if (o->oMoveAngleYaw <= (o->os16F4 - 0x2000) && o->oMoveAngleYaw < (o->os16F4 + 0x8000)){
                     o->oSubAction = STATE_RIGHT;
                 }
                 break;
             case STATE_RIGHT:
-                o->oMoveAngleYaw = approach_s32_symmetric(o->oMoveAngleYaw, 0x2000 + o->parentObj->oMoveAngleYaw, 0x75);
-                if (o->oMoveAngleYaw == 0x2000 + o->parentObj->oMoveAngleYaw){
+                print_text(20, 60, "STATE_RIGHT");
+                o->oMoveAngleYaw = approach_s32(o->oMoveAngleYaw, (o->os16F4 + 0x2000), 0x75, 0x75);
+                if (o->oMoveAngleYaw >= (o->os16F4 + 0x2000) && o->oMoveAngleYaw < (o->os16F4 + 0x8000)){
                     o->oSubAction = STATE_LEFT;
                 }
                 break;
@@ -850,6 +902,9 @@ void bhv_turret_platform_init(void){
     o->oObjF4 = coverLeft;
     o->oObjF8 = coverRight;
     o->o110 = 0;
+    //o110 states:
+    // 0: not activated
+    // 1: spawns turret, oAction handles movement
 }
 
 void bhv_turret_platform(void){
@@ -860,17 +915,22 @@ void bhv_turret_platform(void){
             o->oObjF4->oAction = 1;
             o->oObjF8->oAction = 1;
         }
-    }
-    if (gMarioState->floor->type == SURFACE_TURRET_ACTIVATOR){
+    } if (GET_BPARAM3(o->oBehParams) == 0){
+        if (o->oDistanceToMario < 750 && o->o110 == 0){
+            o->oAction = 1;
+            o->o110 = 1;
+            o->oObjF4->oAction = 1;
+            o->oObjF8->oAction = 1;
+        }
+    } else if (gMarioState->floor->type == SURFACE_TURRET_ACTIVATOR){
         if (GET_BPARAM3(o->oBehParams) == gMarioState->floor->force && o->o110 == 0){
             o->oAction = 1;
             o->o110 = 1;
             o->oObjF4->oAction = 1;
             o->oObjF8->oAction = 1;
         }
-        print_text_fmt_int(20,20, "floor force: %d", gMarioState->floor->force);
-    }
-    if (GET_BPARAM1(o->oBehParams) != 0){
+        //print_text_fmt_int(20,20, "floor force: %d", gMarioState->floor->force);
+    } if (GET_BPARAM1(o->oBehParams) != 0){
         if (o->oObj100->oAction == 1){
             if (o->o110 == 0){
                 mark_obj_for_deletion(o);
@@ -955,11 +1015,14 @@ void bhv_turret_cover(void){
 
 void bhv_turret_panel_init(void){
     o->oF4 = GET_BPARAM2(o->oBehParams);
+    obj_set_hitbox(o, &sTurretPanelHitbox);
 }
 
 void bhv_turret_panel(void){
-    print_text_fmt_int(20, 60 + (20*GET_BPARAM2(o->oBehParams)), "oF4: %d", o->oF4);
-    if (o->oDistanceToMario < 500.0f){
+    //print_text_fmt_int(20, 60 + (20*GET_BPARAM2(o->oBehParams)), "oF4: %d", o->oF4);
+    if(o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED){
+        //print_text(20, 40, "Button Pressed");
+        //o->oInteractStatus = INT_STATUS_NONE;
         o->oAction = 1;
         obj_mark_for_deletion(o);
     }
@@ -970,32 +1033,38 @@ void bhv_turret_panel(void){
 }
 
 void bhv_gate_init(void){
-    if (GET_BPARAM2(o->oBehParams) != 1){
+    if (GET_BPARAM1(o->oBehParams) != 0){
         o->oObjF4 = find_object_with_behaviors_bparam(bhvTurretPanel, GET_BPARAM1(o->oBehParams), 1);
     }
 }
 void bhv_gate(void){
-    if (GET_BPARAM2(o->oBehParams) == 1){
+    if (GET_BPARAM1(o->oBehParams) == 0){
         if (curCutsceneState == 4){
-        cutsceneFocus[1] = o->oPosY;
-        if (o->oPosY > o->oHomeY - 455.9f){
-            o->oPosY -= 7.5;
-            play_sound(SOUND_ENV_ELEVATOR2, &o->oPosVec);
-        } else {
-            o->oPosY = o->oHomeY - 455.9f;
-            play_sound(SOUND_OBJ_BOWSER_WALK, &o->oPosVec);
-            curCutsceneState = 5;
+            cutsceneFocus[1] = o->oPosY;
+            if (o->oPosY > o->oHomeY - 455.9f){
+                o->oPosY -= 7.5;
+                play_sound(SOUND_ENV_ELEVATOR2, &o->oPosVec);
+            } else {
+                o->oPosY = o->oHomeY - 455.9f;
+                play_sound(SOUND_OBJ_BOWSER_WALK, &o->oPosVec);
+                curCutsceneState = 5;
+            }
         }
-    }
-    if (GET_BPARAM2(o->oBehParams) == 0){
+    } else if (GET_BPARAM1(o->oBehParams) != 0){
         if (o->oObjF4->oAction == 1){
             o->oAction = 1;
         }
+        //print_text_fmt_int(20, 20, "oAction: %d", o->oAction);
     }
+    if (o->oAction == 1){
+        if (o->oPosY < o->oHomeY + 455.9f){
+            o->oPosY += 7.5;
+            play_sound(SOUND_ENV_ELEVATOR2, &o->oPosVec);
+        } else {
+            o->oPosY = o->oHomeY + 455.9f;
+            o->oAction = 2;
+        }
     }
-    
-    
-
 }
 
 void bhv_alarm(void){

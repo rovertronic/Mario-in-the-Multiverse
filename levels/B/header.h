@@ -81,4 +81,8 @@ extern const LevelScript level_B_entry[];
 
 #include "levels/B/alarm/anim_header.h"
 
+#include "levels/B/turret_panel/geo_header.h"
+
+#include "levels/B/turret_panel/collision_header.h"
+
 #endif

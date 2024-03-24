@@ -597,6 +597,16 @@ Bool8 is_camera_submerged(f32 xPos, f32 yPos, f32 zPos) {
         }else if (hitSurface->type == SURFACE_NEW_WATER_BOTTOM){
             return FALSE;
         }
+    } else {
+        if (find_floor_height(xPos, yPos, zPos) == FLOOR_LOWER_LIMIT) {
+            if (gLakituState.pos[1] < find_water_level(gMarioState->pos[0], gMarioState->pos[2])) {
+                //print_text(0, 0, "hitSurface is NULL");
+                return TRUE;
+            }
+        } else {
+            //print_text(0, 0, "hitSurface is NOT NULL");
+        }
+        //return TRUE;
     }
     return FALSE;
 }
@@ -735,7 +745,9 @@ f32 find_water_floor(s32 xPos, s32 yPos, s32 zPos, struct Surface **pfloor) {
 
     // Check for surfaces that are a part of level geometry.
     struct SurfaceNode *surfaceList = gStaticSurfacePartition[cellZ][cellX][SPATIAL_PARTITION_WATER].next;
+    struct SurfaceNode *dynSurfaceList = gDynamicSurfacePartition[cellZ][cellX][SPATIAL_PARTITION_WATER].next;
     struct Surface     *floor       = find_water_floor_from_list(surfaceList, x, y, z, &height);
+    struct Surface     *dynFloor    = find_water_floor_from_list(dynSurfaceList, x, y, z, &height);
 
     if (floor == NULL) {
         height = FLOOR_LOWER_LIMIT;

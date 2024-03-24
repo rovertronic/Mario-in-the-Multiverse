@@ -642,6 +642,7 @@ enum GLOBAL_MODELS {
 #define MODEL_GATE                               0x161
 #define MODEL_ALARM                              0x162
 #define MODEL_ALARM_LIT                          0x163
+#define MODEL_TURRET_PANEL                       0x164
 
 /* LEVEL B END */
 

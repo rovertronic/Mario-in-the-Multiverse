@@ -299,7 +299,7 @@ Gfx *dobj_bullets(s32 callContext) {
 }
 
 s32 obj_hit_by_bullet(struct Object *obj, f32 objHitSphereSize) {
-    for (s32 i = sBulletCount - 1; i >= 0; i--) {
+    for (s32 i = 0; i < sBulletCount; i++) {
         f32 dist = 0.f;
         Vec3f pos = { obj->oPosX, obj->oPosY + (obj->hitboxRadius * 0.5f), obj->oPosZ };
         struct Bullet *b = &sBulletList[i];
@@ -308,12 +308,10 @@ s32 obj_hit_by_bullet(struct Object *obj, f32 objHitSphereSize) {
         if (dist < (b->hitSphereSize + objHitSphereSize)) {
             if (b->flags & BULLET_FLAG_DEFLECTED) {
                 return 2;
-				DELETE_BULLET();
             } else {
                 return 1;
-				DELETE_BULLET();
             }
         }
     }
     return 0;
-}
+} 

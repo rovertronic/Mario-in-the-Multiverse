@@ -766,6 +766,7 @@ extern const BehaviorScript bhvMagikarp[];
 extern const BehaviorScript bhvPtMetalBox[];
 extern const BehaviorScript bhvLDoor[];
 extern const BehaviorScript bhvL_JohnPillar[];
+extern const BehaviorScript bhvJohnBlock[];
 /* GROUP L END */
 
 /* GROUP M START */

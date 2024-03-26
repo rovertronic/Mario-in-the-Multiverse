@@ -63,6 +63,7 @@
 #include "levels/i/header.h"
 #include "levels/g/header.h"
 #include "levels/h/header.h"
+#include "levels/l/header.h"
 
 #include "make_const_nonconst.h"
 #include "behavior_data.h"
@@ -8038,6 +8039,18 @@ const BehaviorScript bhvL_JohnPillar[] = {
     SET_HITBOX(/*Radius*/ 212, /*Height*/ 1000),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_l_pillar),
+    END_LOOP(),
+};
+
+extern void bhv_l_johnblock(void);
+const BehaviorScript bhvJohnBlock[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(johnblock_collision),
+    SET_FLOAT(oDrawingDistance, 16000),
+    SET_FLOAT(oCollisionDistance, 500),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_l_johnblock),
     END_LOOP(),
 };
 /* GROUP L END */

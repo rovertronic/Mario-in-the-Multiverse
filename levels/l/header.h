@@ -15,4 +15,8 @@ extern const LevelScript level_l_entry[];
 
 #include "levels/l/lportal/geo_header.h"
 
+#include "levels/l/l_johnblock/geo_header.h"
+
+#include "levels/l/johnblock/collision_header.h"
+
 #endif

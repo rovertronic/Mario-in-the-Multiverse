@@ -57,3 +57,17 @@ void bhv_l_pillar(void) {
     o->oInteractStatus = 0;
     o->oIntangibleTimer = 0;
 }
+
+void bhv_l_johnblock(void) {
+    u8 off = o->oBehParams2ndByte;
+    if (pizza_time) {
+        off = !off;
+    }
+
+    if (off) {
+        o->oAnimState = 1;
+    } else {
+        o->oAnimState = 0;
+        load_object_collision_model();
+    }
+}

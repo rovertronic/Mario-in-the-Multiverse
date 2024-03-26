@@ -1,0 +1,16 @@
+extern const GeoLayout l_johnblock_switch_opt1[];
+extern const GeoLayout l_johnblock_geo[];
+extern Lights1 l_johnblock_johnblock1_lights;
+extern Lights1 l_johnblock_johnblock2_lights;
+extern u8 l_johnblock_johnblock1_ci4[];
+extern u8 l_johnblock_johnblock1_pal_rgba16[];
+extern u8 l_johnblock_johnblock2_rgba16[];
+extern Vtx l_johnblock_block_mesh_layer_1_vtx_0[48];
+extern Gfx l_johnblock_block_mesh_layer_1_tri_0[];
+extern Gfx mat_l_johnblock_johnblock1[];
+extern Gfx mat_revert_l_johnblock_johnblock1[];
+extern Gfx mat_l_johnblock_johnblock2[];
+extern Gfx mat_revert_l_johnblock_johnblock2[];
+extern Gfx l_johnblock_block_mesh_layer_1[];
+extern Gfx l_johnblock_block_mesh_layer_1_mat_override_johnblock2_0[];
+extern Gfx l_johnblock_material_revert_render_settings[];

@@ -16,3 +16,5 @@
 #include "levels/l/ptbg/model.inc.c"
 #include "levels/l/johnp/model.inc.c"
 #include "levels/l/lportal/model.inc.c"
+#include "levels/l/l_johnblock/model.inc.c"
+#include "levels/l/johnblock/collision.inc.c"

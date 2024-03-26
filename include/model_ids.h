@@ -815,6 +815,7 @@ enum {
 
 /* LEVEL L START */
 #define MODEL_L_JOHN                            0x150
+#define MODEL_L_JOHNBLOCK                       0x151
 /* LEVEL L END */
 
 /* LEVEL M START */

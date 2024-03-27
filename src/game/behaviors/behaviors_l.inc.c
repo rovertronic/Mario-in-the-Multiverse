@@ -6,7 +6,13 @@ void bhv_pt_mb(void) {
 
     if ((gMarioState->action == ACT_KNIGHT_SLIDE)||(gMarioState->action == ACT_KNIGHT_JUMP)) {
         //b destroyed
-        if (o->oDistanceToMario < 120.0f*scale) {
+
+        //bounding box check, radius check causes clipping issues
+        if (
+            (gMarioState->pos[0] < o->oPosX+(105.0f*scale))&&(gMarioState->pos[0] > o->oPosX-(105.0f*scale))&&
+            (gMarioState->pos[1] < o->oPosY+(200.0f*scale))&&(gMarioState->pos[1] > o->oPosY-(5.0f*scale))&&
+            (gMarioState->pos[2] < o->oPosZ+(105.0f*scale))&&(gMarioState->pos[2] > o->oPosZ-(105.0f*scale))
+            ) {
             spawn_triangle_break_particles(20, MODEL_DIRT_ANIMATION, 3.0f, TINY_DIRT_PARTICLE_ANIM_STATE_YELLOW);
             cur_obj_shake_screen(SHAKE_POS_SMALL);
             create_sound_spawner(SOUND_GENERAL2_PYRAMID_TOP_EXPLOSION);
@@ -76,6 +82,7 @@ void bhv_l_johnblock(void) {
 
 void bhv_escape_collect_star_loop(void) {
     if (pizza_time) {
+        o->oInteractType = INTERACT_STAR_OR_KEY;
         o->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
         o->oFaceAngleYaw += 0x800;
 
@@ -86,6 +93,7 @@ void bhv_escape_collect_star_loop(void) {
             level_control_timer(TIMER_CONTROL_HIDE);
         }
     } else {
+        o->oInteractType = INTERACT_NONE;
         o->oInteractStatus = INT_STATUS_NONE;
         o->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
     }

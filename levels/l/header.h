@@ -19,4 +19,14 @@ extern const LevelScript level_l_entry[];
 
 #include "levels/l/johnblock/collision_header.h"
 
+#include "levels/l/johnp/anim_header.h"
+
+#include "levels/l/cheeseslime/geo_header.h"
+
+#include "levels/l/cheeseslime/anim_header.h"
+
+#include "levels/l/pepperman/anim_header.h"
+
+#include "levels/l/pepperman/geo_header.h"
+
 #endif

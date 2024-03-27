@@ -816,6 +816,8 @@ enum {
 /* LEVEL L START */
 #define MODEL_L_JOHN                            0x150
 #define MODEL_L_JOHNBLOCK                       0x151
+#define MODEL_L_CHEESESLIME                     0x152
+#define MODEL_L_PEPPERMAN                       0x153
 /* LEVEL L END */
 
 /* LEVEL M START */

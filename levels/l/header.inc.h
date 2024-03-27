@@ -1028,7 +1028,7 @@ extern Gfx mat_revert_l_dl_PT_TXT25_001_f3d[];
 extern Gfx mat_l_dl_PT_TXT15_001_f3d[];
 extern Gfx mat_l_dl_PT_TXT16_001_f3d[];
 extern Gfx mat_l_dl_PT_TXT17_001_f3d[];
-extern Gfx mat_l_dl_black[];
+extern Gfx mat_l_dl_black_001[];
 extern Gfx mat_l_dl_PT_TXT37_001_f3d[];
 extern Gfx mat_l_dl_PT_TXT42_001_f3d[];
 extern Gfx mat_l_dl_PT_TXT38_001_f3d[];

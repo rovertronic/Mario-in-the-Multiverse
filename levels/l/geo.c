@@ -19,3 +19,5 @@
 #include "levels/l/johnp/geo.inc.c"
 #include "levels/l/lportal/geo.inc.c"
 #include "levels/l/l_johnblock/geo.inc.c"
+#include "levels/l/cheeseslime/geo.inc.c"
+#include "levels/l/pepperman/geo.inc.c"

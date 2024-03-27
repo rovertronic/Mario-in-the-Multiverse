@@ -768,6 +768,8 @@ extern const BehaviorScript bhvLDoor[];
 extern const BehaviorScript bhvL_JohnPillar[];
 extern const BehaviorScript bhvJohnBlock[];
 extern const BehaviorScript bhvL_EscapeStar[];
+extern const BehaviorScript bhvL_Cheeseslime[];
+extern const BehaviorScript bhvL_PeppermanNPC[];
 /* GROUP L END */
 
 /* GROUP M START */

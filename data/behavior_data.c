@@ -8037,6 +8037,8 @@ const BehaviorScript bhvL_JohnPillar[] = {
     BEGIN(OBJ_LIST_PUSHABLE),
     OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_CUSTOM),
     SET_HITBOX(/*Radius*/ 212, /*Height*/ 1000),
+    LOAD_ANIMATIONS(oAnimations, johnp_anims),
+    ANIMATE(0),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_l_pillar),
     END_LOOP(),
@@ -8062,6 +8064,35 @@ const BehaviorScript bhvL_EscapeStar[] = {
     CALL_NATIVE(bhv_collect_star_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_escape_collect_star_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvL_Cheeseslime[] = {
+    BEGIN(OBJ_LIST_PUSHABLE),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY | OBJ_FLAG_ATTACHABLE_BY_ROPE)),//--E
+    DROP_TO_FLOOR(),
+    LOAD_ANIMATIONS(oAnimations, cheeseslime_anims),
+    SET_HOME(),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 40, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 0, /*Unused*/ 0, 0),
+    CALL_NATIVE(bhv_goomba_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_goomba_update),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvL_PeppermanNPC[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, pepperman_anims),
+    SET_INTERACT_TYPE(INTERACT_TEXT),
+    DROP_TO_FLOOR(),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 60),
+    ANIMATE(0),
+    SET_HOME(),
+    CALL_NATIVE(bhv_npc_init),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_npc_loop),
     END_LOOP(),
 };
 /* GROUP L END */

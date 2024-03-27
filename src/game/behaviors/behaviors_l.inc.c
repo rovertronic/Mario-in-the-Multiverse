@@ -64,10 +64,29 @@ void bhv_l_johnblock(void) {
         off = !off;
     }
 
+    o->header.gfx.node.flags |= GRAPH_RENDER_ACTIVE;
+
     if (off) {
         o->oAnimState = 1;
     } else {
         o->oAnimState = 0;
         load_object_collision_model();
+    }
+}
+
+void bhv_escape_collect_star_loop(void) {
+    if (pizza_time) {
+        o->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
+        o->oFaceAngleYaw += 0x800;
+
+        if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+            obj_mark_for_deletion(o);
+            o->oInteractStatus = INT_STATUS_NONE;
+            pizza_time = FALSE;
+            level_control_timer(TIMER_CONTROL_HIDE);
+        }
+    } else {
+        o->oInteractStatus = INT_STATUS_NONE;
+        o->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
     }
 }

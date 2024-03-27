@@ -8053,6 +8053,17 @@ const BehaviorScript bhvJohnBlock[] = {
         CALL_NATIVE(bhv_l_johnblock),
     END_LOOP(),
 };
+
+extern void bhv_escape_collect_star_loop(void);
+const BehaviorScript bhvL_EscapeStar[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    CALL_NATIVE(bhv_init_room),
+    CALL_NATIVE(bhv_collect_star_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_escape_collect_star_loop),
+    END_LOOP(),
+};
 /* GROUP L END */
 
 /* GROUP M START */

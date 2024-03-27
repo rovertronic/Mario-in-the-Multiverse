@@ -1883,7 +1883,7 @@ u16 pizza_timer = 0;
 u8 magic_mirror_timer = 20;
 
 s32 is_2d_area(void) {
-    return (gCurrLevelNum == LEVEL_L);
+    return ((gCurrLevelNum == LEVEL_L)&&(gCurrAreaIndex < 6));
 }
 
 /**

@@ -51,6 +51,7 @@ void bhv_l_pillar(void) {
 
                 cur_obj_become_intangible();
                 o->oInteractType = INTERACT_NONE;
+                combo_meter = 201;
             }
         break;
         case 2:

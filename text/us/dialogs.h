@@ -415,7 +415,11 @@ menu if you'd like to\n\
 invert Aim Mode controls.\n\
 */
 
+DEFINE_DIALOG(DIALOG_L_PEPPERMAN_1, 2, 3, 95, 200, _("\
+"))
 
+DEFINE_DIALOG(DIALOG_L_PEPPERMAN_2, 2, 3, 95, 200, _("\
+"))
 
 
 

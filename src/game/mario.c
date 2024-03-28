@@ -1879,6 +1879,7 @@ s32 check_dashboost_inputs(struct MarioState *m) {
 
 u8 pizza_time = FALSE;
 u16 pizza_timer = 0;
+u8 combo_meter = 201;
 
 u8 magic_mirror_timer = 20;
 
@@ -1908,6 +1909,17 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         }
     } else {
         level_control_timer(TIMER_CONTROL_HIDE);
+    }
+    //combo meter logic
+    if ((1) && ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
+        if (combo_meter > 0) {
+            combo_meter--;
+        } else {
+            if (gMarioState->action != ACT_DISAPPEARED) {
+                set_mario_action(gMarioState, ACT_DISAPPEARED, 1);
+                level_trigger_warp(gMarioState, WARP_OP_DEATH);
+            }
+        }
     }
 
     if (toZeroMeter) {  // Reset ability meter if it's not set past this point

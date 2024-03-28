@@ -35,6 +35,8 @@ enum DialogId {
     DIALOG_C9_2,
     DIALOG_C9_3,
     DIALOG_C9_4,
+    DIALOG_L_PEPPERMAN_1,
+    DIALOG_L_PEPPERMAN_2,
     DIALOG_000,
     DIALOG_001,
     DIALOG_002,

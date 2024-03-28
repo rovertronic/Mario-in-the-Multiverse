@@ -753,7 +753,7 @@ u32 take_damage_from_interact_object(struct MarioState *m) {
 u32 take_damage_and_knock_back(struct MarioState *m, struct Object *obj) {
     u32 damage;
 
-    if (!sInvulnerable && !(m->flags & MARIO_VANISH_CAP) && (aku_invincibility == 0) && (m->action != ACT_KNIGHT_SLIDE)
+    if (!sInvulnerable && !(m->flags & MARIO_VANISH_CAP) && (aku_invincibility == 0) && (m->action != ACT_KNIGHT_SLIDE) && (m->action != ACT_KNIGHT_JUMP)
         && !(obj->oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY)) {
         obj->oInteractStatus = INT_STATUS_INTERACTED | INT_STATUS_ATTACKED_MARIO;
         m->interactObj = obj;
@@ -790,6 +790,12 @@ u32 interact_coin(struct MarioState *m, UNUSED u32 interactType, struct Object *
 
     gMarioState->numGlobalCoins += obj->oDamageOrCoinValue;
     if (gMarioState->numGlobalCoins > 999) {gMarioState->numGlobalCoins = 999;} //CLAMP
+
+    if (obj->oDamageOrCoinValue > 1) {
+        combo_meter = 201;
+    } else {
+        combo_meter = CLAMP(combo_meter+33,0,201);
+    }
 
     save_file_set_coins();
     m->numCoins += obj->oDamageOrCoinValue;
@@ -842,6 +848,7 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
     u32 grandStar = (obj->oInteractionSubtype & INT_SUBTYPE_GRAND_STAR) != 0;
 
     if (m->health >= 0x100) {
+        combo_meter = 201;
         mario_stop_riding_and_holding(m);
 #if ENABLE_RUMBLE
         queue_rumble_data(5, 80);
@@ -1246,7 +1253,7 @@ u32 interact_strong_wind(struct MarioState *m, UNUSED u32 interactType, struct O
 u32 interact_flame(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 burningAction = ACT_BURNING_JUMP;
 
-    if (!sInvulnerable && !(m->flags & MARIO_METAL_CAP) && !(m->flags & MARIO_VANISH_CAP) && (aku_invincibility == 0) && (m->action != ACT_KNIGHT_SLIDE)
+    if (!sInvulnerable && !(m->flags & MARIO_METAL_CAP) && !(m->flags & MARIO_VANISH_CAP) && (aku_invincibility == 0) && (m->action != ACT_KNIGHT_SLIDE) && (m->action != ACT_KNIGHT_JUMP)
         && !(obj->oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY)) {
 #if ENABLE_RUMBLE
         queue_rumble_data(5, 80);
@@ -1316,7 +1323,7 @@ u32 interact_clam_or_bubba(struct MarioState *m, UNUSED u32 interactType, struct
 
 u32 interact_bully(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 interaction;
-    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)||(m->action != ACT_KNIGHT_SLIDE)) {
+    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)||(m->action != ACT_KNIGHT_SLIDE) && (m->action != ACT_KNIGHT_JUMP)) {
         interaction = INT_FAST_ATTACK_OR_SHELL;
     } else {
         interaction = determine_interaction(m, obj);
@@ -1409,7 +1416,7 @@ u32 interact_mr_blizzard(struct MarioState *m, UNUSED u32 interactType, struct O
 
 u32 interact_hit_from_below(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 interaction;
-    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)||(m->action == ACT_KNIGHT_SLIDE)) {
+    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)||(m->action == ACT_KNIGHT_SLIDE) || (m->action == ACT_KNIGHT_JUMP)) {
         interaction = INT_FAST_ATTACK_OR_SHELL;
     } else {
         interaction = determine_interaction(m, obj);
@@ -1449,7 +1456,7 @@ u32 interact_hit_from_below(struct MarioState *m, UNUSED u32 interactType, struc
 
 u32 interact_bounce_top(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 interaction;
-    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)||(m->action == ACT_KNIGHT_SLIDE)) {
+    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)||(m->action == ACT_KNIGHT_SLIDE) || (m->action == ACT_KNIGHT_JUMP)) {
         interaction = INT_FAST_ATTACK_OR_SHELL;
     } else {
         interaction = determine_interaction(m, obj);
@@ -1900,7 +1907,7 @@ u32 interact_text(struct MarioState *m, UNUSED u32 interactType, struct Object *
 //--E
 u32 interact_e__doom_enemy(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 interaction;
-    if ((m->flags & MARIO_METAL_CAP) || (aku_invincibility > 0) || (m->action == ACT_KNIGHT_SLIDE)) {
+    if ((m->flags & MARIO_METAL_CAP) || (aku_invincibility > 0) || (m->action == ACT_KNIGHT_SLIDE) || (m->action == ACT_KNIGHT_JUMP)) {
         interaction = INT_FAST_ATTACK_OR_SHELL; }
     else {
         interaction = determine_interaction(m, obj); }
@@ -1923,7 +1930,7 @@ u32 interact_e__doom_enemy(struct MarioState *m, UNUSED u32 interactType, struct
 //J
 u32 interact_j_miltank(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 interaction;
-    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)||(m->action == ACT_KNIGHT_SLIDE)) {
+    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)||(m->action == ACT_KNIGHT_SLIDE) || (m->action == ACT_KNIGHT_JUMP)) {
         interaction = INT_FAST_ATTACK_OR_SHELL;
     } else {
         interaction = determine_interaction(m, obj);

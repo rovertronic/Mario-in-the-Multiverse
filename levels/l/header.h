@@ -29,4 +29,8 @@ extern const LevelScript level_l_entry[];
 
 #include "levels/l/pepperman/geo_header.h"
 
+#include "levels/l/cbmeter/header.h"
+
+#include "levels/l/cbg/header.h"
+
 #endif

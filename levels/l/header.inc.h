@@ -736,7 +736,7 @@ extern Vtx l_dl_MITM02_003_mesh_layer_1_vtx_23[94];
 extern Gfx l_dl_MITM02_003_mesh_layer_1_tri_23[];
 extern Vtx l_dl_MITM02_003_mesh_layer_1_vtx_24[56];
 extern Gfx l_dl_MITM02_003_mesh_layer_1_tri_24[];
-extern Vtx l_dl_MITM02_003_mesh_layer_4_vtx_0[136];
+extern Vtx l_dl_MITM02_003_mesh_layer_4_vtx_0[102];
 extern Gfx l_dl_MITM02_003_mesh_layer_4_tri_0[];
 extern Vtx l_dl_MITM02_003_mesh_layer_4_vtx_1[30];
 extern Gfx l_dl_MITM02_003_mesh_layer_4_tri_1[];

@@ -19,6 +19,7 @@
 #include "puppyprint.h"
 #include "actors/group0.h"
 #include "cutscene_manager.h"
+#include "mario.h"
 //--E
 #include "levels/e/header.h"
 
@@ -871,6 +872,10 @@ void render_ability_get_hud(void) {
     }
 }
 
+extern Gfx cbmeter_Plane_004_mesh[];
+extern Gfx cbg_Plane_005_mesh[];
+
+u8 combo_meter_visual = 201;
 
 void render_hud(void) {
     //--E
@@ -1025,6 +1030,30 @@ void render_hud(void) {
                   G_MTX_PROJECTION | G_MTX_MUL | G_MTX_NOPUSH);
 #else
         create_dl_ortho_matrix();
+
+        if (gCurrLevelNum == LEVEL_L) {
+            f32 combo_meter_y = 0.0f;
+            if (combo_meter < 100) {
+                combo_meter_y = (gGlobalTimer % 2);
+            }
+            if (combo_meter < 50) {
+                combo_meter_y = sins(gGlobalTimer*0x2500) * 3.0f;
+            }
+            if (combo_meter == 0) {
+                combo_meter_y = 0.0f;
+            }
+            if (combo_meter_visual < combo_meter) {
+                combo_meter_visual = CLAMP(combo_meter_visual+25,0,201);
+            } else {
+                combo_meter_visual = combo_meter;
+            }
+            create_dl_translation_matrix(MENU_MTX_PUSH, 0, combo_meter_y, 0);
+                create_dl_translation_matrix(MENU_MTX_PUSH, combo_meter_visual*.273f, 0, 0);
+                    gSPDisplayList(gDisplayListHead++, cbg_Plane_005_mesh);
+                gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+                gSPDisplayList(gDisplayListHead++, cbmeter_Plane_004_mesh);
+            gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+        }
 
         if (cm_cutscene_on) {
             u8 colorFade = sins(gGlobalTimer*0x500) * 50.0f + 200.0f;

@@ -818,6 +818,8 @@ enum {
 #define MODEL_L_JOHNBLOCK                       0x151
 #define MODEL_L_CHEESESLIME                     0x152
 #define MODEL_L_PEPPERMAN                       0x153
+#define MODEL_L_ANCHOVY                         MODEL_FLYGUY
+#define bhvL_Anchovy                            bhvFlyGuy
 /* LEVEL L END */
 
 /* LEVEL M START */

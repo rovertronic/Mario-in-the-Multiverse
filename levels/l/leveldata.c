@@ -26,3 +26,5 @@
 #include "levels/l/pepperman/anims/data.inc.c"
 #include "levels/l/pepperman/anims/table.inc.c"
 #include "levels/l/pepperman/model.inc.c"
+#include "levels/l/cbmeter/model.inc.c"
+#include "levels/l/cbg/model.inc.c"

@@ -65,5 +65,6 @@ u16 update_mario_action_timer_post(struct MarioState *m);
 
 extern u8 pizza_time;
 extern u16 pizza_timer;
+extern u8 combo_meter;
 
 #endif // MARIO_H

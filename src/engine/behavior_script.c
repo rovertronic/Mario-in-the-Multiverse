@@ -943,7 +943,8 @@ void cur_obj_update(void) {
     }
 
     //make other enemies experience generic attack actions in order for the cutter stun to work
-    if (o->oAction > 100 && o->behavior != segmented_to_virtual(bhvGoomba) && o->behavior != segmented_to_virtual(bhvKoopa) && o->behavior != segmented_to_virtual(bhvPokey)) {
+    if (o->oAction > 100 && o->behavior != segmented_to_virtual(bhvGoomba) && o->behavior != segmented_to_virtual(bhvKoopa) && o->behavior != segmented_to_virtual(bhvPokey)
+    && o->behavior != segmented_to_virtual(bhvGBrontoBurt) && o->behavior != segmented_to_virtual(bhvGWaddleDee) && o->behavior != segmented_to_virtual(bhvL_Cheeseslime)) {
         obj_update_standard_actions(0);
     }
 

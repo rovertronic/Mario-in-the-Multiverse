@@ -908,6 +908,10 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
         starIndex = (obj->oBehParams >> 24) & 0x1F;
 #endif
 
+        if (gCurrLevelNum == LEVEL_L && starIndex == 5) {
+            starGrabAction = ACT_STAR_DANCE_EXIT;
+            noExit = FALSE;
+        }
 
         if (obj_has_behavior(obj,bhvAbilityUnlock)) {
             //ability
@@ -920,6 +924,7 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
             ability_get_confirm = FALSE;
         } else {
             //power star
+            p_rank_stars ++;
             save_file_collect_star_or_key(m->numCoins, starIndex);
             m->numStars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
             ability_get_confirm = TRUE;

@@ -33,4 +33,8 @@ extern const LevelScript level_l_entry[];
 
 #include "levels/l/cbg/header.h"
 
+#include "levels/l/lclock/geo_header.h"
+
+#include "levels/l/lclock/anim_header.h"
+
 #endif

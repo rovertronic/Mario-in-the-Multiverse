@@ -418,8 +418,42 @@ invert Aim Mode controls.\n\
 DEFINE_DIALOG(DIALOG_L_PEPPERMAN_1, 2, 3, 95, 200, _("\
 "))
 
-DEFINE_DIALOG(DIALOG_L_PEPPERMAN_2, 2, 3, 95, 200, _("\
-"))
+DEFINE_DIALOG(DIALOG_L_PEPPERMAN_2, 1, 4, 95, 200, _("\
+Looks like you've bested\n\
+me, fueh heh heh.\n\
+\n\
+\n\
+Well sport, since you're\n\
+such a showoff, why not\n\
+take my ultimate trial?\n\
+Introducing...\n\
+\n\
+Pepperman's P Challenge!\n\
+\n\
+\n\
+To complete the challenge,\n\
+you must make it to the\n\
+end of the level while\n\
+following this criteria:\n\
+-Keep the combo going.\n\
+-Use the Lap 2 portal.\n\
+-Collect every star in\n\
+one sitting.\n\
+You will have a combo\n\
+meter. If it runs out,\n\
+you fail.\n\
+\n\
+Attack enemies and\n\
+collect items to keep\n\
+the meter from running\n\
+out.\n\
+That's all! If you succeed,\n\
+I will give you a star, but\n\
+I don't think you have what\n\
+it takes.\n\
+Start the P challenge?\n\
+\n\
+//Go!////Don't Go"))
 
 
 

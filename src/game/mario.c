@@ -1880,6 +1880,11 @@ s32 check_dashboost_inputs(struct MarioState *m) {
 u8 pizza_time = FALSE;
 u16 pizza_timer = 0;
 u8 combo_meter = 201;
+u8 p_rank_challenge_enabled = FALSE;
+u8 p_rank_challenge_prepare = FALSE;
+u8 p_rank_lap_2 = FALSE;
+u8 p_rank_stars = 0;
+u8 p_rank_success = FALSE;
 
 u8 magic_mirror_timer = 20;
 
@@ -1911,7 +1916,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         level_control_timer(TIMER_CONTROL_HIDE);
     }
     //combo meter logic
-    if ((1) && ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
+    if ((p_rank_challenge_enabled) && ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
         if (combo_meter > 0) {
             combo_meter--;
         } else {

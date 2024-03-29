@@ -872,9 +872,25 @@ void render_ability_get_hud(void) {
     }
 }
 
+void print_p_rank_starcount(s16 x, s16 y) {
+    u8 strToadCount[2];
+    u8 strToadTotal[2];
+    u8 textSymStar[] = { GLYPH_STAR, GLYPH_SPACE };
+    u8 textSymSeparator[] = { GLYPH_SLASH, GLYPH_SPACE };
+
+    gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
+    print_hud_lut_string(HUD_LUT_GLOBAL, x +  0, y, textSymStar);
+    int_to_str(p_rank_stars, strToadCount);
+    print_hud_lut_string(HUD_LUT_GLOBAL, x + 16, y, strToadCount);
+    print_hud_lut_string(HUD_LUT_GLOBAL, x + 32, y, textSymSeparator);
+    int_to_str(5, strToadTotal);
+    print_hud_lut_string(HUD_LUT_GLOBAL, x + 48, y, strToadTotal);
+    gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
+}
+
 extern Gfx cbmeter_Plane_004_mesh[];
 extern Gfx cbg_Plane_005_mesh[];
-
 u8 combo_meter_visual = 201;
 
 void render_hud(void) {
@@ -1031,27 +1047,28 @@ void render_hud(void) {
 #else
         create_dl_ortho_matrix();
 
-        if (gCurrLevelNum == LEVEL_L) {
+        if ((gCurrLevelNum == LEVEL_L)&&(p_rank_challenge_enabled)) {
             f32 combo_meter_y = 0.0f;
             if (combo_meter < 100) {
-                combo_meter_y = (gGlobalTimer % 2);
+                combo_meter_y = sins(gGlobalTimer*0x3000) * 1.0f;
             }
             if (combo_meter < 50) {
-                combo_meter_y = sins(gGlobalTimer*0x2500) * 3.0f;
+                combo_meter_y = sins(gGlobalTimer*0x3000) * 3.0f;
             }
             if (combo_meter == 0) {
                 combo_meter_y = 0.0f;
             }
             if (combo_meter_visual < combo_meter) {
-                combo_meter_visual = CLAMP(combo_meter_visual+25,0,201);
+                combo_meter_visual = approach_f32_asymptotic(combo_meter_visual,combo_meter,0.3f);
             } else {
                 combo_meter_visual = combo_meter;
             }
-            create_dl_translation_matrix(MENU_MTX_PUSH, 0, combo_meter_y, 0);
+            create_dl_translation_matrix(MENU_MTX_PUSH, sins(gGlobalTimer*0x200) * 3.0f, combo_meter_y+7.0f, 0);
                 create_dl_translation_matrix(MENU_MTX_PUSH, combo_meter_visual*.273f, 0, 0);
                     gSPDisplayList(gDisplayListHead++, cbg_Plane_005_mesh);
                 gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
                 gSPDisplayList(gDisplayListHead++, cbmeter_Plane_004_mesh);
+                print_p_rank_starcount(15,220);
             gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
         }
 

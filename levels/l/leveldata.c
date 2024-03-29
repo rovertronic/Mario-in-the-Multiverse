@@ -28,3 +28,6 @@
 #include "levels/l/pepperman/model.inc.c"
 #include "levels/l/cbmeter/model.inc.c"
 #include "levels/l/cbg/model.inc.c"
+#include "levels/l/lclock/model.inc.c"
+#include "levels/l/lclock/anims/data.inc.c"
+#include "levels/l/lclock/anims/table.inc.c"

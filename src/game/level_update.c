@@ -927,6 +927,8 @@ void initiate_delayed_warp(void) {
 
                 case WARP_OP_DEATH:
                     milk_drunk = FALSE;
+                    p_rank_challenge_enabled = FALSE;
+                    pizza_time = FALSE;
 
                 default:
                     warpNode = area_get_warp_node(sSourceWarpNodeId);
@@ -1175,6 +1177,8 @@ s32 play_mode_change_area(void) {
  */
 s32 play_mode_change_level(void) {
     milk_drunk = FALSE;
+    p_rank_challenge_enabled = FALSE;
+    pizza_time = FALSE;
 
     if (sTransitionUpdate != NULL) {
         sTransitionUpdate(&sTransitionTimer);

@@ -21,3 +21,4 @@
 #include "levels/l/l_johnblock/geo.inc.c"
 #include "levels/l/cheeseslime/geo.inc.c"
 #include "levels/l/pepperman/geo.inc.c"
+#include "levels/l/lclock/geo.inc.c"

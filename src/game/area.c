@@ -240,8 +240,17 @@ void clear_area_graph_nodes(void) {
     }
 }
 
-void load_area(s32 index) {
+void load_area(s32 index) {    
     if (gCurrentArea == NULL && gAreaData[index].graphNode != NULL) {
+
+        if (p_rank_challenge_prepare) {
+            p_rank_challenge_prepare = FALSE;
+            p_rank_challenge_enabled = TRUE;
+            combo_meter = 201;
+            p_rank_stars = 0;
+            p_rank_lap_2 = FALSE;
+        }
+
         gCurrentArea = &gAreaData[index];
         gCurrAreaIndex = gCurrentArea->index;
         main_pool_pop_state();

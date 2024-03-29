@@ -8080,6 +8080,7 @@ const BehaviorScript bhvL_Cheeseslime[] = {
     END_LOOP(),
 };
 
+extern void bhv_npc_pepperman_loop(void);
 const BehaviorScript bhvL_PeppermanNPC[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -8092,7 +8093,30 @@ const BehaviorScript bhvL_PeppermanNPC[] = {
     CALL_NATIVE(bhv_npc_init),
     BEGIN_LOOP(),
         SET_INT(oIntangibleTimer, 0),
-        CALL_NATIVE(bhv_npc_loop),
+        CALL_NATIVE(bhv_npc_pepperman_loop),
+    END_LOOP(),
+};
+
+extern void bhv_l_clock(void);
+const BehaviorScript bhvLclock[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 100),
+    LOAD_ANIMATIONS(oAnimations, lclock_anims),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_l_clock),
+    END_LOOP(),
+};
+
+extern void bhv_pizza_portal_loop(void);
+const BehaviorScript bhvL_PizzaPortal[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_INT(oInteractType, INTERACT_WARP),
+    SET_INT(oIntangibleTimer, 0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_pizza_portal_loop),
     END_LOOP(),
 };
 /* GROUP L END */

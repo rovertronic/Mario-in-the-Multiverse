@@ -12,6 +12,8 @@ const GeoLayout l_area_6_geo[] = {
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, l_dl_Cylinder_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, l_dl_Cylinder_mesh_layer_4),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, l_dl_Cylinder_mesh_layer_6),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 0, 0, 8289),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

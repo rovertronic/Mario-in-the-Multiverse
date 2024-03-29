@@ -8104,6 +8104,7 @@ const BehaviorScript bhvLclock[] = {
     SET_HITBOX(/*Radius*/ 100, /*Height*/ 100),
     LOAD_ANIMATIONS(oAnimations, lclock_anims),
     ANIMATE(0),
+    BILLBOARD(),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_l_clock),
     END_LOOP(),

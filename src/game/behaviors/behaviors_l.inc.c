@@ -82,7 +82,16 @@ void bhv_l_johnblock(void) {
 }
 
 void bhv_escape_collect_star_loop(void) {
-    if ((pizza_time)&&!( p_rank_challenge_enabled && !p_rank_lap_2 && p_rank_stars >= 5 )) {
+    u8 cond;
+    if (!p_rank_challenge_enabled) {
+        // normal
+        cond = (pizza_time);
+    } else {
+        // p rank mode
+        cond = (pizza_time && p_rank_lap_2 && p_rank_stars >= 5);
+    }
+
+    if (cond) {
         o->oInteractType = INTERACT_STAR_OR_KEY;
         o->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
         o->oFaceAngleYaw += 0x800;
@@ -117,6 +126,7 @@ void bhv_l_clock(void) {
             if (obj_check_if_collided_with_object(o, gMarioObject)) {
                 combo_meter = CLAMP(combo_meter+33,0,201);
                 play_sound(SOUND_GENERAL2_SWITCH_TICK_FAST, gGlobalSoundSource);
+                spawn_object(o, MODEL_SPARKLES, bhvCoinSparklesSpawner);
                 o->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
                 o->oAction++;
             }

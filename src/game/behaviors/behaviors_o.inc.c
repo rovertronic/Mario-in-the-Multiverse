@@ -216,18 +216,28 @@ void bhv_star_piece_loop(void) {
         case 0: // init
             cur_obj_hide();
             o->oAction = 1;
-        break;
+            break;
         case 1: //waiting
             if (sps && sps->oAction == BLUE_COIN_SWITCH_ACT_TICKING) {
                 o->oAction = 2;
                 cur_obj_unhide();
             }
-        break;
+            break;
         case 2: //active
+            if (sps && sps->oTimer > (sps->oBehParams2ndByte == 0 ? 200 : (sps->oBehParams2ndByte * 10) - 40)) {
+                if (gGlobalTimer % 2 == 0) {
+                    cur_obj_unhide();
+                } else {
+                    cur_obj_hide();
+                }
+            }
+
             if (o->oDistanceToMario < 160.0f) {
                 cur_obj_hide();
                 cur_obj_play_sound_2(SOUND_MENU_COLLECT_SECRET+star_pieces_got);
+                spawn_object(o, MODEL_SPARKLES, bhvCoinSparklesSpawner);
                 star_pieces_got++;
+                spawn_orange_number(star_pieces_got, 0, 0, 0);
                 o->oAction = 3;
             }
 
@@ -236,7 +246,7 @@ void bhv_star_piece_loop(void) {
                 cur_obj_hide();
                 o->oAction = 1;
             }
-        break;
+            break;
     }
 }
 

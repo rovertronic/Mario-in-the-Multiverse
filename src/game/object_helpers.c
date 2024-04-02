@@ -1592,7 +1592,7 @@ void cur_obj_move_standard(s16 steepSlopeAngleDegrees) {
     s32 careAboutEdgesAndSteepSlopes = FALSE;
     s32 negativeSpeed = FALSE;
 
-    if (is_2d_area) {
+    if (is_2d_area()) {
         o->oPosZ = 0.0f;
     }
 

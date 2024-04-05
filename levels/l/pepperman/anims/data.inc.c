@@ -1,1 +1,4 @@
 #include "anim_Armature_003Action.inc.c"
+#include "anim_charge.inc.c"
+#include "anim_hurt.inc.c"
+#include "anim_scared.inc.c"

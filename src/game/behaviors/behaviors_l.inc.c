@@ -199,7 +199,7 @@ struct ObjectHitbox sPeppermanHitbox = {
     /* interactType:      */ INTERACT_DAMAGE,
     /* downOffset:        */ 0,
     /* damageOrCoinValue: */ 1,
-    /* health:            */ 3,
+    /* health:            */ 4,
     /* numLootCoins:      */ 0,
     /* radius:            */ 100,
     /* height:            */ 200,
@@ -214,6 +214,7 @@ enum {
     PM_ACT_REVERSE_CHARGE,
     PM_ACT_STUNNED,
     PM_ACT_PUNCHED,
+    PM_ACT_FEAR,
 };
 
 void bhv_boss_pepperman_loop(void) {
@@ -228,11 +229,15 @@ void bhv_boss_pepperman_loop(void) {
             o->oAction = PM_ACT_IDLE;
             break;
         case PM_ACT_IDLE:
+            if (o->oTimer == 0) {
+                cur_obj_init_animation(0);
+            }
             o->oForwardVel = 0.0f;
             o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, o->oAngleToMario, 0x300);
             o->oInteractType = INTERACT_IGLOO_BARRIER;
             o->oDamageOrCoinValue = 0;
             if (o->oTimer > 30) {
+                cur_obj_init_animation(1);
                 o->oDamageOrCoinValue = 3;
                 o->oAction = PM_ACT_CHARGE;
                 o->oAngleVelYaw = o->oAngleToMario; // Used for charge reverse dection
@@ -240,7 +245,7 @@ void bhv_boss_pepperman_loop(void) {
             }
             break;
         case PM_ACT_CHARGE:
-            if (ABS(o->oAngleToMario-o->oAngleVelYaw) > 0x8000) {
+            if (o->oHealth <=2 && ABS(o->oAngleToMario-o->oAngleVelYaw) > 0x8000) {
                 //mario's on the other side of my initial charge angle, reverse!
                 o->oAction = PM_ACT_REVERSE_CHARGE;
                 o->oForwardVel = -o->oForwardVel;
@@ -260,6 +265,7 @@ void bhv_boss_pepperman_loop(void) {
             o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, o->oAngleToMario, 0x200);
             o->oForwardVel += 5.0f;
             if (o->oForwardVel>0.0f&&(o->oMoveFlags & (OBJ_MOVE_HIT_WALL|OBJ_MOVE_HIT_EDGE))) {
+                cur_obj_play_sound_2(SOUND_ACTION_BONK);
                 o->oDamageOrCoinValue = 0;
                 o->oAction = PM_ACT_STUNNED;
                 o->oForwardVel = -50.0f;
@@ -267,6 +273,7 @@ void bhv_boss_pepperman_loop(void) {
             }
             break;
         case PM_ACT_STUNNED:
+            o->header.gfx.animInfo.animFrame = 0;
             o->oForwardVel *= .8f;
             o->oInteractType = INTERACT_BOUNCE_TOP;
             if ((o->oTimer % 15 == 0)||(o->oTimer % 15 == 3)) {
@@ -276,10 +283,11 @@ void bhv_boss_pepperman_loop(void) {
             if ((o->oTimer % 15 == 1)||(o->oTimer % 15 == 4)) {
                 o->oAnimState = 1;
             }
-            if (o->oTimer > 60) {
+            if (o->oTimer > 70) {
                 o->oAction = PM_ACT_IDLE;
             }
             if ((o->oInteractStatus & INT_STATUS_WAS_ATTACKED)||(o->oShotByShotgun > 0)) {
+                o->oHealth --;
                 o->oAction = PM_ACT_PUNCHED;
                 o->oMoveAngleYaw = gMarioState->faceAngle[1];
                 o->oForwardVel = 90.0f;
@@ -287,6 +295,7 @@ void bhv_boss_pepperman_loop(void) {
             }
             break;
         case PM_ACT_PUNCHED:
+            cur_obj_init_animation(2);
             o->oFaceAngleYaw = o->oMoveAngleYaw+0x8000;
             o->oForwardVel *= .99f;
             o->oInteractType = INTERACT_NONE;
@@ -294,9 +303,49 @@ void bhv_boss_pepperman_loop(void) {
                 o->oMoveAngleYaw = random_u16();
             }
             if (o->oTimer > 60) {
-                o->oAction = PM_ACT_IDLE;
+                if (o->oHealth > 0) {
+                    o->oAction = PM_ACT_IDLE;
+                } else {
+                    cur_obj_play_sound_2(SOUND_MENU_ENTER_PIPE);
+                    o->oAction = PM_ACT_FEAR;
+                    o->oDamageOrCoinValue = 0;
+                }
+            }
+            break;
+        case PM_ACT_FEAR:
+            o->oInteractType = INTERACT_BOUNCE_TOP;
+            if (o->oTimer < 200) {
+                o->header.gfx.scale[0] = approach_f32_asymptotic(o->header.gfx.scale[0],0.5f,0.1f);
+            } else {
+                o->header.gfx.scale[0] = approach_f32_asymptotic(o->header.gfx.scale[0],1.0f,0.1f);
+                if (o->header.gfx.scale[1] > 0.98f) {
+                    o->oAction = PM_ACT_IDLE;
+                    o->oHealth = 1;
+                    cur_obj_scale(1.0f);
+                    cur_obj_play_sound_2(SOUND_MENU_EXIT_PIPE);
+                    break;
+                }
+            }
+            cur_obj_scale(o->header.gfx.scale[0]);
+
+            cur_obj_init_animation(3);
+            if (o->oForwardVel < 55.0f) {
+                o->oForwardVel += 4.0f;
+            }
+            if (o->oMoveFlags & (OBJ_MOVE_HIT_WALL|OBJ_MOVE_HIT_EDGE)) {
+                o->oMoveAngleYaw = random_u16();
+                if (o->oPosY < o->oHomeY + 10.0f) {
+                    o->oVelY = 40.0f;
+                    cur_obj_play_sound_2(SOUND_OBJ2_SCUTTLEBUG_ALERT);
+                }
+            }
+            if ((o->oInteractStatus & INT_STATUS_WAS_ATTACKED)||(o->oShotByShotgun > 0)) {
+                spawn_default_star(o->oHomeX,o->oHomeY+400.0f,o->oHomeZ);
+                spawn_mist_particles_variable(0, 0, 200.0f);
+                mark_obj_for_deletion(o);
             }
             break;
     }
     o->oInteractStatus = 0;
+    o->oShotByShotgun = 0;
 }

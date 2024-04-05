@@ -8112,6 +8112,17 @@ const BehaviorScript bhvL_PeppermanBoss[] = {
     END_LOOP(),
 };
 
+extern void bhv_boss_pepperman_statue(void);
+const BehaviorScript bhvL_PeppermanStatue[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 100, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 500, /*Friction*/ 500, /*Buoyancy*/ 0, /*Unused*/ 0, 0),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_boss_pepperman_statue),
+    END_LOOP(),
+};
+
 extern void bhv_l_clock(void);
 const BehaviorScript bhvLclock[] = {
     BEGIN(OBJ_LIST_LEVEL),

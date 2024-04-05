@@ -42,6 +42,9 @@ const LevelScript level_l_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_L_PEPPERMAN, pepperman_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_L_CLOCK, lclock_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_L_PORTAL, lportal_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_L_PSTATUE_1, pstatue1_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_L_PSTATUE_2, pstatue2_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_L_PSTATUE_3, pstatue3_geo),
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */

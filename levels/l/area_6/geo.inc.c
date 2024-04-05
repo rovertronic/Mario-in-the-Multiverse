@@ -3,7 +3,7 @@
 const GeoLayout l_area_6_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, l_dl_1nonuclid_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_FORCE, l_dl_1nonuclid_mesh_layer_0),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -935, 0, 0, l_dl_2area1_preview_mesh_layer_1),
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_ALPHA, l_dl_2area1_preview_mesh_layer_4),
@@ -39,6 +39,7 @@ const GeoLayout l_area_6[] = {
 				GEO_CLOSE_NODE(),
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),
+		GEO_DISPLAY_LIST(LAYER_FORCE, l_dl_material_revert_render_settings),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, l_dl_material_revert_render_settings),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, l_dl_material_revert_render_settings),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, l_dl_material_revert_render_settings),

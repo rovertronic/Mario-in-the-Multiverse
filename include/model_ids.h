@@ -822,6 +822,9 @@ enum {
 #define MODEL_L_PORTAL                          0x155
 #define MODEL_L_ANCHOVY                         MODEL_FLYGUY
 #define bhvL_Anchovy                            bhvFlyGuy
+#define MODEL_L_PSTATUE_1                       0x156
+#define MODEL_L_PSTATUE_2                       0x157
+#define MODEL_L_PSTATUE_3                       0x158
 /* LEVEL L END */
 
 /* LEVEL M START */

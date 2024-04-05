@@ -199,7 +199,19 @@ struct ObjectHitbox sPeppermanHitbox = {
     /* interactType:      */ INTERACT_DAMAGE,
     /* downOffset:        */ 0,
     /* damageOrCoinValue: */ 1,
-    /* health:            */ 4,
+    /* health:            */ 7,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 100,
+    /* height:            */ 200,
+    /* hurtboxRadius:     */ 110,
+    /* hurtboxHeight:     */ 210,
+};
+
+struct ObjectHitbox sStatueHitbox = {
+    /* interactType:      */ INTERACT_BOUNCE_TOP,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 0,
+    /* health:            */ 2,
     /* numLootCoins:      */ 0,
     /* radius:            */ 100,
     /* height:            */ 200,
@@ -245,7 +257,7 @@ void bhv_boss_pepperman_loop(void) {
             }
             break;
         case PM_ACT_CHARGE:
-            if (o->oHealth <=2 && ABS(o->oAngleToMario-o->oAngleVelYaw) > 0x8000) {
+            if (o->oHealth <=5 && ABS(o->oAngleToMario-o->oAngleVelYaw) > 0x8000) {
                 //mario's on the other side of my initial charge angle, reverse!
                 o->oAction = PM_ACT_REVERSE_CHARGE;
                 o->oForwardVel = -o->oForwardVel;
@@ -270,21 +282,52 @@ void bhv_boss_pepperman_loop(void) {
                 o->oAction = PM_ACT_STUNNED;
                 o->oForwardVel = -50.0f;
                 o->oVelY = 30.0f;
+                switch(o->oHealth) {
+                    case 2:
+                    case 3:
+                        if (!cur_obj_nearest_object_with_behavior(bhvL_PeppermanStatue)) {
+                            struct Object *statue = spawn_object(o,MODEL_L_PSTATUE_1,bhvL_PeppermanStatue);
+                            statue->oPosX = random_float() * 1400.0f - 700.0f;
+                            statue->oPosZ = random_float() * 1400.0f - 700.0f;
+                            statue->oPosY = 2000.0f;
+                        }
+                        o->oAction = PM_ACT_IDLE;
+                    break;
+                }
             }
+
+            struct Object * nearest_statue = cur_obj_nearest_object_with_behavior(bhvL_PeppermanStatue);
+            if (nearest_statue != NULL && dist_between_objects(nearest_statue,o) < 300.0f && nearest_statue->oHealth == 0) {
+                o->oAction = PM_ACT_STUNNED;
+                o->oDamageOrCoinValue = 0;
+                o->oForwardVel = 0.0f;
+                o->oVelY = 0.0f;
+                cur_obj_init_animation(4);
+            }
+
             break;
         case PM_ACT_STUNNED:
-            o->header.gfx.animInfo.animFrame = 0;
             o->oForwardVel *= .8f;
             o->oInteractType = INTERACT_BOUNCE_TOP;
-            if ((o->oTimer % 15 == 0)||(o->oTimer % 15 == 3)) {
-                o->oAnimState = 1;
-                cur_obj_play_sound_2(SOUND_GENERAL_BOWSER_KEY_LAND);
-            }
-            if ((o->oTimer % 15 == 1)||(o->oTimer % 15 == 4)) {
-                o->oAnimState = 1;
-            }
-            if (o->oTimer > 70) {
-                o->oAction = PM_ACT_IDLE;
+
+            switch(o->oHealth) {
+                case 2:
+                case 3:
+                    break;
+                default:
+                    o->header.gfx.animInfo.animFrame = 0;
+
+                    if ((o->oTimer % 15 == 0)||(o->oTimer % 15 == 3)) {
+                        o->oAnimState = 1;
+                        cur_obj_play_sound_2(SOUND_GENERAL_BOWSER_KEY_LAND);
+                    }
+                    if ((o->oTimer % 15 == 1)||(o->oTimer % 15 == 4)) {
+                        o->oAnimState = 1;
+                    }
+                    if (o->oTimer > 70) {
+                        o->oAction = PM_ACT_IDLE;
+                    }
+                    break;
             }
             if ((o->oInteractStatus & INT_STATUS_WAS_ATTACKED)||(o->oShotByShotgun > 0)) {
                 o->oHealth --;
@@ -292,6 +335,11 @@ void bhv_boss_pepperman_loop(void) {
                 o->oMoveAngleYaw = gMarioState->faceAngle[1];
                 o->oForwardVel = 90.0f;
                 o->oVelY = 50.0f;
+        
+                struct Object * nearest_statue = cur_obj_nearest_object_with_behavior(bhvL_PeppermanStatue);
+                if (nearest_statue != NULL) {
+                    mark_obj_for_deletion(nearest_statue);
+                }
             }
             break;
         case PM_ACT_PUNCHED:
@@ -345,6 +393,34 @@ void bhv_boss_pepperman_loop(void) {
                 mark_obj_for_deletion(o);
             }
             break;
+    }
+    o->oInteractStatus = 0;
+    o->oShotByShotgun = 0;
+}
+
+void bhv_boss_pepperman_statue(void) {
+    cur_obj_update_floor_and_walls();
+    cur_obj_move_standard(-78);
+    if (o->oTimer == 0) {
+        obj_set_hitbox(o, &sStatueHitbox);
+    }
+
+    if (o->oHealth > 0) {
+        if ((o->oInteractStatus & INT_STATUS_WAS_ATTACKED)||(o->oShotByShotgun > 0)) {
+            spawn_triangle_break_particles(20, MODEL_DIRT_ANIMATION, 3.0f, TINY_DIRT_PARTICLE_ANIM_STATE_YELLOW);
+            cur_obj_shake_screen(SHAKE_POS_SMALL);
+
+            o->oHealth--;
+            switch(o->oHealth) {
+                case 1:
+                    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_L_PSTATUE_2];
+                    break;
+                case 0:
+                    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_L_PSTATUE_3];
+                    o->oInteractType = INTERACT_IGLOO_BARRIER;
+                    break;
+            }
+        }
     }
     o->oInteractStatus = 0;
     o->oShotByShotgun = 0;

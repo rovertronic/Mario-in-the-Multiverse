@@ -37,4 +37,10 @@ extern const LevelScript level_l_entry[];
 
 #include "levels/l/lclock/anim_header.h"
 
+#include "levels/l/pstatue1/geo_header.h"
+
+#include "levels/l/pstatue2/geo_header.h"
+
+#include "levels/l/pstatue3/geo_header.h"
+
 #endif

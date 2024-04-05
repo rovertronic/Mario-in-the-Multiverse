@@ -22,3 +22,6 @@
 #include "levels/l/cheeseslime/geo.inc.c"
 #include "levels/l/pepperman/geo.inc.c"
 #include "levels/l/lclock/geo.inc.c"
+#include "levels/l/pstatue1/geo.inc.c"
+#include "levels/l/pstatue2/geo.inc.c"
+#include "levels/l/pstatue3/geo.inc.c"

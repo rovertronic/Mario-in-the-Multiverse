@@ -31,3 +31,6 @@
 #include "levels/l/lclock/model.inc.c"
 #include "levels/l/lclock/anims/data.inc.c"
 #include "levels/l/lclock/anims/table.inc.c"
+#include "levels/l/pstatue1/model.inc.c"
+#include "levels/l/pstatue2/model.inc.c"
+#include "levels/l/pstatue3/model.inc.c"

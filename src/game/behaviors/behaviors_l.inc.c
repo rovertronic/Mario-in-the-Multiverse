@@ -194,3 +194,109 @@ void bhv_pizza_portal_loop(void) {
         o->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
     }
 }
+
+struct ObjectHitbox sPeppermanHitbox = {
+    /* interactType:      */ INTERACT_DAMAGE,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 1,
+    /* health:            */ 3,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 100,
+    /* height:            */ 200,
+    /* hurtboxRadius:     */ 110,
+    /* hurtboxHeight:     */ 210,
+};
+
+enum {
+    PM_ACT_INIT,
+    PM_ACT_IDLE,
+    PM_ACT_CHARGE,
+    PM_ACT_REVERSE_CHARGE,
+    PM_ACT_STUNNED,
+    PM_ACT_PUNCHED,
+};
+
+void bhv_boss_pepperman_loop(void) {
+    cur_obj_update_floor_and_walls();
+    cur_obj_move_standard(-78);
+    o->oFaceAngleYaw = o->oMoveAngleYaw;
+
+    o->oAnimState = 0;
+    switch(o->oAction) {
+        case PM_ACT_INIT:
+            obj_set_hitbox(o, &sPeppermanHitbox);
+            o->oAction = PM_ACT_IDLE;
+            break;
+        case PM_ACT_IDLE:
+            o->oForwardVel = 0.0f;
+            o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, o->oAngleToMario, 0x300);
+            o->oInteractType = INTERACT_IGLOO_BARRIER;
+            o->oDamageOrCoinValue = 0;
+            if (o->oTimer > 30) {
+                o->oDamageOrCoinValue = 3;
+                o->oAction = PM_ACT_CHARGE;
+                o->oAngleVelYaw = o->oAngleToMario; // Used for charge reverse dection
+                o->oForwardVel = -20.0f;
+            }
+            break;
+        case PM_ACT_CHARGE:
+            if (ABS(o->oAngleToMario-o->oAngleVelYaw) > 0x8000) {
+                //mario's on the other side of my initial charge angle, reverse!
+                o->oAction = PM_ACT_REVERSE_CHARGE;
+                o->oForwardVel = -o->oForwardVel;
+                o->oMoveAngleYaw += 0x8000;
+
+                cur_obj_play_sound_2(SOUND_OBJ2_SCUTTLEBUG_ALERT);
+            }
+        case PM_ACT_REVERSE_CHARGE:
+            if (o->oAction == PM_ACT_REVERSE_CHARGE) {
+                o->oForwardVel += 3.0f;
+                if (o->oForwardVel < 0.0f) {
+                    o->oForwardVel += 3.0f;
+                }
+            }
+
+            o->oInteractType = INTERACT_DAMAGE;
+            o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, o->oAngleToMario, 0x200);
+            o->oForwardVel += 5.0f;
+            if (o->oForwardVel>0.0f&&(o->oMoveFlags & (OBJ_MOVE_HIT_WALL|OBJ_MOVE_HIT_EDGE))) {
+                o->oDamageOrCoinValue = 0;
+                o->oAction = PM_ACT_STUNNED;
+                o->oForwardVel = -50.0f;
+                o->oVelY = 30.0f;
+            }
+            break;
+        case PM_ACT_STUNNED:
+            o->oForwardVel *= .8f;
+            o->oInteractType = INTERACT_BOUNCE_TOP;
+            if ((o->oTimer % 15 == 0)||(o->oTimer % 15 == 3)) {
+                o->oAnimState = 1;
+                cur_obj_play_sound_2(SOUND_GENERAL_BOWSER_KEY_LAND);
+            }
+            if ((o->oTimer % 15 == 1)||(o->oTimer % 15 == 4)) {
+                o->oAnimState = 1;
+            }
+            if (o->oTimer > 60) {
+                o->oAction = PM_ACT_IDLE;
+            }
+            if ((o->oInteractStatus & INT_STATUS_WAS_ATTACKED)||(o->oShotByShotgun > 0)) {
+                o->oAction = PM_ACT_PUNCHED;
+                o->oMoveAngleYaw = gMarioState->faceAngle[1];
+                o->oForwardVel = 90.0f;
+                o->oVelY = 50.0f;
+            }
+            break;
+        case PM_ACT_PUNCHED:
+            o->oFaceAngleYaw = o->oMoveAngleYaw+0x8000;
+            o->oForwardVel *= .99f;
+            o->oInteractType = INTERACT_NONE;
+            if (o->oMoveFlags & (OBJ_MOVE_HIT_WALL|OBJ_MOVE_HIT_EDGE)) {
+                o->oMoveAngleYaw = random_u16();
+            }
+            if (o->oTimer > 60) {
+                o->oAction = PM_ACT_IDLE;
+            }
+            break;
+    }
+    o->oInteractStatus = 0;
+}

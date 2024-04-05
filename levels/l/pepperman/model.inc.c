@@ -1193,6 +1193,13 @@ Gfx mat_revert_pepperman_pepperface_op[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx mat_pepperman_whiteflash[] = {
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsSPEndDisplayList(),
+};
+
 Gfx mat_pepperman_pepperskin[] = {
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(SHADE, 0, TEXEL0, 0, 0, 0, 0, ENVIRONMENT, SHADE, 0, TEXEL0, 0, 0, 0, 0, ENVIRONMENT),
@@ -1254,6 +1261,12 @@ Gfx pepperman_arm2_l_skinned_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx pepperman_arm2_l_skinned_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_arm2_l_skinned_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
 Gfx pepperman_arm2_l_mesh_layer_1[] = {
 	gsSPDisplayList(mat_pepperman_pepperface_op),
 	gsSPDisplayList(pepperman_arm2_l_mesh_layer_1_tri_0),
@@ -1261,10 +1274,22 @@ Gfx pepperman_arm2_l_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx pepperman_arm2_l_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_arm2_l_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
 Gfx pepperman_hand_l_skinned_mesh_layer_1[] = {
 	gsSPDisplayList(mat_pepperman_pepperface_op),
 	gsSPDisplayList(pepperman_hand_l_skinned_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_pepperman_pepperface_op),
+	gsSPEndDisplayList(),
+};
+
+Gfx pepperman_hand_l_skinned_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_hand_l_skinned_mesh_layer_1_tri_0),
 	gsSPEndDisplayList(),
 };
 
@@ -1276,10 +1301,23 @@ Gfx pepperman_hand_l_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx pepperman_hand_l_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_hand_l_mesh_layer_1_tri_0),
+	gsSPDisplayList(pepperman_hand_l_mesh_layer_1_tri_1),
+	gsSPEndDisplayList(),
+};
+
 Gfx pepperman_arm2_r_skinned_mesh_layer_1[] = {
 	gsSPDisplayList(mat_pepperman_pepperface_op),
 	gsSPDisplayList(pepperman_arm2_r_skinned_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_pepperman_pepperface_op),
+	gsSPEndDisplayList(),
+};
+
+Gfx pepperman_arm2_r_skinned_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_arm2_r_skinned_mesh_layer_1_tri_0),
 	gsSPEndDisplayList(),
 };
 
@@ -1290,10 +1328,22 @@ Gfx pepperman_arm2_r_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx pepperman_arm2_r_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_arm2_r_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
 Gfx pepperman_hand_r_skinned_mesh_layer_1[] = {
 	gsSPDisplayList(mat_pepperman_pepperface_op),
 	gsSPDisplayList(pepperman_hand_r_skinned_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_pepperman_pepperface_op),
+	gsSPEndDisplayList(),
+};
+
+Gfx pepperman_hand_r_skinned_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_hand_r_skinned_mesh_layer_1_tri_0),
 	gsSPEndDisplayList(),
 };
 
@@ -1305,10 +1355,23 @@ Gfx pepperman_hand_r_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx pepperman_hand_r_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_hand_r_mesh_layer_1_tri_0),
+	gsSPDisplayList(pepperman_hand_r_mesh_layer_1_tri_1),
+	gsSPEndDisplayList(),
+};
+
 Gfx pepperman_head_mesh_layer_1[] = {
 	gsSPDisplayList(mat_pepperman_pepperskin),
 	gsSPDisplayList(pepperman_head_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_pepperman_pepperskin),
+	gsSPEndDisplayList(),
+};
+
+Gfx pepperman_head_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_head_mesh_layer_1_tri_0),
 	gsSPEndDisplayList(),
 };
 
@@ -1319,10 +1382,22 @@ Gfx pepperman_head_mesh_layer_6[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx pepperman_head_mesh_layer_6_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_head_mesh_layer_6_tri_0),
+	gsSPEndDisplayList(),
+};
+
 Gfx pepperman_pain_mesh_layer_1[] = {
 	gsSPDisplayList(mat_pepperman_pepperface_op),
 	gsSPDisplayList(pepperman_pain_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_pepperman_pepperface_op),
+	gsSPEndDisplayList(),
+};
+
+Gfx pepperman_pain_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_pain_mesh_layer_1_tri_0),
 	gsSPEndDisplayList(),
 };
 
@@ -1333,10 +1408,22 @@ Gfx pepperman_stem_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx pepperman_stem_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_stem_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
 Gfx pepperman_leg2_l_skinned_mesh_layer_1[] = {
 	gsSPDisplayList(mat_pepperman_pepperface_op),
 	gsSPDisplayList(pepperman_leg2_l_skinned_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_pepperman_pepperface_op),
+	gsSPEndDisplayList(),
+};
+
+Gfx pepperman_leg2_l_skinned_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_leg2_l_skinned_mesh_layer_1_tri_0),
 	gsSPEndDisplayList(),
 };
 
@@ -1347,10 +1434,22 @@ Gfx pepperman_leg2_l_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx pepperman_leg2_l_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_leg2_l_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
 Gfx pepperman_foot_l_skinned_mesh_layer_1[] = {
 	gsSPDisplayList(mat_pepperman_pepperface_op),
 	gsSPDisplayList(pepperman_foot_l_skinned_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_pepperman_pepperface_op),
+	gsSPEndDisplayList(),
+};
+
+Gfx pepperman_foot_l_skinned_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_foot_l_skinned_mesh_layer_1_tri_0),
 	gsSPEndDisplayList(),
 };
 
@@ -1362,10 +1461,23 @@ Gfx pepperman_foot_l_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx pepperman_foot_l_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_foot_l_mesh_layer_1_tri_0),
+	gsSPDisplayList(pepperman_foot_l_mesh_layer_1_tri_1),
+	gsSPEndDisplayList(),
+};
+
 Gfx pepperman_leg2_r_skinned_mesh_layer_1[] = {
 	gsSPDisplayList(mat_pepperman_pepperface_op),
 	gsSPDisplayList(pepperman_leg2_r_skinned_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_pepperman_pepperface_op),
+	gsSPEndDisplayList(),
+};
+
+Gfx pepperman_leg2_r_skinned_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_leg2_r_skinned_mesh_layer_1_tri_0),
 	gsSPEndDisplayList(),
 };
 
@@ -1376,10 +1488,22 @@ Gfx pepperman_leg2_r_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx pepperman_leg2_r_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_leg2_r_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
 Gfx pepperman_foot_r_skinned_mesh_layer_1[] = {
 	gsSPDisplayList(mat_pepperman_pepperface_op),
 	gsSPDisplayList(pepperman_foot_r_skinned_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_pepperman_pepperface_op),
+	gsSPEndDisplayList(),
+};
+
+Gfx pepperman_foot_r_skinned_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_foot_r_skinned_mesh_layer_1_tri_0),
 	gsSPEndDisplayList(),
 };
 
@@ -1388,6 +1512,13 @@ Gfx pepperman_foot_r_mesh_layer_1[] = {
 	gsSPDisplayList(pepperman_foot_r_mesh_layer_1_tri_0),
 	gsSPDisplayList(pepperman_foot_r_mesh_layer_1_tri_1),
 	gsSPDisplayList(mat_revert_pepperman_pepperface_op),
+	gsSPEndDisplayList(),
+};
+
+Gfx pepperman_foot_r_mesh_layer_1_mat_override_whiteflash_0[] = {
+	gsSPDisplayList(mat_pepperman_whiteflash),
+	gsSPDisplayList(pepperman_foot_r_mesh_layer_1_tri_0),
+	gsSPDisplayList(pepperman_foot_r_mesh_layer_1_tri_1),
 	gsSPEndDisplayList(),
 };
 

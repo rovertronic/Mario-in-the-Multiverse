@@ -182,6 +182,8 @@ void bhv_npc_pepperman_loop(void) {
 }
 
 void bhv_pizza_portal_loop(void) {
+    bhv_warp_loop();
+    return;
     if (!p_rank_lap_2 && pizza_time && p_rank_challenge_enabled) {
         o->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
         if (o->oInteractStatus != INTERACT_NONE) {
@@ -313,6 +315,9 @@ void bhv_boss_pepperman_loop(void) {
             switch(o->oHealth) {
                 case 2:
                 case 3:
+                    if ((o->oTimer % 15 == 0)||(o->oTimer % 15 == 3)||(o->oTimer % 15 == 1)||(o->oTimer % 15 == 4)) {
+                        o->oAnimState = 1;
+                    }
                     break;
                 default:
                     o->header.gfx.animInfo.animFrame = 0;

@@ -634,6 +634,11 @@ void initiate_warp(s16 destLevel, s16 destArea, s16 destWarpNode, s32 warpFlags)
         sWarpDest.type = WARP_TYPE_SAME_AREA;
     }
 
+    if ((gCurrAreaIndex == 6)&&(gCurrLevelNum == LEVEL_L)) {
+        // reset level for p ranks and retries
+        sWarpDest.type = WARP_TYPE_CHANGE_LEVEL;
+    }
+
     sWarpDest.levelNum = destLevel;
     sWarpDest.areaIdx = destArea;
     sWarpDest.nodeId = destWarpNode;

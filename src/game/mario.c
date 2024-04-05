@@ -1911,6 +1911,11 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         gHudDisplay.timer = pizza_timer;
         if (pizza_timer > 0) {
             pizza_timer --;
+        } else {
+            //outta time, summon the green demon
+            if (!cur_obj_nearest_object_with_behavior(bhvHidden1upInPole)) {
+                spawn_object(gMarioObject,MODEL_L_DEMON,bhvHidden1upInPole);
+            }
         }
     } else {
         level_control_timer(TIMER_CONTROL_HIDE);

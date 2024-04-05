@@ -1,11 +1,11 @@
-void scroll_castle_inside_dl_Map_mesh_layer_1_vtx_6() {
+void scroll_castle_inside_dl_Map_mesh_layer_1_vtx_7() {
 	int i = 0;
 	int count = 72;
 	int width = 64 * 0x20;
 
 	static int currentX = 0;
 	int deltaX;
-	Vtx *vertices = segmented_to_virtual(castle_inside_dl_Map_mesh_layer_1_vtx_6);
+	Vtx *vertices = segmented_to_virtual(castle_inside_dl_Map_mesh_layer_1_vtx_7);
 
 	deltaX = (int)(0.4000000059604645 * 0x20) % width;
 
@@ -42,7 +42,7 @@ void scroll_castle_inside_dl_Map_mesh_layer_5_vtx_0() {
 
 void scroll_castle_inside_dl_Map_mesh_layer_5_vtx_1() {
 	int i = 0;
-	int count = 480;
+	int count = 464;
 	int height = 64 * 0x20;
 
 	static int currentY = 0;
@@ -71,7 +71,7 @@ void scroll_gfx_mat_castle_inside_dl_acid_f3d_layer5() {
 };
 
 void scroll_castle_inside() {
-	scroll_castle_inside_dl_Map_mesh_layer_1_vtx_6();
+	scroll_castle_inside_dl_Map_mesh_layer_1_vtx_7();
 	scroll_castle_inside_dl_Map_mesh_layer_5_vtx_0();
 	scroll_castle_inside_dl_Map_mesh_layer_5_vtx_1();
 	scroll_gfx_mat_castle_inside_dl_acid_f3d_layer5();

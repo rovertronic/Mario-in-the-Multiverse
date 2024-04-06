@@ -493,6 +493,7 @@ const LevelScript level_l_entry[] = {
 		OBJECT(MODEL_NONE, 1356, 0, 0, 0, 0, 0, (10 << 24) | (4 << 16), bhvWarp),
 		OBJECT(MODEL_NONE, 0, 265, 0, 0, 0, 0, (0x0A << 16), bhvSpinAirborneWarp),
 		OBJECT(MODEL_NONE, -790, 0, 0, 0, 90, 0, (1 << 16), bhvSpinAirborneWarp),
+		OBJECT(MODEL_NONE, 812, 0, 0, 0, -90, 0, (2 << 16), bhvSpinAirborneWarp),
 		OBJECT(MODEL_LEVEL_PIPE, 0, 0, -1275, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_L_PEPPERMAN, 0, 0, 1267, 0, -180, 0, (7 << 24), bhvL_PeppermanNPC),
 		TERRAIN(l_area_6_collision),

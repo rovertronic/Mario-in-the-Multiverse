@@ -506,7 +506,7 @@ const LevelScript level_l_entry[] = {
 	AREA(7, l_area_7),
 		WARP_NODE(241 /*death*/, LEVEL_L, 0x06, 0x05, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0A /*entry*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(240 /*win*/, LEVEL_L, 0x06, 1, WARP_NO_CHECKPOINT),
+		WARP_NODE(240 /*win*/, LEVEL_L, 0x06, 2, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_L_PEPPERMAN, 0, 108, -870, 0, 0, 0, (6 << 24), bhvL_PeppermanBoss),
 		OBJECT(MODEL_NONE, 0, 424, 930, 0, -180, 0, (0x0A << 16), bhvSpinAirborneWarp),
 		TERRAIN(l_area_7_collision),

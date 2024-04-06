@@ -51,7 +51,7 @@ void king_jelly_boss_loop(void) {
             o->oFaceAngleYaw = o->oAngleToMario;
             if (o->oDistanceToMario < 1500.0f) {
                 o->oAction = KING_JELLY_ACT_WANDER;
-                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_CUSTOM_KIRBY_BOSS), 0);
+                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_JELLYFISH_BOSS), 0);
             }
             break;
 
@@ -203,7 +203,7 @@ void king_jelly_boss_loop(void) {
             
         case KING_JELLY_ACT_DIE:
             if (o->oTimer==0) {
-                stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_KIRBY_BOSS));
+                stop_background_music(SEQUENCE_ARGS(4, SEQ_JELLYFISH_BOSS));
                 cur_obj_play_sound_2(SOUND_OBJ_ENEMY_DEFEAT_SHRINK);
             }
             cur_obj_scale(4.0 * ((30.0f-o->oTimer)/30.0f));

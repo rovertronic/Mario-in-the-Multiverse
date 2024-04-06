@@ -137,6 +137,13 @@ void bhv_l_clock(void) {
 }
 
 void bhv_npc_pepperman_loop(void) {
+    u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(COURSE_LLL));
+    if (!(star_flags & (1 << 6))) {
+        // don't spawn pepperman til you beat him
+        mark_obj_for_deletion(o);
+        return;
+    }
+
     s32 dialogResponse;
     switch (o->oAction) {
         case 0:
@@ -182,8 +189,6 @@ void bhv_npc_pepperman_loop(void) {
 }
 
 void bhv_pizza_portal_loop(void) {
-    bhv_warp_loop();
-    return;
     if (!p_rank_lap_2 && pizza_time && p_rank_challenge_enabled) {
         o->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
         if (o->oInteractStatus != INTERACT_NONE) {

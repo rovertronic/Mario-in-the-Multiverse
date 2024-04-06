@@ -79,6 +79,7 @@ enum SeqId {
     SEQ_L_HOT_SPAGHETTI,
     SEQ_L_MONDAYS,
     SEQ_L_PIZZA_TIME,
+    SEQ_JELLYFISH_BOSS,
     SEQ_COUNT,
 };
 

@@ -243,6 +243,11 @@ void clear_area_graph_nodes(void) {
 void load_area(s32 index) {    
     if (gCurrentArea == NULL && gAreaData[index].graphNode != NULL) {
 
+        if (index > 5) {
+            pizza_time = FALSE;
+            p_rank_challenge_enabled = FALSE;
+        }
+
         if (p_rank_challenge_prepare) {
             p_rank_challenge_prepare = FALSE;
             p_rank_challenge_enabled = TRUE;

@@ -64,6 +64,7 @@
 #include "levels/g/header.h"
 #include "levels/h/header.h"
 #include "levels/l/header.h"
+#include "levels/bowser_course/header.h"
 
 #include "make_const_nonconst.h"
 #include "behavior_data.h"
@@ -8593,5 +8594,91 @@ const BehaviorScript bhvGWaddleDee[] = {
     CALL_NATIVE(bhv_g_waddle_dee_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_g_waddle_dee_loop),
+    END_LOOP(),
+};
+
+extern void bhv_matplatform(void);
+const BehaviorScript bhvMatPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_matplatform),
+        //CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBcTilting[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(bc_tilting_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_seesaw_platform_update),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBcWaddleDee[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_E__SG_ENEMY | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW )),
+    LOAD_ANIMATIONS(oAnimations, bc_waddle_dee_anims),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 16000),
+    ANIMATE(0),
+    CALL_NATIVE(bhv_g_waddle_dee_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_g_waddle_dee_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBcJelly[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY)),
+    LOAD_ANIMATIONS(oAnimations, bc_jelly_anims),
+    CALL_NATIVE(jelly_init),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(jelly_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBcHoodmonger[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW | OBJ_FLAG_E__SG_ENEMY)),
+    LOAD_ANIMATIONS(oAnimations, bc_hoodmonger_anims),
+    SET_FLOAT(oDrawingDistance, 6000),
+    SET_INT(oDamageOrCoinValue, 2),
+    SET_INT(oHealth, 1),
+    SET_INT(oNumLootCoins, 3),
+    SET_INTERACT_TYPE(INTERACT_DAMAGE),
+    ANIMATE(0),
+    DROP_TO_FLOOR(),
+    SET_HITBOX(/*Radius*/ 80, /*Height*/ 210),
+    CALL_NATIVE(bhv_hoodmonger_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_hoodmonger_loop),
+        SET_INT(oIntangibleTimer, 0),
+        SET_INT(oInteractStatus, 0),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBcFspinner[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(bc_fspinner_collision),
+    SET_FLOAT(oCollisionDistance, 4000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_lll_rotating_block_fire_bars_loop),
+    END_LOOP(),
+};
+
+void bc_stair_loop(void);
+const BehaviorScript bhvBcStair[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_VELOCITY_PLATFORM)),
+    LOAD_COLLISION_DATA(bc_stair_collision),
+    SET_FLOAT(oCollisionDistance, 4000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bc_stair_loop),
+        CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };

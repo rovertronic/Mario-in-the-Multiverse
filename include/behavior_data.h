@@ -796,8 +796,6 @@ extern const BehaviorScript bhvOspeaker[];
 extern const BehaviorScript bhvOeasystreetcontroller[];
 /* GROUP O END */
 
-#endif // BEHAVIOR_DATA_H
-
 extern const BehaviorScript bhvGCannon[];
 extern const BehaviorScript bhvGreatCaveOffensiveController[];
 extern const BehaviorScript bhvGMarx[];
@@ -816,3 +814,14 @@ extern const BehaviorScript bhvGBrontoBurt[];
 extern const BehaviorScript bhvGMovingPlatform[];
 extern const BehaviorScript bhvGMarxDoor[];
 extern const BehaviorScript bhvGWaddleDee[];
+
+/* Bowser Level */
+extern const BehaviorScript bhvMatPlatform[];
+extern const BehaviorScript bhvBcTilting[];
+extern const BehaviorScript bhvBcWaddleDee[];
+extern const BehaviorScript bhvBcJelly[];
+extern const BehaviorScript bhvBcHoodmonger[];
+extern const BehaviorScript bhvBcFspinner[];
+extern const BehaviorScript bhvBcStair[];
+
+#endif // BEHAVIOR_DATA_H

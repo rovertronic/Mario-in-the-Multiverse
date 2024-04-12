@@ -258,6 +258,12 @@ void bhv_hoodmonger_init(void){
 }
 
 void bhv_hoodmonger_loop(void){
+    u16 bullet_model = MODEL_HOODMONGER_BULLET;
+    u32 * hoodmonger_behavior = bhvHoodmonger;
+    if (gCurrLevelNum == LEVEL_BOWSER_COURSE) {
+        bullet_model = MODEL_BC_HOODMONGER_BULLET;
+        hoodmonger_behavior = bhvBcHoodmonger;
+    }
     o->oSubAction = o->oWantedSubAction;
 
     switch(o->oAction){
@@ -299,7 +305,7 @@ void bhv_hoodmonger_loop(void){
 
                 case  HOODMONGER_ALERTED_SUBACTION_SHOOTING:
                     if(o->oShootingCooldown <= 0){
-                        struct Object *bullet = spawn_object_relative(0, 0, 110, 250, o, MODEL_HOODMONGER_BULLET, bhvHoodmongerBullet);
+                        struct Object *bullet = spawn_object_relative(0, 0, 110, 250, o, bullet_model, bhvHoodmongerBullet);
                         bullet->oMoveAnglePitch = o->oMoveAnglePitch;
                         //spawn_object_rel_with_rot(o, MODEL_HOODMONGER_BULLET, bhvHoodmongerBullet, 0, 110, 200, o->parentObj->oMoveAnglePitch, o->parentObj->oMoveAngleYaw, 0);
                         create_sound_spawner(SOUND_MITM_LEVEL_I_HOODMONGER_SHOT);
@@ -349,7 +355,7 @@ void bhv_hoodmonger_loop(void){
         spawn_object(o, MODEL_BLACKLUMS, bhvBlackLums);
     }
 
-    o->oNearestHoodmongerWandering = cur_obj_nearest_object_with_behavior_and_action(bhvHoodmonger, HOODMONGER_ACTION_WANDERING); //find nearest hoodmonger not alerted
+    o->oNearestHoodmongerWandering = cur_obj_nearest_object_with_behavior_and_action(hoodmonger_behavior, HOODMONGER_ACTION_WANDERING); //find nearest hoodmonger not alerted
 
 }
 

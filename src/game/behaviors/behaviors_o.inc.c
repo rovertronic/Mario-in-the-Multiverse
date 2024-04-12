@@ -772,3 +772,62 @@ void bhv_hub_platform_loop(void) {
         o->oFaceAngleYaw += 40;
     }
 }
+
+void bhv_matplatform(void) {
+    Mat4 *transform = &o->transform;
+
+    transform[0][1][0] = sins(o->oTimer*0x200);
+    transform[0][1][2] = coss(o->oTimer*0x200);
+    vec3f_copy(transform[0][3],&o->oPosVec);
+
+    o->header.gfx.throwMatrix = transform;
+}
+
+void bc_stair_loop(void) {
+    struct Object *rocketbutton = cur_obj_nearest_object_with_behavior(bhvRocketButton);
+    Mat4 *transform = &o->transform;
+
+    switch(o->oAction) {
+        case 0:
+            o->oHealth = 0;
+            o->oAction = 1;
+            break;
+        case 1:
+            if(rocketbutton->oAction > 0){
+                o->oAction = 2;
+                gCamera->cutscene = 1;
+            }
+            break;
+        case 2:
+            if (o->oBehParams2ndByte == 1) {
+                vec3f_copy(&gLakituState.goalFocus,&o->oPosVec);
+                vec3f_copy(&gLakituState.goalPos,&o->oPosVec);
+                gLakituState.goalPos[0] -= 1000.0f;
+                gLakituState.goalPos[1] += 1000.0f;
+                gLakituState.goalPos[2] += 1000.0f;
+                if (o->oTimer > 45) {
+                    o->oAction = 3;
+                    gCamera->cutscene = 0;
+                }
+            }
+            break;
+        case 3:
+
+            break;
+    }
+
+    if ((rocketbutton->oAction == 0)&&(o->oHealth<30)) {
+        o->oHealth ++;
+    }
+
+    if ((rocketbutton->oAction > 0)&&(o->oHealth>0)) {
+        o->oHealth --;
+    }
+
+    f32 y = o->oHealth/30.0f;
+
+    transform[0][0][1] = y;
+    vec3f_copy(transform[0][3],&o->oPosVec);
+
+    o->header.gfx.throwMatrix = transform;
+}

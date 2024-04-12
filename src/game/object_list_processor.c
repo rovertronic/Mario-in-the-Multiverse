@@ -692,7 +692,7 @@ void update_objects(UNUSED s32 unused) {
     // displacement now
     //! If the platform object unloaded and a different object took its place,
     //  displacement could be applied incorrectly
-    apply_mario_platform_displacement();
+    //apply_mario_platform_displacement();
 
     // Detect which objects are intersecting
     detect_object_collisions();

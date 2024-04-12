@@ -2243,7 +2243,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         if (!using_ability(ABILITY_AKU)) {
             if (aku_invincibility != 0) {
                 aku_invincibility = 0;
-                stop_cap_music();
+                //stop_cap_music();
                 ability_ready(ABILITY_AKU);
             }
         } else {
@@ -2251,7 +2251,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 aku_invincibility = 300;
                 gMarioState->numGlobalCoins -= 10;
                 if(!(gCurrCourseNum == COURSE_CCM && gCurrAreaIndex == 4)) //Don't play the music in the LEVEL_I funky shell section to not desynchronized the music
-                    play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
+                //    play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
                 cool_down_ability(ABILITY_AKU);
             }
 

@@ -849,4 +849,14 @@ enum {
 #define MODEL_O_SPEAKER_3 0x15B
 /* LEVEL O END */
 
+/* Bowser Level */
+#define MODEL_MATPLATFORM          0x151
+#define MODEL_BC_TILTING           0x152
+#define MODEL_BC_WADDLE_DEE        0x153
+#define MODEL_BC_JELLY             0x154
+#define MODEL_BC_HOODMONGER        0x155
+#define MODEL_BC_HOODMONGER_BULLET 0x156
+#define MODEL_BC_FIRESPINNER       0x157
+#define MODEL_BC_STAIR             0x158
+
 #endif // MODEL_IDS_H

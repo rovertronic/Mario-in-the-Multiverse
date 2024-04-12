@@ -6,10 +6,12 @@ const GeoLayout c_area_1_geo[] = {
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 0, -1000, 0, 90, 0, 0, c_dl_level_c_mesh_layer_1),
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_ALPHA, c_dl_level_c_mesh_layer_4),
+			GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, c_dl_level_c_mesh_layer_6),
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 1297, -1362, -333),
 		GEO_ASM(0, e__shotgun_effects),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 0, 1800, 0),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 0, -1000, 0, 90, 0, 0, c_dl_water_plane_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -37,6 +39,7 @@ const GeoLayout c_area_1[] = {
 		GEO_CLOSE_NODE(),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, c_dl_material_revert_render_settings),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, c_dl_material_revert_render_settings),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, c_dl_material_revert_render_settings),
 	GEO_CLOSE_NODE(),
 	GEO_END(),
 };

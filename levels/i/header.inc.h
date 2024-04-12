@@ -322,7 +322,7 @@ extern Vtx i_dl_main_section_geo_mesh_layer_1_vtx_9[450];
 extern Gfx i_dl_main_section_geo_mesh_layer_1_tri_9[];
 extern Vtx i_dl_main_section_geo_mesh_layer_1_vtx_10[461];
 extern Gfx i_dl_main_section_geo_mesh_layer_1_tri_10[];
-extern Vtx i_dl_main_section_geo_mesh_layer_1_vtx_11[119];
+extern Vtx i_dl_main_section_geo_mesh_layer_1_vtx_11[120];
 extern Gfx i_dl_main_section_geo_mesh_layer_1_tri_11[];
 extern Vtx i_dl_main_section_geo_mesh_layer_1_vtx_12[89];
 extern Gfx i_dl_main_section_geo_mesh_layer_1_tri_12[];

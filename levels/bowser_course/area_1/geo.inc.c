@@ -7,6 +7,7 @@ const GeoLayout bowser_course_area_1_geo[] = {
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_ALPHA, bowser_course_dl_Cube_010_mesh_layer_4),
 		GEO_CLOSE_NODE(),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, bowser_course_dl_Cube_011_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 7317, 3761, -9131, bowser_course_dl_gooner_mesh_layer_1),
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_ALPHA, bowser_course_dl_gooner_mesh_layer_4),

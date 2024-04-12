@@ -36,7 +36,8 @@ const LevelScript level_bowser_course_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_BC_HOODMONGER, bc_hoodmonger_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BC_HOODMONGER_BULLET, bc_hoodmonger_bullet_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BC_FIRESPINNER, bc_fspinner_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_BC_STAIR, bc_stair_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BC_STAIR, bc_stair_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_BC_STAIR_2, bc_stair_2_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -51,7 +52,8 @@ const LevelScript level_bowser_course_entry[] = {
 		OBJECT(MODEL_ABILITY_SIGN, 4106, 6004, -915, 0, 150, 0, (ABILITY_BUBBLE_HAT << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, -6519, 3638, 4030, 0, 50, 0, (ABILITY_AKU << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, -9492, 4712, 2948, 0, -2, -42, (ABILITY_PHASEWALK << 16), bhvStaticObject),
-		OBJECT(MODEL_ABILITY_SIGN, -9557, 5592, -8951, 0, 0, 0, (ABILITY_SHOCK_ROCKET << 16), bhvStaticObject),
+		OBJECT(MODEL_ABILITY_SIGN, -9276, 5592, -10324, 0, -43, 0, (ABILITY_SHOCK_ROCKET << 16), bhvStaticObject),
+		OBJECT(MODEL_ABILITY_SIGN, -9913, 5455, -4889, 5, 165, 18, (ABILITY_SHOCK_ROCKET << 16), bhvStaticObject),
 		OBJECT(MODEL_BC_FIRESPINNER, 2613, 5433, 1549, 0, 0, 0, 0x00000000, bhvBcFspinner),
 		OBJECT(MODEL_BC_FIRESPINNER, -2118, 4383, 56, 0, 0, 0, 0x00000000, bhvBcFspinner),
 		OBJECT(MODEL_BC_FIRESPINNER, -3722, 3638, 4243, 0, 0, 0, 0x00000000, bhvBcFspinner),

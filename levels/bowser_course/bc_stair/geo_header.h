@@ -2,7 +2,7 @@ extern const GeoLayout bc_stair_geo[];
 extern Lights1 bc_stair_startile_001_layer1_lights;
 extern u8 bc_stair_startile_i8[];
 extern u8 bc_stair_subtle_rainboo_rgba16[];
-extern Vtx bc_stair_Plane_001_mesh_layer_1_vtx_0[16];
+extern Vtx bc_stair_Plane_001_mesh_layer_1_vtx_0[14];
 extern Gfx bc_stair_Plane_001_mesh_layer_1_tri_0[];
 extern Gfx mat_bc_stair_startile_001_layer1[];
 extern Gfx mat_revert_bc_stair_startile_001_layer1[];

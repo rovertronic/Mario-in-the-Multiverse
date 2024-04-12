@@ -30,3 +30,4 @@
 #include "levels/bowser_course/bc_fspinner/collision.inc.c"
 #include "levels/bowser_course/bc_stair/model.inc.c"
 #include "levels/bowser_course/bc_stair/collision.inc.c"
+#include "levels/bowser_course/bc_stair_2/model.inc.c"

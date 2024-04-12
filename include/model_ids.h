@@ -858,5 +858,6 @@ enum {
 #define MODEL_BC_HOODMONGER_BULLET 0x156
 #define MODEL_BC_FIRESPINNER       0x157
 #define MODEL_BC_STAIR             0x158
+#define MODEL_BC_STAIR_2           0x159
 
 #endif // MODEL_IDS_H

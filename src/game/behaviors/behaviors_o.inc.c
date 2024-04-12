@@ -786,9 +786,17 @@ void bhv_matplatform(void) {
 void bc_stair_loop(void) {
     struct Object *rocketbutton = cur_obj_nearest_object_with_behavior(bhvRocketButton);
     Mat4 *transform = &o->transform;
+    Mat4 *transform2 = NULL;
+    if (o->prevObj) {
+        transform2 = &o->prevObj->transform;
+    }
 
     switch(o->oAction) {
         case 0:
+            o->prevObj = spawn_object(o,MODEL_BC_STAIR_2,bhvStaticObject);
+            o->prevObj->oPosX -= 330.0f;
+            o->prevObj->oPosY -= 330.0f;
+            transform2 = &o->prevObj->transform;
             o->oHealth = 0;
             o->oAction = 1;
             break;
@@ -827,7 +835,10 @@ void bc_stair_loop(void) {
     f32 y = o->oHealth/30.0f;
 
     transform[0][0][1] = y;
+    transform2[0][1][1] = 1.0f-y;
     vec3f_copy(transform[0][3],&o->oPosVec);
+    vec3f_copy(transform2[0][3],&o->prevObj->oPosVec);
 
     o->header.gfx.throwMatrix = transform;
+    o->prevObj->header.gfx.throwMatrix = transform2;
 }

@@ -1,6 +1,6 @@
 
-Gfx bc_stair_startile_i8_aligner[] = {gsSPEndDisplayList()};
-u8 bc_stair_startile_i8[] = {
+Gfx bc_stair_2_startile_i8_aligner[] = {gsSPEndDisplayList()};
+u8 bc_stair_2_startile_i8[] = {
 	0xf8, 0xf8, 0xf0, 0xe8, 0xf0, 0xe8, 0xe8, 0xe0, 
 	0xe8, 0xe8, 0xe8, 0xe8, 0xe0, 0xe0, 0xe0, 0xd0, 
 	0x38, 0x28, 0x18, 0x18, 0x08, 0x08, 0x08, 0x08, 
@@ -132,8 +132,8 @@ u8 bc_stair_startile_i8[] = {
 	
 };
 
-Gfx bc_stair_subtle_rainboo_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 bc_stair_subtle_rainboo_rgba16[] = {
+Gfx bc_stair_2_subtle_rainboo_rgba16_aligner[] = {gsSPEndDisplayList()};
+u8 bc_stair_2_subtle_rainboo_rgba16[] = {
 	0xff, 0x3b, 0xff, 0x7b, 0xff, 0xbb, 0xff, 0xbb, 
 	0xff, 0xfb, 0xff, 0xfb, 0xff, 0xfb, 0xff, 0xfb, 
 	0xff, 0xfb, 0xff, 0xfb, 0xff, 0xfb, 0xff, 0xfb, 
@@ -393,36 +393,24 @@ u8 bc_stair_subtle_rainboo_rgba16[] = {
 	
 };
 
-Vtx bc_stair_Plane_001_mesh_layer_1_vtx_0[14] = {
-	{{ {0, -330, 308}, 0, {-16, 1008}, {0, 0, 127, 255} }},
-	{{ {0, 0, 308}, 0, {1008, 1008}, {0, 0, 127, 255} }},
-	{{ {-330, 0, 308}, 0, {1008, -16}, {0, 0, 127, 255} }},
-	{{ {0, -330, -308}, 0, {1008, 1008}, {0, 0, 129, 255} }},
-	{{ {-330, 0, -308}, 0, {-16, -16}, {0, 0, 129, 255} }},
-	{{ {0, 0, -308}, 0, {-16, 1008}, {0, 0, 129, 255} }},
-	{{ {0, 0, 308}, 0, {1520, -16}, {0, 127, 0, 255} }},
-	{{ {0, 0, -308}, 0, {-528, -16}, {0, 127, 0, 255} }},
-	{{ {-330, 0, -308}, 0, {-528, 1008}, {0, 127, 0, 255} }},
-	{{ {-330, 0, 308}, 0, {1520, 1008}, {0, 127, 0, 255} }},
-	{{ {-330, 0, 308}, 0, {1520, -16}, {129, 0, 0, 255} }},
-	{{ {-330, 0, -308}, 0, {-528, -16}, {129, 0, 0, 255} }},
-	{{ {-330, -330, -308}, 0, {-528, 1008}, {129, 0, 0, 255} }},
-	{{ {-330, -330, 308}, 0, {1520, 1008}, {129, 0, 0, 255} }},
+Vtx bc_stair_2_Plane_009_mesh_layer_1_vtx_0[6] = {
+	{{ {330, 0, -308}, 0, {1008, 1008}, {0, 0, 129, 255} }},
+	{{ {0, 0, -308}, 0, {1008, -16}, {0, 0, 129, 255} }},
+	{{ {0, 330, -308}, 0, {-16, -16}, {0, 0, 129, 255} }},
+	{{ {330, 0, 308}, 0, {-16, 1008}, {0, 0, 127, 255} }},
+	{{ {0, 330, 308}, 0, {1008, -16}, {0, 0, 127, 255} }},
+	{{ {0, 0, 308}, 0, {-16, -16}, {0, 0, 127, 255} }},
 };
 
-Gfx bc_stair_Plane_001_mesh_layer_1_tri_0[] = {
-	gsSPVertex(bc_stair_Plane_001_mesh_layer_1_vtx_0 + 0, 14, 0),
+Gfx bc_stair_2_Plane_009_mesh_layer_1_tri_0[] = {
+	gsSPVertex(bc_stair_2_Plane_009_mesh_layer_1_vtx_0 + 0, 6, 0),
 	gsSP1Triangle(0, 1, 2, 0),
 	gsSP1Triangle(3, 4, 5, 0),
-	gsSP1Triangle(6, 7, 8, 0),
-	gsSP1Triangle(6, 8, 9, 0),
-	gsSP1Triangle(10, 11, 12, 0),
-	gsSP1Triangle(10, 12, 13, 0),
 	gsSPEndDisplayList(),
 };
 
 
-Gfx mat_bc_stair_startile_001_layer1[] = {
+Gfx mat_bc_stair_2_startile_001_layer1[] = {
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, COMBINED, 0, TEXEL0, 0, 0, 0, 0, ENVIRONMENT),
 	gsDPSetCycleType(G_CYC_2CYCLE),
@@ -430,12 +418,12 @@ Gfx mat_bc_stair_startile_001_layer1[] = {
 	gsSPTexture(65535, 65535, 0, 0, 1),
     gsSPLightColor(LIGHT_1, 0xffffffff),
     gsSPLightColor(LIGHT_2, 0x7f7f7fff),
-	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_8b_LOAD_BLOCK, 1, bc_stair_startile_i8),
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_8b_LOAD_BLOCK, 1, bc_stair_2_startile_i8),
 	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadBlock(7, 0, 0, 511, 512),
 	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0),
 	gsDPSetTileSize(0, 0, 0, 124, 124),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, bc_stair_subtle_rainboo_rgba16),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, bc_stair_2_subtle_rainboo_rgba16),
 	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 128, 6, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadBlock(6, 0, 0, 1023, 256),
 	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 128, 1, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 3),
@@ -443,21 +431,21 @@ Gfx mat_bc_stair_startile_001_layer1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_bc_stair_startile_001_layer1[] = {
+Gfx mat_revert_bc_stair_2_startile_001_layer1[] = {
 	gsDPPipeSync(),
 	gsDPSetCycleType(G_CYC_1CYCLE),
 	gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2),
 	gsSPEndDisplayList(),
 };
 
-Gfx bc_stair_Plane_001_mesh_layer_1[] = {
-	gsSPDisplayList(mat_bc_stair_startile_001_layer1),
-	gsSPDisplayList(bc_stair_Plane_001_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_bc_stair_startile_001_layer1),
+Gfx bc_stair_2_Plane_009_mesh_layer_1[] = {
+	gsSPDisplayList(mat_bc_stair_2_startile_001_layer1),
+	gsSPDisplayList(bc_stair_2_Plane_009_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_bc_stair_2_startile_001_layer1),
 	gsSPEndDisplayList(),
 };
 
-Gfx bc_stair_material_revert_render_settings[] = {
+Gfx bc_stair_2_material_revert_render_settings[] = {
 	gsDPPipeSync(),
 	gsSPSetGeometryMode(G_LIGHTING),
 	gsSPClearGeometryMode(G_TEXTURE_GEN),

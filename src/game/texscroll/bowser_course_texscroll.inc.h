@@ -1,3 +1,4 @@
+#include "levels/bowser_course/bc_stair_2/texscroll.inc.h"
 #include "levels/bowser_course/bc_stair/texscroll.inc.h"
 #include "levels/bowser_course/texscroll.inc.h"
 #include "levels/bowser_course/matplatform/texscroll.inc.h"

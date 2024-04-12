@@ -24,3 +24,4 @@
 #include "levels/bowser_course/bc_hoodmonger_bullet/geo.inc.c"
 #include "levels/bowser_course/bc_fspinner/geo.inc.c"
 #include "levels/bowser_course/bc_stair/geo.inc.c"
+#include "levels/bowser_course/bc_stair_2/geo.inc.c"

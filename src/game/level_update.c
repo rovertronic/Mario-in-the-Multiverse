@@ -634,6 +634,11 @@ void initiate_warp(s16 destLevel, s16 destArea, s16 destWarpNode, s32 warpFlags)
         sWarpDest.type = WARP_TYPE_SAME_AREA;
     }
 
+    if ((gCurrAreaIndex == 6)&&(gCurrLevelNum == LEVEL_L)) {
+        // reset level for p ranks and retries
+        sWarpDest.type = WARP_TYPE_CHANGE_LEVEL;
+    }
+
     sWarpDest.levelNum = destLevel;
     sWarpDest.areaIdx = destArea;
     sWarpDest.nodeId = destWarpNode;
@@ -853,6 +858,10 @@ s16 level_trigger_warp(struct MarioState *m, s32 warpOp) {
                 break;
         }
 
+        if (pizza_time) {
+            fadeMusic = FALSE;
+        }
+
         if (fadeMusic && gCurrDemoInput == NULL) {
             fadeout_music((3 * sDelayedWarpTimer / 2) * 8 - 2);
         }
@@ -923,6 +932,8 @@ void initiate_delayed_warp(void) {
 
                 case WARP_OP_DEATH:
                     milk_drunk = FALSE;
+                    p_rank_challenge_enabled = FALSE;
+                    pizza_time = FALSE;
 
                 default:
                     warpNode = area_get_warp_node(sSourceWarpNodeId);
@@ -1171,6 +1182,8 @@ s32 play_mode_change_area(void) {
  */
 s32 play_mode_change_level(void) {
     milk_drunk = FALSE;
+    p_rank_challenge_enabled = FALSE;
+    pizza_time = FALSE;
 
     if (sTransitionUpdate != NULL) {
         sTransitionUpdate(&sTransitionTimer);

@@ -819,6 +819,18 @@ enum {
 /* LEVEL K END */
 
 /* LEVEL L START */
+#define MODEL_L_JOHN                            0x150
+#define MODEL_L_JOHNBLOCK                       0x151
+#define MODEL_L_CHEESESLIME                     0x152
+#define MODEL_L_PEPPERMAN                       0x153
+#define MODEL_L_CLOCK                           0x154
+#define MODEL_L_PORTAL                          0x155
+#define MODEL_L_ANCHOVY                         MODEL_FLYGUY
+#define bhvL_Anchovy                            bhvFlyGuy
+#define MODEL_L_PSTATUE_1                       0x156
+#define MODEL_L_PSTATUE_2                       0x157
+#define MODEL_L_PSTATUE_3                       0x158
+#define MODEL_L_DEMON                           0x159
 /* LEVEL L END */
 
 /* LEVEL M START */

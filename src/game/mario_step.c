@@ -494,6 +494,8 @@ s32 bonk_or_hit_lava_wall(struct MarioState *m, struct WallCollisionData *wallDa
     return result;
 }
 
+u8 check_for_semisolids = FALSE;
+
 s32 perform_air_quarter_step(struct MarioState *m, Vec3f intendedPos, u32 stepArg) {
     s16 i;
     s32 stepResult = AIR_STEP_NONE;
@@ -508,7 +510,9 @@ s32 perform_air_quarter_step(struct MarioState *m, Vec3f intendedPos, u32 stepAr
     resolve_and_return_wall_collisions(nextPos, 150.0f, 50.0f, &upperWall);
     resolve_and_return_wall_collisions(nextPos, 30.0f, 50.0f, &lowerWall);
 
+    check_for_semisolids = TRUE;
     f32 floorHeight = find_floor(nextPos[0], nextPos[1], nextPos[2], &floor);
+    check_for_semisolids = FALSE;
     f32 ceilHeight = find_mario_ceil(nextPos, floorHeight, &ceil);
 
     f32 waterLevel = find_water_level(nextPos[0], nextPos[2]);

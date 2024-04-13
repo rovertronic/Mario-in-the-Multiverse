@@ -238,6 +238,67 @@ assist you in climbing the hostile geometry.",
 
 };
 
+
+hint course_7_hints[] = {
+
+{ /* star 1 */
+"In the indoor area, on the right path,\n\
+there is a path that leads to this star,\n\
+as well as the Knight Suit ability.",
+(0)
+},
+
+{ /* star 2 */
+"Collect the 8 red coins in the outdoor\n\
+area. Use the Knight Suit to destroy the\n\
+iron blocks that are in the way.",
+(ABILITY_FLAG_KNIGHT)
+},
+
+{ /* star 3 */
+"In one of the purple rooms, there is a\n\
+gap in the ceiling. Use the Dash Booster\n\
+to launch your way up into the star.",
+(ABILITY_FLAG_KNIGHT|ABILITY_FLAG_DASH_BOOSTER)
+},
+
+{ /* star 4 */
+"In the last purple room, enter the door\n\
+blocked off by an iron block, then follow the\n\
+path into the red room with a star piece switch.",
+(ABILITY_FLAG_KNIGHT)
+},
+
+{ /* star 5 */
+"In the big vertical bloodsauce dungeon, there\n\
+is a star blocked by an iron block. Enter from\n\
+below with a jumping ability & exit with knight.",
+(ABILITY_FLAG_KNIGHT|ABILITY_FLAG_DASH_BOOSTER)
+},
+
+{ /* star 6 */
+"Get to the end of the dungeon and destroy the\n\
+purple John Pillar. Escape before time runs\n\
+out and grab the star at the end.",
+(ABILITY_FLAG_KNIGHT)
+},
+
+{ /* star 7 */
+"In the mini-hub, enter the Pepperman door\n\
+and go and fight Pepperman!",
+(0)
+},
+
+{ /* star 8 */
+"After you defeat Pepperman, talk to him in\n\
+the mini-hub to receive the P Challenge.\n\
+Follow his instructions from there.",
+(ABILITY_FLAG_KNIGHT|ABILITY_FLAG_DASH_BOOSTER)
+},
+
+};
+
+
 hint course_9_hints[] = {
 
 { /* star 1 */
@@ -647,7 +708,7 @@ hint * hintlist[] = {
     course_4_hints,
     course_5_hints,
     course_1_hints,
-    course_1_hints,
+    course_7_hints,
     course_1_hints,
     course_9_hints,
     course_10_hints,

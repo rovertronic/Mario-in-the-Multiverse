@@ -1,7 +1,16 @@
 // mushroom_1up.inc.c
 
 void bhv_1up_interact(void) {
-    if (obj_check_if_collided_with_object(o, gMarioObject)) {
+    if (obj_check_if_collided_with_object(o, gMarioObject) && ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
+        if (gMarioState->action != ACT_DISAPPEARED) {
+            set_mario_action(gMarioState, ACT_DISAPPEARED, 1);
+            level_trigger_warp(gMarioState, WARP_OP_DEATH);
+            pizza_time = FALSE;
+            p_rank_challenge_enabled = FALSE;
+        }
+
+// #ifpuke
+/*
         play_sound(SOUND_GENERAL_COLLECT_1UP, gGlobalSoundSource);
 #ifdef MUSHROOMS_HEAL
         gMarioState->healCounter   = 31;
@@ -16,6 +25,7 @@ void bhv_1up_interact(void) {
 #if ENABLE_RUMBLE
         queue_rumble_data(5, 80);
 #endif
+*/
     }
 }
 
@@ -299,7 +309,10 @@ void bhv_1up_hidden_in_pole_loop(void) {
 
         case MUSHROOM_ACT_MOVING:
             pole_1up_move_towards_mario();
-            object_step();
+            //object_step();
+            o->oPosX += sins(o->oMoveAngleYaw) * o->oForwardVel;
+            o->oPosZ += coss(o->oMoveAngleYaw) * o->oForwardVel;
+            o->oPosY += o->oVelY;
             break;
 
         case MUSHROOM_ACT_LOOP_IN_AIR:

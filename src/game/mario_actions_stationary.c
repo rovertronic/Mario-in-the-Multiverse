@@ -65,10 +65,15 @@ s32 check_common_idle_cancels(struct MarioState *m) {
     }
 
     if (gPlayer1Controller->buttonPressed & L_TRIG) {
-        if ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE && using_ability(ABILITY_SHOCK_ROCKET) && count_objects_with_behavior(bhvShockRocket) == 0){
-                spawn_object_relative(0, 0, 100, 0, gMarioObject, MODEL_SHOCK_ROCKET, bhvShockRocket);
-                if(m->action != ACT_IDLE){
-                     return set_mario_action(m, ACT_IDLE, 0);
+        if ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE && using_ability(ABILITY_SHOCK_ROCKET) && count_objects_with_behavior(bhvShockRocket) == 0) {
+                if (is_2d_area()) {
+                    // shock rocket cannot be used in 2d areas
+                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                } else {
+                    spawn_object_relative(0, 0, 100, 0, gMarioObject, MODEL_SHOCK_ROCKET, bhvShockRocket);
+                    if(m->action != ACT_IDLE){
+                        return set_mario_action(m, ACT_IDLE, 0);
+                    }
                 }
         }
     }

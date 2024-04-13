@@ -1340,6 +1340,11 @@ void update_mario_joystick_inputs(struct MarioState *m) {
     struct Controller *controller = m->controller;
     f32 mag = ((controller->stickMag / 64.0f) * (controller->stickMag / 64.0f)) * 64.0f;
 
+    f32 fake_stick_y = controller->stickY;
+    if (is_2d_area()) {
+        fake_stick_y = 0.0f;
+    }
+
     if (m->squishTimer == 0) {
         m->intendedMag = mag / 2.0f;
     } else {
@@ -1347,10 +1352,21 @@ void update_mario_joystick_inputs(struct MarioState *m) {
     }
 
     if (m->intendedMag > 0.0f) {
-        m->intendedYaw = atan2s(-controller->stickY, controller->stickX) + m->area->camera->yaw;
+        m->intendedYaw = atan2s(-fake_stick_y, controller->stickX) + m->area->camera->yaw;
         m->input |= INPUT_NONZERO_ANALOG;
     } else {
         m->intendedYaw = m->faceAngle[1];
+    }
+
+    if (is_2d_area()) {
+        if (gPlayer1Controller->rawStickX > 0.0f) {
+            m->intendedYaw = -0x4000;
+        } else if (gPlayer1Controller->rawStickX < 0.0f) {
+            m->intendedYaw = 0x4000;
+        } else {
+            m->intendedYaw = 0x4000;
+            m->input &= ~INPUT_NONZERO_ANALOG;
+        }
     }
 }
 
@@ -1867,7 +1883,20 @@ s32 check_dashboost_inputs(struct MarioState *m) {
     return FALSE;
 }
 
+u8 pizza_time = FALSE;
+u16 pizza_timer = 0;
+u8 combo_meter = 201;
+u8 p_rank_challenge_enabled = FALSE;
+u8 p_rank_challenge_prepare = FALSE;
+u8 p_rank_lap_2 = FALSE;
+u8 p_rank_stars = 0;
+u8 p_rank_success = FALSE;
+
 u8 magic_mirror_timer = 20;
+
+s32 is_2d_area(void) {
+    return ((gCurrLevelNum == LEVEL_L)&&(gCurrAreaIndex < 6));
+}
 
 /**
  * Main function for executing Mario's behavior. Returns particleFlags.
@@ -1882,6 +1911,32 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     // Updates once per frame:
     vec3f_get_dist_and_lateral_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->lateralSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);
     vec3f_copy(gMarioState->prevPos, gMarioState->pos);
+
+    if (pizza_time) {
+        level_control_timer(TIMER_CONTROL_SHOW);
+        gHudDisplay.timer = pizza_timer;
+        if (pizza_timer > 0) {
+            pizza_timer --;
+        } else {
+            //outta time, summon the green demon
+            if (!cur_obj_nearest_object_with_behavior(bhvHidden1upInPole)) {
+                spawn_object(gMarioObject,MODEL_L_DEMON,bhvHidden1upInPole);
+            }
+        }
+    } else {
+        level_control_timer(TIMER_CONTROL_HIDE);
+    }
+    //combo meter logic
+    if ((p_rank_challenge_enabled) && ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
+        if (combo_meter > 0) {
+            combo_meter--;
+        } else {
+            if (gMarioState->action != ACT_DISAPPEARED) {
+                set_mario_action(gMarioState, ACT_DISAPPEARED, 1);
+                level_trigger_warp(gMarioState, WARP_OP_DEATH);
+            }
+        }
+    }
 
     if (toZeroMeter) {  // Reset ability meter if it's not set past this point
         gHudDisplay.abilityMeter = 0;
@@ -2021,14 +2076,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
 
-        //Knight Suit
-        if (using_ability(ABILITY_KNIGHT) && (gMarioState->action != ACT_KNIGHT_SLIDE) &&
-        (gMarioState->action != ACT_KNIGHT_JUMP)) {
-            if (gMarioState->forwardVel > 10.0f) {
-                gMarioState->forwardVel = 10.0f;
-            }
-        }
-
         //Dash Booster Meter
         if (using_ability(ABILITY_DASH_BOOSTER)) {
             gHudDisplay.abilityMeterStyle = METER_STYLE_DASH_BOOSTER;
@@ -2045,6 +2092,19 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 case 3:
                     gHudDisplay.abilityMeter = 8;
                 break;
+            }
+        }
+
+        // Pizza Tower 2D
+        if (is_2d_area()) {
+            gMarioState->pos[2] = 0.0f;
+            // Only angle-lock the knight suit ability
+            if ((gMarioState->action == ACT_KNIGHT_SLIDE)||(gMarioState->action == ACT_KNIGHT_JUMP)) {
+                if (gMarioState->faceAngle[1] > 0) {
+                    gMarioState->faceAngle[1] = 0x4000;
+                } else {
+                    gMarioState->faceAngle[1] = -0x4000;
+                }
             }
         }
 

@@ -533,6 +533,10 @@ void update_walking_speed(struct MarioState *m) {
         maxTargetSpeed = 32.0f;
     }
 
+    if (using_ability(ABILITY_KNIGHT) && (m->action != ACT_KNIGHT_SLIDE) && (m->action != ACT_KNIGHT_JUMP)) {
+        maxTargetSpeed = 24.0f;
+    }
+
     targetSpeed = m->intendedMag < maxTargetSpeed ? m->intendedMag : maxTargetSpeed;
 
     if (phasewalk_state > 0) {
@@ -2389,6 +2393,8 @@ s32 quicksand_jump_land_action(struct MarioState *m, s32 animation1, s32 animati
 }
 
 s32 act_knight_slide(struct MarioState *m) {
+    m->vel[1] = 0.0f;
+
     //visuals
     set_mario_animation(m, MARIO_ANIM_RIDING_SHELL);
     align_with_floor(m);

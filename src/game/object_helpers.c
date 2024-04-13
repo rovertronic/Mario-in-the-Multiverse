@@ -1592,6 +1592,10 @@ void cur_obj_move_standard(s16 steepSlopeAngleDegrees) {
     s32 careAboutEdgesAndSteepSlopes = FALSE;
     s32 negativeSpeed = FALSE;
 
+    if (is_2d_area()) {
+        o->oPosZ = 0.0f;
+    }
+
     //! Because some objects allow these active flags to be set but don't
     //  avoid updating when they are, we end up with "partial" updates, where
     //  an object's internal state will be updated, but it doesn't move.

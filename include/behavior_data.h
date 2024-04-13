@@ -773,6 +773,16 @@ extern const BehaviorScript bhvMagikarp[];
 
 /* GROUP L START */
 extern const BehaviorScript bhvPtMetalBox[];
+extern const BehaviorScript bhvLDoor[];
+extern const BehaviorScript bhvL_JohnPillar[];
+extern const BehaviorScript bhvJohnBlock[];
+extern const BehaviorScript bhvL_EscapeStar[];
+extern const BehaviorScript bhvL_Cheeseslime[];
+extern const BehaviorScript bhvL_PeppermanNPC[];
+extern const BehaviorScript bhvLclock[];
+extern const BehaviorScript bhvL_PizzaPortal[];
+extern const BehaviorScript bhvL_PeppermanBoss[];
+extern const BehaviorScript bhvL_PeppermanStatue[];
 /* GROUP L END */
 
 /* GROUP M START */

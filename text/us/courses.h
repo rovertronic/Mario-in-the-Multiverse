@@ -25,7 +25,7 @@ COURSE_ACTS(COURSE_HMC, _(" 6 HAZY MAZE CAVE"),
        _("")  , _("")       , _(""),
        _("")     , _("")     , _(""))
 
-COURSE_ACTS(COURSE_LLL, _(" 7 LETHAL LAVA LAND"),
+COURSE_ACTS(COURSE_LLL, _(" 7 BEYOND THE CURSED PIZZA"),
        _("")            , _("")             , _(""),
        _("")           , _("")  , _(""))
 

@@ -691,7 +691,8 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
                     (gCurrLevelNum == LEVEL_G && gCurrAreaIndex == 5) ||
                     (gCurrLevelNum == LEVEL_I && (gCurrAreaIndex == 4 || gCurrAreaIndex == 5)) ||
                     (gCurrLevelNum == LEVEL_N) ||
-                    (gCurrLevelNum == LEVEL_J && gCurrentArea->index == 7)
+                    (gCurrLevelNum == LEVEL_J && gCurrentArea->index == 7) ||
+                    (gCurrLevelNum == LEVEL_L && gCurrentArea->index == 7)
                     ) {
                     level_trigger_warp(m, WARP_OP_STAR_EXIT);
                     save_file_do_save(gCurrSaveFileNum - 1);

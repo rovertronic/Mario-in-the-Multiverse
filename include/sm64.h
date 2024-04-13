@@ -438,7 +438,7 @@ enum MarioActionFlags {
 #define ACT_CUTTER_THROW_AIR                 0x000008B9 // (0x0B9)
 #define ACT_ABILITY_AXE_JUMP           (0x030008BA | ACT_FLAG_ATTACKING) // (0x0BA)
 #define ACT_HM_FLY                     0x010208BF
-#define ACT_KNIGHT_JUMP                0x0102088F
+#define ACT_KNIGHT_JUMP                (0x0102088F | ACT_FLAG_ATTACKING)
 #define ACT_DASH_BOOST                 0x01020890
 #define ACT_BUBBLE_HAT_JUMP            (0x01020891 | ACT_FLAG_AIR)
 

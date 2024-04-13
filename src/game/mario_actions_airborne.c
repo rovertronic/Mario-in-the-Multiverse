@@ -2524,13 +2524,13 @@ s32 act_knight_jump(struct MarioState *m) {
         break;
     }
 
-    if (m->knightDoubleJump) {
-        return FALSE;
-    }
-
     //knight ground pound
     if (m->input & INPUT_Z_PRESSED) {
         return set_mario_action(m, ACT_GROUND_POUND, 0);
+    }
+
+    if (m->knightDoubleJump) {
+        return FALSE;
     }
 
     //only single jump

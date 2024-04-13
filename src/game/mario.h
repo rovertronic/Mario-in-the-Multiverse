@@ -8,6 +8,7 @@
 //--E SG
 #include "e__shotgun.h"
 
+s32 is_2d_area(void);
 s32 is_anim_at_end(struct MarioState *m);
 s32 is_anim_past_end(struct MarioState *m);
 s16 set_mario_animation(struct MarioState *m, s32 targetAnimID);
@@ -61,5 +62,14 @@ s32 check_dashboost_inputs(struct MarioState *m);
 
 u16 update_mario_action_timer_pre(struct MarioState *m);
 u16 update_mario_action_timer_post(struct MarioState *m);
+
+extern u8 pizza_time;
+extern u16 pizza_timer;
+extern u8 combo_meter;
+extern u8 p_rank_challenge_enabled;
+extern u8 p_rank_challenge_prepare;
+extern u8 p_rank_stars;
+extern u8 p_rank_lap_2;
+extern u8 p_rank_success;
 
 #endif // MARIO_H

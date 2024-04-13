@@ -2382,7 +2382,9 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         } else {
             struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
             if (marble) {
-                vec3f_copy(gMarioState->vel,marble->rigidBody->linearVel);
+                //vec3f_copy(gMarioState->vel,marble->rigidBody->linearVel);
+                //marble->rigidBody->linearVel[1] = 0.0f;
+                gMarioState->vel[1] = marble->rigidBody->linearVel[1];
                 marble->rigidBody->linearVel[1] = 0.0f;
                 gMarioState->forwardVel = vec3_mag(marble->rigidBody->linearVel);
                 gMarioState->faceAngle[1] = atan2s(marble->rigidBody->linearVel[2],marble->rigidBody->linearVel[0]);

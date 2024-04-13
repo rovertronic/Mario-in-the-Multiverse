@@ -353,3 +353,42 @@ Gfx *geo_update_l_sky(s32 callContext, struct GraphNode *node, UNUSED void *cont
     }
     return NULL;
 }
+
+
+
+//Bowser Course invis path
+#include "levels/bowser_course/header.inc.h"
+
+Gfx *geo_update_bowser_course_invisible_path(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    s32 i;
+    f32 dist;
+    s32 light;
+    Vtx *vert;
+    Vec3s marioPos;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        vec3f_to_vec3s(marioPos, gMarioState->pos);
+
+        vert = segmented_to_virtual(&bowser_course_dl_zuvlightbc_mesh_layer_5_vtx_0);
+        if (using_ability(ABILITY_GADGET_WATCH)) {
+            //uv light on
+            for (i = 0; i < sizeof(bowser_course_dl_zuvlightbc_mesh_layer_5_vtx_0) / sizeof(bowser_course_dl_zuvlightbc_mesh_layer_5_vtx_0[0]); i++) {
+                dist = sqrtf((marioPos[0] - vert[i].v.ob[0]) * (marioPos[0] - vert[i].v.ob[0]) + 
+                                (marioPos[1] - vert[i].v.ob[1]) * (marioPos[1] - vert[i].v.ob[1]) + 
+                                (marioPos[2] - vert[i].v.ob[2]) * (marioPos[2] - vert[i].v.ob[2]));
+
+                light = 255 - (dist/5);
+                if (light < 0) {
+                    light = 0;
+                }
+                vert[i].v.cn[3] = light;
+            }
+        } else {
+            //uv light off
+            for (i = 0; i < sizeof(bowser_course_dl_zuvlightbc_mesh_layer_5_vtx_0) / sizeof(bowser_course_dl_zuvlightbc_mesh_layer_5_vtx_0[0]); i++) {
+                vert[i].v.cn[3] = 0;
+            }
+        }
+    }
+    return NULL;
+}

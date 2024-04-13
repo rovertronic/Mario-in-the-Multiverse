@@ -31,6 +31,7 @@ void bhv_marble_init(void) {
 
 u8 underwater = FALSE;
 void bhv_marble_loop(void) {    
+    Vec3f baby_force = {.01f,.01f,.01f};
     Vec3f move_force = {
         (sins(gMarioState->intendedYaw) * gMarioState->intendedMag)/10.0f,
         0.0f,
@@ -52,11 +53,16 @@ void bhv_marble_loop(void) {
         //rigid_body_add_force(o->rigidBody, push_position, move_force, TRUE);
     //}
 
-    if (gMarioState->intendedMag > 2.f || gMarioState->floor->normal.y < 0.99f) {
+    f32 marble_speed = vec3_mag(o->rigidBody->linearVel);
+
+    if ((gMarioState->intendedMag > 2.f || gMarioState->floor->normal.y < 0.99f)&&(marble_speed < 100.0f)) {
         o->rigidBody->asleep = FALSE;
         o->rigidBody->motion = 10.f;
         vec3f_add(o->rigidBody->linearVel, move_force);
     }
+
+    // this is really fucking stupid but it's needed so that the marble doesn't bounce to hell and back when idle
+    vec3f_add(o->rigidBody->linearVel, baby_force);
 
     struct Surface *floor;
     f32 water_level = find_water_level_and_floor(o->oPosX,o->oPosY,o->oPosZ, &floor);
@@ -84,7 +90,7 @@ void bhv_marble_loop(void) {
 
     vec3f_copy(&gMarioObject->oPosVec,&o->oPosVec);
     vec3f_copy(gMarioState->pos,&o->oPosVec);
-    vec3f_copy(gMarioState->vel,&o->rigidBody->linearVel);
+    //vec3f_copy(gMarioState->vel,&o->rigidBody->linearVel);
 
     //obj_set_hitbox(o, &sMarbleHitbox);
     //o->oInteractStatus = 0;

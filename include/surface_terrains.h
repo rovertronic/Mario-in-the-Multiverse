@@ -100,7 +100,7 @@ enum SurfaceTypes {
     SURFACE_0080,                       // 0x0080 // Unused
     SURFACE_0081,                       // 0x0081 // Unused
     SURFACE_0082,                       // 0x0082 // Unused
-    SURFACE_0083,                       // 0x0083 // Unused
+    SURFACE_FORCE_SHADOW,               // 0x0083 // Unused
     SURFACE_0084,                       // 0x0084 // Unused
     SURFACE_0085,                       // 0x0085 // Unused
     SURFACE_0086,                       // 0x0086 // Unused

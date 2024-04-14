@@ -392,3 +392,24 @@ Gfx *geo_update_bowser_course_invisible_path(s32 callContext, struct GraphNode *
     }
     return NULL;
 }
+
+extern Gfx mverses_sky_Sphere_mesh[];
+Gfx *geo_update_bowser_course_sky(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    s32 i;
+    f32 dist;
+    s32 light;
+    Vtx *vert;
+    Vec3s marioPos;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        guTranslate(&cool_matrix, gLakituState.pos[0], gLakituState.pos[1], gLakituState.pos[2]);
+
+        gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+        gSPDisplayList(&cool_display_list[1], segmented_to_virtual(mverses_sky_Sphere_mesh));
+        gSPPopMatrix(&cool_display_list[2], G_MTX_MODELVIEW);
+        gSPEndDisplayList(&cool_display_list[3]);
+
+        geo_append_display_list(cool_display_list, LAYER_FORCE);
+    }
+    return NULL;
+}

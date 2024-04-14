@@ -225,7 +225,7 @@ enum SurfaceTypes {
     SURFACE_WOBBLING_WARP,              // 0x00FD // Pool warp (HMC & DDD)
     SURFACE_00FE,                       // 0x00FE // Unused
     SURFACE_TRAPDOOR,                   // 0x00FF // Bowser Left trapdoor, has no action defined
-    SURFACE_BS_CUTSCENE_1,
+    SURFACE_BDADDY,
     SURFACE_TURRET_ACTIVATOR,
 };
 

@@ -1,0 +1,10 @@
+extern const GeoLayout cork_geo[];
+extern Lights1 cork_f3dlite_material_009_lights;
+extern u8 cork_sonic_adventure_dirt_ci4_ci4[];
+extern u8 cork_sonic_adventure_dirt_ci4_pal_rgba16[];
+extern Vtx cork_cork_mesh_layer_1_vtx_0[25];
+extern Gfx cork_cork_mesh_layer_1_tri_0[];
+extern Gfx mat_cork_f3dlite_material_009[];
+extern Gfx mat_revert_cork_f3dlite_material_009[];
+extern Gfx cork_cork_mesh_layer_1[];
+extern Gfx cork_material_revert_render_settings[];

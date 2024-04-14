@@ -285,7 +285,7 @@ void bhv_big_daddy_loop(void) {
     cur_obj_rotate_yaw_toward(o->oAngleToMario, 0x100);
     switch (o->oAction){
         case 0:
-            if (dist < 500.0f){
+            if (dist < 500.0f && gMarioState->floor->type == SURFACE_BDADDY){
                 o->oAction = 1;
             }
             break;
@@ -328,14 +328,14 @@ void bhv_big_daddy_loop(void) {
     switch (o->oSubAction) {
         case 0:
             if (!(dist < 500.0f) && cur_obj_can_mario_activate_textbox_2(499.0f, 100.0f) && o->oAction == 0) {
-                    o->oSubAction++; // MOTHER_PENGUIN_SUB_ACT_ASK_FOR_BABY
+                    o->oSubAction++; 
                 }
             break;
         case 1:
             if (cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP,
                     DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, BIG_DADDY_HELP)) {
                     o->oInteractStatus = INT_STATUS_NONE;
-                o->oSubAction++; // MOTHER_PENGUIN_SUB_ACT_ALREADY_ASKED
+                o->oSubAction++; 
                 }
             break;
         case 2:
@@ -361,6 +361,7 @@ enum sister_states {
 };
 
 void bhv_little_sister_loop(void) {
+    o->parentObj = cur_obj_nearest_object_with_behavior(bhvBigDaddy);
     static u8 sisterTimer;
     if (sisterTimer <= 10){
         sisterTimer++;
@@ -549,7 +550,7 @@ void bhv_little_sister_loop(void) {
             if (o->oAction == LS_SIT) {
                 cur_obj_init_animation(2);
                 if (cur_obj_check_if_at_animation_end()){
-                    if (cur_obj_dist_to_nearest_object_with_behavior(bhvBigDaddy) < 500.0f) {
+                    if (o->parentObj->oAction == 5) {
                         o->oInteractionSubtype = INT_SUBTYPE_NPC;
                         o->oInteractType = INTERACT_TEXT;
                         o->oAction = LS_NPC_END;
@@ -635,8 +636,6 @@ void bhv_turret_body_init(void){
     if (dist < 100.0f){
         o->parentObj = turretPlatform;
         SET_BPARAM1(o->oBehParams, GET_BPARAM1(o->parentObj->oBehParams));
-    } else {
-        o->oMoveAngleYaw += 0x4000;
     }
 
     // Find the object with the specified behavior and parameter
@@ -645,7 +644,7 @@ void bhv_turret_body_init(void){
 
 
 void bhv_turret_body_loop(void){
-    print_text_fmt_int(20, 120, "base yaw %d", o->oMoveAngleYaw);
+    //print_text_fmt_int(20, 120, "base yaw %d", (u16)o->oMoveAngleYaw);
     if (o->oDistanceToMario < 500){
         //print_text_fmt_int(20, 60, "bparam1 %d", GET_BPARAM1(o->oBehParams));
     }
@@ -724,21 +723,26 @@ void bhv_turret_head_init(void){
     struct Object *turretBody = cur_obj_nearest_object_with_behavior(bhvTurretBody);
 
     o->parentObj = turretBody;
-    if (o->parentObj->oFaceAnglePitch == 0x08000 || o->parentObj->oFaceAnglePitch == -0x08000){
+    if (o->parentObj->oFaceAnglePitch == 0x8000 || o->parentObj->oFaceAnglePitch == -0x8000){
 
         o->oFaceAnglePitch = o->oMoveAnglePitch;
+        
     } else {
         o->oMoveAngleYaw = o->parentObj->oMoveAngleYaw;
+        
     }
     o->oMoveAnglePitch = 0;
     o->oFaceAnglePitch = o->oMoveAnglePitch;
+    o->oF8 = (u16)(o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw + 0x8000);
 }
 
 void bhv_turret_head_loop(void){
-    print_text_fmt_int(20, 80, "Relative Yaw: %d", (o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw));
-    print_text_fmt_int(20, 100, "Raw Yaw: %d", (o->oMoveAngleYaw));
-    print_text_fmt_int(20, 140, "os16F4: %d", (o->os16F4));
-    print_text_fmt_int(20, 160, "180yaw: %d", (o->os16F4 + 0x8000));
+    o->oMoveAngleYaw = (u16)o->oMoveAngleYaw;
+    //print_text_fmt_int(20, 80, "Relative Yaw: %d", (u16)(o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw));
+    //print_text_fmt_int(20, 100, "Raw Yaw: %d", (o->oMoveAngleYaw));
+    //print_text_fmt_int(200, 120, "%d", (u16)(o->parentObj->oMoveAngleYaw));
+    //print_text_fmt_int(20, 140, "Relative 180yaw: %d", (o->oF8));
+    //print_text_fmt_int(20, 160, "180yaw: %d", (o->parentObj->oMoveAngleYaw + 0x8000));
     Vec3f d;
     d[0] = gMarioState->pos[0] - o->oPosX;
     d[1] = -gMarioState->pos[1] + o->oPosY;
@@ -752,13 +756,35 @@ void bhv_turret_head_loop(void){
     }
     o->oPosZ = o->parentObj->oPosZ;
     o->oFaceAnglePitch = o->oMoveAnglePitch;
-    if (o->parentObj->oMoveAngleYaw <= -32768 && o->os16F4 == 0){
-        o->os16F4 = o->parentObj->oMoveAngleYaw + 65536;
-    } else if (o->parentObj->oMoveAngleYaw >= 32768 && o->os16F4 == 0){
-        o->os16F4 = o->parentObj->oMoveAngleYaw - 65536;
+    //o->oMoveAngleYaw = o->parentObj->oMoveAngleYaw;
+    
+    /*
+    if (o->oMoveAngleYaw < -32768){
+    o->oMoveAngleYaw = o->oMoveAngleYaw + 65536;
+} else if (o->oMoveAngleYaw >= 32768){
+    o->oMoveAngleYaw = o->oMoveAngleYaw - 65536;
+    
+}
+*/
+/*
+if (abs_angle_diff(o->oFaceAngleYaw, (o->parentObj->oMoveAngleYaw)) <= DEGREES(135)){
+    print_text(20, 20, "should go right");
+} else {
+    print_text(20, 20, "should go left");
+}
+*/
+/*
+print_text_fmt_int(20, 180, "diff: %d", abs_angle_diff((o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw), (o->oF8)));
+print_text_fmt_int(20, 200, "diff2: %d", abs_angle_diff((o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw), (o->oF8 - 0x8000 + 0x2000)));
+print_text_fmt_int(20, 220, "diff3: %d", abs_angle_diff(((u16)o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw), ((u16)o->oF8 - 0x8000 + 0xE000)));
+
+    if ((abs_angle_diff(o->oF8 + DEGREES(45) , o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw)) >= (abs_angle_diff(o->oF8 + DEGREES(315) , o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw))){
+        print_text(20, 20, "should go right");
     } else {
-        o->os16F4 = o->parentObj->oMoveAngleYaw;
+        print_text(20, 20, "should go left");
     }
+    */
+
     struct Surface *surf;
     /*
     if (gPlayer1Controller->buttonPressed & D_CBUTTONS){
@@ -843,34 +869,71 @@ void bhv_turret_head_loop(void){
         switch (o->oSubAction){
             case STATE_NONE:
             
-    print_text(20, 20, "STATE_NONE");
-    if (o->os16F6 < o->os16F4 + 0x8000){
-        print_text(20, 40, "should go right");
-        o->os16F6 = approach_s32(o->oMoveAngleYaw, (o->os16F4 - 0x2000), 0x75, 0x75);
-        if (o->oMoveAngleYaw == (o->os16F4 - 0x2000)){
-        o->oSubAction = STATE_RIGHT;
-        }
-    } else if (o->oMoveAngleYaw > o->os16F4 + 0x8000){  
-        print_text(20, 40, "should go left");
-        o->oMoveAngleYaw = approach_s32(o->oMoveAngleYaw, (o->os16F4 + 0x2000), -0x75, -0x75);
-        if (o->oMoveAngleYaw == (o->os16F4 + 0x2000)){
+    //print_text(20, 20, "STATE_NONE");
+    //if (o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw < o->oF8){
+    //if (o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw > o->parentObj->oMoveAngleYaw + 0x12000){
+        //print_text(20, 40, "should go right");
+        //o->oSubAction = STATE_LEFT;
+        //o->oMoveAngleYaw += 75;
+        
+    //} //else if (o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw > o->parentObj->oMoveAngleYaw - 0x8000){
+        //print_text(20, 40, "should go left");
+        //o->oSubAction = STATE_RIGHT;
+    //}
+
+            // Normalize the difference to be between -32768 and 32767
+            // o->o100: state_right ending yaw, o->o104: state_left ending yaw
+/*
+                if ((u16)(o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw) >= o->oF8 ||
+    (u16)(o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw + 0x8000) >= (o->oF8 + 0x8000)) {
+    // Check if the current angle is greater than or equal to 180 degrees
+    o->oSubAction = STATE_RIGHT; // Turn right
+} else {
+    // The current angle is less than 180 degrees
+    o->oSubAction = STATE_LEFT; // Turn left
+}
+*/
+
+    if ((abs_angle_diff(o->oF8 + DEGREES(45) , o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw)) >= (abs_angle_diff(o->oF8 + DEGREES(315) , o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw))){
         o->oSubAction = STATE_LEFT;
-        }
+    } else {
+        o->oSubAction = STATE_RIGHT;
     }
+
+
+            
     break;
             case STATE_LEFT:
-                print_text(20, 40, "STATE_LEFT");
-                o->oMoveAngleYaw = approach_s32(o->oMoveAngleYaw, (o->os16F4 - 0x2000), 0x75, 0x75);
-                if (o->oMoveAngleYaw <= (o->os16F4 - 0x2000) && o->oMoveAngleYaw < (o->os16F4 + 0x8000)){
-                    o->oSubAction = STATE_RIGHT;
-                }
+                //print_text(20, 40, "STATE_LEFT");
+                o->oMoveAngleYaw-= 75;
+                //o->oMoveAngleYaw = approach_s32_symmetric(o->oMoveAngleYaw, o->parentObj->oMoveAngleYaw - 0x2000, 0x75);
+                //print_text_fmt_int(20, 20, "goal yaw: %d", (u16)(o->parentObj->oMoveAngleYaw - 0x2000));
+                //if ((o->oMoveAngleYaw - (o->parentObj->oMoveAngleYaw - 0x2000)) & 0x8000){
+                    //if (abs(o->oMoveAngleYaw - (o->parentObj->oMoveAngleYaw - 0x2000) & 0x8000) <= 0x75) {
+                    //if (o->oMoveAngleYaw <= o->parentObj->oMoveAngleYaw - 0x2000 || o->oMoveAngleYaw >= o->parentObj->oMoveAngleYaw + 0xE000){
+                        //if ((o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw >= (u16)(o->parentObj->oMoveAngleYaw - 0x2000 - 0x75)) && (o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw <= (u16)(o->parentObj->oMoveAngleYaw - 0x2000 + 0x75))) {
+                        if (abs_angle_diff((o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw), (o->oF8 - 0x8000 + 0xE000)) <= 0x75) {
+                        //print_text(20, 0, "within range");
+                        o->oSubAction = STATE_RIGHT;
+                        }
+                    //o->oSubAction = STATE_RIGHT;
+                //}
                 break;
             case STATE_RIGHT:
-                print_text(20, 60, "STATE_RIGHT");
-                o->oMoveAngleYaw = approach_s32(o->oMoveAngleYaw, (o->os16F4 + 0x2000), 0x75, 0x75);
-                if (o->oMoveAngleYaw >= (o->os16F4 + 0x2000) && o->oMoveAngleYaw < (o->os16F4 + 0x8000)){
-                    o->oSubAction = STATE_LEFT;
-                }
+                //print_text(20, 60, "STATE_RIGHT");
+                o->oMoveAngleYaw+= 75;
+                //o->oMoveAngleYaw = approach_s32_symmetric(o->oMoveAngleYaw, o->parentObj->oMoveAngleYaw + 0x2000, 0x75);
+                //print_text_fmt_int(20, 20, "goal yaw: %d", (u16)(o->parentObj->oMoveAngleYaw + 0x2000));
+                //if ((o->oMoveAngleYaw - (o->parentObj->oMoveAngleYaw + 0x2000)) & 0x8000){
+                    //if (abs(o->oMoveAngleYaw - (o->parentObj->oMoveAngleYaw + 0x2000) & 0x8000) <= 0x75) {
+                    //if (o->oMoveAngleYaw >= o->parentObj->oMoveAngleYaw + 0x2000 || o->oMoveAngleYaw <= o->parentObj->oMoveAngleYaw - 0xE000){
+                    //o->oSubAction = STATE_LEFT;
+                //}
+                //if ((o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw >= (u16)(o->parentObj->oMoveAngleYaw + 0x2000 - 0x76)) && (o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw <= (u16)(o->parentObj->oMoveAngleYaw + 0x2000 + 0x76))) {
+                    if (abs_angle_diff((o->parentObj->oMoveAngleYaw + o->oMoveAngleYaw), (o->oF8 - 0x8000 + 0x2000)) <= 0x75) {
+                        //print_text(20, 0, "within range");
+                        o->oSubAction = STATE_LEFT;
+                        }
                 break;
         }
         
@@ -897,8 +960,8 @@ void bhv_turret_platform_init(void){
         SET_BPARAM1(o->oBehParams, 0);
     }
     o->oHomeY = o->oPosY;
-    struct Object *coverLeft = spawn_object_abs_with_rot(o, 0, MODEL_TURRET_COVER, bhvTurretCover, -107*sins(o->oMoveAngleYaw)+o->oPosX, o->oPosY+235, -107*coss(o->oMoveAngleYaw)+o->oPosZ, 0, o->oMoveAngleYaw, 0);
-    struct Object *coverRight = spawn_object_abs_with_rot(o, 0, MODEL_TURRET_COVER, bhvTurretCover, -107*sins(o->oMoveAngleYaw+0x8000)+o->oPosX, o->oPosY+235, -107*coss(o->oMoveAngleYaw+0x8000)+o->oPosZ, 0, o->oMoveAngleYaw+0x8000, 0);
+    struct Object *coverLeft = spawn_object_abs_with_rot(o, 0, MODEL_TURRET_COVER, bhvTurretCover, -107*sins(o->oMoveAngleYaw-0x4000)+o->oPosX, o->oPosY+235, -107*coss(o->oMoveAngleYaw-0x4000)+o->oPosZ, 0, o->oMoveAngleYaw-0x4000, 0);
+    struct Object *coverRight = spawn_object_abs_with_rot(o, 0, MODEL_TURRET_COVER, bhvTurretCover, -107*sins(o->oMoveAngleYaw+0x4000)+o->oPosX, o->oPosY+235, -107*coss(o->oMoveAngleYaw+0x4000)+o->oPosZ, 0, o->oMoveAngleYaw+0x4000, 0);
     o->oObjF4 = coverLeft;
     o->oObjF8 = coverRight;
     o->o110 = 0;
@@ -950,7 +1013,7 @@ void bhv_turret_platform(void){
     if (o->o110 == 1){
         struct Object *turret = spawn_object_relative(GET_BPARAM2(o->oBehParams), 0, 0, 0, o, MODEL_TURRET_BODY, bhvTurretBody);
         o->oObjFC = turret;
-        o->oObjFC->oMoveAngleYaw = o->oMoveAngleYaw+0x4000;
+        o->oObjFC->oMoveAngleYaw = o->oMoveAngleYaw;
         o->oObjFC->oMoveAnglePitch = o->oMoveAnglePitch;
         o->o110 = 2;
     }
@@ -1164,3 +1227,4 @@ o->oFaceAnglePitch = o->oMoveAnglePitch;
     }
 }
 */
+

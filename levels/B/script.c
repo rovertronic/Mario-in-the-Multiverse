@@ -50,6 +50,7 @@ const LevelScript level_B_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_ALARM, alarm_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_ALARM_LIT, alarm_lit_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_TURRET_PANEL, turret_panel_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_MEGACORK, megacork_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -77,8 +78,11 @@ const LevelScript level_B_entry[] = {
 		OBJECT(MODEL_CONCRETE_BLOCK, -2367, 50, -5854, 0, 0, 0, (1 << 24) | (50 << 16), bhvConcreteBlock),
 		OBJECT(MODEL_CONCRETE_BLOCK, -3400, 50, -5992, 0, 0, 0, (2 << 24) | (0xFF << 16), bhvConcreteBlock),
 		OBJECT(MODEL_GAUGE, -3959, 82, -1554, 0, 90, 0, (5 << 24), bhvGauge),
+		OBJECT(MODEL_MEGACORK, 1501, -901, -13374, 0, 0, 0, (1 << 24), bhvCork),
+		OBJECT(MODEL_MEGACORK, 1515, -5629, -11935, 0, 0, 0, 0x00000000, bhvCork),
 		OBJECT(MODEL_NONE, -3580, -781, -3184, 0, 0, 0, (6 << 24), bhvWaterfallHidden),
 		OBJECT(MODEL_NONE, -3580, -973, -2264, 0, 0, 0, (5 << 24), bhvWaterfallHidden),
+		OBJECT(MODEL_MEGACORK, 1515, -2996, -10535, 0, 180, 0, (1 << 24), bhvCork),
 		OBJECT(MODEL_GAUGE, -4413, 192, -3183, 0, 90, 0, (7 << 24), bhvGauge),
 		OBJECT(MODEL_GAUGE, -1104, 343, -3312, 0, 0, 0, (6 << 24), bhvGauge),
 		OBJECT(MODEL_NONE, -3581, -607, -4105, 0, 0, 0, (7 << 24), bhvWaterfallHidden),

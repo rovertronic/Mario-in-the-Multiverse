@@ -665,6 +665,7 @@ void bhv_turret_panel(void);
 void bhv_gate_init(void);
 void bhv_gate(void);
 void bhv_alarm(void);
+void bhv_cork(void);
 //void bhv_turret_heavy_loop(void);
 void bhv_sir_kibble_init(void);
 void bhv_sir_kibble_loop(void);

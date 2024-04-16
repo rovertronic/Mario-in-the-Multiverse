@@ -6,7 +6,7 @@ const GeoLayout B_area_1_geo[] = {
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -2688, 82, -35, B_dl_Airlock_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -2350, 11, -99, B_dl_airlock_button_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT_DECAL, -2689, -1758, 519, B_dl_airlock_water_collision_mesh_layer_6),
-		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 1501, 1611, -13374, B_dl_cork_001_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 1501, 1611, -13374, B_dl_cork_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 9535, 1563, -1966, 0, 0, 180, B_dl_crusher_004_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, -110, 939, 2757, B_dl_Cube_001_mesh_layer_5),
 		GEO_OPEN_NODE(),

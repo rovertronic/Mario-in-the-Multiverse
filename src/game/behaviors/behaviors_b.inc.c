@@ -3,6 +3,7 @@
 #include "dialog_ids.h"
 #include "src/game/bullet_system.h"
 #include "src/game/camera.h"
+#include "src/engine/surface_collision.h"
 Bool8 inCutscene = FALSE;
 Bool8 littleSisterCutscene = FALSE;
 u8 curCutsceneState = 0;
@@ -1228,3 +1229,14 @@ o->oFaceAnglePitch = o->oMoveAnglePitch;
 }
 */
 
+void bhv_cork(void){
+    struct Surface *hitSurface;
+    if (cur_obj_was_attacked_or_ground_pounded()) {
+        obj_explode_and_spawn_coins(46.0f, COIN_TYPE_YELLOW);
+        create_sound_spawner(SOUND_GENERAL_BREAK_BOX);
+        if (GET_BPARAM1(o->oBehParams) == 1){
+            gLakituState.goalPos[1] = gLakituState.goalPos[1] - 3000;
+            gLakituState.goalFocus[1] = gLakituState.goalFocus[1] - 3000;
+        }
+    }
+}

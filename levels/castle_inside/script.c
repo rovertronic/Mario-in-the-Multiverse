@@ -62,15 +62,7 @@ const LevelScript level_castle_inside_entry[] = {
 
 		//2 blank objects for testing
 												   /*0 is BehParam2*/
-		OBJECT(MODEL_NONE, -601, 0, 1572, 0, 94, 0, 0x00000000, bhvTurretPanel),
-		OBJECT(MODEL_ROCKET_BUTTON_OFF, -601, 0, 1061, 0, 87, 0, 0x01300000, bhvRocketButton),
-		OBJECT(MODEL_BLUE_COIN_SWITCH, 0, 0, 1572, 0, 94, 0, 0x00000000, bhvStarPieceSwitch),
-		OBJECT(MODEL_STAR_PIECE, -200, 0, 1572, 0, 94, 0, 0x00000000, bhvStarPiece),
-		OBJECT(MODEL_STAR_PIECE, -200, 50, 1572, 0, 94, 0, 0x00000000, bhvStarPiece),
-		OBJECT(MODEL_STAR_PIECE, -200, 100, 1572, 0, 94, 0, 0x00000000, bhvStarPiece),
-		OBJECT(MODEL_STAR_PIECE, -200, 150, 1572, 0, 94, 0, 0x00000000, bhvStarPiece),
-		OBJECT(MODEL_STAR_PIECE, -200, 200, 1572, 0, 94, 0, 0x00000000, bhvStarPiece),
-
+		
 		OBJECT(MODEL_LEVEL_PIPE, 800, 0, -2600, 0, 0, 0, (0 << 16), bhvLevelPipe),
 		OBJECT(MODEL_LEVEL_PIPE, 800, 0, -2000, 0, 0, 0, (1 << 16), bhvLevelPipe),
 		OBJECT(MODEL_LEVEL_PIPE, 800, 0, -1400, 0, 0, 0, (2 << 16), bhvLevelPipe),

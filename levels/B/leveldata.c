@@ -56,3 +56,5 @@
 #include "levels/B/alarm/anims/table.inc.c"
 #include "levels/B/turret_panel/model.inc.c"
 #include "levels/B/turret_panel/collision.inc.c"
+#include "levels/B/megacork/model.inc.c"
+#include "levels/B/megacork/collision.inc.c"

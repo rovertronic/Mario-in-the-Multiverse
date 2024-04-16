@@ -636,12 +636,12 @@ void calc_y_to_curr_floor(f32 *posOff, f32 posMul, f32 posBound, f32 *focOff, f3
     f32 floorHeight = sMarioGeometry.currFloorHeight;
     f32 waterHeight;
 
-    if (!(sMarioCamState->action & ACT_FLAG_METAL_WATER)) {
+    /*if (!(sMarioCamState->action & ACT_FLAG_METAL_WATER)) {
         //! @bug this should use sMarioGeometry.waterHeight
         if (floorHeight < (waterHeight = find_water_level(sMarioCamState->pos[0], sMarioCamState->pos[2]))) {
             floorHeight = waterHeight;
         }
-    }
+    }*/
 
     if (sMarioCamState->action & ACT_FLAG_ON_POLE) {
         if (sMarioGeometry.currFloorHeight >= gMarioStates[0].usedObj->oPosY && sMarioCamState->pos[1]

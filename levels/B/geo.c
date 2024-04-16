@@ -36,3 +36,4 @@
 #include "levels/B/alarm_lit/geo.inc.c"
 #include "levels/B/alarm/geo.inc.c"
 #include "levels/B/turret_panel/geo.inc.c"
+#include "levels/B/megacork/geo.inc.c"

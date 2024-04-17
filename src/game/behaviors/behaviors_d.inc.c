@@ -8,6 +8,22 @@ void bhv_nitro_box_loop(void) {
     if (o->oTimer%20 == 0) {
         o->oVelY = 10.0f;
     }
+
+    if (obj_check_if_collided_with_object(o, gMarioObject) == TRUE) {
+        o->oInteractStatus &= ~INT_STATUS_INTERACTED;
+        spawn_object(o, MODEL_EXPLOSION, bhvExplosion);
+        o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+
+        if (aku_invincibility == 0) {
+            set_mario_action(gMarioState,ACT_HARD_BACKWARD_GROUND_KB,0);
+            gMarioState->faceAngle[1] = o->oAngleToMario+0x8000;
+            gMarioState->health = 0xFF; //die
+            o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+        }
+    }
+
+    set_object_visibility(o, 7000);
+
     if (o->oShotByShotgun > 0) {
         spawn_object(o, MODEL_EXPLOSION, bhvExplosion);
         set_mario_action(gMarioState,ACT_HARD_BACKWARD_GROUND_KB,0);

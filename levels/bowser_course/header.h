@@ -41,4 +41,12 @@ extern const LevelScript level_bowser_course_entry[];
 
 #include "levels/bowser_course/mverses_sky/header.h"
 
+#include "levels/bowser_course/bc_shooter/geo_header.h"
+
+#include "levels/bowser_course/bowser_f_bullet/header.h"
+
+#include "levels/bowser_course/bc_skiploom/geo_header.h"
+
+#include "levels/bowser_course/bc_skiploom/anim_header.h"
+
 #endif

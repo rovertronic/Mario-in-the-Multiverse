@@ -32,3 +32,8 @@
 #include "levels/bowser_course/bc_stair/collision.inc.c"
 #include "levels/bowser_course/bc_stair_2/model.inc.c"
 #include "levels/bowser_course/mverses_sky/model.inc.c"
+#include "levels/bowser_course/bc_shooter/model.inc.c"
+#include "levels/bowser_course/bowser_f_bullet/model.inc.c"
+#include "levels/bowser_course/bc_skiploom/model.inc.c"
+#include "levels/bowser_course/bc_skiploom/anims/data.inc.c"
+#include "levels/bowser_course/bc_skiploom/anims/table.inc.c"

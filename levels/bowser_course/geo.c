@@ -25,3 +25,5 @@
 #include "levels/bowser_course/bc_fspinner/geo.inc.c"
 #include "levels/bowser_course/bc_stair/geo.inc.c"
 #include "levels/bowser_course/bc_stair_2/geo.inc.c"
+#include "levels/bowser_course/bc_shooter/geo.inc.c"
+#include "levels/bowser_course/bc_skiploom/geo.inc.c"

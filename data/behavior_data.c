@@ -7037,6 +7037,7 @@ const BehaviorScript bhvFkey[] = {
 extern void bhv_f_shooter(void);
 const BehaviorScript bhvFshooter[] = {
     BEGIN(OBJ_LIST_PUSHABLE),
+    SET_FLOAT(oDrawingDistance, 10000),
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_ENEMY)),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_f_shooter),
@@ -8681,5 +8682,21 @@ const BehaviorScript bhvBcStair[] = {
     BEGIN_LOOP(),
         CALL_NATIVE(bc_stair_loop),
         CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBcSkiploom[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY)),//--E
+    LOAD_ANIMATIONS(oAnimations, bc_skiploom_anims),
+    ANIMATE(0),
+    SET_HOME(),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 50, /*Gravity*/ 0, /*Bounciness*/ 0, /*Drag strength*/ 0, /*Friction*/ 1000, /*Buoyancy*/ 600, /*Unused*/ 0, 0),
+    CALL_NATIVE(bhv_init_room),
+    SET_INT(oInteractionSubtype, INT_SUBTYPE_TWIRL_BOUNCE),
+    SET_FLOAT(oGraphYOffset, 30),
+    SCALE(/*Unused*/ 0, /*Field*/ 150),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_fly_guy_update),
     END_LOOP(),
 };

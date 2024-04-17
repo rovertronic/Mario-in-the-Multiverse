@@ -823,5 +823,6 @@ extern const BehaviorScript bhvBcJelly[];
 extern const BehaviorScript bhvBcHoodmonger[];
 extern const BehaviorScript bhvBcFspinner[];
 extern const BehaviorScript bhvBcStair[];
+extern const BehaviorScript bhvBcSkiploom[];
 
 #endif // BEHAVIOR_DATA_H

@@ -70,7 +70,7 @@ extern Vtx bowser_course_dl_gooner_005_mesh_layer_1_vtx_0[40];
 extern Gfx bowser_course_dl_gooner_005_mesh_layer_1_tri_0[];
 extern Vtx bowser_course_dl_gooner_005_mesh_layer_4_vtx_0[16];
 extern Gfx bowser_course_dl_gooner_005_mesh_layer_4_tri_0[];
-extern Vtx bowser_course_dl_vis_mesh_layer_1_vtx_0[1339];
+extern Vtx bowser_course_dl_vis_mesh_layer_1_vtx_0[1336];
 extern Gfx bowser_course_dl_vis_mesh_layer_1_tri_0[];
 extern Vtx bowser_course_dl_vis_mesh_layer_1_vtx_1[907];
 extern Gfx bowser_course_dl_vis_mesh_layer_1_tri_1[];

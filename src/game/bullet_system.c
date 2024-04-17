@@ -18,6 +18,7 @@
 #include "level_update.h"
 #include "levels/i/hoodmonger_bullet/geo_header.h"
 extern Gfx fbullet_Cube_mesh[];
+extern Gfx bowser_f_bullet_Cube_mesh[];
 
 #include "ge_translation.h"
 
@@ -117,6 +118,12 @@ Gfx *dobj_bullets(s32 callContext) {
 			sBulletParamFn = bullet_f_params;
 			sBulletMat     = mat_e_sg_piece_mat_f3d_layer1;
 			sBulletMesh    = fbullet_Cube_mesh;
+			break;
+
+		case LEVEL_BOWSER_COURSE:
+			sBulletParamFn = bullet_f_params;
+			sBulletMat     = mat_e_sg_piece_mat_f3d_layer1;
+			sBulletMesh    = bowser_f_bullet_Cube_mesh;
 			break;
 		
 		case LEVEL_I:

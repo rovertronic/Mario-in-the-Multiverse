@@ -71,16 +71,14 @@ void bhv_sentret_loop(void){
     
     switch (o->oAction){
         case SENTRET_ACT_ROAM:
+            obj_handle_attacks(&sSentretHitbox, o->oAction, sSentretAttackHandlers);
             sentret_roam();
+            o->oInteractStatus = INT_STATUS_NONE;
+            break;
+        default:
+            obj_update_standard_actions(1.0f);
             break;
     }
-
-    obj_handle_attacks(&sSentretHitbox, o->oAction, sSentretAttackHandlers);
-    if (o->oShotByShotgun == 2) {
-        obj_mark_for_deletion(o);
-    }
-    o->oShotByShotgun = 0;
-    o->oInteractStatus = INT_STATUS_NONE;
 }
 
 

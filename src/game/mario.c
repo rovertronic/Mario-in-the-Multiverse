@@ -2129,10 +2129,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             change_ability(ABILITY_BUBBLE_HAT);
         }
 
-        if ((!force_marble)&&(gMarioState->action != ACT_BUBBLE_HAT_JUMP)) {
-            control_ability_dpad();
-        }
-
+        control_ability_dpad();
 
         if ((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE) {
             gMarioState->abilityChronosTimeSlowActive = FALSE;

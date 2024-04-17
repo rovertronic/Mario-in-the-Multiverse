@@ -593,6 +593,10 @@ s32 act_triple_jump(struct MarioState *m) {
 }
 
 s32 act_axe_jump(struct MarioState *m) {
+    if (!using_ability(ABILITY_ESTEEMED_MORTAL)) {
+        return set_mario_action(m, ACT_FREEFALL,0);
+    }
+
     struct Surface *floor = m->floor;
     f32 steepness = sqrtf(sqr(floor->normal.x) + sqr(floor->normal.z));
     s16 floorDYaw = atan2s(floor->normal.z,floor->normal.x)+0x8000;

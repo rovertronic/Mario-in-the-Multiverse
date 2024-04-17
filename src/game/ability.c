@@ -327,12 +327,16 @@ void control_ability_dpad(void) {
         picked_ability = 3;
     }
     if ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE) {
-        if (picked_ability > -1 && cur_obj_nearest_object_with_behavior(bhvShockRocket) == NULL) { // disable ability switching while controlling the rocket
-            // Animate image on DPad HUD
-            ability_y_offset[picked_ability] = 5;
-            ability_gravity[picked_ability] = 2;
+        if (picked_ability > -1) {
+            if (check_if_swap_ability_allowed()) {
+                // Animate image on DPad HUD
+                ability_y_offset[picked_ability] = 5;
+                ability_gravity[picked_ability] = 2;
 
-            change_ability(ability_slot[picked_ability]);
+                change_ability(ability_slot[picked_ability]);
+            } else {
+                play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+            }
         }
     }
 }
@@ -450,4 +454,27 @@ u8 ability_chronos_frame_can_progress(void) {
  */
 f32 ability_chronos_current_slow_factor(void) {
     return gMarioState->abilityChronosTimeSlowActive ? ABILITY_CHRONOS_SLOW_FACTOR : 1.0f;
+}
+
+s32 check_if_swap_ability_allowed(void) {
+    struct Surface * marble_floor;
+    f32 marble_floor_y = find_floor(gMarioState->pos[0],gMarioState->pos[1],gMarioState->pos[2],&marble_floor);
+    u8 force_marble = ((marble_floor)&&(marble_floor->type == SURFACE_FORCE_MARBLE)&&(gMarioState->pos[1] < marble_floor_y+120.0f)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE));
+
+    if (force_marble) {
+        return FALSE;
+    }
+    if (gMarioState->action == ACT_BUBBLE_HAT_JUMP) {
+        return FALSE;
+    }
+    // disable ability switching while controlling the rocket
+    if (cur_obj_nearest_object_with_behavior(bhvShockRocket) != NULL) {
+        return FALSE;
+    }
+
+    if (gMarioState->action == ACT_HM_FLY) {
+        return FALSE;
+    }
+
+    return TRUE;
 }

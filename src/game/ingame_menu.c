@@ -2164,10 +2164,14 @@ s32 render_pause_courses_and_castle(void) {
                     set_ability_slot(3, ability_menu_index);
                 }
                 if (gPlayer1Controller->buttonPressed & A_BUTTON) {
-                    menu_ability_gravity[ability_menu_index] = 2;
-                    menu_ability_y_offset[ability_menu_index] = 1;
-                    change_ability(ability_menu_index);
-                    play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+                    if (check_if_swap_ability_allowed()) {
+                        menu_ability_gravity[ability_menu_index] = 2;
+                        menu_ability_y_offset[ability_menu_index] = 1;
+                        change_ability(ability_menu_index);
+                        play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+                    } else {
+                        play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                    }
                 }
             }
 

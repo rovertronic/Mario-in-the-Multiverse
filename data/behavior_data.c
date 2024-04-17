@@ -8674,7 +8674,7 @@ const BehaviorScript bhvBcFspinner[] = {
 void bc_stair_loop(void);
 const BehaviorScript bhvBcStair[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_VELOCITY_PLATFORM)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_VELOCITY_PLATFORM)),
     LOAD_COLLISION_DATA(bc_stair_collision),
     SET_FLOAT(oCollisionDistance, 4000),
     SET_FLOAT(oDrawingDistance, 32000),

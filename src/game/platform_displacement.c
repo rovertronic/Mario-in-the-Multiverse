@@ -213,9 +213,11 @@ void apply_mario_platform_displacement(void) {
     platform = gMarioPlatform;
     if (!(gTimeStopState & TIME_STOP_ACTIVE) && gMarioObject != NULL) {
         if (platform != NULL) {
-            apply_platform_displacement(&sMarioDisplacementInfo, gMarioState->pos, &gMarioState->faceAngle[1], platform);
-            sShouldApplyInertia = TRUE;
-            sInertiaFirstFrame = TRUE;
+            if (!(platform->oFlags & OBJ_FLAG_VELOCITY_PLATFORM)) {
+                apply_platform_displacement(&sMarioDisplacementInfo, gMarioState->pos, &gMarioState->faceAngle[1], platform);
+                sShouldApplyInertia = TRUE;
+                sInertiaFirstFrame = TRUE;
+            }
         } else if (sShouldApplyInertia && gDoInertia) {
             apply_mario_inertia();
             sInertiaFirstFrame = FALSE;

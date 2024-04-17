@@ -259,7 +259,7 @@ void bhv_hoodmonger_init(void){
 
 void bhv_hoodmonger_loop(void){
     u16 bullet_model = MODEL_HOODMONGER_BULLET;
-    u32 * hoodmonger_behavior = bhvHoodmonger;
+    BehaviorScript * hoodmonger_behavior = bhvHoodmonger;
     if (gCurrLevelNum == LEVEL_BOWSER_COURSE) {
         bullet_model = MODEL_BC_HOODMONGER_BULLET;
         hoodmonger_behavior = bhvBcHoodmonger;
@@ -360,10 +360,17 @@ void bhv_hoodmonger_loop(void){
 }
 
 void bhv_hoodmonger_alert_manager_loop(void){
-    struct Object *alertedhoodmonger = cur_obj_nearest_object_with_behavior_and_action(bhvHoodmonger, 1);
+    BehaviorScript * hoodmonger_behavior = bhvHoodmonger;
+    if (gCurrLevelNum == LEVEL_BOWSER_COURSE) {
+        hoodmonger_behavior = bhvBcHoodmonger;
+    }
+
+    struct Object *alertedhoodmonger = cur_obj_nearest_object_with_behavior_and_action(hoodmonger_behavior, 1);
     struct Object *wanderinghoodmonger;
     if(alertedhoodmonger != NULL && GET_BPARAM1(alertedhoodmonger->oBehParams) == 0){ //if a hoodlum is alerted
-        play_hoodlum_fight_music();
+        if (gCurrLevelNum != LEVEL_BOWSER_COURSE) {
+            play_hoodlum_fight_music();
+        }
         wanderinghoodmonger = alertedhoodmonger->oNearestHoodmongerWandering;
         //and existing wandering hoodlum nearby AND not losing trigger on Mario
         if( wanderinghoodmonger != NULL && 
@@ -376,7 +383,9 @@ void bhv_hoodmonger_alert_manager_loop(void){
             wanderinghoodmonger->oShootingCooldown = 20;
         }
     } else {
-        stop_hoodlum_fight_music();
+        if (gCurrLevelNum != LEVEL_BOWSER_COURSE) {
+            stop_hoodlum_fight_music();
+        }
     }
 }
 

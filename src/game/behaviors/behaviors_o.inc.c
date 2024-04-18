@@ -912,8 +912,8 @@ void bhv_npc_egadd_loop(void) {
 
 void bhv_stargoo(void) {
     f32 scale = gMarioState->numStars;
-    if (scale < 0.1f) {
-        scale = 0.1f;
+    if (scale < 0.05f) {
+        scale = 0.05f;
     }
     if (scale > 1.0f) {
         scale = 1.0f;

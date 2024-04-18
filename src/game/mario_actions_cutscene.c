@@ -2611,7 +2611,8 @@ enum {
 static s32 act_end_peach_cutscene(struct MarioState *m) {
     switch (m->actionArg) {
         case END_PEACH_CUTSCENE_MARIO_FALLING:
-            end_peach_cutscene_mario_falling(m);
+            //end_peach_cutscene_mario_falling(m);
+            end_peach_cutscene_fade_out(m);
             break;
         case END_PEACH_CUTSCENE_MARIO_LANDING:
             end_peach_cutscene_mario_landing(m);

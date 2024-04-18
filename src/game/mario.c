@@ -1898,9 +1898,10 @@ s32 is_2d_area(void) {
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
-    //if (gPlayer1Controller->buttonPressed & D_JPAD) {
-    //    initiate_warp(LEVEL_G, 4, 0x0A, 0);
-    //}
+    if (gPlayer1Controller->buttonPressed & D_JPAD) {
+        level_trigger_warp(gMarioState, WARP_OP_CREDITS_START);
+        gMarioState->actionState = ACT_STATE_END_PEACH_CUTSCENE_FADE_OUT_END;
+    }
     
     // Updates once per frame:
     vec3f_get_dist_and_lateral_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->lateralSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);

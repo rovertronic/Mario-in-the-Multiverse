@@ -1,0 +1,14 @@
+extern const GeoLayout hub_door_geo[];
+extern Lights1 hub_door_door_001_lights;
+extern u8 hub_door_noor_i8[];
+extern u8 hub_door_zold_ci8[];
+extern u8 hub_door_zold_pal_rgba16[];
+extern Vtx hub_door_machine_001_mesh_layer_1_vtx_0[24];
+extern Gfx hub_door_machine_001_mesh_layer_1_tri_0[];
+extern Vtx hub_door_machine_001_mesh_layer_1_vtx_1[18];
+extern Gfx hub_door_machine_001_mesh_layer_1_tri_1[];
+extern Gfx mat_hub_door_door_001[];
+extern Gfx mat_hub_door_Gold_002[];
+extern Gfx mat_revert_hub_door_Gold_002[];
+extern Gfx hub_door_machine_001_mesh_layer_1[];
+extern Gfx hub_door_material_revert_render_settings[];

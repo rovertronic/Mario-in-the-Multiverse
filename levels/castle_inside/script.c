@@ -57,6 +57,8 @@ const LevelScript level_castle_inside_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_SHOPITEM_1, shopitem1_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_SHOPITEM_2, shopitem2_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_SHOPITEM_4, shopitem4_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_HUBSTARGOO, hub_stargoo_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_HUBDOOR, hub_door_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -77,9 +79,12 @@ const LevelScript level_castle_inside_entry[] = {
 		WARP_NODE(32, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(33, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(34 /*end exits*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(35/*enter bowser course*/, LEVEL_BOWSER_COURSE, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF1/*death*/, LEVEL_CASTLE, 0x01, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x01 /*death entry*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_SHOPITEM_4, -8342, 3087, 93, 0, 90, 0, 0x00000000, bhvAArtifactOnMachine),
 		OBJECT(MODEL_NONE, -2062, 1859, -687, 0, 0, 0, (0x01 << 16), bhvDeathWarp),
+		OBJECT(MODEL_EGADD, -7982, 2658, 439, 0, 117, 0, 0x00000000, bhvEgaddNPC),
 		OBJECT(MODEL_HUBPLATFORM, -510, 2651, 1460, 0, 0, 0, 0x00000000, bhvHubPlatform),
 		OBJECT(MODEL_HUBPLATFORM, -1214, 2407, 1059, 0, 0, 0, 0x00000000, bhvHubPlatform),
 		OBJECT(MODEL_HUBPLATFORM, -1572, 2112, 518, 0, 0, 0, 0x00000000, bhvHubPlatform),
@@ -121,6 +126,9 @@ const LevelScript level_castle_inside_entry[] = {
 		OBJECT(MODEL_STAR, 260, 3360, 63, 0, 0, 0, (1 << 16), bhvShopItem),
 		OBJECT(MODEL_STAR, 295, 3531, 257, 0, 0, 0, (3 << 16), bhvShopItem),
 		OBJECT(MODEL_STAR, 213, 3596, -284, 0, 0, 0, (4 << 16), bhvShopItem),
+		OBJECT(MODEL_HUBDOOR, -8171, 2658, 162, 0, 0, 0, 0x00000000, bhvHubDoor),
+		OBJECT(MODEL_HUBSTARGOO, -8293, 2751, 299, 0, 0, 0, 0x00000000, bhvStarGoo),
+		OBJECT(MODEL_NONE, -8399, 2700, 93, 0, 0, 0, (35 << 16), bhvWarp),
 		TERRAIN(castle_inside_area_1_collision),
 		MACRO_OBJECTS(castle_inside_area_1_macro_objs),
 		STOP_MUSIC(0),

@@ -98,3 +98,6 @@
 #include "levels/castle_inside/shopitem2/model.inc.c"
 #include "levels/castle_inside/shopitem4/model.inc.c"
 #include "levels/castle_inside/hint_menu/model.inc.c"
+#include "levels/castle_inside/hub_stargoo/model.inc.c"
+#include "levels/castle_inside/hub_door/model.inc.c"
+#include "levels/castle_inside/hub_door/collision.inc.c"

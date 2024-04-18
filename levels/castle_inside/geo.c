@@ -30,3 +30,5 @@
 #include "levels/castle_inside/shopitem1/geo.inc.c"
 #include "levels/castle_inside/shopitem2/geo.inc.c"
 #include "levels/castle_inside/shopitem4/geo.inc.c"
+#include "levels/castle_inside/hub_stargoo/geo.inc.c"
+#include "levels/castle_inside/hub_door/geo.inc.c"

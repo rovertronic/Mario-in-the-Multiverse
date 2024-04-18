@@ -78,6 +78,12 @@ void bhv_miltank_loop(void) {
         //rigid_body_add_force(o->rigidBody, push_position, move_force, TRUE);
     //}
 
+    if (!o->rigidBody->asleep) {
+        Vec3f baby_force = {.01f,.01f,.01f};
+        // this is really fucking stupid but it's needed so that the miltank doesn't bounce to hell and back when idle
+        vec3f_add(o->rigidBody->linearVel, baby_force);
+    }
+
     if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED && o->oTimer > 5){
         Vec3f force;
         force[0] = (sins(gMarioState->faceAngle[1]) * 125.0f);

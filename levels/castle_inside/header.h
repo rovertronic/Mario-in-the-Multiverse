@@ -179,4 +179,10 @@ extern const LevelScript level_castle_inside_entry[];
 
 #include "levels/castle_inside/hint_menu/header.h"
 
+#include "levels/castle_inside/hub_stargoo/geo_header.h"
+
+#include "levels/castle_inside/hub_door/geo_header.h"
+
+#include "levels/castle_inside/hub_door/collision_header.h"
+
 #endif

@@ -96,6 +96,8 @@
 #define MODEL_SHOPITEM_2                       0x3D
 //#define MODEL_SHOPITEM_3                       0x3E
 #define MODEL_SHOPITEM_4                       0x3E
+#define MODEL_HUBSTARGOO                       0x3F
+#define MODEL_HUBDOOR                          0x40
 
 // hmc
 #define MODEL_HMC_METAL_PLATFORM               0x36        // hmc_geo_0005A0

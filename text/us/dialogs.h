@@ -458,7 +458,22 @@ Start the P challenge?\n\
 \n\
 //Go!////Don't Go"))
 
+DEFINE_DIALOG(DIALOG_EGADD_1, 2, 4, 95, 200, _("\
+i need 70 stars and\n\
+the artifact pls"))
 
+DEFINE_DIALOG(DIALOG_EGADD_2, 2, 4, 95, 200, _("\
+thanks for 70 stars\n\
+but i still need\n\
+artifact"))
+
+DEFINE_DIALOG(DIALOG_EGADD_3, 2, 4, 95, 200, _("\
+thanks for artifact\n\
+but i still need\n\
+70 stars"))
+
+DEFINE_DIALOG(DIALOG_EGADD_4, 2, 4, 95, 200, _("\
+machine is ready!"))
 
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 200, _("\
 Wow! You're smack in the\n\

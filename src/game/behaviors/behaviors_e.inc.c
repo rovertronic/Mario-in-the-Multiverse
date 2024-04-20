@@ -1075,6 +1075,11 @@ static void spawn_target(s32 index, s32 model, f32 offsetY, f32 dist, s16 angle)
 }
 
 void bhv_e__tutorial(void) {
+    if (gCurrCreditsEntry != NULL) {
+        // no tutorial during credits
+        return;
+    }
+
 	if ((o->oTTarget1 != NULL) || (o->oTTarget2 != NULL) || (o->oTTarget3 != NULL)) {
 		o->oTimer = 0; }
 

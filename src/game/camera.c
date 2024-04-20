@@ -9907,6 +9907,24 @@ struct CutsceneSplinePoint l_area_1_spline_level_l_pos_001[] = {
 	{ 6, 70, { -2745, 392, -987 }},
 	{ -1, 70, { -4565, 392, -987 }},
 };
+struct CutsceneSplinePoint e_area_1_spline_level9_foc[] = {
+	{ 0, 70, { -1617, 2845, -4949 }},
+	{ 1, 70, { -1667, 3560, -4949 }},
+	{ 2, 70, { -1867, 4562, -4949 }},
+	{ 3, 70, { -2559, 5365, -4949 }},
+	{ 4, 50, { -4392, 6202, -4949 }},
+	{ 5, 50, { -6056, 6202, -4949 }},
+	{ -1, 50, { -7429, 6202, -4949 }},
+};
+struct CutsceneSplinePoint e_area_1_spline_level9_pos[] = {
+	{ 0, 70, { -1498, 2845, -4949 }},
+	{ 1, 70, { -1548, 3560, -4949 }},
+	{ 2, 70, { -1748, 4562, -4949 }},
+	{ 3, 70, { -2440, 5365, -4949 }},
+	{ 4, 50, { -4273, 6202, -4949 }},
+	{ 5, 50, { -5937, 6202, -4949 }},
+	{ -1, 50, { -7310, 6202, -4949 }},
+};
 struct CutsceneSplinePoint f_area_3_spline_level_10_foc[] = {
 	{ 0, 60, { -2154, 440, 3132 }},
 	{ 1, 60, { -1879, 440, 3132 }},
@@ -10062,6 +10080,10 @@ void cutscene_credits(struct Camera *c) {
         case LEVEL_L:
             pos = l_area_1_spline_level_l_pos;
             focus = l_area_1_spline_level_l_pos_001;
+            break;
+        case LEVEL_E:
+            pos = e_area_1_spline_level9_pos;
+            focus = e_area_1_spline_level9_foc;
             break;
         case LEVEL_F:
             pos = f_area_3_spline_level_10_pos;
@@ -11039,7 +11061,7 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // Unused         | Unused
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
-	ZOOMOUT_AREA_MASK(1, 1, 1, 0, 1, 1, 1, 0), 
+	ZOOMOUT_AREA_MASK(1, 1, 1, 0, 1, 0, 0, 0), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 0), 
 	ZOOMOUT_AREA_MASK(1, 1, 1, 1, 1, 0, 0, 0), 

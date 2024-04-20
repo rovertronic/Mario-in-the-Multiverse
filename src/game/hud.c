@@ -895,7 +895,7 @@ u8 combo_meter_visual = 201;
 
 void render_hud(void) {
     //--E
-    if (gCurrLevelNum == LEVEL_E) {
+    if ((gCurrLevelNum == LEVEL_E)&&(gHudDisplay.flags != HUD_DISPLAY_NONE)) {
         create_dl_ortho_matrix();
         //--**
         create_dl_scale_matrix(MENU_MTX_PUSH, 0.75f, 0.75f, 0);

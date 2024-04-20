@@ -428,6 +428,11 @@ static struct ObjectHitbox sFshooterHitbox = {
 };
 
 void bhv_f_shooter(void) {
+    if (gCurrCreditsEntry != NULL) {
+        o->oAnimState = 1; //no muzzle flash
+        return;
+    }
+
     u16 view_angle = ABS(o->oAngleToMario-o->oFaceAngleYaw);
     
     Vec3f hitPos;

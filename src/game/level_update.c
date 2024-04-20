@@ -65,25 +65,24 @@ const char *credits20[] = { "1EXECUTIVE PRODUCER", "HIROSHI YAMAUCHI" };
 
 
 struct CreditsEntry sCreditsSequence[] = {
-    { LEVEL_CASTLE_GROUNDS, 1, 1, -128, { 0, 8000, 0 }, NULL },
-    { LEVEL_CASTLE, 1, 1, 117, { 713, 9918, -3889 }, credits00 },
-    { LEVEL_G, 3, 1, 117, { 713, 9918, -3889 }, credits01 },
-    { LEVEL_A, 4, 50, 46, { 347, 9376, 326 }, credits02 },
-    { LEVEL_JRB, 1, 18, 22, { 3800, 9840, 2727 }, credits03 },
-    { LEVEL_I, 3, 34, 25, { -5464, 9656, -6575 }, credits04 },
-    { LEVEL_H, 1, 1, 60, { 257, 9922, 2580 }, credits05 },
-    { LEVEL_JRB, 1, 18, 22, { 3800, 9840, 2727 }, credits06 },
-    { LEVEL_L, 1, 17, -32, { 0,0,0 }, credits07 },
-    { LEVEL_JRB, 1, 18, 22, { 3800, 9840, 2727 }, credits08 },
-    { LEVEL_E, 1, 65, 98, { 0, 9024, 0 }, credits09 },
-    { LEVEL_F, 3, 50, 47, { 0, 5000, 0 }, credits10 },
-    { LEVEL_J, 2, 17, -34, { 0,10000,0 }, credits11 },
-    { LEVEL_D, 1, 33, 105, { 0,10000,0 }, credits12 },
-    { LEVEL_O, 1, 2, -33, { 0,0,0 }, credits13 },
-    { LEVEL_N, 2, 51, 54, { 0, 512, 0 }, credits14 },
-    { LEVEL_TTC, 1, 17, -72, { -1304, -71, -967 }, credits15 },
-    { LEVEL_CASTLE_GROUNDS, 1, 1, -128, { 0, 906, -1200 }, NULL },
-    { LEVEL_NONE, 0, 1, 0, { 0, 0, 0 }, NULL },
+    { LEVEL_CASTLE, 1, 1, 117, {-5635,2250,-1806}, credits00 , ABILITY_DEFAULT},
+    { LEVEL_G, 3, 1, 0, {475,1283,-1275}, credits01, ABILITY_CUTTER},
+    { LEVEL_A, 4, 50, 126, {-4465,-31,12360}, credits02, ABILITY_BUBBLE_HAT},
+    { LEVEL_JRB, 1, 18, 22, { 3800, 9840, 2727 }, credits03, ABILITY_SQUID},
+    { LEVEL_I, 3, 34, 205, {6732,440,-3848}, credits04, ABILITY_SHOCK_ROCKET},
+    { LEVEL_H, 1, 1, 240, {-1514,-245,858}, credits05, ABILITY_PHASEWALK},
+    { LEVEL_JRB, 1, 18, 22, { 3800, 9840, 2727 }, credits06, ABILITY_BIG_DADDY},
+    { LEVEL_L, 1, 17, -64, {1512,-300,0}, credits07, ABILITY_KNIGHT},
+    { LEVEL_JRB, 1, 18, 22, { 3800, 9840, 2727 }, credits08, ABILITY_CHRONOS},
+    { LEVEL_E, 1, 65, 0, {-8827,6226,-4956}, credits09, ABILITY_E_SHOTGUN},
+    { LEVEL_F, 3, 50, 0, {-759,230,2346}, credits10, ABILITY_GADGET_WATCH},
+    { LEVEL_J, 2, 17, 114, {-3399,3224,-538}, credits11, ABILITY_HM_FLY},
+    { LEVEL_D, 1, 33, 0, {-1851,3216,-4258}, credits12, ABILITY_AKU},
+    { LEVEL_O, 1, 2, 99, {2231,-2250,229}, credits13, ABILITY_ESTEEMED_MORTAL},
+    { LEVEL_N, 2, 51, 57, {-29,617,294}, credits14, ABILITY_DEFAULT},
+    { LEVEL_TTC, 1, 17, -72, { -1304, -71, -967 }, credits15, ABILITY_DASH_BOOSTER},
+    { LEVEL_CASTLE_GROUNDS, 1, 1, -128, { 0, 906, -1200 }, NULL, ABILITY_DEFAULT},
+    { LEVEL_NONE, 0, 1, 0, { 0, 0, 0 }, NULL, ABILITY_DEFAULT},
 };
 
 struct MarioState gMarioStates[1];
@@ -437,10 +436,8 @@ void warp_credits(void) {
     s32 marioAction = ACT_UNINITIALIZED;
 
     switch (sWarpDest.nodeId) {
-        case WARP_NODE_CREDITS_START:
-            marioAction = ACT_END_PEACH_CUTSCENE;
-            break;
 
+        case WARP_NODE_CREDITS_START:
         case WARP_NODE_CREDITS_NEXT:
             sEndCutsceneVp.vp.vscale[0] = 640;
             sEndCutsceneVp.vp.vscale[1] = 360;
@@ -880,6 +877,7 @@ void initiate_delayed_warp(void) {
                     }
 
                     initiate_warp(gCurrCreditsEntry->levelNum, gCurrCreditsEntry->areaIndex, destWarpNode, WARP_FLAGS_NONE);
+                    change_ability(gCurrCreditsEntry->abilityid);
                     break;
 
                 case WARP_OP_DEATH:

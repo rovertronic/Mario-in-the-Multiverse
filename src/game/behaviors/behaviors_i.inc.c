@@ -814,6 +814,12 @@ void bhv_plank_attached_to_rope_loop(void) {
 }
 
 void bhv_barrier_attached_to_rope_loop(void) {
+    if (gCurrCreditsEntry != NULL) {
+        // get out of the way
+        mark_obj_for_deletion(o);
+        return;
+    }
+
     s16 collisionFlags = 0;
     o->oVelY -= o->oGravity;
 

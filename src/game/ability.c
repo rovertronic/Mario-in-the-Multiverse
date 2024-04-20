@@ -57,6 +57,7 @@
 
 // Ability specific variables
 u16 aku_invincibility = 0;
+u16 aku_recharge = 300;
 u8 phasewalk_state = 0;
 u16 phasewalk_timer = 0;
 u16 chronos_timer = 0;

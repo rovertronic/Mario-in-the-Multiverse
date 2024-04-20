@@ -2243,11 +2243,11 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             if (aku_invincibility != 0) {
                 aku_invincibility = 0;
                 //stop_cap_music();
-                ability_ready(ABILITY_AKU);
             }
         } else {
-            if ((gPlayer1Controller->buttonDown & L_TRIG)&&(aku_invincibility == 0)&&(gMarioState->numGlobalCoins >= 10)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
+            if ((gPlayer1Controller->buttonDown & L_TRIG)&&(aku_invincibility == 0)&&(aku_recharge >= 300)&&(gMarioState->numGlobalCoins >= 10)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
                 aku_invincibility = 300;
+                aku_recharge = 0;
                 gMarioState->numGlobalCoins -= 10;
                 if(!(gCurrCourseNum == COURSE_CCM && gCurrAreaIndex == 4)) //Don't play the music in the LEVEL_I funky shell section to not desynchronized the music
                 //    play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
@@ -2258,6 +2258,11 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 gHudDisplay.abilityMeter = MIN((s16)((aku_invincibility / 300.0f) * 8.0f) + 1, 8);
                 gHudDisplay.abilityMeterStyle = METER_STYLE_AKU;
                 toZeroMeter = TRUE;
+            } else {
+                if (aku_recharge < 300) {
+                    gHudDisplay.abilityMeter = MIN((s16)((aku_recharge / 300.0f) * 8.0f) + 1, 8);
+                    gHudDisplay.abilityMeterStyle = METER_STYLE_AKU_RECHARGE;
+                }
             }
         }
         if (aku_invincibility > 0) {
@@ -2267,9 +2272,10 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             sparkleObj->oPosZ += random_float() * 50.0f - 25.0f;
 
             aku_invincibility --;
-
-            if (aku_invincibility == 0) {
-                stop_cap_music();
+        } else {
+            if (aku_recharge < 300) {
+                aku_recharge++;
+            } else {
                 ability_ready(ABILITY_AKU);
             }
         }

@@ -729,6 +729,16 @@ u8 meter_style_color_table[METER_STYLE_COUNT][9][3] = {
         {255, 255, 255},   // 7
         {255, 255, 255},   // 8
     },
+    {   // Aku Aku Mask Recharge
+        {100, 100, 0},   // 1
+        {100, 100, 0},   // 2
+        {100, 100, 0},   // 3
+        {100, 100, 0},   // 4
+        {100, 100, 0},   // 5
+        {100, 100, 0},   // 6
+        {100, 100, 0},   // 7
+        {100, 100, 0},   // 8
+    },
 };
 
 Gfx *meter_style_icon_dl_table[] = {
@@ -742,6 +752,7 @@ Gfx *meter_style_icon_dl_table[] = {
     &meter_rocket_meter_rocket_mesh,
     &meter_chronos_meter_chronos_mesh,
     &meter_booster_meter_booster_mesh,
+    &meter_aku_meter_aku_mesh,
 };
 
 void render_meter(f32 x, f32 y, s32 meterStyle, s16 wedges, u8 a) {

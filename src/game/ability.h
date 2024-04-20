@@ -84,6 +84,7 @@ f32 ability_chronos_current_slow_factor(void);
 
 // Ability specific variables
 extern u16 aku_invincibility;
+extern u16 aku_recharge;
 extern u8 phasewalk_state;
 extern u16 phasewalk_timer;
 extern u16 chronos_timer;

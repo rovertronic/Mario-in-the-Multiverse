@@ -245,6 +245,7 @@ void bhv_boss_pepperman_loop(void) {
     switch(o->oAction) {
         case PM_ACT_INIT:
             obj_set_hitbox(o, &sPeppermanHitbox);
+            play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_PEPPERMAN_STRIKES), 0);
             o->oAction = PM_ACT_IDLE;
             break;
         case PM_ACT_IDLE:

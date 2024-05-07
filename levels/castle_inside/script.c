@@ -57,6 +57,7 @@ const LevelScript level_castle_inside_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_SHOPITEM_1, shopitem1_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_SHOPITEM_2, shopitem2_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_SHOPITEM_4, shopitem4_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_MORSHU, morshu_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -113,6 +114,7 @@ const LevelScript level_castle_inside_entry[] = {
 		OBJECT(MODEL_LEVEL_PIPE, 7562, 2658, -24, 0, 0, 0, (8 << 16), bhvLevelPipe),
 		OBJECT(MODEL_LEVEL_PIPE, 1701, 1994, 4651, 0, 0, 0, (6 << 16), bhvLevelPipe),
 		MARIO_POS(0x01, 0, -2062, 1612, -687),
+		OBJECT(MODEL_MORSHU, -163, 2994, 394, 0, -22, 0, 0x00000000, bhvMorshu),
 		OBJECT(MODEL_NITRO_BOX, 607, 2658, -8024, 0, 0, 0, 0x00000000, bhvNitroBox),
 		OBJECT(MODEL_NITRO_BOX, -584, 2658, -7787, 0, 0, 0, 0x00000000, bhvNitroBox),
 		OBJECT(MODEL_NONE, 0, 2994, 0, 0, 0, 0, 0x00000000, bhvShopController),

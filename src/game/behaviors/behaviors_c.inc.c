@@ -86,7 +86,8 @@ void bhv_crane_arrow_loop(void) {
                 //if first arrow  : 30 * (1 - 0 *2) => 30 *  1 =>  30 ; so angle increment
                 //if second arrow : 30 * (1 - 1 *2) => 30 * -1 => -30 ; so angle decrement
                 //this calcul avoid to do one more if statement
-                crane->oMoveAngleYaw += 90 * (1 - GET_BPARAM2(o->oBehParams) * 2);
+                crane->oMoveAngleYaw += 110 * (1 - GET_BPARAM2(o->oBehParams) * 2);
+                cur_obj_play_sound_1(SOUND_ENV_ELEVATOR1);
             }
             break;
 
@@ -122,7 +123,7 @@ void bhv_crane_rock_loop(void) {
         case 0: //wait
             o->craneHeadObj = cur_obj_nearest_object_with_behavior(bhvCraneHead);
             if(o->craneHeadObj != NULL) {
-                if(dist_between_objects(o->craneHeadObj, o) < 2000) {
+                if(dist_between_objects(o->craneHeadObj, o) < 1700) {
                     o->oAction++;
                 }
             }
@@ -130,10 +131,11 @@ void bhv_crane_rock_loop(void) {
 
         case 1: //carve
             o->oCarvingTimer++;
+            cur_obj_play_sound_1(SOUND_ENV_METAL_BOX_PUSH);
             //rumble effect
             o->oPosY = o->oTimer % 2 ? o->oHomeY + 20.0f : o->oHomeY - 20.0f;
             //explode if carved enough
-            if(o->oCarvingTimer > 250){
+            if(o->oCarvingTimer > 150){
                 o->oAction++;
             }
             //stop carving if the crane head is too far
@@ -144,7 +146,7 @@ void bhv_crane_rock_loop(void) {
         break;
         case 2: //explode
             create_sound_spawner(SOUND_GENERAL2_PYRAMID_TOP_EXPLOSION);
-            spawn_mist_particles_variable(0, 0, 80.0f);
+            spawn_mist_particles_variable(0, 0, 500.0f);
             spawn_triangle_break_particles(30, MODEL_DIRT_ANIMATION, 3.0f, 4);
             //if it was the last rock
             if(count_objects_with_behavior(bhvCraneRock) == 1){

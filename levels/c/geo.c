@@ -21,3 +21,4 @@
 #include "levels/c/crane_head/geo.inc.c"
 #include "levels/c/crane/geo.inc.c"
 #include "levels/c/octoball/geo.inc.c"
+#include "levels/c/star_boulder/geo.inc.c"

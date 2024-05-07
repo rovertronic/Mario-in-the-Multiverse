@@ -562,6 +562,7 @@ extern const BehaviorScript bhvIntroMachine[];
 extern const BehaviorScript bhvRedArrow[];
 extern const BehaviorScript bhvIntroBowser[];
 extern const BehaviorScript bhvLayton[];
+extern const BehaviorScript bhvMorshu[];
 extern const BehaviorScript bhvHubPlatform[];
 extern const BehaviorScript bhvShopItem[];
 extern const BehaviorScript bhvShopController[];

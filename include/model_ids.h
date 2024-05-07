@@ -96,6 +96,7 @@
 #define MODEL_SHOPITEM_2                       0x3D
 //#define MODEL_SHOPITEM_3                       0x3E
 #define MODEL_SHOPITEM_4                       0x3E
+#define MODEL_MORSHU                           0x3F        // morshu_geo
 
 // hmc
 #define MODEL_HMC_METAL_PLATFORM               0x36        // hmc_geo_0005A0
@@ -670,6 +671,7 @@ enum GLOBAL_MODELS {
 #define MODEL_CRANE_HEAD            0x38 //crane_head_geo
 #define MODEL_CRANE                 0x39 //crane_geo
 #define MODEL_OCTOBALL              0x3A //octoball_geo
+#define MODEL_STAR_BOULDER          0x3B //star_boulder_geo
 /* LEVEL C END */
 
 /* LEVEL D START */

@@ -236,7 +236,7 @@ void update_sliding_angle(struct MarioState *m, f32 accel, f32 lossFactor) {
 
     mario_update_moving_sand(m);
     mario_update_windy_ground(m);
-    mario_update_moving_convoyer(m);
+    mario_update_moving_conveyor(m);
 
     //! Speed is capped a frame late (butt slide HSG)
     m->forwardVel = sqrtf(sqr(m->slideVelX) + sqr(m->slideVelZ));
@@ -362,7 +362,7 @@ void apply_slope_accel(struct MarioState *m) {
 
     mario_update_moving_sand(m);
     mario_update_windy_ground(m);
-    mario_update_moving_convoyer(m);
+    mario_update_moving_conveyor(m);
 }
 
 s32 apply_landing_accel(struct MarioState *m, f32 frictionFactor) {
@@ -518,7 +518,7 @@ s32 update_decelerating_speed(struct MarioState *m) {
     mario_set_forward_vel(m, m->forwardVel);
     mario_update_moving_sand(m);
     mario_update_windy_ground(m);
-    mario_update_moving_convoyer(m);
+    mario_update_moving_conveyor(m);
 
     return stopped;
 }

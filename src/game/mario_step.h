@@ -28,7 +28,7 @@ u32 mario_update_quicksand(struct MarioState *m, f32 sinkingSpeed);
 u32 mario_push_off_steep_floor(struct MarioState *m, u32 action, u32 actionArg);
 u32 mario_update_moving_sand(struct MarioState *m);
 u32 mario_update_windy_ground(struct MarioState *m);
-u32 mario_update_moving_convoyer(struct MarioState *m);
+u32 mario_update_moving_conveyor(struct MarioState *m);
 void stop_and_set_height_to_floor(struct MarioState *m);
 s32 stationary_ground_step(struct MarioState *m);
 s32 perform_ground_step(struct MarioState *m);

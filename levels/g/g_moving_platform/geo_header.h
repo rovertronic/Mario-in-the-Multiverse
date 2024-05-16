@@ -1,0 +1,10 @@
+extern const GeoLayout g_moving_platform_geo[];
+extern Lights1 g_moving_platform_f3dlite_material_062_lights;
+extern u8 g_moving_platform_gcoplat_ci4[];
+extern u8 g_moving_platform_gcoplat_pal_rgba16[];
+extern Vtx g_moving_platform_Plane_021_mesh_layer_1_vtx_0[24];
+extern Gfx g_moving_platform_Plane_021_mesh_layer_1_tri_0[];
+extern Gfx mat_g_moving_platform_f3dlite_material_062[];
+extern Gfx mat_revert_g_moving_platform_f3dlite_material_062[];
+extern Gfx g_moving_platform_Plane_021_mesh_layer_1[];
+extern Gfx g_moving_platform_material_revert_render_settings[];

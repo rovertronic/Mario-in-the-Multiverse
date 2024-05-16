@@ -1,0 +1,15 @@
+extern const GeoLayout boss_gate_geo[];
+extern u8 boss_gate_opening_wall_ci4[];
+extern u8 boss_gate_opening_wall_pal_rgba16[];
+extern u8 boss_gate_plum_bucket_rgba16[];
+extern Vtx boss_gate_prune_mesh_layer_4_vtx_0[8];
+extern Gfx boss_gate_prune_mesh_layer_4_tri_0[];
+extern Vtx boss_gate_prune_mesh_layer_1_vtx_0[24];
+extern Gfx boss_gate_prune_mesh_layer_1_tri_0[];
+extern Gfx mat_boss_gate_f3dlite_material_002[];
+extern Gfx mat_revert_boss_gate_f3dlite_material_002[];
+extern Gfx mat_boss_gate_f3dlite_material[];
+extern Gfx mat_revert_boss_gate_f3dlite_material[];
+extern Gfx boss_gate_prune_mesh_layer_4[];
+extern Gfx boss_gate_prune_mesh_layer_1[];
+extern Gfx boss_gate_material_revert_render_settings[];

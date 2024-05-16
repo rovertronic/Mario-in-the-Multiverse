@@ -94,6 +94,90 @@ Gfx *geo_update_layer_transparency(s32 callContext, struct GraphNode *node, UNUS
     return dlStart;
 }
 
+Gfx *geo_update_layer_redness(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    Gfx *dlStart = NULL;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        struct Object *objectGraphNode = (struct Object *) gCurGraphNodeObject; // TODO: change this to object pointer?
+        struct GraphNodeGenerated *currentGraphNode = (struct GraphNodeGenerated *) node;
+        s32 parameter = currentGraphNode->parameter;
+
+        if (gCurGraphNodeHeldObject != NULL) {
+            objectGraphNode = gCurGraphNodeHeldObject->objNode;
+        }
+
+        s32 objectOpacity = objectGraphNode->oOpacity;
+        dlStart = alloc_display_list(sizeof(Gfx) * 3);
+
+        Gfx *dlHead = dlStart;
+
+        if (objectOpacity == 0xFF) {
+            if (parameter == GEO_TRANSPARENCY_MODE_DECAL) {
+                //SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_TRANSPARENT_DECAL);
+            } else {
+                //SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_OPAQUE);
+            }
+
+            objectGraphNode->oAnimState = TRANSPARENCY_ANIM_STATE_OPAQUE;
+        } else {
+            if (parameter == GEO_TRANSPARENCY_MODE_DECAL) {
+                //SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_TRANSPARENT_DECAL);
+            } else if (parameter == GEO_TRANSPARENCY_MODE_INTER) {
+                //SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_TRANSPARENT_INTER);
+            } else {
+                //SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_TRANSPARENT);
+            }
+
+            SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_OPAQUE);
+
+            objectGraphNode->oAnimState = TRANSPARENCY_ANIM_STATE_TRANSPARENT;
+
+            //if (objectOpacity == 0x00 && segmented_to_virtual(bhvBowser) == objectGraphNode->behavior) {
+            //    objectGraphNode->oAnimState = BOWSER_ANIM_STATE_INVISIBLE;
+            //}
+
+            if (parameter != GEO_TRANSPARENCY_MODE_NO_DITHER
+                && (objectGraphNode->activeFlags & ACTIVE_FLAG_DITHERED_ALPHA)) {
+                gDPSetAlphaCompare(dlHead++, G_AC_DITHER);
+            }
+        }
+        gDPSetEnvColor(dlHead++, 255, 255-objectOpacity, 255-objectOpacity, 255);
+        gSPEndDisplayList(dlHead);
+    }
+
+    return dlStart;
+}
+
+Gfx *geo_update_mverse_pipe(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    Gfx *dlStart = NULL;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        struct Object *objectGraphNode = (struct Object *) gCurGraphNodeObject; // TODO: change this to object pointer?
+        struct GraphNodeGenerated *currentGraphNode = (struct GraphNodeGenerated *) node;
+        s32 parameter = currentGraphNode->parameter;
+
+        if (gCurGraphNodeHeldObject != NULL) {
+            objectGraphNode = gCurGraphNodeHeldObject->objNode;
+        }
+
+        f32 grade = (objectGraphNode->oOpacity/255.0f);
+        s32 timer = objectGraphNode->oUnk94;
+        dlStart = alloc_display_list(sizeof(Gfx) * 3);
+
+        Gfx *dlHead = dlStart;
+
+        SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_OPAQUE);
+
+        s32 r = 120 + sins(timer*0x300 + 0x0000)*55.0f*grade;
+        s32 g = 120 + sins(timer*0x300 + 0x5555)*55.0f*grade;
+        s32 b = 120 + sins(timer*0x300 + 0xAAAA)*55.0f*grade;
+        gDPSetEnvColor(dlHead++, r, g, b, grade*255.0f-255.0f);
+        gSPEndDisplayList(dlHead);
+    }
+
+    return dlStart;
+}
+
 Gfx *geo_switch_anim_state(s32 callContext, struct GraphNode *node, UNUSED void *context) {
     if (callContext == GEO_CONTEXT_RENDER) {
         struct Object *obj = gCurGraphNodeObjectNode;
@@ -271,10 +355,18 @@ s32 obj_turn_toward_object(struct Object *obj, struct Object *target, s16 angleI
 
             targetAngle = atan2s(d[2], d[0]);
             break;
+
+        case O_MOVE_ANGLE_ROLL_INDEX:
+        case O_FACE_ANGLE_ROLL_INDEX:
+            d[0] = target->oPosX - obj->oPosX;
+            d[1] = -target->oPosY + obj->oPosY;
+
+            targetAngle = atan2s(d[1], d[0]);
+            break;
     }
 
-    startAngle = o->rawData.asU32[angleIndex];
-    o->rawData.asU32[angleIndex] = approach_s16_symmetric(startAngle, targetAngle, turnAmount);
+    startAngle = obj->rawData.asU32[angleIndex];
+    obj->rawData.asU32[angleIndex] = approach_s16_symmetric(startAngle, targetAngle, turnAmount);
     return targetAngle;
 }
 
@@ -470,7 +562,7 @@ void obj_set_gfx_pos_from_pos(struct Object *obj) {
 }
 
 void obj_init_animation(struct Object *obj, s32 animIndex) {
-    struct Animation **anims = o->oAnimations;
+    struct Animation **anims = obj->oAnimations;
     geo_obj_init_animation(&obj->header.gfx, &anims[animIndex]);
 }
 
@@ -621,6 +713,58 @@ struct Object *cur_obj_find_nearest_object_with_behavior(const BehaviorScript *b
     }
 
     *dist = minDist;
+    return closestObj;
+}
+
+struct Object *cur_obj_nearest_object_with_behavior_and_action(const BehaviorScript *behavior, s32 action){
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+    struct Object *closestObj = NULL;
+    f32 minDist = 0x20000;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            && obj != o
+            && obj->oAction == action
+        ) {
+            f32 objDist = dist_between_objects(o, obj);
+            if (objDist < minDist) {
+                closestObj = obj;
+                minDist = objDist;
+            }
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+
+    return closestObj;
+}
+
+struct Object *cur_obj_nearest_object_with_behavior_and_bparam1(const BehaviorScript *behavior, u32 bparam1){
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+    struct Object *closestObj = NULL;
+    f32 minDist = 0x20000;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            && obj != o
+            && GET_BPARAM1(obj->oBehParams) == bparam1
+        ) {
+            f32 objDist = dist_between_objects(o, obj);
+            if (objDist < minDist) {
+                closestObj = obj;
+                minDist = objDist;
+            }
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+
     return closestObj;
 }
 
@@ -1448,6 +1592,10 @@ void cur_obj_move_standard(s16 steepSlopeAngleDegrees) {
     s32 careAboutEdgesAndSteepSlopes = FALSE;
     s32 negativeSpeed = FALSE;
 
+    if (is_2d_area()) {
+        o->oPosZ = 0.0f;
+    }
+
     //! Because some objects allow these active flags to be set but don't
     //  avoid updating when they are, we end up with "partial" updates, where
     //  an object's internal state will be updated, but it doesn't move.
@@ -1526,6 +1674,12 @@ void obj_set_pos_relative(struct Object *obj, struct Object *other, f32 dleft, f
 s32 cur_obj_angle_to_home(void) {
     f32 dx = o->oHomeX - o->oPosX;
     f32 dz = o->oHomeZ - o->oPosZ;
+    return atan2s(dz, dx);
+}
+
+s16 cur_obj_mario_angle_to_home(void) {
+    f32 dx = o->oHomeX - gMarioState->pos[0];
+    f32 dz = o->oHomeZ - gMarioState->pos[2];
     return atan2s(dz, dx);
 }
 

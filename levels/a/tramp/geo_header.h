@@ -1,0 +1,15 @@
+extern const GeoLayout tramp_geo[];
+extern Lights1 tramp_f3dlite_material_018_lights;
+extern Lights1 tramp_f3dlite_material_002_lights;
+extern Lights1 tramp_f3dlite_material_019_lights;
+extern Vtx tramp_Circle_019_mesh_layer_1_vtx_0[39];
+extern Gfx tramp_Circle_019_mesh_layer_1_tri_0[];
+extern Vtx tramp_Circle_019_mesh_layer_1_vtx_1[57];
+extern Gfx tramp_Circle_019_mesh_layer_1_tri_1[];
+extern Vtx tramp_Circle_019_mesh_layer_1_vtx_2[53];
+extern Gfx tramp_Circle_019_mesh_layer_1_tri_2[];
+extern Gfx mat_tramp_f3dlite_material_018[];
+extern Gfx mat_tramp_f3dlite_material_002[];
+extern Gfx mat_tramp_f3dlite_material_019[];
+extern Gfx tramp_Circle_019_mesh_layer_1[];
+extern Gfx tramp_material_revert_render_settings[];

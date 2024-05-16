@@ -1,3 +1,5 @@
+//Warning: rushed & bad
+
 #include <PR/gbi.h>
 #include "actors/group0.h"
 #include "behavior_data.h"
@@ -15,6 +17,7 @@
 #include "hud.h"
 #include "level_update.h"
 #include "object_list_processor.h"
+#include "mario.h"
 
 
 
@@ -478,6 +481,7 @@ static void e__shotgun_object_collision(Vec3f shotOrig, Vec3f dirNorm, f32 collP
                                     if (SURFACE_IS_NEW_WATER(flattenSurf)) {
                                         spawn_object(obj, MODEL_WATER_SPLASH, bhvWaterSplash);
                                     } else {
+                                        combo_meter = 201;
                                         struct Object *flatObj = spawn_object(obj, obj_get_model_id(obj), bhvE_FlattenedObj);
                                         flatObj->oDeathSound = obj->oDeathSound;
                                         flatObj->oUpVel = 1.f;//oUpVel used as scale osc mag

@@ -46,6 +46,7 @@ void bhv_sir_kibble_init(void) {
     }
     else {
         //obj_set_hitbox(o, &sSirKibbleHitbox);
+        o->oAction = SIR_KIBBLE_ACT_IDLE;
     }
     cur_obj_init_animation(0);
     o->oGravity = -4.0f;

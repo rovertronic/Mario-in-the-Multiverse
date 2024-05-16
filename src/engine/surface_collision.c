@@ -440,6 +440,8 @@ static s32 check_within_floor_triangle_bounds(s32 x, s32 z, struct Surface *surf
     return TRUE;
 }
 
+extern u8 check_for_semisolids;
+
 /**
  * Iterate through the list of floors and find the first floor under a given point.
  */
@@ -479,6 +481,12 @@ static struct Surface *find_floor_from_list(struct SurfaceNode *surfaceNode, s32
 
                 if (phasewalk_state > 0) continue;
 
+        }
+
+        if (type == SURFACE_SEMISOLID && check_for_semisolids) {
+            if (gMarioState->vel[1] > 0.0f) {
+                continue;
+            }
         }
 
         // Exclude all floors above the point.

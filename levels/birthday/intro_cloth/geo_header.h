@@ -1,0 +1,10 @@
+extern const GeoLayout intro_cloth_geo[];
+extern Lights1 intro_cloth_CoveredPresent_lights;
+extern u8 intro_cloth_White_Chair_Cloth_ci8[];
+extern u8 intro_cloth_White_Chair_Cloth_pal_rgba16[];
+extern Vtx intro_cloth_Cylinder_mesh_layer_1_vtx_0[210];
+extern Gfx intro_cloth_Cylinder_mesh_layer_1_tri_0[];
+extern Gfx mat_intro_cloth_CoveredPresent[];
+extern Gfx mat_revert_intro_cloth_CoveredPresent[];
+extern Gfx intro_cloth_Cylinder_mesh_layer_1[];
+extern Gfx intro_cloth_material_revert_render_settings[];

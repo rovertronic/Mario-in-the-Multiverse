@@ -90,6 +90,14 @@
 #define MODEL_CASTLE_CLOCK_MINUTE_HAND         0x37        // castle_geo_001530
 #define MODEL_CASTLE_CLOCK_HOUR_HAND           0x38        // castle_geo_001548
 #define MODEL_CASTLE_CLOCK_PENDULUM            0x39        // castle_geo_001518
+#define MODEL_LAYTON                           0x3A        // layton_geo
+#define MODEL_HUBPLATFORM                      0x3B
+#define MODEL_SHOPITEM_1                       0x3C
+#define MODEL_SHOPITEM_2                       0x3D
+//#define MODEL_SHOPITEM_3                       0x3E
+#define MODEL_SHOPITEM_4                       0x3E
+#define MODEL_HUBSTARGOO                       0x3F
+#define MODEL_HUBDOOR                          0x40
 
 // hmc
 #define MODEL_HMC_METAL_PLATFORM               0x36        // hmc_geo_0005A0
@@ -606,6 +614,13 @@ enum GLOBAL_MODELS {
     MODEL_CONCRETE_BLOCK_CRACK2,
     MODEL_DBP,//Dash Booster Particle
     MODEL_ATTACHED_ROPE,
+    MODEL_ZAP,
+    MODEL_F_LASER,
+    MODEL_EGADD,
+    MODEL_MACHINE,
+    MODEL_RED_ARROW,
+    MODEL_WEDSER,
+    MODEL_SHOPITEM_3, // accident
 
     // Custom Mario Models
     MODEL_E__MARIO,
@@ -617,9 +632,35 @@ enum GLOBAL_MODELS {
 
 /* LEVEL INTRO START */
 #define MODEL_INTRO_SKYBOX                        0x150
+#define MODEL_INTRO_BREAKDOOR                     0x151 // Part of the birthday level data, not intro level data
+#define MODEL_INTRO_CLOTH                         0x152
+#define MODEL_INTRO_ROCK                          0x153
 /* LEVEL INTRO END */
 
 /* LEVEL A START */
+#define MODEL_JELLY                               0x154
+#define MODEL_JF_PLATFORM                         0x155
+#define MODEL_TAXISTOP                            0x156
+#define MODEL_TSBOAT                              0x157
+#define MODEL_TIKI_WOOD                           0x158
+#define MODEL_TIKI_STONE                          0x159
+#define MODEL_TIKI_FLOAT                          0x15A
+#define MODEL_TRAMP                               0x15B
+#define MODEL_FLOATING_CHECKER_PLATFORM           0x15C
+#define MODEL_KING_JELLY                          0x15D
+#define MODEL_KING_JELLY_SHOCK                    0x15E
+#define MODEL_BUBBLENET_RED_BUTTON                0x15F
+#define MODEL_JELLYS                              0x154 //0x160
+// I made these objects since whenever I would export them into the level from blender the game would crash.
+// I also had an idea for the tables to move around but I dont have enough time to make that happen.
+#define MODEL_KKTABLE                             0x161
+#define MODEL_KKB                                 0x162
+#define MODEL_SQUIDWARD                           0x163
+#define MODEL_BHBRIDGE                            0x164
+#define MODEL_A_PLANK                             0x165
+#define MODEL_GOO_DROP                            0x166
+#define MODEL_A_CAGE                              0x167
+#define MODEL_PISSWAVE                            0x168
 /* LEVEL A END */
 
 /* LEVEL B START */
@@ -629,6 +670,13 @@ enum GLOBAL_MODELS {
 /* LEVEL C END */
 
 /* LEVEL D START */
+#define MODEL_D_UKAUKA 0x151
+#define MODEL_HMC_DOOR_D 0x152
+#define MODEL_D_TREE1 0x153
+#define MODEL_D_TREE2 0x154
+#define MODEL_D_ELEVATOR 0x155
+#define MODEL_D_BRIDGE 0x156
+#define MODEL_D_GATE 0x157
 /* LEVEL D END */
 
 /* LEVEL E START */
@@ -636,6 +684,10 @@ enum {
     MODEL_ID_00, MODEL_ID_01, MODEL_ID_02, MODEL_ID_03, MODEL_ID_04, MODEL_ID_05,
     MODEL_ID_06, MODEL_ID_07, MODEL_ID_08, MODEL_ID_09, MODEL_ID_0A, MODEL_ID_0B,
     MODEL_ID_0C, MODEL_ID_0D, MODEL_ID_0E, MODEL_ID_0F, MODEL_ID_10, MODEL_ID_11,
+    MODEL_ID_12, MODEL_ID_13, MODEL_ID_14, MODEL_ID_15, MODEL_ID_16, MODEL_ID_17,
+    MODEL_ID_18, MODEL_ID_19, MODEL_ID_1A, MODEL_ID_1B, MODEL_ID_1C, MODEL_ID_1D,
+    MODEL_ID_1E, MODEL_ID_1F, MODEL_ID_20, MODEL_ID_21, MODEL_ID_22, MODEL_ID_23,
+    MODEL_ID_24, MODEL_ID_25
 };
 /* LEVEL E END */
 
@@ -644,6 +696,29 @@ enum {
 #define MODEL_F_DOOR 0x152
 #define MODEL_F_KEYPAD 0x153
 #define MODEL_F_FENCE 0x154
+#define MODEL_FTRINKET_1 0x155
+#define MODEL_FTRINKET_2 0x156
+#define MODEL_FTRINKET_3 0x157
+#define MODEL_BLASTWALL_1 0x158
+#define MODEL_BLASTWALL_2 0x159
+#define MODEL_FDYNAMITE 0x15A
+#define MODEL_FSG_KEYPAD 0x15B
+#define MODEL_FHIDDEN 0x15C
+#define MODEL_GOLD_BTN_ON 0x15D
+#define MODEL_GOLD_BTN_OFF 0x15E
+#define MODEL_F_SCH_BOARD_1 0x15F
+#define MODEL_F_SCH_BOARD_2 0x160
+#define MODEL_F_TRAPDOOR 0x161
+#define MODEL_F_KEY 0x162
+#define MODEL_F_SHOOTER 0x163
+#define MODEL_F_KEYDOOR 0x164
+#define MODEL_CURTAINPLATFORM1 0x165
+#define MODEL_CURTAINPLATFORM2 0x166
+#define MODEL_F_MISSILES 0x167
+#define MODEL_F_BOAT 0x168
+#define MODEL_F_HELI 0x169
+#define MODEL_F_HELISHADOW 0x16A
+#define MODEL_F_HELIDEAD 0x16B
 /* LEVEL F END */
 
 /* LEVEL G START */
@@ -656,27 +731,110 @@ enum {
 #define MODEL_G_CUT_ROCK2                      0x156
 #define MODEL_G_CUT_ROCK3                      0x157
 #define MODEL_G_CANNON                      0x158
+#define MODEL_MARX                      0x159
+#define MODEL_G_MARX_CUTTER                      0x15A
+#define MODEL_G_MARX_SEED                      0x15B
+#define MODEL_G_MARX_THORNS                     0x15C
+#define MODEL_G_MARX_HALF_LEFT              0x15D
+#define MODEL_G_MARX_HALF_RIGHT              0x15E
+#define MODEL_G_MARX_BLACK_HOLE              0x15F
+#define MODEL_G_MARX_ARROW              0x160
+#define MODEL_G_MARX_MOUTH_FULL              0x161
+#define MODEL_G_MARX_MOUTH_OPEN              0x162
+#define MODEL_G_MARX_LASER              0x163
+#define MODEL_G_MARX_ICE_BOMB              0x164
+#define MODEL_G_MARX_ICE_RING              0x165
+#define MODEL_G_MARX_BLACK_HOLE_EFFECT              0x166
+#define MODEL_G_BRONTO_BURT              0x167
+#define MODEL_G_MOVING_PLATFORM              0x168
+#define MODEL_G_MARX_DOOR              0x169
+#define MODEL_G_WADDLE_DEE              0x16A
+#define MODEL_G_WARP_PIPE              0x16B
 /* LEVEL G END */
 
 /* LEVEL H START */
+#define MODEL_HLOADER 0x150
+#define MODEL_HGLASS 0x151
 /* LEVEL H END */
 
 /* LEVEL I START */
+#define MODEL_HOODBOOMER                0x36        //hoodboomer_geo
+#define MODEL_PIGPOT                    0x37        //pigpot_geo
+#define MODEL_HOODBOOMER_BOMB           0x38        //hoodboomer_bomb
+#define MODEL_WINDMILL                  0x39        //windmill_geo
+#define MODEL_GATE                      0x3A        //gate_geo
+#define MODEL_WOODEN_LEVER              0x3B        //wooden_lever_geo
+#define MODEL_PLUM                      0x3C        //plum
+#define MODEL_CAGED_TOAD                0x3D        //caged_toad
+#define MODEL_PLANK_ROPE                0x3E        //plank_rope_geo
+#define MODEL_BARRIER_ROPE              0x3F        //barrier_rope_geo
+#define MODEL_BLACK_PANEL               0x40        //black_panel_geo
+#define MODEL_FUNKY_ROAD                0x41        //funky_road_geo
+#define MODEL_OPENING_WALL              0x42        //opening_wall_geo
+#define MODEL_OPENABLE_WOODEN_GATE      0x43        //openable_wood_gate
+#define MODEL_WATERMILL                 0x44        //watermill_geo
+#define MODEL_MASTER_KAAG               0x45        //master_kaag_geo
+#define MODEL_HOODOO_SORCERER           0x46        //hoodoo_sorcerer
+#define MODEL_MAGIC_SHIELD              0x47        //magic_shiel_geo
+#define MODEL_HOODMONGER                0x48        //hoodmonger_geo
+#define MODEL_HOODMONGER_BULLET         0x49        //hoodmonger_bullet_geo
+#define MODEL_STAR_SLOT_EMPTY           0x4A        //star_slot_empty_geo
+#define MODEL_STAR_SLOT_FULL            0x4B        //star_slot_full_geo
+#define MODEL_DOLLAR                    0x4C        //dollar_geo
+#define MODEL_BLACKLUMS                 0x4D        //blacklums_geo
+#define MODEL_BOSS_GATE                 0x4E        //model_boss_geo
+
 /* LEVEL I END */
 
 /* LEVEL J START */
+#define MODEL_J_FALLING_PLATFORM                0x150
+#define MODEL_J_TILTY_HEXAGON                   0x151
+#define MODEL_J_SKARMORY                        0x152
+#define MODEL_J_YOUNGSTER                       0x153
+#define MODEL_J_SPINARAK                        0x154
+#define MODEL_J_GEODUDE                         0x155
+#define MODEL_BERRY                             0x156
+#define MODEL_J_HOOH                            0x157
+#define MODEL_J_HOOH_ROCK                       0x158
+#define MODEL_J_MILTANK                         0x159
+#define MODEL_J_GASTLY                          0x160
+#define MODEL_J_HAUNTER                         0x161
+#define MODEL_J_GENGAR                          0x162
+#define MODEL_J_ELDER                           0x163
+#define MODEL_J_KIMONO_GIRL                     0x164
+#define MODEL_J_MORTY                           0x165
+#define MODEL_J_COWGIRL                         0x166
+#define MODEL_J_SENTRET                         0x167
+#define MODEL_J_SKIPLOOM                        0x168
+#define MODEL_J_OLD_MAN                         0x169
+#define MODEL_J_SNORLAX                         0x170
+#define MODEL_J_MAGIKARP                        0x171
+#define MODEL_J_GRAVELER                 0x39
 /* LEVEL J END */
 
 /* LEVEL K START */
 /* LEVEL K END */
 
 /* LEVEL L START */
+#define MODEL_L_JOHN                            0x150
+#define MODEL_L_JOHNBLOCK                       0x151
+#define MODEL_L_CHEESESLIME                     0x152
+#define MODEL_L_PEPPERMAN                       0x153
+#define MODEL_L_CLOCK                           0x154
+#define MODEL_L_PORTAL                          0x155
+#define MODEL_L_ANCHOVY                         MODEL_FLYGUY
+#define bhvL_Anchovy                            bhvFlyGuy
+#define MODEL_L_PSTATUE_1                       0x156
+#define MODEL_L_PSTATUE_2                       0x157
+#define MODEL_L_PSTATUE_3                       0x158
+#define MODEL_L_DEMON                           0x159
 /* LEVEL L END */
 
 /* LEVEL M START */
 /* LEVEL M END */
 
 /* LEVEL N START */
+#define MODEL_N_BALL 0x150
 /* LEVEL N END */
 
 /* LEVEL O START */
@@ -692,5 +850,18 @@ enum {
 #define MODEL_O_SPEAKER_2 0x15A
 #define MODEL_O_SPEAKER_3 0x15B
 /* LEVEL O END */
+
+/* Bowser Level */
+#define MODEL_MATPLATFORM          0x151
+#define MODEL_BC_TILTING           0x152
+#define MODEL_BC_WADDLE_DEE        0x153
+#define MODEL_BC_JELLY             0x154
+#define MODEL_BC_HOODMONGER        0x155
+#define MODEL_BC_HOODMONGER_BULLET 0x156
+#define MODEL_BC_FIRESPINNER       0x157
+#define MODEL_BC_STAIR             0x158
+#define MODEL_BC_STAIR_2           0x159
+#define MODEL_BC_SHOOTER           0x15A
+#define MODEL_BC_SKIPLOOM          0x15B
 
 #endif // MODEL_IDS_H

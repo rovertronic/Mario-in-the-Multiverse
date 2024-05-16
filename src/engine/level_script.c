@@ -30,6 +30,7 @@
 #include "game/puppyprint.h"
 #include "game/puppylights.h"
 #include "game/emutest.h"
+#include "game/cutscene_manager.h"
 
 #include "config.h"
 
@@ -361,6 +362,8 @@ void unmap_tlbs(void) {
 }
 
 static void level_cmd_clear_level(void) {
+    hub_reset_variables();
+    cm_cutscene_on = FALSE;
     clear_objects();
     clear_area_graph_nodes();
     clear_areas();
@@ -916,6 +919,15 @@ static void level_cmd_set_echo(void) {
     sCurrentCmd = CMD_NEXT;
 }
 
+void level_cmd_fileselect_condition(void) {
+    if (save_file_exists(gCurrSaveFileNum - 1)) {
+        sRegister = LEVEL_CASTLE;
+    } else {
+        sRegister = LEVEL_BIRTHDAY;
+    }
+    sCurrentCmd = CMD_NEXT;
+}
+
 static void (*LevelScriptJumpTable[])(void) = {
     /*LEVEL_CMD_LOAD_AND_EXECUTE            */ level_cmd_load_and_execute,
     /*LEVEL_CMD_EXIT_AND_EXECUTE            */ level_cmd_exit_and_execute,
@@ -983,6 +995,7 @@ static void (*LevelScriptJumpTable[])(void) = {
     /*LEVEL_CMD_PUPPYLIGHT_ENVIRONMENT      */ level_cmd_puppylight_environment,
     /*LEVEL_CMD_PUPPYLIGHT_NODE             */ level_cmd_puppylight_node,
     /*LEVEL_CMD_SET_ECHO                    */ level_cmd_set_echo,
+    /*LEVEL_CMD_FILESELECT_CONDITION        */ level_cmd_fileselect_condition,
 };
 
 struct LevelCommand *level_script_execute(struct LevelCommand *cmd) {

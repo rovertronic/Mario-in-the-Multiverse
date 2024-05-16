@@ -1,3 +1,5 @@
+//Warning: rushed & bad
+
 #include <PR/gbi.h>
 #include "actors/group0.h"
 #include "include/behavior_data.h"
@@ -14,6 +16,9 @@
 #include "tile_scroll.h"
 #include "game_init.h"
 #include "level_update.h"
+#include "levels/i/hoodmonger_bullet/geo_header.h"
+extern Gfx fbullet_Cube_mesh[];
+extern Gfx bowser_f_bullet_Cube_mesh[];
 
 #include "ge_translation.h"
 
@@ -42,18 +47,23 @@ static Gfx *sBulletMesh    = NULL;
 
 //-- * Spawn *
 
-
-static void bullet_f_params(struct Bullet *b) {
+static void bullet_default_params(struct Bullet *b) {
 	b->velF          = 0.f;
 	b->gravity       = 0.f;
 	b->hitSphereSize = 0.f;
 	b->damage        = 0;
 }
-static void bullet_i_params(struct Bullet *b) {
-	b->velF          = 0.f;
+static void bullet_f_params(struct Bullet *b) {
+	b->velF          = 50.f;
 	b->gravity       = 0.f;
-	b->hitSphereSize = 0.f;
-	b->damage        = 0;
+	b->hitSphereSize = 50.f;
+	b->damage        = 2;
+}
+static void bullet_i_params(struct Bullet *b) {
+	b->velF          = 15.f;
+	b->gravity       = 0.f;
+	b->hitSphereSize = 15.f;
+	b->damage        = 2;
 }
 static void bullet_k_params(struct Bullet *b) {
 	b->velF          = 0.f;
@@ -103,20 +113,25 @@ Gfx *dobj_bullets(s32 callContext) {
 	switch (callContext) {
 	case GEO_CONTEXT_CREATE:
 		switch (gCurrLevelNum) {
-		/*
+		
 		case LEVEL_F:
 			sBulletParamFn = bullet_f_params;
-			sBulletMat     = NULL;
-			sBulletMesh    = NULL;
+			sBulletMat     = mat_e_sg_piece_mat_f3d_layer1;
+			sBulletMesh    = fbullet_Cube_mesh;
 			break;
-		*/
-		/*
+
+		case LEVEL_BOWSER_COURSE:
+			sBulletParamFn = bullet_f_params;
+			sBulletMat     = mat_e_sg_piece_mat_f3d_layer1;
+			sBulletMesh    = bowser_f_bullet_Cube_mesh;
+			break;
+		
 		case LEVEL_I:
 			sBulletParamFn = bullet_i_params;
-			sBulletMat     = NULL;
-			sBulletMesh    = NULL;
+			sBulletMat     = mat_revert_hoodmonger_bullet_f3dlite_material;
+			sBulletMesh    = hoodmonger_bullet_bullet_mesh_layer_5;
 			break;
-		*/
+		
 		/*
 		case LEVEL_K:
 			sBulletParamFn = bullet_k_params;
@@ -127,7 +142,7 @@ Gfx *dobj_bullets(s32 callContext) {
 		//default DL and params, basically just to prevent crashes in case someone forgets to set their DLs,\
 		  or if bullets are spawned in a level that wasn't planned to have bullets
 		default:
-			sBulletParamFn = bullet_f_params;
+			sBulletParamFn = bullet_default_params;
 			sBulletMat     = mat_e_sg_piece_mat_f3d_layer1;
 			sBulletMesh    = e_sg_piece_piece_mesh_tri_0;
 		}
@@ -270,10 +285,9 @@ Gfx *dobj_bullets(s32 callContext) {
 		}
 
 
-		//revert for any other generated display list functions after this
-		gSPGeometryMode(dlH++, 0, G_LIGHTING);
+		gSPGeometryMode(dlH++, G_TEXTURE_GEN, G_CULL_BACK | G_LIGHTING);
 		gDPSetCycleType(dlH++, G_CYC_1CYCLE);
-		gDPSetRenderMode(dlH++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
+		gDPSetRenderMode(dlH++, G_RM_AA_ZB_XLU_INTER, G_RM_AA_ZB_XLU_INTER2);
 		gSPSetGeometryMode(dlH++, G_LIGHTING);
 		gSPClearGeometryMode(dlH++, G_TEXTURE_GEN);
 		gDPSetCombineLERP(dlH++, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT);

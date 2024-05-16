@@ -27,7 +27,9 @@ enum ObjInteractTypes {
     INTERACT_BULLY                = /* 0x00020000 */ (1 << 17),
     INTERACT_FLAME                = /* 0x00040000 */ (1 << 18),
     INTERACT_KOOPA_SHELL          = /* 0x00080000 */ (1 << 19),
-    INTERACT_BOUNCE_TOP2          = /* 0x00100000 */ (1 << 20),
+    //INTERACT_BOUNCE_TOP2          = /* 0x00100000 */ (1 << 20),
+    //J
+    INTERACT_J_MILTANK            = (1 << 20),
     INTERACT_MR_BLIZZARD          = /* 0x00200000 */ (1 << 21),
     INTERACT_HIT_FROM_BELOW       = /* 0x00400000 */ (1 << 22),
     INTERACT_TEXT                 = /* 0x00800000 */ (1 << 23),
@@ -40,6 +42,7 @@ enum ObjInteractTypes {
     INTERACT_IGLOO_BARRIER        = /* 0x40000000 */ (1 << 30),
     //--E
     INTERACT_E__DOOM_ENEMY        = (1 << 31),//replaces INTERACT_UNKNOWN_31
+    
 
     INTERACT_MASK_NO_OBJ_COLLISIONS = (INTERACT_COIN | INTERACT_CAP | INTERACT_STRONG_WIND | INTERACT_STAR_OR_KEY | INTERACT_WARP | INTERACT_WATER_RING | INTERACT_FLAME)
 };

@@ -1,0 +1,13 @@
+extern const GeoLayout pstatue1_geo[];
+extern Lights1 pstatue1_pmanstatue_lights;
+extern u8 pstatue1_whiteconk_i8[];
+extern u8 pstatue1_punchicon_ia8[];
+extern Vtx pstatue1_Cylinder_005_mesh_layer_1_vtx_0[64];
+extern Gfx pstatue1_Cylinder_005_mesh_layer_1_tri_0[];
+extern Vtx pstatue1_Cylinder_005_mesh_layer_6_vtx_0[16];
+extern Gfx pstatue1_Cylinder_005_mesh_layer_6_tri_0[];
+extern Gfx mat_pstatue1_pmanstatue[];
+extern Gfx mat_pstatue1_punchicon[];
+extern Gfx pstatue1_Cylinder_005_mesh_layer_1[];
+extern Gfx pstatue1_Cylinder_005_mesh_layer_6[];
+extern Gfx pstatue1_material_revert_render_settings[];

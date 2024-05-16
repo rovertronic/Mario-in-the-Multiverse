@@ -1,0 +1,15 @@
+extern const GeoLayout e_secret_door_geo[];
+extern u8 e_secret_door_BricksDoom_i4[];
+extern u8 e_secret_door_PolygonalPatternRock_i4[];
+extern u8 e_secret_door_RimPattern_Carved1_i4[];
+extern u8 e_secret_door_MildDentStoneRough___Copy__2__i4[];
+extern Vtx e_secret_door__model2_001_mesh_layer_1_vtx_0[4];
+extern Gfx e_secret_door__model2_001_mesh_layer_1_tri_0[];
+extern Vtx e_secret_door__model2_001_mesh_layer_1_vtx_1[8];
+extern Gfx e_secret_door__model2_001_mesh_layer_1_tri_1[];
+extern Gfx mat_e_secret_door_brick_f3d_layer1[];
+extern Gfx mat_revert_e_secret_door_brick_f3d_layer1[];
+extern Gfx mat_e_secret_door_brick_rim_f3d_layer1[];
+extern Gfx mat_revert_e_secret_door_brick_rim_f3d_layer1[];
+extern Gfx e_secret_door__model2_001_mesh_layer_1[];
+extern Gfx e_secret_door_material_revert_render_settings[];

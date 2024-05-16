@@ -2681,10 +2681,14 @@ typedef union {
 	gSPLight(pkt,&name.l[0],1);					\
 	gSPLight(pkt,&name.a,2);					\
 }
+/*
 #define gsSPSetLights0(name)						\
 	gsSPNumLights(NUMLIGHTS_0),					\
 	gsSPLight(&name.l[0],1),					\
 	gsSPLight(&name.a,2)
+*/
+
+#define gsSPSetLights0(name) gsSPNoOp()
 
 #define gSPSetLights1(pkt,name)						\
 {									\

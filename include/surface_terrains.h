@@ -12,7 +12,7 @@ enum SurfaceTypes {
     SURFACE_NEW_WATER_BOTTOM,           // 0x0003 // Custom water surface bottom marker
     SURFACE_0004,                       // 0x0004 // Unused, has no function and has parameters
     SURFACE_HANGABLE,                   // 0x0005 // Ceiling that Mario can climb on
-    SURFACE_0006,                       // 0x0006 // Unused
+    SURFACE_0006,                       // 0x0006
     SURFACE_SUPER_SLIPPERY,             // 0x0007 // Super slippery surface, good for delimiting your level
     SURFACE_0008,                       // 0x0008 // Unused
     SURFACE_SLOW,                       // 0x0009 // Slow down Mario, unused
@@ -100,11 +100,11 @@ enum SurfaceTypes {
     SURFACE_0080,                       // 0x0080 // Unused
     SURFACE_0081,                       // 0x0081 // Unused
     SURFACE_0082,                       // 0x0082 // Unused
-    SURFACE_0083,                       // 0x0083 // Unused
+    SURFACE_FORCE_SHADOW,               // 0x0083 // Unused
     SURFACE_0084,                       // 0x0084 // Unused
     SURFACE_0085,                       // 0x0085 // Unused
     SURFACE_0086,                       // 0x0086 // Unused
-    SURFACE_0087,                       // 0x0087 // Unused
+    SURFACE_FORCE_MARBLE,               // 0x0087 // force mario into marble form
     SURFACE_0088,                       // 0x0088 // Unused
     SURFACE_0089,                       // 0x0089 // Unused
     SURFACE_008A,                       // 0x008A // Unused
@@ -122,7 +122,7 @@ enum SurfaceTypes {
     SURFACE_0096,                       // 0x0096 // Unused
     SURFACE_0097,                       // 0x0097 // Unused
     SURFACE_0098,                       // 0x0098 // Unused
-    SURFACE_0099,                       // 0x0099 // Unused
+    SURFACE_SEMISOLID,                  // 0x0099 // Unused
     SURFACE_009A,                       // 0x009A // Unused
     SURFACE_009B,                       // 0x009B // Unused
     SURFACE_009C,                       // 0x009C // Unused

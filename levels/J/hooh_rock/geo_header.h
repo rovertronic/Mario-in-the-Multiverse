@@ -1,0 +1,10 @@
+extern const GeoLayout hooh_rock_geo[];
+extern Lights1 hooh_rock_rock_lights;
+extern u8 hooh_rock_ci4_rock3_ci4[];
+extern u8 hooh_rock_ci4_rock3_ci4_pal_rgba16[];
+extern Vtx hooh_rock_Bone_mesh_layer_1_vtx_0[47];
+extern Gfx hooh_rock_Bone_mesh_layer_1_tri_0[];
+extern Gfx mat_hooh_rock_rock[];
+extern Gfx mat_revert_hooh_rock_rock[];
+extern Gfx hooh_rock_Bone_mesh_layer_1[];
+extern Gfx hooh_rock_material_revert_render_settings[];

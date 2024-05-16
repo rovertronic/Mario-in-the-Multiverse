@@ -149,12 +149,31 @@
     "2A_marx": [
         "0E_extended_bank"
     ],
-    "2B_o_easystreet": [
+    "2B_ecruteak_city": [
+        "0E_extended_bank"
+    ],
+    "2C_azalea_town": [
+        "0E_extended_bank"
+    ],
+    "2D_union_cave": [
+        "0E_extended_bank"
+    ],
+    "2E_vs_hooh": [
+        "vs_hooh"
+    ],
+    "2F_gym": [
+        "0E_extended_bank"
+    ],
+    "30_dark_cave": [
+        "0E_extended_bank"
+    ],
+    "31_o_easystreet": [
         "o_easystreet"
     ],
-    "2C_o_maintrack": [
+    "32_o_maintrack": [
         "o_maintrack"
     ],
+<<<<<<< HEAD
     "2D_custom_esa_submerged": [
         "0E_extended_bank"
     ],
@@ -162,6 +181,66 @@
         "0E_extended_bank"
     ],
     "2F_custom_esa_valiant": [
+=======
+    "33_level_i_carrying_the_plum": [
+        "0E_extended_bank"
+    ],
+    "34_clearleaf_forest": [
+        "0E_extended_bank"
+    ],
+    "35_level_i_funky_shell": [
+        "funky_shell_soundbank"
+    ],
+    "36_level_i_hoodstomper": [
+        "0E_extended_bank"
+    ],
+    "37_level_i_inside": [
+        "0E_extended_bank"
+    ],
+    "38_level_i_ambush": [
+        "0E_extended_bank"
+    ],
+    "39_jellyfish_fields": [
+        "15"
+    ],
+    "3A_jellyfish_secret":[
+        "15"
+    ],
+    "3B_h_geothermal":[
+        "0E_extended_bank"
+    ],
+    "3C_level_f_frwl":[
+        "0E_extended_bank"
+    ],
+    "3D_level_f_bond":[
+        "0E_extended_bank"
+    ],
+    "3E_level_d_over":[
+        "0E_extended_bank"
+    ],
+    "3F_level_d_under":[
+        "0E_extended_bank"
+    ],
+    "40_peachs_birthday":[
+        "0E_extended_bank"
+    ],
+    "41_bowser_time":[
+        "0E_extended_bank"
+    ],
+    "42_hot_spaghetti":[
+        "0E_extended_bank"
+    ],
+    "43_mondays":[
+        "0E_extended_bank"
+    ],
+    "44_pizza_time":[
+        "0E_extended_bank"
+    ],
+    "45_jellyfish_boss":[
+        "0E_extended_bank"
+    ],
+    "46_pepperman_strikes":[
+>>>>>>> main
         "0E_extended_bank"
     ]
 }

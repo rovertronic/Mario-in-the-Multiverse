@@ -33,6 +33,8 @@ static u8 sBgMusicDisabled = FALSE;
 static u16 sCurrentMusic = MUSIC_NONE;
 static u16 sCurrentShellMusic = MUSIC_NONE;
 static u16 sCurrentCapMusic = MUSIC_NONE;
+static u16 sCurrentPlumMusic = MUSIC_NONE;
+static u16 sCurrentHoddlumFight = MUSIC_NONE;
 #ifdef ENABLE_VANILLA_LEVEL_SPECIFIC_CHECKS
 static u8 sPlayingInfiniteStairs = FALSE;
 #endif
@@ -255,6 +257,8 @@ void fadeout_music(s16 fadeOutTime) {
     sCurrentMusic = MUSIC_NONE;
     sCurrentShellMusic = MUSIC_NONE;
     sCurrentCapMusic = MUSIC_NONE;
+    sCurrentPlumMusic = MUSIC_NONE;
+    sCurrentHoddlumFight = MUSIC_NONE;
 }
 
 /**
@@ -265,6 +269,8 @@ void fadeout_level_music(s16 fadeTimer) {
     sCurrentMusic = MUSIC_NONE;
     sCurrentShellMusic = MUSIC_NONE;
     sCurrentCapMusic = MUSIC_NONE;
+    sCurrentPlumMusic = MUSIC_NONE;
+    sCurrentHoddlumFight = MUSIC_NONE;
 }
 
 /**
@@ -290,6 +296,42 @@ void stop_shell_music(void) {
     if (sCurrentShellMusic != MUSIC_NONE) {
         stop_background_music(sCurrentShellMusic);
         sCurrentShellMusic = MUSIC_NONE;
+    }
+}
+
+/**
+ * Called from threads: thread5_game_loop
+ */
+void play_plum_music(void) {
+    play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_LEVEL_I_CARRYING_THE_PLUM | SEQ_VARIATION), 0);
+    sCurrentPlumMusic = SEQUENCE_ARGS(4, SEQ_LEVEL_I_CARRYING_THE_PLUM | SEQ_VARIATION);
+}
+
+/**
+ * Called from threads: thread5_game_loop
+ */
+void stop_plum_music(void) {
+    if (sCurrentPlumMusic != MUSIC_NONE) {
+        stop_background_music(sCurrentPlumMusic);
+        sCurrentPlumMusic = MUSIC_NONE;
+    }
+}
+
+/**
+ * Called from threads: thread5_game_loop
+ */
+void play_hoodlum_fight_music(void) {
+    play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_LEVEL_I_AMBUSH | SEQ_VARIATION), 0);
+    sCurrentHoddlumFight = SEQUENCE_ARGS(4, SEQ_LEVEL_I_AMBUSH | SEQ_VARIATION);
+}
+
+/**
+ * Called from threads: thread5_game_loop
+ */
+void stop_hoodlum_fight_music(void) {
+    if (sCurrentHoddlumFight != MUSIC_NONE) {
+        stop_background_music(sCurrentHoddlumFight);
+        sCurrentHoddlumFight = MUSIC_NONE;
     }
 }
 

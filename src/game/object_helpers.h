@@ -61,6 +61,8 @@ enum GeoUpdateLayerTransparencyModes {
 
 Gfx *geo_update_projectile_pos_from_parent(s32 callContext, UNUSED struct GraphNode *node, Mat4 mtx);
 Gfx *geo_update_layer_transparency(s32 callContext, struct GraphNode *node, UNUSED void *context);
+Gfx *geo_update_layer_redness(s32 callContext, struct GraphNode *node, UNUSED void *context);
+Gfx *geo_update_mverse_pipe(s32 callContext, struct GraphNode *node, UNUSED void *context);
 Gfx *geo_switch_anim_state(s32 callContext, struct GraphNode *node, UNUSED void *context);
 Gfx *geo_switch_area(s32 callContext, struct GraphNode *node, UNUSED void *context);
 void obj_update_pos_from_parent_transformation(Mat4 mtx, struct Object *obj);
@@ -116,6 +118,8 @@ u32 get_object_list_from_behavior(const BehaviorScript *behavior);
 struct Object *cur_obj_nearest_object_with_behavior(const BehaviorScript *behavior);
 f32 cur_obj_dist_to_nearest_object_with_behavior(const BehaviorScript* behavior);
 struct Object *cur_obj_find_nearest_object_with_behavior(const BehaviorScript * behavior, f32 *dist);
+struct Object *cur_obj_nearest_object_with_behavior_and_action(const BehaviorScript *behavior, s32 action);
+struct Object *cur_obj_nearest_object_with_behavior_and_bparam1(const BehaviorScript *behavior, u32 bparam1);
 struct Object *find_unimportant_object(void);
 s32 count_unimportant_objects(void);
 s32 count_objects_with_behavior(const BehaviorScript *behavior);
@@ -278,5 +282,6 @@ s32 cur_obj_check_interacted(void);
 void cur_obj_spawn_loot_blue_coin(void);
 
 void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 offsetY);
+s16 cur_obj_mario_angle_to_home(void);
 
 #endif // OBJECT_HELPERS_H

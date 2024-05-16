@@ -565,6 +565,7 @@ static void obj_set_stun_knockback_action() {
 static void obj_set_squished_action(void) {
     cur_obj_play_sound_2(SOUND_OBJ_STOMPED);
     o->oAction = OBJ_ACT_SQUISHED;
+    combo_meter = 201;
 }
 
 static s32 obj_die_if_above_lava_and_health_non_positive(void) {
@@ -573,7 +574,7 @@ static s32 obj_die_if_above_lava_and_health_non_positive(void) {
             || find_water_level(o->oPosX, o->oPosZ) - o->oPosY < 150.0f) {
             return FALSE;
         }
-    } else if (!(o->oMoveFlags & OBJ_MOVE_ABOVE_LAVA)) {
+    } else if (!((o->oMoveFlags & OBJ_MOVE_ABOVE_LAVA) && (o->oPosY - o->oFloorHeight < 5.0f))) {
         if (o->oMoveFlags & OBJ_MOVE_ENTERED_WATER) {
             if (o->oWallHitboxRadius < 200.0f) {
                 cur_obj_play_sound_2(SOUND_OBJ_DIVING_INTO_WATER);
@@ -611,7 +612,7 @@ static s32 obj_handle_attacks(struct ObjectHitbox *hitbox, s32 attackedMarioActi
         }
             else {
             attackType = o->oInteractStatus & INT_STATUS_ATTACK_MASK;
-
+            combo_meter = 201;
             switch (attackHandlers[attackType - 1]) {
                 case ATTACK_HANDLER_NOP:
                     break;
@@ -685,6 +686,7 @@ static void obj_act_squished(f32 baseScale) {
         cur_obj_extend_animation_if_at_end();
     }
 
+    approach_f32_ptr(&o->header.gfx.scale[1], targetScaleY, baseScale * 0.14f);
     if (approach_f32_ptr(&o->header.gfx.scale[1], targetScaleY, baseScale * 0.14f)) {
         o->header.gfx.scale[0] = o->header.gfx.scale[2] = baseScale * 2.0f - o->header.gfx.scale[1];
 
@@ -805,6 +807,7 @@ static s32 obj_check_attacks(struct ObjectHitbox *hitbox, s32 attackedMarioActio
                 o->oTimer = 0;
             }
         } else {
+            combo_meter = 201;
             attackType = o->oInteractStatus & INT_STATUS_ATTACK_MASK;
             obj_die_if_health_non_positive();
             o->oInteractStatus = INT_STATUS_NONE;
@@ -940,7 +943,14 @@ void obj_spit_fire(s16 relativePosX, s16 relativePosY, s16 relativePosZ, f32 sca
 #include "behaviors/triplet_butterfly.inc.c"
 #include "behaviors/bubba.inc.c"
 #include "behaviors/sir_kibble.inc.c"
-
+#include "behaviors/king_jelly_boss.inc.c"
+#include "behaviors/g_bronto_burt.inc.c"
+#include "behaviors/g_waddle_dee.inc.c"
+#include "behaviors/geodude.inc.c"
+#include "behaviors/hooh.inc.c"
+#include "behaviors/miltank.inc.c"
+#include "behaviors/sentret.inc.c"
+#include "behaviors/master_kaag.inc.c"
 #include "behaviors/behaviors_a.inc.c"
 #include "behaviors/behaviors_b.inc.c"
 #include "behaviors/behaviors_c.inc.c"

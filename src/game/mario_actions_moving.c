@@ -383,6 +383,60 @@ void update_shell_speed(struct MarioState *m) {
     f32 maxTargetSpeed;
     f32 targetSpeed;
 
+    //Special Speed and command for Funky Shell
+    if(obj_has_behavior(m->riddenObj, bhvFunkyShell)){
+            //force progression on Z axis
+            m->forwardVel = 55.0f;
+            m->faceAngle[1] = 0x8000;
+
+            m->vel[0] = 0.0f;
+            m->vel[1] = 0.0f;
+            m->vel[2] = m->forwardVel * coss(m->faceAngle[1]);
+    } else {
+        if (m->floorHeight < m->waterLevel) {
+            set_mario_floor(m, &gWaterSurfacePseudoFloor, m->waterLevel);
+            m->floor->originOffset = -m->waterLevel;
+            // m->floor->originOffset = m->waterLevel; //! (Original code) Negative origin offset
+        }
+
+        if (m->floor != NULL && m->floor->type == SURFACE_SLOW) {
+            maxTargetSpeed = 48.0f;
+        } else {
+            maxTargetSpeed = 64.0f;
+        }
+
+        targetSpeed = m->intendedMag * 2.0f;
+        if (targetSpeed > maxTargetSpeed) {
+            targetSpeed = maxTargetSpeed;
+        }
+        if (targetSpeed < 24.0f) {
+            targetSpeed = 24.0f;
+        }
+
+        if (m->forwardVel <= 0.0f) {
+            m->forwardVel += 1.1f;
+        } else if (m->forwardVel <= targetSpeed) {
+            m->forwardVel += 1.1f - m->forwardVel / 58.0f;
+        } else if (m->floor->normal.y >= 0.95f) {
+            m->forwardVel -= 1.0f;
+        }
+
+        //! No backward speed cap (shell hyperspeed)
+        if (m->forwardVel > 64.0f) {
+            m->forwardVel = 64.0f;
+        }
+
+        m->faceAngle[1] =
+            m->intendedYaw - approach_s32((s16)(m->intendedYaw - m->faceAngle[1]), 0, 0x800, 0x800);
+
+        apply_slope_accel(m);
+    }
+}
+
+void update_boat_speed(struct MarioState *m) {
+    f32 maxTargetSpeed;
+    f32 targetSpeed;
+
     if (m->floorHeight < m->waterLevel) {
         set_mario_floor(m, &gWaterSurfacePseudoFloor, m->waterLevel);
         m->floor->originOffset = -m->waterLevel;
@@ -395,12 +449,12 @@ void update_shell_speed(struct MarioState *m) {
         maxTargetSpeed = 64.0f;
     }
 
-    targetSpeed = m->intendedMag * 2.0f;
+    targetSpeed = gPlayer1Controller->rawStickY * 2.0f;
     if (targetSpeed > maxTargetSpeed) {
         targetSpeed = maxTargetSpeed;
     }
-    if (targetSpeed < 24.0f) {
-        targetSpeed = 24.0f;
+    if (targetSpeed < 10.0f) {
+        targetSpeed = 10.0f;
     }
 
     if (m->forwardVel <= 0.0f) {
@@ -416,8 +470,11 @@ void update_shell_speed(struct MarioState *m) {
         m->forwardVel = 64.0f;
     }
 
-    m->faceAngle[1] =
-        m->intendedYaw - approach_s32((s16)(m->intendedYaw - m->faceAngle[1]), 0, 0x800, 0x800);
+    m->faceAngle[1] += m->angleVel[1];
+    m->angleVel[1] *= .94f;
+    if (ABS(gPlayer1Controller->rawStickX) > 20.0f) {
+        m->angleVel[1] += gPlayer1Controller->rawStickX*-1.0f;
+    }
 
     apply_slope_accel(m);
 }
@@ -471,6 +528,10 @@ void update_walking_speed(struct MarioState *m) {
         maxTargetSpeed = 24.0f;
     } else {
         maxTargetSpeed = 32.0f;
+    }
+
+    if (using_ability(ABILITY_KNIGHT) && (m->action != ACT_KNIGHT_SLIDE) && (m->action != ACT_KNIGHT_JUMP)) {
+        maxTargetSpeed = 24.0f;
     }
 
     targetSpeed = m->intendedMag < maxTargetSpeed ? m->intendedMag : maxTargetSpeed;
@@ -836,10 +897,6 @@ s32 act_walking(struct MarioState *m) {
 
     Vec3f startPos;
     s16 startYaw = m->faceAngle[1];
-
-    if (using_ability(ABILITY_BUBBLE_HAT) && m->input & INPUT_B_PRESSED) {
-        return set_mario_action(m, ACT_BUBBLE_HAT_ATTACK, 0);
-    }
     
     mario_drop_held_object(m);
 
@@ -1350,11 +1407,13 @@ s32 act_riding_shell_ground(struct MarioState *m) {
 
     s16 startYaw = m->faceAngle[1];
 
-    if (m->input & INPUT_A_PRESSED) {
-        return set_mario_action(m, ACT_RIDING_SHELL_JUMP, 0);
+    if (gCurrLevelNum != LEVEL_F) {
+        if (m->input & INPUT_A_PRESSED) {
+            return set_mario_action(m, ACT_RIDING_SHELL_JUMP, 0);
+        }
     }
 
-    if (m->input & INPUT_Z_PRESSED) {
+    if (m->riddenObj && !obj_has_behavior(m->riddenObj, bhvFunkyShell) && m->input & INPUT_Z_PRESSED) {
         mario_stop_riding_object(m);
         if (m->forwardVel < 24.0f) {
             mario_set_forward_vel(m, 24.0f);
@@ -1362,7 +1421,11 @@ s32 act_riding_shell_ground(struct MarioState *m) {
         return set_mario_action(m, ACT_CROUCH_SLIDE, 0);
     }
 
-    update_shell_speed(m);
+    if (gCurrLevelNum == LEVEL_F) {
+        update_boat_speed(m);
+    } else {
+        update_shell_speed(m);
+    }
     set_mario_animation(m, m->actionArg == 0 ? MARIO_ANIM_START_RIDING_SHELL : MARIO_ANIM_RIDING_SHELL);
 
     switch (perform_ground_step(m)) {
@@ -1383,8 +1446,19 @@ s32 act_riding_shell_ground(struct MarioState *m) {
     if (m->floor->type == SURFACE_BURNING) {
         play_sound(SOUND_MOVING_RIDING_SHELL_LAVA, m->marioObj->header.gfx.cameraToObject);
     } else {
-        play_sound(SOUND_MOVING_TERRAIN_RIDING_SHELL + m->terrainSoundAddend,
+        if(m->riddenObj && obj_has_behavior(m->riddenObj, bhvFunkyShell)){
+            play_sound(SOUND_MOVING_TERRAIN_RIDING_SHELL,
                    m->marioObj->header.gfx.cameraToObject);
+        } else {
+            play_sound(SOUND_MOVING_TERRAIN_RIDING_SHELL + m->terrainSoundAddend,
+                   m->marioObj->header.gfx.cameraToObject);
+        }
+        
+    }
+
+    if (gCurrLevelNum == LEVEL_F) {
+        set_mario_animation(m, MARIO_ANIM_SLIDE_MOTIONLESS);
+        m->marioObj->header.gfx.pos[1] += 35.0f;
     }
 
     adjust_sound_for_speed(m);
@@ -2025,6 +2099,8 @@ s32 act_ground_bonk(struct MarioState *m) {
     return FALSE;
 }
 
+extern u8 gE_C9MarioHealth;
+
 s32 act_death_exit_land(struct MarioState *m) {
     s32 animFrame;
 
@@ -2043,6 +2119,8 @@ s32 act_death_exit_land(struct MarioState *m) {
     if (is_anim_at_end(m)) {
         set_mario_action(m, ACT_IDLE, 0);
     }
+
+    gE_C9MarioHealth = 100;
 
     return FALSE;
 }
@@ -2289,6 +2367,8 @@ s32 quicksand_jump_land_action(struct MarioState *m, s32 animation1, s32 animati
 }
 
 s32 act_knight_slide(struct MarioState *m) {
+    m->vel[1] = 0.0f;
+
     //visuals
     set_mario_animation(m, MARIO_ANIM_RIDING_SHELL);
     align_with_floor(m);

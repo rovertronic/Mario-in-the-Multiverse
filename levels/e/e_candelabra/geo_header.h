@@ -1,0 +1,16 @@
+extern const GeoLayout e_candelabra_geo[];
+extern u8 e_candelabra_RimMushroom_Metal_Top_i8[];
+extern u8 e_candelabra_Flame_ia8[];
+extern Vtx e_candelabra_model_2_mesh_layer_1_vtx_cull[8];
+extern Vtx e_candelabra_model_2_mesh_layer_1_vtx_0[238];
+extern Gfx e_candelabra_model_2_mesh_layer_1_tri_0[];
+extern Vtx e_candelabra_model_2_mesh_layer_5_vtx_cull[8];
+extern Vtx e_candelabra_model_2_mesh_layer_5_vtx_0[96];
+extern Gfx e_candelabra_model_2_mesh_layer_5_tri_0[];
+extern Gfx mat_e_candelabra_sqA_f3d[];
+extern Gfx mat_revert_e_candelabra_sqA_f3d[];
+extern Gfx mat_e_candelabra_flame_f3d_layer5[];
+extern Gfx mat_revert_e_candelabra_flame_f3d_layer5[];
+extern Gfx e_candelabra_model_2_mesh_layer_1[];
+extern Gfx e_candelabra_model_2_mesh_layer_5[];
+extern Gfx e_candelabra_material_revert_render_settings[];

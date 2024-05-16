@@ -1,0 +1,11 @@
+extern const GeoLayout e_door_geo[];
+extern Lights1 e_door_door_f3d_layer1_lights;
+extern u8 e_door_Door_i4[];
+extern u8 e_door_DoorColor_rgba16[];
+extern Vtx e_door_door_mesh_layer_1_vtx_cull[8];
+extern Vtx e_door_door_mesh_layer_1_vtx_0[95];
+extern Gfx e_door_door_mesh_layer_1_tri_0[];
+extern Gfx mat_e_door_door_f3d_layer1[];
+extern Gfx mat_revert_e_door_door_f3d_layer1[];
+extern Gfx e_door_door_mesh_layer_1[];
+extern Gfx e_door_material_revert_render_settings[];

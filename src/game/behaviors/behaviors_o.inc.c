@@ -14,9 +14,9 @@ void bhv_checkpoint_flag(void) {
             //move the death warp to me
             struct Object *dw = cur_obj_nearest_object_with_behavior(bhvDeathWarp);
             if (dw) {
-                dw->oPosX = o->oPosX;
+                dw->oPosX = o->oPosX+sins(o->oFaceAngleYaw)*101.0f;
                 dw->oPosY = o->oPosY+150.0f;
-                dw->oPosZ = o->oPosZ;
+                dw->oPosZ = o->oPosZ+coss(o->oFaceAngleYaw)*101.0f;
             }
         }
     }
@@ -216,18 +216,28 @@ void bhv_star_piece_loop(void) {
         case 0: // init
             cur_obj_hide();
             o->oAction = 1;
-        break;
+            break;
         case 1: //waiting
             if (sps && sps->oAction == BLUE_COIN_SWITCH_ACT_TICKING) {
                 o->oAction = 2;
                 cur_obj_unhide();
             }
-        break;
+            break;
         case 2: //active
+            if (sps && sps->oTimer > (sps->oBehParams2ndByte == 0 ? 200 : (sps->oBehParams2ndByte * 10) - 40)) {
+                if (gGlobalTimer % 2 == 0) {
+                    cur_obj_unhide();
+                } else {
+                    cur_obj_hide();
+                }
+            }
+
             if (o->oDistanceToMario < 160.0f) {
                 cur_obj_hide();
                 cur_obj_play_sound_2(SOUND_MENU_COLLECT_SECRET+star_pieces_got);
+                spawn_object(o, MODEL_SPARKLES, bhvCoinSparklesSpawner);
                 star_pieces_got++;
+                spawn_orange_number(star_pieces_got, 0, 0, 0);
                 o->oAction = 3;
             }
 
@@ -236,7 +246,7 @@ void bhv_star_piece_loop(void) {
                 cur_obj_hide();
                 o->oAction = 1;
             }
-        break;
+            break;
     }
 }
 
@@ -602,10 +612,12 @@ void bhv_o_speaker(void) {
             o->oAction++;
             o->oInteractType = INTERACT_BOUNCE_TOP;
             o->oVelY = 0.0f;
+            cur_obj_become_intangible();
         break;
         case 1://wait to play
             if (easystreet_mission_state == 2) {
                 o->oAction++;
+                cur_obj_become_tangible();
             }
         break;
         case 2://playing
@@ -676,4 +688,235 @@ void bhv_o_easystreet_mission_controller(void) {
     }
 
     easystreet_mission_state = o->oAction;
+}
+
+u32 mission_behavior_list[] = {
+    bhvRedCoin,
+    bhvBriefcase,
+    bhvOuvstar,
+    bhvHiddenStarTrigger,
+    bhvCagedToad,
+    bhvFlipswitch,
+};
+
+struct Object *mario_find_nearest_object_with_behavior_exclude_used_mission_objects(const BehaviorScript *behavior) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+    struct Object *closestObj = NULL;
+    f32 minDist = 0x20000;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            // discriminate against used mission objects
+            && (!(obj_has_behavior(obj,bhvFlipswitch)&&obj->oSwitchState == TRUE))
+        ) {
+            f32 objDist = dist_between_objects(gMarioObject, obj);
+            if (objDist < minDist) {
+                closestObj = obj;
+                minDist = objDist;
+            }
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+
+    return closestObj;
+}
+
+struct Object *find_nearest_mission_target(void) {
+    //stupid ass function
+    struct Object *result;
+    struct Object *closest = NULL;
+    struct Object *myself = o;
+    f32 closest_dist = 9999.0f;
+
+    for (u8 i=0; i < sizeof(mission_behavior_list)/4; i++) {
+        result = mario_find_nearest_object_with_behavior_exclude_used_mission_objects(mission_behavior_list[i]);
+        if (result) {
+            f32 this_dist = dist_between_objects(gMarioObject,result);
+            if (this_dist < closest_dist) {
+                closest_dist = this_dist;
+                closest = result;
+            }
+        }
+    }
+
+    return closest;
+}
+
+void bhv_red_arrow(void) {
+    o->oFaceAngleRoll = 0;
+    o->oFaceAnglePitch = 0;
+
+    struct Object * target = find_nearest_mission_target();
+    if (target!=NULL) {
+        o->oFaceAngleYaw = obj_angle_to_object(o, target);
+    } else {
+        o->oFaceAngleYaw += 0x200;
+    }
+
+    vec3f_copy(&o->oPosVec,gMarioState->pos);
+}
+
+void bhv_hub_platform_loop(void) {
+    if (o->oTimer==0) {
+        o->oFaceAngleYaw = random_u16();
+    }
+    if (gMarioObject->platform == o) {
+        o->oFaceAngleYaw += 80;
+        o->oPosY = approach_f32_asymptotic(o->oPosY,o->oHomeY-50.0f,0.2f);
+    } else {
+        o->oPosY = approach_f32_asymptotic(o->oPosY,o->oHomeY,0.2f);
+        o->oFaceAngleYaw += 40;
+    }
+}
+
+void bhv_matplatform(void) {
+    Mat4 *transform = &o->transform;
+
+    transform[0][1][0] = sins(o->oTimer*0x200);
+    transform[0][1][2] = coss(o->oTimer*0x200);
+    vec3f_copy(transform[0][3],&o->oPosVec);
+
+    o->header.gfx.throwMatrix = transform;
+}
+
+void bc_stair_loop(void) {
+    struct Object *rocketbutton = cur_obj_nearest_object_with_behavior(bhvRocketButton);
+    Mat4 *transform = &o->transform;
+    Mat4 *transform2 = NULL;
+    if (o->prevObj) {
+        transform2 = &o->prevObj->transform;
+    }
+
+    switch(o->oAction) {
+        case 0:
+            o->prevObj = spawn_object(o,MODEL_BC_STAIR_2,bhvStaticObject);
+            o->prevObj->oPosX -= 330.0f;
+            o->prevObj->oPosY -= 330.0f;
+            transform2 = &o->prevObj->transform;
+            o->oHealth = 0;
+            o->oAction = 1;
+            break;
+        case 1:
+            if(rocketbutton->oAction > 0){
+                o->oAction = 2;
+                gCamera->cutscene = 1;
+            }
+            break;
+        case 2:
+            if (o->oBehParams2ndByte == 1) {
+                vec3f_copy(&gLakituState.goalFocus,&o->oPosVec);
+                vec3f_copy(&gLakituState.goalPos,&o->oPosVec);
+                gLakituState.goalPos[0] -= 1000.0f;
+                gLakituState.goalPos[1] += 1000.0f;
+                gLakituState.goalPos[2] += 1000.0f;
+                if (o->oTimer > 45) {
+                    o->oAction = 3;
+                    gCamera->cutscene = 0;
+                }
+            }
+            break;
+        case 3:
+
+            break;
+    }
+
+    if ((rocketbutton->oAction == 0)&&(o->oHealth<30)) {
+        o->oHealth ++;
+    }
+
+    if ((rocketbutton->oAction > 0)&&(o->oHealth>0)) {
+        o->oHealth --;
+    }
+
+    f32 y = o->oHealth/30.0f;
+
+    transform[0][0][1] = y;
+    transform2[0][1][1] = 1.0f-y;
+    vec3f_copy(transform[0][3],&o->oPosVec);
+    vec3f_copy(transform2[0][3],&o->prevObj->oPosVec);
+
+    o->header.gfx.throwMatrix = transform;
+    o->prevObj->header.gfx.throwMatrix = transform2;
+}
+
+void bhv_machine_door(void) {
+    u8 have_enough_stars = TRUE;
+    u8 have_artifact = TRUE;
+
+    if ((have_enough_stars)&&(have_artifact)) {
+        o->oFaceAngleYaw = -0x7000;
+    } else {
+        o->oFaceAngleYaw = 0;
+        load_object_collision_model();
+    }
+}
+
+void bhv_artreus_artifact_on_machine(void) {
+    u8 have_artifact = TRUE;
+
+    if (have_artifact) {
+        cur_obj_unhide();
+        o->oFaceAnglePitch += ABS(sins(o->oTimer*0x300)*0x300);
+    } else {
+        cur_obj_hide();
+    }
+}
+
+void bhv_npc_egadd_loop(void) {
+    s32 dialogResponse;
+    u8 have_enough_stars = FALSE;
+    u8 have_artifact = FALSE;
+
+    s32 egadd_advice_dialog = DIALOG_EGADD_1;
+    if ((have_enough_stars)&&(!have_artifact)) {
+        egadd_advice_dialog = DIALOG_EGADD_2;
+    }
+    if ((!have_enough_stars)&&(have_artifact)) {
+        egadd_advice_dialog = DIALOG_EGADD_3;
+    }
+    if ((have_enough_stars)&&(have_artifact)) {
+        egadd_advice_dialog = DIALOG_EGADD_4;
+    }
+
+    switch (o->oAction) {
+        case 0:
+            if (o->oDistanceToMario < 1000.0f) {
+                o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, o->oAngleToMario, 0x140);
+            }
+            if (o->oInteractStatus == INT_STATUS_INTERACTED) {
+                o->oAction = 1;
+            }
+            break;
+
+        case 1:
+            o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, o->oAngleToMario, 0x1000);
+            if ((s16) o->oMoveAngleYaw == (s16) o->oAngleToMario) {
+                o->oAction = 2;
+            }
+            break;
+
+        case 2:
+            dialogResponse = cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, egadd_advice_dialog);
+            if (dialogResponse != DIALOG_RESPONSE_NONE) {
+                o->oAction = 0;
+            }
+            break;
+    }
+
+    o->oInteractStatus = 0;
+}
+
+void bhv_stargoo(void) {
+    f32 scale = gMarioState->numStars/70.0f;
+    if (scale < 0.05f) {
+        scale = 0.05f;
+    }
+    if (scale > 1.0f) {
+        scale = 1.0f;
+    }
+    o->header.gfx.scale[1] = scale;
 }

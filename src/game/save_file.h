@@ -17,7 +17,7 @@
     #define EEPROM_SIZE 0x800//--**
 #endif
 
-#define NUM_SAVE_FILES 4
+#define NUM_SAVE_FILES 3
 
 struct SaveBlockSignature {
     u16 magic;
@@ -25,17 +25,15 @@ struct SaveBlockSignature {
 };
 
 struct SaveFile {
-    u16 coins; //amount of coins
-    u16 abilities; 
-
+    u32 abilities;
     u32 flags;
-
-    // Star flags for each course.
-    // The most significant bit of the byte *following* each course is set if the
-    // cannon is open.
+    u16 levels_unlocked;
+    u16 coins;
+    u8 ability_dpad[4];
+    u8 level_f_flags;
     u8 courseStars[COURSE_COUNT]; // 200 bits
-
     u8 courseCoinScores[COURSE_STAGES_COUNT]; // 120 bits
+    u8 hints_unlocked[15];
 
     struct SaveBlockSignature signature; // 32 bits
 };
@@ -76,6 +74,8 @@ struct SaveBuffer {
     struct SaveFile files[NUM_SAVE_FILES][2];
     // Main menu data, storing config options.
     struct MainMenuSaveData menuData;
+    // Screenshots, 100 x 50 barely fits into SRAM
+    u16 screenshot[3][50][100];
 };
 
 #ifdef PUPPYCAM
@@ -84,7 +84,7 @@ extern void puppycam_get_save(void);
 extern void puppycam_check_save(void);
 #endif
 
-//STATIC_ASSERT(sizeof(struct SaveBuffer) <= EEPROM_SIZE, "ERROR: Save struct too big for specified save type");
+STATIC_ASSERT(sizeof(struct SaveBuffer) <= EEPROM_SIZE, "ERROR: Save struct too big for specified save type");
 
 extern u8 gLastCompletedCourseNum;
 extern u8 gLastCompletedStarNum;
@@ -98,12 +98,16 @@ enum CourseFlags {
     COURSE_FLAG_CANNON_UNLOCKED      = (1 <<  7), /* 0x00000080 */
 };
 
+#define SAVE_FLAG_HAVE_WING_CAP 0
+#define SAVE_FLAG_HAVE_METAL_CAP 0
+#define SAVE_FLAG_HAVE_VANISH_CAP 0
+
 // game progress flags
 enum SaveProgressFlags {
     SAVE_FLAG_FILE_EXISTS            = (1 <<  0), /* 0x00000001 */
-    SAVE_FLAG_HAVE_WING_CAP          = (1 <<  1), /* 0x00000002 */
-    SAVE_FLAG_HAVE_METAL_CAP         = (1 <<  2), /* 0x00000004 */
-    SAVE_FLAG_HAVE_VANISH_CAP        = (1 <<  3), /* 0x00000008 */
+    SAVE_FLAG_SCREENSHOT             = (1 <<  1), /* 0x00000002 */
+    SAVE_FLAG_ARTREUS_ARTIFACT       = (1 <<  2), /* 0x00000004 */
+    SAVE_FLAG_SHOTGUN_TUTORIAL       = (1 <<  3), /* 0x00000008 */
     SAVE_FLAG_HAVE_KEY_1             = (1 <<  4), /* 0x00000010 */
     SAVE_FLAG_HAVE_KEY_2             = (1 <<  5), /* 0x00000020 */
     SAVE_FLAG_UNLOCKED_BASEMENT_DOOR = (1 <<  6), /* 0x00000040 */
@@ -187,8 +191,15 @@ void save_file_set_widescreen_mode(u8 mode);
 #endif
 void save_file_move_cap_to_default_location(void);
 
-void save_file_get_coins();
-void save_file_set_coins();
+s32 save_file_check_ability_unlocked(u8 ability_id);
+void save_file_unlock_ability(u8 ability_id);
+
+void save_file_screenshot(void);
+void save_file_get_coins(void);
+void save_file_set_coins(void);
+void save_file_set_ability_dpad(void);
+void save_file_get_ability_dpad(void);
+void save_file_init_ability_dpad(void);
 
 void disable_warp_checkpoint(void);
 void check_if_should_set_warp_checkpoint(struct WarpNode *warpNode);
@@ -207,5 +218,14 @@ u32 eu_get_language(void);
 #else
 #define LANGUAGE_ENGLISH 0
 #endif
+
+enum level_f_flag_ids {
+    LEVEL_F_FLAG_TRAPDOOR,
+    LEVEL_F_FLAG_KEY,
+    LEVEL_F_FLAG_MISSILE,
+    LEVEL_F_FLAG_BOND_MESSAGE_1,
+    LEVEL_F_FLAG_BOND_MESSAGE_2,
+    LEVEL_F_FLAG_BOND_MESSAGE_3,
+};
 
 #endif // SAVE_FILE_H

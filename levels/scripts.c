@@ -146,6 +146,11 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_CONCRETE_BLOCK_CRACK2,   concrete_block_crack2_geo),
     LOAD_MODEL_FROM_GEO(MODEL_DBP,                     dbp_geo),
     LOAD_MODEL_FROM_GEO(MODEL_ATTACHED_ROPE,           attached_rope_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_F_LASER,                 f_laser_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_EGADD,                   egadd_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_MACHINE,                 machine_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_RED_ARROW,               redarrow_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SHOPITEM_3,              shopitem3_geo),
     FREE_LEVEL_POOL(),
     POP_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),
@@ -207,6 +212,7 @@ static const LevelScript script_exec_ ## folder [] = { \
 const LevelScript script_func_global_1[] = {
     LOAD_MODEL_FROM_GEO(MODEL_BLUE_COIN_SWITCH,        blue_coin_switch_geo),
     LOAD_MODEL_FROM_GEO(MODEL_AMP,                     dAmpGeo),
+    LOAD_MODEL_FROM_GEO(MODEL_ZAP,                     zap_geo),
     LOAD_MODEL_FROM_GEO(MODEL_PURPLE_SWITCH,           purple_switch_geo),
     LOAD_MODEL_FROM_GEO(MODEL_CHECKERBOARD_PLATFORM,   checkerboard_platform_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BREAKABLE_BOX,           breakable_box_geo),
@@ -313,6 +319,7 @@ const LevelScript script_func_global_11[] = {
     LOAD_MODEL_FROM_GEO(MODEL_BIRDS,                   birds_geo),
     LOAD_MODEL_FROM_GEO(MODEL_PEACH,                   peach_geo),
     LOAD_MODEL_FROM_GEO(MODEL_YOSHI,                   yoshi_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WEDSER,                  wedser_geo),
     RETURN(),
 };
 

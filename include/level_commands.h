@@ -74,6 +74,7 @@ enum LevelCommands {
     /*0x3F*/ LEVEL_CMD_PUPPYLIGHT_ENVIRONMENT,
     /*0x40*/ LEVEL_CMD_PUPPYLIGHT_NODE,
     /*0x41*/ LEVEL_CMD_SET_ECHO,
+    /*0x42*/ LEVEL_CMD_FILESELECT_CONDITION,
 };
 
 enum LevelActs {
@@ -469,6 +470,9 @@ enum GoddardScene {
 
 #define GET_OR_SET(op, var) \
     CMD_BBBB(LEVEL_CMD_GET_OR_SET_VAR, 0x04, op, var)
+
+#define FILESELECT_CHECK(op, var) \
+    CMD_BBBB(LEVEL_CMD_FILESELECT_CONDITION, 0x04, op, var)
 
 // Presets
 

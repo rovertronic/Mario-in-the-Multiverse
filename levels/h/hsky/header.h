@@ -1,0 +1,17 @@
+extern Lights1 hsky_distant_canyon_layer1_lights;
+extern u8 hsky_fancy_water_i8[];
+extern u8 hsky_faroff_ci8[];
+extern u8 hsky_faroff_pal_rgba16[];
+extern Vtx hsky_Sphere_mesh_vtx_0[79];
+extern Gfx hsky_Sphere_mesh_tri_0[];
+extern Vtx hsky_Sphere_mesh_vtx_1[8];
+extern Gfx hsky_Sphere_mesh_tri_1[];
+extern Vtx hsky_Sphere_mesh_vtx_2[108];
+extern Gfx hsky_Sphere_mesh_tri_2[];
+extern Gfx mat_hsky_sky[];
+extern Gfx mat_revert_hsky_sky[];
+extern Gfx mat_hsky_fancy_water_layer1[];
+extern Gfx mat_revert_hsky_fancy_water_layer1[];
+extern Gfx mat_hsky_distant_canyon_layer1[];
+extern Gfx mat_revert_hsky_distant_canyon_layer1[];
+extern Gfx hsky_Sphere_mesh[];

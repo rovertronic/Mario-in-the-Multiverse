@@ -1,0 +1,8 @@
+extern void scroll_a_dl_Vert_001_mesh_layer_5_vtx_0();
+extern void scroll_a_dl_Vert_002_mesh_layer_5_vtx_0();
+extern void scroll_a_dl_Vert_003_mesh_layer_5_vtx_0();
+extern void scroll_a_dl_Vert_004_mesh_layer_5_vtx_0();
+extern void scroll_a_dl_Vert_005_mesh_layer_5_vtx_0();
+extern void scroll_a_dl_Vert_006_mesh_layer_5_vtx_0();
+extern void scroll_a_dl_Plane_036_mesh_layer_5_vtx_0();
+extern void scroll_a();

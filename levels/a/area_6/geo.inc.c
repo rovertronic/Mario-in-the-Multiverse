@@ -1,0 +1,38 @@
+#include "src/game/envfx_snow.h"
+
+const GeoLayout a_area_6_geo[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -2730, -362, -3651, 0, 90, 0, a_dl_Cube_003_mesh_layer_1),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -2730, -362, -3651, 0, 90, 0, a_dl_Cylinder_mesh_layer_1),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_ROTATE(LAYER_OPAQUE, -246, 200, -6064, 0, 90, 0),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout a_area_6[] = {
+	GEO_NODE_SCREEN_AREA(10, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH/2, SCREEN_HEIGHT/2),
+	GEO_OPEN_NODE(),
+		GEO_ZBUFFER(0),
+		GEO_OPEN_NODE(),
+			GEO_NODE_ORTHO(100.0000),
+			GEO_OPEN_NODE(),
+				GEO_BACKGROUND_COLOR(0x0001),
+			GEO_CLOSE_NODE(),
+		GEO_CLOSE_NODE(),
+		GEO_ZBUFFER(1),
+		GEO_OPEN_NODE(),
+			GEO_CAMERA_FRUSTUM_WITH_FUNC(45.0000, 100, 30000, geo_camera_fov),
+			GEO_OPEN_NODE(),
+				GEO_CAMERA(CAMERA_MODE_8_DIRECTIONS, -51311, -2694, -104, -51311, -2794, -104, geo_camera_main),
+				GEO_OPEN_NODE(),
+					GEO_BRANCH(1, a_area_6_geo),
+					GEO_RENDER_OBJ(),
+					GEO_ASM(ENVFX_MODE_NONE, geo_envfx_main),
+				GEO_CLOSE_NODE(),
+			GEO_CLOSE_NODE(),
+		GEO_CLOSE_NODE(),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, a_dl_material_revert_render_settings),
+	GEO_CLOSE_NODE(),
+	GEO_END(),
+};

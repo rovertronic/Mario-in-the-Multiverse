@@ -1,0 +1,11 @@
+extern const GeoLayout shopitem2_geo[];
+extern Lights1 shopitem2_magicmirror_lights;
+extern u8 shopitem2_custom_ability_u3_rgba16_ci4[];
+extern u8 shopitem2_custom_ability_u3_rgba16_pal_rgba16[];
+extern Vtx shopitem2_Cube_mesh_layer_1_vtx_cull[8];
+extern Vtx shopitem2_Cube_mesh_layer_1_vtx_0[175];
+extern Gfx shopitem2_Cube_mesh_layer_1_tri_0[];
+extern Gfx mat_shopitem2_magicmirror[];
+extern Gfx mat_revert_shopitem2_magicmirror[];
+extern Gfx shopitem2_Cube_mesh_layer_1[];
+extern Gfx shopitem2_material_revert_render_settings[];

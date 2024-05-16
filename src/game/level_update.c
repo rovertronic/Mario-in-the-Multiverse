@@ -34,101 +34,55 @@
 #include "puppylights.h"
 #include "level_commands.h"
 #include "ability.h"
+#include "cutscene_manager.h"
+#include "mitm_hub.h"
+#include "ability.h"
 
 #include "config.h"
 
 // TODO: Make these ifdefs better
-const char *credits01[] = { "1GAME DIRECTOR", "SHIGERU MIYAMOTO" };
-const char *credits02[] = { "2ASSISTANT DIRECTORS", "YOSHIAKI KOIZUMI", "TAKASHI TEZUKA" };
-const char *credits03[] = { "2SYSTEM PROGRAMMERS", "YASUNARI NISHIDA", "YOSHINORI TANIMOTO" };
-const char *credits04[] = { "3PROGRAMMERS", "HAJIME YAJIMA", "DAIKI IWAMOTO", "TOSHIO IWAWAKI" };
-
-#if defined(VERSION_JP) || defined(VERSION_SH)
-
-const char *credits05[] = { "1CAMERA PROGRAMMER", "TAKUMI KAWAGOE" };
-const char *credits06[] = { "1MARIO FACE PROGRAMMER", "GILES GODDARD" };
-const char *credits07[] = { "2COURSE DIRECTORS", "YOICHI YAMADA", "YASUHISA YAMAMURA" };
-const char *credits08[] = { "2COURSE DESIGNERS", "KENTA USUI", "NAOKI MORI" };
-const char *credits09[] = { "3COURSE DESIGNERS", "YOSHIKI HARUHANA", "MAKOTO MIYANAGA", "KATSUHIKO KANNO" };
-const char *credits10[] = { "1SOUND COMPOSER", "KOJI KONDO" };
-
-// Shindou combines sound effects and sound programmer in order to make room for Mario voice and Peach voice
-const char *credits11[] = { "4SOUND EFFECTS", "SOUND PROGRAMMER", "YOJI INAGAKI", "HIDEAKI SHIMIZU" };
-const char *credits12[] = { "23D ANIMATORS", "YOSHIAKI KOIZUMI", "SATORU TAKIZAWA" };
-const char *credits13[] = { "1CG DESIGNER", "MASANAO ARIMOTO" };
-const char *credits14[] = { "3TECHNICAL SUPPORT", "TAKAO SAWANO", "HIROHITO YOSHIMOTO", "HIROTO YADA" };
-const char *credits15[] = { "1TECHNICAL SUPPORT", "SGI. 64PROJECT STAFF" };
-const char *credits16[] = { "2PROGRESS MANAGEMENT", "KIMIYOSHI FUKUI", "KEIZO KATO" };
-
-#else // VERSION_US || VERSION_EU
-
-// US and EU combine camera programmer and Mario face programmer...
-const char *credits05[] = { "4CAMERA PROGRAMMER", "MARIO FACE PROGRAMMER", "TAKUMI KAWAGOE", "GILES GODDARD" };
-const char *credits06[] = { "2COURSE DIRECTORS", "YOICHI YAMADA", "YASUHISA YAMAMURA" };
-const char *credits07[] = { "2COURSE DESIGNERS", "KENTA USUI", "NAOKI MORI" };
-const char *credits08[] = { "3COURSE DESIGNERS", "YOSHIKI HARUHANA", "MAKOTO MIYANAGA", "KATSUHIKO KANNO" };
-
-#ifdef VERSION_US
-const char *credits09[] = { "1SOUND COMPOSER", "KOJI KONDO" };
-// ...as well as sound effects and sound programmer in order to make room for screen text writer, Mario voice, and Peach voice
-const char *credits10[] = { "4SOUND EFFECTS", "SOUND PROGRAMMER", "YOJI INAGAKI", "HIDEAKI SHIMIZU" }; 
-const char *credits11[] = { "23-D ANIMATORS", "YOSHIAKI KOIZUMI", "SATORU TAKIZAWA" };
-const char *credits12[] = { "1ADDITIONAL GRAPHICS", "MASANAO ARIMOTO" };
-const char *credits13[] = { "3TECHNICAL SUPPORT", "TAKAO SAWANO", "HIROHITO YOSHIMOTO", "HIROTO YADA" };
-const char *credits14[] = { "1TECHNICAL SUPPORT", "SGI N64 PROJECT STAFF" };
-const char *credits15[] = { "2PROGRESS MANAGEMENT", "KIMIYOSHI FUKUI", "KEIZO KATO" };
+const char *credits00[] = { "1COLLAB HOST", "ROVERTRONIC" };
+const char *credits01[] = { "1MARIO SUPER STAR ULTRA", "COWQUACK" };
+const char *credits02[] = { "1MARIO IN BIKINI BOTTOM","JOSHTHEBOSH"};
+const char *credits03[] = { "2SPLATOON", "DRAHNOKKS", "WOISSIL" };
+const char *credits04[] = { "1MUSHROOM HAVOC","DRAHNOKKS" };
+const char *credits05[] = { "1OPPORTUNITY","JOOPII"};
+const char *credits06[] = { "1BIOSHOCK","FURYIOUSFIGHT"};
+const char *credits07[] = { "1BEYOND THE CURSED PIZZA","LUIGIMAN O64O"};
+const char *credits08[] = { "2NEW MECCA","AXOLLYON","KEYBLADER"};
+const char *credits09[] = { "1DOOM", "DAN GPTV" };
+const char *credits10[] = { "1FROM RUSSIA WITH LOVE","AEZA"}; 
+const char *credits11[] = { "1ECRUTEAK CITY","SPK" };
+const char *credits12[] = { "1NEW N SANITY ISLAND", "JAKE DOWER" };
+const char *credits13[] = { "1SAINTS SINNERS AND MARIO", "ROVERTRONIC" };
+const char *credits14[] = { "1MARIO IN HAMSTERBALL","LINCRASH"};
+const char *credits15[] = { "1ENVIRONMENTAL STATION ALPHA", "MEL" };
 const char *credits16[] = { "5SCREEN TEXT WRITER", "TRANSLATION", "LESLIE SWAN", "MINA AKINO", "HIRO YAMADA" }; 
-#else // VERSION_EU
-// ...as well as sound composer, sound effects, and sound programmer, and...
-const char *credits09[] = { "7SOUND COMPOSER", "SOUND EFFECTS", "SOUND PROGRAMMER", "KOJI KONDO", "YOJI INAGAKI", "HIDEAKI SHIMIZU" };
-// ...3D animators and additional graphics in order to make room for screen text writer(s), Mario voice, and Peach voice
-const char *credits10[] = { "63-D ANIMATORS", "ADDITIONAL GRAPHICS", "YOSHIAKI KOIZUMI", "SATORU TAKIZAWA", "MASANAO ARIMOTO" };
-const char *credits11[] = { "3TECHNICAL SUPPORT", "TAKAO SAWANO", "HIROHITO YOSHIMOTO", "HIROTO YADA" };
-const char *credits12[] = { "1TECHNICAL SUPPORT", "SGI N64 PROJECT STAFF" };
-const char *credits13[] = { "2PROGRESS MANAGEMENT", "KIMIYOSHI FUKUI", "KEIZO KATO" };
-const char *credits14[] = { "5SCREEN TEXT WRITER", "ENGLISH TRANSLATION", "LESLIE SWAN", "MINA AKINO", "HIRO YAMADA" };
-const char *credits15[] = { "4SCREEN TEXT WRITER", "FRENCH TRANSLATION", "JULIEN BARDAKOFF", "KENJI HARAGUCHI" };
-const char *credits16[] = { "4SCREEN TEXT WRITER", "GERMAN TRANSLATION", "THOMAS GOERG", "THOMAS SPINDLER" };
-#endif
-
-#endif
-
 const char *credits17[] = { "4MARIO VOICE", "PEACH VOICE", "CHARLES MARTINET", "LESLIE SWAN" };
-
-#if defined(VERSION_JP) || defined(VERSION_SH)
 const char *credits18[] = { "3SPECIAL THANKS TO", "JYOHO KAIHATUBU", "ALL NINTENDO", "MARIO CLUB STAFF" };
-#else // VERSION_US | VERSION_EU
-const char *credits18[] = { "3SPECIAL THANKS TO", "EAD STAFF", "ALL NINTENDO PERSONNEL", "SUPER MARIO CLUB STAFF" };
-#endif
-
 const char *credits19[] = { "1PRODUCER", "SHIGERU MIYAMOTO" };
 const char *credits20[] = { "1EXECUTIVE PRODUCER", "HIROSHI YAMAUCHI" };
 
 
 struct CreditsEntry sCreditsSequence[] = {
-    { LEVEL_CASTLE_GROUNDS, 1, 1, -128, { 0, 8000, 0 }, NULL },
-    { LEVEL_BOB, 1, 1, 117, { 713, 3918, -3889 }, credits01 },
-    { LEVEL_WF, 1, 50, 46, { 347, 5376, 326 }, credits02 },
-    { LEVEL_JRB, 1, 18, 22, { 3800, -4840, 2727 }, credits03 },
-    { LEVEL_CCM, 2, 34, 25, { -5464, 6656, -6575 }, credits04 },
-    { LEVEL_BBH, 1, 1, 60, { 257, 1922, 2580 }, credits05 },
-    { LEVEL_HMC, 1, -15, 123, { -6469, 1616, -6054 }, credits06 },
-    { LEVEL_THI, 3, 17, -32, { 508, 1024, 1942 }, credits07 },
-    { LEVEL_LLL, 2, 33, 124, { -73, 82, -1467 }, credits08 },
-    { LEVEL_SSL, 1, 65, 98, { -5906, 1024, -2576 }, credits09 },
-    { LEVEL_DDD, 1, 50, 47, { -4884, -4607, -272 }, credits10 },
-    { LEVEL_SL, 1, 17, -34, { 1925, 3328, 563 }, credits11 },
-    { LEVEL_WDW, 1, 33, 105, { -537, 1850, 1818 }, credits12 },
-    { LEVEL_TTM, 1, 2, -33, { 2613, 313, 1074 }, credits13 },
-    { LEVEL_THI, 1, 51, 54, { -2609, 512, 856 }, credits14 },
-    { LEVEL_TTC, 1, 17, -72, { -1304, -71, -967 }, credits15 },
-    { LEVEL_RR, 1, 33, 64, { 1565, 1024, -148 }, credits16 },
-    { LEVEL_SA, 1, 1, 24, { -1050, -1330, -1559 }, credits17 },
-    { LEVEL_COTMC, 1, 49, -16, { -254, 415, -6045 }, credits18 },
-    { LEVEL_DDD, 2, -111, -64, { 3948, 1185, -104 }, credits19 },
-    { LEVEL_CCM, 1, 33, 31, { 3169, -4607, 5240 }, credits20 },
-    { LEVEL_CASTLE_GROUNDS, 1, 1, -128, { 0, 906, -1200 }, NULL },
-    { LEVEL_NONE, 0, 1, 0, { 0, 0, 0 }, NULL },
+    { LEVEL_CASTLE, 1, 1, 117, {-5635,2250,-1806}, credits00 , ABILITY_DEFAULT},
+    { LEVEL_G, 3, 1, 0, {475,1283,-1275}, credits01, ABILITY_CUTTER},
+    { LEVEL_A, 4, 50, 126, {-4465,-31,12360}, credits02, ABILITY_BUBBLE_HAT},
+    { LEVEL_JRB, 1, 18, 22, { 3800, 9840, 2727 }, credits03, ABILITY_SQUID},
+    { LEVEL_I, 3, 34, 205, {6732,440,-3848}, credits04, ABILITY_SHOCK_ROCKET},
+    { LEVEL_H, 1, 1, 240, {-1514,-245,858}, credits05, ABILITY_PHASEWALK},
+    { LEVEL_JRB, 1, 18, 22, { 3800, 9840, 2727 }, credits06, ABILITY_BIG_DADDY},
+    { LEVEL_L, 1, 17, -64, {1512,-300,0}, credits07, ABILITY_KNIGHT},
+    { LEVEL_JRB, 1, 18, 22, { 3800, 9840, 2727 }, credits08, ABILITY_CHRONOS},
+    { LEVEL_E, 1, 65, 0, {-8827,6226,-4956}, credits09, ABILITY_E_SHOTGUN},
+    { LEVEL_F, 3, 50, 0, {-759,230,2346}, credits10, ABILITY_GADGET_WATCH},
+    { LEVEL_J, 2, 17, 114, {-3399,3224,-538}, credits11, ABILITY_HM_FLY},
+    { LEVEL_D, 1, 33, 0, {-1851,3216,-4258}, credits12, ABILITY_AKU},
+    { LEVEL_O, 1, 2, 99, {2231,-2250,229}, credits13, ABILITY_ESTEEMED_MORTAL},
+    { LEVEL_N, 2, 51, 57, {-29,617,294}, credits14, ABILITY_DEFAULT},
+    { LEVEL_TTC, 1, 17, -72, { -1304, -71, -967 }, credits15, ABILITY_DASH_BOOSTER},
+    { LEVEL_CASTLE_GROUNDS, 1, 1, -128, { 0, 906, -1200 }, NULL, ABILITY_DEFAULT},
+    { LEVEL_NONE, 0, 1, 0, { 0, 0, 0 }, NULL, ABILITY_DEFAULT},
 };
 
 struct MarioState gMarioStates[1];
@@ -190,7 +144,7 @@ u32 pressed_pause(void) {
     }
 #endif
 
-    if (!intangible && !dialogActive && !gWarpTransition.isActive && sDelayedWarpOp == WARP_OP_NONE
+    if (!intangible && !dialogActive && !gWarpTransition.isActive && sDelayedWarpOp == WARP_OP_NONE && !cm_cutscene_on
         && (gPlayer1Controller->buttonPressed & START_BUTTON)) {
         return TRUE;
     }
@@ -368,6 +322,7 @@ void init_mario_after_warp(void) {
         }
 
         if (sWarpDest.type == WARP_TYPE_CHANGE_LEVEL || sWarpDest.type == WARP_TYPE_CHANGE_AREA) {
+            gMarioState->numCheckpointFlag = -1;
             gPlayerSpawnInfos[0].areaIndex = sWarpDest.areaIdx;
             load_mario_area();
             chronos_timer = 360;
@@ -375,6 +330,7 @@ void init_mario_after_warp(void) {
 
         init_mario();
         set_mario_initial_action(gMarioState, marioSpawnType, sWarpDest.arg);
+        gMarioState->marioObj->header.gfx.node.flags |= GRAPH_RENDER_ACTIVE;
 
         gMarioState->interactObj = spawnNode->object;
         gMarioState->usedObj = spawnNode->object;
@@ -480,10 +436,8 @@ void warp_credits(void) {
     s32 marioAction = ACT_UNINITIALIZED;
 
     switch (sWarpDest.nodeId) {
-        case WARP_NODE_CREDITS_START:
-            marioAction = ACT_END_PEACH_CUTSCENE;
-            break;
 
+        case WARP_NODE_CREDITS_START:
         case WARP_NODE_CREDITS_NEXT:
             sEndCutsceneVp.vp.vscale[0] = 640;
             sEndCutsceneVp.vp.vscale[1] = 360;
@@ -627,6 +581,11 @@ void initiate_warp(s16 destLevel, s16 destArea, s16 destWarpNode, s32 warpFlags)
         sWarpDest.type = WARP_TYPE_CHANGE_AREA;
     } else {
         sWarpDest.type = WARP_TYPE_SAME_AREA;
+    }
+
+    if ((gCurrAreaIndex == 6)&&(gCurrLevelNum == LEVEL_L)) {
+        // reset level for p ranks and retries
+        sWarpDest.type = WARP_TYPE_CHANGE_LEVEL;
     }
 
     sWarpDest.levelNum = destLevel;
@@ -848,6 +807,10 @@ s16 level_trigger_warp(struct MarioState *m, s32 warpOp) {
                 break;
         }
 
+        if (pizza_time) {
+            fadeMusic = FALSE;
+        }
+
         if (fadeMusic && gCurrDemoInput == NULL) {
             fadeout_music((3 * sDelayedWarpTimer / 2) * 8 - 2);
         }
@@ -914,7 +877,13 @@ void initiate_delayed_warp(void) {
                     }
 
                     initiate_warp(gCurrCreditsEntry->levelNum, gCurrCreditsEntry->areaIndex, destWarpNode, WARP_FLAGS_NONE);
+                    change_ability(gCurrCreditsEntry->abilityid);
                     break;
+
+                case WARP_OP_DEATH:
+                    milk_drunk = FALSE;
+                    p_rank_challenge_enabled = FALSE;
+                    pizza_time = FALSE;
 
                 default:
                     warpNode = area_get_warp_node(sSourceWarpNodeId);
@@ -1096,7 +1065,7 @@ s32 play_mode_paused(void) {
             set_play_mode(PLAY_MODE_NORMAL);
             level_trigger_warp(gMarioState, WARP_OP_DEATH);
 #else
-            initiate_warp(EXIT_COURSE_LEVEL, EXIT_COURSE_AREA, EXIT_COURSE_NODE, WARP_FLAG_EXIT_COURSE);
+            initiate_warp(LEVEL_CASTLE, 0x01, get_hub_return_id(hub_level_current_index), WARP_FLAGS_NONE);
             fade_into_special_warp(WARP_SPECIAL_NONE, 0);
             gSavedCourseNum = COURSE_NONE;
 #endif
@@ -1162,6 +1131,10 @@ s32 play_mode_change_area(void) {
  * Play the transition and then return to normal play mode.
  */
 s32 play_mode_change_level(void) {
+    milk_drunk = FALSE;
+    p_rank_challenge_enabled = FALSE;
+    pizza_time = FALSE;
+
     if (sTransitionUpdate != NULL) {
         sTransitionUpdate(&sTransitionTimer);
     }
@@ -1304,11 +1277,11 @@ s32 init_level(void) {
             }
         }
 #endif
-        if (fadeFromColor) {
-            play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 0x5A, 0xFF, 0xFF, 0xFF);
-        } else {
-            play_transition(WARP_TRANSITION_FADE_FROM_STAR, 0x10, 0xFF, 0xFF, 0xFF);
-        }
+        //if (fadeFromColor) {
+            play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 0x10, 0xFF, 0xFF, 0xFF);
+        //} else {
+        //    play_transition(WARP_TRANSITION_FADE_FROM_STAR, 0x10, 0xFF, 0xFF, 0xFF);
+        //}
 
         if (gCurrDemoInput == NULL) {
 #ifdef BETTER_REVERB
@@ -1391,6 +1364,7 @@ s32 lvl_set_current_level(UNUSED s16 initOrUpdate, s32 levelNum) {
     sWarpCheckpointActive = FALSE;
     gCurrLevelNum = levelNum;
     gCurrCourseNum = gLevelToCourseNumTable[levelNum - 1];
+	if (gCurrLevelNum == LEVEL_BOWSER_COURSE) return 0;
 	if (gCurrLevelNum == LEVEL_G) return 0;
 
     if (gCurrDemoInput != NULL || gCurrCreditsEntry != NULL || gCurrCourseNum == COURSE_NONE) {

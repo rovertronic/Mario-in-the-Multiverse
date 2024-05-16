@@ -1,0 +1,14 @@
+extern const GeoLayout taxistop_geo[];
+extern u8 taxistop_tex1_128x128_m_ca2f657301a5572d_14_ci4[];
+extern u8 taxistop_tex1_128x128_m_ca2f657301a5572d_14_pal_rgba16[];
+extern u8 taxistop_inside_castle_textures_04000_rgba16_rgba16[];
+extern Vtx taxistop_Plane_mesh_layer_1_vtx_0[187];
+extern Gfx taxistop_Plane_mesh_layer_1_tri_0[];
+extern Vtx taxistop_Plane_mesh_layer_1_vtx_1[31];
+extern Gfx taxistop_Plane_mesh_layer_1_tri_1[];
+extern Gfx mat_taxistop_f3dlite_material_001[];
+extern Gfx mat_revert_taxistop_f3dlite_material_001[];
+extern Gfx mat_taxistop_f3dlite_material[];
+extern Gfx mat_revert_taxistop_f3dlite_material[];
+extern Gfx taxistop_Plane_mesh_layer_1[];
+extern Gfx taxistop_material_revert_render_settings[];

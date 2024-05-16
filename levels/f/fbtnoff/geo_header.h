@@ -1,0 +1,15 @@
+extern const GeoLayout fbtnoff_geo[];
+extern u8 fbtnoff_Key_Gold_ci4[];
+extern u8 fbtnoff_Key_Gold_pal_rgba16[];
+extern u8 fbtnoff_Red_Button_ci4[];
+extern u8 fbtnoff_Red_Button_pal_rgba16[];
+extern Vtx fbtnoff_Pillar_Button_ROCKET_mesh_layer_1_vtx_0[31];
+extern Gfx fbtnoff_Pillar_Button_ROCKET_mesh_layer_1_tri_0[];
+extern Vtx fbtnoff_Pillar_Button_ROCKET_mesh_layer_1_vtx_1[32];
+extern Gfx fbtnoff_Pillar_Button_ROCKET_mesh_layer_1_tri_1[];
+extern Gfx mat_fbtnoff_Gold_Metal[];
+extern Gfx mat_revert_fbtnoff_Gold_Metal[];
+extern Gfx mat_fbtnoff_Red_Button[];
+extern Gfx mat_revert_fbtnoff_Red_Button[];
+extern Gfx fbtnoff_Pillar_Button_ROCKET_mesh_layer_1[];
+extern Gfx fbtnoff_material_revert_render_settings[];

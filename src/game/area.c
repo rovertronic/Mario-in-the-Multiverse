@@ -63,6 +63,8 @@ Color gWarpTransBlue = 0;
 s16 gCurrSaveFileNum = 1;
 s16 gCurrLevelNum = LEVEL_MIN;
 
+f32 gMarxArenaScroll = 0.0f;
+
 /*
  * The following two tables are used in get_mario_spawn_type() to determine spawn type
  * from warp behavior.
@@ -76,6 +78,7 @@ const BehaviorScript *sWarpBhvSpawnTable[] = {
     bhvHardAirKnockBackWarp,    bhvSpinAirborneCircleWarp, bhvDeathWarp,               bhvSpinAirborneWarp,
     bhvFlyingWarp,              bhvSwimmingWarp,           bhvPaintingStarCollectWarp, bhvPaintingDeathWarp,
     bhvAirborneStarCollectWarp, bhvAirborneDeathWarp,      bhvLaunchStarCollectWarp,   bhvLaunchDeathWarp,
+    bhvLDoor
 };
 
 u8 sSpawnTypeFromWarpBhv[] = {
@@ -84,6 +87,7 @@ u8 sSpawnTypeFromWarpBhv[] = {
     MARIO_SPAWN_HARD_AIR_KNOCKBACK,    MARIO_SPAWN_SPIN_AIRBORNE_CIRCLE, MARIO_SPAWN_DEATH,                 MARIO_SPAWN_SPIN_AIRBORNE,
     MARIO_SPAWN_FLYING,                MARIO_SPAWN_SWIMMING,             MARIO_SPAWN_PAINTING_STAR_COLLECT, MARIO_SPAWN_PAINTING_DEATH,
     MARIO_SPAWN_AIRBORNE_STAR_COLLECT, MARIO_SPAWN_AIRBORNE_DEATH,       MARIO_SPAWN_LAUNCH_STAR_COLLECT,   MARIO_SPAWN_LAUNCH_DEATH,
+    MARIO_SPAWN_INSTANT_ACTIVE
 };
 
 Vp gViewport = { {
@@ -142,7 +146,7 @@ u32 get_mario_spawn_type(struct Object *obj) {
     s32 i;
     const BehaviorScript *behavior = virtual_to_segmented(SEGMENT_BEHAVIOR_DATA, obj->behavior);
 
-    for (i = 0; i < 20; i++) {
+    for (i = 0; i < 21; i++) {
         if (sWarpBhvSpawnTable[i] == behavior) {
             return sSpawnTypeFromWarpBhv[i];
         }
@@ -236,8 +240,22 @@ void clear_area_graph_nodes(void) {
     }
 }
 
-void load_area(s32 index) {
+void load_area(s32 index) {    
     if (gCurrentArea == NULL && gAreaData[index].graphNode != NULL) {
+
+        if (index > 5) {
+            pizza_time = FALSE;
+            p_rank_challenge_enabled = FALSE;
+        }
+
+        if (p_rank_challenge_prepare) {
+            p_rank_challenge_prepare = FALSE;
+            p_rank_challenge_enabled = TRUE;
+            combo_meter = 201;
+            p_rank_stars = 0;
+            p_rank_lap_2 = FALSE;
+        }
+
         gCurrentArea = &gAreaData[index];
         gCurrAreaIndex = gCurrentArea->index;
         main_pool_pop_state();
@@ -434,7 +452,9 @@ void render_game(void) {
 
         if (gCurrLevelNum == LEVEL_CASTLE) {
             render_mitm_hub_hud();
-            }
+        } else {
+            render_mitm_return_to_hub_hud();
+        }
 
         if (gMenuOptSelectIndex != 0) {
             gSaveOptSelectIndex = gMenuOptSelectIndex;

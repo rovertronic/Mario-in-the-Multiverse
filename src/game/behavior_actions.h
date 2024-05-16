@@ -3,6 +3,7 @@
 
 void spawn_mist_particles_variable(s32 count, s32 offsetY, f32 size);
 void bhv_spawn_star_no_level_exit(u32 params);
+void bhv_spawn_star_no_level_exit_at_object(u32 params, struct Object *obj);
 void bhv_door_rendering_loop(void);
 void spawn_triangle_break_particles(s16 numTris, s16 triModel, f32 triSize, s16 triAnimState);
 
@@ -385,6 +386,8 @@ void bhv_bowser_course_red_coin_star_init(void);
 void bhv_bowser_course_red_coin_star_loop(void);
 void bhv_hidden_star_init(void);
 void bhv_hidden_star_loop(void);
+void bhv_gco_star_init(void);
+void bhv_gco_star_loop(void);
 void bhv_hidden_star_trigger_loop(void);
 void bhv_ttm_rolling_log_init(void);
 void bhv_rolling_log_loop(void);
@@ -552,11 +555,49 @@ void bhv_intro_scene_loop(void);
 void bhv_dust_smoke_loop(void);
 void bhv_yoshi_loop(void);
 void bhv_volcano_trap_loop(void);
+// I Start //
 void bhv_shock_rocket_loop(void);
 void bhv_rocket_smoke_init(void);
 void bhv_rocket_button_loop(void);
-void bhv_rocket_button_group_init(void);
+void bhv_rocket_button_init(void);
 void bhv_rocket_button_group_loop(void);
+void bhv_hoodmonger_init(void);
+void bhv_hoodmonger_loop(void);
+void bhv_hoodmonger_alert_manager_loop(void);
+void bhv_hoodmonger_bullet_loop(void);
+void bhv_blacklums_update(void);
+void bhv_dollar_loop(void);
+void bhv_hoodboomer_loop(void);
+void bhv_hoodboomer_bomb_init(void);
+void bhv_hoodboomer_bomb_loop(void);
+void bhv_black_smoke_hoodboomer_loop(void);
+void bhv_pigpot_loop(void);
+void bhv_rotating_gear_decorative_init(void);
+void bhv_rotating_gear_decorative_loop(void);
+void bhv_grill_openable_by_rocket_button_loop(void);
+void bhv_wooden_lever_loop(void);
+void bhv_opening_wall_loop(void);
+void bhv_plum_loop(void);
+void bhv_plum_bucket_loop(void);
+void bhv_plank_attached_to_rope_loop(void);
+void bhv_barrier_attached_to_rope_loop(void);
+void bhv_caged_toad_loop(void);
+void bhv_caged_toad_star_init(void);
+void bhv_bhv_caged_toad_star_loop(void);
+void bhv_funky_shell_loop(void);
+void bhv_skrinking_black_door_spawner(void);
+void bhv_skrinking_black_door(void);
+void bhv_rotating_funky_platform(void);
+void bhv_moving_funky_platform(void);
+void bhv_three_axis_rotative_object(void);
+void bhv_master_kaag_loop(void);
+void bhv_hoodoo_sorcerer_init(void);
+void bhv_hoodoo_sorcerer_loop(void);
+void bhv_level_I_boss_door_loop(void);
+void bhv_bounty_hunter_toad_init(void);
+void bhv_bounty_hunter_toad_loop(void);
+void bhv_level_I_start_toad_init(void);
+// I End //
 void bhv_checkpoint_flag(void);
 void bhv_flipswitch(void);
 void bhv_noteblock(void);
@@ -595,23 +636,28 @@ extern struct WaterDropletParams gShallowWaterWaveDropletParams;
 //--E
 
 void bhv_e__enemy(void);
+void bhv_e__door(void);
+void bhv_e__key(void);
+void bhv_e__key_collect(void);
+void bhv_e__elevator(void);
+void bhv_e__candelabra(void);
+void bhv_e__switch(void);
+void bhv_e__teleport(void);
+void bhv_e__teleport_effect(void);
+void bhv_e__medkit(void);
+void bhv_e__tutorial(void);
+void bhv_e__target(void);
 
-
-\
-\
 void bhv_e__rocket_blast(void);
 
 void e__sg_mtxf_align_with_surface(Mat4 dest, Vec3f upDir, Vec3f pos, Vec3f scale, s16 yaw);//used in e__shotgun_effects
 void bhv_e__flattened_obj(void);
 void bhv_e__push_obj(void);
-void bhv_e__d(void);
 
 
 
 
 Gfx *e__geo_caco_eye_color(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
-\
-\
 
 Gfx *geo_e__mario_torso_rotation(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
 Gfx *geo_e__mario_head_rotation(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
@@ -636,6 +682,30 @@ void bhv_pt_mb(void);
 void bhv_gadget_aim(void);
 void bhv_concrete_block_init(void);
 void bhv_concrete_block_loop(void);
+void jelly_loop(void);
+void jelly_init(void);
+void jfplatform_loop(void);
+void taxistop_loop(void);
+void tsboat_loop(void);
+void tiki_box_loop(void);
+void tiki_box_init(void);
+void trampoline_loop(void);
+void fcp_loop(void);
+void king_jelly_boss_loop(void);
+void king_jelly_boss_shock(void);
+void king_jellyfish_init(void);
+void squidward_loop(void);
+void squidward_init(void);
+void kktable_loop(void);
+void button_for_bridge_loop(void);
+void bridge_loop(void);
+void bridge2_loop(void);
+void button_for_bridge_loop_2(void);
+void king_jelly_boss_goo_switch(void);
+void king_jellyfish_goo_loop(void);
+void king_jelly_spawn_jellyfish_init(void);
+void king_jelly_boss_jelly(void);
+void king_jellyfish_goo_loop(void);
 void bhv_sir_kibble_init(void);
 void bhv_sir_kibble_loop(void);
 void bhv_star_projectile_init(void);
@@ -660,3 +730,69 @@ void bhv_g_cannon_init(void);
 void bhv_g_cannon_loop(void);
 void bhv_great_cave_offensive_controller_init(void);
 void bhv_great_cave_offensive_controller_loop(void);
+void bhv_falling_platform_loop(void);
+void bhv_falling_platform_init(void);
+void bhv_skarmory_init(void);
+void bhv_skarmory_loop(void);
+void bhv_skarmory_star_spawner_init(void);
+void bhv_skarmory_star_spawner_loop(void);
+void bhv_npc_init(void);
+void bhv_npc_loop(void);
+void bhv_youngster_init(void);
+void bhv_spinarak_init(void);
+void bhv_spinarak_loop(void);
+void bhv_geodude_init(void);
+void bhv_geodude_loop(void);
+void bhv_geodude_punch_hitbox_init(void);
+void bhv_geodude_punch_hitbox_loop(void);
+void bhv_berry_loop(void);
+void bhv_hooh_init(void);
+void bhv_hooh_loop(void);
+void bhv_hooh_flame_init(void);
+void bhv_hooh_flame_loop(void);
+void bhv_hooh_rock_init(void);
+void bhv_hooh_rock_loop(void);
+void bhv_hooh_flame2_loop(void);
+void bhv_miltank_init(void);
+void bhv_miltank_loop(void);
+void bhv_miltank_star_loop(void);
+void bhv_elder_init(void);
+void bhv_sentret_init(void);
+void bhv_sentret_loop(void);
+void bhv_graveler_ramp_loop(void);
+void bhv_snorlax_init(void);
+void bhv_snorlax_loop(void);
+void bhv_magikarp_init(void);
+void bhv_magikarp_loop(void);
+void bhv_g_marx_init(void);
+void bhv_g_marx_loop(void);
+void bhv_g_marx_cutter_init(void);
+void bhv_g_marx_cutter_loop(void);
+void bhv_g_marx_seed_init(void);
+void bhv_g_marx_seed_loop(void);
+void bhv_g_marx_vine_init(void);
+void bhv_g_marx_vine_loop(void);
+void bhv_g_marx_thorn_segment_init(void);
+void bhv_g_marx_thorn_segment_loop(void);
+void bhv_g_marx_half_init(void);
+void bhv_g_marx_half_loop(void);
+void bhv_g_marx_black_hole_init(void);
+void bhv_g_marx_black_hole_loop(void);
+void bhv_g_marx_arrow_init(void);
+void bhv_g_marx_arrow_loop(void);
+void bhv_g_marx_body_laser_init(void);
+void bhv_g_marx_body_laser_loop(void);
+void bhv_g_marx_laser_init(void);
+void bhv_g_marx_laser_loop(void);
+void bhv_g_marx_ice_bomb_init(void);
+void bhv_g_marx_ice_bomb_loop(void);
+void bhv_g_marx_black_hole_effect_init(void);
+void bhv_g_marx_black_hole_effect_loop(void);
+void bhv_g_bronto_burt_init(void);
+void bhv_g_bronto_burt_loop(void);
+void bhv_g_moving_platform_init(void);
+void bhv_g_moving_platform_loop(void);
+void bhv_g_marx_door_init(void);
+void bhv_g_marx_door_loop(void);
+void bhv_g_waddle_dee_init(void);
+void bhv_g_waddle_dee_loop(void);

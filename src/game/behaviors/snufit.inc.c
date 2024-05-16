@@ -204,3 +204,47 @@ void bhv_snufit_balls_loop(void) {
         cur_obj_move_using_fvel_and_gravity();
     }
 }
+
+void bhv_helicopter_ball_loop(void) {
+    o->oForwardVel = 100.0f;
+
+    // Gravity =/= 0 after it has hit Mario while metal.
+    if (o->oGravity == 0.0f) {
+
+        //cursed fake "half" steps. could use raycast but too lazy
+        //if the bullets are closer to mario do more steps
+        if (o->oDistanceToMario < 1500.0f) {
+            for (u8 i=0; i<6; i++) {
+                cur_obj_update_floor_and_walls();
+                obj_compute_vel_from_move_pitch(20.0f);
+                cur_obj_move_standard(78);
+
+                if (o->oMoveFlags & OBJ_MOVE_MASK_IN_WATER) {
+                    mark_obj_for_deletion(o);
+                }
+            }
+        } else {
+            for (u8 i=0; i<2; i++) {
+                cur_obj_update_floor_and_walls();
+                obj_compute_vel_from_move_pitch(60.0f);
+                cur_obj_move_standard(78);
+
+                if (o->oMoveFlags & OBJ_MOVE_MASK_IN_WATER) {
+                    mark_obj_for_deletion(o);
+                }
+            }
+        }
+
+        if (o->oAction == 1 || (o->oMoveFlags & (OBJ_MOVE_MASK_ON_GROUND | OBJ_MOVE_HIT_WALL))) {
+            // The Snufit shot Mario and has fulfilled its lonely existance.
+            //! The above check could theoretically be avoided by finding a geometric
+            //! situation that does not trigger those flags (Water?). If found,
+            //! this would be a route to hang the game via too many snufit bullets.
+            o->oDeathSound = -1;
+            mark_obj_for_deletion(o);
+            spawn_object(o,MODEL_EXPLOSION,bhvExplosion);
+        }
+    } else {
+        cur_obj_move_using_fvel_and_gravity();
+    }
+}

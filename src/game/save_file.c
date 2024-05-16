@@ -15,10 +15,12 @@
 #include "rumble_init.h"
 #include "config.h"
 #include "emutest.h"
+#include "src/buffers/framebuffers.h"
 #ifdef SRAM
 #include "sram.h"
 #endif
 #include "puppycam2.h"
+#include "ability.h"
 
 #ifdef UNIQUE_SAVE_DATA
 u16 MENU_DATA_MAGIC = 0x4849;
@@ -314,6 +316,9 @@ void save_file_do_save(s32 fileIndex) {
 
         // Write to EEPROM
         write_eeprom_data(&gSaveBuffer.files[fileIndex], sizeof(gSaveBuffer.files[fileIndex]));
+
+        // Write saved screenshots
+        write_eeprom_data(&gSaveBuffer.screenshot[fileIndex], sizeof(gSaveBuffer.screenshot[fileIndex]));
 
         gSaveFileModified = FALSE;
     }
@@ -705,12 +710,75 @@ s32 save_file_get_cap_pos(Vec3s capPos) {
     */
 }
 
+#define SCREENSHOT_X 100
+#define SCREENSHOT_Y 50
+extern u16 sRenderedFramebuffer;
+void save_file_screenshot(void) {
+    u8 screenshot_failure = TRUE;
+
+    for (int x=0;x<SCREENSHOT_X;x++) {
+        for (int y=0;y<SCREENSHOT_Y;y++) {
+            //take a "screenshot" of the level & burn in a painting frame
+            u16 * fb;
+            if (gEmulator & INSTANT_INPUT_BLACKLIST) {
+                fb = gFramebuffers[(sRenderedFramebuffer+2)%3];
+            } else {
+                fb = gFramebuffers[0];
+            }
+
+            gSaveBuffer.screenshot[gCurrSaveFileNum - 1][y][x] = (fb[ ((s32)(y*1.8f+55))*320 + (s32)(x*1.8f+60) ] | 1);
+
+            if (gSaveBuffer.screenshot[gCurrSaveFileNum - 1][y][x] > 1) { //assumes all fb rgba16 values is initialized to 1 or 0
+                screenshot_failure = FALSE;
+            }
+        }
+    }
+
+    if (!screenshot_failure) {
+        //framebuffer emulation not enabled, use ?
+        gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags |= SAVE_FLAG_SCREENSHOT;
+    }
+}
+
 void save_file_set_coins(void) {
     gSaveBuffer.files[gCurrSaveFileNum - 1][0].coins = gMarioState->numGlobalCoins;
 }
 
 void save_file_get_coins(void) {
     gMarioState->numGlobalCoins = gSaveBuffer.files[gCurrSaveFileNum - 1][0].coins;
+}
+
+void save_file_set_ability_dpad(void) {
+    for (u8 i=0; i<4; i++) {
+        gSaveBuffer.files[gCurrSaveFileNum - 1][0].ability_dpad[i] = ability_slot[i];
+    }
+}
+
+void save_file_init_ability_dpad(void) {
+    for (u8 i=0; i<4; i++) {
+        gSaveBuffer.files[gCurrSaveFileNum - 1][0].ability_dpad[i] = ABILITY_NONE;
+    }
+}
+
+void save_file_get_ability_dpad(void) {
+    for (u8 i=0; i<4; i++) {
+        ability_slot[i] = gSaveBuffer.files[gCurrSaveFileNum - 1][0].ability_dpad[i];
+    }
+}
+
+//-1 is because ABILITY_DEFAULT should not count
+s32 save_file_check_ability_unlocked(u8 ability_id) {
+    #ifndef UNLOCK_ABILITIES_DEBUG
+    return gSaveBuffer.files[gCurrSaveFileNum - 1][0].abilities & (1 << (ability_id-1));
+    #else
+    return 1;
+    #endif
+}
+
+void save_file_unlock_ability(u8 ability_id) {
+    gSaveBuffer.files[gCurrSaveFileNum - 1][0].abilities |= (1 << (ability_id-1));
+    gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags |= SAVE_FLAG_FILE_EXISTS;
+    gSaveFileModified = TRUE;
 }
 
 void save_file_set_sound_mode(u16 mode) {

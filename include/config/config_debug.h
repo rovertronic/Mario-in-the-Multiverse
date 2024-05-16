@@ -4,6 +4,11 @@
  * DEBUG SETTINGS *
  ******************/
 
+/*
+MITM EXCLUSIVE: Have all abilities accessible regardless of save status.
+*/
+#define UNLOCK_ABILITIES_DEBUG
+
 /**
  * Enables most debug options, including PUPPYPRINT_DEBUG.
  */
@@ -26,7 +31,11 @@
  * This allows you to quickly test the level you're working on.
  * If you want the game to boot normally, just comment out the define again.
  */
+<<<<<<< HEAD
 #define TEST_LEVEL LEVEL_M
+=======
+//#define TEST_LEVEL LEVEL_BOWSER_COURSE
+>>>>>>> main
 
 /**
  * Enables debug level select. Hold L while the game boots to turn it on.
@@ -41,7 +50,7 @@
 /**
  * Enables a custom, enhanced performance profiler. (Enables PUPPYPRINT by default in config_safeguards).
  */
- //#define PUPPYPRINT_DEBUG
+ #define PUPPYPRINT_DEBUG
 
 /**
  * Uses cycles instead of microseconds in Puppyprint debug output.

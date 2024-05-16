@@ -438,9 +438,9 @@ enum MarioActionFlags {
 #define ACT_CUTTER_THROW_AIR                 0x000008B9 // (0x0B9)
 #define ACT_ABILITY_AXE_JUMP           (0x030008BA | ACT_FLAG_ATTACKING) // (0x0BA)
 #define ACT_HM_FLY                     0x010208BF
-#define ACT_KNIGHT_JUMP                0x0102088F
-#define ACT_DASH_BOOST                 0x01020890
-#define ACT_BUBBLE_HAT_JUMP            0x01020891
+#define ACT_KNIGHT_JUMP                (0x0102088F | ACT_FLAG_ATTACKING)
+#define ACT_DASH_BOOST                 (0x00000890 | ACT_FLAG_AIR)
+#define ACT_BUBBLE_HAT_JUMP            (0x01020891 | ACT_FLAG_AIR)
 
 #define ACT_UNUSED_0BC                 0x000000BC // (0x0BC)
 #define ACT_THROWN_FORWARD             0x010208BD // (0x0BD | ACT_FLAG_AIR | ACT_FLAG_INVULNERABLE | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
@@ -525,8 +525,8 @@ enum MarioActionFlags {
 #define ACT_READING_SIGN               0x00001308 // (0x108 | ACT_FLAG_STATIONARY | ACT_FLAG_INTANGIBLE)
 #define ACT_JUMBO_STAR_CUTSCENE        0x00001909 // (0x109 | ACT_FLAG_AIR | ACT_FLAG_INTANGIBLE)
 #define ACT_WAITING_FOR_DIALOG         0x0000130A // (0x10A | ACT_FLAG_STATIONARY | ACT_FLAG_INTANGIBLE)
-#define ACT_CUTSCENE_CONTROLLED                 0x0000130B // (0x10B | ACT_FLAG_STATIONARY | ACT_FLAG_INTANGIBLE)
-#define ACT_UNUSED_10C                 0x0000010C // (0x10C)
+#define ACT_CUTSCENE_CONTROLLED        0x0000130B // (0x10B
+#define ACT_ABILITY_DANCE              0x0000110C // (0x10C)
 #define ACT_UNUSED_10D                 0x0000010D // (0x10D)
 #define ACT_UNUSED_10E                 0x0000010E // (0x10E)
 #define ACT_DEBUG_FREE_MOVE            0x0000130F // (0x10F | ACT_FLAG_STATIONARY | ACT_FLAG_INTANGIBLE)
@@ -576,7 +576,7 @@ enum MarioActionFlags {
 #define ACT_BUTT_STUCK_IN_GROUND       0x0002033B // (0x13B | ACT_FLAG_STATIONARY | ACT_FLAG_INVULNERABLE)
 #define ACT_FEET_STUCK_IN_GROUND       0x0002033C // (0x13C | ACT_FLAG_STATIONARY | ACT_FLAG_INVULNERABLE)
 #define ACT_PUTTING_ON_CAP             0x0000133D // (0x13D | ACT_FLAG_STATIONARY | ACT_FLAG_INTANGIBLE)
-#define ACT_UNUSED_13E                 0x0000013E // (0x13E)
+#define ACT_E_DOOM_DEATH               (0x13E | ACT_FLAG_INVULNERABLE) //--E (ACT_UNUSED_13E)
 #define ACT_UNUSED_13F                 0x0000013F // (0x13F)
 #define ACT_ENTER_HUB_PIPE             0x0000113E
 
@@ -643,8 +643,8 @@ enum MarioActionFlags {
 #define ACT_UNUSED_17B                 0x0000017B // (0x17B)
 #define ACT_UNUSED_17C                 0x0000017C // (0x17C)
 #define ACT_UNUSED_17D                 0x0000017D // (0x17D)
-#define ACT_UNUSED_17E                 0x0000017E // (0x17E)
-#define ACT_MARBLE                     0x0002037F // (0x17F)
+#define ACT_CM_CUTSCENE                0x0000017E // (0x17E)
+#define ACT_MARBLE                     (0x0000017F | ACT_FLAG_ATTACKING) // (0x17F)
 
 // group 0x180: object actions
 #define ACT_PUNCHING                   0x00800380 // (0x180 | ACT_FLAG_STATIONARY | ACT_FLAG_ATTACKING)

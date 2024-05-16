@@ -426,9 +426,17 @@ s32 act_enter_hub_pipe(struct MarioState *m) {
         gMarioState->pos[1] = approach_f32_asymptotic(gMarioState->pos[1],gMarioState->interactObj->oPosY+60.0f,0.1f);
 
         if (update_mario_action_timer_post(m) > 20) {
-            initiate_warp(get_hub_level(gMarioState->interactObj->oBehParams2ndByte), 1, 0x0A, WARP_FLAGS_NONE);
-            fade_into_special_warp(WARP_SPECIAL_NONE, 0);
-            gSavedCourseNum = COURSE_NONE;
+            if (gCurrLevelNum == LEVEL_CASTLE) {
+                // Enter a level
+                initiate_warp(get_hub_level(gMarioState->interactObj->oBehParams2ndByte), get_hub_area(gMarioState->interactObj->oBehParams2ndByte), 0x0A, WARP_FLAGS_NONE);
+                fade_into_special_warp(WARP_SPECIAL_NONE, 0);
+                gSavedCourseNum = COURSE_NONE;
+            } else {
+                // Exit a level
+                initiate_warp(LEVEL_CASTLE, 0x01, get_hub_return_id(hub_level_current_index), WARP_FLAGS_NONE);
+                fade_into_special_warp(WARP_SPECIAL_NONE, 0);
+                gSavedCourseNum = COURSE_NONE;
+            }
         }
     }
 
@@ -628,6 +636,7 @@ s32 act_debug_free_move(struct MarioState *m) {
     return FALSE;
 }
 
+extern u8 ability_get_confirm;
 void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
     struct Object *celebStar = NULL;
 
@@ -642,6 +651,13 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
                     obj_set_model(celebStar, gStarModelLastCollected);
                 }
 #endif
+
+                if (obj_has_behavior(m->usedObj,bhvAbilityUnlock)) {
+                    obj_set_model(celebStar, MODEL_ABILITY);
+                    obj_set_billboard(celebStar);
+                    celebStar->oBehParams2ndByte = m->usedObj->oBehParams2ndByte;
+                }
+
                 disable_background_sound();
                 //! TODO: Is this check necessary? Both seem to do the exact same thing.
                 if (m->actionArg & 1) {
@@ -662,17 +678,40 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
                 break;
 
             case 80:
+                if (!ability_get_confirm) {
+                    enable_time_stop();
+                    m->actionState = ACT_STATE_STAR_DANCE_DO_SAVE;
+                    break;
+                }
                 if (!(m->actionArg & 1)) {
                     level_trigger_warp(m, WARP_OP_STAR_EXIT);
-                } else {
+                } 
+                else if (
+                    /* Hardcoded list of areas that warp you out */
+                    (gCurrLevelNum == LEVEL_G && gCurrAreaIndex == 5) ||
+                    (gCurrLevelNum == LEVEL_I && (gCurrAreaIndex == 4 || gCurrAreaIndex == 5)) ||
+                    (gCurrLevelNum == LEVEL_N) ||
+                    (gCurrLevelNum == LEVEL_J && gCurrentArea->index == 7) ||
+                    (gCurrLevelNum == LEVEL_L && gCurrentArea->index == 7)
+                    ) {
+                    level_trigger_warp(m, WARP_OP_STAR_EXIT);
+                    save_file_do_save(gCurrSaveFileNum - 1);
+                }
+                else {
                     enable_time_stop();
                     m->actionState = ACT_STATE_STAR_DANCE_DO_SAVE;
                 }
                 break;
         }
     } else if (m->actionState == ACT_STATE_STAR_DANCE_DO_SAVE) {
-        save_file_do_save(gCurrSaveFileNum - 1);
-        m->actionState = ACT_STATE_STAR_DANCE_RETURN;
+        if (ability_get_confirm) {
+            save_file_do_save(gCurrSaveFileNum - 1);
+            m->actionState = ACT_STATE_STAR_DANCE_RETURN;
+        } else {
+            if (gPlayer1Controller->buttonPressed & (START_BUTTON | A_BUTTON)) {
+                ability_get_confirm = TRUE;
+            }
+        }
     } else if (m->actionState == ACT_STATE_STAR_DANCE_RETURN && is_anim_at_end(m)) {
         disable_time_stop();
         enable_background_sound();
@@ -685,7 +724,7 @@ s32 act_star_dance(struct MarioState *m) {
     set_mario_animation(m, m->actionState == ACT_STATE_STAR_DANCE_RETURN ? MARIO_ANIM_RETURN_FROM_STAR_DANCE
                                                                          : MARIO_ANIM_STAR_DANCE);
     general_star_dance_handler(m, FALSE);
-    if (m->actionState != ACT_STATE_STAR_DANCE_RETURN && m->actionTimer >= 40) {
+    if (m->actionState != ACT_STATE_STAR_DANCE_RETURN && m->action != ACT_ABILITY_DANCE && m->actionTimer >= 40) {
         m->marioBodyState->handState = MARIO_HAND_PEACE_SIGN;
     }
     stop_and_set_height_to_floor(m);
@@ -706,6 +745,7 @@ s32 act_star_dance_water(struct MarioState *m) {
 }
 
 s32 act_fall_after_star_grab(struct MarioState *m) {
+    //do not let mario fall into water when collecting an ability.
     if (m->pos[1] < m->waterLevel - 130) {
         play_sound(SOUND_ACTION_WATER_PLUNGE, m->marioObj->header.gfx.cameraToObject);
         m->particleFlags |= PARTICLE_WATER_SPLASH;
@@ -713,8 +753,11 @@ s32 act_fall_after_star_grab(struct MarioState *m) {
     }
     if (perform_air_step(m, AIR_STEP_CHECK_LEDGE_GRAB) == AIR_STEP_LANDED) {
         play_mario_landing_sound(m, SOUND_ACTION_TERRAIN_LANDING);
-        set_mario_action(m, m->actionArg & 1 ? ACT_STAR_DANCE_NO_EXIT : ACT_STAR_DANCE_EXIT,
-                         m->actionArg);
+        if (obj_has_behavior(m->usedObj,bhvAbilityUnlock)) {
+            return set_mario_action(m, ACT_ABILITY_DANCE,m->actionArg);
+        } else {
+            set_mario_action(m, m->actionArg & 1 ? ACT_STAR_DANCE_NO_EXIT : ACT_STAR_DANCE_EXIT,m->actionArg);
+        }
     }
     set_mario_animation(m, MARIO_ANIM_GENERAL_FALL);
     return FALSE;
@@ -1055,7 +1098,7 @@ s32 act_spawn_spin_airborne(struct MarioState *m) {
         load_level_init_text(0);
         return set_water_plunge_action(m);
     }
-
+    
     // updates all velocity variables based on m->forwardVel
     mario_set_forward_vel(m, m->forwardVel);
 
@@ -1724,6 +1767,36 @@ s32 act_feet_stuck_in_ground(struct MarioState *m) {
     stuck_in_ground_handler(m, MARIO_ANIM_LEGS_STUCK_IN_GROUND, 116, 129, -2, ACT_IDLE);
     return FALSE;
 }
+
+//--E
+s32 act_e_doom_death(struct MarioState *m) {
+    if (perform_air_step(m, AIR_STEP_CHECK_NONE) == AIR_STEP_LANDED) {
+        vec3f_set(m->vel, 0.f, 0.f, 0.f);
+    }
+
+    set_mario_animation(m, MARIO_ANIM_CREDITS_RETURN_FROM_LOOK_UP);
+
+    if (m->actionArg == 1) {
+		gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_MARIO];
+    }
+
+    if (++m->actionTimer >= 35) {
+        if (m->actionState == 0) {
+            if (m->input & INPUT_A_PRESSED) {
+                m->actionState = 1;
+                level_trigger_warp(m, WARP_OP_DEATH);
+            }
+        }
+    } else {
+        m->faceAngle[1] = calculate_yaw(gLakituState.focus, gLakituState.pos) - DEGREES(38);
+    }
+
+    align_with_floor(m);
+
+    return FALSE;
+}
+
+
 
 /**
  * advance_cutscene_step: Advances the current step in the current cutscene.
@@ -2538,7 +2611,8 @@ enum {
 static s32 act_end_peach_cutscene(struct MarioState *m) {
     switch (m->actionArg) {
         case END_PEACH_CUTSCENE_MARIO_FALLING:
-            end_peach_cutscene_mario_falling(m);
+            //end_peach_cutscene_mario_falling(m);
+            end_peach_cutscene_fade_out(m);
             break;
         case END_PEACH_CUTSCENE_MARIO_LANDING:
             end_peach_cutscene_mario_landing(m);
@@ -2707,6 +2781,7 @@ s32 mario_execute_cutscene_action(struct MarioState *m) {
         case ACT_INTRO_CUTSCENE:             cancel = act_intro_cutscene(m);             break;
         case ACT_STAR_DANCE_EXIT:            cancel = act_star_dance(m);                 break;
         case ACT_STAR_DANCE_NO_EXIT:         cancel = act_star_dance(m);                 break;
+        case ACT_ABILITY_DANCE:              cancel = act_star_dance(m);                 break;
         case ACT_STAR_DANCE_WATER:           cancel = act_star_dance_water(m);           break;
         case ACT_FALL_AFTER_STAR_GRAB:       cancel = act_fall_after_star_grab(m);       break;
         case ACT_READING_AUTOMATIC_DIALOG:   cancel = act_reading_automatic_dialog(m);   break;
@@ -2756,6 +2831,8 @@ s32 mario_execute_cutscene_action(struct MarioState *m) {
         case ACT_FEET_STUCK_IN_GROUND:       cancel = act_feet_stuck_in_ground(m);       break;
         case ACT_PUTTING_ON_CAP:             cancel = act_putting_on_cap(m);             break;
         case ACT_ENTER_HUB_PIPE:             cancel = act_enter_hub_pipe(m);             break;
+        //--E
+        case ACT_E_DOOM_DEATH:               cancel = act_e_doom_death(m);               break;
     }
     /* clang-format on */
 

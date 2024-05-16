@@ -54,7 +54,19 @@ DEFINE_LEVEL("INK_TEST", LEVEL_INK_TEST, COURSE_INK_TEST, ink_test, generic, 200
 DEFINE_LEVEL("X", LEVEL_X, COURSE_X, x, generic, 20000, 0x00, 0x00, 0x00, _, sCamX) 
 DEFINE_LEVEL("G", LEVEL_G, COURSE_BOB, g, generic, 20000, 0x00, 0x00, 0x00, _, sCamG) 
 DEFINE_LEVEL("B", LEVEL_B, COURSE_HMC, B, generic, 20000, 0x00, 0x00, 0x00, _, sCamB) 
+DEFINE_LEVEL("A", LEVEL_A, COURSE_WF, a, generic, 20000, 0x00, 0x00, 0x00, _, sCamA) 
 DEFINE_LEVEL("F", LEVEL_F, COURSE_SL, f, generic, 20000, 0x00, 0x00, 0x00, _, sCamF) 
 DEFINE_LEVEL("E", LEVEL_E, COURSE_DDD, e, generic, 20000, 0x00, 0x00, 0x00, _, sCamE) 
+<<<<<<< HEAD
 DEFINE_LEVEL("M", LEVEL_M, COURSE_M, m, generic, 20000, 0x00, 0x00, 0x00, _, sCamM) 
+=======
+DEFINE_LEVEL("I", LEVEL_I, COURSE_CCM, i, generic, 20000, 0x00, 0x00, 0x00, _, sCamI) 
+DEFINE_LEVEL("J", LEVEL_J, COURSE_WDW, J, generic, 20000, 0x00, 0x00, 0x00, _, sCamJ) 
+>>>>>>> main
 DEFINE_LEVEL("O", LEVEL_O, COURSE_THI, o, generic, 20000, 0x00, 0x00, 0x00, _, sCamO) 
+DEFINE_LEVEL("D", LEVEL_D, COURSE_TTM, d, generic, 20000, 0x00, 0x00, 0x01, _, sCamD) 
+DEFINE_LEVEL("N", LEVEL_N, COURSE_TTC, n, generic, 20000, 0x00, 0x00, 0x00, _, sCamN) 
+DEFINE_LEVEL("H", LEVEL_H, COURSE_BBH, h, generic, 20000, 0x00, 0x00, 0x00, _, sCamH) 
+DEFINE_LEVEL("BIRTHDAY", LEVEL_BIRTHDAY, COURSE_NONE, birthday, generic, 20000, 0x00, 0x00, 0x00, _, sCamBirthday) 
+DEFINE_LEVEL("L", LEVEL_L, COURSE_LLL, l, generic, 20000, 0x00, 0x00, 0x00, _, sCamL) 
+DEFINE_LEVEL("BOWSER_COURSE", LEVEL_BOWSER_COURSE, COURSE_BITDW, bowser_course, generic, 20000, 0x00, 0x00, 0x00, _, sCamBowserCourse) 

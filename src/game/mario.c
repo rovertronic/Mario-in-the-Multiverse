@@ -35,6 +35,9 @@
 #include "ability.h"
 #include "seq_ids.h"
 #include "rigid_body.h"
+#include "src/buffers/buffers.h"
+#include "dialog_ids.h"
+#include "cutscene_manager.h"
 
 s16 check_water_height = -10000;
 Bool8 have_splashed;
@@ -1331,6 +1334,11 @@ void update_mario_joystick_inputs(struct MarioState *m) {
     struct Controller *controller = m->controller;
     f32 mag = ((controller->stickMag / 64.0f) * (controller->stickMag / 64.0f)) * 64.0f;
 
+    f32 fake_stick_y = controller->stickY;
+    if (is_2d_area()) {
+        fake_stick_y = 0.0f;
+    }
+
     if (m->squishTimer == 0) {
         m->intendedMag = mag / 2.0f;
     } else {
@@ -1338,10 +1346,21 @@ void update_mario_joystick_inputs(struct MarioState *m) {
     }
 
     if (m->intendedMag > 0.0f) {
-        m->intendedYaw = atan2s(-controller->stickY, controller->stickX) + m->area->camera->yaw;
+        m->intendedYaw = atan2s(-fake_stick_y, controller->stickX) + m->area->camera->yaw;
         m->input |= INPUT_NONZERO_ANALOG;
     } else {
         m->intendedYaw = m->faceAngle[1];
+    }
+
+    if (is_2d_area()) {
+        if (gPlayer1Controller->rawStickX > 0.0f) {
+            m->intendedYaw = -0x4000;
+        } else if (gPlayer1Controller->rawStickX < 0.0f) {
+            m->intendedYaw = 0x4000;
+        } else {
+            m->intendedYaw = 0x4000;
+            m->input &= ~INPUT_NONZERO_ANALOG;
+        }
     }
 }
 
@@ -1450,8 +1469,10 @@ void update_mario_inputs(struct MarioState *m) {
     }
 #endif
 
-    update_mario_button_inputs(m);
-    update_mario_joystick_inputs(m);
+    if (!cm_cutscene_on) {
+        update_mario_button_inputs(m);
+        update_mario_joystick_inputs(m);
+    }
     update_mario_geometry_inputs(m);
 #ifdef VANILLA_DEBUG
     debug_print_speed_action_normal(m);
@@ -1856,19 +1877,62 @@ s32 check_dashboost_inputs(struct MarioState *m) {
     return FALSE;
 }
 
+u8 pizza_time = FALSE;
+u16 pizza_timer = 0;
+u8 combo_meter = 201;
+u8 p_rank_challenge_enabled = FALSE;
+u8 p_rank_challenge_prepare = FALSE;
+u8 p_rank_lap_2 = FALSE;
+u8 p_rank_stars = 0;
+u8 p_rank_success = FALSE;
+
+u8 magic_mirror_timer = 20;
+
+s32 is_2d_area(void) {
+    return ((gCurrLevelNum == LEVEL_L)&&(gCurrAreaIndex < 6));
+}
+
 /**
  * Main function for executing Mario's behavior. Returns particleFlags.
  */
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
+    //debug activate credits
     //if (gPlayer1Controller->buttonPressed & D_JPAD) {
-    //    initiate_warp(LEVEL_G, 4, 0x0A, 0);
+    //    level_trigger_warp(gMarioState, WARP_OP_CREDITS_START);
+    //    gMarioState->actionState = ACT_STATE_END_PEACH_CUTSCENE_FADE_OUT_END;
     //}
-
+    
     // Updates once per frame:
     vec3f_get_dist_and_lateral_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->lateralSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);
     vec3f_copy(gMarioState->prevPos, gMarioState->pos);
+
+    if (pizza_time) {
+        level_control_timer(TIMER_CONTROL_SHOW);
+        gHudDisplay.timer = pizza_timer;
+        if (pizza_timer > 0) {
+            pizza_timer --;
+        } else {
+            //outta time, summon the green demon
+            if (!cur_obj_nearest_object_with_behavior(bhvHidden1upInPole)) {
+                spawn_object(gMarioObject,MODEL_L_DEMON,bhvHidden1upInPole);
+            }
+        }
+    } else {
+        level_control_timer(TIMER_CONTROL_HIDE);
+    }
+    //combo meter logic
+    if ((p_rank_challenge_enabled) && ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
+        if (combo_meter > 0) {
+            combo_meter--;
+        } else {
+            if (gMarioState->action != ACT_DISAPPEARED) {
+                set_mario_action(gMarioState, ACT_DISAPPEARED, 1);
+                level_trigger_warp(gMarioState, WARP_OP_DEATH);
+            }
+        }
+    }
 
     if (toZeroMeter) {  // Reset ability meter if it's not set past this point
         gHudDisplay.abilityMeter = 0;
@@ -1915,6 +1979,50 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             return ACTIVE_PARTICLE_NONE;
         }
 
+        if ((gCurrLevelNum == LEVEL_F) && ((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_STATIONARY) && (gCurrCreditsEntry == NULL)) {
+            // Level F automatic dialog
+
+            // Get watch dialog
+            if (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags & (1<<LEVEL_F_FLAG_BOND_MESSAGE_1))) {
+                if (save_file_check_ability_unlocked(ABILITY_GADGET_WATCH)) {
+                    set_mario_action(gMarioState, ACT_READING_AUTOMATIC_DIALOG, DIALOG_F_BOND2);
+                    gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags |= (1<<LEVEL_F_FLAG_BOND_MESSAGE_1);
+                }
+            }
+        
+            // Blow up wall dialog
+            if (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags & (1<<LEVEL_F_FLAG_BOND_MESSAGE_2))) {
+                struct Object * bombwall = cur_obj_nearest_object_with_behavior(bhvFblastwall);
+                if ((bombwall) && (bombwall->oAction == 2)) {
+                    set_mario_action(gMarioState, ACT_READING_AUTOMATIC_DIALOG, DIALOG_F_BOND4);
+                    gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags |= (1<<LEVEL_F_FLAG_BOND_MESSAGE_2);
+                }
+            }
+
+            // Get 1st star dialog
+            if (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags & (1<<LEVEL_F_FLAG_BOND_MESSAGE_3))) {
+                if (save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_SL)) & 1) {
+                    set_mario_action(gMarioState, ACT_READING_AUTOMATIC_DIALOG, DIALOG_F_BOND3);
+                    gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags |= (1<<LEVEL_F_FLAG_BOND_MESSAGE_3);
+                }
+            }
+        }
+
+        f32 dist_to_nearest_star = 9999.0f;
+        struct Object * nearest_star = cur_obj_nearest_object_with_behavior(bhvStar);
+        if (nearest_star) {
+            dist_to_nearest_star = dist_between_objects(gMarioObject,nearest_star);
+        }
+
+        //attempt to take a screenshot every 10 seconds. only take when he's idle or moving on the ground.
+        //also, do not take screenshots when near a star.
+        if ((((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_MOVING) ||
+        ((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_STATIONARY)) &&
+        (gGlobalTimer % 300 == 0) &&
+        (dist_to_nearest_star > 2000.0f)) {
+            save_file_screenshot();
+        }
+
         //--E SG
         if (using_ability(ABILITY_E_SHOTGUN)) {
             struct MarioState *m = gMarioState;
@@ -1922,6 +2030,11 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             if (!(m->floor->normal.y < COS73)) {
                 if (!mario_is_in_air_action()) {
                     gE_ShotgunFlags &= ~E_SGF_AIR_SHOT_USED; }
+            }
+        }
+        if (gCurrLevelNum == LEVEL_E) {//--C9
+            if ((gGlobalTimer % 3) == 0) {
+                gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
             }
         }
 
@@ -1959,14 +2072,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
 
-        //Knight Suit
-        if (using_ability(ABILITY_KNIGHT) && (gMarioState->action != ACT_KNIGHT_SLIDE) &&
-        (gMarioState->action != ACT_KNIGHT_JUMP)) {
-            if (gMarioState->forwardVel > 10.0f) {
-                gMarioState->forwardVel = 10.0f;
-            }
-        }
-
         //Dash Booster Meter
         if (using_ability(ABILITY_DASH_BOOSTER)) {
             gHudDisplay.abilityMeterStyle = METER_STYLE_DASH_BOOSTER;
@@ -1983,6 +2088,19 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 case 3:
                     gHudDisplay.abilityMeter = 8;
                 break;
+            }
+        }
+
+        // Pizza Tower 2D
+        if (is_2d_area()) {
+            gMarioState->pos[2] = 0.0f;
+            // Only angle-lock the knight suit ability
+            if ((gMarioState->action == ACT_KNIGHT_SLIDE)||(gMarioState->action == ACT_KNIGHT_JUMP)) {
+                if (gMarioState->faceAngle[1] > 0) {
+                    gMarioState->faceAngle[1] = 0x4000;
+                } else {
+                    gMarioState->faceAngle[1] = -0x4000;
+                }
             }
         }
 
@@ -2005,11 +2123,17 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         if (using_ability(ABILITY_E_SHOTGUN)) {
             e__animate_upper(); }
 
+        struct Surface * marble_floor;
+        f32 marble_floor_y = find_floor(gMarioState->pos[0],gMarioState->pos[1],gMarioState->pos[2],&marble_floor);
+        u8 force_marble = ((marble_floor)&&(marble_floor->type == SURFACE_FORCE_MARBLE)&&(gMarioState->pos[1] < marble_floor_y+120.0f)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE));
 
-        if ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE) {
-            control_ability_dpad();
+        if (using_ability(ABILITY_BUBBLE_HAT) && (gMarioState->action != ACT_BUBBLE_HAT_JUMP)) {
+            change_ability(ABILITY_BUBBLE_HAT);
         }
-        else {
+
+        control_ability_dpad();
+
+        if ((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE) {
             gMarioState->abilityChronosTimeSlowActive = FALSE;
         }
 
@@ -2051,18 +2175,82 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
 
-        //Aku Ability Code
+        // Drink Milk Code
+        if ((!milk_drunk)&&(using_ability(ABILITY_UTIL_MILK))&&(gPlayer1Controller->buttonPressed & L_TRIG)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
+            milk_drunk = TRUE;
+            gMarioState->healCounter += 20;
+            play_sound(SOUND_GENERAL_HEART_SPIN, gGlobalSoundSource);
+        }
+
+        // Magic Mirror Code
+        if ((using_ability(ABILITY_UTIL_MIRROR))&&(gPlayer1Controller->buttonPressed & L_TRIG)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
+            if (gMarioState->numCheckpointFlag != -1) {
+                struct Object *dw = cur_obj_nearest_object_with_behavior(bhvDeathWarp);
+                if (dw) {
+                    Vec3f displacement;
+                    vec3f_diff(displacement,&dw->oPosVec,gMarioState->pos);
+
+                    vec3f_add(gMarioState->pos,displacement);
+
+                    magic_mirror_timer = 0;
+                    
+                    gLakituState.curPos[1] += displacement[1];
+                    gLakituState.curFocus[1] += displacement[1];
+                    gLakituState.goalPos[1] += displacement[1];
+                    gLakituState.goalFocus[1] += displacement[1];
+                    
+                    gLakituState.focHSpeed = 1.f;
+                    gLakituState.focVSpeed = 1.f;
+                    gLakituState.posHSpeed = 1.f;
+                    gLakituState.posVSpeed = 1.f;
+
+                    play_sound(SOUND_ABILITY_MAGIC_MIRROR, gGlobalSoundSource);
+                }
+            } else {
+                play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+            }
+        }
+        if (magic_mirror_timer == 2) {
+            gLakituState.focHSpeed = 0.8f;
+            gLakituState.focVSpeed = 0.3f;
+            gLakituState.posHSpeed = 0.3f;
+            gLakituState.posVSpeed = 0.3f;
+        }
+        if (magic_mirror_timer < 20) {
+            struct Object *sparkleObj = spawn_object(o, MODEL_SPARKLES, bhvCoinSparkles);
+            sparkleObj->oPosX += random_float() * 100.0f - 50.0f;
+            sparkleObj->oPosY += random_float() * 100.0f;
+            sparkleObj->oPosZ += random_float() * 100.0f - 50.0f;
+            magic_mirror_timer ++;
+        }
+
+        // Compass Code
+        if (using_ability(ABILITY_UTIL_COMPASS)) {
+            struct Object *rarrow = cur_obj_nearest_object_with_behavior(bhvRedArrow);
+            if (!rarrow) {
+                spawn_object(o,MODEL_RED_ARROW,bhvRedArrow);
+            }
+        } else {
+            //no more gadget watch
+            struct Object *rarrow = cur_obj_nearest_object_with_behavior(bhvRedArrow);
+            if (rarrow) {
+                obj_mark_for_deletion(rarrow);
+            }   
+        }
+
+        // Aku Ability Code
         if (!using_ability(ABILITY_AKU)) {
             if (aku_invincibility != 0) {
                 aku_invincibility = 0;
-                stop_cap_music();
-                ability_ready(ABILITY_AKU);
+                //stop_cap_music();
             }
         } else {
-            if ((gPlayer1Controller->buttonDown & L_TRIG)&&(aku_invincibility == 0)&&(gMarioState->numGlobalCoins >= 10)) {
+            if ((gPlayer1Controller->buttonDown & L_TRIG)&&(aku_invincibility == 0)&&(aku_recharge >= 300)&&(gMarioState->numGlobalCoins >= 10)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
                 aku_invincibility = 300;
+                aku_recharge = 0;
                 gMarioState->numGlobalCoins -= 10;
-                play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
+                if(!(gCurrCourseNum == COURSE_CCM && gCurrAreaIndex == 4)) //Don't play the music in the LEVEL_I funky shell section to not desynchronized the music
+                //    play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
                 cool_down_ability(ABILITY_AKU);
             }
 
@@ -2070,6 +2258,11 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 gHudDisplay.abilityMeter = MIN((s16)((aku_invincibility / 300.0f) * 8.0f) + 1, 8);
                 gHudDisplay.abilityMeterStyle = METER_STYLE_AKU;
                 toZeroMeter = TRUE;
+            } else {
+                if (aku_recharge < 300) {
+                    gHudDisplay.abilityMeter = MIN((s16)((aku_recharge / 300.0f) * 8.0f) + 1, 8);
+                    gHudDisplay.abilityMeterStyle = METER_STYLE_AKU_RECHARGE;
+                }
             }
         }
         if (aku_invincibility > 0) {
@@ -2079,9 +2272,10 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             sparkleObj->oPosZ += random_float() * 50.0f - 25.0f;
 
             aku_invincibility --;
-
-            if (aku_invincibility == 0) {
-                stop_cap_music();
+        } else {
+            if (aku_recharge < 300) {
+                aku_recharge++;
+            } else {
                 ability_ready(ABILITY_AKU);
             }
         }
@@ -2153,27 +2347,63 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
 
+        // Kick Mario out of the marble if he is forcibly set to another state
+        if (gMarioState->action != ACT_MARBLE) {
+            struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
+            if (marble) {
+                deallocate_rigid_body(marble->rigidBody);
+                obj_mark_for_deletion(marble);
+                change_ability(ABILITY_DEFAULT);
+            }
+        }
+
         //Marble Ability
+        if (force_marble) {
+            gMarioState->canHMFly = TRUE;
+            gE_ShotgunFlags &= ~E_SGF_AIR_SHOT_USED;
+            if (!using_ability(ABILITY_MARBLE)) {
+                change_ability(ABILITY_MARBLE);
+                gMarioState->forwardVel = 0.0f;
+                gMarioState->vel[1] = 0.0;
+                gMarioState->pos[1] = marble_floor_y + 51.0f;//102.0f;
+                gMarioObject->oPosY = marble_floor_y + 51.0f;//102.0f;
+            }
+        }
+
         if (using_ability(ABILITY_MARBLE)) {
             struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
-            if (!marble) {
+            if (!marble && !(gMarioState->riddenObj != NULL && obj_has_behavior(gMarioState->riddenObj, bhvFunkyShell))) {
                 set_mario_action(gMarioState,ACT_MARBLE,0);
-                gMarioState->pos[1] += 90.0f;
-                gMarioObject->oPosY += 90.0f;
-                spawn_object(o,MODEL_MARBLE,bhvPhysicsMarble);
+                gMarioState->pos[1] += 100.0f;
+                gMarioObject->oPosY += 100.0f;
+                marble = spawn_object(o,MODEL_MARBLE,bhvPhysicsMarble);
             }
+            gMarioObject->hitboxHeight = 200;
+            gMarioObject->hitboxRadius = 100;
+            gMarioObject->hitboxDownOffset = 50;
+            gMarioObject->hurtboxHeight = 200;
+            gMarioObject->hurtboxRadius = 100;
+
         } else {
             struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
             if (marble) {
-                vec3f_copy(gMarioState->vel,marble->rigidBody->linearVel);
+                //vec3f_copy(gMarioState->vel,marble->rigidBody->linearVel);
+                //marble->rigidBody->linearVel[1] = 0.0f;
+                gMarioState->vel[1] = marble->rigidBody->linearVel[1];
+                marble->rigidBody->linearVel[1] = 0.0f;
                 gMarioState->forwardVel = vec3_mag(marble->rigidBody->linearVel);
                 gMarioState->faceAngle[1] = atan2s(marble->rigidBody->linearVel[2],marble->rigidBody->linearVel[0]);
                 gMarioState->action = ACT_FREEFALL;
                 deallocate_rigid_body(marble->rigidBody);
                 obj_mark_for_deletion(marble);
-                gMarioState->pos[1] -= 90.0f;
-                gMarioObject->oPosY -= 90.0f;
+                gMarioState->pos[1] -= 100.0f;
+                gMarioObject->oPosY -= 100.0f;
             }
+            gMarioObject->hitboxHeight = 160;
+            gMarioObject->hitboxRadius = 37;
+            gMarioObject->hitboxDownOffset = 0;
+            gMarioObject->hurtboxHeight = 160;
+            gMarioObject->hurtboxRadius = 37;
         }
 
         //Squid Ability
@@ -2296,11 +2526,18 @@ void init_mario(void) {
     e__set_upper_anim(gMarioState, 2);
 
     gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
-    gMarioState->numCheckpointFlag = -1;
+
 }
 
 void init_mario_from_save_file(void) {
     save_file_get_coins();
+    if (save_file_exists(gCurrSaveFileNum - 1)) {
+        save_file_get_ability_dpad();
+    } else {
+        save_file_init_ability_dpad();
+        gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked = 1;
+    }
+    gMarioState->numCheckpointFlag = -1;
     gMarioState->abilityId = 0;
     gMarioState->playerID = 0;
     gMarioState->flags = MARIO_NONE;

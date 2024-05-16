@@ -79,6 +79,7 @@ struct CreditsEntry {
     /*0x03*/ s8 marioAngle;
     /*0x04*/ Vec3s marioPos;
     /*0x0C*/ const char **string;
+             u8 abilityid;
 };
 
 extern struct CreditsEntry *gCurrCreditsEntry;
@@ -134,6 +135,7 @@ enum MeterStyles {
     METER_STYLE_ROCKET,
     METER_STYLE_CHRONOS,
     METER_STYLE_DASH_BOOSTER,
+    METER_STYLE_AKU_RECHARGE,
     METER_STYLE_COUNT
 };
 

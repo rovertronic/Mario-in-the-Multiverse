@@ -18,6 +18,10 @@
 #include "puppycam2.h"
 #include "puppyprint.h"
 #include "actors/group0.h"
+#include "cutscene_manager.h"
+#include "mario.h"
+//--E
+#include "levels/e/header.h"
 
 #include "config.h"
 #include "ability.h"
@@ -120,6 +124,8 @@ static struct PowerMeterHUD sAbilityMeterHUD = {
     0, // Alpha
 };
 s32 sAbilityMeterVisibleTimer = 0;
+
+s16 gMarxHudHealth = 0;
 
 static struct CameraHUD sCameraHUD = { CAM_STATUS_NONE };
 
@@ -532,10 +538,8 @@ void set_hud_camera_status(s16 status) {
  * Renders camera HUD glyphs using a table list, depending of
  * the camera status called, a defined glyph is rendered.
  */
-void render_hud_camera_status(void) {
+void render_hud_camera_status(s32 x, s32 y) {//--E
     Texture *(*cameraLUT)[6] = segmented_to_virtual(&main_hud_camera_lut);
-    s32 x = GFX_DIMENSIONS_RECT_FROM_RIGHT_EDGE(HUD_CAMERA_X);
-    s32 y = 205;
 
     if (sCameraHUD.status == CAM_STATUS_NONE) {
         return;
@@ -556,7 +560,7 @@ void render_hud_camera_status(void) {
             break;
             //--E C
         case CAM_STATUS_AIM:
-            render_hud_tex_lut(x + 16, y, (*cameraLUT)[6]);//--**
+            render_hud_tex_lut(x + 16, y, (*cameraLUT)[6]);
             if (gE_ShotgunFlags & E_SGF_AIM_FIRE) {
                 gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
                 gSPDisplayList(gDisplayListHead++, dl_e__crosshair);
@@ -725,6 +729,16 @@ u8 meter_style_color_table[METER_STYLE_COUNT][9][3] = {
         {255, 255, 255},   // 7
         {255, 255, 255},   // 8
     },
+    {   // Aku Aku Mask Recharge
+        {100, 100, 0},   // 1
+        {100, 100, 0},   // 2
+        {100, 100, 0},   // 3
+        {100, 100, 0},   // 4
+        {100, 100, 0},   // 5
+        {100, 100, 0},   // 6
+        {100, 100, 0},   // 7
+        {100, 100, 0},   // 8
+    },
 };
 
 Gfx *meter_style_icon_dl_table[] = {
@@ -738,6 +752,7 @@ Gfx *meter_style_icon_dl_table[] = {
     &meter_rocket_meter_rocket_mesh,
     &meter_chronos_meter_chronos_mesh,
     &meter_booster_meter_booster_mesh,
+    &meter_aku_meter_aku_mesh,
 };
 
 void render_meter(f32 x, f32 y, s32 meterStyle, s16 wedges, u8 a) {
@@ -759,14 +774,262 @@ void render_meter(f32 x, f32 y, s32 meterStyle, s16 wedges, u8 a) {
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 }
 
+void render_marx_health(void) {
+    print_set_envcolour(255, 255, 255, 255);
+    render_blank_box((SCREEN_WIDTH / 2) - 60, SCREEN_HEIGHT - 10, (SCREEN_WIDTH / 2) + 60, SCREEN_HEIGHT - 20, 255, 255, 255, 255);
+    render_blank_box((SCREEN_WIDTH / 2) - 59, SCREEN_HEIGHT - 11, (SCREEN_WIDTH / 2) + 59, SCREEN_HEIGHT - 19, 0, 0, 0, 255);
+    print_set_envcolour(255, 255, 255, 255);
+    print_small_text(SCREEN_WIDTH/2, SCREEN_HEIGHT - 30, "MARX", PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, FONT_OUTLINE);
+
+    Mtx *mtx = alloc_display_list(sizeof(Mtx));
+
+    if (mtx == NULL) {
+        return;
+    }
+    
+    extern Gfx marxHealth_Plane_005_mesh[];
+    guTranslate(mtx, (f32) (SCREEN_WIDTH/2) - 59, (f32) 15, 0);
+    gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+    gSPMatrix(gDisplayListHead++, VIRTUAL_TO_PHYSICAL(mtx++),
+              G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+    create_dl_scale_matrix(MENU_MTX_NOPUSH, 0.99f * ((f32)gMarxHudHealth / 80.0f), 0.3f, 1.0f);
+    gDPSetPrimColor(gDisplayListHead++, 0, 0, 255, 255, 255, 255);
+    gSPDisplayList(gDisplayListHead++, &marxHealth_Plane_005_mesh);
+
+
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+}
+
+f32 ability_get_alpha = 0.0f;
+u8 ability_get_confirm = TRUE;
+
 u16 hud_display_coins = 0;
 f32 hud_alpha = 255.0f;
+
+// Shop logic in mitm_hub.c
+u8 shop_show_ui = FALSE;
+char * shop_text[] = {
+    "Compass, Mirror, Milk? You want it? It's yours\nmy friend, as long as you have enough coins.\nUse ^ and | to browse, A to buy, B to exit.",
+    "Redstone Compass - 250 coins\nPoints to the nearest mission-specific object.\nCrafted with 4 iron bars and 1 redstone.",
+    "Magic Mirror - 200 coins\nLets you instantly warp to the last checkpoint.\nGaze in the mirror to return home.",
+    "Lon Lon Milk - 350 coins\nDrink it to instantly heal yourself.\nThe highest quality milk in Hyrule.",
+    "121st Power Star - 200 coins\nAn additional power star.\nWas uncovered deep within the icy slide.",
+    "Atreus' Artifact - 500 coins\nAn eye that pierces the fabric of universes.\nRequired to repair the Multiverse Machine.",
+};
+char shop_cant_afford_text[] = "Sorry Mario, I can't give credit!\nCome back when you're a little, mmm... richer!";
+char shop_sold_out_text[] = "OUT OF STOCK";
+extern s8 shop_target_item;
+u8 shop_cant_afford = FALSE;
+u8 shop_sold_out = FALSE;
+
+// Hint logic ALSO in mitm_hub.c
+u8 hint_show_ui = FALSE;
+
 /**
  * Render HUD strings using hudDisplayFlags with it's render functions,
  * excluding the cannon reticle which detects a camera preset for it.
  */
+extern u8 pipe_string_a[];
+extern Gfx crackglass_Plane_mesh[];
+
+
+
+//--E
+
+static u8 *sE_HeadTexGroupD1[3][2] = {
+    { e_hud_m_D1L_U_rgba16, e_hud_m_D1L_L_rgba16 }, { e_hud_m_D1M_U_rgba16, e_hud_m_D1M_L_rgba16 }, { e_hud_m_D1R_U_rgba16, e_hud_m_D1R_L_rgba16 }
+};
+static u8 *sE_HeadTexGroupD2[3][2] = {
+    { e_hud_m_D2L_U_rgba16, e_hud_m_D2L_L_rgba16 }, { e_hud_m_D2M_U_rgba16, e_hud_m_D2M_L_rgba16 }, { e_hud_m_D2R_U_rgba16, e_hud_m_D2R_L_rgba16 }
+};
+static u8 *sE_HeadTexGroupD3[3][2] = {
+    { e_hud_m_D3L_U_rgba16, e_hud_m_D3L_L_rgba16 }, { e_hud_m_D3M_U_rgba16, e_hud_m_D3M_L_rgba16 }, { e_hud_m_D3R_U_rgba16, e_hud_m_D3R_L_rgba16 }
+};
+static u8 *sE_HeadTexGroupD4[3][2] = {
+    { e_hud_m_D4L_U_rgba16, e_hud_m_D4L_L_rgba16 }, { e_hud_m_D4M_U_rgba16, e_hud_m_D4M_L_rgba16 }, { e_hud_m_D4R_U_rgba16, e_hud_m_D4R_L_rgba16 }
+};
+
+u8 gE_C9MarioHealth = 100;
+static u8 sE_HeadDirTimer = 0;
+static u8 sE_CurrHeadDir  = 0;
+
+
+static void e__x_offset(s32 *x, s32 printedVal) {
+    if (printedVal > 99) {
+        *x -= 24;
+    } else if (printedVal > 9) {
+        *x -= 12;
+    }
+}
+
+void render_ability_get_hud(void) {
+    if ((gMarioState->action == ACT_ABILITY_DANCE)&&(gMarioState->actionState == ACT_STATE_STAR_DANCE_DO_SAVE)) {
+        ability_get_alpha = approach_f32_asymptotic(ability_get_alpha,255.0f,0.2f);
+    } else {
+        ability_get_alpha = approach_f32_asymptotic(ability_get_alpha,0.0f,0.2f);
+    }
+
+    if (ability_get_alpha > 0.1f) {
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)ability_get_alpha);
+        create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
+        gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+        gSPDisplayList(gDisplayListHead++, desconly_onlybox_mesh);
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)ability_get_alpha);
+        print_generic_string(43, 58, ability_string(gMarioState->usedObj->oBehParams2ndByte));
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+    }
+}
+
+void print_p_rank_starcount(s16 x, s16 y) {
+    u8 strToadCount[2];
+    u8 strToadTotal[2];
+    u8 textSymStar[] = { GLYPH_STAR, GLYPH_SPACE };
+    u8 textSymSeparator[] = { GLYPH_SLASH, GLYPH_SPACE };
+
+    gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
+    print_hud_lut_string(HUD_LUT_GLOBAL, x +  0, y, textSymStar);
+    int_to_str(p_rank_stars, strToadCount);
+    print_hud_lut_string(HUD_LUT_GLOBAL, x + 16, y, strToadCount);
+    print_hud_lut_string(HUD_LUT_GLOBAL, x + 32, y, textSymSeparator);
+    int_to_str(5, strToadTotal);
+    print_hud_lut_string(HUD_LUT_GLOBAL, x + 48, y, strToadTotal);
+    gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
+}
+
+extern Gfx cbmeter_Plane_004_mesh[];
+extern Gfx cbg_Plane_005_mesh[];
+u8 combo_meter_visual = 201;
 
 void render_hud(void) {
+    //--E
+    if ((gCurrLevelNum == LEVEL_E)&&(gHudDisplay.flags != HUD_DISPLAY_NONE)) {
+        create_dl_ortho_matrix();
+        //--**
+        create_dl_scale_matrix(MENU_MTX_PUSH, 0.75f, 0.75f, 0);
+
+        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )) {
+            hud_alpha = approach_f32_asymptotic(hud_alpha,0.0f,0.2f);
+        } else {
+            hud_alpha = approach_f32_asymptotic(hud_alpha,255.0f,0.2f);
+        }
+
+        if (hud_display_coins == 0) {
+            hud_display_coins = gMarioState->numGlobalCoins;
+        }
+        if (hud_display_coins > gMarioState->numGlobalCoins) {
+            hud_display_coins --;
+        }
+        if ((hud_display_coins < gMarioState->numGlobalCoins)&&(gGlobalTimer%3==0)) {
+            hud_display_coins ++;
+        }
+
+        render_ability_dpad(60,265,(u8)hud_alpha);
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hud_alpha);
+
+        render_hud_ability_meter();
+        if (sAbilityMeterHUD.y > 0) {
+            render_meter(253, 185, sAbilityMeterHUD.x, sAbilityMeterStoredValue, (u8)hud_alpha * (sAbilityMeterHUD.y / 255.0f));
+        }        
+
+
+        //BG
+        gSPDisplayList(gDisplayListHead++, e_hud_model_mesh);
+
+        //status
+        s32 x = 0;
+        s32 displayCoinCount = TRUE;
+        if (using_ability(ABILITY_E_SHOTGUN)) {
+            if (hud_display_coins <= 0) {
+                if (gE_ShotgunTimer > 20) {
+                    displayCoinCount = FALSE; }
+            }
+        }
+        if (displayCoinCount) {
+            x = 42;
+            e__x_offset(&x, gMarioState->numGlobalCoins);
+            print_text_fmt_int(x, 15, "%d", gMarioState->numGlobalCoins);
+        }        
+
+        x = 99;
+        e__x_offset(&x, gE_C9MarioHealth);
+        print_text_fmt_int(x, 15, "%d", gE_C9MarioHealth);
+
+        x  = 220;
+        e__x_offset(&x, gMarioState->numStars);
+        print_text_fmt_int(x, 15, "%d", gMarioState->numStars);
+
+        print_text(99 + 16, 15, "/");
+
+        //keys
+        if (gMarioState->numKeys & BIT(0)) {
+            print_text(255, 26, "!");
+        }
+        if (gMarioState->numKeys & BIT(1)) {
+            print_text(255, 15, "#");
+        }
+        if (gMarioState->numKeys & BIT(2)) {
+            print_text(255, 4, "?");
+        }
+
+        //cam
+        render_hud_camera_status(277, 213);
+
+        //Mario head
+        if (sE_HeadDirTimer) {
+            sE_HeadDirTimer--;
+        } else {
+            sE_HeadDirTimer = (random_u16() / 1500);
+            sE_CurrHeadDir  = (random_u16() / 21846);            
+        }
+
+        u8 *upper = NULL;
+        u8 *lower = NULL;
+        if (gE_C9MarioHealth == 0) {//:Deadge:
+            upper = e_hud_m_D5_U_rgba16;
+            lower = e_hud_m_D5_L_rgba16;
+        } else {
+            u8 *currHeadTexGroup = NULL;
+
+            if (gE_C9MarioHealth >= 80) {
+                upper = sE_HeadTexGroupD1[sE_CurrHeadDir][0];
+                lower = sE_HeadTexGroupD1[sE_CurrHeadDir][1];
+            } else if (gE_C9MarioHealth >= 60) {
+                upper = sE_HeadTexGroupD2[sE_CurrHeadDir][0];
+                lower = sE_HeadTexGroupD2[sE_CurrHeadDir][1];
+            } else if (gE_C9MarioHealth >= 40) {
+                upper = sE_HeadTexGroupD3[sE_CurrHeadDir][0];
+                lower = sE_HeadTexGroupD3[sE_CurrHeadDir][1];
+            } else {
+                currHeadTexGroup = &sE_HeadTexGroupD4;
+                upper = sE_HeadTexGroupD4[sE_CurrHeadDir][0];
+                lower = sE_HeadTexGroupD4[sE_CurrHeadDir][1];                
+            }
+        }
+
+        Gfx *tex = segmented_to_virtual(&mat_e_hud_m_d2r_u_f3d_layer1[7]);
+        tex->words.w1 = upper;
+        tex = segmented_to_virtual(&mat_e_hud_m_d2r_l_f3d_layer1[7]);
+        tex->words.w1 = lower;
+
+        gSPDisplayList(gDisplayListHead++, e_hud_m_modelH_mesh);
+
+        create_dl_translation_matrix(MENU_MTX_PUSH, 0.f, 20.f, 0);
+        render_ability_get_hud();
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+        return;
+    }
+
+
+
+
+
     s16 hudDisplayFlags = gHudDisplay.flags;
 
     if (hudDisplayFlags == HUD_DISPLAY_NONE) {
@@ -794,12 +1057,82 @@ void render_hud(void) {
                   G_MTX_PROJECTION | G_MTX_MUL | G_MTX_NOPUSH);
 #else
         create_dl_ortho_matrix();
+
+        if ((gCurrLevelNum == LEVEL_L)&&(p_rank_challenge_enabled)) {
+            f32 combo_meter_y = 0.0f;
+            if (combo_meter < 100) {
+                combo_meter_y = sins(gGlobalTimer*0x3000) * 1.0f;
+            }
+            if (combo_meter < 50) {
+                combo_meter_y = sins(gGlobalTimer*0x3000) * 3.0f;
+            }
+            if (combo_meter == 0) {
+                combo_meter_y = 0.0f;
+            }
+            if (combo_meter_visual < combo_meter) {
+                combo_meter_visual = approach_f32_asymptotic(combo_meter_visual,combo_meter,0.3f);
+            } else {
+                combo_meter_visual = combo_meter;
+            }
+            create_dl_translation_matrix(MENU_MTX_PUSH, sins(gGlobalTimer*0x200) * 3.0f, combo_meter_y+7.0f, 0);
+                create_dl_translation_matrix(MENU_MTX_PUSH, combo_meter_visual*.273f, 0, 0);
+                    gSPDisplayList(gDisplayListHead++, cbg_Plane_005_mesh);
+                gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+                gSPDisplayList(gDisplayListHead++, cbmeter_Plane_004_mesh);
+                print_p_rank_starcount(15,220);
+            gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+        }
+
+        if (cm_cutscene_on) {
+            u8 colorFade = sins(gGlobalTimer*0x500) * 50.0f + 200.0f;
+            if (cm_textbox_alpha > 0.1f) {
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)cm_textbox_alpha);
+                create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
+                gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+                gSPDisplayList(gDisplayListHead++, desconly_onlybox_mesh);
+                gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+                if (cm_textbox_text != NULL) {
+                    gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+                    switch(cm_textbox_speaker) {
+                        case CM_SPEAKER_PEACH:
+                            gDPSetEnvColor(gDisplayListHead++, 255, 40, 200, (u8)cm_textbox_text_alpha);
+                            print_generic_string_ascii(43, 58, "Peach:");
+                            break;
+                        case CM_SPEAKER_EGADD:
+                            gDPSetEnvColor(gDisplayListHead++, 150, 200, 255, (u8)cm_textbox_text_alpha);
+                            print_generic_string_ascii(43, 58, "E.Gadd:");
+                            break;
+                        case CM_SPEAKER_BOWSER:
+                            gDPSetEnvColor(gDisplayListHead++, 255, 40, 40, (u8)cm_textbox_text_alpha);
+                            print_generic_string_ascii(43, 58, "Bowser:");
+                            break;
+                    }
+
+
+                    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)cm_textbox_text_alpha);
+                    print_generic_string_ascii(43, 44, cm_textbox_text);
+
+                    if ((cm_textbox_a_signal)&&(cm_textbox_text_alpha >= 254.0f)) {
+                        gDPSetEnvColor(gDisplayListHead++, 50, 50, 255, colorFade);
+                        print_generic_string(157, 14, pipe_string_a);
+                    }
+
+                    gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+                }
+            }
+            if (cm_crack_signal) {
+                gSPDisplayList(gDisplayListHead++, crackglass_Plane_mesh);
+            }
+            return;
+        }
 #endif
 
-        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )) {
+        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )||(shop_show_ui)||(hint_show_ui)) {
             hud_alpha = approach_f32_asymptotic(hud_alpha,0.0f,0.2f);
         } else {
             hud_alpha = approach_f32_asymptotic(hud_alpha,255.0f,0.2f);
+            render_hud_camera_status(GFX_DIMENSIONS_RECT_FROM_RIGHT_EDGE(HUD_CAMERA_X), 205);
         }
 
         if (hud_display_coins == 0) {
@@ -807,6 +1140,10 @@ void render_hud(void) {
         }
         if (hud_display_coins > gMarioState->numGlobalCoins) {
             hud_display_coins --;
+            // go fast if it's a lot
+            if (hud_display_coins > gMarioState->numGlobalCoins+10) {
+                hud_display_coins -=5;
+            }
         }
         if ((hud_display_coins < gMarioState->numGlobalCoins)&&(gGlobalTimer%3==0)) {
             hud_display_coins ++;
@@ -837,6 +1174,8 @@ void render_hud(void) {
             render_meter(253, 185, sAbilityMeterHUD.x, sAbilityMeterStoredValue, (u8)hud_alpha * (sAbilityMeterHUD.y / 255.0f));
         }
 
+        
+
         gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
 
             //Need to do this twice... sadge
@@ -859,6 +1198,45 @@ void render_hud(void) {
 
         gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
 
+        if (gCurrLevelNum == LEVEL_G && gCurrAreaIndex == 5 && gMarxHudHealth > 0) {
+            render_marx_health();
+        }
+
+        render_ability_get_hud();
+
+        if (shop_show_ui) {
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
+            create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
+            gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+            gSPDisplayList(gDisplayListHead++, desconly_onlybox_mesh);
+            gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
+            char * text_to_print = shop_text[shop_target_item+1];
+            if (shop_cant_afford) {
+                text_to_print = &shop_cant_afford_text;
+            }
+            if (shop_sold_out) {
+                text_to_print = &shop_sold_out_text;
+            }
+            print_generic_string_ascii(43, 58, text_to_print);
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+
+            gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
+            if (shop_cant_afford) {
+                gDPSetEnvColor(gDisplayListHead++, 255, 126.0f+sins(gGlobalTimer*0x1000)*126.0f, 126.0f+sins(gGlobalTimer*0x1000)*126.0f, 255.0f-hud_alpha);
+            }
+            int_to_str_000(hud_display_coins, &hudbar_coin[2]);
+            print_hud_lut_string(HUD_LUT_GLOBAL, 43, 148, hudbar_coin);
+            gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
+        }
+
+        if (hint_show_ui) {
+            render_hint_ui(hud_alpha);
+        }
+
         //revert (prolly not needed)
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
 
@@ -872,18 +1250,27 @@ void render_hud(void) {
         }
 #endif
 
+/*
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_CAMERA_AND_POWER) {
             //render_hud_power_meter();
 #ifdef PUPPYCAM
             if (!gPuppyCam.enabled) {
 #endif
-            render_hud_camera_status();
+            render_hud_camera_status(GFX_DIMENSIONS_RECT_FROM_RIGHT_EDGE(HUD_CAMERA_X), 205);
 #ifdef PUPPYCAM
             }
 #endif
         }
+*/
 
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_TIMER) {
+
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+            create_dl_translation_matrix(MENU_MTX_PUSH, 0, -25, 0);
+            gSPDisplayList(gDisplayListHead++, &hudbar_hudbar_mesh);
+            gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+
             render_hud_timer();
         }
 

@@ -1,0 +1,17 @@
+extern const GeoLayout a_cage_geo[];
+extern Lights1 a_cage_cage_top_lights;
+extern Lights1 a_cage_cage_bar_lights;
+extern u8 a_cage_dodai_ci8[];
+extern u8 a_cage_dodai_pal_rgba16[];
+extern u8 a_cage_ct_saku_ia8[];
+extern Vtx a_cage_Cube_mesh_layer_1_vtx_0[48];
+extern Gfx a_cage_Cube_mesh_layer_1_tri_0[];
+extern Vtx a_cage_Cube_mesh_layer_4_vtx_0[16];
+extern Gfx a_cage_Cube_mesh_layer_4_tri_0[];
+extern Gfx mat_a_cage_cage_top[];
+extern Gfx mat_revert_a_cage_cage_top[];
+extern Gfx mat_a_cage_cage_bar[];
+extern Gfx mat_revert_a_cage_cage_bar[];
+extern Gfx a_cage_Cube_mesh_layer_1[];
+extern Gfx a_cage_Cube_mesh_layer_4[];
+extern Gfx a_cage_material_revert_render_settings[];

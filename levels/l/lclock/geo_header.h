@@ -1,0 +1,15 @@
+extern const GeoLayout lclock_geo[];
+extern u8 lclock_clok_ci4[];
+extern u8 lclock_clok_pal_rgba16[];
+extern Vtx lclock_root_mesh_layer_4_vtx_0[4];
+extern Gfx lclock_root_mesh_layer_4_tri_0[];
+extern Vtx lclock_hand1_mesh_layer_4_vtx_0[16];
+extern Gfx lclock_hand1_mesh_layer_4_tri_0[];
+extern Vtx lclock_hand2_mesh_layer_4_vtx_0[16];
+extern Gfx lclock_hand2_mesh_layer_4_tri_0[];
+extern Gfx mat_lclock_clok[];
+extern Gfx mat_revert_lclock_clok[];
+extern Gfx lclock_root_mesh_layer_4[];
+extern Gfx lclock_hand1_mesh_layer_4[];
+extern Gfx lclock_hand2_mesh_layer_4[];
+extern Gfx lclock_material_revert_render_settings[];

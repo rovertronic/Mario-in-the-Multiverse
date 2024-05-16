@@ -34,7 +34,7 @@ void set_door_camera_event(void) {
 }
 
 void play_door_open_noise(void) {
-    s32 isMetalDoor = cur_obj_has_model(MODEL_HMC_METAL_DOOR);
+    s32 isMetalDoor = cur_obj_has_model(MODEL_HMC_DOOR_D);
     if (o->oTimer == 0) {
         cur_obj_play_sound_2(sDoorOpenSounds[isMetalDoor]);
         gTimeStopState |= TIME_STOP_MARIO_OPENED_DOOR;
@@ -45,7 +45,7 @@ void play_door_open_noise(void) {
 }
 
 void play_warp_door_open_noise(void) {
-    s32 isMetalDoor = cur_obj_has_model(MODEL_HMC_METAL_DOOR);
+    s32 isMetalDoor = cur_obj_has_model(MODEL_HMC_DOOR_D);
     if (o->oTimer == 30) {
         cur_obj_play_sound_2(sDoorCloseSounds[isMetalDoor]);
     }
@@ -86,6 +86,46 @@ void bhv_door_loop(void) {
     }
 
     bhv_door_rendering_loop();
+}
+
+void bhv_l_door_loop(void) {
+    s32 index = 0;
+
+    while (sDoorActions[index].flag != 0xFFFFFFFF) {
+        if (cur_obj_clear_interact_status_flag(sDoorActions[index].flag)) {
+            set_door_camera_event();
+            cur_obj_change_action(sDoorActions[index].action);
+        }
+        index++;
+    }
+
+    switch (o->oAction) {
+        case DOOR_ACT_CLOSED:
+            cur_obj_init_animation_with_sound(DOOR_ANIM_CLOSED);
+            break;
+        case DOOR_ACT_PULLED:
+            door_animation_and_reset(DOOR_ANIM_PULLED);
+            play_door_open_noise();
+            break;
+        case DOOR_ACT_PUSHED:
+            door_animation_and_reset(DOOR_ANIM_PUSHED);
+            play_door_open_noise();
+            break;
+        case DOOR_ACT_WARP_PULLED:
+            door_animation_and_reset(DOOR_ANIM_WARP_PULLED);
+            play_warp_door_open_noise();
+            break;
+        case DOOR_ACT_WARP_PUSHED:
+            door_animation_and_reset(DOOR_ANIM_WARP_PUSHED);
+            play_warp_door_open_noise();
+            break;
+    }
+
+    if (gPlayer1Controller->rawStickY > 32.0f) {
+        cur_obj_become_tangible();
+    } else {
+        cur_obj_become_intangible();
+    }
 }
 
 void bhv_door_init(void) {

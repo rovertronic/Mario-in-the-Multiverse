@@ -16,9 +16,22 @@
 #include "src/game/texscroll/group0_texscroll.inc.c"
 #include "src/game/texscroll/g_texscroll.inc.c"
 #include "src/game/texscroll/B_texscroll.inc.c"
+#include "src/game/texscroll/a_texscroll.inc.c"
 #include "src/game/texscroll/f_texscroll.inc.c"
+<<<<<<< HEAD
 #include "src/game/texscroll/m_texscroll.inc.c"
+=======
+#include "src/game/texscroll/i_texscroll.inc.c"
+#include "src/game/texscroll/J_texscroll.inc.c"
+>>>>>>> main
 #include "src/game/texscroll/o_texscroll.inc.c"
+#include "src/game/texscroll/d_texscroll.inc.c"
+#include "src/game/texscroll/n_texscroll.inc.c"
+#include "src/game/texscroll/h_texscroll.inc.c"
+#include "src/game/texscroll/castle_inside_texscroll.inc.c"
+#include "src/game/texscroll/e_texscroll.inc.c"
+#include "src/game/texscroll/l_texscroll.inc.c"
+#include "src/game/texscroll/bowser_course_texscroll.inc.c"
 void scroll_textures() {
 	if(SCROLL_CONDITION(sSegmentROMTable[0x4] == (uintptr_t)_group0_yay0SegmentRomStart)) {
 		scroll_textures_group0();
@@ -35,12 +48,52 @@ void scroll_textures() {
 		scroll_textures_f();
 	}
 
+<<<<<<< HEAD
 	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_m_segment_7SegmentRomStart)) {
 		scroll_textures_m();
+=======
+	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_i_segment_7SegmentRomStart)) {
+		scroll_textures_i();
+	}
+
+	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_J_segment_7SegmentRomStart)) {
+		scroll_textures_J();
+>>>>>>> main
 	}
 	
 	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_o_segment_7SegmentRomStart)) {
 		scroll_textures_o();
+	}
+
+	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_d_segment_7SegmentRomStart)) {
+		scroll_textures_d();
+	}
+
+	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_n_segment_7SegmentRomStart)) {
+		scroll_textures_n();
+	}
+
+	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_a_segment_7SegmentRomStart)) {
+		scroll_textures_a();
+	}
+
+	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_h_segment_7SegmentRomStart)) {
+		scroll_textures_h();
+	}
+
+	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_castle_inside_segment_7SegmentRomStart)) {
+		scroll_textures_castle_inside();
+	}
+	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_e_segment_7SegmentRomStart)) {
+		scroll_textures_e();
+	}
+
+	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_l_segment_7SegmentRomStart)) {
+		scroll_textures_l();
+	}
+
+	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_bowser_course_segment_7SegmentRomStart)) {
+		scroll_textures_bowser_course();
 	}
 
 }

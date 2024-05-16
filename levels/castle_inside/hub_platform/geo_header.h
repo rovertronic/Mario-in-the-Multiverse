@@ -1,0 +1,15 @@
+extern const GeoLayout hub_platform_geo[];
+extern Lights1 hub_platform_Gold_lights;
+extern Lights1 hub_platform_eyestone_lights;
+extern u8 hub_platform_Gold_ci8[];
+extern u8 hub_platform_Gold_pal_rgba16[];
+extern u8 hub_platform_eyestone_i8[];
+extern Vtx hub_platform_Cylinder_001_mesh_layer_1_vtx_0[54];
+extern Gfx hub_platform_Cylinder_001_mesh_layer_1_tri_0[];
+extern Vtx hub_platform_Cylinder_001_mesh_layer_1_vtx_1[16];
+extern Gfx hub_platform_Cylinder_001_mesh_layer_1_tri_1[];
+extern Gfx mat_hub_platform_Gold[];
+extern Gfx mat_revert_hub_platform_Gold[];
+extern Gfx mat_hub_platform_eyestone[];
+extern Gfx hub_platform_Cylinder_001_mesh_layer_1[];
+extern Gfx hub_platform_material_revert_render_settings[];

@@ -826,8 +826,10 @@ void rigid_body_update_obj(struct RigidBody *body) {
 
 void rigid_body_apply_gravity(struct RigidBody *body) {
     Vec3f gravityForce;
-    vec3f_set(gravityForce, 0.f, GRAVITY_FORCE * body->mass, 0.f);
-    rigid_body_add_force(body, body->centerOfMass, gravityForce, FALSE);
+    if (body->linearVel[1] > -100.0f) { // terminal velocity
+        vec3f_set(gravityForce, 0.f, GRAVITY_FORCE * body->mass, 0.f);
+        rigid_body_add_force(body, body->centerOfMass, gravityForce, FALSE);
+    }
 }
 
 /// Updates the velocity of a rigid body.

@@ -57,14 +57,17 @@
 
 // Ability specific variables
 u16 aku_invincibility = 0;
+u16 aku_recharge = 300;
 u8 phasewalk_state = 0;
 u16 phasewalk_timer = 0;
 u16 chronos_timer = 0;
 u8 chronos_expended = FALSE;
+Vec3f mario_hand_position = {0.0f,0.0f,0.0f};
+u8 milk_drunk = FALSE;
 //
 
 Gfx gfx_ability_hand[2] = {gsSPDisplayList(mario_right_hand_closed),gsSPEndDisplayList()};
-Gfx gfx_ability_hat[2] = {gsSPEndDisplayList()};
+Gfx gfx_ability_hat[3] = {gsSPEndDisplayList()};
 
 //Graphics data for abilities
 ALIGNED8 u8 ability_images[][2048] = {
@@ -116,8 +119,23 @@ ALIGNED8 u8 ability_images[][2048] = {
     { /*Ability M*/
     #include "actors/ability_images/custom_ability_m.rgba16.inc.c"
     },
-    {/*Locked*/
+    { /*Utility 1*/
+    #include "actors/ability_images/custom_ability_u1.rgba16.inc.c"
+    },
+    { /*Utility 2*/
+    #include "actors/ability_images/custom_ability_u2.rgba16.inc.c"
+    },
+    { /*Utility 3*/
+    #include "actors/ability_images/custom_ability_u3.rgba16.inc.c"
+    },
+    { /*None*/
+    #include "actors/ability_images/custom_ability_default.rgba16.inc.c"
+    },
+    { /*Locked*/
     #include "actors/ability_images/custom_ability_locked.rgba16.inc.c"
+    },
+    { /*Utility 2 Used*/
+    #include "actors/ability_images/custom_ability_u2_used.rgba16.inc.c"
     }
 };
 
@@ -138,6 +156,10 @@ u8 abstr_m[] = {TEXT_ABILITY_M};
 u8 abstr_n[] = {TEXT_ABILITY_N};
 u8 abstr_o[] = {TEXT_ABILITY_O};
 
+u8 abstr_util_1[] = {TEXT_ABILITY_UTIL_1};
+u8 abstr_util_2[] = {TEXT_ABILITY_UTIL_2};
+u8 abstr_util_3[] = {TEXT_ABILITY_UTIL_3};
+
 struct ability ability_struct[] = {
     /*           HAND DISPLAY LIST        HAT DISPLAY LIST     MARIO MODEL ID     STRING */
     /*Default*/{&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_def},
@@ -156,11 +178,17 @@ struct ability ability_struct[] = {
     /*O*/      {&saw_hand_skinned_016_mesh, NULL               ,MODEL_MARIO       ,&abstr_o  },
     /*N*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_n  },
     /*M*/      {&hand_m_hand_mesh         , NULL               ,MODEL_MARIO       ,&abstr_m  },
+
+    /*Util1*/  {&compass_hand_hand_mesh   , NULL               ,MODEL_MARIO       ,&abstr_util_1},
+    /*Util2*/  {&milk_hand_hand_mesh      , NULL               ,MODEL_MARIO       ,&abstr_util_2},
+    /*Util3*/  {&mirror_hand_hand_mesh    , NULL               ,MODEL_MARIO       ,&abstr_util_3},
 };
 
 u16 ability_cooldown_flags = 0; //Flags that determine if their ability icon is "greyed out" or not; 0 = normal, 1 = cooling down
 
 void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index) {
+    if (index == ABILITY_NONE) return;
+    if (index == ABILITY_UTIL_MILK && milk_drunk) {index = 21;}
     if (ability_is_cooling_down(index)) {
         alpha = 100+(sins(gGlobalTimer*0x600)*30);
     }
@@ -178,6 +206,16 @@ void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index) {
     
     gDPSetTextureFilter(gDisplayListHead++,G_TF_BILERP);
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+}
+
+void load_ability_texture(u8 index) {
+    if (index == ABILITY_NONE) return;
+
+	gDPPipeSync(gDisplayListHead++);
+    gDPSetTextureFilter(gDisplayListHead++,G_TF_POINT);
+	gDPSetTextureImage(gDisplayListHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, &ability_images[index]);
+	gDPSetTile(gDisplayListHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0);
+	gDPLoadBlock(gDisplayListHead++,7, 0, 0, 1023, 256);
 }
 
 Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context) {
@@ -211,7 +249,7 @@ Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context
 //DPAD ORDER: UP, RIGHT, DOWN, LEFT
 s8 ability_y_offset[4] = {0,0,0,0};
 s8 ability_gravity[4] = {0,0,0,0};
-u8 ability_slot[4] = {ABILITY_DEFAULT,ABILITY_DEFAULT,ABILITY_DEFAULT,ABILITY_DEFAULT};
+u8 ability_slot[4] = {ABILITY_NONE, ABILITY_NONE, ABILITY_NONE, ABILITY_NONE};
 
 void render_ability_dpad(s16 x, s16 y, u8 alpha) {
     u8 i;
@@ -240,6 +278,40 @@ void render_ability_dpad(s16 x, s16 y, u8 alpha) {
     }
 }
 
+void change_ability(s8 picked_ability) {
+    if (picked_ability == ABILITY_NONE) return;
+
+    // Set Mario's Ability Variable
+    gMarioState->abilityId = picked_ability;
+
+    // Hand Display List
+    gSPDisplayList(&gfx_ability_hand[0], ability_struct[gMarioState->abilityId].hand);
+    gSPEndDisplayList(&gfx_ability_hand[1]);
+
+    //Hat Display List
+    u8 hat_dl_head = 0;
+    if (ability_struct[gMarioState->abilityId].hat != NULL) {
+        gSPDisplayList(&gfx_ability_hat[hat_dl_head++], ability_struct[gMarioState->abilityId].hat);
+    }
+    if ((gCurrLevelNum == LEVEL_F)&&(gMarioState->abilityId != ABILITY_GADGET_WATCH)) {
+        gSPDisplayList(&gfx_ability_hat[hat_dl_head++], &hat_f_hat_mesh);
+    }
+    gSPEndDisplayList(&gfx_ability_hat[hat_dl_head++]);
+
+    // Mario Model
+    gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
+
+    // Equip Sound Effect
+    switch(gMarioState->abilityId) {
+        case ABILITY_AKU:
+            play_sound(SOUND_ABILITY_AKU_AKU, gGlobalSoundSource);
+        break;
+        case ABILITY_KNIGHT:
+            play_sound(SOUND_ABILITY_KNIGHT_EQUIP, gGlobalSoundSource);
+        break;
+    }
+}
+
 void control_ability_dpad(void) {
     s8 picked_ability = -1;
 
@@ -255,38 +327,17 @@ void control_ability_dpad(void) {
     if (gPlayer1Controller->buttonPressed & L_JPAD) {
         picked_ability = 3;
     }
+    if ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE) {
+        if (picked_ability > -1) {
+            if (check_if_swap_ability_allowed()) {
+                // Animate image on DPad HUD
+                ability_y_offset[picked_ability] = 5;
+                ability_gravity[picked_ability] = 2;
 
-    if (picked_ability > -1) {
-        // Set Mario's Ability Variable
-        gMarioState->abilityId = ability_slot[picked_ability];
-
-        // Animate image on DPad HUD
-        ability_y_offset[picked_ability] = 5;
-        ability_gravity[picked_ability] = 2;
-
-        // Hand Display List
-        gSPDisplayList(&gfx_ability_hand[0], ability_struct[gMarioState->abilityId].hand);
-        gSPEndDisplayList(&gfx_ability_hand[1]);
-
-        //Hat Display List
-        if (ability_struct[gMarioState->abilityId].hat == NULL) {
-            gSPEndDisplayList(&gfx_ability_hat[0]);
-        } else {
-            gSPDisplayList(&gfx_ability_hat[0], ability_struct[gMarioState->abilityId].hat);
-            gSPEndDisplayList(&gfx_ability_hat[1]);
-        }
-
-        // Mario Model
-        gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
-
-        // Equip Sound Effect
-        switch(gMarioState->abilityId) {
-            case ABILITY_AKU:
-                play_sound(SOUND_ABILITY_AKU_AKU, gGlobalSoundSource);
-            break;
-            case ABILITY_KNIGHT:
-                play_sound(SOUND_ABILITY_KNIGHT_EQUIP, gGlobalSoundSource);
-            break;
+                change_ability(ability_slot[picked_ability]);
+            } else {
+                play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+            }
         }
     }
 }
@@ -311,6 +362,53 @@ u8 ability_ready(u8 ability_id) {
     ability_cooldown_flags &= ~(1<<ability_id);
 }
 
+static struct ObjectHitbox sCollectAbilityHitbox = {
+    /* interactType:      */ INTERACT_STAR_OR_KEY,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 0,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 80,
+    /* height:            */ 80,
+    /* hurtboxRadius:     */ 0,
+    /* hurtboxHeight:     */ 0,
+};
+
+void bhv_ability(void) {
+    switch(o->oAction) {
+        case 0:
+            if (save_file_check_ability_unlocked(o->oBehParams2ndByte)) {
+/* When debugging, you should always be able to test ability collection*/
+#ifdef UNLOCK_ABILITIES_DEBUG
+                o->oAction = 1;
+                obj_set_hitbox(o, &sCollectAbilityHitbox);
+#else
+                cur_obj_hide();
+                o->oAction = 2;
+#endif
+            } else {
+                o->oAction = 1;
+                obj_set_hitbox(o, &sCollectAbilityHitbox);
+            }
+        break;
+        case 1:
+            if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+                cur_obj_hide();
+                for (int i=0;i<4;i++) {
+                    if (ability_slot[i] == ABILITY_NONE) {
+                        ability_slot[i] = o->oBehParams2ndByte;
+                        break;
+                    }
+                }
+                if (o->oBehParams2ndByte != ABILITY_MARBLE) { //hamsterball is a weird one
+                    change_ability(o->oBehParams2ndByte);
+                }
+                save_file_set_ability_dpad();
+                o->oAction = 2;
+            }
+        break;
+    }
+}
 
 //--E
 
@@ -357,4 +455,27 @@ u8 ability_chronos_frame_can_progress(void) {
  */
 f32 ability_chronos_current_slow_factor(void) {
     return gMarioState->abilityChronosTimeSlowActive ? ABILITY_CHRONOS_SLOW_FACTOR : 1.0f;
+}
+
+s32 check_if_swap_ability_allowed(void) {
+    struct Surface * marble_floor;
+    f32 marble_floor_y = find_floor(gMarioState->pos[0],gMarioState->pos[1],gMarioState->pos[2],&marble_floor);
+    u8 force_marble = ((marble_floor)&&(marble_floor->type == SURFACE_FORCE_MARBLE)&&(gMarioState->pos[1] < marble_floor_y+120.0f)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE));
+
+    if (force_marble) {
+        return FALSE;
+    }
+    if (gMarioState->action == ACT_BUBBLE_HAT_JUMP) {
+        return FALSE;
+    }
+    // disable ability switching while controlling the rocket
+    if (cur_obj_nearest_object_with_behavior(bhvShockRocket) != NULL) {
+        return FALSE;
+    }
+
+    if (gMarioState->action == ACT_HM_FLY) {
+        return FALSE;
+    }
+
+    return TRUE;
 }

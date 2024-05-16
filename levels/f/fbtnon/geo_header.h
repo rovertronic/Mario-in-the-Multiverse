@@ -1,0 +1,14 @@
+extern const GeoLayout fbtnon_geo[];
+extern u8 fbtnon_Key_Gold_ci4[];
+extern u8 fbtnon_Key_Gold_pal_rgba16[];
+extern u8 fbtnon_Red_Button_i8[];
+extern Vtx fbtnon_Pillar_Button_ROCKET_001_mesh_layer_1_vtx_0[31];
+extern Gfx fbtnon_Pillar_Button_ROCKET_001_mesh_layer_1_tri_0[];
+extern Vtx fbtnon_Pillar_Button_ROCKET_001_mesh_layer_1_vtx_1[32];
+extern Gfx fbtnon_Pillar_Button_ROCKET_001_mesh_layer_1_tri_1[];
+extern Gfx mat_fbtnon_Gold_Metal[];
+extern Gfx mat_revert_fbtnon_Gold_Metal[];
+extern Gfx mat_fbtnon_Green_Button[];
+extern Gfx mat_revert_fbtnon_Green_Button[];
+extern Gfx fbtnon_Pillar_Button_ROCKET_001_mesh_layer_1[];
+extern Gfx fbtnon_material_revert_render_settings[];

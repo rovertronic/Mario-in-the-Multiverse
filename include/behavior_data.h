@@ -340,6 +340,7 @@ extern const BehaviorScript bhvCarrySomethingThrown[];
 extern const BehaviorScript bhvObjectBubble[];
 extern const BehaviorScript bhvObjectWaterWave[];
 extern const BehaviorScript bhvExplosion[];
+extern const BehaviorScript bhvExplosionVisual[];
 extern const BehaviorScript bhvBobombBullyDeathSmoke[];
 extern const BehaviorScript bhvSmoke[];
 extern const BehaviorScript bhvBobombExplosionBubble[];
@@ -550,8 +551,48 @@ extern const BehaviorScript bhvStarPieceSwitch[];
 extern const BehaviorScript bhvStarPiece[];
 extern const BehaviorScript bhvDashBoosterParticle[];
 extern const BehaviorScript bhvAbilityRecoveryHeart[];
+extern const BehaviorScript bhvCutsceneManager[];
+extern const BehaviorScript bhvCutsceneCamera[];
+extern const BehaviorScript bhvIntroBreakdoor[];
+extern const BehaviorScript bhvIntroCloth[];
+extern const BehaviorScript bhvIntroPeach[];
+extern const BehaviorScript bhvIntroToad[];
+extern const BehaviorScript bhvIntroEgadd[];
+extern const BehaviorScript bhvIntroMachine[];
+extern const BehaviorScript bhvRedArrow[];
+extern const BehaviorScript bhvIntroBowser[];
+extern const BehaviorScript bhvLayton[];
+extern const BehaviorScript bhvHubPlatform[];
+extern const BehaviorScript bhvShopItem[];
+extern const BehaviorScript bhvShopController[];
+extern const BehaviorScript bhvEgaddNPC[];
+extern const BehaviorScript bhvAArtifactOnMachine[];
+extern const BehaviorScript bhvHubDoor[];
+extern const BehaviorScript bhvStarGoo[];
 
 /* GROUP A START */
+extern const BehaviorScript bhvJelly[];
+extern const BehaviorScript bhvJellyfishFieldsPlatform[];
+extern const BehaviorScript bhvTaxiStop[];
+extern const BehaviorScript bhvtsBoat[];
+extern const BehaviorScript bhvTikiBox[];
+extern const BehaviorScript bhvTramp[];
+extern const BehaviorScript bhvFloatingCheckerPlatform[];
+extern const BehaviorScript bhvKingJelly[];
+extern const BehaviorScript bhvKingJellyShock[];
+extern const BehaviorScript bhvSquidward[];
+extern const BehaviorScript bhvKKTable[];
+extern const BehaviorScript bhvKKPlatform[];
+extern const BehaviorScript bhvKKB[];
+extern const BehaviorScript bhvBhButton[];
+extern const BehaviorScript bhvBhButton2[];
+extern const BehaviorScript bhvRBridge[];
+extern const BehaviorScript bhvRPlank[];
+extern const BehaviorScript bhvGooSwitch[];
+extern const BehaviorScript bhvSpawnJellyKJ[];
+extern const BehaviorScript bhvGooDrop[];
+extern const BehaviorScript bhvAcage[];
+extern const BehaviorScript bhvKingJellyZap[];
 /* GROUP A END */
 
 /* GROUP B START */
@@ -565,20 +606,35 @@ extern const BehaviorScript bhvSquid[];
 
 /* GROUP D START */
 extern const BehaviorScript bhvNitroBox[];
+extern const BehaviorScript bhvDelevator[];
+extern const BehaviorScript bhvDbridge[];
 /* GROUP D END */
 
 /* GROUP E START */
 
+extern const BehaviorScript bhvE_PistolGuy[];
+extern const BehaviorScript bhvE_ChaingunGuy[];
 extern const BehaviorScript bhvE_Caco[];
 extern const BehaviorScript bhvE_Enemy[];
-
+extern const BehaviorScript bhvE_Door[];
+extern const BehaviorScript bhvE_Key[];
+extern const BehaviorScript bhvE_KeyCollect[];
+extern const BehaviorScript bhvE_Elevator[];
+extern const BehaviorScript bhvE_ElevatorBase[];
+extern const BehaviorScript bhvE_Candelabra[];
+extern const BehaviorScript bhvE_Switch[];
+extern const BehaviorScript bhvE_Teleport[];
+extern const BehaviorScript bhvE_TeleportEffect[];
+extern const BehaviorScript bhvE_Medkit[];
+extern const BehaviorScript bhvE_Tutorial[];
+extern const BehaviorScript bhvE_Target[];
 
 extern const BehaviorScript bhvE_RocketBlast[];
 
 extern const BehaviorScript bhvE_MuzzleFlash[];
 extern const BehaviorScript bhvE_FlattenedObj[];
 extern const BehaviorScript bhvE_PushObj[];
-extern const BehaviorScript bhvD[];
+
 
 
 
@@ -590,6 +646,27 @@ extern const BehaviorScript bhvBriefcase[];
 extern const BehaviorScript bhvFdoor[];
 extern const BehaviorScript bhvKeypad[];
 extern const BehaviorScript bhvFfence[];
+extern const BehaviorScript bhvFTrinket[];
+extern const BehaviorScript bhvFblastwall[];
+extern const BehaviorScript bhvFdynamite[];
+extern const BehaviorScript bhvFSGkeypad[];
+extern const BehaviorScript bhvFhidden[];
+extern const BehaviorScript bhvUVstar[];
+extern const BehaviorScript bhvPoofOnWatch[];
+extern const BehaviorScript bhvFRocketButtonGold[];
+extern const BehaviorScript bhvF_SchBoard[];
+extern const BehaviorScript bhvFtrapdoor[];
+extern const BehaviorScript bhvFkey[];
+extern const BehaviorScript bhvFshooter[];
+extern const BehaviorScript bhvFshooterStar[];
+extern const BehaviorScript bhvFKeydoor[];
+extern const BehaviorScript bhvFCurtainPlatform[];
+extern const BehaviorScript bhvFMissiles[];
+extern const BehaviorScript bhvFBlowVent[];
+extern const BehaviorScript bhvFBoat[];
+extern const BehaviorScript bhvFHeli[];
+extern const BehaviorScript bhvHeliBalls[];
+extern const BehaviorScript bhvFLaser[];
 /* GROUP F END */
 
 /* GROUP G START */
@@ -607,9 +684,12 @@ extern const BehaviorScript bhvStarDoorStar[];
 extern const BehaviorScript bhvGStarDoor[];
 extern const BehaviorScript bhvGSpring[];
 extern const BehaviorScript bhvGCutRock[];
+extern const BehaviorScript bhvGCOStar[];
 /* GROUP G END */
 
 /* GROUP H START */
+extern const BehaviorScript bhvHLoader[];
+extern const BehaviorScript bhvHGlass[];
 /* GROUP H END */
 
 /* GROUP I START */
@@ -617,10 +697,70 @@ extern const BehaviorScript bhvShockRocket[];
 extern const BehaviorScript bhvRocketSmoke[];
 extern const BehaviorScript bhvRocketButton[];
 extern const BehaviorScript bhvRocketButtonGroup[];
+extern const BehaviorScript bhvHoodmonger[];
+extern const BehaviorScript bhvHoodboomer[];
+extern const BehaviorScript bhvBlackLums[];
+extern const BehaviorScript bhvDollar[];
+extern const BehaviorScript bhvHoodmongerAlertManager[];
+extern const BehaviorScript bhvHoodmongerBullet[];
+extern const BehaviorScript bhvHoodboomerBomb[];
+extern const BehaviorScript bhvBlackSmokeHoodboomer[];
+extern const BehaviorScript bhvPigpot[];
+extern const BehaviorScript bhvRotatingGearDecorative[];
+extern const BehaviorScript bhvGrillOpenableByRocketButton[];
+extern const BehaviorScript bhvWoodenLever[];
+extern const BehaviorScript bhvPlum[];
+extern const BehaviorScript bhvPlumBucket[];
+extern const BehaviorScript bhvCagedToad[];
+extern const BehaviorScript bhvFallingToad[];
+extern const BehaviorScript bhvHiddenCagedToadsStar[];
+extern const BehaviorScript bhvPlankAttachedToRope[];
+extern const BehaviorScript bhvBarrierAttachedToRope[];
+extern const BehaviorScript bhvFunkyShell[];
+extern const BehaviorScript bhvSkrinkingBlackDoorSpawner[];
+extern const BehaviorScript bhvSkrinkingBlackDoor[];
+extern const BehaviorScript bhvRotatingFunkyPlatform[];
+extern const BehaviorScript bhvMovingFunkyPlatform[];
+extern const BehaviorScript bhvThreeAxisRotativeObject[];
+extern const BehaviorScript bhvOpeningWall[];
+extern const BehaviorScript bhvMasterKaag[];
+extern const BehaviorScript bhvMasterKaagWeakPoint[];
+extern const BehaviorScript bhvHoodooSorcerer[];
+extern const BehaviorScript bhvLevelIBossDoor[];
+extern const BehaviorScript bhvLevelIBossDoorStarSlot[];
+extern const BehaviorScript bhvBountyHunterToad[];
+extern const BehaviorScript bhvLevelIStartToad[];
+
 /* GROUP I END */
 
 /* GROUP J START */
 extern const BehaviorScript bhvDragonite[];
+extern const BehaviorScript bhvFallingPlatform[];
+extern const BehaviorScript bhvTiltyHexagon[];
+extern const BehaviorScript bhvSkarmory[];
+extern const BehaviorScript bhvSkarmoryStarSpawner[];
+extern const BehaviorScript bhvYoungster[];
+extern const BehaviorScript bhvSpinarak[];
+extern const BehaviorScript bhvGeodude[];
+extern const BehaviorScript bhvGeodudePunchHitbox[];
+extern const BehaviorScript bhvBerry[];
+extern const BehaviorScript bhvHooh[];
+extern const BehaviorScript bhvHoohFlame[];
+extern const BehaviorScript bhvHoohRock[];
+extern const BehaviorScript bhvHoohFlame2[];
+extern const BehaviorScript bhvMiltank[];
+extern const BehaviorScript bhvMiltankStar[];
+extern const BehaviorScript bhvHaunter[];
+extern const BehaviorScript bhvGengar[];
+extern const BehaviorScript bhvElder[];
+extern const BehaviorScript bhvKimonoGirl[];
+extern const BehaviorScript bhvMorty[];
+extern const BehaviorScript bhvSentret[];
+extern const BehaviorScript bhvSkiploom[];
+extern const BehaviorScript bhvGravelerRamp[];
+extern const BehaviorScript bhvOldMan[];
+extern const BehaviorScript bhvSnorlax[];
+extern const BehaviorScript bhvMagikarp[];
 /* GROUP J END */
 
 /* GROUP K START */
@@ -628,6 +768,16 @@ extern const BehaviorScript bhvDragonite[];
 
 /* GROUP L START */
 extern const BehaviorScript bhvPtMetalBox[];
+extern const BehaviorScript bhvLDoor[];
+extern const BehaviorScript bhvL_JohnPillar[];
+extern const BehaviorScript bhvJohnBlock[];
+extern const BehaviorScript bhvL_EscapeStar[];
+extern const BehaviorScript bhvL_Cheeseslime[];
+extern const BehaviorScript bhvL_PeppermanNPC[];
+extern const BehaviorScript bhvLclock[];
+extern const BehaviorScript bhvL_PizzaPortal[];
+extern const BehaviorScript bhvL_PeppermanBoss[];
+extern const BehaviorScript bhvL_PeppermanStatue[];
 /* GROUP L END */
 
 /* GROUP M START */
@@ -635,6 +785,8 @@ extern const BehaviorScript bhvPtMetalBox[];
 
 /* GROUP N START */
 extern const BehaviorScript bhvPhysicsMarble[];
+extern const BehaviorScript bhvMarbleCannon[];
+extern const BehaviorScript bhvNball[];
 /* GROUP N END */
 
 /* GROUP O START */
@@ -648,7 +800,33 @@ extern const BehaviorScript bhvOspeaker[];
 extern const BehaviorScript bhvOeasystreetcontroller[];
 /* GROUP O END */
 
-#endif // BEHAVIOR_DATA_H
-
 extern const BehaviorScript bhvGCannon[];
 extern const BehaviorScript bhvGreatCaveOffensiveController[];
+extern const BehaviorScript bhvGMarx[];
+extern const BehaviorScript bhvGMarxCutter[];
+extern const BehaviorScript bhvGMarxSeed[];
+extern const BehaviorScript bhvGMarxVine[];
+extern const BehaviorScript bhvGMarxThornSegment[];
+extern const BehaviorScript bhvGMarxHalf[];
+extern const BehaviorScript bhvGMarxBlackHole[];
+extern const BehaviorScript bhvGMarxArrow[];
+extern const BehaviorScript bhvGMarxBodyLaser[];
+extern const BehaviorScript bhvGMarxLaser[];
+extern const BehaviorScript bhvGMarxIceBomb[];
+extern const BehaviorScript bhvGMarxBlackHoleEffect[];
+extern const BehaviorScript bhvGBrontoBurt[];
+extern const BehaviorScript bhvGMovingPlatform[];
+extern const BehaviorScript bhvGMarxDoor[];
+extern const BehaviorScript bhvGWaddleDee[];
+
+/* Bowser Level */
+extern const BehaviorScript bhvMatPlatform[];
+extern const BehaviorScript bhvBcTilting[];
+extern const BehaviorScript bhvBcWaddleDee[];
+extern const BehaviorScript bhvBcJelly[];
+extern const BehaviorScript bhvBcHoodmonger[];
+extern const BehaviorScript bhvBcFspinner[];
+extern const BehaviorScript bhvBcStair[];
+extern const BehaviorScript bhvBcSkiploom[];
+
+#endif // BEHAVIOR_DATA_H

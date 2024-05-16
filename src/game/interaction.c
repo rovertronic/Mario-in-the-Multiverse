@@ -25,6 +25,7 @@
 #include "rumble_init.h"
 #include "config.h"
 #include "ability.h"
+#include "rigid_body.h"
 
 u8  sDelayInvincTimer;
 s16 sInvulnerable;
@@ -59,7 +60,8 @@ u32 interact_grabbable     (struct MarioState *m, u32 interactType, struct Objec
 u32 interact_text          (struct MarioState *m, u32 interactType, struct Object *obj);
 //--E
 u32 interact_e__doom_enemy (struct MarioState *m, u32 interactType, struct Object *obj);
-
+//J
+u32 interact_j_miltank     (struct MarioState *m, u32 interactType, struct Object *obj);
 
 struct InteractionHandler {
     u32 interactType;
@@ -84,7 +86,7 @@ static struct InteractionHandler sInteractionHandlers[] = {
     { INTERACT_CLAM_OR_BUBBA,  interact_clam_or_bubba },
     { INTERACT_BULLY,          interact_bully },
     { INTERACT_SHOCK,          interact_shock },
-    { INTERACT_BOUNCE_TOP2,    interact_bounce_top },
+    //{ INTERACT_BOUNCE_TOP2,    interact_bounce_top },
     { INTERACT_MR_BLIZZARD,    interact_mr_blizzard },
     { INTERACT_HIT_FROM_BELOW, interact_hit_from_below },
     { INTERACT_BOUNCE_TOP,     interact_bounce_top },
@@ -100,6 +102,8 @@ static struct InteractionHandler sInteractionHandlers[] = {
     { INTERACT_TEXT,           interact_text },
     //--E
     { INTERACT_E__DOOM_ENEMY,  interact_e__doom_enemy },
+    //J
+    { INTERACT_J_MILTANK,      interact_j_miltank},
 };
 
  u32 sForwardKnockbackActions[][3] = {//--no longer static (used in bullet system)
@@ -230,6 +234,17 @@ u32 determine_interaction(struct MarioState *m, struct Object *obj) {
 
     if (action == ACT_CUTTER_DASH) {
         interaction = INT_KICK;
+    }
+
+    if (action == ACT_MARBLE) {
+        interaction = INT_NONE;
+        struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
+        if (marble) {
+            f32 speed = vec3_mag(marble->rigidBody->linearVel);
+            if (speed > 40.0f) {
+                interaction = INT_KICK;
+            }
+        }
     }
 
     // Prior to this, the interaction type could be overwritten. This requires, however,
@@ -413,7 +428,7 @@ u32 able_to_grab_object(struct MarioState *m, UNUSED struct Object *obj) {
     u32 action = m->action;
 
     if (action == ACT_DIVE_SLIDE || action == ACT_DIVE) {
-        if (!(obj->oInteractionSubtype & INT_SUBTYPE_GRABS_MARIO)) {
+        if (!(obj->oInteractionSubtype & INT_SUBTYPE_GRABS_MARIO) && !obj_has_behavior(obj, bhvPlum)) {
             return TRUE;
         }
     } else if (action == ACT_PUNCHING || action == ACT_MOVE_PUNCHING) {
@@ -738,7 +753,7 @@ u32 take_damage_from_interact_object(struct MarioState *m) {
 u32 take_damage_and_knock_back(struct MarioState *m, struct Object *obj) {
     u32 damage;
 
-    if (!sInvulnerable && !(m->flags & MARIO_VANISH_CAP) && (aku_invincibility == 0) && (!using_ability(ABILITY_KNIGHT))
+    if (!sInvulnerable && !(m->flags & MARIO_VANISH_CAP) && (aku_invincibility == 0) && (m->action != ACT_KNIGHT_SLIDE) && (m->action != ACT_KNIGHT_JUMP)
         && !(obj->oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY)) {
         obj->oInteractStatus = INT_STATUS_INTERACTED | INT_STATUS_ATTACKED_MARIO;
         m->interactObj = obj;
@@ -776,6 +791,12 @@ u32 interact_coin(struct MarioState *m, UNUSED u32 interactType, struct Object *
     gMarioState->numGlobalCoins += obj->oDamageOrCoinValue;
     if (gMarioState->numGlobalCoins > 999) {gMarioState->numGlobalCoins = 999;} //CLAMP
 
+    if (obj->oDamageOrCoinValue > 1) {
+        combo_meter = 201;
+    } else {
+        combo_meter = CLAMP(combo_meter+33,0,201);
+    }
+
     save_file_set_coins();
     m->numCoins += obj->oDamageOrCoinValue;
     m->healCounter += 4 * obj->oDamageOrCoinValue;
@@ -810,6 +831,8 @@ u32 interact_water_ring(struct MarioState *m, UNUSED u32 interactType, struct Ob
     return FALSE;
 }
 
+extern u8 ability_get_confirm;
+extern u8 hub_star_string[];
 u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 starIndex;
     u32 starGrabAction = ACT_STAR_DANCE_EXIT;
@@ -825,6 +848,7 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
     u32 grandStar = (obj->oInteractionSubtype & INT_SUBTYPE_GRAND_STAR) != 0;
 
     if (m->health >= 0x100) {
+        combo_meter = 201;
         mario_stop_riding_and_holding(m);
 #if ENABLE_RUMBLE
         queue_rumble_data(5, 80);
@@ -854,6 +878,10 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
             starGrabAction = ACT_STAR_DANCE_NO_EXIT;
         }
 
+        if (gCurrLevelNum == LEVEL_G && gCurrAreaIndex == 5) {
+            starGrabAction = ACT_STAR_DANCE_EXIT;
+        }
+
         if (m->action & ACT_FLAG_SWIMMING) {
             starGrabAction = ACT_STAR_DANCE_WATER;
         }
@@ -879,10 +907,38 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
 #else
         starIndex = (obj->oBehParams >> 24) & 0x1F;
 #endif
-        save_file_collect_star_or_key(m->numCoins, starIndex);
 
-        m->numStars =
-            save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
+        if (gCurrLevelNum == LEVEL_L && starIndex == 5) {
+            starGrabAction = ACT_STAR_DANCE_EXIT;
+            noExit = FALSE;
+        }
+
+        if (obj_has_behavior(obj,bhvAbilityUnlock)) {
+            //ability
+            save_file_unlock_ability(obj->oBehParams2ndByte);
+            starGrabAction = ACT_ABILITY_DANCE;
+            if (m->action & ACT_FLAG_AIR) {
+                starGrabAction = ACT_FALL_AFTER_STAR_GRAB;
+                m->actionArg = 2;
+            }
+            ability_get_confirm = FALSE;
+        } else {
+            //power star
+            p_rank_stars ++;
+            save_file_collect_star_or_key(m->numCoins, starIndex);
+            m->numStars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
+            ability_get_confirm = TRUE;
+        }
+
+
+        u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1, COURSE_NUM_TO_INDEX(gCurrCourseNum));
+        for (u8 i=0;i<8;i++) {
+            if (star_flags & (1<<i)) {
+                hub_star_string[i] = 0xFA;
+            } else {
+                hub_star_string[i] = 0xFD;
+            }
+        }
 
         if (!noExit) {
             drop_queued_background_music();
@@ -960,9 +1016,6 @@ u32 interact_warp(struct MarioState *m, UNUSED u32 interactType, struct Object *
 #endif
 
             mario_stop_riding_object(m);
-            if ((gCurrLevelNum==LEVEL_F)&&(gCurrAreaIndex==2)) { //hardcoded check for james bond level
-                return set_mario_action(m, ACT_TELEPORT_FADE_OUT, 0);
-            }
             if (gCurrLevelNum==LEVEL_O) { //hardcoded check for walking dead level
                 return set_mario_action(m, ACT_TELEPORT_FADE_OUT, 0);
             }
@@ -980,7 +1033,7 @@ u32 interact_warp_door(struct MarioState *m, UNUSED u32 interactType, struct Obj
     s16 warpDoorId = (obj->oBehParams >> 24);
 #endif
 
-    if (m->action == ACT_WALKING || m->action == ACT_DECELERATING) {
+    if (m->action == ACT_WALKING || m->action == ACT_DECELERATING || is_2d_area()) {
 #ifndef UNLOCK_ALL
         if (warpDoorId == 1 && !(saveFlags & SAVE_FLAG_UNLOCKED_UPSTAIRS_DOOR)) {
             if (!(saveFlags & SAVE_FLAG_HAVE_KEY_2)) {
@@ -1012,7 +1065,7 @@ u32 interact_warp_door(struct MarioState *m, UNUSED u32 interactType, struct Obj
         }
 #endif
 
-        if (m->action == ACT_WALKING || m->action == ACT_DECELERATING) {
+        if (m->action == ACT_WALKING || m->action == ACT_DECELERATING || is_2d_area()) {
             u32 actionArg = should_push_or_pull_door(m, obj) + WARP_FLAG_DOOR_IS_WARP;
 
             if (doorAction == 0) {
@@ -1205,7 +1258,7 @@ u32 interact_strong_wind(struct MarioState *m, UNUSED u32 interactType, struct O
 u32 interact_flame(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 burningAction = ACT_BURNING_JUMP;
 
-    if (!sInvulnerable && !(m->flags & MARIO_METAL_CAP) && !(m->flags & MARIO_VANISH_CAP) && (aku_invincibility == 0) && (!using_ability(ABILITY_KNIGHT))
+    if (!sInvulnerable && !(m->flags & MARIO_METAL_CAP) && !(m->flags & MARIO_VANISH_CAP) && (aku_invincibility == 0) && (m->action != ACT_KNIGHT_SLIDE) && (m->action != ACT_KNIGHT_JUMP)
         && !(obj->oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY)) {
 #if ENABLE_RUMBLE
         queue_rumble_data(5, 80);
@@ -1275,7 +1328,7 @@ u32 interact_clam_or_bubba(struct MarioState *m, UNUSED u32 interactType, struct
 
 u32 interact_bully(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 interaction;
-    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)||using_ability(ABILITY_KNIGHT)) {
+    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)||(m->action != ACT_KNIGHT_SLIDE) && (m->action != ACT_KNIGHT_JUMP)) {
         interaction = INT_FAST_ATTACK_OR_SHELL;
     } else {
         interaction = determine_interaction(m, obj);
@@ -1368,7 +1421,7 @@ u32 interact_mr_blizzard(struct MarioState *m, UNUSED u32 interactType, struct O
 
 u32 interact_hit_from_below(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 interaction;
-    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)||using_ability(ABILITY_KNIGHT)) {
+    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)||(m->action == ACT_KNIGHT_SLIDE) || (m->action == ACT_KNIGHT_JUMP)) {
         interaction = INT_FAST_ATTACK_OR_SHELL;
     } else {
         interaction = determine_interaction(m, obj);
@@ -1408,7 +1461,7 @@ u32 interact_hit_from_below(struct MarioState *m, UNUSED u32 interactType, struc
 
 u32 interact_bounce_top(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 interaction;
-    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)||using_ability(ABILITY_KNIGHT)) {
+    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)||(m->action == ACT_KNIGHT_SLIDE) || (m->action == ACT_KNIGHT_JUMP)) {
         interaction = INT_FAST_ATTACK_OR_SHELL;
     } else {
         interaction = determine_interaction(m, obj);
@@ -1508,7 +1561,11 @@ u32 interact_koopa_shell(struct MarioState *m, UNUSED u32 interactType, struct O
 
             attack_object(obj, interaction);
             update_mario_sound_and_camera(m);
-            play_shell_music();
+            if (gCurrLevelNum != LEVEL_F) {
+                if(!obj_has_behavior(m->riddenObj, bhvFunkyShell)){
+                    play_shell_music();
+                }
+            }
             mario_drop_held_object(m);
 
             //! Puts Mario in ground action even when in air, making it easy to
@@ -1855,7 +1912,7 @@ u32 interact_text(struct MarioState *m, UNUSED u32 interactType, struct Object *
 //--E
 u32 interact_e__doom_enemy(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 interaction;
-    if ((m->flags & MARIO_METAL_CAP) || (aku_invincibility > 0) || using_ability(ABILITY_KNIGHT)) {
+    if ((m->flags & MARIO_METAL_CAP) || (aku_invincibility > 0) || (m->action == ACT_KNIGHT_SLIDE) || (m->action == ACT_KNIGHT_JUMP)) {
         interaction = INT_FAST_ATTACK_OR_SHELL; }
     else {
         interaction = determine_interaction(m, obj); }
@@ -1874,6 +1931,46 @@ u32 interact_e__doom_enemy(struct MarioState *m, UNUSED u32 interactType, struct
     return FALSE;
 }
 
+
+//J
+u32 interact_j_miltank(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
+    u32 interaction;
+    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)||(m->action == ACT_KNIGHT_SLIDE) || (m->action == ACT_KNIGHT_JUMP)) {
+        interaction = INT_FAST_ATTACK_OR_SHELL;
+    } else {
+        interaction = determine_interaction(m, obj);
+    }
+
+    if (interaction & INT_ATTACK_NOT_FROM_BELOW) {
+#if ENABLE_RUMBLE
+        queue_rumble_data(5, 80);
+#endif
+        attack_object(obj, interaction);
+        bounce_back_from_attack(m, interaction);
+
+        if (interaction & INT_HIT_FROM_ABOVE) {
+            if (obj->oInteractionSubtype & INT_SUBTYPE_TWIRL_BOUNCE) {
+                bounce_off_object(m, obj, 80.0f);
+                reset_mario_pitch(m);
+                play_sound(SOUND_MARIO_TWIRL_BOUNCE, m->marioObj->header.gfx.cameraToObject);
+                return drop_and_set_mario_action(m, ACT_TWIRLING, 0);
+            } else {
+                bounce_off_object(m, obj, 30.0f);
+            }
+        }
+    } else {
+        obj->oInteractStatus |= INT_STATUS_INTERACTED;
+        push_mario_out_of_object(m, obj, 2.0f);
+    }
+
+
+
+    if (!(obj->oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY)) {
+        sDelayInvincTimer = TRUE;
+    }
+
+    return FALSE;
+}
 
 void check_kick_or_punch_wall(struct MarioState *m) {
     if (
@@ -1988,6 +2085,8 @@ void pss_end_slide(struct MarioState *m) {
     }
 }
 
+extern u8 gE_C9MarioHealth;
+
 void mario_handle_special_floors(struct MarioState *m) {
     if ((m->action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE) {
         return;
@@ -2012,6 +2111,42 @@ void mario_handle_special_floors(struct MarioState *m) {
 
             case SURFACE_TIMER_END:
                 pss_end_slide(m);
+                break;
+
+            case SURFACE_SQUID_INK:
+                if (gCurrLevelNum == LEVEL_E) {
+                    if (!mario_is_in_air_action()) {
+                        if ((!((m->action & ACT_FLAG_INTANGIBLE) || (m->action & ACT_FLAG_INVULNERABLE) || (m->invincTimer != 0)))
+                            && !(m->flags & MARIO_VANISH_CAP)
+                            && (aku_invincibility == 0)
+                            && (!using_ability(ABILITY_KNIGHT))
+                            && (!using_ability(ABILITY_SQUID))
+                            && ((gGlobalTimer % 9) == 0)) {
+
+                            s32 health = (gE_C9MarioHealth - 3);
+                            if (health <= 0) {
+                                gE_C9MarioHealth = 0;
+                                play_sound(SOUND_MARIO_WAAAOOOW, m->marioObj->header.gfx.cameraToObject);
+
+                                if (using_ability(ABILITY_E_SHOTGUN)) {
+                                    //-spawn_object(gMarioObject, MODEL_ID_05, bhvStaticObject);
+                                    set_mario_action(m, ACT_E_DOOM_DEATH, 1);
+                                } else {
+                                    set_mario_action(m, ACT_E_DOOM_DEATH, 0);
+                                }
+
+                                if (gCamera->mode == CAMERA_MODE_C_UP) {//--**
+                                    set_camera_mode_8_directions(gCamera);
+                                }
+                            } else {
+                                gE_C9MarioHealth = health;
+                                play_sound(SOUND_MARIO_UH, m->marioObj->header.gfx.cameraToObject);
+                            }
+                        }
+
+                    }
+                }
+
                 break;
         }
 

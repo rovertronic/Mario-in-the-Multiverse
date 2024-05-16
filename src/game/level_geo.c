@@ -10,6 +10,7 @@
 #include "level_geo.h"
 #include "level_update.h"
 #include "ability.h"
+#include "game_init.h"
 
 /**
  * Geo function that generates a displaylist for environment effects such as
@@ -98,8 +99,9 @@ u16 uv_light_vtx_list_sizes[] = {
     sizeof(o_dl_zuvlight_mesh_layer_5_vtx_4),
 };
 
-Gfx cool_display_list[4];
+Gfx cool_display_list[10];
 Mtx cool_matrix;
+Mtx cool_matrix_2;
 Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *context) {
     s32 i;
     f32 dist;
@@ -142,6 +144,272 @@ Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *
             geo_append_display_list(cool_display_list, LAYER_FORCE);
         }
 
+    }
+    return NULL;
+}
+
+
+
+//Course J invis path
+#include "levels/J/header.inc.h"
+
+Gfx *geo_update_j_invisible_path_2(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    s32 i;
+    f32 dist;
+    s32 light;
+    Vtx *vert;
+    Vec3s marioPos;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        vec3f_to_vec3s(marioPos, gMarioState->pos);
+
+        vert = segmented_to_virtual(&J_dl_InvisiblePlatforms_mesh_layer_5_vtx_0);
+        if (using_ability(ABILITY_GADGET_WATCH)) {
+            //uv light on
+            for (i = 0; i < sizeof(J_dl_InvisiblePlatforms_mesh_layer_5_vtx_0) / sizeof(J_dl_InvisiblePlatforms_mesh_layer_5_vtx_0[0]); i++) {
+                dist = sqrtf((marioPos[0] - vert[i].v.ob[0]) * (marioPos[0] - vert[i].v.ob[0]) + 
+                                (marioPos[1] - vert[i].v.ob[1]) * (marioPos[1] - vert[i].v.ob[1]) + 
+                                (marioPos[2] - vert[i].v.ob[2]) * (marioPos[2] - vert[i].v.ob[2]));
+
+                light = 255 - (dist/5);
+                if (light < 0) {
+                    light = 0;
+                }
+                vert[i].v.cn[3] = light;
+            }
+        } else {
+            //uv light off
+            for (i = 0; i < sizeof(J_dl_InvisiblePlatforms_mesh_layer_5_vtx_0) / sizeof(J_dl_InvisiblePlatforms_mesh_layer_5_vtx_0[0]); i++) {
+                vert[i].v.cn[3] = 0;
+            }
+        }
+    }
+    return NULL;
+}
+
+//Course H skybox
+extern Gfx hsky_Sphere_mesh[];
+Gfx *geo_update_h_sky(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    s32 i;
+    f32 dist;
+    s32 light;
+    Vtx *vert;
+    Vec3s marioPos;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        guTranslate(&cool_matrix, gLakituState.curPos[0], gLakituState.curPos[1], gLakituState.curPos[2]);
+
+        gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+        gSPDisplayList(&cool_display_list[1], segmented_to_virtual(hsky_Sphere_mesh));
+        gSPPopMatrix(&cool_display_list[2], G_MTX_MODELVIEW);
+        gSPEndDisplayList(&cool_display_list[3]);
+
+        geo_append_display_list(cool_display_list, LAYER_FORCE);
+    }
+    return NULL;
+}
+
+Gfx *geo_zbuffer_clear(s32 callContext, UNUSED struct GraphNode *node, UNUSED Mat4 *mtx) {
+    Gfx *dl = NULL;
+        if (callContext == GEO_CONTEXT_RENDER) {
+            struct GraphNodeGenerated *asGenerated = (struct GraphNodeGenerated *) node;
+            Gfx *dlHead = NULL;
+            dl = alloc_display_list(13 * sizeof(*dl));
+            dlHead = dl;
+            gDPPipeSync(dlHead++);
+            gDPSetRenderMode(dlHead++, G_RM_NOOP, G_RM_NOOP2);
+            gDPSetCycleType(dlHead++, G_CYC_FILL);
+            gDPSetDepthSource(dlHead++, G_ZS_PIXEL);
+            gDPSetDepthImage(dlHead++, gPhysicalZBuffer);
+            gDPSetColorImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, gPhysicalZBuffer);
+            gDPSetFillColor(dlHead++,
+                            GPACK_ZDZ(G_MAXFBZ, 0) << 16 | GPACK_ZDZ(G_MAXFBZ, 0));
+            gDPFillRectangle(dlHead++, 0, gBorderHeight, SCREEN_WIDTH - 1,
+                            SCREEN_HEIGHT - 1 - gBorderHeight);
+            gDPPipeSync(dlHead++);
+            gDPSetCycleType(dlHead++, G_CYC_1CYCLE);
+            gDPSetColorImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH,
+                            gPhysicalFramebuffers[sRenderingFramebuffer]);
+            gDPSetScissor(dlHead++, G_SC_NON_INTERLACE, 0, gBorderHeight, SCREEN_WIDTH,
+                    SCREEN_HEIGHT - gBorderHeight);
+            gSPEndDisplayList(dlHead++);
+            SET_GRAPH_NODE_LAYER(asGenerated->fnNode.node.flags, LAYER_OPAQUE);
+    }
+    return dl;
+}
+
+//Course F skybox
+extern Gfx fsky_sky_mesh[];
+extern Gfx fsky2_fsky2_mesh[];
+Gfx *geo_update_f_sky(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    s32 i;
+    f32 dist;
+    s32 light;
+    Vtx *vert;
+    Vec3s marioPos;
+    Gfx *dl = NULL;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        guTranslate(&cool_matrix, gLakituState.curPos[0], gLakituState.curPos[1], gLakituState.curPos[2]);
+        gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+        gSPDisplayList(&cool_display_list[1], segmented_to_virtual(fsky2_fsky2_mesh));
+        gSPPopMatrix(&cool_display_list[2], G_MTX_MODELVIEW);
+
+        guTranslate(&cool_matrix_2, gLakituState.curPos[0]*.75f, gLakituState.curPos[1]*.75f, gLakituState.curPos[2]*.75f);
+        gSPMatrix(&cool_display_list[3], &cool_matrix_2, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+        gSPDisplayList(&cool_display_list[4], segmented_to_virtual(fsky_sky_mesh));
+        gSPPopMatrix(&cool_display_list[5], G_MTX_MODELVIEW);
+        gSPEndDisplayList(&cool_display_list[6]);
+
+        geo_append_display_list(cool_display_list, LAYER_FORCE);
+
+        struct GraphNodeGenerated *asGenerated = (struct GraphNodeGenerated *) node;
+        Gfx *dlHead = NULL;
+        dl = alloc_display_list(13 * sizeof(*dl));
+        dlHead = dl;
+        gDPPipeSync(dlHead++);
+        gDPSetRenderMode(dlHead++, G_RM_NOOP, G_RM_NOOP2);
+        gDPSetCycleType(dlHead++, G_CYC_FILL);
+        gDPSetDepthSource(dlHead++, G_ZS_PIXEL);
+        gDPSetDepthImage(dlHead++, gPhysicalZBuffer);
+        gDPSetColorImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, gPhysicalZBuffer);
+        gDPSetFillColor(dlHead++,
+                        GPACK_ZDZ(G_MAXFBZ, 0) << 16 | GPACK_ZDZ(G_MAXFBZ, 0));
+        gDPFillRectangle(dlHead++, 0, gBorderHeight, SCREEN_WIDTH - 1,
+                        SCREEN_HEIGHT - 1 - gBorderHeight);
+        gDPPipeSync(dlHead++);
+        gDPSetCycleType(dlHead++, G_CYC_1CYCLE);
+        gDPSetColorImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH,
+                        gPhysicalFramebuffers[sRenderingFramebuffer]);
+        gDPSetScissor(dlHead++, G_SC_NON_INTERLACE, 0, gBorderHeight, SCREEN_WIDTH,
+                SCREEN_HEIGHT - gBorderHeight);
+        gSPEndDisplayList(dlHead++);
+        //SET_GRAPH_NODE_LAYER(asGenerated->fnNode.node.flags, LAYER_FORCE);
+        geo_append_display_list(dl, LAYER_FORCE);
+    }
+    return NULL;
+}
+
+Gfx *geo_update_f_sky2(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    s32 i;
+    f32 dist;
+    s32 light;
+    Vtx *vert;
+    Vec3s marioPos;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        guTranslate(&cool_matrix, gLakituState.curPos[0], gLakituState.curPos[1], gLakituState.curPos[2]);
+
+        gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+        gSPDisplayList(&cool_display_list[1], segmented_to_virtual(fsky2_fsky2_mesh));
+        gSPPopMatrix(&cool_display_list[2], G_MTX_MODELVIEW);
+        gSPEndDisplayList(&cool_display_list[3]);
+
+        geo_append_display_list(cool_display_list, LAYER_FORCE);
+    }
+    return NULL;
+}
+
+extern Gfx hubsky_1Solar_Winds_mesh[];
+extern Gfx hubsky2_1Solar_Winds_002_mesh[];
+Gfx *geo_update_hub_sky(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    s32 i;
+    f32 dist;
+    s32 light;
+    Vtx *vert;
+    Vec3s marioPos;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        guTranslate(&cool_matrix, gLakituState.curPos[0], gLakituState.curPos[1], gLakituState.curPos[2]);
+
+        gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+        gSPDisplayList(&cool_display_list[1], segmented_to_virtual(hubsky_1Solar_Winds_mesh));
+        gSPDisplayList(&cool_display_list[2], segmented_to_virtual(hubsky2_1Solar_Winds_002_mesh));
+        gSPPopMatrix(&cool_display_list[3], G_MTX_MODELVIEW);
+        gSPEndDisplayList(&cool_display_list[4]);
+
+        geo_append_display_list(cool_display_list, LAYER_FORCE);
+    }
+    return NULL;
+}
+
+extern Gfx ptbg_Plane_mesh[];
+Gfx *geo_update_l_sky(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    s32 i;
+    f32 dist;
+    s32 light;
+    Vtx *vert;
+    Vec3s marioPos;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        guTranslate(&cool_matrix, gLakituState.pos[0]-(gMarioState->pos[0]/10.0f), gLakituState.pos[1]-(gMarioState->pos[1]/10.0f), gLakituState.pos[2]);
+
+        gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+        gSPDisplayList(&cool_display_list[1], segmented_to_virtual(ptbg_Plane_mesh));
+        gSPPopMatrix(&cool_display_list[2], G_MTX_MODELVIEW);
+        gSPEndDisplayList(&cool_display_list[3]);
+
+        geo_append_display_list(cool_display_list, LAYER_FORCE);
+    }
+    return NULL;
+}
+
+
+
+//Bowser Course invis path
+#include "levels/bowser_course/header.inc.h"
+
+Gfx *geo_update_bowser_course_invisible_path(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    s32 i;
+    f32 dist;
+    s32 light;
+    Vtx *vert;
+    Vec3s marioPos;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        vec3f_to_vec3s(marioPos, gMarioState->pos);
+
+        vert = segmented_to_virtual(&bowser_course_dl_zuvlightbc_mesh_layer_5_vtx_0);
+        if (using_ability(ABILITY_GADGET_WATCH)) {
+            //uv light on
+            for (i = 0; i < sizeof(bowser_course_dl_zuvlightbc_mesh_layer_5_vtx_0) / sizeof(bowser_course_dl_zuvlightbc_mesh_layer_5_vtx_0[0]); i++) {
+                dist = sqrtf((marioPos[0] - vert[i].v.ob[0]) * (marioPos[0] - vert[i].v.ob[0]) + 
+                                (marioPos[1] - vert[i].v.ob[1]) * (marioPos[1] - vert[i].v.ob[1]) + 
+                                (marioPos[2] - vert[i].v.ob[2]) * (marioPos[2] - vert[i].v.ob[2]));
+
+                light = 255 - (dist/5);
+                if (light < 0) {
+                    light = 0;
+                }
+                vert[i].v.cn[3] = light;
+            }
+        } else {
+            //uv light off
+            for (i = 0; i < sizeof(bowser_course_dl_zuvlightbc_mesh_layer_5_vtx_0) / sizeof(bowser_course_dl_zuvlightbc_mesh_layer_5_vtx_0[0]); i++) {
+                vert[i].v.cn[3] = 0;
+            }
+        }
+    }
+    return NULL;
+}
+
+extern Gfx mverses_sky_Sphere_mesh[];
+Gfx *geo_update_bowser_course_sky(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    s32 i;
+    f32 dist;
+    s32 light;
+    Vtx *vert;
+    Vec3s marioPos;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        guTranslate(&cool_matrix, gLakituState.pos[0], gLakituState.pos[1], gLakituState.pos[2]);
+
+        gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+        gSPDisplayList(&cool_display_list[1], segmented_to_virtual(mverses_sky_Sphere_mesh));
+        gSPPopMatrix(&cool_display_list[2], G_MTX_MODELVIEW);
+        gSPEndDisplayList(&cool_display_list[3]);
+
+        geo_append_display_list(cool_display_list, LAYER_FORCE);
     }
     return NULL;
 }

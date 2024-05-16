@@ -1,0 +1,10 @@
+extern const GeoLayout bc_fspinner_geo[];
+extern Lights1 bc_fspinner_firespinner_lights;
+extern u8 bc_fspinner_firespinner_ci8[];
+extern u8 bc_fspinner_firespinner_pal_rgba16[];
+extern Vtx bc_fspinner_Cylinder_mesh_layer_1_vtx_0[36];
+extern Gfx bc_fspinner_Cylinder_mesh_layer_1_tri_0[];
+extern Gfx mat_bc_fspinner_firespinner[];
+extern Gfx mat_revert_bc_fspinner_firespinner[];
+extern Gfx bc_fspinner_Cylinder_mesh_layer_1[];
+extern Gfx bc_fspinner_material_revert_render_settings[];

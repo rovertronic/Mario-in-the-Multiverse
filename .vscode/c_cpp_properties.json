@@ -19,7 +19,14 @@
                 "${workspaceFolder}/include/level_commands.h",
                 "${workspaceFolder}/include/segment_symbols.h",
                 "${workspaceFolder}/include/command_macros_base.h",
-                "${workspaceFolder}/include/object_constants.h"
+                "${workspaceFolder}/include/object_constants.h",
+                "${workspaceFolder}/src/game/object_list_processor.h",
+                "${workspaceFolder}/src/game/interaction.h",
+                "${workspaceFolder}/src/game/level_update.h",
+                "${workspaceFolder}/src/game/obj_behaviors.h",
+                "${workspaceFolder}/src/game/obj_behaviors_2.h",
+                "${workspaceFolder}/include/behavior_data.h",
+                "${workspaceFolder}/include/seq_ids.h"
             ],
             "defines": [
                 "TARGET_N64=1",

@@ -1,0 +1,13 @@
+extern Lights1 compass_hand_Gloves_lights;
+extern Lights1 compass_hand_compass_lights;
+extern u8 compass_hand_custom_ability_u1_rgba16_ci4[];
+extern u8 compass_hand_custom_ability_u1_rgba16_pal_rgba16[];
+extern Vtx compass_hand_hand_mesh_vtx_cull[8];
+extern Vtx compass_hand_hand_mesh_vtx_0[42];
+extern Gfx compass_hand_hand_mesh_tri_0[];
+extern Vtx compass_hand_hand_mesh_vtx_1[170];
+extern Gfx compass_hand_hand_mesh_tri_1[];
+extern Gfx mat_compass_hand_Gloves[];
+extern Gfx mat_compass_hand_compass[];
+extern Gfx mat_revert_compass_hand_compass[];
+extern Gfx compass_hand_hand_mesh[];

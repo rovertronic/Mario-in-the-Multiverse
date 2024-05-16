@@ -1,7 +1,7 @@
 void scroll_c_dl_level_c_mesh_layer_1_vtx_4() {
 	int i = 0;
-	int count = 20;
-	int height = 32 * 0x20;
+	int count = 26;
+	int height = 64 * 0x20;
 
 	static int currentY = 0;
 	int deltaY;

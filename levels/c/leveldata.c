@@ -20,3 +20,4 @@
 #include "levels/c/crane/model.inc.c"
 #include "levels/c/octoball/model.inc.c"
 #include "levels/c/star_boulder/model.inc.c"
+#include "levels/c/paint_stain/model.inc.c"

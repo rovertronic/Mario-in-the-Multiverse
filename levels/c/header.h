@@ -23,4 +23,6 @@ extern const LevelScript level_c_entry[];
 
 #include "levels/c/star_boulder/geo_header.h"
 
+#include "levels/c/paint_stain/geo_header.h"
+
 #endif

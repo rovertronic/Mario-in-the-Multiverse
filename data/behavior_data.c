@@ -6893,6 +6893,17 @@ const BehaviorScript bhvOctoball[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvPaintStain[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    DROP_TO_FLOOR(),
+    SET_INT(oOpacity, 255),
+    CALL_NATIVE(bhv_paint_stain_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_paint_stain_loop),
+    END_LOOP(),
+};
+
 /* GROUP C END */
 
 /* GROUP D START */

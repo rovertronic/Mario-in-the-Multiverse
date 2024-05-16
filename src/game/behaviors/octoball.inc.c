@@ -100,7 +100,7 @@ static void octoball_act_chase_mario(void) {
     }
 
     if(o->oTimer % 10 == 0) {
-        spawn_object(o, MODEL_YELLOW_COIN, bhvYellowCoin);
+        spawn_object(o, MODEL_PAINT_STAIN, bhvPaintStain);
     }
 
     obj_turn_toward_object(o, gMarioObject, 16, 0x800);
@@ -150,8 +150,8 @@ static void octoball_free_loop(void) {
         o->oShotByShotgun = 0;
     }
 
-    if (o->oBobombFuseTimer > 150) {
-        o->oAction = 3;
+    if (o->oBobombFuseTimer > 200) {
+        o->oAction = BOBOMB_ACT_EXPLODE;
     }
 }
 

@@ -99,7 +99,7 @@ void bhv_crane_arrow_loop(void) {
             }
             break;
     }
-    o->oShotByShotgun = 0;//--E
+    o->oShotByShotgun = 0; //--E
 }
 
 void bhv_crane_init(void) {
@@ -151,7 +151,7 @@ void bhv_crane_rock_loop(void) {
             //if it was the last rock
             if(count_objects_with_behavior(bhvCraneRock) == 1){
                 //play_puzzle_jingle();
-                bhv_spawn_star_no_level_exit_at_object(3, gMarioObject);
+                bhv_spawn_star_no_level_exit_at_object(4, gMarioObject);
             }
             obj_mark_for_deletion(o);
         break;
@@ -164,4 +164,33 @@ void bhv_paint_gun_loop(void) {
     o->oMoveAngleYaw = o->oAngleToMario;
     obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_PITCH_INDEX, 0x1000);
     o->oFaceAnglePitch = o->oMoveAnglePitch;
+}
+
+//----------------------PAINT----------------------//
+
+void bhv_paint_stain_init(void) {
+    if(random_sign() == -1) {
+        o->oAnimState = 0;
+    } else {
+        o->oAnimState = 1;
+    }
+
+    o->oFaceAngleYaw = random_u16();
+
+    o->oFloatF4 = 1.0f;
+    cur_obj_scale(o->oFloatF4);
+}
+
+void bhv_paint_stain_loop(void) {
+    struct Surface *sObjFloor;
+    find_floor(o->oPosX, o->oPosY, o->oPosZ, &sObjFloor);
+    obj_orient_graph(o, sObjFloor->normal.x, sObjFloor->normal.y, sObjFloor->normal.z);
+
+    if(o->oTimer > 120) {
+        o->oFloatF4 -= 0.02f;
+        cur_obj_scale(o->oFloatF4);
+        if(o->oFloatF4 <= 0) {
+            obj_mark_for_deletion(o);
+        }
+    }
 }

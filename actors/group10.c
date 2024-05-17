@@ -20,7 +20,3 @@ UNUSED static const u64 binid_1 = 1;
 #include "yoshi/anims/data.inc.c"
 #include "yoshi/anims/table.inc.c"
 UNUSED static const u64 binid_2 = 2;
-
-#include "wedser/model.inc.c"
-#include "wedser/anims/data.inc.c"
-#include "wedser/anims/table.inc.c"

@@ -515,7 +515,7 @@ u8 main_menu_round_corner_ia8[] = {
 	
 };
 
-Vtx main_menu_roundbox_001_mesh_vtx_0[115] = {
+Vtx main_menu_roundbox_001_mesh_vtx_0[93] = {
 	{{ {108, 74, 0}, 0, {2032, 2032}, {0, 0, 127, 255} }},
 	{{ {134, 74, 0}, 0, {-16, 2032}, {0, 0, 127, 255} }},
 	{{ {134, 100, 0}, 0, {-16, -16}, {0, 0, 127, 255} }},
@@ -609,28 +609,6 @@ Vtx main_menu_roundbox_001_mesh_vtx_0[115] = {
 	{{ {-112, -57, 0}, 0, {2032, 2032}, {0, 0, 127, 255} }},
 	{{ {-112, -46, 0}, 0, {2032, -16}, {0, 0, 127, 255} }},
 	{{ {-123, -46, 0}, 0, {-16, -16}, {0, 0, 127, 255} }},
-	{{ {112, -42, 0}, 0, {2032, -16}, {0, 0, 127, 255} }},
-	{{ {123, -42, 0}, 0, {-16, -16}, {0, 0, 127, 255} }},
-	{{ {123, -30, 0}, 0, {-16, 2032}, {0, 0, 127, 255} }},
-	{{ {112, -30, 0}, 0, {2032, 2032}, {0, 0, 127, 255} }},
-	{{ {123, -19, 0}, 0, {-16, 2032}, {0, 0, 127, 255} }},
-	{{ {112, -19, 0}, 0, {2032, 2032}, {0, 0, 127, 255} }},
-	{{ {123, -8, 0}, 0, {-16, -16}, {0, 0, 127, 255} }},
-	{{ {112, -8, 0}, 0, {2032, -16}, {0, 0, 127, 255} }},
-	{{ {33, -19, 0}, 0, {2032, 2032}, {0, 0, 127, 255} }},
-	{{ {33, -8, 0}, 0, {2032, -16}, {0, 0, 127, 255} }},
-	{{ {33, -30, 0}, 0, {2032, 2032}, {0, 0, 127, 255} }},
-	{{ {33, -42, 0}, 0, {2032, -16}, {0, 0, 127, 255} }},
-	{{ {21, -42, 0}, 0, {-16, -16}, {0, 0, 127, 255} }},
-	{{ {33, -42, 0}, 0, {2032, -16}, {0, 0, 127, 255} }},
-	{{ {33, -30, 0}, 0, {2032, 2032}, {0, 0, 127, 255} }},
-	{{ {21, -30, 0}, 0, {-16, 2032}, {0, 0, 127, 255} }},
-	{{ {21, -19, 0}, 0, {-16, 2032}, {0, 0, 127, 255} }},
-	{{ {21, -30, 0}, 0, {-16, 2032}, {0, 0, 127, 255} }},
-	{{ {33, -30, 0}, 0, {2032, 2032}, {0, 0, 127, 255} }},
-	{{ {33, -19, 0}, 0, {2032, 2032}, {0, 0, 127, 255} }},
-	{{ {33, -8, 0}, 0, {2032, -16}, {0, 0, 127, 255} }},
-	{{ {21, -8, 0}, 0, {-16, -16}, {0, 0, 127, 255} }},
 };
 
 Gfx main_menu_roundbox_001_mesh_tri_0[] = {
@@ -694,26 +672,6 @@ Gfx main_menu_roundbox_001_mesh_tri_0[] = {
 	gsSP1Triangle(8, 10, 1, 0),
 	gsSP1Triangle(11, 12, 13, 0),
 	gsSP1Triangle(11, 13, 14, 0),
-	gsSPVertex(main_menu_roundbox_001_mesh_vtx_0 + 93, 16, 0),
-	gsSP1Triangle(0, 1, 2, 0),
-	gsSP1Triangle(0, 2, 3, 0),
-	gsSP1Triangle(3, 2, 4, 0),
-	gsSP1Triangle(3, 4, 5, 0),
-	gsSP1Triangle(5, 4, 6, 0),
-	gsSP1Triangle(5, 6, 7, 0),
-	gsSP1Triangle(7, 8, 5, 0),
-	gsSP1Triangle(7, 9, 8, 0),
-	gsSP1Triangle(3, 5, 8, 0),
-	gsSP1Triangle(3, 8, 10, 0),
-	gsSP1Triangle(10, 0, 3, 0),
-	gsSP1Triangle(10, 11, 0, 0),
-	gsSP1Triangle(12, 13, 14, 0),
-	gsSP1Triangle(12, 14, 15, 0),
-	gsSPVertex(main_menu_roundbox_001_mesh_vtx_0 + 109, 6, 0),
-	gsSP1Triangle(0, 1, 2, 0),
-	gsSP1Triangle(0, 2, 3, 0),
-	gsSP1Triangle(0, 3, 4, 0),
-	gsSP1Triangle(0, 4, 5, 0),
 	gsSPEndDisplayList(),
 };
 
@@ -725,7 +683,7 @@ Gfx mat_main_menu_ui_corner[] = {
 	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, main_menu_round_corner_ia8),
 	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadBlock(7, 0, 0, 2047, 256),
-	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_WRAP | G_TX_MIRROR, 6, 0, G_TX_WRAP | G_TX_MIRROR, 6, 0),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
 	gsDPSetTileSize(0, 0, 0, 252, 252),
 	gsSPEndDisplayList(),
 };

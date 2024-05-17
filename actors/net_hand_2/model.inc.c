@@ -593,7 +593,7 @@ Gfx mat_net_hand_2_f3dlite_material_001[] = {
 	gsSPGeometryMode(G_CULL_BACK, 0),
 	gsDPSetTextureLUT(G_TT_RGBA16),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-	//gsSPSetLights0(net_hand_2_f3dlite_material_001_lights),
+	gsSPSetLights0(net_hand_2_f3dlite_material_001_lights),
 	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, net_hand_2_t0003_0_pal_rgba16),
 	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadTLUTCmd(5, 16),

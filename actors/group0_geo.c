@@ -54,9 +54,3 @@
 
 #include "dbp/geo.inc.c"
 #include "attached_rope/geo.inc.c"
-
-#include "f_laser/geo.inc.c"
-#include "egadd/geo.inc.c"
-#include "machine/geo.inc.c"
-#include "redarrow/geo.inc.c"
-#include "shopitem3/geo.inc.c"

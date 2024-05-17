@@ -390,14 +390,6 @@ ALIGNED8 static const Texture texture_hud_char_percent[] = {
 };
 #endif
 
-ALIGNED8 static const Texture texture_hud_char_slash[] = {
-#include "textures/segment2/segment2.slash.rgba16.inc.c"
-};
-
-ALIGNED8 static const Texture texture_hud_char_toad_head[] = {
-#include "textures/segment2/segment2.toad.rgba16.inc.c"
-};
-
 ALIGNED8 static const Texture texture_hud_char_minus[] = {
 #include "textures/segment2/segment2.minus.rgba16.inc.c"
 };
@@ -2036,7 +2028,7 @@ const Texture *const main_hud_lut[] = {
     texture_hud_char_S, texture_hud_char_T, texture_hud_char_U, texture_hud_char_V,
     texture_hud_char_W, texture_hud_char_X, texture_hud_char_Y, texture_hud_char_Z,
     texture_hud_char_exclamation, texture_hud_char_double_exclamation, texture_hud_char_question, texture_hud_char_ampersand,
-    texture_hud_char_percent, texture_hud_char_slash, texture_hud_char_toad_head,                0x0,
+    texture_hud_char_percent,                0x0,                0x0,                0x0,
                    0x0,                0x0,                0x0, texture_hud_char_minus,
     texture_hud_char_multiply, texture_hud_char_coin, texture_hud_char_red_coin, texture_hud_char_silver_coin,
     texture_hud_char_mario_head, texture_hud_char_star, texture_hud_char_decimal_point, texture_hud_char_beta_key,
@@ -2378,10 +2370,17 @@ const Gfx dl_draw_text_bg_box[] = {
 
 // 0x0200EE28 - 0x0200EE68
 static const Vtx vertex_ia8_char[] = {
+#if defined(VERSION_JP) || defined(VERSION_SH)
+    {{{     0,      0,      0}, 0, {     0,   1024}, {0xff, 0xff, 0xff, 0xff}}},
+    {{{     8,      0,      0}, 0, {   512,   1024}, {0xff, 0xff, 0xff, 0xff}}},
+    {{{     8,     16,      0}, 0, {   512,      0}, {0xff, 0xff, 0xff, 0xff}}},
+    {{{     0,     16,      0}, 0, {     0,      0}, {0xff, 0xff, 0xff, 0xff}}},
+#else
     {{{     0,      0,      0}, 0, {     0,    256}, {0xff, 0xff, 0xff, 0xff}}},
     {{{     8,      0,      0}, 0, {     0,      0}, {0xff, 0xff, 0xff, 0xff}}},
-    {{{     8,     16,      0}, 0, {   512,      0}, {0xff, 0xff, 0xff, 0xff}}},
-    {{{     0,     16,      0}, 0, {   512,    256}, {0xff, 0xff, 0xff, 0xff}}},
+    {{{     8,     16,      0}, 0, {   480,      0}, {0xff, 0xff, 0xff, 0xff}}},
+    {{{     0,     16,      0}, 0, {   480,    256}, {0xff, 0xff, 0xff, 0xff}}},
+#endif
 };
 
 #if defined(VERSION_US) || defined(VERSION_EU)
@@ -2399,11 +2398,11 @@ const Gfx dl_ia_text_begin[] = {
 
 // 0x020073E8 - 0x02007418
 const Gfx dl_ia_text_tex_settings[] = {
-    gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0, G_TX_LOADTILE, 0, G_TX_WRAP | G_TX_NOMIRROR, 3, G_TX_NOLOD, G_TX_WRAP | G_TX_NOMIRROR, 4, G_TX_NOLOD),
+    gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0, G_TX_LOADTILE, 0, (G_TX_WRAP | G_TX_MIRROR), 3, G_TX_NOLOD, (G_TX_WRAP | G_TX_MIRROR), 4, G_TX_NOLOD),
     gsDPLoadSync(),
-    gsDPLoadBlock(G_TX_LOADTILE, 0, 0, ((16 * 8 + G_IM_SIZ_4b_INCR) >> G_IM_SIZ_4b_SHIFT) - 1, CALC_DXT(16, G_IM_SIZ_4b_BYTES)),
-    gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_4b, 1, 0, G_TX_RENDERTILE, 0, G_TX_WRAP | G_TX_NOMIRROR, 3, G_TX_NOLOD, G_TX_WRAP | G_TX_NOMIRROR, 4, G_TX_NOLOD),
-    gsDPSetTileSize(0, 0, 0, (16 - 1) << G_TEXTURE_IMAGE_FRAC, (8 - 1) << G_TEXTURE_IMAGE_FRAC),
+    gsDPLoadBlock(G_TX_LOADTILE, 0, 0, ((((16 * 8) + G_IM_SIZ_4b_INCR) >> G_IM_SIZ_4b_SHIFT) - 1), CALC_DXT(16, G_IM_SIZ_4b_BYTES)),
+    gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_4b, 1, 0, G_TX_RENDERTILE, 0, (G_TX_WRAP | G_TX_MIRROR), 3, G_TX_NOLOD, (G_TX_WRAP | G_TX_MIRROR), 4, G_TX_NOLOD),
+    gsDPSetTileSize(0, 0, 0, ((16 - 1) << G_TEXTURE_IMAGE_FRAC), ((8 - 1) << G_TEXTURE_IMAGE_FRAC)),
     gsSPVertex(vertex_ia8_char, 4, 0),
     gsSP2Triangles( 0,  1,  2, 0x0, 0,  2,  3, 0x0),
     gsSPEndDisplayList(),

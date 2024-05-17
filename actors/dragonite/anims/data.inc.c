@@ -1,5 +1,1 @@
 #include "anim_CarryingMario.inc.c"
-#include "anim_Resting.inc.c"
-#include "anim_GettingUp.inc.c"
-#include "anim_StandingIdle.inc.c"
-#include "anim_ExtremeSpeed.inc.c"

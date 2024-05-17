@@ -5,7 +5,6 @@
 
 
 
-
 Gfx dragonite_eye1_ci8_aligner[] = {gsSPEndDisplayList()};
 u8 dragonite_eye1_ci8[] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
@@ -520,154 +519,6 @@ u8 dragonite_tail_ci8_pal_rgba16[] = {
 	0xb4, 0x97, 0xc4, 0x93, 0xcc, 0x91, 0xd4, 0xd1, 
 	0xd4, 0xd3, 0xdc, 0xcf, 0xe4, 0xcb, 0xd4, 0x8d, 
 	
-};
-
-Gfx dragonite_DragoniteEyeClosed_ci8_aligner[] = {gsSPEndDisplayList()};
-u8 dragonite_DragoniteEyeClosed_ci8[] = {
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03, 0x03, 
-	0x03, 0x04, 0x04, 0x05, 0x05, 0x05, 0x05, 0x06, 
-	0x07, 0x08, 0x08, 0x09, 0x03, 0x03, 0x03, 0x02, 
-	0x02, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x01, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 
-	0x0f, 0x10, 0x10, 0x11, 0x10, 0x0f, 0x0f, 0x12, 
-	0x13, 0x14, 0x14, 0x13, 0x15, 0x16, 0x17, 0x18, 
-	0x19, 0x1a, 0x05, 0x03, 0x02, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x02, 0x0c, 0x1b, 0x1c, 0x19, 0x1d, 
-	0x1e, 0x1f, 0x1f, 0x05, 0x05, 0x06, 0x06, 0x04, 
-	0x05, 0x05, 0x05, 0x1f, 0x1f, 0x1d, 0x20, 0x21, 
-	0x22, 0x13, 0x23, 0x24, 0x25, 0x26, 0x02, 0x00, 
-	0x00, 0x00, 0x01, 0x04, 0x04, 0x03, 0x02, 0x02, 
-	0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x01, 0x01, 0x02, 0x02, 0x02, 
-	0x03, 0x27, 0x28, 0x29, 0x22, 0x0c, 0x1f, 0x01, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x01, 0x02, 0x04, 0x1f, 0x04, 0x01, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-	
-};
-
-Gfx dragonite_DragoniteEyeClosed_ci8_pal_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 dragonite_DragoniteEyeClosed_ci8_pal_rgba16[] = {
-	0xe4, 0x8b, 0xe4, 0xcd, 0xed, 0x0f, 0xed, 0x51, 
-	0xed, 0x93, 0xf5, 0x93, 0xe5, 0x53, 0xd5, 0x11, 
-	0xc4, 0x91, 0xcc, 0xd1, 0xbc, 0x4f, 0x93, 0x8f, 
-	0x6a, 0xcd, 0x6b, 0x0d, 0x41, 0xc9, 0x21, 0x47, 
-	0x19, 0x07, 0x18, 0xc7, 0x21, 0x07, 0x31, 0x89, 
-	0x39, 0xc9, 0x08, 0x85, 0x39, 0x89, 0x5a, 0x4b, 
-	0x7b, 0x0d, 0xa4, 0x11, 0xe5, 0x95, 0x7b, 0x4f, 
-	0x9c, 0x11, 0xcd, 0x13, 0xed, 0x95, 0xf5, 0xd5, 
-	0xac, 0x51, 0x93, 0xcf, 0x62, 0xcd, 0x52, 0x4b, 
-	0x8b, 0xd1, 0xbc, 0x93, 0xdd, 0x11, 0xe5, 0x51, 
-	0xb4, 0x51, 0x83, 0x4f, 
 };
 
 Gfx dragonite_claw_ci4_aligner[] = {gsSPEndDisplayList()};
@@ -3625,7 +3476,7 @@ Gfx mat_dragonite_Eye[] = {
 	gsDPLoadBlock(7, 0, 0, 511, 512),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
 	gsDPSetTileSize(0, 0, 0, 124, 124),
-	gsSPLightColor(LIGHT_1, 0xffffffff),
+    gsSPLightColor(LIGHT_1, 0xffffffff),
     gsSPLightColor(LIGHT_2, 0x7f7f7fff),
 	gsSPEndDisplayList(),
 };
@@ -3650,37 +3501,12 @@ Gfx mat_dragonite_Tail[] = {
 	gsDPLoadBlock(7, 0, 0, 1023, 512),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 0, G_TX_WRAP | G_TX_MIRROR, 5, 0),
 	gsDPSetTileSize(0, 0, 0, 124, 252),
-	gsSPLightColor(LIGHT_1, 0xffffffff),
+    gsSPLightColor(LIGHT_1, 0xffffffff),
     gsSPLightColor(LIGHT_2, 0x7f7f7fff),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_dragonite_Tail[] = {
-	gsDPPipeSync(),
-	gsDPSetTextureLUT(G_TT_NONE),
-	gsSPEndDisplayList(),
-};
-
-Gfx mat_dragonite_EyeClosed[] = {
-	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
-	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetTextureLUT(G_TT_RGBA16),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, dragonite_DragoniteEyeClosed_ci8_pal_rgba16),
-	gsDPSetTile(0, 0, 0, 256, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
-	gsDPLoadTLUTCmd(7, 41),
-	gsDPLoadSync(),
-	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, dragonite_DragoniteEyeClosed_ci8),
-	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
-	gsDPLoadBlock(7, 0, 0, 511, 512),
-	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
-	gsDPSetTileSize(0, 0, 0, 124, 124),
-	gsSPLightColor(LIGHT_1, 0xffffffff),
-    gsSPLightColor(LIGHT_2, 0x7f7f7fff),
-	gsSPEndDisplayList(),
-};
-
-Gfx mat_revert_dragonite_EyeClosed[] = {
 	gsDPPipeSync(),
 	gsDPSetTextureLUT(G_TT_NONE),
 	gsSPEndDisplayList(),
@@ -3700,7 +3526,7 @@ Gfx mat_dragonite_Nail[] = {
 	gsDPLoadBlock(7, 0, 0, 31, 2048),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 1, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 4, 0, G_TX_CLAMP | G_TX_NOMIRROR, 3, 0),
 	gsDPSetTileSize(0, 0, 0, 28, 60),
-	gsSPLightColor(LIGHT_1, 0xffffffff),
+    gsSPLightColor(LIGHT_1, 0xffffffff),
     gsSPLightColor(LIGHT_2, 0x7f7f7fff),
 	gsSPEndDisplayList(),
 };
@@ -3725,7 +3551,7 @@ Gfx mat_dragonite_Nose[] = {
 	gsDPLoadBlock(7, 0, 0, 255, 512),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 4, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
 	gsDPSetTileSize(0, 0, 0, 124, 60),
-	gsSPLightColor(LIGHT_1, 0xffffffff),
+    gsSPLightColor(LIGHT_1, 0xffffffff),
     gsSPLightColor(LIGHT_2, 0x7f7f7fff),
 	gsSPEndDisplayList(),
 };
@@ -3751,7 +3577,7 @@ Gfx mat_dragonite_Antenna[] = {
 	gsDPLoadBlock(7, 0, 0, 1023, 512),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
 	gsDPSetTileSize(0, 0, 0, 252, 252),
-	gsSPLightColor(LIGHT_1, 0xffffffff),
+    gsSPLightColor(LIGHT_1, 0xffffffff),
     gsSPLightColor(LIGHT_2, 0x7f7f7fff),
 	gsSPEndDisplayList(),
 };
@@ -3777,7 +3603,7 @@ Gfx mat_dragonite_WingFront[] = {
 	gsDPLoadBlock(7, 0, 0, 1023, 512),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
 	gsDPSetTileSize(0, 0, 0, 252, 252),
-	gsSPLightColor(LIGHT_1, 0xffffffff),
+    gsSPLightColor(LIGHT_1, 0xffffffff),
     gsSPLightColor(LIGHT_2, 0x7f7f7fff),
 	gsSPEndDisplayList(),
 };
@@ -3802,7 +3628,7 @@ Gfx mat_dragonite_WingBack[] = {
 	gsDPLoadBlock(7, 0, 0, 1023, 512),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
 	gsDPSetTileSize(0, 0, 0, 252, 252),
-	gsSPLightColor(LIGHT_1, 0xffffffff),
+    gsSPLightColor(LIGHT_1, 0xffffffff),
     gsSPLightColor(LIGHT_2, 0x7f7f7fff),
 	gsSPEndDisplayList(),
 };
@@ -3823,30 +3649,10 @@ Gfx dragonite_Root_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx dragonite_Root_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_Root_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
-	gsSPDisplayList(mat_dragonite_Tail),
-	gsSPDisplayList(dragonite_Root_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dragonite_Tail),
-	gsSPEndDisplayList(),
-};
-
 Gfx dragonite_Tail1_skinned_mesh_layer_1[] = {
 	gsSPDisplayList(mat_dragonite_Eye),
 	gsSPDisplayList(dragonite_Tail1_skinned_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dragonite_Eye),
-	gsSPDisplayList(mat_dragonite_Tail),
-	gsSPDisplayList(dragonite_Tail1_skinned_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dragonite_Tail),
-	gsSPEndDisplayList(),
-};
-
-Gfx dragonite_Tail1_skinned_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_Tail1_skinned_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
 	gsSPDisplayList(mat_dragonite_Tail),
 	gsSPDisplayList(dragonite_Tail1_skinned_mesh_layer_1_tri_1),
 	gsSPDisplayList(mat_revert_dragonite_Tail),
@@ -3863,30 +3669,10 @@ Gfx dragonite_Tail1_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx dragonite_Tail1_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_Tail1_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
-	gsSPDisplayList(mat_dragonite_Tail),
-	gsSPDisplayList(dragonite_Tail1_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dragonite_Tail),
-	gsSPEndDisplayList(),
-};
-
 Gfx dragonite_Tail2_skinned_mesh_layer_1[] = {
 	gsSPDisplayList(mat_dragonite_Eye),
 	gsSPDisplayList(dragonite_Tail2_skinned_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dragonite_Eye),
-	gsSPDisplayList(mat_dragonite_Tail),
-	gsSPDisplayList(dragonite_Tail2_skinned_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dragonite_Tail),
-	gsSPEndDisplayList(),
-};
-
-Gfx dragonite_Tail2_skinned_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_Tail2_skinned_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
 	gsSPDisplayList(mat_dragonite_Tail),
 	gsSPDisplayList(dragonite_Tail2_skinned_mesh_layer_1_tri_1),
 	gsSPDisplayList(mat_revert_dragonite_Tail),
@@ -3903,16 +3689,6 @@ Gfx dragonite_Tail2_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx dragonite_Tail2_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_Tail2_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
-	gsSPDisplayList(mat_dragonite_Tail),
-	gsSPDisplayList(dragonite_Tail2_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dragonite_Tail),
-	gsSPEndDisplayList(),
-};
-
 Gfx dragonite_Tail3_skinned_mesh_layer_1[] = {
 	gsSPDisplayList(mat_dragonite_Eye),
 	gsSPDisplayList(dragonite_Tail3_skinned_mesh_layer_1_tri_0),
@@ -3920,24 +3696,10 @@ Gfx dragonite_Tail3_skinned_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx dragonite_Tail3_skinned_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_Tail3_skinned_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
-	gsSPEndDisplayList(),
-};
-
 Gfx dragonite_Tail3_mesh_layer_1[] = {
 	gsSPDisplayList(mat_dragonite_Eye),
 	gsSPDisplayList(dragonite_Tail3_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dragonite_Eye),
-	gsSPEndDisplayList(),
-};
-
-Gfx dragonite_Tail3_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_Tail3_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
 	gsSPEndDisplayList(),
 };
 
@@ -3951,16 +3713,6 @@ Gfx dragonite_Torso_skinned_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx dragonite_Torso_skinned_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_Tail),
-	gsSPDisplayList(dragonite_Torso_skinned_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_Tail),
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_Torso_skinned_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
-	gsSPEndDisplayList(),
-};
-
 Gfx dragonite_Torso_mesh_layer_1[] = {
 	gsSPDisplayList(mat_dragonite_Tail),
 	gsSPDisplayList(dragonite_Torso_mesh_layer_1_tri_0),
@@ -3971,16 +3723,6 @@ Gfx dragonite_Torso_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx dragonite_Torso_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_Tail),
-	gsSPDisplayList(dragonite_Torso_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_Tail),
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_Torso_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
-	gsSPEndDisplayList(),
-};
-
 Gfx dragonite_Head_skinned_mesh_layer_1[] = {
 	gsSPDisplayList(mat_dragonite_Tail),
 	gsSPDisplayList(dragonite_Head_skinned_mesh_layer_1_tri_0),
@@ -3988,16 +3730,6 @@ Gfx dragonite_Head_skinned_mesh_layer_1[] = {
 	gsSPDisplayList(mat_dragonite_Eye),
 	gsSPDisplayList(dragonite_Head_skinned_mesh_layer_1_tri_1),
 	gsSPDisplayList(mat_revert_dragonite_Eye),
-	gsSPEndDisplayList(),
-};
-
-Gfx dragonite_Head_skinned_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_Tail),
-	gsSPDisplayList(dragonite_Head_skinned_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_Tail),
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_Head_skinned_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
 	gsSPEndDisplayList(),
 };
 
@@ -4023,36 +3755,7 @@ Gfx dragonite_Head_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx dragonite_Head_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_Tail),
-	gsSPDisplayList(dragonite_Head_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_Tail),
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_Head_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
-	gsSPDisplayList(mat_dragonite_Tail),
-	gsSPDisplayList(dragonite_Head_mesh_layer_1_tri_2),
-	gsSPDisplayList(mat_revert_dragonite_Tail),
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_Head_mesh_layer_1_tri_3),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
-	gsSPDisplayList(mat_dragonite_Nail),
-	gsSPDisplayList(dragonite_Head_mesh_layer_1_tri_4),
-	gsSPDisplayList(mat_revert_dragonite_Nail),
-	gsSPDisplayList(mat_dragonite_Nose),
-	gsSPDisplayList(dragonite_Head_mesh_layer_1_tri_5),
-	gsSPDisplayList(mat_revert_dragonite_Nose),
-	gsSPEndDisplayList(),
-};
-
 Gfx dragonite_Head_mesh_layer_5[] = {
-	gsSPDisplayList(mat_dragonite_Antenna),
-	gsSPDisplayList(dragonite_Head_mesh_layer_5_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_Antenna),
-	gsSPEndDisplayList(),
-};
-
-Gfx dragonite_Head_mesh_layer_5_mat_override_EyeClosed_0[] = {
 	gsSPDisplayList(mat_dragonite_Antenna),
 	gsSPDisplayList(dragonite_Head_mesh_layer_5_tri_0),
 	gsSPDisplayList(mat_revert_dragonite_Antenna),
@@ -4066,24 +3769,10 @@ Gfx dragonite_l_UpperArm_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx dragonite_l_UpperArm_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_l_UpperArm_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
-	gsSPEndDisplayList(),
-};
-
 Gfx dragonite_l_LowerArm_skinned_mesh_layer_1[] = {
 	gsSPDisplayList(mat_dragonite_Eye),
 	gsSPDisplayList(dragonite_l_LowerArm_skinned_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dragonite_Eye),
-	gsSPEndDisplayList(),
-};
-
-Gfx dragonite_l_LowerArm_skinned_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_l_LowerArm_skinned_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
 	gsSPEndDisplayList(),
 };
 
@@ -4092,17 +3781,6 @@ Gfx dragonite_l_LowerArm_mesh_layer_1[] = {
 	gsSPDisplayList(dragonite_l_LowerArm_mesh_layer_1_tri_0),
 	gsSPDisplayList(dragonite_l_LowerArm_mesh_layer_1_tri_1),
 	gsSPDisplayList(mat_revert_dragonite_Eye),
-	gsSPDisplayList(mat_dragonite_Nail),
-	gsSPDisplayList(dragonite_l_LowerArm_mesh_layer_1_tri_2),
-	gsSPDisplayList(mat_revert_dragonite_Nail),
-	gsSPEndDisplayList(),
-};
-
-Gfx dragonite_l_LowerArm_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_l_LowerArm_mesh_layer_1_tri_0),
-	gsSPDisplayList(dragonite_l_LowerArm_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
 	gsSPDisplayList(mat_dragonite_Nail),
 	gsSPDisplayList(dragonite_l_LowerArm_mesh_layer_1_tri_2),
 	gsSPDisplayList(mat_revert_dragonite_Nail),
@@ -4119,27 +3797,10 @@ Gfx dragonite_l_Wing_mesh_layer_4[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx dragonite_l_Wing_mesh_layer_4_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_WingFront),
-	gsSPDisplayList(dragonite_l_Wing_mesh_layer_4_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_WingFront),
-	gsSPDisplayList(mat_dragonite_WingBack),
-	gsSPDisplayList(dragonite_l_Wing_mesh_layer_4_tri_1),
-	gsSPDisplayList(mat_revert_dragonite_WingBack),
-	gsSPEndDisplayList(),
-};
-
 Gfx dragonite_r_UpperArm_mesh_layer_1[] = {
 	gsSPDisplayList(mat_dragonite_Eye),
 	gsSPDisplayList(dragonite_r_UpperArm_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dragonite_Eye),
-	gsSPEndDisplayList(),
-};
-
-Gfx dragonite_r_UpperArm_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_r_UpperArm_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
 	gsSPEndDisplayList(),
 };
 
@@ -4150,29 +3811,11 @@ Gfx dragonite_r_LowerArm_skinned_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx dragonite_r_LowerArm_skinned_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_r_LowerArm_skinned_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
-	gsSPEndDisplayList(),
-};
-
 Gfx dragonite_r_LowerArm_mesh_layer_1[] = {
 	gsSPDisplayList(mat_dragonite_Eye),
 	gsSPDisplayList(dragonite_r_LowerArm_mesh_layer_1_tri_0),
 	gsSPDisplayList(dragonite_r_LowerArm_mesh_layer_1_tri_1),
 	gsSPDisplayList(mat_revert_dragonite_Eye),
-	gsSPDisplayList(mat_dragonite_Nail),
-	gsSPDisplayList(dragonite_r_LowerArm_mesh_layer_1_tri_2),
-	gsSPDisplayList(mat_revert_dragonite_Nail),
-	gsSPEndDisplayList(),
-};
-
-Gfx dragonite_r_LowerArm_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_r_LowerArm_mesh_layer_1_tri_0),
-	gsSPDisplayList(dragonite_r_LowerArm_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
 	gsSPDisplayList(mat_dragonite_Nail),
 	gsSPDisplayList(dragonite_r_LowerArm_mesh_layer_1_tri_2),
 	gsSPDisplayList(mat_revert_dragonite_Nail),
@@ -4189,16 +3832,6 @@ Gfx dragonite_r_Wing_mesh_layer_4[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx dragonite_r_Wing_mesh_layer_4_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_WingFront),
-	gsSPDisplayList(dragonite_r_Wing_mesh_layer_4_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_WingFront),
-	gsSPDisplayList(mat_dragonite_WingBack),
-	gsSPDisplayList(dragonite_r_Wing_mesh_layer_4_tri_1),
-	gsSPDisplayList(mat_revert_dragonite_WingBack),
-	gsSPEndDisplayList(),
-};
-
 Gfx dragonite_l_Thigh_mesh_layer_1[] = {
 	gsSPDisplayList(mat_dragonite_Eye),
 	gsSPDisplayList(dragonite_l_Thigh_mesh_layer_1_tri_0),
@@ -4206,24 +3839,10 @@ Gfx dragonite_l_Thigh_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx dragonite_l_Thigh_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_l_Thigh_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
-	gsSPEndDisplayList(),
-};
-
 Gfx dragonite_l_Foot_skinned_mesh_layer_1[] = {
 	gsSPDisplayList(mat_dragonite_Eye),
 	gsSPDisplayList(dragonite_l_Foot_skinned_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dragonite_Eye),
-	gsSPEndDisplayList(),
-};
-
-Gfx dragonite_l_Foot_skinned_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_l_Foot_skinned_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
 	gsSPEndDisplayList(),
 };
 
@@ -4238,28 +3857,10 @@ Gfx dragonite_l_Foot_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx dragonite_l_Foot_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_l_Foot_mesh_layer_1_tri_0),
-	gsSPDisplayList(dragonite_l_Foot_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
-	gsSPDisplayList(mat_dragonite_Nail),
-	gsSPDisplayList(dragonite_l_Foot_mesh_layer_1_tri_2),
-	gsSPDisplayList(mat_revert_dragonite_Nail),
-	gsSPEndDisplayList(),
-};
-
 Gfx dragonite_r_Thigh_mesh_layer_1[] = {
 	gsSPDisplayList(mat_dragonite_Eye),
 	gsSPDisplayList(dragonite_r_Thigh_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_dragonite_Eye),
-	gsSPEndDisplayList(),
-};
-
-Gfx dragonite_r_Thigh_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_r_Thigh_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
 	gsSPEndDisplayList(),
 };
 
@@ -4270,29 +3871,11 @@ Gfx dragonite_r_Foot_skinned_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx dragonite_r_Foot_skinned_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_r_Foot_skinned_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
-	gsSPEndDisplayList(),
-};
-
 Gfx dragonite_r_Foot_mesh_layer_1[] = {
 	gsSPDisplayList(mat_dragonite_Eye),
 	gsSPDisplayList(dragonite_r_Foot_mesh_layer_1_tri_0),
 	gsSPDisplayList(dragonite_r_Foot_mesh_layer_1_tri_1),
 	gsSPDisplayList(mat_revert_dragonite_Eye),
-	gsSPDisplayList(mat_dragonite_Nail),
-	gsSPDisplayList(dragonite_r_Foot_mesh_layer_1_tri_2),
-	gsSPDisplayList(mat_revert_dragonite_Nail),
-	gsSPEndDisplayList(),
-};
-
-Gfx dragonite_r_Foot_mesh_layer_1_mat_override_EyeClosed_0[] = {
-	gsSPDisplayList(mat_dragonite_EyeClosed),
-	gsSPDisplayList(dragonite_r_Foot_mesh_layer_1_tri_0),
-	gsSPDisplayList(dragonite_r_Foot_mesh_layer_1_tri_1),
-	gsSPDisplayList(mat_revert_dragonite_EyeClosed),
 	gsSPDisplayList(mat_dragonite_Nail),
 	gsSPDisplayList(dragonite_r_Foot_mesh_layer_1_tri_2),
 	gsSPDisplayList(mat_revert_dragonite_Nail),

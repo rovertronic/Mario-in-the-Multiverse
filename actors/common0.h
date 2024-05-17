@@ -9,7 +9,6 @@ extern const Gfx dAmpElectricityDl[];
 extern const Gfx dAmpEyeDl[];
 extern const Gfx dAmpMouthDl[];
 extern const Gfx dAmpBodyDl[];
-extern const GeoLayout zap_geo[];
 extern const struct Animation *const dAmpAnimsList[];
 
 // blue_coin_switch

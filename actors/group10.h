@@ -94,8 +94,4 @@ extern const Gfx yoshi_seg5_dl_05022408[];
 extern const Gfx yoshi_seg5_dl_05022608[];
 extern const struct Animation *const yoshi_seg5_anims_05024100[];
 
-#include "wedser/geo_header.h"
-
-
-#include "wedser/anim_header.h"
 #endif

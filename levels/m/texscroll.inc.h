@@ -1,10 +1,9 @@
 extern void scroll_m_dl_hub_sign_mesh_layer_4_vtx_0();
 extern void scroll_m_dl_A4_Maze_A_mesh_layer_4_vtx_1();
-extern void scroll_m_dl_A4_Maze_B_mesh_layer_4_vtx_1();
+extern void scroll_m_dl_A4_Room_B_mesh_layer_4_vtx_1();
 extern void scroll_m_dl_A4_Maze_C_mesh_layer_4_vtx_1();
 extern void scroll_m_dl_A4_Maze_D_mesh_layer_4_vtx_1();
 extern void scroll_m_dl_A4_Maze_E_mesh_layer_4_vtx_1();
-extern void scroll_m_dl_A4_Room_B_mesh_layer_4_vtx_1();
 extern void scroll_m_dl_A4_Room_C_mesh_layer_4_vtx_3();
 extern void scroll_gfx_mat_m_dl_Water_A_layer5();
 extern void scroll_gfx_mat_m_dl_Water_B_layer5();

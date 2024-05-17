@@ -96,4 +96,8 @@ void scroll_textures() {
 		scroll_textures_bowser_course();
 	}
 
+	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_m_segment_7SegmentRomStart)) {
+		scroll_textures_m();
+	}
+
 }

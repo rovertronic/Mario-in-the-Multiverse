@@ -6478,8 +6478,6 @@ struct CameraTrigger sCamO[] = {
 };
 <<<<<<< HEAD
 struct CameraTrigger sCamM[] = {
-=======
-struct CameraTrigger sCamD[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger sCamN[] = {
@@ -11064,19 +11062,13 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // TTM            | Unused
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // Unused         | Unused
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
-<<<<<<< HEAD
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), 
-	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), 
-=======
+	ZOOMOUT_AREA_MASK(0, 0, 1, 0, 0, 0, 0, 0), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
 	ZOOMOUT_AREA_MASK(1, 1, 1, 0, 1, 0, 0, 0), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 0), 
-	ZOOMOUT_AREA_MASK(1, 1, 1, 1, 1, 0, 0, 0), 
-	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
-	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), 
->>>>>>> main
 };
 
 //STATIC_ASSERT(ARRAY_COUNT(sZoomOutAreaMasks) - 1 == LEVEL_MAX / 2, "Make sure you edit sZoomOutAreaMasks when adding / removing courses.");

@@ -199,6 +199,7 @@ void taxistop_loop(void)
                 gLakituState.goalPos[0] = 5181;
                 gLakituState.goalPos[1] = -3;
                 gLakituState.goalPos[2] = -7742;
+                set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
                 play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, eventTimer, 0, 0, 0);
                 if (o->oTimer >= 18)
                 {
@@ -213,6 +214,7 @@ void taxistop_loop(void)
                 gLakituState.goalPos[0] = -11647;
                 gLakituState.goalPos[1] = 316;
                 gLakituState.goalPos[2] = -5005;
+                set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
                 play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, eventTimer, 0, 0, 0);
                 if (o->oTimer >= 18)
                 {
@@ -227,6 +229,7 @@ void taxistop_loop(void)
             gLakituState.goalPos[0] = 0;
             gLakituState.goalPos[1] = 0;
             gLakituState.goalPos[2] = 0;
+            set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
             play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, eventTimer, 0, 0, 0);
             if (o->oTimer >= 18)
             {

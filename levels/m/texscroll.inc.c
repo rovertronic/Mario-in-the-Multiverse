@@ -149,6 +149,18 @@ void scroll_m_dl_A4_Room_C_mesh_layer_4_vtx_3() {
 	currentY += deltaY;
 }
 
+void scroll_gfx_mat_m_dl_Stars_layer5() {
+	Gfx *mat = segmented_to_virtual(mat_m_dl_Stars_layer5);
+	static int interval_tex_m_dl_Stars_layer5 = 8;
+	static int cur_interval_tex_m_dl_Stars_layer5 = 8;
+
+	if (--cur_interval_tex_m_dl_Stars_layer5 <= 0) {
+		shift_s(mat, 16, PACK_TILESIZE(0, 2));
+		cur_interval_tex_m_dl_Stars_layer5 = interval_tex_m_dl_Stars_layer5;
+	}
+
+};
+
 void scroll_gfx_mat_m_dl_Water_A_layer5() {
 	Gfx *mat = segmented_to_virtual(mat_m_dl_Water_A_layer5);
 
@@ -177,6 +189,7 @@ void scroll_m() {
 	scroll_m_dl_A4_Maze_D_mesh_layer_4_vtx_1();
 	scroll_m_dl_A4_Maze_E_mesh_layer_4_vtx_1();
 	scroll_m_dl_A4_Room_C_mesh_layer_4_vtx_3();
+	scroll_gfx_mat_m_dl_Stars_layer5();
 	scroll_gfx_mat_m_dl_Water_A_layer5();
 	scroll_gfx_mat_m_dl_Water_B_layer5();
 };

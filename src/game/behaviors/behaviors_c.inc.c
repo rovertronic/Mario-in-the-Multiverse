@@ -2,12 +2,16 @@
 static void spawn_multiple_enemies(const BehaviorScript *behavior, ModelID32 modelId, u8 amount){
     u8 i;
     for (i = 0; i < amount; i++) {
-        struct Object *obj = spawn_object_relative(0, random_float() * random_sign() * 1000.0f, 0, random_float() * random_sign() * 1000.0f, o, modelId, behavior);
+        struct Object *obj = spawn_object_relative(0, random_float() * random_sign() * 1500.0f, 0, random_float() * random_sign() * 1500.0f, o, modelId, behavior);
         SET_BPARAM1(obj->oBehParams, 3);
+        if(obj_has_behavior(obj, bhvOctoball)) {
+            obj->oOctoballCantRespawn = TRUE;
+        }
     }
 }
 
 void bhv_fight_waves_manager_loop(void) {
+    struct Object *squidLoot;
     switch(o->oAction){
         case 0: //wait for mario
             if(o->oDistanceToMario < 2000){
@@ -22,18 +26,24 @@ void bhv_fight_waves_manager_loop(void) {
             }
             break;
         case 2: //wait for wave 2 to end
-            if(count_objects_with_behavior(bhvOctoball) == 0){
+            if(count_objects_with_behavior_and_specific_s32_value(bhvOctoball, 0x1F, 1) == 0){ //count the octoball that can't respawn left
                 spawn_multiple_enemies(bhvChuckya, MODEL_CHUCKYA, 5);
                 o->oAction++;
             }
             break;
         case 3: //wait for wave 3 to end
             if(count_objects_with_behavior(bhvChuckya) == 0){
-                bhv_spawn_star_no_level_exit_at_object(0, gMarioObject);
+                create_sound_spawner(SOUND_GENERAL2_RIGHT_ANSWER);
+                squidLoot = spawn_object(o, MODEL_ABILITY, bhvAbilityUnlock);
+                squidLoot->oBehParams2ndByte = ABILITY_SQUID;
                 o->oAction++;
             }
             break;
         case 4: //end fight
+            if(o->oTimer > 20) {
+                cur_obj_spawn_star_at_y_offset(6656.0f, 4172.0f, -3519.0f, 0.0f);
+                o->oAction++;
+            }
             break;
     }
 }
@@ -192,5 +202,17 @@ void bhv_paint_stain_loop(void) {
         if(o->oFloatF4 <= 0) {
             obj_mark_for_deletion(o);
         }
+    }
+}
+
+//----------------------TARGET----------------------//
+
+void bhv_target_loop(void) {
+    if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 2){
+            obj_mark_for_deletion(o);
+            spawn_triangle_break_particles(15, MODEL_DIRT_ANIMATION, 1.0f, 0);
+            if(count_objects_with_behavior(bhvLevelSplatoonTarget) == 1) { //if it was the last target
+                bhv_spawn_star_no_level_exit_at_object(5, gMarioObject);
+            }
     }
 }

@@ -22,12 +22,12 @@ static void octoball_spawn_coin(void) {
     if (!((o->oBehParams >> 8) & 0x01)) {
         obj_spawn_yellow_coins(o, 3);
         o->oBehParams = 0x100;
-        set_object_respawn_info_bits(o, 1);
+        //set_object_respawn_info_bits(o, 1);
     }
 }
 
 static void try_create_octoball_respawner(void) {
-    if(GET_BPARAM1(o->oBehParams) != 3) {
+    if(o->oOctoballCantRespawn == FALSE) {
         create_respawner(MODEL_OCTOBALL, bhvOctoball, 3000);
     }
 }
@@ -85,6 +85,10 @@ static void octoball_act_patrol(void) {
     }
 
     obj_check_floor_death(collisionFlags, o->oFloor);
+
+    if(o->oTimer % 50 == 0) {
+        spawn_object(o, MODEL_PAINT_STAIN, bhvPaintStain);
+    }
 }
 
 static void octoball_act_chase_mario(void) {

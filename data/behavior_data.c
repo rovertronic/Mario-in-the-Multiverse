@@ -6904,6 +6904,15 @@ const BehaviorScript bhvPaintStain[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvLevelSplatoonTarget[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 100),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_target_loop),
+    END_LOOP(),
+};
+
 /* GROUP C END */
 
 /* GROUP D START */

@@ -683,6 +683,7 @@ void bhv_octoball_init(void);
 void bhv_octoball_loop(void);
 void bhv_paint_stain_init(void);
 void bhv_paint_stain_loop(void);
+void bhv_target_loop(void);
 //LEVEL C END
 
 void bhv_cutter_blade_init(void);

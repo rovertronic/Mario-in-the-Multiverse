@@ -1320,6 +1320,9 @@
 //G Cannon
 #define /*0x0F4*/ oNumSwitchesLeft OBJECT_FIELD_S32(0x1B)
 
+//C Octoball
+#define /*0x0F4*/ oOctoballCantRespawn OBJECT_FIELD_S32(0x1F)
+
 //Marx
 #define /*0x0F4*/ oMarxTeleportTimer OBJECT_FIELD_S32(0x1B)
 #define /*0x0F8*/ oMarxTeleportX    OBJECT_FIELD_F32(0x1C)

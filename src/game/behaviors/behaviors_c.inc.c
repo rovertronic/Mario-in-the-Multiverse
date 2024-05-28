@@ -187,14 +187,15 @@ void bhv_paint_stain_init(void) {
 
     o->oFaceAngleYaw = random_u16();
 
-    o->oFloatF4 = 1.0f;
+    o->oFloatF4 = 1.0f; //scale
     cur_obj_scale(o->oFloatF4);
 }
 
 void bhv_paint_stain_loop(void) {
     struct Surface *sObjFloor;
     find_floor(o->oPosX, o->oPosY, o->oPosZ, &sObjFloor);
-    obj_orient_graph(o, sObjFloor->normal.x, sObjFloor->normal.y, sObjFloor->normal.z);
+    object_step();
+    //obj_orient_graph(o, sObjFloor->normal.x, sObjFloor->normal.y, sObjFloor->normal.z);
 
     if(o->oTimer > 120) {
         o->oFloatF4 -= 0.02f;
@@ -208,11 +209,23 @@ void bhv_paint_stain_loop(void) {
 //----------------------TARGET----------------------//
 
 void bhv_target_loop(void) {
-    if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 2){
-            obj_mark_for_deletion(o);
-            spawn_triangle_break_particles(15, MODEL_DIRT_ANIMATION, 1.0f, 0);
-            if(count_objects_with_behavior(bhvLevelSplatoonTarget) == 1) { //if it was the last target
-                bhv_spawn_star_no_level_exit_at_object(5, gMarioObject);
+    switch(o->oAction){
+        case 0: //wait to be exploded
+            if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 1){
+                    spawn_triangle_break_particles(15, MODEL_DIRT_ANIMATION, 1.0f, 0);
+                    if(count_objects_with_behavior(bhvLevelSplatoonTarget) == 1) { //if it was the last target
+                        cur_obj_hide();
+                        o->oAction++;
+                    } else {
+                        obj_mark_for_deletion(o);
+                    }
             }
+            break;
+        case 1:
+            if(o->oTimer > 50) {
+                bhv_spawn_star_no_level_exit_at_object(5, gMarioObject);
+                obj_mark_for_deletion(o);
+            }
+            break;
     }
 }

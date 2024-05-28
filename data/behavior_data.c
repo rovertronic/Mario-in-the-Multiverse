@@ -6907,7 +6907,8 @@ const BehaviorScript bhvPaintStain[] = {
 const BehaviorScript bhvLevelSplatoonTarget[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
-    SET_HITBOX(/*Radius*/ 100, /*Height*/ 100),
+    SET_INT(oIntangibleTimer, 0),
+    SET_HITBOX_WITH_OFFSET(/*Radius*/ 200, /*Height*/ 450, 150),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_target_loop),
     END_LOOP(),

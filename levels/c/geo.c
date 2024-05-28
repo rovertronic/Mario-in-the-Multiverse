@@ -23,3 +23,4 @@
 #include "levels/c/octoball/geo.inc.c"
 #include "levels/c/star_boulder/geo.inc.c"
 #include "levels/c/paint_stain/geo.inc.c"
+#include "levels/c/splat_target/geo.inc.c"

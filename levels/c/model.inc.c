@@ -8384,20 +8384,6 @@ Gfx c_dl_level_c_mesh_layer_5_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
-Vtx c_dl_level_c_mesh_layer_5_vtx_1[4] = {
-	{{ {927, 6098, -3301}, 0, {-336, -176}, {216, 210, 195, 255} }},
-	{{ {-164, 6098, -2948}, 0, {-336, 2192}, {216, 210, 195, 255} }},
-	{{ {-164, 7146, -2948}, 0, {1328, 2192}, {216, 210, 195, 255} }},
-	{{ {927, 7146, -3301}, 0, {1328, -176}, {216, 210, 195, 255} }},
-};
-
-Gfx c_dl_level_c_mesh_layer_5_tri_1[] = {
-	gsSPVertex(c_dl_level_c_mesh_layer_5_vtx_1 + 0, 4, 0),
-	gsSP1Triangle(0, 1, 2, 0),
-	gsSP1Triangle(0, 2, 3, 0),
-	gsSPEndDisplayList(),
-};
-
 Vtx c_dl_level_c_mesh_layer_1_vtx_0[646] = {
 	{{ {-4383, -3341, -1284}, 0, {-206321, -28145}, {255, 255, 255, 255} }},
 	{{ {-4383, -4119, -1284}, 0, {-206321, 208337}, {255, 255, 255, 255} }},
@@ -16646,6 +16632,20 @@ Gfx c_dl_level_c_mesh_layer_6_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
+Vtx c_dl_level_c_mesh_layer_6_vtx_1[4] = {
+	{{ {927, 6098, -3301}, 0, {-336, -176}, {216, 210, 195, 255} }},
+	{{ {-164, 6098, -2948}, 0, {-336, 2192}, {216, 210, 195, 255} }},
+	{{ {-164, 7146, -2948}, 0, {1328, 2192}, {216, 210, 195, 255} }},
+	{{ {927, 7146, -3301}, 0, {1328, -176}, {216, 210, 195, 255} }},
+};
+
+Gfx c_dl_level_c_mesh_layer_6_tri_1[] = {
+	gsSPVertex(c_dl_level_c_mesh_layer_6_vtx_1 + 0, 4, 0),
+	gsSP1Triangle(0, 1, 2, 0),
+	gsSP1Triangle(0, 2, 3, 0),
+	gsSPEndDisplayList(),
+};
+
 Gfx mat_c_dl_dirt_alpha[] = {
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, SHADE, 0),
@@ -17346,9 +17346,6 @@ Gfx c_dl_level_c_mesh_layer_5[] = {
 	gsSPDisplayList(mat_c_dl_dirt_alpha),
 	gsSPDisplayList(c_dl_level_c_mesh_layer_5_tri_0),
 	gsSPDisplayList(mat_revert_c_dl_dirt_alpha),
-	gsSPDisplayList(mat_c_dl_arrow),
-	gsSPDisplayList(c_dl_level_c_mesh_layer_5_tri_1),
-	gsSPDisplayList(mat_revert_c_dl_arrow),
 	gsDPPipeSync(),
 	gsSPSetGeometryMode(G_LIGHTING),
 	gsSPClearGeometryMode(G_TEXTURE_GEN),
@@ -17469,6 +17466,9 @@ Gfx c_dl_level_c_mesh_layer_6[] = {
 	gsSPDisplayList(mat_c_dl_f3dlite_material_002_layer6),
 	gsSPDisplayList(c_dl_level_c_mesh_layer_6_tri_0),
 	gsSPDisplayList(mat_revert_c_dl_f3dlite_material_002_layer6),
+	gsSPDisplayList(mat_c_dl_arrow),
+	gsSPDisplayList(c_dl_level_c_mesh_layer_6_tri_1),
+	gsSPDisplayList(mat_revert_c_dl_arrow),
 	gsDPPipeSync(),
 	gsSPSetGeometryMode(G_LIGHTING),
 	gsSPClearGeometryMode(G_TEXTURE_GEN),

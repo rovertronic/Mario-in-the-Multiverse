@@ -40,6 +40,7 @@ const LevelScript level_c_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_OCTOBALL, octoball_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_STAR_BOULDER, star_boulder_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_PAINT_STAIN, paint_stain_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_SPLAT_TARGET, splat_target_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -74,7 +75,7 @@ const LevelScript level_c_entry[] = {
 		OBJECT(MODEL_FLIPSWITCH_1, 457, 1948, 7483, 0, 0, 0, (1 << 24), bhvFlipswitch),
 		OBJECT(MODEL_FLIPSWITCH_1, -3990, 284, -2278, 0, 0, 0, (1 << 24), bhvFlipswitch),
 		OBJECT(MODEL_FLIPSWITCH_1, 3224, 1992, 4216, 0, 0, 0, (1 << 24), bhvFlipswitch),
-		OBJECT(MODEL_PURPLE_SWITCH, 1515, 2416, 3128, 0, 0, 0, 0x00000000, bhvFloorSwitchHiddenObjects),
+		OBJECT(MODEL_PURPLE_SWITCH, 1515, 2416, 3128, 0, 180, 0, 0x00000000, bhvFloorSwitchHiddenObjects),
 		OBJECT(MODEL_RED_COIN_NO_SHADOW, -3619, 1931, -7442, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_RED_COIN_NO_SHADOW, -2181, 2735, -7442, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_RED_COIN_NO_SHADOW, -4023, 2650, -7442, 0, 0, 0, 0x00000000, bhvRedCoin),
@@ -85,6 +86,9 @@ const LevelScript level_c_entry[] = {
 		OBJECT(MODEL_RED_COIN_NO_SHADOW, -2667, 3679, -7442, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_NONE, -2864, 1094, -6190, 0, 0, 0, (1 << 24), bhvHiddenRedCoinStar),
 		OBJECT(MODEL_STAR, -9195, 548, 6641, 0, 0, 0, (3 << 24), bhvStar),
+		OBJECT(MODEL_SPLAT_TARGET, -669, 5549, 927, 1, 45, -1, 0x00000000, bhvLevelSplatoonTarget),
+		OBJECT(MODEL_SPLAT_TARGET, 1198, 4980, -932, 1, 45, -1, 0x00000000, bhvLevelSplatoonTarget),
+		OBJECT(MODEL_SPLAT_TARGET, 2996, 5261, -2723, 1, 45, -1, 0x00000000, bhvLevelSplatoonTarget),
 		TERRAIN(c_area_1_collision),
 		MACRO_OBJECTS(c_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_C_SEA_ME_NOW),

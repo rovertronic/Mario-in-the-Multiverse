@@ -673,6 +673,7 @@ enum GLOBAL_MODELS {
 #define MODEL_OCTOBALL              0x3A //octoball_geo
 #define MODEL_STAR_BOULDER          0x3B //star_boulder_geo
 #define MODEL_PAINT_STAIN           0x3C //paint_stain_geo
+#define MODEL_SPLAT_TARGET          0x3D //splat_target_geo
 /* LEVEL C END */
 
 /* LEVEL D START */

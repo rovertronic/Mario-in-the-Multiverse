@@ -25,4 +25,6 @@ extern const LevelScript level_c_entry[];
 
 #include "levels/c/paint_stain/geo_header.h"
 
+#include "levels/c/splat_target/geo_header.h"
+
 #endif

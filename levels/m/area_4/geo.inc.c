@@ -40,10 +40,6 @@ const GeoLayout m_dl_1_Area_4_Maze_A_geo[] = {
 const GeoLayout m_dl_2_Area_4_Maze_B_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 98, -5399, -9830, m_dl_A4_Room_B_mesh_layer_1),
-		GEO_OPEN_NODE(),
-			GEO_DISPLAY_LIST(LAYER_ALPHA, m_dl_A4_Room_B_mesh_layer_4),
-		GEO_CLOSE_NODE(),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -105,6 +101,10 @@ const GeoLayout m_dl_6_Area_4_Room_A_geo[] = {
 const GeoLayout m_dl_9_Area_4_Room_B_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 98, -5399, -9830, m_dl_A4_Room_B_mesh_layer_1),
+		GEO_OPEN_NODE(),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, m_dl_A4_Room_B_mesh_layer_4),
+		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 0, -7125, -4700, m_dl_A4_Water_A3_mesh_layer_5),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 0, -7125, -4700, m_dl_A4_water_B3_mesh_layer_5),
 	GEO_CLOSE_NODE(),

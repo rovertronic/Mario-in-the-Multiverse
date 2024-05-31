@@ -57,7 +57,7 @@ COURSE_ACTS(COURSE_TTC, _("14 MARIO IN HAMSTERBALL"),
        _("")            , _("")     , _(""),
        _("")           , _("")    , _(""))
 
-COURSE_ACTS(COURSE_RR, _("XX MARIO IN NEW ORLEANS"),
+COURSE_ACTS(COURSE_RR, _("15 ENVIRONMENTAL STATION M"),
        _("")  , _("")      , _(""),
        _("")        , _("")             , _(""))
 

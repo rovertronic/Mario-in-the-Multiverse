@@ -10,6 +10,7 @@ const GeoLayout m_area_1_geo[] = {
 			GEO_BRANCH(1, m_dl_A1_room_D_geo),
 			GEO_BRANCH(1, m_dl_A1_room_E_geo),
 		GEO_CLOSE_NODE(),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -4641, 2478, 7965, m_dl_Cube_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

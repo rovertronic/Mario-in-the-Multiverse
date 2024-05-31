@@ -20,6 +20,7 @@
 #include "src/game/texscroll/f_texscroll.inc.c"
 #include "src/game/texscroll/i_texscroll.inc.c"
 #include "src/game/texscroll/J_texscroll.inc.c"
+#include "src/game/texscroll/m_texscroll.inc.c"
 #include "src/game/texscroll/o_texscroll.inc.c"
 #include "src/game/texscroll/d_texscroll.inc.c"
 #include "src/game/texscroll/n_texscroll.inc.c"
@@ -50,6 +51,9 @@ void scroll_textures() {
 
 	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_J_segment_7SegmentRomStart)) {
 		scroll_textures_J();
+	}
+	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_m_segment_7SegmentRomStart)) {
+		scroll_textures_m();
 	}
 	
 	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_o_segment_7SegmentRomStart)) {

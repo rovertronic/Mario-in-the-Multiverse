@@ -232,5 +232,14 @@
     ],
     "46_pepperman_strikes":[
         "0E_extended_bank"
+    ],
+    "47_custom_esa_submerged": [
+        "0E_extended_bank"
+    ],
+    "48_custom_esa_ammoinen": [
+        "0E_extended_bank"
+    ],
+    "49_custom_esa_valiant": [
+        "0E_extended_bank"
     ]
 }

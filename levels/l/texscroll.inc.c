@@ -1,11 +1,11 @@
-void scroll_l_dl_MITM02_004_mesh_layer_4_vtx_3() {
+void scroll_l_dl_MITM02_004_mesh_layer_4_vtx_6() {
 	int i = 0;
-	int count = 144;
+	int count = 96;
 	int width = 32 * 0x20;
 
 	static int currentX = 0;
 	int deltaX;
-	Vtx *vertices = segmented_to_virtual(l_dl_MITM02_004_mesh_layer_4_vtx_3);
+	Vtx *vertices = segmented_to_virtual(l_dl_MITM02_004_mesh_layer_4_vtx_6);
 
 	deltaX = (int)(1.0 * 0x20) % width;
 
@@ -41,6 +41,6 @@ void scroll_l_dl_pvis_mesh_layer_5_vtx_0() {
 }
 
 void scroll_l() {
-	scroll_l_dl_MITM02_004_mesh_layer_4_vtx_3();
+	scroll_l_dl_MITM02_004_mesh_layer_4_vtx_6();
 	scroll_l_dl_pvis_mesh_layer_5_vtx_0();
 };

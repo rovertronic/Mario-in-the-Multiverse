@@ -529,6 +529,22 @@ void check_instant_warp(void) {
                 warp_camera(warp->displacement[0], warp->displacement[1], warp->displacement[2]);
 
                 gMarioState->area->camera->yaw = cameraAngle;
+
+                if (gCurrLevelNum == LEVEL_M) {
+                    switch(gCurrAreaIndex) {
+                        case 1:
+                        case 2:
+                            stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_AMMOINEN));
+                            stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_SUBMERGED));
+                            break;
+                        case 3:
+                            play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_AMMOINEN), 0);
+                            break;
+                        case 4:
+                            play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_SUBMERGED), 0);
+                            break;
+                    }
+                }
             }
         }
     }

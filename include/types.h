@@ -497,6 +497,8 @@ struct MarioState {
             u8 knightDoubleJump;
             u8 remainingDashes;
             s8 numCheckpointFlag;
+            s8 areaCheckpointFlag;
+            Vec3f vecCheckpointFlag;
             s8 keypad_id;
 };
 

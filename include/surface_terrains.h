@@ -132,7 +132,7 @@ enum SurfaceTypes {
     SURFACE_00A0,                       // 0x00A0 // Unused
     SURFACE_00A1,                       // 0x00A1 // Unused
     SURFACE_00A2,                       // 0x00A2 // Unused
-    SURFACE_00A3,                       // 0x00A3 // Unused
+    SURFACE_FLOWPIPE,                   // 0x00A3 // Unused
     SURFACE_00A4,                       // 0x00A4 // Unused
     SURFACE_00A5,                       // 0x00A5 // Unused
     SURFACE_PAINTING_WOBBLE_A6,         // 0x00A6 // Painting wobble (BoB Left)

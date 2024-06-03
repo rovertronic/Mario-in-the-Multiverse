@@ -44,6 +44,8 @@ const GeoLayout m_area_3_geo[] = {
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_ALPHA, m_dl_A3_Room_A_mesh_layer_4),
 		GEO_CLOSE_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -125441, 7882, 7974),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

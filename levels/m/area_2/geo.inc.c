@@ -62,6 +62,8 @@ const GeoLayout m_dl_A2_room_A_geo[] = {
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 0, -925, -1100, m_dl_A2_Water_A_mesh_layer_5),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 0, -925, -1100, m_dl_A2_water_B_mesh_layer_5),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -40000, 0, 0),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -102,6 +104,8 @@ const GeoLayout m_dl_A2_room_B_geo[] = {
 			GEO_DISPLAY_LIST(LAYER_ALPHA, m_dl_A2_Room_B_mesh_layer_4),
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, m_dl_A2_Room_B_mesh_layer_5),
 		GEO_CLOSE_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -40000, 0, 0),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -113,6 +117,8 @@ const GeoLayout m_dl_A2_room_C_geo[] = {
 			GEO_DISPLAY_LIST(LAYER_ALPHA, m_dl_A2_Room_C_mesh_layer_4),
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, m_dl_A2_Room_C_mesh_layer_5),
 		GEO_CLOSE_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -40000, 0, 0),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -124,6 +130,8 @@ const GeoLayout m_dl_A2_room_D_geo[] = {
 			GEO_DISPLAY_LIST(LAYER_ALPHA, m_dl_A2_Room_D_mesh_layer_4),
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, m_dl_A2_Room_D_mesh_layer_5),
 		GEO_CLOSE_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -85531, 7958, 8031),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -140,6 +148,8 @@ const GeoLayout m_dl_A2_room_E_geo[] = {
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_ALPHA, m_dl_A2_Room_E_mesh_layer_4),
 		GEO_CLOSE_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -85531, 7958, 8031),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -202,6 +212,8 @@ const GeoLayout m_dl_A2_room_F_geo[] = {
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 4975, -5175, -13600, m_dl_A2_Water_A2_mesh_layer_5),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 4975, -5175, -13600, m_dl_A2_water_B2_mesh_layer_5),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -85531, 7958, 8031),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -236,6 +248,8 @@ const GeoLayout m_dl_A2_room_G_geo[] = {
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -5000, 800, -9000, m_dl_A2_Room_G_slime_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 300, 2325, -9000, m_dl_A2_Water_A3_mesh_layer_5),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 300, 2325, -9000, m_dl_A2_water_B3_mesh_layer_5),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -85441, 7882, 7974),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -303,6 +317,8 @@ const GeoLayout m_dl_A2_room_H_geo[] = {
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 3200, 875, -9000, m_dl_A2_Water_A4_mesh_layer_5),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 3200, 875, -9000, m_dl_A2_water_B4_mesh_layer_5),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -85441, 7882, 7974),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

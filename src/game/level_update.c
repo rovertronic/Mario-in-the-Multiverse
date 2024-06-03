@@ -321,8 +321,11 @@ void init_mario_after_warp(void) {
             init_door_warp(&gPlayerSpawnInfos[0], sWarpDest.arg);
         }
 
-        if (sWarpDest.type == WARP_TYPE_CHANGE_LEVEL || sWarpDest.type == WARP_TYPE_CHANGE_AREA) {
+        if (sWarpDest.type == WARP_TYPE_CHANGE_LEVEL) {
+            gMarioState->areaCheckpointFlag = -1;
             gMarioState->numCheckpointFlag = -1;
+        }
+        if (sWarpDest.type == WARP_TYPE_CHANGE_LEVEL || sWarpDest.type == WARP_TYPE_CHANGE_AREA) {
             gPlayerSpawnInfos[0].areaIndex = sWarpDest.areaIdx;
             load_mario_area();
             chronos_timer = 360;
@@ -482,6 +485,7 @@ void warp_credits(void) {
     }
 }
 
+extern u8 magic_mirror_area_change_flag;
 void check_instant_warp(void) {
     s16 cameraAngle;
     struct Surface *floor;
@@ -527,6 +531,17 @@ void check_instant_warp(void) {
                 gMarioState->area->camera->yaw = cameraAngle;
             }
         }
+    }
+
+    if (magic_mirror_area_change_flag) {
+        magic_mirror_area_change_flag = FALSE;
+
+        change_area(gMarioState->areaCheckpointFlag);
+        gMarioState->area = gCurrentArea;
+        vec3f_copy(gMarioState->pos,gMarioState->vecCheckpointFlag);
+        gMarioState->marioObj->oPosX = gMarioState->pos[0];
+        gMarioState->marioObj->oPosY = gMarioState->pos[1];
+        gMarioState->marioObj->oPosZ = gMarioState->pos[2];
     }
 }
 

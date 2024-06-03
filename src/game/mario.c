@@ -1887,6 +1887,10 @@ u8 p_rank_stars = 0;
 u8 p_rank_success = FALSE;
 
 u8 magic_mirror_timer = 20;
+u8 magic_mirror_area_change_flag = FALSE;
+
+f32 flowpipe_vel = 0.0f;
+s16 flowpipe_angle = 0;
 
 s32 is_2d_area(void) {
     return ((gCurrLevelNum == LEVEL_L)&&(gCurrAreaIndex < 6));
@@ -2104,6 +2108,20 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
 
+        if (gMarioState->floor->type == SURFACE_FLOWPIPE) {
+            flowpipe_angle = gMarioState->floor->force << 8;
+            if (flowpipe_vel < 70.0f) {
+                flowpipe_vel += 2.0f;
+            }
+        } else {
+            flowpipe_vel *= .9f;
+        }
+
+        if (flowpipe_vel > 1.0f) {
+            gMarioState->pos[0] += sins(flowpipe_angle) * flowpipe_vel;
+            gMarioState->pos[2] += coss(flowpipe_angle) * flowpipe_vel;
+        }
+
         // The function can loop through many action shifts in one frame,
         // which can lead to unexpected sub-frame behavior. Could potentially hang
         // if a loop of actions were found, but there has not been a situation found.
@@ -2184,30 +2202,38 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 
         // Magic Mirror Code
         if ((using_ability(ABILITY_UTIL_MIRROR))&&(gPlayer1Controller->buttonPressed & L_TRIG)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
-            if (gMarioState->numCheckpointFlag != -1) {
-                struct Object *dw = cur_obj_nearest_object_with_behavior(bhvDeathWarp);
-                if (dw) {
-                    Vec3f displacement;
-                    vec3f_diff(displacement,&dw->oPosVec,gMarioState->pos);
+            if (gMarioState->areaCheckpointFlag == gCurrAreaIndex) {
+                // Checkpoint flag in same area
+                if (gMarioState->numCheckpointFlag != -1) {
+                    struct Object *dw = cur_obj_nearest_object_with_behavior(bhvDeathWarp);
+                    if (dw) {
+                        Vec3f displacement;
+                        vec3f_diff(displacement,&dw->oPosVec,gMarioState->pos);
 
-                    vec3f_add(gMarioState->pos,displacement);
+                        vec3f_add(gMarioState->pos,displacement);
 
-                    magic_mirror_timer = 0;
-                    
-                    gLakituState.curPos[1] += displacement[1];
-                    gLakituState.curFocus[1] += displacement[1];
-                    gLakituState.goalPos[1] += displacement[1];
-                    gLakituState.goalFocus[1] += displacement[1];
-                    
-                    gLakituState.focHSpeed = 1.f;
-                    gLakituState.focVSpeed = 1.f;
-                    gLakituState.posHSpeed = 1.f;
-                    gLakituState.posVSpeed = 1.f;
+                        magic_mirror_timer = 0;
+                        
+                        gLakituState.curPos[1] += displacement[1];
+                        gLakituState.curFocus[1] += displacement[1];
+                        gLakituState.goalPos[1] += displacement[1];
+                        gLakituState.goalFocus[1] += displacement[1];
+                        
+                        gLakituState.focHSpeed = 1.f;
+                        gLakituState.focVSpeed = 1.f;
+                        gLakituState.posHSpeed = 1.f;
+                        gLakituState.posVSpeed = 1.f;
 
-                    play_sound(SOUND_ABILITY_MAGIC_MIRROR, gGlobalSoundSource);
+                        play_sound(SOUND_ABILITY_MAGIC_MIRROR, gGlobalSoundSource);
+                    }
+                } else {
+                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
                 }
             } else {
-                play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                // Checkpoint flag NOT in same area
+                magic_mirror_area_change_flag = TRUE;
+                magic_mirror_timer = 0;
+                play_sound(SOUND_ABILITY_MAGIC_MIRROR, gGlobalSoundSource);
             }
         }
         if (magic_mirror_timer == 2) {
@@ -2538,6 +2564,7 @@ void init_mario_from_save_file(void) {
         gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked = 1;
     }
     gMarioState->numCheckpointFlag = -1;
+    gMarioState->areaCheckpointFlag = -1;
     gMarioState->abilityId = 0;
     gMarioState->playerID = 0;
     gMarioState->flags = MARIO_NONE;

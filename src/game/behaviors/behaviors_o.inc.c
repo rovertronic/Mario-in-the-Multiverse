@@ -1,10 +1,26 @@
 //checkpoint flag
 
 void bhv_checkpoint_flag(void) {
-    if (o->oBehParams2ndByte!=gMarioState->numCheckpointFlag) {
+    if ((o->oBehParams2ndByte==gMarioState->numCheckpointFlag)&&(gCurrAreaIndex == gMarioState->areaCheckpointFlag))  {
+        // Am the current checkpoint flag
+        if (o->oAnimState != 1) {
+            o->oAnimState = 1;
+
+            //move the death warp to me
+            struct Object *dw = cur_obj_nearest_object_with_behavior(bhvDeathWarp);
+            if (dw) {
+                dw->oPosX = o->oPosX+sins(o->oFaceAngleYaw)*101.0f;
+                dw->oPosY = o->oPosY+150.0f;
+                dw->oPosZ = o->oPosZ+coss(o->oFaceAngleYaw)*101.0f;
+                vec3f_copy(gMarioState->vecCheckpointFlag,&dw->oPosVec);
+            }
+        }
+    } else {
+        // Not the current checkpoint flag
         o->oAnimState = 0;
         if (o->oDistanceToMario < 100.0f) {
             gMarioState->numCheckpointFlag = o->oBehParams2ndByte;
+            gMarioState->areaCheckpointFlag = gCurrAreaIndex;
             o->oAnimState = 1;
             o->oVelY = 4000.0f;
             o->oTimer = 0;
@@ -17,6 +33,7 @@ void bhv_checkpoint_flag(void) {
                 dw->oPosX = o->oPosX+sins(o->oFaceAngleYaw)*101.0f;
                 dw->oPosY = o->oPosY+150.0f;
                 dw->oPosZ = o->oPosZ+coss(o->oFaceAngleYaw)*101.0f;
+                vec3f_copy(gMarioState->vecCheckpointFlag,&dw->oPosVec);
             }
         }
     }

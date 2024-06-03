@@ -34,12 +34,24 @@ const GeoLayout m_dl_1_Area_4_Maze_A_geo[] = {
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_ALPHA, m_dl_A4_Maze_A_mesh_layer_4),
 		GEO_CLOSE_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -165385, 7882, 7970),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
 const GeoLayout m_dl_2_Area_4_Maze_B_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 350, -5600, 9250, m_dl_A4_Maze_A_mesh_layer_1),
+		GEO_OPEN_NODE(),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, m_dl_A4_Maze_A_mesh_layer_4),
+		GEO_CLOSE_NODE(),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -4300, -5700, 6750, m_dl_A4_Maze_C_001_mesh_layer_1),
+		GEO_OPEN_NODE(),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, m_dl_A4_Maze_C_001_mesh_layer_4),
+		GEO_CLOSE_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -165385, 7882, 7970),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -52,10 +64,12 @@ const GeoLayout m_dl_3_Area_4_Maze_C_geo[] = {
 		GEO_BILLBOARD_WITH_PARAMS_AND_DL(LAYER_ALPHA, -7418, -6469, 5005, m_dl_A4_bb_plant_B_010_mesh_layer_4),
 		GEO_BILLBOARD_WITH_PARAMS_AND_DL(LAYER_ALPHA, -6874, -6459, 5530, m_dl_A4_bb_plant_B_011_mesh_layer_4),
 		GEO_BILLBOARD_WITH_PARAMS_AND_DL(LAYER_ALPHA, -5730, -6477, 5084, m_dl_A4_bb_plant_C_003_mesh_layer_4),
-		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -4300, -5700, 6750, m_dl_A4_Maze_C_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -4300, -5700, 6750, m_dl_A4_Maze_C_001_mesh_layer_1),
 		GEO_OPEN_NODE(),
-			GEO_DISPLAY_LIST(LAYER_ALPHA, m_dl_A4_Maze_C_mesh_layer_4),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, m_dl_A4_Maze_C_001_mesh_layer_4),
 		GEO_CLOSE_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -165385, 7882, 7970),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -66,6 +80,8 @@ const GeoLayout m_dl_4_Area_4_Maze_D_geo[] = {
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_ALPHA, m_dl_A4_Maze_D_mesh_layer_4),
 		GEO_CLOSE_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -165385, 7882, 7970),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -85,6 +101,8 @@ const GeoLayout m_dl_5_Area_4_Maze_E_geo[] = {
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 0, -3225, 3000, m_dl_A4_Water_A2_mesh_layer_5),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 0, -3225, 3000, m_dl_A4_water_B2_mesh_layer_5),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -165385, 7882, 7970),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -95,6 +113,8 @@ const GeoLayout m_dl_6_Area_4_Room_A_geo[] = {
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_ALPHA, m_dl_A4_Room_A_mesh_layer_4),
 		GEO_CLOSE_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -165385, 7882, 7970),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -107,6 +127,8 @@ const GeoLayout m_dl_9_Area_4_Room_B_geo[] = {
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 0, -7125, -4700, m_dl_A4_Water_A3_mesh_layer_5),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 0, -7125, -4700, m_dl_A4_water_B3_mesh_layer_5),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -165385, 7882, 7970),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -127,6 +149,8 @@ const GeoLayout m_dl_A_Area_4_Room_C_geo[] = {
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_ALPHA, m_dl_A4_Room_C_mesh_layer_4),
 		GEO_CLOSE_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -165385, 7882, 7970),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -139,6 +163,8 @@ const GeoLayout m_dl_B_Area_4_Room_D_geo[] = {
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 2400, -7325, 7300, m_dl_A4_Water_A1_mesh_layer_5),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 2400, -7325, 7300, m_dl_A4_water_B1_mesh_layer_5),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -165385, 7882, 7970),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -155,6 +181,8 @@ const GeoLayout m_dl_C_Area_4_Room_E_geo[] = {
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 9700, -3525, 3600, m_dl_A4_Water_A4_mesh_layer_5),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 9700, -3525, 3600, m_dl_A4_water_B4_mesh_layer_5),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -165385, 7882, 7970),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

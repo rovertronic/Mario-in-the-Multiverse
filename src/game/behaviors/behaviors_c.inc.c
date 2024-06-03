@@ -204,6 +204,12 @@ void bhv_paint_stain_loop(void) {
             obj_mark_for_deletion(o);
         }
     }
+
+    //if this paint is the nearest to mario, do damage (it avoid that all the paint stains damage mario, leading to a huge life draining)
+    struct Object *marioNearestPaintStain = mario_find_nearest_object_with_behavior(bhvPaintStain);
+    if (marioNearestPaintStain == o && o->oDistanceToMario < 300.0f) {
+        gMarioState->health -= 5;
+    }
 }
 
 //----------------------TARGET----------------------//
@@ -228,4 +234,8 @@ void bhv_target_loop(void) {
             }
             break;
     }
+}
+
+void bhv_target_box_init(void) {
+    o->oAnimState = GET_BPARAM4(o->oBehParams);
 }

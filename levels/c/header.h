@@ -27,4 +27,8 @@ extern const LevelScript level_c_entry[];
 
 #include "levels/c/splat_target/geo_header.h"
 
+#include "levels/c/target_box/geo_header.h"
+
+#include "levels/c/target_box/collision_header.h"
+
 #endif

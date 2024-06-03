@@ -22,3 +22,5 @@
 #include "levels/c/star_boulder/model.inc.c"
 #include "levels/c/paint_stain/model.inc.c"
 #include "levels/c/splat_target/model.inc.c"
+#include "levels/c/target_box/model.inc.c"
+#include "levels/c/target_box/collision.inc.c"

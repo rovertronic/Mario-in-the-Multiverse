@@ -12,6 +12,18 @@ struct ObjectHitbox sBreakableBoxHitbox = {
     /* hurtboxHeight:     */ 200,
 };
 
+struct ObjectHitbox sTargetBoxHitbox = {
+    /* interactType:      */ INTERACT_BREAKABLE,
+    /* downOffset:        */  20,
+    /* damageOrCoinValue: */   0,
+    /* health:            */   1,
+    /* numLootCoins:      */   0,
+    /* radius:            */ 190,
+    /* height:            */ 285,
+    /* hurtboxRadius:     */ 190,
+    /* hurtboxHeight:     */ 285,
+};
+
 void breakable_box_init(void) {
     o->oHiddenObjectSwitchObj = NULL;
     o->oAnimState = BREAKABLE_BOX_ANIM_STATE_CORK_BOX;
@@ -23,10 +35,19 @@ void breakable_box_init(void) {
     }
 }
 
+#include "levels/c/header.h"
+
 void hidden_breakable_box_actions(void) {
     struct Object *switchObj;
-    obj_set_hitbox(o, &sBreakableBoxHitbox);
-    cur_obj_set_model(MODEL_BREAKABLE_BOX);
+    if (gCurrLevelNum == LEVEL_C) {
+        obj_set_collision_data(o, target_box_collision);
+        cur_obj_set_model(MODEL_TARGET_BOX);
+        obj_set_hitbox(o, &sTargetBoxHitbox);
+        bhv_target_box_init();
+    } else {
+        cur_obj_set_model(MODEL_BREAKABLE_BOX);
+        obj_set_hitbox(o, &sBreakableBoxHitbox);
+    }
     switch (o->oAction) {
         case BREAKABLE_BOX_ACT_HIDDEN:
             cur_obj_disable_rendering();
@@ -132,8 +153,13 @@ void bhv_hidden_object_loop(void) {
 }
 
 void bhv_breakable_box_loop(void) {
-    obj_set_hitbox(o, &sBreakableBoxHitbox);
-    cur_obj_set_model(MODEL_BREAKABLE_BOX);
+    if (gCurrLevelNum == LEVEL_C) {
+        cur_obj_set_model(MODEL_TARGET_BOX);
+        obj_set_hitbox(o, &sTargetBoxHitbox);
+    } else {
+        cur_obj_set_model(MODEL_BREAKABLE_BOX);
+        obj_set_hitbox(o, &sBreakableBoxHitbox);
+    }
     if (o->oTimer == 0) breakable_box_init();
     if (cur_obj_was_attacked_or_ground_pounded()) {
         obj_explode_and_spawn_coins(46.0f, COIN_TYPE_YELLOW);

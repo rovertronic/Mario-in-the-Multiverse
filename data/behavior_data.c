@@ -6895,7 +6895,7 @@ const BehaviorScript bhvOctoball[] = {
 
 const BehaviorScript bhvPaintStain[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
     DROP_TO_FLOOR(),
     SET_INT(oOpacity, 255),
     CALL_NATIVE(bhv_paint_stain_init),
@@ -6912,6 +6912,20 @@ const BehaviorScript bhvLevelSplatoonTarget[] = {
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_target_loop),
     END_LOOP(),
+};
+
+const BehaviorScript bhvTargetBox[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST | OBJ_FLAG_E__SG_BREAKABLE)),//--E
+    LOAD_COLLISION_DATA(target_box_collision),
+    SET_FLOAT(oCollisionDistance, 1000),
+    CALL_NATIVE(bhv_init_room),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_breakable_box_loop),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_target_box_init),
+    END_LOOP(),
+    BREAK(),
 };
 
 /* GROUP C END */

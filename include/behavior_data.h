@@ -610,6 +610,7 @@ extern const BehaviorScript bhvCamera[];
 extern const BehaviorScript bhvOctoball[];
 extern const BehaviorScript bhvPaintStain[];
 extern const BehaviorScript bhvLevelSplatoonTarget[];
+extern const BehaviorScript bhvTargetBox[];
 /* GROUP C END */
 
 /* GROUP D START */

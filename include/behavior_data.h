@@ -781,6 +781,7 @@ extern const BehaviorScript bhvL_PeppermanStatue[];
 /* GROUP L END */
 
 /* GROUP M START */
+extern const BehaviorScript bhvM_BossElevator[];
 /* GROUP M END */
 
 /* GROUP N START */

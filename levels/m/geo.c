@@ -15,3 +15,5 @@
 
 
 #include "levels/m/geo.inc.c"
+
+#include "levels/m/m_bossplatform/geo.inc.c"

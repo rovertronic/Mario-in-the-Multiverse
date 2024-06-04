@@ -64,6 +64,7 @@
 #include "levels/g/header.h"
 #include "levels/h/header.h"
 #include "levels/l/header.h"
+#include "levels/m/header.h"
 #include "levels/bowser_course/header.h"
 
 #include "make_const_nonconst.h"
@@ -8151,6 +8152,18 @@ const BehaviorScript bhvL_PizzaPortal[] = {
 /* GROUP L END */
 
 /* GROUP M START */
+extern void bhv_m_boss_elevator(void);
+const BehaviorScript bhvM_BossElevator[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(m_bossplatform_collision),
+    SET_FLOAT(oCollisionDistance, 4000),
+    SET_FLOAT(oDrawingDistance, 32000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_m_boss_elevator),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
 /* GROUP M END */
 
 /* GROUP N START */

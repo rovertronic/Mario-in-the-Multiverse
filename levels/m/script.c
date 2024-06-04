@@ -29,6 +29,7 @@ const LevelScript level_m_entry[] = {
 	ALLOC_LEVEL_POOL(),
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
 	JUMP_LINK(script_func_global_1), 
+	LOAD_MODEL_FROM_GEO(MODEL_M_BOSSELEVATOR, m_bossplatform_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -45,6 +46,7 @@ const LevelScript level_m_entry[] = {
 		MARIO_POS(0x01, 0, -4600, 2600, 7500),
 		OBJECT(MODEL_CHECKPOINT_FLAG, -4600, 1550, -1800, 0, 0, 0, 0x00040000, bhvCheckpointFlag),
 		OBJECT(MODEL_ABILITY, -1900, 1700, -13700, 0, 0, 0, (ABILITY_DASH_BOOSTER << 16), bhvAbilityUnlock),
+		OBJECT(MODEL_M_BOSSELEVATOR, 2000, 2181, -9558, 0, 0, 0, (0 << 16), bhvM_BossElevator),
 		OBJECT(MODEL_NONE, -4465, 2700, 5966, 0, 0, 0, (0 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, -4606, 2700, -211, 0, 0, 0, (0 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, -5285, 1300, -3212, 0, -44, 0, (0 << 16), bhvCoinFormation),
@@ -79,7 +81,7 @@ const LevelScript level_m_entry[] = {
 		OBJECT(MODEL_NONE, -9, -700, -8594, 0, 0, 0, (0 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, -1164, -2700, -12702, 0, 0, 0, (0 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, 6297, -1400, -13648, 0, 0, 0, (0 << 16), bhvCoinFormation),
-		OBJECT(MODEL_NONE, 2, -800, 1535, 0, 0, 0, (0 << 16), bhvCoinFormation),
+		OBJECT(MODEL_NONE, 22, -1200, -1084, 0, 90, 0, (0 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, -430, -7000, 6393, 0, 0, 0, (0 << 16), bhvCoinFormation),
 		OBJECT(MODEL_PT_METAL_BOX, -200, -14, 5514, 0, 0, 0, 0x00000000, bhvPtMetalBox),
 		OBJECT(MODEL_PT_METAL_BOX, 0, -14, 5514, 0, 0, 0, 0x00000000, bhvPtMetalBox),
@@ -156,8 +158,9 @@ const LevelScript level_m_entry[] = {
 		OBJECT(MODEL_NONE, 0, -7000, -7000, 0, -180, 0, 0x00F10000, bhvDeathWarp),
 		OBJECT(MODEL_ROCKET_BUTTON_OFF, 0, 9400, -500, 0, -180, 0, 0x00000000, bhvRocketButton),
 		OBJECT(MODEL_NONE, 0, -6800, -15800, 0, -180, 0, 0x00200000, bhvWarp),
-		OBJECT(MODEL_NONE, -111, -7713, 487, 0, 0, 0, (3 << 16), bhvCoinFormation),
-		OBJECT(MODEL_NONE, 1050, -9095, 3019, 0, 0, 0, (3 << 16), bhvCoinFormation),
+		OBJECT(MODEL_M_BOSSELEVATOR, 10000, 1300, 8000, 0, 0, 0, (1 << 16), bhvM_BossElevator),
+		OBJECT(MODEL_NONE, -111, -8037, 487, 0, 0, 0, (3 << 16), bhvCoinFormation),
+		OBJECT(MODEL_NONE, 1050, -9419, 3019, 0, 0, 0, (3 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, 324, -6400, 11309, 0, 0, 0, (2 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, -6303, -6400, 11238, 0, 0, 0, (2 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, -6481, -6400, 4618, 0, 0, 0, (2 << 16), bhvCoinFormation),

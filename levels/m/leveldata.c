@@ -12,3 +12,6 @@
 
 
 #include "levels/m/leveldata.inc.c"
+
+#include "levels/m/m_bossplatform/model.inc.c"
+#include "levels/m/m_bossplatform/collision.inc.c"

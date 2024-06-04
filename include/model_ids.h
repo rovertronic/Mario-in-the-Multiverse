@@ -675,6 +675,7 @@ enum GLOBAL_MODELS {
 #define MODEL_PAINT_STAIN           0x3C //paint_stain_geo
 #define MODEL_SPLAT_TARGET          0x3D //splat_target_geo
 #define MODEL_TARGET_BOX            0x3E //target_box_geo
+#define MODEL_OCTOMISSILE           0x3F //octomissle_geo
 /* LEVEL C END */
 
 /* LEVEL D START */

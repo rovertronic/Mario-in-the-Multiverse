@@ -24,3 +24,4 @@
 #include "levels/c/splat_target/model.inc.c"
 #include "levels/c/target_box/model.inc.c"
 #include "levels/c/target_box/collision.inc.c"
+#include "levels/c/octomissile/model.inc.c"

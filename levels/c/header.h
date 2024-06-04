@@ -31,4 +31,6 @@ extern const LevelScript level_c_entry[];
 
 #include "levels/c/target_box/collision_header.h"
 
+#include "levels/c/octomissile/geo_header.h"
+
 #endif

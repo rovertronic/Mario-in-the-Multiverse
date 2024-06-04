@@ -25,3 +25,4 @@
 #include "levels/c/paint_stain/geo.inc.c"
 #include "levels/c/splat_target/geo.inc.c"
 #include "levels/c/target_box/geo.inc.c"
+#include "levels/c/octomissile/geo.inc.c"

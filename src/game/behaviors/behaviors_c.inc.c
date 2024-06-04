@@ -209,6 +209,7 @@ void bhv_paint_stain_loop(void) {
     struct Object *marioNearestPaintStain = mario_find_nearest_object_with_behavior(bhvPaintStain);
     if (marioNearestPaintStain == o && o->oDistanceToMario < 300.0f) {
         gMarioState->health -= 5;
+        //render_textured_splatoon();
     }
 }
 

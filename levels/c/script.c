@@ -42,6 +42,7 @@ const LevelScript level_c_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_PAINT_STAIN, paint_stain_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_SPLAT_TARGET, splat_target_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_TARGET_BOX, target_box_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_OCTOMISSILE, octomissile_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -80,6 +81,7 @@ const LevelScript level_c_entry[] = {
 		OBJECT(MODEL_OCTOBALL, -8772, 284, 197, 0, 0, 0, 0x00000000, bhvOctoball),
 		OBJECT(MODEL_OCTOBALL, -4082, 1568, 772, 0, 0, 0, 0x00000000, bhvOctoball),
 		OBJECT(MODEL_OCTOBALL, 2815, 1568, 2690, 0, 0, 0, 0x00000000, bhvOctoball),
+		OBJECT(MODEL_OCTOMISSILE, 1399, 1764, 1216, 0, -180, 0, 0x00000000, bhvBulletBill),
 		OBJECT(MODEL_PAINT_GUN, -1050, 2332, -460, 0, 0, 0, 0x00000000, bhvPaintGun),
 		OBJECT(MODEL_FLIPSWITCH_1, -1265, 2529, 2230, 0, 0, 0, (1 << 24), bhvFlipswitch),
 		OBJECT(MODEL_FLIPSWITCH_1, -4868, 695, 2175, 0, 0, 0, (2 << 24), bhvFlipswitch),

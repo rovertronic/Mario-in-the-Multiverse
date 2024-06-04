@@ -536,11 +536,16 @@ void check_instant_warp(void) {
                         case 2:
                             stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_AMMOINEN));
                             stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_SUBMERGED));
+                            play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_VALIANT), 0);
                             break;
                         case 3:
+                            stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_VALIANT));
+                            stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_SUBMERGED));
                             play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_AMMOINEN), 0);
                             break;
                         case 4:
+                            stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_AMMOINEN));
+                            stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_VALIANT));
                             play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_SUBMERGED), 0);
                             break;
                     }

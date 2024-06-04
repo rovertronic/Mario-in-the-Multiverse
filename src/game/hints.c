@@ -660,6 +660,83 @@ get this star!",
 hint course_15_hints[] = {
 
 { /* star 1 */
+"Go through the halls until you encounter a\n\
+Class C Guardian. Destroy it, and a gate\n\
+will open, revealing this star.",
+(0)
+},
+
+{ /* star 2 */
+"This star is right above your nose at the\n\
+very start of the level.",
+(ABILITY_FLAG_DASH_BOOSTER)
+},
+
+{ /* star 3 */
+"Use the Knight Suit to destroy metal blocks\n\
+that block a pipe. Slide through the pipe\n\
+and grab the star in the yellow room.",
+(ABILITY_FLAG_KNIGHT)
+},
+
+{ /* star 4 */
+"There is a lake with spikes at the bottom.\n\
+In this lake, there is a tunnel that leads\n\
+to a room with a star.",
+(0)
+},
+
+{ /* star 5 */
+"There is a lake with poisonous water and\n\
+green bubbles. The star is in a compartment\n\
+at the bottom of this lake. Swim fast!",
+(0)
+},
+
+{ /* star 6 */
+"In the room with red mushrooms, there is a\n\
+star piece switch. Use the Dash Booster to\n\
+collect them all in time to get the star.",
+(ABILITY_FLAG_DASH_BOOSTER)
+},
+
+{ /* star 7 */
+"In the lava room, collect the 8 red coins.\n\
+The Aku Aku Mask will help prevent lava\n\
+damage.",
+(ABILITY_FLAG_AKU | ABILITY_FLAG_DASH_BOOSTER)
+},
+
+{ /* star 8 */
+"In the water pipe area, first find the\n\
+Shock Rocket room. Hit the button, and it'll\n\
+open the Goliath Jellyfish bossfight room.",
+(ABILITY_FLAG_BIG_DADDY|ABILITY_FLAG_SHOCK_ROCKET)
+},
+
+};
+
+hint * hintlist[] = {
+    course_1_hints,
+    course_2_hints,
+    course_1_hints,
+    course_4_hints,
+    course_5_hints,
+    course_1_hints,
+    course_7_hints,
+    course_1_hints,
+    course_9_hints,
+    course_10_hints,
+    course_11_hints,
+    course_12_hints,
+    course_13_hints,
+    course_14_hints,
+    course_15_hints,
+};
+
+hint template_hints[] = {
+
+{ /* star 1 */
 "",
 (0)
 },
@@ -699,22 +776,4 @@ hint course_15_hints[] = {
 (0)
 },
 
-};
-
-hint * hintlist[] = {
-    course_1_hints,
-    course_2_hints,
-    course_1_hints,
-    course_4_hints,
-    course_5_hints,
-    course_1_hints,
-    course_7_hints,
-    course_1_hints,
-    course_9_hints,
-    course_10_hints,
-    course_11_hints,
-    course_12_hints,
-    course_13_hints,
-    course_14_hints,
-    course_1_hints,
 };

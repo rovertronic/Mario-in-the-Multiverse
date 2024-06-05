@@ -776,8 +776,10 @@ void render_meter(f32 x, f32 y, s32 meterStyle, s16 wedges, u8 a) {
 
 void render_esa_health(void) {
     print_set_envcolour(255, 255, 255, 255);
+    prepare_blank_box();
     render_blank_box(10, SCREEN_HEIGHT - 10, 110, SCREEN_HEIGHT - 20, 0, 0, 0, 255);
     render_blank_box(11, SCREEN_HEIGHT - 11, 109, SCREEN_HEIGHT - 19, 255, 50, 50, 255);
+    finish_blank_box();
     print_set_envcolour(255, 255, 255, 255);
     print_small_text(10, SCREEN_HEIGHT - 30, "CLASS C GUARDIAN", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, FONT_OUTLINE);
 }

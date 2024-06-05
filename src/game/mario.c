@@ -1893,6 +1893,11 @@ u8 magic_mirror_disable = FALSE;
 f32 flowpipe_vel = 0.0f;
 s16 flowpipe_angle = 0;
 
+
+s8 esa_hp = -1;
+s8 esa_mhp = -1;
+char * esa_str = NULL;
+
 s32 is_2d_area(void) {
     return ((gCurrLevelNum == LEVEL_L)&&(gCurrAreaIndex < 6));
 }

@@ -57,6 +57,9 @@ void bhv_m_classc(void) {
                 magic_mirror_disable = TRUE;
                 play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_CUSTOM_KIRBY_BOSS), 0);
                 o->oHealth = 15;
+                esa_hp = 15;
+                esa_mhp = 15;
+                esa_str = "Class C Guardian";
             }
             break;
         case 1: // Deactivate and attackable
@@ -88,6 +91,11 @@ void bhv_m_classc(void) {
                 o->oAnimState = 2;
                 o->oHealth --;
                 o->oIntangibleTimer = 15;
+                esa_hp = o->oHealth;
+
+                if (esa_hp < 0) {
+                    esa_hp = 0;
+                }
             }
             break;
         case 2: // Die
@@ -104,6 +112,7 @@ void bhv_m_classc(void) {
                 vec3f_set(&abilityspawn->oPosVec,-1900, 1700, -13700);
                 abilityspawn->oBehParams2ndByte = ABILITY_DASH_BOOSTER;
                 magic_mirror_disable = FALSE;
+                esa_mhp = -1;
                 stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_KIRBY_BOSS));
                 mark_obj_for_deletion(o);
             }

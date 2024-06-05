@@ -775,13 +775,19 @@ void render_meter(f32 x, f32 y, s32 meterStyle, s16 wedges, u8 a) {
 }
 
 void render_esa_health(void) {
-    print_set_envcolour(255, 255, 255, 255);
-    prepare_blank_box();
-    render_blank_box(10, SCREEN_HEIGHT - 10, 110, SCREEN_HEIGHT - 20, 0, 0, 0, 255);
-    render_blank_box(11, SCREEN_HEIGHT - 11, 109, SCREEN_HEIGHT - 19, 255, 50, 50, 255);
-    finish_blank_box();
-    print_set_envcolour(255, 255, 255, 255);
-    print_small_text(10, SCREEN_HEIGHT - 30, "CLASS C GUARDIAN", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, FONT_OUTLINE);
+    if (esa_mhp != -1) {
+        f32 poop_bar = ((f32)(esa_hp)/(f32)(esa_mhp))*98.0f;
+
+        print_set_envcolour(255, 255, 255, 255);
+        prepare_blank_box();
+        render_blank_box(9, SCREEN_HEIGHT - 9, 111, SCREEN_HEIGHT - 21, 255, 255, 255, 255);
+        render_blank_box(10, SCREEN_HEIGHT - 10, 110, SCREEN_HEIGHT - 20, 0, 0, 0, 255);
+        render_blank_box(11, SCREEN_HEIGHT - 11, 11 + poop_bar, SCREEN_HEIGHT - 19, 255, 50, 50, 255);
+        finish_blank_box();
+        print_set_envcolour(150, 92, 0, 255);
+        print_small_text(10, SCREEN_HEIGHT - 31, esa_str, PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, FONT_OUTLINE);
+        print_set_envcolour(255, 255, 255, 255);
+    }
 }
 
 void render_marx_health(void) {

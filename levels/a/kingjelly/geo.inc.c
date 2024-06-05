@@ -1,7 +1,7 @@
 #include "src/game/envfx_snow.h"
 
 const GeoLayout kingjelly_switch_opt1[] = {
-	GEO_NODE_START(),
+	GEO_SHADOW(SHADOW_CIRCLE_4_VERTS, 0xC8, 200),
 	GEO_OPEN_NODE(),
 		GEO_TRANSLATE_ROTATE(LAYER_OPAQUE, 0, 15, 0, 0, -90, 0),
 		GEO_OPEN_NODE(),
@@ -68,7 +68,7 @@ const GeoLayout kingjelly_switch_opt1[] = {
 	GEO_RETURN(),
 };
 const GeoLayout kingjelly_geo[] = {
-	GEO_NODE_START(),
+	GEO_SHADOW(SHADOW_CIRCLE_4_VERTS, 0xC8, 200),
 	GEO_OPEN_NODE(),
 		GEO_SWITCH_CASE(2, geo_switch_anim_state),
 		GEO_OPEN_NODE(),

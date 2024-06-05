@@ -15,3 +15,6 @@
 
 #include "levels/m/m_bossplatform/model.inc.c"
 #include "levels/m/m_bossplatform/collision.inc.c"
+#include "levels/m/m_classc/model.inc.c"
+#include "levels/m/m_gate/collision.inc.c"
+#include "levels/m/m_gate/model.inc.c"

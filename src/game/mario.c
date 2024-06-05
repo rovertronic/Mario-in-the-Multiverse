@@ -1888,6 +1888,7 @@ u8 p_rank_success = FALSE;
 
 u8 magic_mirror_timer = 20;
 u8 magic_mirror_area_change_flag = FALSE;
+u8 magic_mirror_disable = FALSE;
 
 f32 flowpipe_vel = 0.0f;
 s16 flowpipe_angle = 0;
@@ -2201,7 +2202,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         }
 
         // Magic Mirror Code
-        if ((using_ability(ABILITY_UTIL_MIRROR))&&(gPlayer1Controller->buttonPressed & L_TRIG)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
+        if ((!magic_mirror_disable)&&(using_ability(ABILITY_UTIL_MIRROR))&&(gPlayer1Controller->buttonPressed & L_TRIG)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
             if (gMarioState->areaCheckpointFlag == gCurrAreaIndex) {
                 // Checkpoint flag in same area
                 if (gMarioState->numCheckpointFlag != -1) {
@@ -2231,9 +2232,13 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 }
             } else {
                 // Checkpoint flag NOT in same area
-                magic_mirror_area_change_flag = TRUE;
-                magic_mirror_timer = 0;
-                play_sound(SOUND_ABILITY_MAGIC_MIRROR, gGlobalSoundSource);
+                if (gMarioState->areaCheckpointFlag != -1) {
+                    magic_mirror_area_change_flag = TRUE;
+                    magic_mirror_timer = 0;
+                    play_sound(SOUND_ABILITY_MAGIC_MIRROR, gGlobalSoundSource);
+                } else {
+                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                }
             }
         }
         if (magic_mirror_timer == 2) {

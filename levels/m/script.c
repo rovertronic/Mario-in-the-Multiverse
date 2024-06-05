@@ -30,6 +30,8 @@ const LevelScript level_m_entry[] = {
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
 	JUMP_LINK(script_func_global_1), 
 	LOAD_MODEL_FROM_GEO(MODEL_M_BOSSELEVATOR, m_bossplatform_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_M_CLASSC, m_classc_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_M_GATE, m_gate_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -45,7 +47,6 @@ const LevelScript level_m_entry[] = {
 		OBJECT(MODEL_NONE, 2000, -1000, -9500, 0, 0, 0, 0x80200000, bhvWarp),
 		MARIO_POS(0x01, 0, -4600, 2600, 7500),
 		OBJECT(MODEL_CHECKPOINT_FLAG, -4600, 1550, -1800, 0, 0, 0, 0x00040000, bhvCheckpointFlag),
-		OBJECT(MODEL_ABILITY, -1900, 1700, -13700, 0, 0, 0, (ABILITY_DASH_BOOSTER << 16), bhvAbilityUnlock),
 		OBJECT(MODEL_M_BOSSELEVATOR, 2000, 2181, -9558, 0, 0, 0, (0 << 16), bhvM_BossElevator),
 		OBJECT(MODEL_NONE, -4465, 2700, 5966, 0, 0, 0, (0 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, -4606, 2700, -211, 0, 0, 0, (0 << 16), bhvCoinFormation),
@@ -53,7 +54,10 @@ const LevelScript level_m_entry[] = {
 		OBJECT(MODEL_NONE, -8800, 2300, -12900, 0, 0, 0, (0 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, 8000, 4300, -2800, 0, 0, 0, (0 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, -600, 1875, -6200, 0, 0, 0, (1 << 16), bhvCoinFormation),
+		OBJECT(MODEL_M_CLASSC, -1900, 3700, -12900, 0, 90, 0, 0x00000000, bhvM_ClassC),
 		OBJECT(MODEL_LEVEL_PIPE, -4600, 2600, 8500, 0, 0, 0, 0x00000000, bhvLevelPipe),
+		OBJECT(MODEL_M_GATE, -3700, 2800, -12900, 0, 0, 0, 0x00000000, bhvM_Gate),
+		OBJECT(MODEL_M_GATE, -135, 2800, -12900, 0, 0, 0, 0x00000000, bhvM_Gate),
 		OBJECT(MODEL_NONE, -4600, 2836, 8048, 0, -180, 0, (0x0A << 16), bhvSpinAirborneWarp),
 		OBJECT(MODEL_NONE, -7300, 2400, -12900, 0, 0, 0, (0 << 24), bhvStar),
 		OBJECT(MODEL_NONE, -4600, 5188, 6000, 0, 0, 0, (1 << 24), bhvStar),

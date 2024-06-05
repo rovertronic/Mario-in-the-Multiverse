@@ -1632,6 +1632,55 @@ void cur_obj_move_standard(s16 steepSlopeAngleDegrees) {
     }
 }
 
+void cur_obj_move_standard_classc(void) {
+    s16 steepSlopeAngleDegrees = -76;
+    f32 gravity = o->oGravity;
+    f32 bounciness = o->oBounciness;
+    f32 buoyancy = o->oBuoyancy;
+    f32 dragStrength = o->oDragStrength;
+    f32 steepSlopeNormalY;
+    s32 careAboutEdgesAndSteepSlopes = FALSE;
+    s32 negativeSpeed = FALSE;
+
+    if (is_2d_area()) {
+        o->oPosZ = 0.0f;
+    }
+
+    //! Because some objects allow these active flags to be set but don't
+    //  avoid updating when they are, we end up with "partial" updates, where
+    //  an object's internal state will be updated, but it doesn't move.
+    //  This allows numerous glitches and is typically referred to as
+    //  deactivation (though this term has a different meaning in the code).
+    //  Objects that do this will be marked with //PARTIAL_UPDATE.
+    if (!(o->activeFlags & (ACTIVE_FLAG_FAR_AWAY | ACTIVE_FLAG_IN_DIFFERENT_ROOM))) {
+        if (steepSlopeAngleDegrees < 0) {
+            careAboutEdgesAndSteepSlopes = TRUE;
+            steepSlopeAngleDegrees = -steepSlopeAngleDegrees;
+        }
+        // Optimize for the most commonly used values
+        if (steepSlopeAngleDegrees == 78) {
+            steepSlopeNormalY =  COS78;
+        } else if (steepSlopeAngleDegrees == -78) {
+            steepSlopeNormalY = -COS78;
+        } else {
+            steepSlopeNormalY = coss(DEGREES(steepSlopeAngleDegrees));
+        }
+
+        cur_obj_apply_drag_xz(dragStrength);
+
+        cur_obj_move_xz(steepSlopeNormalY, careAboutEdgesAndSteepSlopes);
+        cur_obj_move_y(gravity, bounciness, buoyancy);
+
+        if (o->oForwardVel < 0.0f) {
+            negativeSpeed = TRUE;
+        }
+        o->oForwardVel = sqrtf(sqr(o->oVelX) + sqr(o->oVelZ));
+        if (negativeSpeed == TRUE) {
+            o->oForwardVel = -o->oForwardVel;
+        }
+    }
+}
+
 UNUSED static s32 cur_obj_within_bounds(f32 bounds) {
     if (o->oPosX < -bounds || bounds < o->oPosX) return FALSE;
     if (o->oPosY < -bounds || bounds < o->oPosY) return FALSE;

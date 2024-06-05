@@ -13,4 +13,10 @@ extern const LevelScript level_m_entry[];
 
 #include "levels/m/m_bossplatform/collision_header.h"
 
+#include "levels/m/m_classc/geo_header.h"
+
+#include "levels/m/m_gate/collision_header.h"
+
+#include "levels/m/m_gate/geo_header.h"
+
 #endif

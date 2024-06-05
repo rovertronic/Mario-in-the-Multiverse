@@ -774,6 +774,14 @@ void render_meter(f32 x, f32 y, s32 meterStyle, s16 wedges, u8 a) {
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 }
 
+void render_esa_health(void) {
+    print_set_envcolour(255, 255, 255, 255);
+    render_blank_box(10, SCREEN_HEIGHT - 10, 110, SCREEN_HEIGHT - 20, 0, 0, 0, 255);
+    render_blank_box(11, SCREEN_HEIGHT - 11, 109, SCREEN_HEIGHT - 19, 255, 50, 50, 255);
+    print_set_envcolour(255, 255, 255, 255);
+    print_small_text(10, SCREEN_HEIGHT - 30, "CLASS C GUARDIAN", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, FONT_OUTLINE);
+}
+
 void render_marx_health(void) {
     print_set_envcolour(255, 255, 255, 255);
     render_blank_box((SCREEN_WIDTH / 2) - 60, SCREEN_HEIGHT - 10, (SCREEN_WIDTH / 2) + 60, SCREEN_HEIGHT - 20, 255, 255, 255, 255);
@@ -1201,6 +1209,8 @@ void render_hud(void) {
         if (gCurrLevelNum == LEVEL_G && gCurrAreaIndex == 5 && gMarxHudHealth > 0) {
             render_marx_health();
         }
+
+        render_esa_health();
 
         render_ability_get_hud();
 

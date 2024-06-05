@@ -17,3 +17,5 @@
 #include "levels/m/geo.inc.c"
 
 #include "levels/m/m_bossplatform/geo.inc.c"
+#include "levels/m/m_classc/geo.inc.c"
+#include "levels/m/m_gate/geo.inc.c"

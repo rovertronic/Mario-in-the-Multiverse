@@ -25,3 +25,6 @@
 #include "levels/c/target_box/model.inc.c"
 #include "levels/c/target_box/collision.inc.c"
 #include "levels/c/octomissile/model.inc.c"
+#include "levels/c/flag/model.inc.c"
+#include "levels/c/flag/anims/data.inc.c"
+#include "levels/c/flag/anims/table.inc.c"

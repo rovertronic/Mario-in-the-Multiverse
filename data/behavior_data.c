@@ -6928,6 +6928,16 @@ const BehaviorScript bhvTargetBox[] = {
     BREAK(),
 };
 
+const BehaviorScript bhvFlag[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, flag_anims),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+    END_LOOP(),
+    BREAK(),
+};
+
 /* GROUP C END */
 
 /* GROUP D START */

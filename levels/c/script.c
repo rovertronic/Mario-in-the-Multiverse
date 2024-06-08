@@ -43,6 +43,7 @@ const LevelScript level_c_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_SPLAT_TARGET, splat_target_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_TARGET_BOX, target_box_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_OCTOMISSILE, octomissile_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_FLAG, flag_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -69,6 +70,7 @@ const LevelScript level_c_entry[] = {
 		OBJECT(MODEL_STAR_BOULDER, 16464, 1749, 6422, 0, 0, 0, 0x00000000, bhvCraneRock),
 		OBJECT(MODEL_LEVEL_PIPE, -1633, 1948, 7425, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_NONE, 4041, 1202, -1958, 0, 0, 0, 0x00000000, bhvFightWavesManager),
+		OBJECT(MODEL_FLAG, 7315, 5892, 8991, 0, -35, 0, 0x00000000, bhvFlag),
 		OBJECT(MODEL_TARGET_BOX, 1327, 2039, 7584, 0, 0, 0, (1), bhvHiddenObject),
 		OBJECT(MODEL_TARGET_BOX, 1327, 2039, 9293, 0, 0, 0, (1), bhvHiddenObject),
 		OBJECT(MODEL_TARGET_BOX, 1327, 2039, 8404, 0, 0, 0, 0x00000000, bhvHiddenObject),

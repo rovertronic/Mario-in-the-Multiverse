@@ -33,4 +33,8 @@ extern const LevelScript level_c_entry[];
 
 #include "levels/c/octomissile/geo_header.h"
 
+#include "levels/c/flag/geo_header.h"
+
+#include "levels/c/flag/anim_header.h"
+
 #endif

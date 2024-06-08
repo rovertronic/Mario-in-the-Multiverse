@@ -26,3 +26,4 @@
 #include "levels/c/splat_target/geo.inc.c"
 #include "levels/c/target_box/geo.inc.c"
 #include "levels/c/octomissile/geo.inc.c"
+#include "levels/c/flag/geo.inc.c"

@@ -612,6 +612,7 @@ extern const BehaviorScript bhvPaintStain[];
 extern const BehaviorScript bhvLevelSplatoonTarget[];
 extern const BehaviorScript bhvTargetBox[];
 extern const BehaviorScript bhvFlag[];
+extern const BehaviorScript bhvInkMovingPlatform[];
 /* GROUP C END */
 
 /* GROUP D START */

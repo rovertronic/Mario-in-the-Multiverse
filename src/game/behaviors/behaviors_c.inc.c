@@ -240,3 +240,21 @@ void bhv_target_loop(void) {
 void bhv_target_box_init(void) {
     o->oAnimState = GET_BPARAM4(o->oBehParams);
 }
+
+//----------------------INK WALL----------------------//
+
+#define MOVING_TIME 203
+
+void bhv_ink_moving_platform_loop(void) {
+    if(o->oTimer <= MOVING_TIME) {
+        o->oVelY = 10.0f * o->oF4;
+        cur_obj_play_sound_1(SOUND_ENV_ELEVATOR1);
+    } else if (o->oTimer <= MOVING_TIME + 60) {
+        o->oVelY = 0.0f;
+    } else {
+        o->oTimer = 0;
+        o->oF4 *= -1;
+    }
+
+    cur_obj_move_using_vel();
+}

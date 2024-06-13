@@ -27,3 +27,4 @@
 #include "levels/c/target_box/geo.inc.c"
 #include "levels/c/octomissile/geo.inc.c"
 #include "levels/c/flag/geo.inc.c"
+#include "levels/c/ink_moving_platform/geo.inc.c"

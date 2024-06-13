@@ -37,4 +37,8 @@ extern const LevelScript level_c_entry[];
 
 #include "levels/c/flag/anim_header.h"
 
+#include "levels/c/ink_moving_platform/geo_header.h"
+
+#include "levels/c/ink_moving_platform/collision_header.h"
+
 #endif

@@ -6935,7 +6935,19 @@ const BehaviorScript bhvFlag[] = {
     ANIMATE(0),
     BEGIN_LOOP(),
     END_LOOP(),
-    BREAK(),
+};
+
+const BehaviorScript bhvInkMovingPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(ink_moving_platform_collision),
+    SET_FLOAT(oCollisionDistance, 1000),
+    SET_FLOAT(oDrawingDistance, 10000),
+    SET_INT(oF4, 1),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ink_moving_platform_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
 };
 
 /* GROUP C END */

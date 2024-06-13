@@ -685,6 +685,7 @@ void bhv_paint_stain_init(void);
 void bhv_paint_stain_loop(void);
 void bhv_target_loop(void);
 void bhv_target_box_init(void);
+void bhv_ink_moving_platform_loop(void);
 //LEVEL C END
 
 void bhv_cutter_blade_init(void);

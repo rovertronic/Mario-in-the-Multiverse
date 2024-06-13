@@ -28,3 +28,5 @@
 #include "levels/c/flag/model.inc.c"
 #include "levels/c/flag/anims/data.inc.c"
 #include "levels/c/flag/anims/table.inc.c"
+#include "levels/c/ink_moving_platform/model.inc.c"
+#include "levels/c/ink_moving_platform/collision.inc.c"

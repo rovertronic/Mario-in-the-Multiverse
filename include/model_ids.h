@@ -678,6 +678,8 @@ enum GLOBAL_MODELS {
 #define MODEL_OCTOMISSILE           0x3F //octomissle_geo
 #define MODEL_FLAG                  0x40 //flag_geo
 #define MODEL_INK_MOVING_PLATFORM   0x41 //ink_moving_platform_geo
+#define MODEL_PAINT_BULLET          0x42 //ink_paint_bullet_geo
+#define MODEL_OCTOZEPPLIN           0x43 //octozepplin_geo
 /* LEVEL C END */
 
 /* LEVEL D START */

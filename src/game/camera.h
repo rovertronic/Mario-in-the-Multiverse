@@ -129,6 +129,7 @@ enum CameraModes {
     /*19*/ CAMERA_MODE_MARX_FIGHT,
     /*19*/ CAMERA_MODE_FUNKY_BOARD,
     /*20*/ CAMERA_MODE_CRANE,
+    /*21*/ CAMERA_MODE_PAINT_GUN,
 };
 
 enum CameraMovementFlags {

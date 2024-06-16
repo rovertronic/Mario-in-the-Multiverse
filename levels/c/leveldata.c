@@ -30,3 +30,5 @@
 #include "levels/c/flag/anims/table.inc.c"
 #include "levels/c/ink_moving_platform/model.inc.c"
 #include "levels/c/ink_moving_platform/collision.inc.c"
+#include "levels/c/paint_bullet/model.inc.c"
+#include "levels/c/octozepplin/model.inc.c"

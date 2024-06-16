@@ -58,12 +58,6 @@ static void bullet_f_params(struct Bullet *b) {
 	b->hitSphereSize = 50.f;
 	b->damage        = 2;
 }
-static void bullet_i_params(struct Bullet *b) {
-	b->velF          = 15.f;
-	b->gravity       = 0.f;
-	b->hitSphereSize = 15.f;
-	b->damage        = 2;
-}
 static void bullet_k_params(struct Bullet *b) {
 	b->velF          = 0.f;
 	b->gravity       = 0.f;
@@ -117,12 +111,6 @@ Gfx *dobj_bullets(s32 callContext) {
 			sBulletParamFn = bullet_f_params;
 			sBulletMat     = mat_e_sg_piece_mat_f3d_layer1;
 			sBulletMesh    = fbullet_Cube_mesh;
-			break;
-		
-		case LEVEL_I:
-			sBulletParamFn = bullet_i_params;
-			sBulletMat     = mat_revert_hoodmonger_bullet_f3dlite_material;
-			sBulletMesh    = hoodmonger_bullet_bullet_mesh_layer_5;
 			break;
 		
 		/*

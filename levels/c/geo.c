@@ -28,3 +28,5 @@
 #include "levels/c/octomissile/geo.inc.c"
 #include "levels/c/flag/geo.inc.c"
 #include "levels/c/ink_moving_platform/geo.inc.c"
+#include "levels/c/paint_bullet/geo.inc.c"
+#include "levels/c/octozepplin/geo.inc.c"

@@ -41,4 +41,8 @@ extern const LevelScript level_c_entry[];
 
 #include "levels/c/ink_moving_platform/collision_header.h"
 
+#include "levels/c/paint_bullet/geo_header.h"
+
+#include "levels/c/octozepplin/geo_header.h"
+
 #endif

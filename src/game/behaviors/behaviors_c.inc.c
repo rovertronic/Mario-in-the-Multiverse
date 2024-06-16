@@ -1,8 +1,12 @@
 
+s16 random_signed_value(f32 max) {
+    return random_float() * random_sign() * max;
+}
+
 static void spawn_multiple_enemies(const BehaviorScript *behavior, ModelID32 modelId, u8 amount){
     u8 i;
     for (i = 0; i < amount; i++) {
-        struct Object *obj = spawn_object_relative(0, random_float() * random_sign() * 1500.0f, 0, random_float() * random_sign() * 1500.0f, o, modelId, behavior);
+        struct Object *obj = spawn_object_relative(0, random_signed_value(1500.0f), 0, random_signed_value(1500.0f), o, modelId, behavior);
         SET_BPARAM1(obj->oBehParams, 3);
         if(obj_has_behavior(obj, bhvOctoball)) {
             obj->oOctoballCantRespawn = TRUE;
@@ -170,10 +174,117 @@ void bhv_crane_rock_loop(void) {
 
 //--------------------PAINT GUN--------------------//
 
+struct ObjectHitbox sPaintGunHitbox = {
+    .interactType      = INTERACT_GRABBABLE,
+    .downOffset        = 50,
+    .damageOrCoinValue = 0,
+    .health            = 1,
+    .numLootCoins      = 0,
+    .radius            = 120,
+    .height            = 200,
+    .hurtboxRadius     = 130,
+    .hurtboxHeight     = 210,
+};
+
+struct ObjectHitbox sPaintBulletHitbox = {
+    .interactType      = INTERACT_DAMAGE,
+    .downOffset        = 50,
+    .damageOrCoinValue = 1,
+    .health            = 1,
+    .numLootCoins      = 0,
+    .radius            = 45,
+    .height            = 80,
+    .hurtboxRadius     = 45,
+    .hurtboxHeight     = 80,
+};
+
+void shoot(void) {
+    struct Object *paintBullet = spawn_object_relative(0, 0, 0, 180, o, MODEL_PAINT_BULLET, bhvPaintBullet);
+    paintBullet->oAnimState = o->oAnimState;
+    cur_obj_play_sound_1(SOUND_OBJ_SNUFIT_SHOOT);
+    obj_copy_angle(paintBullet, o);
+}
+
 void bhv_paint_gun_loop(void) {
-    o->oMoveAngleYaw = o->oAngleToMario;
-    obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_PITCH_INDEX, 0x1000);
-    o->oFaceAnglePitch = o->oMoveAnglePitch;
+    obj_set_hitbox(o, &sPaintGunHitbox);
+    o->oInteractionSubtype = INT_SUBTYPE_NOT_GRABBABLE;
+
+    switch(o->oAction) {
+        case 0: //orange
+            o->oMoveAngleYaw = o->oAngleToMario;
+            obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_PITCH_INDEX, 0x1000);
+            o->oFaceAnglePitch = o->oMoveAnglePitch;
+
+            if(o->oDistanceToMario < 2500 && o->oTimer % 10 == 0) {
+                shoot();
+            }
+
+            //if kicked by Mario or attacked
+            if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) 
+            || o->oShotByShotgun == 2
+            || o->oInteractStatus & INT_STATUS_MARIO_KNOCKBACK_DMG) {
+                o->oAction++;
+                o->oAnimState = 0;
+                o->oShotByShotgun = 0;
+            }
+            break;
+
+        case 1: //blue
+            switch(o->oSubAction){
+                case 0:
+                    o->oAngleVelYaw = 0x2000;
+                    o->oSubAction++;
+                case 1: //pivot and slow down
+                    o->oMoveAngleYaw += o->oAngleVelYaw;
+                    o->oAngleVelYaw = approach_s32(o->oAngleVelYaw, 0, 0x50, 0x50);
+                    if(o->oAngleVelYaw <= 0) o->oSubAction++;
+                    break;
+                case 2: //wait to be controlled
+                    if(o->oDistanceToMario < 300 && gPlayer1Controller->buttonPressed & B_BUTTON) {
+                        o->oSubAction++;
+                        obj_set_model(gMarioObject, MODEL_NONE);
+                    }
+                    break;
+                case 3: // Mario controls it
+                    shock_rocket_stick_control();
+                    set_mario_npc_dialog(MARIO_DIALOG_LOOK_FRONT);
+                    gMarioState->usedObj = o;
+                    gLakituState.mode = CAMERA_MODE_PAINT_GUN;
+                    if (gPlayer1Controller->buttonPressed & A_BUTTON) {
+                        shoot();
+                    } else if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+                        set_mario_npc_dialog(MARIO_DIALOG_STOP);
+                        gMarioState->usedObj = NULL;
+                        gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
+                        gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
+                        o->oSubAction--;
+                    }
+                    break;
+            }
+            break;
+    }
+    o->oInteractStatus = 0;
+}
+
+void bhv_paint_bullet_loop(void) {
+    obj_set_hitbox(o, &sPaintBulletHitbox);
+    struct Surface *surface;
+    f32 ceilHeight;
+    ceilHeight = find_ceil(o->oPosX, o->oPosY, o->oPosZ, &surface);
+    cur_obj_update_floor_and_walls();
+    obj_attack_collided_from_other_object(o);
+
+    if(o->oTimer == 0){
+        struct Object *smoke = spawn_object(o, MODEL_SMOKE, bhvSmoke);
+        obj_scale(smoke, 3.0f);
+    }
+    if(obj_check_if_collided_with_object(o, gMarioObject) || o->oTimer > 70 || 
+    o->oMoveFlags & OBJ_MOVE_HIT_WALL || (o->oPosY - o->oFloorHeight < 15) || (ceilHeight - o->oPosY < 20)){
+        obj_mark_for_deletion(o);
+    }
+
+    cur_obj_move_xz_using_fvel_and_yaw();
+    o->oPosY -= (sins(o->oMoveAnglePitch)) * o->oForwardVel;
 }
 
 //----------------------PAINT----------------------//
@@ -215,15 +326,31 @@ void bhv_paint_stain_loop(void) {
 
 //----------------------TARGET----------------------//
 
+struct ObjectHitbox sTargetHitbox = {
+    .interactType      = INTERACT_NONE,
+    .downOffset        = 150,
+    .damageOrCoinValue = 0,
+    .health            = 1,
+    .numLootCoins      = 0,
+    .radius            = 200,
+    .height            = 450,
+    .hurtboxRadius     = 205,
+    .hurtboxHeight     = 455,
+};
+
 void bhv_target_loop(void) {
+    if(o->oTimer == 0) obj_set_hitbox(o, &sTargetHitbox);
+    
     switch(o->oAction){
         case 0: //wait to be exploded
-            if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 1){
+            if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 2){
                     spawn_triangle_break_particles(15, MODEL_DIRT_ANIMATION, 1.0f, 0);
                     if(count_objects_with_behavior(bhvLevelSplatoonTarget) == 1) { //if it was the last target
+                        play_puzzle_jingle();
                         cur_obj_hide();
                         o->oAction++;
                     } else {
+                        play_sound(SOUND_GENERAL2_RIGHT_ANSWER, gGlobalSoundSource);
                         obj_mark_for_deletion(o);
                     }
             }
@@ -257,4 +384,71 @@ void bhv_ink_moving_platform_loop(void) {
     }
 
     cur_obj_move_using_vel();
+}
+
+//----------------------OCTOZEPPLIN----------------------//
+
+struct Object *spawn_big_explosion(f32 scale) {
+    struct Object *explosion = spawn_object(o, MODEL_EXPLOSION, bhvExplosion);
+    obj_scale(explosion, scale);
+    return explosion;
+}
+
+s32 oscillate_roll_with_factor(s32 factor) {
+    return sins(o->oTimer * 0x1000) * DEGREES(1.0f) * (factor);
+}
+
+void bhv_octozepplin_loop(void) {
+    switch(o->oAction) {
+        case 0: //wandering around
+
+            if(o->oF8 > 400) {
+                o->oMoveAngleYaw += 0x8000;
+                o->oF8 = 0;
+            }
+
+            struct Object *paintBullet = cur_obj_nearest_object_with_behavior(bhvPaintBullet);
+            if(paintBullet != NULL && dist_between_objects(o, paintBullet) < 500) {
+                obj_mark_for_deletion(paintBullet);
+                o->oHealth--;
+                o->oF4 = 30; //o->oF4 use as oscillation roll boost for visual animation
+                if(o->oHealth < 25) spawn_big_explosion(50.0f);;
+            }
+
+            o->oFaceAngleRoll = oscillate_roll_with_factor(o->oF4);
+            o->oF4 = approach_s32(o->oF4, 0, 1, 1);
+            o->oPosY += 10.0f * coss(1000 * o->oTimer);
+
+            if(o->oHealth <= 0) {
+                spawn_big_explosion(50.0f);
+                o->oAction++;
+            }
+            break;
+        case 1: //exploding
+            if(o->oTimer < 120) {
+                o->oFaceAngleRoll = oscillate_roll_with_factor(50);
+                if(o->oTimer % 10 == 0) {
+                    struct Object *explosion = spawn_big_explosion(80.0f);
+                    s16 newX = explosion->oPosX + random_signed_value(1000.f);
+                    s16 newY = explosion->oPosY + random_signed_value(1000.f);
+                    s16 newZ = explosion->oPosZ + random_signed_value(1000.f);
+                    obj_set_pos(explosion, newX, newY, newZ);
+                }
+            } else {
+                cur_obj_hide();
+                o->oAction++;
+            }
+            break;
+        case 2: // dying
+            if (o->oTimer == 3) spawn_big_explosion(200.0f);
+            if (o->oTimer == 20) {
+                obj_mark_for_deletion(o);
+                spawn_default_star(-9270, 570, -2195);
+                o->oAction++;
+            }
+            break;
+    }
+
+    o->oF8++;
+
 }

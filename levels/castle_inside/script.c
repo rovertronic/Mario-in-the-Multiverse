@@ -111,7 +111,7 @@ const LevelScript level_castle_inside_entry[] = {
 		OBJECT(MODEL_LEVEL_PIPE, -90, 2659, -7855, 0, 0, 0, (11 << 16), bhvLevelPipe),
 		OBJECT(MODEL_LEVEL_PIPE, 53, 2778, 7971, 0, 0, 0, (12 << 16), bhvLevelPipe),
 		OBJECT(MODEL_LEVEL_PIPE, -5515, 2658, -5852, 0, 0, 0, (13 << 16), bhvLevelPipe),
-		OBJECT(MODEL_LEVEL_PIPE, 7562, 2658, -24, 0, 0, 0, (2 << 16), bhvLevelPipe),
+		OBJECT(MODEL_LEVEL_PIPE, 7562, 2658, -24, 0, 0, 0, (8 << 16), bhvLevelPipe),
 		OBJECT(MODEL_LEVEL_PIPE, 1701, 1994, 4651, 0, 0, 0, (6 << 16), bhvLevelPipe),
 		MARIO_POS(0x01, 0, -2062, 1612, -687),
 		OBJECT(MODEL_MORSHU, -163, 2994, 394, 0, -22, 0, 0x00000000, bhvMorshu),

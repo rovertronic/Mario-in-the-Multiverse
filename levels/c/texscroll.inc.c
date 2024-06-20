@@ -10,8 +10,8 @@ void scroll_c_dl_level_c_mesh_layer_5_vtx_2() {
 	int deltaY;
 	Vtx *vertices = segmented_to_virtual(c_dl_level_c_mesh_layer_5_vtx_2);
 
-	deltaX = (int)(0.30000001192092896 * 0x20) % width;
-	deltaY = (int)(0.30000001192092896 * 0x20) % height;
+	deltaX = (int)(0.09000001847743988 * 0x20) % width;
+	deltaY = (int)(0.09000001847743988 * 0x20) % height;
 
 	if (absi(currentX) > width) {
 		deltaX -= (int)(absi(currentX) / width) * width * signum_positive(deltaX);

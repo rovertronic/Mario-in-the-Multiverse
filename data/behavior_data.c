@@ -8189,6 +8189,18 @@ const BehaviorScript bhvM_Gate[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+const BehaviorScript bhvM_Jelly[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    SCALE(0, 400),
+    ANIMATE(0),
+    LOAD_ANIMATIONS(oAnimations, m_jelly_anims),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(king_jelly_boss_loop),
+    END_LOOP(),
+};
 /* GROUP M END */
 
 /* GROUP N START */

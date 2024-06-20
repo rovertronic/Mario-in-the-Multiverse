@@ -19,4 +19,8 @@ extern const LevelScript level_m_entry[];
 
 #include "levels/m/m_gate/geo_header.h"
 
+#include "levels/m/m_jelly/geo_header.h"
+
+#include "levels/m/m_jelly/anim_header.h"
+
 #endif

@@ -32,6 +32,7 @@ const LevelScript level_m_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_M_BOSSELEVATOR, m_bossplatform_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_M_CLASSC, m_classc_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_M_GATE, m_gate_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_M_JELLY, m_jelly_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -169,6 +170,7 @@ const LevelScript level_m_entry[] = {
 		OBJECT(MODEL_NONE, -6303, -6400, 11238, 0, 0, 0, (2 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, -6481, -6400, 4618, 0, 0, 0, (2 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, -12629, -4499, 2514, 0, 0, 0, (2 << 16), bhvCoinFormation),
+		OBJECT(MODEL_M_JELLY, 10000, 1400, 8022, 0, -90, 0, 0x00000000, bhvM_Jelly),
 		OBJECT(MODEL_PT_METAL_BOX, 9800, -3400, 1900, 0, 0, 0, 0x00000000, bhvPtMetalBox),
 		OBJECT(MODEL_PT_METAL_BOX, 10000, -3400, 1900, 0, 0, 0, 0x00000000, bhvPtMetalBox),
 		OBJECT(MODEL_PT_METAL_BOX, 10200, -3400, 1900, 0, 0, 0, 0x00000000, bhvPtMetalBox),

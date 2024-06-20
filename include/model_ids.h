@@ -834,6 +834,7 @@ enum {
 #define MODEL_M_BOSSELEVATOR                    0x150
 #define MODEL_M_CLASSC                          0x151
 #define MODEL_M_GATE                            0x152
+#define MODEL_M_JELLY                           0x153
 /* LEVEL M END */
 
 /* LEVEL N START */

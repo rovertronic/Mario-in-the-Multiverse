@@ -784,6 +784,7 @@ extern const BehaviorScript bhvL_PeppermanStatue[];
 extern const BehaviorScript bhvM_BossElevator[];
 extern const BehaviorScript bhvM_ClassC[];
 extern const BehaviorScript bhvM_Gate[];
+extern const BehaviorScript bhvM_Jelly[];
 /* GROUP M END */
 
 /* GROUP N START */

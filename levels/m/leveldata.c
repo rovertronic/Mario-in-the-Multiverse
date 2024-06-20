@@ -18,3 +18,6 @@
 #include "levels/m/m_classc/model.inc.c"
 #include "levels/m/m_gate/collision.inc.c"
 #include "levels/m/m_gate/model.inc.c"
+#include "levels/m/m_jelly/model.inc.c"
+#include "levels/m/m_jelly/anims/data.inc.c"
+#include "levels/m/m_jelly/anims/table.inc.c"

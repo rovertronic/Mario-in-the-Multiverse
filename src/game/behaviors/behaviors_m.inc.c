@@ -24,6 +24,21 @@ void bhv_m_boss_elevator(void) {
                     break;
             }
             break;
+        case 1:
+            switch(o->oAction) {
+                case 0:
+                    if (!cur_obj_nearest_object_with_behavior(bhvM_Jelly)) {
+                        cur_obj_play_sound_2(SOUND_GENERAL_STAR_DOOR_OPEN);
+                        o->oAction = 1;
+                    }
+                    break;
+                case 1:
+                    if (o->oTimer < 70) {
+                        o->oPosZ += 10.0f;
+                    }
+                    break;
+            }
+            break;
     }
 }
 
@@ -166,6 +181,16 @@ void bhv_m_classc(void) {
 }
 
 void bhv_m_gate(void) {
+    //lazy programming lol
+    if (o->oBehParams2ndByte == 1) {
+        struct Object *rocketbutton = cur_obj_nearest_object_with_behavior(bhvRocketButton);
+        if ((rocketbutton) && (rocketbutton->oAction > 0)) {
+            play_puzzle_jingle();
+            mark_obj_for_deletion(o);
+        }
+        return;
+    }
+
     struct Object * class_c_guardian = cur_obj_nearest_object_with_behavior(bhvM_ClassC);
 
     if ((class_c_guardian)&&class_c_guardian->oAction>0) {

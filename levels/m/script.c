@@ -170,6 +170,8 @@ const LevelScript level_m_entry[] = {
 		OBJECT(MODEL_NONE, -6303, -6400, 11238, 0, 0, 0, (2 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, -6481, -6400, 4618, 0, 0, 0, (2 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, -12629, -4499, 2514, 0, 0, 0, (2 << 16), bhvCoinFormation),
+		OBJECT(MODEL_M_GATE, 3100, -7700, 4400, 0, 90, 0, (1 << 16), bhvM_Gate),
+		OBJECT(MODEL_M_GATE, 900, -3700, 2800, 0, 0, 0, (1 << 16), bhvM_Gate),
 		OBJECT(MODEL_M_JELLY, 10000, 1400, 8022, 0, -90, 0, 0x00000000, bhvM_Jelly),
 		OBJECT(MODEL_PT_METAL_BOX, 9800, -3400, 1900, 0, 0, 0, 0x00000000, bhvPtMetalBox),
 		OBJECT(MODEL_PT_METAL_BOX, 10000, -3400, 1900, 0, 0, 0, 0x00000000, bhvPtMetalBox),

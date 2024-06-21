@@ -8190,6 +8190,7 @@ const BehaviorScript bhvM_Gate[] = {
     END_LOOP(),
 };
 
+extern void goliath_jelly_boss_loop(void);
 const BehaviorScript bhvM_Jelly[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
@@ -8198,7 +8199,7 @@ const BehaviorScript bhvM_Jelly[] = {
     LOAD_ANIMATIONS(oAnimations, m_jelly_anims),
     SET_HOME(),
     BEGIN_LOOP(),
-        CALL_NATIVE(king_jelly_boss_loop),
+        CALL_NATIVE(goliath_jelly_boss_loop),
     END_LOOP(),
 };
 /* GROUP M END */

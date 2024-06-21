@@ -64,6 +64,7 @@ DEFINE_LEVEL("O", LEVEL_O, COURSE_THI, o, generic, 20000, 0x00, 0x00, 0x00, _, s
 DEFINE_LEVEL("D", LEVEL_D, COURSE_TTM, d, generic, 20000, 0x00, 0x00, 0x01, _, sCamD) 
 DEFINE_LEVEL("N", LEVEL_N, COURSE_TTC, n, generic, 20000, 0x00, 0x00, 0x00, _, sCamN) 
 DEFINE_LEVEL("H", LEVEL_H, COURSE_BBH, h, generic, 20000, 0x00, 0x00, 0x00, _, sCamH) 
+DEFINE_LEVEL("C", LEVEL_C, COURSE_JRB, c, generic, 20000, 0x00, 0x00, 0x00, _, sCamC) 
 DEFINE_LEVEL("BIRTHDAY", LEVEL_BIRTHDAY, COURSE_NONE, birthday, generic, 20000, 0x00, 0x00, 0x00, _, sCamBirthday) 
 DEFINE_LEVEL("L", LEVEL_L, COURSE_LLL, l, generic, 20000, 0x00, 0x00, 0x00, _, sCamL) 
 DEFINE_LEVEL("BOWSER_COURSE", LEVEL_BOWSER_COURSE, COURSE_BITDW, bowser_course, generic, 20000, 0x00, 0x00, 0x00, _, sCamBowserCourse) 

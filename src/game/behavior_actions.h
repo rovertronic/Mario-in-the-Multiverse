@@ -669,6 +669,23 @@ Gfx *geo_e__switch_mario_shotgun_hand(s32 callContext, struct GraphNode *node, U
 
 #endif // BEHAVIOR_ACTIONS_H
 
+//LEVEL C START
+void bhv_fight_waves_manager_loop(void);
+void bhv_crane_arrow_controller_init(void);
+void bhv_crane_arrow_controller_loop(void);
+void bhv_crane_arrow_loop(void);
+void bhv_crane_init(void);
+void bhv_crane_head_loop(void);
+void bhv_crane_rock_init(void);
+void bhv_crane_rock_loop(void);
+void bhv_paint_gun_loop(void);
+void bhv_octoball_init(void);
+void bhv_octoball_loop(void);
+void bhv_paint_stain_init(void);
+void bhv_paint_stain_loop(void);
+void bhv_target_loop(void);
+//LEVEL C END
+
 void bhv_cutter_blade_init(void);
 void bhv_cutter_blade_loop(void);
 void bhv_cutter_blast_loop(void);

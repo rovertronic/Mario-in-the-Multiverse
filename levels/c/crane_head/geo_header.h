@@ -1,0 +1,14 @@
+extern const GeoLayout crane_head_geo[];
+extern u8 crane_head_piston_inner_i8[];
+extern u8 crane_head_godet_ia16[];
+extern Vtx crane_head_model_mesh_layer_1_vtx_0[48];
+extern Gfx crane_head_model_mesh_layer_1_tri_0[];
+extern Vtx crane_head_model_mesh_layer_4_vtx_0[64];
+extern Gfx crane_head_model_mesh_layer_4_tri_0[];
+extern Gfx mat_crane_head_f3dlite_material_002[];
+extern Gfx mat_revert_crane_head_f3dlite_material_002[];
+extern Gfx mat_crane_head_f3dlite_material[];
+extern Gfx mat_revert_crane_head_f3dlite_material[];
+extern Gfx crane_head_model_mesh_layer_1[];
+extern Gfx crane_head_model_mesh_layer_4[];
+extern Gfx crane_head_material_revert_render_settings[];

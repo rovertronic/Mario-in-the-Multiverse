@@ -101,3 +101,6 @@
 #include "levels/castle_inside/hub_stargoo/model.inc.c"
 #include "levels/castle_inside/hub_door/model.inc.c"
 #include "levels/castle_inside/hub_door/collision.inc.c"
+#include "levels/castle_inside/morshu/model.inc.c"
+#include "levels/castle_inside/morshu/anims/data.inc.c"
+#include "levels/castle_inside/morshu/anims/table.inc.c"

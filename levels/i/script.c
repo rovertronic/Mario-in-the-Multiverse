@@ -153,7 +153,7 @@ const LevelScript level_i_entry[] = {
 		OBJECT(MODEL_CAGED_TOAD, -6898, 553, -8903, 0, -135, 0, (1 << 24), bhvCagedToad),
 		OBJECT(MODEL_CAGED_TOAD, -216, -26, 13536, 0, -135, 0, (2 << 24), bhvCagedToad),
 		OBJECT(MODEL_CAGED_TOAD, -8613, 1553, 12085, 0, -176, 0, (0 << 24), bhvCagedToad),
-		OBJECT(MODEL_NONE, -1646, -241, 4236, 0, -135, 0, (2 << 24), bhvHiddenCagedToadsStar),
+		OBJECT(MODEL_NONE, -1586, -241, 3993, 0, -135, 0, (2 << 24), bhvHiddenCagedToadsStar),
 		OBJECT(MODEL_NONE, -5497, 961, 14795, 0, -75, 0, (5 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, 3309, 916, 5895, 0, -135, 0, (2 << 16), bhvCoinFormation),
 		OBJECT(MODEL_CONCRETE_BLOCK, -8247, -816, -896, 0, -135, 0, (2 << 24) | (155 << 16), bhvConcreteBlock),

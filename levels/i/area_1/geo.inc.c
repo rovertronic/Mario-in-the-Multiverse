@@ -2,7 +2,6 @@
 
 const GeoLayout i_area_1_geo[] = {
 	GEO_NODE_START(),
-	GEO_ASM(0, e__shotgun_effects),
 	GEO_OPEN_NODE(),
 		GEO_SWITCH_CASE(4, geo_switch_area),
 		GEO_OPEN_NODE(),

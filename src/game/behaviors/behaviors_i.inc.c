@@ -245,9 +245,7 @@ void bhv_hoodmonger_init(void){
     
     //if first star get, delete all hoodmonger with Bparam 2 set to 1
     //TODO change "if first star get" to "if Shock Rocket unlocked"
-    if (save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_CCM)) & STAR_FLAG_ACT_1 && 
-        GET_BPARAM2(o->oBehParams) == 1
-        ) {
+    if (save_file_check_ability_unlocked(ABILITY_SHOCK_ROCKET) && GET_BPARAM2(o->oBehParams) == 1) {
         obj_mark_for_deletion(o);
     } else {
         if(o->oIsLootingRocket) {
@@ -656,17 +654,18 @@ void bhv_opening_wall_loop(void) {
             //wait
             case 0:
                 if(o->oObjF4 != NULL && o->oObjF4->oAction == 1){
+                    o->oMoveAngleYaw += 0x4000;
                     o->oAction++;
                 }
                 break;
             //activated
             case 1:
-                o->oVelX = 10;
+                o->oForwardVel = 10;
                 if (o->oTimer > 63) {
                     o->oAction++;
                 }
                 cur_obj_play_sound_1(SOUND_ENV_ELEVATOR2);
-                cur_obj_move_using_vel();
+                cur_obj_move_xz_using_fvel_and_yaw();
                 break;
             //wait but can't be activated anymore
             case 2:
@@ -879,8 +878,6 @@ void bhv_caged_toad_loop(){
 void bhv_caged_toad_star_init(void) {
     //Using red coin counter to count freed toad
     struct Object *starObj = NULL;
-
-    spawn_object(o, MODEL_TRANSPARENT_STAR, bhvRedCoinStarMarker);
     
     s16 numCagedToadsRemaining = count_objects_with_behavior(bhvCagedToad);
     if (numCagedToadsRemaining == 0) {

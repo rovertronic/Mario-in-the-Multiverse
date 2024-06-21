@@ -85,6 +85,7 @@ enum SeqId {
     SEQ_CUSTOM_ESA_AMMOINEN,  // 0x2E
     SEQ_CUSTOM_ESA_VALIANT,  // 0x2F
     SEQ_DOWNTOWN_BB,
+    SEQ_C_SEA_ME_NOW,
     SEQ_COUNT,
 };
 

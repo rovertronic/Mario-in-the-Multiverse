@@ -1,0 +1,12 @@
+extern const GeoLayout paint_stain_Bone_002_opt1[];
+extern const GeoLayout paint_stain_geo[];
+extern u8 paint_stain_paint1_ia4[];
+extern u8 paint_stain_paint2_ia4[];
+extern Vtx paint_stain_Bone_006_mesh_layer_5_vtx_0[4];
+extern Gfx paint_stain_Bone_006_mesh_layer_5_tri_0[];
+extern Gfx mat_paint_stain_paint1[];
+extern Gfx mat_revert_paint_stain_paint1[];
+extern Gfx mat_paint_stain_paint2[];
+extern Gfx mat_revert_paint_stain_paint2[];
+extern Gfx paint_stain_Bone_006_mesh_layer_5[];
+extern Gfx paint_stain_Bone_006_mesh_layer_5_mat_override_paint2_0[];

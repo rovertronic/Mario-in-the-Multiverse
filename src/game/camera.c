@@ -2955,6 +2955,14 @@ void mode_funky_board_camera(struct Camera *c) {
     // le focus pointe toujours vers mario
 }
 
+void mode_crane_camera(struct Camera *c) {
+    struct Object *crane = cur_obj_nearest_object_with_behavior(bhvCrane);
+    vec3f_copy(c->focus, &crane->oPosVec);
+
+    struct Object *camera = cur_obj_nearest_object_with_behavior(bhvCamera);
+    vec3f_copy(c->pos, &camera->oPosVec);
+}
+
 /**
  * Cause Lakitu to fly to the next Camera position and focus over a number of frames.
  *
@@ -3312,6 +3320,10 @@ void update_camera(struct Camera *c) {
                     mode_funky_board_camera(c);
                     break;
 
+                case CAMERA_MODE_CRANE:
+                    mode_crane_camera(c);
+                    break;
+
                 default:
                     mode_mario_camera(c);
             }
@@ -3393,6 +3405,10 @@ void update_camera(struct Camera *c) {
                     
                 case CAMERA_MODE_FUNKY_BOARD:
                     mode_funky_board_camera(c);
+                    break;
+
+                case CAMERA_MODE_CRANE:
+                    mode_crane_camera(c);
                     break;
             }
         }
@@ -6483,6 +6499,9 @@ struct CameraTrigger sCamN[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger sCamH[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamC[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger sCamBirthday[] = {
@@ -11070,6 +11089,7 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(1, 1, 1, 1, 1, 0, 0, 0), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
 	ZOOMOUT_AREA_MASK(1, 1, 1, 1, 0, 0, 0, 0), 
+    ZOOMOUT_AREA_MASK(1, 1, 1, 1, 0, 0, 0, 0), 
 };
 
 //STATIC_ASSERT(ARRAY_COUNT(sZoomOutAreaMasks) - 1 == LEVEL_MAX / 2, "Make sure you edit sZoomOutAreaMasks when adding / removing courses.");

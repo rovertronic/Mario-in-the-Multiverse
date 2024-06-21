@@ -341,10 +341,14 @@ void adjust_sound_for_speed(struct MarioState *m) {
  */
 void play_sound_and_spawn_particles(struct MarioState *m, u32 soundBits, u32 waveParticleType) {
     if (m->terrainSoundAddend == (SOUND_TERRAIN_WATER << 16)) {
-        if (waveParticleType != 0) {
-            m->particleFlags |= PARTICLE_SHALLOW_WATER_SPLASH;
+        if(m->floor->type != SURFACE_TOXIC_INK){
+            if (waveParticleType != 0) {
+                m->particleFlags |= PARTICLE_SHALLOW_WATER_SPLASH;
+            } else {
+                m->particleFlags |= PARTICLE_SHALLOW_WATER_WAVE;
+            }
         } else {
-            m->particleFlags |= PARTICLE_SHALLOW_WATER_WAVE;
+            m->particleFlags |= PARTICLE_PLUNGE_BUBBLE;
         }
     } else {
         if (m->terrainSoundAddend == (SOUND_TERRAIN_SAND << 16)) {
@@ -535,7 +539,9 @@ u32 mario_get_terrain_sound_addend(struct MarioState *m) {
             ret = SOUND_TERRAIN_WATER << 16;
         } else if (SURFACE_IS_QUICKSAND(floorType)) {
             ret = SOUND_TERRAIN_SAND << 16;
-        } else {
+        } else if (floorType == SURFACE_TOXIC_INK) {
+            ret = SOUND_TERRAIN_WATER << 16;
+        }else {
             switch (floorType) {
                 default:
                     floorSoundType = 0;
@@ -1371,8 +1377,10 @@ void update_mario_geometry_inputs(struct MarioState *m) {
     f32 gasLevel;
     f32 ceilToFloorDist;
 
-    f32_find_wall_collision(&m->pos[0], &m->pos[1], &m->pos[2], 60.0f, 50.0f);
-    f32_find_wall_collision(&m->pos[0], &m->pos[1], &m->pos[2], 30.0f, 24.0f);
+    if (gMarioState->action != ACT_SQUID) {
+        f32_find_wall_collision(&m->pos[0], &m->pos[1], &m->pos[2], 60.0f, 50.0f);
+        f32_find_wall_collision(&m->pos[0], &m->pos[1], &m->pos[2], 30.0f, 24.0f);
+    }
 
     m->floorHeight = find_floor(m->pos[0], m->pos[1], m->pos[2], &m->floor);
 
@@ -1444,7 +1452,7 @@ void update_mario_geometry_inputs(struct MarioState *m) {
             m->input |= INPUT_IN_WATER;
         }
 
-        if (m->pos[1] < (gasLevel - 100.0f)) {
+        if (m->pos[1] < (gasLevel - 100.0f) || m->floor->type == SURFACE_TOXIC_INK) {
             m->input |= INPUT_IN_POISON_GAS;
         }
 
@@ -2155,7 +2163,10 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             change_ability(ABILITY_BUBBLE_HAT);
         }
 
-        control_ability_dpad();
+        if ((!force_marble)&&(gMarioState->action != ACT_BUBBLE_HAT_JUMP)&&(gMarioState->action != ACT_SQUID)) {
+            control_ability_dpad();
+        }
+
 
         if ((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_CUTSCENE) {
             gMarioState->abilityChronosTimeSlowActive = FALSE;
@@ -2442,15 +2453,21 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             gMarioObject->hurtboxRadius = 37;
         }
 
+        struct SpawnParticlesInfo D_8032F270 = { 2, 20, MODEL_MIST, 0, 40, 5, 30, 20, 252, 30, 10.0f, 10.0f };
+
         //Squid Ability
+        gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
         if(using_ability(ABILITY_SQUID)){
             if (gPlayer1Controller->buttonPressed & L_TRIG){
+                cur_obj_spawn_particles(&D_8032F270);
                 if (gMarioState->action == ACT_SQUID) {
                     obj_set_model(gMarioObject, MODEL_MARIO);
                     set_mario_action(gMarioState, ACT_IDLE, 0);
+                    gMarioState->marioObj->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
                 } else {
                     obj_set_model(gMarioObject, MODEL_SQUID);
                     set_mario_action(gMarioState, ACT_SQUID, 0);
+                    gMarioState->marioObj->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
                 }
             }
         }

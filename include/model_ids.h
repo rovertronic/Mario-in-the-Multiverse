@@ -98,6 +98,7 @@
 #define MODEL_SHOPITEM_4                       0x3E
 #define MODEL_HUBSTARGOO                       0x3F
 #define MODEL_HUBDOOR                          0x40
+#define MODEL_MORSHU                           0x41        // morshu_geo
 
 // hmc
 #define MODEL_HMC_METAL_PLATFORM               0x36        // hmc_geo_0005A0
@@ -667,6 +668,14 @@ enum GLOBAL_MODELS {
 /* LEVEL B END */
 
 /* LEVEL C START */
+#define MODEL_CRANE_ARROW           0x36 //crane_arrow_geo
+#define MODEL_PAINT_GUN             0x37 //paint_gun_geo
+#define MODEL_CRANE_HEAD            0x38 //crane_head_geo
+#define MODEL_CRANE                 0x39 //crane_geo
+#define MODEL_OCTOBALL              0x3A //octoball_geo
+#define MODEL_STAR_BOULDER          0x3B //star_boulder_geo
+#define MODEL_PAINT_STAIN           0x3C //paint_stain_geo
+#define MODEL_SPLAT_TARGET          0x3D //splat_target_geo
 /* LEVEL C END */
 
 /* LEVEL D START */

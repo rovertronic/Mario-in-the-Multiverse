@@ -809,6 +809,23 @@ s32 count_objects_with_behavior(const BehaviorScript *behavior) {
     return count;
 }
 
+s32 count_objects_with_behavior_and_specific_s32_value(const BehaviorScript *behavior, s32 fieldToCheck, s32 value) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct ObjectNode *obj = listHead->next;
+    s32 count = 0;
+
+    while (listHead != obj) {
+        if (((struct Object *) obj)->behavior == behaviorAddr && ((struct Object *) obj)->rawData.asU32[fieldToCheck] == value) {
+            count++;
+        }
+
+        obj = obj->next;
+    }
+
+    return count;
+}
+
 s32 count_objects_with_behavior_bparam1_action(const BehaviorScript *behavior, u32 bparam1, s32 action) {
     uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
     struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];

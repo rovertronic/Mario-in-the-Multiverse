@@ -28,6 +28,27 @@ void animated_stationary_ground_step(struct MarioState *m, s32 animation, u32 en
     }
 }
 
+static const BehaviorScript *behImmuneToCutter[] = { 
+    bhvKingBobomb, 
+    bhvUkiki, 
+    bhvBowser, 
+    bhvMips, 
+    bhvBreakableBoxSmall,
+    bhvJumpingBox,
+    bhvPlum,
+    bhvFdynamite,
+    bhvChuckya
+};
+
+static s8 is_behavior_immune_to_cutter(const BehaviorScript *behavior) {
+    s16 i;
+    for (i = 0; i < (s16) ARRAY_COUNT(behImmuneToCutter); i++) {
+        if (behImmuneToCutter[i] == behavior) {
+            return TRUE;
+        }
+    }
+}
+
 s32 mario_update_punch_sequence(struct MarioState *m) {
     u32 endAction, crouchEndAction;
     s32 animFrame;
@@ -68,15 +89,7 @@ s32 mario_update_punch_sequence(struct MarioState *m) {
             if (m->marioObj->header.gfx.animInfo.animFrame >= 2) {
                 struct Object *interactObj = m->interactObj;
                 if (mario_check_object_grab(m)) {
-                    if (m->abilityId == ABILITY_CUTTER 
-                    && !obj_has_behavior(interactObj, bhvKingBobomb)
-                    && !obj_has_behavior(interactObj, bhvUkiki) 
-                    && !obj_has_behavior(interactObj, bhvBowser) 
-                    && !obj_has_behavior(interactObj, bhvMips)
-                    && !obj_has_behavior(interactObj, bhvBreakableBoxSmall) 
-                    && !obj_has_behavior(interactObj, bhvJumpingBox)
-                    && !obj_has_behavior(interactObj, bhvPlum)
-                    && !obj_has_behavior(interactObj, bhvFdynamite)) {
+                    if (m->abilityId == ABILITY_CUTTER && !is_behavior_immune_to_cutter(interactObj->behavior)) {
                         interactObj->oAction = OBJ_ACT_STUN_KNOCKBACK;
                         interactObj->oFlags &= ~OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW;
                         interactObj->oMoveAngleYaw = obj_angle_to_object(m->marioObj, interactObj);

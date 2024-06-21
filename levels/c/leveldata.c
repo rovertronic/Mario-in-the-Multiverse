@@ -1,0 +1,24 @@
+#include <ultra64.h>"
+#include "sm64.h"
+#include "surface_terrains.h"
+#include "moving_texture_macros.h"
+#include "level_misc_macros.h"
+#include "macro_preset_names.h"
+#include "special_preset_names.h"
+#include "textures.h"
+#include "dialog_ids.h"
+
+#include "make_const_nonconst.h"
+
+
+#include "levels/c/leveldata.inc.c"
+
+#include "levels/c/crane_arrow/model.inc.c"
+#include "levels/c/crane_arrow/collision.inc.c"
+#include "levels/c/paint_gun/model.inc.c"
+#include "levels/c/crane_head/model.inc.c"
+#include "levels/c/crane/model.inc.c"
+#include "levels/c/octoball/model.inc.c"
+#include "levels/c/star_boulder/model.inc.c"
+#include "levels/c/paint_stain/model.inc.c"
+#include "levels/c/splat_target/model.inc.c"

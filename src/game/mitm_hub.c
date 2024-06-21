@@ -83,7 +83,7 @@ struct mitm_hub_level hub_levels[] = {
           /* Author */      /* Level */  /*Star Flags*/   /*Star Req*/  /*Start Area*/  /*Return Hub Warp ID*/
     /*G*/ {&author_string_g, LEVEL_G,     COURSE_BOB,      0/*0 */,      3,             20},
     /*A*/ {&author_string_a, LEVEL_A,     COURSE_WF,       0/*1 */,      1,             21},
-    /*C*/ {&author_string_c, LEVEL_CCM,   COURSE_JRB,      0/*1 */,      1,             22},
+    /*C*/ {&author_string_c, LEVEL_C,     COURSE_JRB,      0/*1 */,      1,             22},
     /*I*/ {&author_string_i, LEVEL_I,     COURSE_CCM,      0/*3 */,      1,             23},
     /*H*/ {&author_string_h, LEVEL_H,     COURSE_BBH,      0/*5 */,      1,             24},
     /*B*/ {&author_string_b, LEVEL_B,     COURSE_HMC,      0/*10*/,      1,             25},

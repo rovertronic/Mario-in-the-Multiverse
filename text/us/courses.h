@@ -9,7 +9,7 @@ COURSE_ACTS(COURSE_WF, _(" 2 MARIO IN BIKINI BOTTOM"),
        _("")        , _("")    , _(""),
        _(""), _("")    , _(""))
 
-COURSE_ACTS(COURSE_JRB, _(" 3 JOLLY ROGER BAY"),
+COURSE_ACTS(COURSE_JRB, _(" 3 PIRANHA PIT"),
        _("")    , _("") , _(""),
        _("")  , _("")     , _(""))
 

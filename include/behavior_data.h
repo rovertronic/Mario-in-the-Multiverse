@@ -562,6 +562,7 @@ extern const BehaviorScript bhvIntroMachine[];
 extern const BehaviorScript bhvRedArrow[];
 extern const BehaviorScript bhvIntroBowser[];
 extern const BehaviorScript bhvLayton[];
+extern const BehaviorScript bhvMorshu[];
 extern const BehaviorScript bhvHubPlatform[];
 extern const BehaviorScript bhvShopItem[];
 extern const BehaviorScript bhvShopController[];
@@ -602,6 +603,17 @@ extern const BehaviorScript bhvBigConcreteBlock[];
 
 /* GROUP C START */
 extern const BehaviorScript bhvSquid[];
+extern const BehaviorScript bhvFightWavesManager[];
+extern const BehaviorScript bhvCrane[];
+extern const BehaviorScript bhvCraneHead[];
+extern const BehaviorScript bhvCraneArrowController[];
+extern const BehaviorScript bhvCraneArrow[];
+extern const BehaviorScript bhvCraneRock[];
+extern const BehaviorScript bhvPaintGun[];
+extern const BehaviorScript bhvCamera[];
+extern const BehaviorScript bhvOctoball[];
+extern const BehaviorScript bhvPaintStain[];
+extern const BehaviorScript bhvLevelSplatoonTarget[];
 /* GROUP C END */
 
 /* GROUP D START */

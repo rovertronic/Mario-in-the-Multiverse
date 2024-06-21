@@ -42,7 +42,7 @@ void scroll_castle_inside_dl_Map_mesh_layer_1_vtx_8() {
 
 void scroll_castle_inside_dl_Map_mesh_layer_5_vtx_0() {
 	int i = 0;
-	int count = 72;
+	int count = 464;
 	int height = 64 * 0x20;
 
 	static int currentY = 0;
@@ -63,7 +63,7 @@ void scroll_castle_inside_dl_Map_mesh_layer_5_vtx_0() {
 
 void scroll_castle_inside_dl_Map_mesh_layer_5_vtx_1() {
 	int i = 0;
-	int count = 464;
+	int count = 72;
 	int height = 64 * 0x20;
 
 	static int currentY = 0;

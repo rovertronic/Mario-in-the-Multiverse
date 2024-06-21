@@ -121,6 +121,68 @@ strike only when the boss is flashing white.",
 
 };
 
+/* COURSE 3 */
+hint template_hints[] = {
+
+{ /* star 1 */
+"Kill the 4 goombas in the arena, and you'll\n\
+start a battle! Fight octoballs then chuckyas,\n\
+and you'll get the inkling ability and star!",
+(ABILITY_SQUID)
+},
+
+{ /* star 2 */
+"Press the panels hidden around the level to\n\
+get this star. Use the compass if one evades\n\
+your search.",
+(0)
+},
+
+{ /* star 3 */
+"Go to the giant wall with blue ink. Use the\n\
+squid form of your inkling ability to climb the\n\
+wall and collect the 8 red coins.",
+(ABILITY_FLAG_SQUID)
+},
+
+{ /* star 4 */
+"Locate the distant island with a lone star\n\
+on top. Use the Bubble Hat's ability to glide\n\
+to this island and snag that star.",
+(ABILITY_BUBBLE_HAT)
+},
+
+{ /* star 5 */
+"Use the purple switch to spawn a box bridge to a\n\
+lone tower. Climb it, and then use the yellow <>\n\
+buttons to rotate a drill and mine all the gold.",
+(0)
+},
+
+{ /* star 6 */
+"Above is a pulley held by two towers. Hung on\n\
+the rope of the pulley are targets. Hit the targets\n\
+with the Shock Rocket to get this star.",
+(ABILITY_FLAG_SHOCK_ROCKET)
+},
+
+{ /* star 7 */
+"There is a glass tank filled with water. Use the\n\
+Helmet & Drill and wallkick up the U shape to get\n\
+the star at the top in the cage.",
+(ABILITY_BIG_DADDY)
+},
+
+{ /* star 8 */
+"Shoot an orange gun to convert it to a blue gun.\n\
+Do the one above tires, and a blimp will appear.\n\
+Shoot it down to get the star!",
+(0)
+},
+
+};
+
+/* COURSE 4 */
 hint course_4_hints[] = {
 
 { /* star 1 */

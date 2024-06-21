@@ -610,10 +610,15 @@ extern const BehaviorScript bhvCraneArrowController[];
 extern const BehaviorScript bhvCraneArrow[];
 extern const BehaviorScript bhvCraneRock[];
 extern const BehaviorScript bhvPaintGun[];
+extern const BehaviorScript bhvPaintBullet[];
 extern const BehaviorScript bhvCamera[];
 extern const BehaviorScript bhvOctoball[];
 extern const BehaviorScript bhvPaintStain[];
 extern const BehaviorScript bhvLevelSplatoonTarget[];
+extern const BehaviorScript bhvTargetBox[];
+extern const BehaviorScript bhvFlag[];
+extern const BehaviorScript bhvInkMovingPlatform[];
+extern const BehaviorScript bhvOctozepplin[];
 /* GROUP C END */
 
 /* GROUP D START */

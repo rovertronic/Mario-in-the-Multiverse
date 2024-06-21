@@ -18,6 +18,7 @@ extern Texture texture_radial_light[];
 extern Texture texture_transition_star_half[];
 extern Texture texture_transition_circle_half[];
 extern Texture texture_transition_mario[];
+extern Texture texture_transition_splatoon[];
 extern Texture texture_transition_bowser_half[];
 extern Texture texture_waterbox_water[];
 extern Texture texture_waterbox_mist[];

@@ -2796,6 +2796,41 @@ void mode_shock_rocket_camera(struct Camera *c) {
 
 }
 
+/**
+ * Updates the camera when a Shcok Rocket is Launch
+ */
+void mode_paint_gun_camera(struct Camera *c) {
+
+    sLakituPitch = 0;
+    gCameraMovementFlags &= ~CAM_MOVING_INTO_MODE;
+    sStatusFlags &= ~CAM_FLAG_BLOCK_SMOOTH_MOVEMENT;
+
+    struct Object *paintGun = gMarioState->usedObj;
+    
+    s16 yaw = paintGun->oMoveAngleYaw;
+    s16 pitch = paintGun->oMoveAnglePitch;
+    f32 cossPitch = coss(pitch);
+    u32 camDecrement;
+    if(paintGun->oAction != 1){
+        camDecrement = 500;
+    } else {
+        camDecrement = 500;
+    }
+    Vec3f camOffset = {
+        (sins(yaw) * cossPitch) * ((paintGun->oForwardVel * ability_chronos_current_slow_factor()) - camDecrement),
+        (sins(pitch)) * ((paintGun->oForwardVel * ability_chronos_current_slow_factor()) + camDecrement),
+        (coss(yaw) * cossPitch) * ((paintGun->oForwardVel * ability_chronos_current_slow_factor()) - camDecrement)
+    };
+    Vec3f newPos;
+
+    vec3f_copy(c->focus, &paintGun->oPosX);
+
+    vec3f_copy(newPos, c->focus);
+    vec3f_add(newPos, camOffset);
+    vec3f_copy(c->pos, newPos);
+
+}
+
 void mode_marx_fight_camera(struct Camera *c) {
 
     struct Object *obj;
@@ -3324,6 +3359,10 @@ void update_camera(struct Camera *c) {
                     mode_crane_camera(c);
                     break;
 
+                case CAMERA_MODE_PAINT_GUN:
+                    mode_paint_gun_camera(c);
+                    break;
+
                 default:
                     mode_mario_camera(c);
             }
@@ -3409,6 +3448,10 @@ void update_camera(struct Camera *c) {
 
                 case CAMERA_MODE_CRANE:
                     mode_crane_camera(c);
+                    break;
+
+                case CAMERA_MODE_PAINT_GUN:
+                    mode_paint_gun_camera(c);
                     break;
             }
         }

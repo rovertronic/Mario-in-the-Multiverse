@@ -27,4 +27,22 @@ extern const LevelScript level_c_entry[];
 
 #include "levels/c/splat_target/geo_header.h"
 
+#include "levels/c/target_box/geo_header.h"
+
+#include "levels/c/target_box/collision_header.h"
+
+#include "levels/c/octomissile/geo_header.h"
+
+#include "levels/c/flag/geo_header.h"
+
+#include "levels/c/flag/anim_header.h"
+
+#include "levels/c/ink_moving_platform/geo_header.h"
+
+#include "levels/c/ink_moving_platform/collision_header.h"
+
+#include "levels/c/paint_bullet/geo_header.h"
+
+#include "levels/c/octozepplin/geo_header.h"
+
 #endif

@@ -716,6 +716,31 @@ struct Object *cur_obj_find_nearest_object_with_behavior(const BehaviorScript *b
     return closestObj;
 }
 
+// Use to return the paint stain nearest to mario
+struct Object *mario_find_nearest_object_with_behavior(const BehaviorScript *behavior) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+    struct Object *closestObj = NULL;
+    f32 minDist = 0x20000;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+        ) {
+            f32 objDist = dist_between_objects(gMarioObject, obj);
+            if (objDist < minDist) {
+                closestObj = obj;
+                minDist = objDist;
+            }
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+
+    return closestObj;
+}
+
 struct Object *cur_obj_nearest_object_with_behavior_and_action(const BehaviorScript *behavior, s32 action){
     uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
     struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];

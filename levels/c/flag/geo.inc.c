@@ -1,0 +1,28 @@
+#include "src/game/envfx_snow.h"
+
+const GeoLayout flag_geo[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_ANIMATED_PART(LAYER_OPAQUE, 0, 0, 0, flag_Bone_mesh_layer_1),
+		GEO_OPEN_NODE(),
+			GEO_DISPLAY_LIST(LAYER_OPAQUE, flag_Bone_002_skinned_mesh_layer_1),
+			GEO_ANIMATED_PART(LAYER_OPAQUE, 0, 0, -131, flag_Bone_002_mesh_layer_1),
+			GEO_OPEN_NODE(),
+				GEO_DISPLAY_LIST(LAYER_OPAQUE, flag_Bone_004_skinned_mesh_layer_1),
+				GEO_TRANSLATE_ROTATE(LAYER_OPAQUE, 0, 0, -131, 0, 90, 0),
+				GEO_OPEN_NODE(),
+					GEO_ANIMATED_PART(LAYER_OPAQUE, 0, 0, 0, flag_Bone_004_mesh_layer_1),
+					GEO_OPEN_NODE(),
+						GEO_DISPLAY_LIST(LAYER_OPAQUE, flag_Bone_006_skinned_mesh_layer_1),
+						GEO_ANIMATED_PART(LAYER_OPAQUE, 131, 0, 0, flag_Bone_006_mesh_layer_1),
+						GEO_OPEN_NODE(),
+							GEO_DISPLAY_LIST(LAYER_OPAQUE, flag_Bone_008_skinned_mesh_layer_1),
+							GEO_ANIMATED_PART(LAYER_OPAQUE, 131, 0, 0, flag_Bone_008_mesh_layer_1),
+						GEO_CLOSE_NODE(),
+					GEO_CLOSE_NODE(),
+				GEO_CLOSE_NODE(),
+			GEO_CLOSE_NODE(),
+		GEO_CLOSE_NODE(),
+	GEO_CLOSE_NODE(),
+	GEO_END(),
+};

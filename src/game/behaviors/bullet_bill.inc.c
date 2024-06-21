@@ -43,8 +43,10 @@ void bullet_bill_act_2(void) {
         spawn_object(o, MODEL_SMOKE, bhvWhitePuffSmoke);
         o->oForwardVel = 30.0f;
 
-        if (o->oDistanceToMario > 300.0f) {
-            cur_obj_rotate_yaw_toward(o->oAngleToMario, 0x100);
+        if(gCurrLevelNum == LEVEL_C) {
+            if (o->oDistanceToMario > 50.0f) cur_obj_rotate_yaw_toward(o->oAngleToMario, 0x500);
+        } else {
+            if (o->oDistanceToMario > 300.0f) cur_obj_rotate_yaw_toward(o->oAngleToMario, 0x100);
         }
 
         if (o->oTimer == 50) {

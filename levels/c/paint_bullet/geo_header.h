@@ -1,0 +1,14 @@
+extern const GeoLayout paint_bullet_Bone_002_opt1[];
+extern const GeoLayout paint_bullet_geo[];
+extern u8 paint_bullet_paint_bullet_blue_ci4[];
+extern u8 paint_bullet_paint_bullet_blue_pal_rgba16[];
+extern u8 paint_bullet_paint_bullet_orange_ci4[];
+extern u8 paint_bullet_paint_bullet_orange_pal_rgba16[];
+extern Vtx paint_bullet_Bone_004_mesh_layer_4_vtx_0[10];
+extern Gfx paint_bullet_Bone_004_mesh_layer_4_tri_0[];
+extern Gfx mat_paint_bullet_blue[];
+extern Gfx mat_revert_paint_bullet_blue[];
+extern Gfx mat_paint_bullet_orange[];
+extern Gfx mat_revert_paint_bullet_orange[];
+extern Gfx paint_bullet_Bone_004_mesh_layer_4[];
+extern Gfx paint_bullet_Bone_004_mesh_layer_4_mat_override_orange_0[];

@@ -6864,14 +6864,26 @@ const BehaviorScript bhvCraneRock[] = {
 
 const BehaviorScript bhvPaintGun[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
     SET_INT(oInteractType, INTERACT_GRABBABLE),
     SET_INT(oInteractionSubtype, INT_SUBTYPE_NOT_GRABBABLE),
     SET_INT(oAnimState, 1),
-    SET_INT(oIntangibleTimer, 0),
-    SET_HITBOX_WITH_OFFSET(/*Radius*/ 120, /*Height*/ 200, 50),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_paint_gun_loop),
+        SET_INT(oIntangibleTimer, 0),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvPaintBullet[] = {
+    BEGIN(OBJ_LIST_DESTRUCTIVE),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 8000),
+    SET_FLOAT(oCollisionDistance, 500),
+    SET_FLOAT(oForwardVel, 70.0f),
+    SET_INT(oWallHitboxRadius, 40),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_paint_bullet_loop),
     END_LOOP(),
 };
 
@@ -6897,7 +6909,7 @@ const BehaviorScript bhvOctoball[] = {
 
 const BehaviorScript bhvPaintStain[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
     DROP_TO_FLOOR(),
     SET_INT(oOpacity, 255),
     CALL_NATIVE(bhv_paint_stain_init),
@@ -6910,9 +6922,58 @@ const BehaviorScript bhvLevelSplatoonTarget[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
     SET_INT(oIntangibleTimer, 0),
-    SET_HITBOX_WITH_OFFSET(/*Radius*/ 200, /*Height*/ 450, 150),
+    SET_INT(oInteractStatus, 0),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_target_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvTargetBox[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST | OBJ_FLAG_E__SG_BREAKABLE)),//--E
+    LOAD_COLLISION_DATA(target_box_collision),
+    SET_FLOAT(oCollisionDistance, 1000),
+    CALL_NATIVE(bhv_init_room),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_breakable_box_loop),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_target_box_init),
+    END_LOOP(),
+    BREAK(),
+};
+
+const BehaviorScript bhvFlag[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, flag_anims),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvInkMovingPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(ink_moving_platform_collision),
+    SET_FLOAT(oCollisionDistance, 1000),
+    SET_FLOAT(oDrawingDistance, 10000),
+    SET_INT(oF4, 1),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ink_moving_platform_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvOctozepplin[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_MOVE_XZ_USING_FVEL  |OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
+    SET_FLOAT(oDrawingDistance, 10000),
+    SET_FLOAT(oForwardVel, 15.0f),
+    SET_INT(oHealth, 50),
+    SET_INT(oF4, 0),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_octozepplin_loop),
     END_LOOP(),
 };
 

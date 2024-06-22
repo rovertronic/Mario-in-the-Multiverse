@@ -109,6 +109,18 @@ u16 cutsceneTimer = 0;
     /* hurtboxHeight:     */ 179,
 };
 
+struct ObjectHitbox sBigDaddyHitbox = {
+    /* interactType:      */ INTERACT_DAMAGE,
+    /* downOffset:        */   0,
+    /* damageOrCoinValue: */   0,
+    /* health:            */   3,
+    /* numLootCoins:      */   0,
+    /* radius:            */ 170,
+    /* height:            */ 420,
+    /* hurtboxRadius:     */ 170,
+    /* hurtboxHeight:     */ 420,
+    };
+
 enum {
     AIRLOCK_STATE_WET,
     AIRLOCK_STATE_DRY,
@@ -249,10 +261,10 @@ void bhv_airlock_button_loop(){
 void bhv_airlock_water_loop(){
     cur_obj_update_floor_and_walls();
     if (isWet == TRUE && airlockState == AIRLOCK_STATE_CLOSED_FINISHED){
-        if (o->oPosY >= o->oHomeY - 846.0f){
+        if (o->oPosY >= o->oHomeY - 860.0f){
             o->oPosY-= 10;
         } else {
-            o->oPosY = o->oHomeY - 846.0f;
+            o->oPosY = o->oHomeY - 860.0f;
             isWet = FALSE;
             airlockState = AIRLOCK_STATE_DRY;
 
@@ -1229,14 +1241,134 @@ o->oFaceAnglePitch = o->oMoveAnglePitch;
 }
 */
 
+u8 waterTempleState = 0;
+void bhv_cork_init(void){
+    o->parentObj = cur_obj_nearest_object_with_behavior(bhvWaterTemple);
+    o->oHomeY = o->oPosY;
+}
+
 void bhv_cork(void){
-    struct Surface *hitSurface;
     if (cur_obj_was_attacked_or_ground_pounded()) {
+        waterTempleState = GET_BPARAM2(o->oBehParams);
         obj_explode_and_spawn_coins(46.0f, COIN_TYPE_YELLOW);
         create_sound_spawner(SOUND_GENERAL_BREAK_BOX);
         if (GET_BPARAM1(o->oBehParams) == 1){
             gLakituState.goalPos[1] = gLakituState.goalPos[1] - 3000;
             gLakituState.goalFocus[1] = gLakituState.goalFocus[1] - 3000;
         }
+
+        
+    }
+}
+
+void bhv_watertemple(void){
+    //cur_obj_update_floor_and_walls();
+    //print_text_fmt_int(20, 20, "waterTempleState: %d", waterTempleState);
+    switch (waterTempleState) {
+        case 1:
+            o->oHomeY = -941; //placeholder
+            break;
+        case 2:
+            o->oHomeY = -3031; //placeholder
+            break;
+        case 3:
+            o->oHomeY = -7200; //placeholder
+            break;
+    }
+    if (o->oHomeY < o->oPosY){
+        o->oPosY -= 20;
+        cur_obj_play_sound_1(SOUND_ENV_WATERFALL2);
+    } else if (o->oHomeY > o->oPosY){
+        o->oPosY = o->oHomeY;
+    }
+    if (gMarioState->floor->type == SURFACE_SQUID_INK){ 
+        gLakituState.goalPos[1] = gMarioState->pos[1] + 300;
+        gLakituState.goalFocus[1] = gMarioState->pos[1] + 300;
+    }
+}
+void bhv_boss_daddy_init(void){
+    obj_set_hitbox(o, &sBigDaddyHitbox);
+    o->oHealth = 3;
+}
+
+// for use with o->oF4
+enum bigDaddyBossStates{
+    STATE_INTRO,
+    STATE_IDLE,
+    STATE_JUMP,
+    STATE_LAND,
+    STATE_KNOCKED_BACK,
+    STATE_RUNNING,
+    STATE_ATTACK,
+    STATE_VULNERABLE,
+    STATE_DIE,
+};
+
+void bhv_boss_daddy(void){
+    print_text_fmt_int(20, 20, "oAction: %d", o->oAction);
+    print_text_fmt_int(20, 40, "oForwardVel: %f", o->oForwardVel);
+    cur_obj_update_floor_and_walls();
+    cur_obj_move_standard(-78);
+    //cur_obj_move_using_fvel_and_gravity();
+    if (gPlayer1Controller->buttonPressed & L_TRIG){
+        o->oF4 = STATE_RUNNING;
+        o->oAction = 1;
+        o->oTimer = 0;
+    }
+    switch (o->oF4) {
+        case STATE_KNOCKED_BACK:
+            switch (o->oAction){
+                case 1:
+                    cur_obj_init_animation(1);
+                    o->oVelY = 40;
+                    o->oForwardVel -= 50;
+                    o->oAction = 2;
+                    break;
+                case 2:
+                    if  (o->oMoveFlags & OBJ_MOVE_LANDED){
+                    spawn_mist_particles_with_sound(SOUND_OBJ_POUNDING_LOUD);
+                    cur_obj_shake_screen(SHAKE_POS_SMALL);
+                    o->oVelY = 20;
+                    o->oForwardVel = -15;
+                    o->oAction = 3;
+                    }
+                    break;
+                case 3:
+                    if  (o->oMoveFlags & OBJ_MOVE_LANDED){
+                    cur_obj_shake_screen(SHAKE_POS_SMALL);
+                    spawn_mist_particles_with_sound(SOUND_OBJ_POUNDING_LOUD);
+                    o->oForwardVel = 0;
+                    o->oAction = 4;
+                    }
+                    break;
+                case 4:
+                    cur_obj_init_animation(3);
+                    break;
+            }
+            break;
+        case STATE_RUNNING:
+            o->oInteractType = INTERACT_NONE;
+            print_text_fmt_int(20, 60, "oDistanceToMario: %d", o->oDistanceToMario);
+            cur_obj_init_animation(4);
+            cur_obj_unused_play_footstep_sound(1, 15, SOUND_OBJ_POUNDING_LOUD);
+            cur_obj_rotate_yaw_toward(o->oAngleToMario, 1792 / (o->oForwardVel / 8));
+            if (o->oForwardVel < 64){
+                o->oForwardVel += 2;
+            }
+            if (o->oInteractStatus & INT_STATUS_INTERACTED){
+                o->oF4 = STATE_IDLE;
+                o->oAction = 1;
+                o->oTimer = 0;
+            }
+            if ((abs_angle_diff(o->oWallAngle, o->oFaceAngleYaw) >= 24576) && (o->oMoveFlags & OBJ_MOVE_HIT_WALL)){
+                o->oF4 = STATE_KNOCKED_BACK;
+                o->oAction = 1;
+            }
+                break;
+        case STATE_IDLE:
+            cur_obj_init_animation(0);
+            break;
+            
+
     }
 }

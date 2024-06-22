@@ -577,6 +577,8 @@ extern const BehaviorScript bhvTurretPanel[];
 extern const BehaviorScript bhvGate[];
 extern const BehaviorScript bhvAlarm[];
 extern const BehaviorScript bhvCork[];
+extern const BehaviorScript bhvWaterTemple[];
+extern const BehaviorScript bhvBossDaddy[];
 
 /* GROUP B END */
 

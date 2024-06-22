@@ -6322,7 +6322,7 @@ const BehaviorScript bhvBigDaddy[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_ANIMATIONS(oAnimations, bigdaddy_anims),
-    ANIMATE(0),
+    ANIMATE(2),
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 0, /*Friction*/ 0, /*Buoyancy*/ 0, /*Unused*/ 0, 0),
     SET_HOME(),
     SET_INTERACT_TYPE(INTERACT_TEXT),
@@ -6462,10 +6462,36 @@ const BehaviorScript bhvCork[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
     LOAD_COLLISION_DATA(megacork_collision),
-    SET_FLOAT(oDrawingDistance, 4000),
+    SET_FLOAT(oDrawingDistance, 6000),
+    //CALL_NATIVE(bhv_cork_init),
     BEGIN_LOOP(),
         CALL_NATIVE(load_object_collision_model),
         CALL_NATIVE(bhv_cork),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvWaterTemple[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    LOAD_COLLISION_DATA(watertemple_collision),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_watertemple),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBossDaddy[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_MOVE_Y_WITH_TERMINAL_VEL)),
+    LOAD_ANIMATIONS(oAnimations, bigdaddy_anims),
+    ANIMATE(2),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 170, /*Gravity*/ -400, /*Bounciness*/ 0, /*Drag strength*/ 5000, /*Friction*/ 5000, /*Buoyancy*/ 0, /*Unused*/ 0, 0),
+    SET_HITBOX(/*Radius*/ 170, /*Height*/ 420),
+    SET_INTERACT_TYPE(INTERACT_BULLY),
+    SET_HOME(),
+    CALL_NATIVE(bhv_boss_daddy_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_boss_daddy),
     END_LOOP(),
 };
 

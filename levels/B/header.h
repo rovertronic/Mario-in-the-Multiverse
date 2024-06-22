@@ -89,4 +89,8 @@ extern const LevelScript level_B_entry[];
 
 #include "levels/B/megacork/collision_header.h"
 
+#include "levels/B/watertemple/collision_header.h"
+
+#include "levels/B/watertemple/geo_header.h"
+
 #endif

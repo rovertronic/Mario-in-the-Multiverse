@@ -1,1 +1,5 @@
 #include "anim_ArmatureAction.inc.c"
+#include "anim_Bonk.inc.c"
+#include "anim_Idle.inc.c"
+#include "anim_HitMe_001.inc.c"
+#include "anim_Running_001.inc.c"

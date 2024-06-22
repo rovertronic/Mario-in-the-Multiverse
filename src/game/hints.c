@@ -122,13 +122,13 @@ strike only when the boss is flashing white.",
 };
 
 /* COURSE 3 */
-hint template_hints[] = {
+hint course_3_hints[] = {
 
 { /* star 1 */
 "Kill the 4 goombas in the arena, and you'll\n\
 start a battle! Fight octoballs then chuckyas,\n\
 and you'll get the inkling ability and star!",
-(ABILITY_SQUID)
+(ABILITY_FLAG_SQUID)
 },
 
 { /* star 2 */
@@ -149,7 +149,7 @@ wall and collect the 8 red coins.",
 "Locate the distant island with a lone star\n\
 on top. Use the Bubble Hat's ability to glide\n\
 to this island and snag that star.",
-(ABILITY_BUBBLE_HAT)
+(ABILITY_FLAG_BUBBLE_HAT)
 },
 
 { /* star 5 */
@@ -170,7 +170,7 @@ with the Shock Rocket to get this star.",
 "There is a glass tank filled with water. Use the\n\
 Helmet & Drill and wallkick up the U shape to get\n\
 the star at the top in the cage.",
-(ABILITY_BIG_DADDY)
+(ABILITY_FLAG_BIG_DADDY)
 },
 
 { /* star 8 */
@@ -781,7 +781,7 @@ open the Goliath Jellyfish bossfight room.",
 hint * hintlist[] = {
     course_1_hints,
     course_2_hints,
-    course_1_hints,
+    course_3_hints,
     course_4_hints,
     course_5_hints,
     course_1_hints,

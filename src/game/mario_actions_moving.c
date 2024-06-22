@@ -1803,6 +1803,7 @@ s32 act_cutter_dash(struct MarioState *m) {
 //BEWARE OF CHICKEN SCRATCH CODE
 
 struct Surface *squid_wall = NULL;
+f32 squid_x_vel, squid_y_vel, squid_z_vel;
 
 s32 act_squid(struct MarioState *m){
     struct Surface *surfie;
@@ -1827,6 +1828,9 @@ s32 act_squid(struct MarioState *m){
 
             fheight = find_floor(m->pos[0],m->pos[1],m->pos[2], &surfie);
             if (surfie && fheight+10.0f > m->pos[1] && surfie->type == SURFACE_SQUID_INK) {
+                squid_x_vel = 0.0f;
+                squid_y_vel = 0.0f;
+                squid_z_vel = 0.0f;
                 m->actionState = 1;
                 vec3f_set(m->vel,0,0,0);
                 //go in da ink
@@ -1838,8 +1842,11 @@ s32 act_squid(struct MarioState *m){
             break;
 
         case 1: //ink ground move
-            intend_x = m->pos[0] + sins(m->intendedYaw)*m->intendedMag;
-            intend_z = m->pos[2] + coss(m->intendedYaw)*m->intendedMag;
+            squid_x_vel = approach_f32_asymptotic(squid_x_vel,sins(m->intendedYaw)*m->intendedMag,0.2f);
+            squid_z_vel = approach_f32_asymptotic(squid_z_vel,coss(m->intendedYaw)*m->intendedMag,0.2f);
+
+            intend_x = m->pos[0] + squid_x_vel;
+            intend_z = m->pos[2] + squid_z_vel;
 
             v3[0] = intend_x;
             v3[1] = m->pos[1];
@@ -1852,6 +1859,7 @@ s32 act_squid(struct MarioState *m){
                 m->pos[2] = intend_z;
                 squid_wall = wall.walls[0];
                 m->actionState = 2;
+                squid_y_vel = 0.0f;
                 return FALSE;
             }
 
@@ -1870,16 +1878,20 @@ s32 act_squid(struct MarioState *m){
                         m->pos[1] -= 10.0f;
                         squid_wall = wall.walls[0];
                         m->actionState = 2;
+                        squid_y_vel = 0.0f;
                         return FALSE;
                     }
                 }
             }
 
             vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
-            vec3s_set(m->marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
+            vec3s_set(m->marioObj->header.gfx.angle, 0, atan2s(squid_z_vel,squid_x_vel), 0);
             break;
 
         case 2: //ink wall move
+            squid_x_vel = approach_f32_asymptotic(squid_x_vel,sins(m->intendedYaw)*m->intendedMag,0.2f);
+            squid_z_vel = approach_f32_asymptotic(squid_z_vel,coss(m->intendedYaw)*m->intendedMag,0.2f);
+
             vec3f_copy(ray_origin,m->pos);
             ray_origin[0] += squid_wall->normal.x*50.0f;
             ray_origin[1] += 10.0f;
@@ -1895,12 +1907,13 @@ s32 act_squid(struct MarioState *m){
                 m->pos[0] = ray_hit_pos[0] + ray_surface->normal.x*20.0f;
                 m->pos[2] = ray_hit_pos[2] + ray_surface->normal.z*20.0f;
 
-                intend_y = (gPlayer1Controller->rawStickY/4.0f);
+                squid_y_vel = approach_f32_asymptotic(squid_y_vel,(gPlayer1Controller->rawStickY/4.0f),0.2f);
+                intend_y = squid_y_vel;
 
                 wall_angle = atan2s(ray_surface->normal.z,ray_surface->normal.x);
-                m->pos[0] += sins(wall_angle+0x4000) * 0.3f * gPlayer1Controller->rawStickX;
+                m->pos[0] += sins(wall_angle+0x4000) * squid_x_vel;
                 m->pos[1] += intend_y;
-                m->pos[2] += coss(wall_angle+0x4000) * 0.3f * gPlayer1Controller->rawStickX;
+                m->pos[2] += coss(wall_angle+0x4000) * squid_z_vel;
 
                 if (ray_surface->object != NULL) {
                     m->pos[1] += ray_surface->object->oVelY;

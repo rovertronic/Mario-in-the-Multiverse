@@ -53,7 +53,7 @@ const LevelScript level_c_entry[] = {
 
 	AREA(1, c_area_1),
 		WARP_NODE(/*entry*/ 0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(/*death*/ 0xF1, LEVEL_X, /*this area*/ 0x01, 0x01, WARP_NO_CHECKPOINT),
+		WARP_NODE(/*death*/ 0xF1, LEVEL_C, /*this area*/ 0x01, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death entry*/ 0x01, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_TARGET_BOX, 1915, 1992, 3966, 0, 0, 0, (1 << 16) | (1), bhvTargetBox),
 		OBJECT(MODEL_TARGET_BOX, 775, 1568, 5945, 0, 0, 0, (1 << 16) | (1), bhvTargetBox),
@@ -88,7 +88,7 @@ const LevelScript level_c_entry[] = {
 		OBJECT(MODEL_TARGET_BOX, 3192, 2039, 9293, 0, 0, 0, (1), bhvHiddenObject),
 		OBJECT(MODEL_TARGET_BOX, 2322, 2039, 9293, 0, 0, 0, 0x00000000, bhvHiddenObject),
 		OBJECT(MODEL_INK_MOVING_PLATFORM, -689, 1768, -7505, 0, 0, 0, 0x00000000, bhvInkMovingPlatform),
-		OBJECT(MODEL_NONE, -1454, 1948, 7061, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
+		OBJECT(MODEL_NONE, -1254, 1948, 6701, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 0, 1850, -761, 0, 0, 0, (0x0A << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_OCTOBALL, 978, 1568, -2072, 0, 0, 0, 0x00000000, bhvOctoball),
 		OBJECT(MODEL_OCTOBALL, -8772, 284, 197, 0, 0, 0, 0x00000000, bhvOctoball),

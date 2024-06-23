@@ -42,7 +42,7 @@ void scroll_i_dl_area2_room1_geo_mesh_layer_5_vtx_1() {
 
 void scroll_i_dl_main_section_geo_mesh_layer_5_vtx_0() {
 	int i = 0;
-	int count = 228;
+	int count = 194;
 	int width = 64 * 0x20;
 
 	static int currentX = 0;
@@ -163,7 +163,7 @@ void scroll_i_dl_first_section_geo_mesh_layer_5_vtx_3() {
 
 void scroll_i_dl_first_section_geo_mesh_layer_5_vtx_5() {
 	int i = 0;
-	int count = 230;
+	int count = 216;
 	int height = 32 * 0x20;
 
 	static int currentY = 0;
@@ -182,14 +182,14 @@ void scroll_i_dl_first_section_geo_mesh_layer_5_vtx_5() {
 	currentY += deltaY;
 }
 
-void scroll_i_dl_first_section_geo_mesh_layer_1_vtx_2() {
+void scroll_i_dl_first_section_geo_mesh_layer_1_vtx_1() {
 	int i = 0;
-	int count = 460;
+	int count = 469;
 	int height = 128 * 0x20;
 
 	static int currentY = 0;
 	int deltaY;
-	Vtx *vertices = segmented_to_virtual(i_dl_first_section_geo_mesh_layer_1_vtx_2);
+	Vtx *vertices = segmented_to_virtual(i_dl_first_section_geo_mesh_layer_1_vtx_1);
 
 	deltaY = (int)(2.9800000190734863 * 0x20) % height;
 
@@ -279,7 +279,7 @@ void scroll_i() {
 	scroll_i_dl_first_section_geo_mesh_layer_5_vtx_1();
 	scroll_i_dl_first_section_geo_mesh_layer_5_vtx_3();
 	scroll_i_dl_first_section_geo_mesh_layer_5_vtx_5();
-	scroll_i_dl_first_section_geo_mesh_layer_1_vtx_2();
+	scroll_i_dl_first_section_geo_mesh_layer_1_vtx_1();
 	scroll_i_dl_first_section_geo_mesh_layer_4_vtx_0();
 	scroll_i_dl_first_section_geo_mesh_layer_4_vtx_1();
 	scroll_i_dl_first_section_geo_mesh_layer_4_vtx_2();

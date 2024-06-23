@@ -153,12 +153,14 @@ void bhv_hidden_object_loop(void) {
 }
 
 void bhv_breakable_box_loop(void) {
-    if (gCurrLevelNum == LEVEL_C) {
-        cur_obj_set_model(MODEL_TARGET_BOX);
-        obj_set_hitbox(o, &sTargetBoxHitbox);
-    } else {
-        cur_obj_set_model(MODEL_BREAKABLE_BOX);
-        obj_set_hitbox(o, &sBreakableBoxHitbox);
+    if (gCurrLevelNum != LEVEL_CASTLE) {
+        if (gCurrLevelNum == LEVEL_C) {
+            cur_obj_set_model(MODEL_TARGET_BOX);
+            obj_set_hitbox(o, &sTargetBoxHitbox);
+        } else {
+            cur_obj_set_model(MODEL_BREAKABLE_BOX);
+            obj_set_hitbox(o, &sBreakableBoxHitbox);
+        }
     }
     if (o->oTimer == 0) breakable_box_init();
     if (cur_obj_was_attacked_or_ground_pounded()) {

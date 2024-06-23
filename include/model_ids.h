@@ -90,15 +90,6 @@
 #define MODEL_CASTLE_CLOCK_MINUTE_HAND         0x37        // castle_geo_001530
 #define MODEL_CASTLE_CLOCK_HOUR_HAND           0x38        // castle_geo_001548
 #define MODEL_CASTLE_CLOCK_PENDULUM            0x39        // castle_geo_001518
-#define MODEL_LAYTON                           0x3A        // layton_geo
-#define MODEL_HUBPLATFORM                      0x3B
-#define MODEL_SHOPITEM_1                       0x3C
-#define MODEL_SHOPITEM_2                       0x3D
-//#define MODEL_SHOPITEM_3                       0x3E
-#define MODEL_SHOPITEM_4                       0x3E
-#define MODEL_HUBSTARGOO                       0x3F
-#define MODEL_HUBDOOR                          0x40
-#define MODEL_MORSHU                           0x41        // morshu_geo
 
 // hmc
 #define MODEL_HMC_METAL_PLATFORM               0x36        // hmc_geo_0005A0
@@ -882,5 +873,18 @@ enum {
 #define MODEL_BC_STAIR_2           0x159
 #define MODEL_BC_SHOOTER           0x15A
 #define MODEL_BC_SKIPLOOM          0x15B
+
+//HUB
+enum {
+    MODEL_LAYTON=0x151,
+    MODEL_HUBPLATFORM,
+    MODEL_SHOPITEM_1,
+    MODEL_SHOPITEM_2,
+    MODEL_SHOPITEM_4,
+    MODEL_HUBSTARGOO,
+    MODEL_HUBDOOR,
+    MODEL_MORSHU,
+    MODEL_HUB_TARGET_BOX,
+};
 
 #endif // MODEL_IDS_H

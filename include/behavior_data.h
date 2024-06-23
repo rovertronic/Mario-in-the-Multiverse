@@ -570,6 +570,7 @@ extern const BehaviorScript bhvEgaddNPC[];
 extern const BehaviorScript bhvAArtifactOnMachine[];
 extern const BehaviorScript bhvHubDoor[];
 extern const BehaviorScript bhvStarGoo[];
+extern const BehaviorScript bhvHubTargetBox[];
 
 /* GROUP A START */
 extern const BehaviorScript bhvJelly[];

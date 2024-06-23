@@ -6937,7 +6937,6 @@ const BehaviorScript bhvTargetBox[] = {
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_breakable_box_loop),
         CALL_NATIVE(load_object_collision_model),
-        CALL_NATIVE(bhv_target_box_init),
     END_LOOP(),
     BREAK(),
 };
@@ -8985,4 +8984,18 @@ const BehaviorScript bhvStarGoo[] = {
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_stargoo),
     END_LOOP(),
+};
+
+const BehaviorScript bhvHubTargetBox[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST | OBJ_FLAG_E__SG_BREAKABLE)),//--E
+    LOAD_COLLISION_DATA(hub_target_box_collision),
+    SET_FLOAT(oCollisionDistance, 1000),
+    CALL_NATIVE(bhv_init_room),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_breakable_box_loop),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_target_box_init),
+    END_LOOP(),
+    BREAK(),
 };

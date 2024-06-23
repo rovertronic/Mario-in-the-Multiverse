@@ -60,6 +60,7 @@ const LevelScript level_castle_inside_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_HUBSTARGOO, hub_stargoo_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_HUBDOOR, hub_door_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_MORSHU, morshu_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_HUB_TARGET_BOX, hub_target_box_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -134,6 +135,7 @@ const LevelScript level_castle_inside_entry[] = {
 		OBJECT(MODEL_STAR, 213, 3596, -284, 0, 0, 0, (4 << 16), bhvShopItem),
 		OBJECT(MODEL_HUBDOOR, -8171, 2658, 162, 0, 0, 0, 0x00000000, bhvHubDoor),
 		OBJECT(MODEL_HUBSTARGOO, -8293, 2751, 299, 0, 0, 0, 0x00000000, bhvStarGoo),
+		OBJECT(MODEL_HUB_TARGET_BOX, -5126, 1994, 1688, 0, -16, 0, 0x00000000, bhvHubTargetBox),
 		OBJECT(MODEL_NONE, -8399, 2700, 93, 0, 0, 0, (35 << 16), bhvWarp),
 		TERRAIN(castle_inside_area_1_collision),
 		MACRO_OBJECTS(castle_inside_area_1_macro_objs),

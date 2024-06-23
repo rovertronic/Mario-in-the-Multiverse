@@ -33,3 +33,5 @@
 #include "levels/castle_inside/hub_stargoo/geo.inc.c"
 #include "levels/castle_inside/hub_door/geo.inc.c"
 #include "levels/castle_inside/morshu/geo.inc.c"
+
+#include "levels/castle_inside/hub_target_box/geo.inc.c"

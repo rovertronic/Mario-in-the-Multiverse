@@ -225,7 +225,6 @@ void bhv_paint_gun_loop(void) {
             || o->oInteractStatus & INT_STATUS_MARIO_KNOCKBACK_DMG) {
                 o->oAction++;
                 o->oAnimState = 0;
-                o->oShotByShotgun = 0;
             }
             break;
 
@@ -264,6 +263,7 @@ void bhv_paint_gun_loop(void) {
             break;
     }
     o->oInteractStatus = 0;
+    o->oShotByShotgun = 0;
 }
 
 void bhv_paint_bullet_loop(void) {

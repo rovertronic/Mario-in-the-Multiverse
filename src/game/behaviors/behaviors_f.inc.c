@@ -22,6 +22,7 @@ u32 targetable_behavior_list[] = {
     bhvFTrinket,
     bhvFblastwall,
     bhvSignOnWall,
+    bhvPaintGun,
 };
 
 struct Object *find_nearest_watch_target(void) {
@@ -128,6 +129,11 @@ void bhv_gadget_aim(void) {
             } else if (target->behavior == segmented_to_virtual(bhvWoodenLever)) {
                 if(target->oAction == 0){
                     target->oAction = 1;
+                }
+            } else if (target->behavior == segmented_to_virtual(bhvPaintGun)) {
+                if(target->oAction == 0){
+                    target->oAction++;
+                    target->oAnimState = 0; 
                 }
             } else if (target->behavior == segmented_to_virtual(bhvFTrinket)) {
                 trinkets_shot_f++;

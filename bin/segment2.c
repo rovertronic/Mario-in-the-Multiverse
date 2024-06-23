@@ -2690,10 +2690,6 @@ const Texture texture_transition_mario[] = {
 #include "textures/segment2/segment2.10458.ia8.inc.c"
 };
 
-const Texture texture_transition_splatoon[] = {
-#include "textures/segment2/splatoon.ia8.inc.c"
-};
-
 const Texture texture_transition_bowser_half[] = {
 #include "textures/segment2/segment2.11458.ia8.inc.c"
 };

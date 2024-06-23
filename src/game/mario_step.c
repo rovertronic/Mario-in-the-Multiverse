@@ -254,10 +254,11 @@ u32 mario_update_moving_conveyor(struct MarioState *m) {
     if (floorType == SURFACE_CONVEYOR) {
         //0xAABB -> AA is speed, BB is angle
         s16 pushAngle = floor->force << 8;
-        f32 pushSpeed = floor->force >> 8;
+        u8 pushSpeed = floor->force >> 8;
 
-        m->vel[0] += pushSpeed * sins(pushAngle);
-        m->vel[2] += pushSpeed * coss(pushAngle);
+        // divide by 2 to be more precise
+        m->vel[0] += ((f32)(pushSpeed) / 2) * sins(pushAngle);
+        m->vel[2] += ((f32)(pushSpeed) / 2) * coss(pushAngle);
 
         return TRUE;
     }

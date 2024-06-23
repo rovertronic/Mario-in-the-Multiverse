@@ -21,7 +21,6 @@ void *sTextureTransitionID[] = {
     texture_transition_circle_half,
     texture_transition_mario,
     texture_transition_bowser_half,
-    texture_transition_splatoon,
 };
 
 
@@ -180,49 +179,6 @@ s32 render_textured_transition(s8 transTime, struct WarpTransitionData *transDat
         sTransitionTextureAngle += transData->angleSpeed;
     }
     return set_and_reset_transition_fade_timer(transTime);
-}
-
-void render_textured_splatoon() {
-    //u16 texTransDir = calc_tex_transition_direction(transData);
-
-    //f32 posDistance = calc_tex_transition_pos_distance(255, transData);
-    //f32 centerTransX = center_tex_transition_x(transData, posDistance, texTransDir);
-    //f32 centerTransY = center_tex_transition_y(transData, posDistance, texTransDir);
-
-    //f32 texTransRadius = calc_tex_transition_radius(255, transData);
-    Vtx *verts = alloc_display_list(8 * sizeof(Vtx));
-
-    if (verts != NULL) {
-        gSPDisplayList(gDisplayListHead++, dl_proj_mtx_fullscreen);
-
-        u8 r = 0xFF;
-        u8 g = 0x7C;
-        u8 b = 0x00;
-        gDPSetPrimColor(gDisplayListHead++, 0, 0, r, g, b, 255);
-
-        gDPSetCombineMode(gDisplayListHead++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
-        gDPSetRenderMode(gDisplayListHead++, G_RM_AA_OPA_SURF, G_RM_AA_OPA_SURF2);
-
-        gSPVertex(gDisplayListHead++, VIRTUAL_TO_PHYSICAL(verts), 8, 0);
-        gSPDisplayList(gDisplayListHead++, dl_transition_draw_filled_region);
-        gDPPipeSync(gDisplayListHead++);
-
-        gDPSetCombineLERP(gDisplayListHead++, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0, 
-                                              0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0);
-
-        gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
-        gDPSetTextureFilter(gDisplayListHead++, G_TF_BILERP);
-
-        gDPLoadTextureBlock(gDisplayListHead++, sTextureTransitionID[4], G_IM_FMT_IA, G_IM_SIZ_8b, 32, 64, 0,
-                    G_TX_WRAP | G_TX_MIRROR, G_TX_WRAP | G_TX_MIRROR, 5, 6, G_TX_NOLOD, G_TX_NOLOD);
-
-        gSPTexture(gDisplayListHead++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
-        gSPVertex(gDisplayListHead++, VIRTUAL_TO_PHYSICAL(verts), 4, 0);
-        gSPDisplayList(gDisplayListHead++, dl_draw_quad_verts_0123);
-        gSPTexture(gDisplayListHead++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF);
-        gSPDisplayList(gDisplayListHead++, dl_screen_transition_end);
-        //sTransitionTextureAngle += transData->angleSpeed;
-    }
 }
 
 Vtx *vertex_transition_color() {

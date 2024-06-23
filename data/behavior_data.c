@@ -6967,7 +6967,7 @@ const BehaviorScript bhvInkMovingPlatform[] = {
 const BehaviorScript bhvOctozepplin[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_MOVE_XZ_USING_FVEL  |OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
-    SET_FLOAT(oDrawingDistance, 10000),
+    SET_FLOAT(oDrawingDistance, 15000),
     SET_FLOAT(oForwardVel, 15.0f),
     SET_INT(oHealth, 50),
     SET_INT(oF4, 0),

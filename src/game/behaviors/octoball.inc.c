@@ -71,6 +71,8 @@ static void octoball_check_interactions(void) {
     }
 }
 
+
+
 static void octoball_act_patrol(void) {
     s16 collisionFlags;
 
@@ -78,8 +80,8 @@ static void octoball_act_patrol(void) {
     o->oFloatF4 = 0.4f;
     collisionFlags = object_step_without_floor_orient();
 
-    if ((obj_return_home_if_safe(o, o->oHomeX, o->oHomeY, o->oHomeZ, 400) == TRUE)
-        && (obj_check_if_facing_toward_angle(o->oMoveAngleYaw, o->oAngleToMario, 0x2000) == TRUE)) {
+    if ((obj_return_home_if_safe(o, o->oHomeX, o->oHomeY, o->oHomeZ, 600) == TRUE)
+        && (abs_angle_diff(o->oMoveAngleYaw, o->oAngleToMario) < 0x4000 == TRUE)) {
         o->oBobombFuseLit = 1;
         o->oAction = BOBOMB_ACT_CHASE_MARIO;
     }

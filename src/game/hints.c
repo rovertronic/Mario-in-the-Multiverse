@@ -193,7 +193,7 @@ Hit both buttons in time to open the gate.",
 },
 
 { /* star 2 */
-"Kill every single hoodmonger in the level.\n\
+"Kill every single hoodlums in the level.\n\
 Then, talk to the toad standing on a crate to\n\
 receive the star.",
 (0)
@@ -237,7 +237,7 @@ it to the star at the end.",
 { /* star 8 */
 "Collect 5 stars in this level to open the boss\n\
 gate. To bypass the boss's defenses, kill the 3\n\
-mages that appear around the arena.",
+sorcerer that appear around the arena.",
 (ABILITY_FLAG_SHOCK_ROCKET)
 },
 

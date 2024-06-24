@@ -653,8 +653,8 @@ over the bog and hit all the flipswitches.",
 { /* star 8 */
 "Scale the tower. Shoot the Shock Rocket and\n\
 follow red line to button. Swim up blood with\n\
-Inkling. Finally, Combo Shotgun with HM Fly.",
-(ABILITY_FLAG_SQUID | ABILITY_FLAG_SHOCK_ROCKET | ABILITY_FLAG_HM_FLY)
+Inkling. You'll find the star at the end.",
+(ABILITY_FLAG_SQUID | ABILITY_FLAG_SHOCK_ROCKET)
 },
 
 };

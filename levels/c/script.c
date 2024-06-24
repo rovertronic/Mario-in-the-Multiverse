@@ -121,6 +121,7 @@ const LevelScript level_c_entry[] = {
 		OBJECT(MODEL_SPLAT_TARGET, 1198, 4980, -932, 1, 45, -1, 0x00000000, bhvLevelSplatoonTarget),
 		OBJECT(MODEL_SPLAT_TARGET, 2996, 5261, -2723, 1, 45, -1, 0x00000000, bhvLevelSplatoonTarget),
 		TERRAIN(c_area_1_collision),
+		ROOMS(c_area_1_collision_rooms),
 		MACRO_OBJECTS(c_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_C_SEA_ME_NOW),
 		TERRAIN_TYPE(TERRAIN_STONE),

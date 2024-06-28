@@ -6368,7 +6368,7 @@ const BehaviorScript bhvCrusher[] = {
 };
 
 const BehaviorScript bhvTurretBody[] = {
-    BEGIN(OBJ_LIST_PUSHABLE),
+    BEGIN(OBJ_LIST_GENACTOR),
     OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
     SET_HITBOX(/*Radius*/ 110, /*Height*/ 210),
     SET_INTERACT_TYPE(INTERACT_SPINY_WALKING),
@@ -6488,6 +6488,7 @@ const BehaviorScript bhvBossDaddy[] = {
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 170, /*Gravity*/ -400, /*Bounciness*/ 0, /*Drag strength*/ 5000, /*Friction*/ 5000, /*Buoyancy*/ 0, /*Unused*/ 0, 0),
     SET_HITBOX(/*Radius*/ 170, /*Height*/ 420),
     SET_INTERACT_TYPE(INTERACT_BULLY),
+    SET_FLOAT(oDrawingDistance, 6000),
     SET_HOME(),
     CALL_NATIVE(bhv_boss_daddy_init),
     BEGIN_LOOP(),

@@ -63,7 +63,7 @@ void scroll_B_dl_Room_1_mesh_layer_7_vtx_0() {
 
 void scroll_B_dl_Room_1_mesh_layer_6_vtx_1() {
 	int i = 0;
-	int count = 144;
+	int count = 179;
 	int height = 64 * 0x20;
 
 	static int currentY = 0;

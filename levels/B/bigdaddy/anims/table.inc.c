@@ -4,5 +4,12 @@ const struct Animation *const bigdaddy_anims[] = {
 	&bigdaddy_anim_Idle,
 	&bigdaddy_anim_HitMe_001,
 	&bigdaddy_anim_Running_001,
+	&bigdaddy_anim_Laugh,
+	&bigdaddy_anim_Jumping,
+	&bigdaddy_anim_knoB,
+	&bigdaddy_anim_Landing,
+	&bigdaddy_anim_Skidding,
+	&bigdaddy_anim_Stomp_Intro,
+	&bigdaddy_anim_Stomp_Loop,
 	NULL,
 };

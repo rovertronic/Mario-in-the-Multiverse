@@ -112,7 +112,7 @@ u16 cutsceneTimer = 0;
 struct ObjectHitbox sBigDaddyHitbox = {
     /* interactType:      */ INTERACT_DAMAGE,
     /* downOffset:        */   0,
-    /* damageOrCoinValue: */   0,
+    /* damageOrCoinValue: */   1,
     /* health:            */   3,
     /* numLootCoins:      */   0,
     /* radius:            */ 170,
@@ -120,6 +120,7 @@ struct ObjectHitbox sBigDaddyHitbox = {
     /* hurtboxRadius:     */ 170,
     /* hurtboxHeight:     */ 420,
     };
+    
 
 enum {
     AIRLOCK_STATE_WET,
@@ -641,6 +642,9 @@ void bhv_turret_body_init(void){
     obj_set_hitbox(o, o->parentObj->oFaceAnglePitch == 0x08000 || o->parentObj->oFaceAnglePitch == -0x08000 ? 
                    &sCeilingTurretHitbox : &sTurretHitbox);
 
+    if (o->parentObj->oFaceAnglePitch != 0x08000 || o->parentObj->oFaceAnglePitch != -0x08000){
+        o->oGravity = -4;
+    }
     // Find the nearest object with the specified behavior and get the distance
     f32 dist;
     struct Object *turretPlatform = cur_obj_find_nearest_object_with_behavior(bhvTurretPlatform, &dist);
@@ -649,6 +653,8 @@ void bhv_turret_body_init(void){
     if (dist < 100.0f){
         o->parentObj = turretPlatform;
         SET_BPARAM1(o->oBehParams, GET_BPARAM1(o->parentObj->oBehParams));
+    } else {
+        o->parentObj = NULL;
     }
 
     // Find the object with the specified behavior and parameter
@@ -657,9 +663,16 @@ void bhv_turret_body_init(void){
 
 
 void bhv_turret_body_loop(void){
+    cur_obj_move_standard(78);
+    cur_obj_update_floor_and_walls();
     //print_text_fmt_int(20, 120, "base yaw %d", (u16)o->oMoveAngleYaw);
-    if (o->oDistanceToMario < 500){
+    //if (o->oDistanceToMario < 500){
         //print_text_fmt_int(20, 60, "bparam1 %d", GET_BPARAM1(o->oBehParams));
+    //}
+    if (o->parentObj == NULL){
+        if  (o->oMoveFlags & OBJ_MOVE_LANDED){
+            cur_obj_play_sound_1(SOUND_GENERAL_BOX_LANDING_UNUSED);
+        }
     }
     if (o->parentObj != NULL){
         if (o->parentObj->o10C == 1){
@@ -1287,6 +1300,9 @@ void bhv_watertemple(void){
     }
 }
 void bhv_boss_daddy_init(void){
+    o->oHomeX = -10130;
+    o->oHomeY = 446;
+    o->oHomeZ = -927;
     obj_set_hitbox(o, &sBigDaddyHitbox);
     o->oHealth = 3;
 }
@@ -1295,28 +1311,46 @@ void bhv_boss_daddy_init(void){
 enum bigDaddyBossStates{
     STATE_INTRO,
     STATE_IDLE,
-    STATE_JUMP,
+    STATE_JUMP_UP,
+    STATE_JUMP_DOWN,
     STATE_LAND,
     STATE_KNOCKED_BACK,
     STATE_RUNNING,
     STATE_ATTACK,
     STATE_VULNERABLE,
     STATE_DIE,
+    STATE_LAUGH,
+    STATE_SQUISHED,
+    STATE_GETUP,
+    STATE_SKID,
+    STATE_STOMP,
 };
-
+// o->oF8 is what quadrant mario was last in
+    s32 TruncForwardVel;
 void bhv_boss_daddy(void){
+    f32 dist;
     print_text_fmt_int(20, 20, "oAction: %d", o->oAction);
-    print_text_fmt_int(20, 40, "oForwardVel: %f", o->oForwardVel);
+    s32 TruncForwardVel = o->oForwardVel;
+    print_text_fmt_int(20, 40, "oForwardVel: %d", TruncForwardVel);
     cur_obj_update_floor_and_walls();
     cur_obj_move_standard(-78);
+    if (gMarioState->floor->type == SURFACE_B_BOSS_QUADRANT){
+        o->oF8 = gMarioState->floor->force;
+    }
     //cur_obj_move_using_fvel_and_gravity();
     if (gPlayer1Controller->buttonPressed & L_TRIG){
-        o->oF4 = STATE_RUNNING;
+        o->oF4 = STATE_STOMP;
+        //spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -10130, 500, -2072, 0, 0, 0);
+        //o->oPosX = o->oHomeX;
+        //o->oPosY = o->oHomeY;
+        //o->oPosZ = o->oHomeZ;
         o->oAction = 1;
         o->oTimer = 0;
     }
     switch (o->oF4) {
         case STATE_KNOCKED_BACK:
+            o->oInteractType = INTERACT_NONE;
+            o->oInteractStatus = 0;
             switch (o->oAction){
                 case 1:
                     cur_obj_init_animation(1);
@@ -1338,16 +1372,67 @@ void bhv_boss_daddy(void){
                     cur_obj_shake_screen(SHAKE_POS_SMALL);
                     spawn_mist_particles_with_sound(SOUND_OBJ_POUNDING_LOUD);
                     o->oForwardVel = 0;
-                    o->oAction = 4;
+                    o->oAction = 1;
+                    o->oF4 = STATE_VULNERABLE;
                     }
-                    break;
-                case 4:
-                    cur_obj_init_animation(3);
                     break;
             }
             break;
+        case STATE_VULNERABLE:
+            if (o->oTimer >= 120){
+                o->oF4 = STATE_GETUP;
+            }
+            sBigDaddyHitbox.radius = 250;
+            sBigDaddyHitbox.height = 261;
+            obj_set_hitbox(o, &sBigDaddyHitbox);
+            o->oInteractType = INTERACT_BOUNCE_TOP;
+            cur_obj_init_animation(3);
+            if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED){
+                o->oF4 = STATE_SQUISHED;
+                o->oAction = 1;
+            } else if (o->oInteractStatus & INT_STATUS_INTERACTED){
+                o->oInteractStatus = 0;
+            }
+            break;
+        case STATE_GETUP:
+            o->oInteractType = INTERACT_DAMAGE;
+            sBigDaddyHitbox.radius = 170;
+            sBigDaddyHitbox.height = 420;
+            obj_set_hitbox(o, &sBigDaddyHitbox);
+            cur_obj_init_animation(7);
+            if (cur_obj_check_if_at_animation_end()){
+                o->oF4 = STATE_IDLE;
+            }
+            break;
+        case STATE_SQUISHED:
+            switch (o->oAction){
+                case 1:
+                    o->oTimer = 0;
+                    o->oAction = 2;
+                    break;
+                case 2:
+                    obj_scale_xyz(o, 1.0, (1-(.16*o->oTimer)), 1.0);
+                    if (o->oTimer >= 5){
+                        o->oAction = 3;
+                        o->oTimer = 0;
+                    }
+                    break;
+                case 3:
+                    obj_scale_xyz(o, 1.0, (.2+(.16*o->oTimer)), 1.0);
+                    if (o->oTimer >= 5){
+                        o->oAction = 4;
+                        o->oTimer = 0;
+                    }
+                    break;
+                case 4:
+                    obj_scale_xyz(o, 1.0, 1.0, 1.0);
+                    o->oInteractStatus = 0;
+                    //o->oF4 = STATE_VULNERABLE;
+                    o->oF4 = STATE_GETUP;
+            }
+            break;
         case STATE_RUNNING:
-            o->oInteractType = INTERACT_NONE;
+            o->oInteractType = INTERACT_DAMAGE;
             print_text_fmt_int(20, 60, "oDistanceToMario: %d", o->oDistanceToMario);
             cur_obj_init_animation(4);
             cur_obj_unused_play_footstep_sound(1, 15, SOUND_OBJ_POUNDING_LOUD);
@@ -1356,7 +1441,7 @@ void bhv_boss_daddy(void){
                 o->oForwardVel += 2;
             }
             if (o->oInteractStatus & INT_STATUS_INTERACTED){
-                o->oF4 = STATE_IDLE;
+                o->oF4 = STATE_SKID;
                 o->oAction = 1;
                 o->oTimer = 0;
             }
@@ -1367,8 +1452,162 @@ void bhv_boss_daddy(void){
                 break;
         case STATE_IDLE:
             cur_obj_init_animation(0);
+            o->oInteractStatus = 0;
             break;
-            
-
+        case STATE_SKID:
+            o->oInteractType = INTERACT_NONE;
+            o->oInteractStatus = 0;
+            cur_obj_init_animation(9);
+            if (o->oForwardVel > 0){
+                cur_obj_play_sound_1(SOUND_MOVING_TERRAIN_SLIDE);
+                if (o->oTimer % 2){
+                    spawn_object_relative(0, 0, 0, 0, o, MODEL_SMOKE, bhvSmoke);
+                }
+                o->oForwardVel -= .20;
+            } else {
+                o->oForwardVel = 0;
+                o->oF4 = STATE_LAUGH;
+            }
+            break;
+        case STATE_LAUGH:
+            switch (o->oAction){
+                case 1:
+                    o->oInteractStatus = 0;
+                    cur_obj_init_animation(5);
+                    play_sound(SOUND_OBJ_BOWSER_LAUGH, gGlobalSoundSource);
+                    o->oAction = 2;
+                        break;
+                case 2:
+                    cur_obj_rotate_yaw_toward(o->oAngleToMario, 1000);
+                    if (cur_obj_check_anim_frame(38)){
+                    stop_sound(SOUND_OBJ_BOWSER_LAUGH, gGlobalSoundSource);
+                    }
+                    if (cur_obj_check_if_at_animation_end()){
+                        o->oF4 = STATE_RUNNING;
+                        o->oAction = 1;
+                    }
+                    break;
+                }
+            break;
+        case STATE_JUMP_UP:
+            o->oHomeX = -10130;
+            o->oHomeY = 446;
+            o->oHomeZ = -927;
+            switch (o->oAction){
+                case 1:
+                    o->oAngleToHome = cur_obj_angle_to_home();
+                    cur_obj_rotate_yaw_toward(o->oAngleToHome, 1792);
+                    //o->oMoveAngleYaw = o->oFaceAngleYaw;
+                    if (o->oFaceAngleYaw == o->oAngleToHome){
+                        o->oAction = 2;
+                    }
+                    break;
+                case 2:
+                    cur_obj_init_animation(6);
+                    if (cur_obj_check_anim_frame(13)){
+                        cur_obj_play_sound_1(SOUND_OBJ_KING_BOBOMB_JUMP);
+                        o->oAction = 3;
+                        o->oVelY = 70;
+                    }
+                    break;
+                case 3:
+                    if (o->oAction == 3){
+                        approach_vec3f_asymptotic(&o->oPosVec, &o->oHomeVec, 0.08, 0.1, 0.08);
+                        if (o->oMoveFlags & OBJ_MOVE_LANDED){
+                            o->oAction = 4;
+                        }
+                    }
+                    break;
+                case 4:
+                    cur_obj_init_animation(8);
+                    cur_obj_play_sound_1(SOUND_OBJ_POUNDING_LOUD);
+                    cur_obj_shake_screen(SHAKE_POS_SMALL);
+                    o->oAction = 5;
+                    break;
+                case 5:
+                    if (cur_obj_check_if_at_animation_end()){
+                        o->oF4 = STATE_IDLE;
+                        o->oAction = 1;
+                    }
+            }
+            break;
+        case STATE_JUMP_DOWN:
+            switch (o->oAction){
+                case 1:
+                    switch (o->oF8){
+                        case 1: //all of these values are placeholders
+                            o->oHomeX = -8881;
+                            o->oHomeY = -280;
+                            o->oHomeZ = 322;
+                            o->oAction = 2;
+                            break;
+                        case 2:
+                            o->oHomeX = -8881;
+                            o->oHomeY = -280;
+                            o->oHomeZ = -2219;
+                            o->oAction = 2;
+                            break;
+                        case 3:
+                            o->oHomeX = -11380;
+                            o->oHomeY = -280;
+                            o->oHomeZ = -2219;
+                            o->oAction = 2;
+                            break;
+                        case 4:
+                            o->oHomeX = -11380;
+                            o->oHomeY = -280;
+                            o->oHomeZ = 322;
+                            o->oAction = 2;
+                            break;
+                    }
+                    break;
+                case 2:
+                    o->oAngleToHome = cur_obj_angle_to_home();
+                    cur_obj_rotate_yaw_toward(o->oAngleToHome, 1792);
+                    if (o->oFaceAngleYaw == o->oAngleToHome){
+                        o->oAction = 3;
+                    }
+                    break;
+                case 3:
+                    cur_obj_init_animation(6);
+                    if (cur_obj_check_anim_frame(13)){
+                        cur_obj_play_sound_1(SOUND_OBJ_KING_BOBOMB_JUMP);
+                        o->oAction = 4;
+                        o->oVelY = 60;
+                    }
+                    break;
+                case 4:
+                    approach_vec3f_asymptotic(&o->oPosVec, &o->oHomeVec, 0.08, 0.1, 0.08);
+                    if (o->oMoveFlags & OBJ_MOVE_LANDED){
+                        cur_obj_play_sound_1(SOUND_OBJ_POUNDING_LOUD);
+                        cur_obj_shake_screen(SHAKE_POS_SMALL);
+                        o->oAction = 5;
+                    }
+                    break;
+                case 5:
+                    o->oF4 = STATE_RUNNING;
+                    o->oTimer = 0;
+            }
+            break;
+        case STATE_STOMP:
+            switch (o->oAction){
+                case 1:
+                    cur_obj_init_animation(10);
+                    spawn_object_abs_with_rot(o, 0, MODEL_BOWSER_WAVE, bhvBowserShockWave, o->oPosX, o->oPosY, o->oPosZ, 0, 0, 0);
+                    o->oAction = 2;
+                case 2:
+                    //spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -8978, 500, -927, 0, 0x4000, 0);
+                    //spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -10130, 500, -2072, 0, 0x8000, 0);
+                    //spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -11281, 500, -927, 0, 0xC000, 0); 
+                    //spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -10130, 500, 223, 0, 0, 0);
+                    ////o->oObjF4 = cur_obj_find_nearest_object_with_behavior(bhvTurretBody, &dist);
+                    //play_sound(SOUND_OBJ_MONTY_MOLE_ATTACK, gGlobalSoundSource);
+                    o->oAction = 3;
+                    break;
+                case 3:
+                    
+                    break;
+            }
+            break;
     }
 }

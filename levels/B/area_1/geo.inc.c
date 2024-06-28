@@ -3,18 +3,7 @@
 const GeoLayout B_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_SWITCH_CASE(3, geo_switch_area),
-		GEO_OPEN_NODE(),
-			GEO_BRANCH(1, B_dl_Room_1_geo),
-			GEO_BRANCH(1, B_dl_Room_2_geo),
-		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -258, 3373, 2221, B_dl_AAAAAAAAA_mesh_layer_1),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout B_dl_Room_1_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, -110, 939, 2757, B_dl_Room_1_mesh_layer_5),
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_OPAQUE, B_dl_Room_1_mesh_layer_1),
@@ -29,12 +18,6 @@ const GeoLayout B_dl_Room_1_geo[] = {
 			GEO_TRANSLATE_NODE(LAYER_OPAQUE, 110, -939, -2757),
 			GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT_DECAL, 1611, -8055, -14720, B_dl_watertemple_collision_mesh_layer_6),
 		GEO_CLOSE_NODE(),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout B_dl_Room_2_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -110, 939, 2757, B_dl_Room_2_mesh_layer_1),
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, B_dl_Room_2_mesh_layer_6),

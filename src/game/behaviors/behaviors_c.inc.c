@@ -239,9 +239,12 @@ void bhv_paint_gun_loop(void) {
                     if(o->oAngleVelYaw <= 0) o->oSubAction++;
                     break;
                 case 2: //wait to be controlled
-                    if(o->oDistanceToMario < 300 && gPlayer1Controller->buttonPressed & B_BUTTON) {
-                        o->oSubAction++;
-                        obj_set_model(gMarioObject, MODEL_NONE);
+                    if(o->oDistanceToMario < 400) {
+                        print_text_fmt_int(10, 10, "B", 0);
+                        if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+                            o->oSubAction++;
+                            obj_set_model(gMarioObject, MODEL_NONE);
+                        }
                     }
                     break;
                 case 3: // Mario controls it

@@ -1938,7 +1938,9 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
     } else {
-        level_control_timer(TIMER_CONTROL_HIDE);
+        if (gCurrLevelNum == LEVEL_L) {
+            level_control_timer(TIMER_CONTROL_HIDE);
+        }
     }
     //combo meter logic
     if ((p_rank_challenge_enabled) && ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {

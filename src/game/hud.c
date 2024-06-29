@@ -756,6 +756,12 @@ Gfx *meter_style_icon_dl_table[] = {
 };
 
 void render_meter(f32 x, f32 y, s32 meterStyle, s16 wedges, u8 a) {
+
+    if (gHudDisplay.flags & HUD_DISPLAY_FLAG_TIMER) {
+        // If timer is visible, move meters down
+        y -= 24.0f;
+    }
+
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, a);
     create_dl_translation_matrix(MENU_MTX_PUSH, x, y, 0);
 

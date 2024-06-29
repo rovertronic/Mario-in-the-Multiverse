@@ -308,8 +308,12 @@ void bhv_paint_stain_init(void) {
 void bhv_paint_stain_loop(void) {
     struct Surface *sObjFloor;
     find_floor(o->oPosX, o->oPosY, o->oPosZ, &sObjFloor);
-    object_step();
+    Vec3f snormals = {sObjFloor->normal.x, sObjFloor->normal.y, sObjFloor->normal.z};
+    //object_step();
     //obj_orient_graph(o, sObjFloor->normal.x, sObjFloor->normal.y, sObjFloor->normal.z);
+
+    mtxf_align_terrain_normal(o->transform, snormals, &o->oPosVec, o->oFaceAngleYaw);
+    o->header.gfx.throwMatrix = o->transform;
 
     if(o->oTimer > 120) {
         o->oFloatF4 -= 0.02f;

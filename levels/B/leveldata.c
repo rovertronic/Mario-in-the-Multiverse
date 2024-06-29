@@ -60,3 +60,4 @@
 #include "levels/B/megacork/collision.inc.c"
 #include "levels/B/watertemple/collision.inc.c"
 #include "levels/B/watertemple/model.inc.c"
+#include "levels/B/b_shockwave/model.inc.c"

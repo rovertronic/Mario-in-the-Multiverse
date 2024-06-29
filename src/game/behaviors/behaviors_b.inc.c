@@ -1329,6 +1329,7 @@ enum bigDaddyBossStates{
     s32 TruncForwardVel;
 void bhv_boss_daddy(void){
     f32 dist;
+    print_text_fmt_int(20, 60, "oHealth: %d", o->oHealth);
     print_text_fmt_int(20, 20, "oAction: %d", o->oAction);
     s32 TruncForwardVel = o->oForwardVel;
     print_text_fmt_int(20, 40, "oForwardVel: %d", TruncForwardVel);
@@ -1401,12 +1402,14 @@ void bhv_boss_daddy(void){
             obj_set_hitbox(o, &sBigDaddyHitbox);
             cur_obj_init_animation(7);
             if (cur_obj_check_if_at_animation_end()){
-                o->oF4 = STATE_IDLE;
+                o->oF4 = STATE_STOMP;
+                o->oAction = 1;
             }
             break;
         case STATE_SQUISHED:
             switch (o->oAction){
                 case 1:
+                    o->oHealth -= 1;
                     o->oTimer = 0;
                     o->oAction = 2;
                     break;
@@ -1428,7 +1431,11 @@ void bhv_boss_daddy(void){
                     obj_scale_xyz(o, 1.0, 1.0, 1.0);
                     o->oInteractStatus = 0;
                     //o->oF4 = STATE_VULNERABLE;
+                    if (o->oHealth != 0){
                     o->oF4 = STATE_GETUP;
+                    } else {
+                        o->oF4 = STATE_DIE;
+                    }
             }
             break;
         case STATE_RUNNING:
@@ -1453,6 +1460,9 @@ void bhv_boss_daddy(void){
         case STATE_IDLE:
             cur_obj_init_animation(0);
             o->oInteractStatus = 0;
+            if (cur_obj_find_nearest_object_with_behavior(bhvTurretBody, &dist) == NULL || dist > 3000){
+                o->oF4 = STATE_JUMP_DOWN;
+            }
             break;
         case STATE_SKID:
             o->oInteractType = INTERACT_NONE;
@@ -1522,6 +1532,12 @@ void bhv_boss_daddy(void){
                     cur_obj_init_animation(8);
                     cur_obj_play_sound_1(SOUND_OBJ_POUNDING_LOUD);
                     cur_obj_shake_screen(SHAKE_POS_SMALL);
+                    spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -8978, 500, -927, 0, 0x4000, 0);
+                    spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -10130, 500, -2072, 0, 0x8000, 0);
+                    spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -11281, 500, -927, 0, 0xC000, 0); 
+                    spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -10130, 500, 223, 0, 0, 0);
+                    //o->oObjF4 = cur_obj_find_nearest_object_with_behavior(bhvTurretBody, &dist);
+                    play_sound(SOUND_OBJ_MONTY_MOLE_ATTACK, gGlobalSoundSource);
                     o->oAction = 5;
                     break;
                 case 5:
@@ -1592,20 +1608,54 @@ void bhv_boss_daddy(void){
         case STATE_STOMP:
             switch (o->oAction){
                 case 1:
-                    cur_obj_init_animation(10);
-                    spawn_object_abs_with_rot(o, 0, MODEL_BOWSER_WAVE, bhvBowserShockWave, o->oPosX, o->oPosY, o->oPosZ, 0, 0, 0);
-                    o->oAction = 2;
-                case 2:
-                    //spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -8978, 500, -927, 0, 0x4000, 0);
-                    //spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -10130, 500, -2072, 0, 0x8000, 0);
-                    //spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -11281, 500, -927, 0, 0xC000, 0); 
-                    //spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -10130, 500, 223, 0, 0, 0);
-                    ////o->oObjF4 = cur_obj_find_nearest_object_with_behavior(bhvTurretBody, &dist);
-                    //play_sound(SOUND_OBJ_MONTY_MOLE_ATTACK, gGlobalSoundSource);
-                    o->oAction = 3;
+                    switch (o->oHealth){
+                        case 3:
+                            o->oAction = 4;
+                            break;
+                        case 2:
+                            o->oAction = 3;
+                            break;
+                        case 1:
+                            o->oAction = 2;
+                            break;
+                        }
+                        break;
+                case 2: // jump to 2, adds three stomps
+                    cur_obj_init_animation(11);
+                    if (cur_obj_check_if_at_animation_end()){
+                        cur_obj_play_sound_1(SOUND_OBJ_POUNDING_LOUD);
+                        spawn_object_abs_with_rot(o, 0, MODEL_B_SHOCKWAVE, bhvBowserShockWave, o->oPosX, o->oPosY+20, o->oPosZ, 0, 0, 0);
+                        o->header.gfx.animInfo.animFrame = 0;
+                        o->oAction = 3;
+                    }
                     break;
-                case 3:
+                case 3: // jump to 3, adds two stomps
+                    cur_obj_init_animation(11);
+                    if (cur_obj_check_if_at_animation_end()){
+                        cur_obj_play_sound_1(SOUND_OBJ_POUNDING_LOUD);
+                        spawn_object_abs_with_rot(o, 0, MODEL_B_SHOCKWAVE, bhvBowserShockWave, o->oPosX, o->oPosY+20, o->oPosZ, 0, 0, 0);
+                        o->header.gfx.animInfo.animFrame = 0;
+                        o->oAction = 4;
+                    }
+                    break;
+                case 4: // jump to 4, adds one stomp
+                    cur_obj_init_animation(11);
+                    if (cur_obj_check_if_at_animation_end()){
+                        cur_obj_play_sound_1(SOUND_OBJ_POUNDING_LOUD);
+                        spawn_object_abs_with_rot(o, 0, MODEL_B_SHOCKWAVE, bhvBowserShockWave, o->oPosX, o->oPosY+20, o->oPosZ, 0, 0, 0);
+                        o->header.gfx.animInfo.animFrame = 0;
+                        o->oAction = 5;
+                    }
+                    break;
+                    //spawn_object_abs_with_rot(o, 0, MODEL_B_SHOCKWAVE, bhvBowserShockWave, o->oPosX, o->oPosY+20, o->oPosZ, 0, 0, 0);
+                    //o->oAction = 2;
+                case 5:
                     
+                    o->oAction = 6;
+                    break;
+                case 6:
+                    o->oAction = 1;
+                    o->oF4 = STATE_JUMP_UP;
                     break;
             }
             break;

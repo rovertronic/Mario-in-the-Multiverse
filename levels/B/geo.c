@@ -38,3 +38,4 @@
 #include "levels/B/turret_panel/geo.inc.c"
 #include "levels/B/megacork/geo.inc.c"
 #include "levels/B/watertemple/geo.inc.c"
+#include "levels/B/b_shockwave/geo.inc.c"

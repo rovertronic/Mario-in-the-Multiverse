@@ -93,4 +93,6 @@ extern const LevelScript level_B_entry[];
 
 #include "levels/B/watertemple/geo_header.h"
 
+#include "levels/B/b_shockwave/geo_header.h"
+
 #endif

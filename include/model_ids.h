@@ -645,6 +645,7 @@ enum GLOBAL_MODELS {
 #define MODEL_TURRET_PANEL                       0x164
 #define MODEL_MEGACORK                           0x165
 #define MODEL_WATERTEMPLE                        0x166
+#define MODEL_B_SHOCKWAVE                        0x167
 
 /* LEVEL B END */
 

@@ -59,6 +59,7 @@ const GeoLayout castle_inside_area_1_geo[] = {
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_ALPHA, 6632, 2658, 5771, castle_inside_dl_Route42_002_mesh_layer_4),
 		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 5043, 615, 1533, castle_inside_dl_SkyScaper_046_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -2592, 2699, -5730, 70, 96, 88, castle_inside_dl_Torus_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -1845, -2310, -4053, 90, 0, 0, castle_inside_dl_Tropical_Island_001_mesh_layer_1),
 		GEO_OPEN_NODE(),

@@ -91,7 +91,7 @@ const LevelScript level_d_entry[] = {
 		OBJECT(MODEL_NONE, -1872, 2380, -4175, 0, 0, 0, (2 << 16), bhvOpenableGrill),
 		OBJECT(MODEL_LEVEL_PIPE, 3373, 2364, 1169, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_NONE, -8736, 3967, 7953, 0, 0, 0, (5 << 16), bhvFadingWarp),
-		OBJECT(MODEL_NONE, -1751, 2420, -4673, 0, 0, 0, (6 << 16), bhvFadingWarp),
+		OBJECT(MODEL_NONE, -1751, 2743, -4673, 0, 0, 0, (6 << 16), bhvFadingWarp),
 		OBJECT(MODEL_NONE, -1526, -5398, -9304, 0, 90, 0, (7 << 16), bhvFadingWarp),
 		OBJECT(MODEL_NONE, 3014, 3893, -5242, 0, 0, 0, (8 << 16), bhvFadingWarp),
 		OBJECT(MODEL_BOWLING_BALL, -5859, 3452, -14091, 0, 0, 0, 0x00000000, bhvFireSpitter),

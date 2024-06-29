@@ -89,7 +89,7 @@ const LevelScript level_c_entry[] = {
 		OBJECT(MODEL_TARGET_BOX, 2322, 2039, 9293, 0, 0, 0, 0x00000000, bhvHiddenObject),
 		OBJECT(MODEL_INK_MOVING_PLATFORM, -689, 1768, -7505, 0, 0, 0, 0x00000000, bhvInkMovingPlatform),
 		OBJECT(MODEL_NONE, -1254, 1948, 6701, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
-		OBJECT(MODEL_NONE, 0, 1850, -761, 0, 0, 0, (0x0A << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_NONE, -1254, 2448, 6701, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_OCTOBALL, 978, 1568, -2072, 0, 0, 0, 0x00000000, bhvOctoball),
 		OBJECT(MODEL_OCTOBALL, -8772, 284, 197, 0, 0, 0, 0x00000000, bhvOctoball),
 		OBJECT(MODEL_OCTOBALL, -4082, 1568, 772, 0, 0, 0, 0x00000000, bhvOctoball),

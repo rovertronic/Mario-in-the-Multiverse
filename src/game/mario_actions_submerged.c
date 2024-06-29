@@ -929,6 +929,7 @@ static s32 act_drowning(struct MarioState *m) {
             set_mario_animation(m, MARIO_ANIM_DROWNING_PART2);
             m->marioBodyState->eyeState = MARIO_EYES_DEAD;
             if (m->marioObj->header.gfx.animInfo.animFrame == 30) {
+                set_camera_mode(m->area->camera, m->area->camera->defMode, 1);
                 level_trigger_warp(m, WARP_OP_DEATH);
             }
             break;

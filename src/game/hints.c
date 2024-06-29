@@ -161,15 +161,15 @@ buttons to rotate a drill and mine all the gold.",
 
 { /* star 6 */
 "Above is a pulley held by two towers. Hung on\n\
-the rope of the pulley are targets. Hit the targets\n\
-with the Shock Rocket to get this star.",
+the rope of the pulley are targets. Hit the\n\
+targets with the Shock Rocket to get this star.",
 (ABILITY_FLAG_SHOCK_ROCKET)
 },
 
 { /* star 7 */
 "There is a glass tank filled with water. Use the\n\
-Helmet & Drill and wallkick up the U shape to get\n\
-the star at the top in the cage.",
+Helmet & Drill and wallkick up the U shape to\n\
+get the star at the top in the cage.",
 (ABILITY_FLAG_BIG_DADDY)
 },
 

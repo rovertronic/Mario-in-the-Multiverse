@@ -1892,13 +1892,16 @@ s32 act_squid(struct MarioState *m){
             squid_x_vel = approach_f32_asymptotic(squid_x_vel,sins(m->intendedYaw)*m->intendedMag,0.2f);
             squid_z_vel = approach_f32_asymptotic(squid_z_vel,coss(m->intendedYaw)*m->intendedMag,0.2f);
 
+            m->pos[0] += squid_x_vel;
+            m->pos[2] += squid_z_vel;
+
             vec3f_copy(ray_origin,m->pos);
             ray_origin[0] += squid_wall->normal.x*50.0f;
             ray_origin[1] += 10.0f;
             ray_origin[2] += squid_wall->normal.z*50.0f;
-            ray_vec[0] = squid_wall->normal.x*-100.0f;
+            ray_vec[0] = squid_wall->normal.x*-120.0f;
             ray_vec[1] = 0.0f;
-            ray_vec[2] = squid_wall->normal.z*-100.0f;
+            ray_vec[2] = squid_wall->normal.z*-120.0f;
 
             find_surface_on_ray(ray_origin, ray_vec, &ray_surface, ray_hit_pos, RAYCAST_FIND_WALL);
 
@@ -1909,11 +1912,9 @@ s32 act_squid(struct MarioState *m){
 
                 squid_y_vel = approach_f32_asymptotic(squid_y_vel,(gPlayer1Controller->rawStickY/4.0f),0.2f);
                 intend_y = squid_y_vel;
+                m->pos[1] += intend_y;
 
                 wall_angle = atan2s(ray_surface->normal.z,ray_surface->normal.x);
-                m->pos[0] += sins(wall_angle+0x4000) * squid_x_vel;
-                m->pos[1] += intend_y;
-                m->pos[2] += coss(wall_angle+0x4000) * squid_z_vel;
 
                 if (ray_surface->object != NULL) {
                     m->pos[1] += ray_surface->object->oVelY;
@@ -2484,6 +2485,13 @@ s32 act_hold_quicksand_jump_land(struct MarioState *m) {
 
 s32 check_common_moving_cancels(struct MarioState *m) {
     if (m->pos[1] < m->waterLevel - 100) {
+
+        if (using_ability(ABILITY_SQUID)) {
+            obj_set_model(m->marioObj, MODEL_MARIO);
+            m->health = 0;
+            return set_mario_action(m, ACT_DROWNING, 0);
+        }
+
         return set_water_plunge_action(m);
     }
 

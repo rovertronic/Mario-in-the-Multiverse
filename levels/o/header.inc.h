@@ -31,7 +31,6 @@ extern Lights1 o_dl_Trash_lights;
 extern Lights1 o_dl_connex_blue_layer1_lights;
 extern Lights1 o_dl_treeline_lights;
 extern Lights1 o_dl_Building1_lights;
-extern Lights1 o_dl_Towerblood_lights;
 extern Lights1 o_dl_Vent_lights;
 extern Lights1 o_dl_HouseWood_lights;
 extern Lights1 o_dl_HouseWoodBlue_lights;

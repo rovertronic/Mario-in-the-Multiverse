@@ -75,7 +75,6 @@
 
 
 
-
 Gfx o_dl_inkplat_ia8_aligner[] = {gsSPEndDisplayList()};
 u8 o_dl_inkplat_ia8[] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
@@ -61094,10 +61093,9 @@ Gfx mat_revert_o_dl_Building1[] = {
 
 Gfx mat_o_dl_Towerblood[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsDPSetCombineLERP(0, 0, 0, PRIMITIVE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, PRIMITIVE, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-    gsSPLightColor(LIGHT_1, 0xc50000ff),
-    gsSPLightColor(LIGHT_2, 0x610000ff),
+	gsDPSetPrimColor(0, 0, 218, 0, 0, 255),
 	gsSPEndDisplayList(),
 };
 

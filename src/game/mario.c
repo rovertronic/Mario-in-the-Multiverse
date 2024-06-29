@@ -2424,6 +2424,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 gMarioState->pos[1] += 100.0f;
                 gMarioObject->oPosY += 100.0f;
                 marble = spawn_object(o,MODEL_MARBLE,bhvPhysicsMarble);
+
+                set_camera_mode(gMarioState->area->camera, gMarioState->area->camera->defMode, 1);
             }
             gMarioObject->hitboxHeight = 200;
             gMarioObject->hitboxRadius = 100;
@@ -2504,6 +2506,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 void init_mario(void) {
     esa_mhp = -1;
     
+    //set_camera_mode(gMarioState->area->camera, gMarioState->area->camera->defMode, 1);
+
     gMarioState->actionTimer = 0;
     gMarioState->framesSinceA = 0xFF;
     gMarioState->framesSinceB = 0xFF;

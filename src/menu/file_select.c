@@ -2047,9 +2047,11 @@ enum {
     FMS_CONFIRM,
 };
 
+u8 start_press_amount = 0;
 void init_mitm_file_select(void) {
     file_confirm = 0;
     file_action_index = 0;
+    start_press_amount = 0;
     for (u8 i = 0; i<4; i++) {
         file_target_x[i] = 0.0f;
     }
@@ -2103,11 +2105,151 @@ s32 lvl_update_obj_and_load_file_selected(UNUSED s32 arg, UNUSED s32 unused) {
     return file_confirm;
 }
 
+struct mb64_credits_entry {
+    char * text;
+    u32 color;
+};
+
+struct mb64_credits_entry mb64_credits[] = {
+    {"Before the run begins, everyone who",0},
+    {"contributed to the Mario in the Multiverse",0},
+    {"deserves credit for making this project possible.",0},
+    {"",0},
+    {"Mario in the Multiverse",1},
+    {"",0},
+    {"Collaboration Host",1},
+    {"Rovertronic",0},
+    {"",0},
+    {"Abilities",1},
+    {"CowQuack",0},
+    {"JoshTheBosh",0},
+    {"Drahnokks",0},
+    {"Joopii",0},
+    {"furyiousfight",0},
+    {"luigiman0640",0},
+    {"axollyon",0},
+    {"Dan-GPTV",0},
+    {"Aeza",0},
+    {"JakeDower",0},
+    {"lincrash",0},
+    {"Mel",0},
+    {"",0},
+    {"Title Card Artwork",1},
+    {"Leonitz",0},
+    {"Erableto",0},
+    {"Biobak",0},
+    {"",0},
+    {"Levels",1},
+    {"",0},
+    {"Additional Help",1},
+    {"",0},
+    {"MrComit:",0},
+    {"MP64 Star Switch Model",0},
+    {"",0},
+    {"theCozies:",0},
+    {"Screen Shaders",0},
+    {"",0},
+    {"Alex-GPTV:",0},
+    {"Shotgun Detection Math",0},
+    {"",0},
+    {"Indigo Dindigo:",0},
+    {"Funky Shell Camera Mode",0},
+    {"",0},
+    {"Biobak:",0},
+    {"Squid Model, Optimizations",0},
+    {"",0},
+    {"Erableto:",0},
+    {"Aku Art",0},
+    {"",0},
+    {"MrComit & Cheezepin:",0},
+    {"E.Gadd Model",0},
+    {"",0},
+    {"Hold A to begin the run!",4},
+};
+
+f32 clamp2(f32 x) {
+  f32 lowerlimit = 0.0f;
+  f32 upperlimit = 1.0f;
+  if (x < lowerlimit) return lowerlimit;
+  if (x > upperlimit) return upperlimit;
+  return x;
+}
+
+f32 smoothstep2(f32 edge0, f32 edge1, f32 x) {
+   // Scale, and clamp x to 0..1 range
+   x = clamp2((x - edge0) / (edge1 - edge0));
+
+   return x * x * (3.0f - 2.0f * x);
+}
+
+s32 credits_y_offset = 0;
+
+u8 mb64_text_colors[][3] = {
+    {255, 255, 255},
+    {255, 255, 0},
+    {150, 150, 150},
+    {150, 150, 0},
+    {255, 0, 0},
+    {0, 150, 255},
+};
+
+void print_maker_string_ascii_alpha(s32 x, s32 y, char *str, s32 color, s32 alpha) {
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+    gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, alpha);
+    print_generic_string_ascii(x-1, y-1, (u8 *)str);
+
+    gDPSetEnvColor(gDisplayListHead++, mb64_text_colors[color][0], mb64_text_colors[color][1], mb64_text_colors[color][2], alpha);
+    print_generic_string_ascii(x, y, (u8 *)str);
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+}
+
+void print_maker_string_ascii_centered_alpha(s32 x, s32 y, char *str, s32 color, s32 alpha) {
+    s32 x1 = get_string_width_ascii(str);
+    print_maker_string_ascii_alpha(x - x1/2, y, str, color, alpha);
+}
+
+void print_maker_credits(void) {
+    s32 credits_entries = (sizeof(mb64_credits)/8);
+    s32 lower_limit = (credits_entries*16) - 160;
+
+    u8 base_alpha = 255;
+
+    credits_y_offset -= (gPlayer1Controller->rawStickY/10.0f);
+    if (credits_y_offset <= 0) {
+        credits_y_offset = 0;
+    }
+    if (credits_y_offset >= lower_limit) {
+        credits_y_offset = lower_limit;
+    }
+    if (credits_y_offset != lower_limit) {
+        print_maker_string_ascii_centered_alpha(300,20 + sins(gGlobalTimer*0x300)*2.5f ,"|",0,base_alpha);
+    }
+    if (credits_y_offset != 0) {
+        print_maker_string_ascii_centered_alpha(300,40 - sins(gGlobalTimer*0x300)*2.5f,"^",0,base_alpha);
+    }
+
+    for (int i=0; i<credits_entries; i++) {
+        u8 alpha = base_alpha;
+        s32 ypos = credits_y_offset+200-(16*i);
+        if ((ypos < 220)&&(ypos >10)) {
+            if (ypos > 200) {
+                alpha = ((base_alpha/255.0f)*smoothstep2(220.0f,200.0f,ypos))*255.0f;
+            }
+            if (ypos < 30) {
+                alpha = ((base_alpha/255.0f)*smoothstep2(10.0f,30.0f,ypos))*255.0f;
+            }
+
+            print_maker_string_ascii_centered_alpha(160,ypos, mb64_credits[i].text, mb64_credits[i].color, alpha);
+        }
+    }
+}
+
 s32 mitm_file_select() {
     create_dl_ortho_matrix();
 
     switch (file_menu_state) {
         case FMS_SELECT:
+            /*
             handle_menu_scrolling(MENU_SCROLL_VERTICAL, &file_selected_index, 0, 2);
             if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
                 play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
@@ -2125,6 +2267,29 @@ s32 mitm_file_select() {
             for (u8 i = 0; i<4; i++) {
                 file_target_x[i] = 0.0f;
             }
+            */
+
+            if (gPlayer1Controller->buttonDown & (A_BUTTON | START_BUTTON)) {
+                start_press_amount++;
+            } else {
+                start_press_amount = 0;
+            }
+
+            if (start_press_amount > 95) {
+                file_confirm = file_selected_index+1;
+                file_menu_state = FMS_CONFIRM;
+            }
+
+            shade_screen();
+            print_maker_credits();
+
+            if (start_press_amount > 0) {
+                print_set_envcolour(255, 255, 255, 255);
+                prepare_blank_box();
+                render_blank_box(11, SCREEN_HEIGHT - 11, 11 + (start_press_amount*3), SCREEN_HEIGHT - 19, 255, 255, 255, 255);
+                finish_blank_box();
+            }
+
             break;
 
         case FMS_ACTION:
@@ -2182,6 +2347,7 @@ s32 mitm_file_select() {
             break;
     }
 
+    /*
     //RENDER TEXT CARD
     if (file_x[3] > 0.1f) {     
         gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
@@ -2292,6 +2458,7 @@ s32 mitm_file_select() {
 
         file_x[i] = approach_f32_asymptotic(file_x[i],file_target_x[i],0.2f);
     }
+    */
 }
 
 STATIC_ASSERT(SOUND_MODE_COUNT == MENU_BUTTON_SOUND_OPTION_MAX - MENU_BUTTON_SOUND_OPTION_MIN, "Mismatch between number of sound modes in audio code and file select!");

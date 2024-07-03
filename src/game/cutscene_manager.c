@@ -43,13 +43,16 @@ s32 cm_wait_for_transition(void) {
     return FALSE;
 }
 
+u8 simulated_a_timer = 0;
 s32 cm_press_a_or_b(void) {
-    if ((cm_textbox_text_alpha >= 254.0f)&&(gPlayer1Controller->buttonPressed & (A_BUTTON | B_BUTTON))) {
-        play_sound(SOUND_MENU_YOSHI_GAIN_LIVES, gGlobalSoundSource);
-        cm_textbox_a_signal = FALSE;
+    if ((cm_textbox_text_alpha >= 254.0f)&&(simulated_a_timer > 90)) {
+        //play_sound(SOUND_MENU_YOSHI_GAIN_LIVES, gGlobalSoundSource);
+        //cm_textbox_a_signal = FALSE;
+        simulated_a_timer = 0;
         return TRUE;
     } else {
-        cm_textbox_a_signal = TRUE;
+        simulated_a_timer ++;
+        //cm_textbox_a_signal = TRUE;
         cm_cutscene_timer--;
     }
     return FALSE;

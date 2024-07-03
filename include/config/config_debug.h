@@ -7,7 +7,7 @@
 /*
 MITM EXCLUSIVE: Have all abilities accessible regardless of save status.
 */
-#define UNLOCK_ABILITIES_DEBUG
+//#define UNLOCK_ABILITIES_DEBUG
 
 /**
  * Enables most debug options, including PUPPYPRINT_DEBUG.
@@ -32,7 +32,7 @@ MITM EXCLUSIVE: Have all abilities accessible regardless of save status.
  * If you want the game to boot normally, just comment out the define again.
  */
 //#define TEST_LEVEL LEVEL_BOWSER_COURSE
-#define TEST_LEVEL LEVEL_C
+//#define TEST_LEVEL LEVEL_C
 
 /**
  * Enables debug level select. Hold L while the game boots to turn it on.

@@ -105,7 +105,7 @@ Gfx *geo_intro_tm_copyright(s32 callContext, struct GraphNode *node, UNUSED void
         //gDPSetRenderMode(dlIter++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
 
         gSPMatrix(dlIter++, scaleMat, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
-        gSPDisplayList(dlIter++, &author_Plane_mesh); // draw model
+        //gSPDisplayList(dlIter++, &author_Plane_mesh); // draw model
         gSPPopMatrix(dlIter++, G_MTX_MODELVIEW);
         gSPEndDisplayList(dlIter);
 

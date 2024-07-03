@@ -1857,13 +1857,21 @@ void render_pause_course_options(s16 x, s16 y, s8 *index, s16 yIndex) {
     u8 textExitCourse[] = { TEXT_EXIT_COURSE };
     u8 textCameraAngleR[] = { TEXT_CAMERA_ANGLE_R };
 
-    handle_menu_scrolling(MENU_SCROLL_VERTICAL, index, 1, 3);
+    u8 show_exit_course = (gMarioState->numStars > 0);
+
+    if (show_exit_course) {
+        handle_menu_scrolling(MENU_SCROLL_VERTICAL, index, 1, 3);
+    } else {
+        handle_menu_scrolling(MENU_SCROLL_VERTICAL, index, 1, 2);
+    }
 
     gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
 
     print_generic_string(x + 10, y - 2, LANGUAGE_ARRAY(textContinue));
-    print_generic_string(x + 10, y - 33, LANGUAGE_ARRAY(textExitCourse));
+    if (show_exit_course) {
+        print_generic_string(x + 10, y - 33, LANGUAGE_ARRAY(textExitCourse));
+    }
 
     print_generic_string(x + 10, y - 17, LANGUAGE_ARRAY(textCameraAngleR));
     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);

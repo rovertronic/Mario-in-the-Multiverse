@@ -2253,7 +2253,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 if (gMarioState->areaCheckpointFlag != -1) {
                     magic_mirror_area_change_flag = TRUE;
                     magic_mirror_timer = 0;
-                    play_sound(SOUND_ABILITY_MAGIC_MIRROR, gGlobalSoundSource);
                 } else {
                     play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
                 }

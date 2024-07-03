@@ -565,6 +565,9 @@ void check_instant_warp(void) {
         gMarioState->marioObj->oPosX = gMarioState->pos[0];
         gMarioState->marioObj->oPosY = gMarioState->pos[1];
         gMarioState->marioObj->oPosZ = gMarioState->pos[2];
+
+        set_background_music(gCurrentArea->musicParam, gCurrentArea->musicParam2, 0);
+        play_sound(SOUND_ABILITY_MAGIC_MIRROR, gGlobalSoundSource);
     }
 }
 

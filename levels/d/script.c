@@ -61,6 +61,7 @@ const LevelScript level_d_entry[] = {
 		WARP_NODE(/*death*/ 0xF1, LEVEL_D, /*this area*/ 0x01, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death entry*/ 0x01, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_ABILITY, -1845, 3281, -4453, 0, 0, 0, (ABILITY_AKU << 16), bhvAbilityUnlock),
+		OBJECT(MODEL_ABILITY, 6799, 2497, -3722, 0, 0, 0, (ABILITY_MARBLE << 16), bhvAbilityUnlock),
 		OBJECT(MODEL_ABILITY_HEART, 1726, 3665, -1678, 0, 0, 0, 0x00000000, bhvAbilityRecoveryHeart),
 		OBJECT(MODEL_ABILITY_HEART, -1750, 4227, 7266, 0, 0, 0, 0x00000000, bhvAbilityRecoveryHeart),
 		OBJECT(MODEL_BLUE_COIN_SWITCH, -2431, 2302, -2637, 0, 0, 0, 0x00000000, bhvBlueCoinSwitch),

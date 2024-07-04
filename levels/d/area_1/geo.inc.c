@@ -3,6 +3,7 @@
 const GeoLayout d_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 3373, 2364, 1169, d_dl_Map_003_mesh_layer_1),
 		GEO_ASM(0, e__shotgun_effects),
 		GEO_ROTATION_NODE_WITH_DL(LAYER_OPAQUE, 90, 0, 0, d_dl_Tropical_Island_mesh_layer_1),
 		GEO_OPEN_NODE(),

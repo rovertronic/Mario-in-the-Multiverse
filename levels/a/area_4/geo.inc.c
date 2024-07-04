@@ -3,6 +3,9 @@
 const GeoLayout a_area_4_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, a_dl_Buildings_001_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE_DECAL, a_dl_Buildings_002_mesh_layer_2),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, a_dl_Buildings_002_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 2950, -508, 170, a_dl_Circle_024_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 4610, -476, -906, 0, 140, 0, a_dl_Circle_027_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 2934, -476, -1333, 0, -120, 0, a_dl_Circle_032_mesh_layer_1),
@@ -80,9 +83,6 @@ const GeoLayout a_area_4[] = {
 				GEO_CLOSE_NODE(),
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, a_dl_material_revert_render_settings),
-		GEO_DISPLAY_LIST(LAYER_ALPHA, a_dl_material_revert_render_settings),
-		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, a_dl_material_revert_render_settings),
 	GEO_CLOSE_NODE(),
 	GEO_END(),
 };

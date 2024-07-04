@@ -172,6 +172,7 @@ const LevelScript level_a_entry[] = {
 		WARP_NODE(0x15, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x01/*death entry*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0F1/*death*/, LEVEL_A, 0x04, 0x01, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_ABILITY, -6863, 1032, 7868, 0, 0, 0, (ABILITY_PHASEWALK << 16), bhvAbilityUnlock),
 		OBJECT(MODEL_ABILITY_SIGN, -5032, -215, 8292, 0, 134, 0, (ABILITY_PHASEWALK << 16), bhvStaticObject),
 		OBJECT(MODEL_NONE, -2490, -1017, -9425, 0, 90, 0, (0x0F << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_FLOATING_CHECKER_PLATFORM, -1634, -234, 929, 0, 0, 0, (2 << 16), bhvFloatingCheckerPlatform),
@@ -203,7 +204,7 @@ const LevelScript level_a_entry[] = {
 		OBJECT(MODEL_NONE, -2876, -935, -9425, 0, 0, 0, (0x09 << 16), bhvWarp),
 		TERRAIN(a_area_4_collision),
 		MACRO_OBJECTS(a_area_4_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_DOWNTOWN_BB),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_JELLYFISH_FIELDS),
 		TERRAIN_TYPE(TERRAIN_SAND),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

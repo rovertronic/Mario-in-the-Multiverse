@@ -579,6 +579,7 @@ extern const BehaviorScript bhvAlarm[];
 extern const BehaviorScript bhvCork[];
 extern const BehaviorScript bhvWaterTemple[];
 extern const BehaviorScript bhvBossDaddy[];
+extern const BehaviorScript bhvSafeExplosion[];
 
 /* GROUP B END */
 

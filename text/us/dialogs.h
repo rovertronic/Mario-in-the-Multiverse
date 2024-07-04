@@ -2143,6 +2143,10 @@ took her, aren't you?\n\
 You're gonna regret\n\
 ever coming here!"))
 
+DEFINE_DIALOG(BIG_DADDY_DEATH, 1, 2, 30, 200, _("\
+Aw man. Placeholder text"))
+
+
 
 
 

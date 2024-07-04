@@ -11,5 +11,6 @@ const struct Animation *const bigdaddy_anims[] = {
 	&bigdaddy_anim_Skidding,
 	&bigdaddy_anim_Stomp_Intro,
 	&bigdaddy_anim_Stomp_Loop,
+	&bigdaddy_anim_Searching,
 	NULL,
 };

@@ -6473,6 +6473,7 @@ const BehaviorScript bhvCork[] = {
 const BehaviorScript bhvWaterTemple[] = {
     BEGIN(OBJ_LIST_SPAWNER),
     LOAD_COLLISION_DATA(watertemple_collision),
+    SET_HOME(),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
     BEGIN_LOOP(),
         CALL_NATIVE(load_object_collision_model),

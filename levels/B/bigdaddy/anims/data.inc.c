@@ -10,3 +10,4 @@
 #include "anim_Skidding.inc.c"
 #include "anim_Stomp_Intro.inc.c"
 #include "anim_Stomp_Loop.inc.c"
+#include "anim_Searching.inc.c"

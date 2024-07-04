@@ -2135,6 +2135,14 @@ the trick."))
 DEFINE_DIALOG(LITTLE_SISTER_TEXT, 1, 2, 30, 200, _("\
 Thanks for saving me!"))
 
+DEFINE_DIALOG(BIG_DADDY_FIGHT_INTRO, 1, 2, 30, 200, _("\
+Where is she? Where is\n\
+my @519cb5FFLittle Sister@--------?\n\
+YOU! You're the one who\n\
+took her, aren't you?\n\
+You're gonna regret\n\
+ever coming here!"))
+
 
 
 

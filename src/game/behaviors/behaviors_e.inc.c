@@ -344,7 +344,7 @@ void bhv_e__enemy(void) {
         o->oShotByShotgun = 0;
     } else {
         if ((o->oIntangibleTimer == 0) && (o->oInteractStatus & INT_STATUS_WAS_ATTACKED)) {
-            if (gMarioState->action == ACT_GROUND_POUND) {
+            if ((gMarioState->action == ACT_GROUND_POUND)||(gMarioState->action == ACT_ABILITY_AXE_JUMP)) {
                 o->oHealth -= 2; }
             else {
                 o->oHealth -= 1; }

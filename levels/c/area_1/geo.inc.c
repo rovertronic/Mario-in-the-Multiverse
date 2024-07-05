@@ -24,6 +24,9 @@ const GeoLayout c_dl_1_room_normal_geo[] = {
 			GEO_DISPLAY_LIST(LAYER_ALPHA, c_dl_level_c_mesh_layer_4),
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, c_dl_level_c_mesh_layer_6),
 		GEO_CLOSE_NODE(),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, c_dl_Map_002_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, c_dl_Room_1_002_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, c_dl_Room_1_002_mesh_layer_5),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

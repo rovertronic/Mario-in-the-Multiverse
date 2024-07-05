@@ -55,6 +55,7 @@ const LevelScript level_c_entry[] = {
 		WARP_NODE(/*entry*/ 0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death*/ 0xF1, LEVEL_C, /*this area*/ 0x01, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death entry*/ 0x01, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_ABILITY, -6628, 1910, -5283, 0, 0, 0, (ABILITY_BIG_DADDY << 16), bhvAbilityUnlock),
 		OBJECT(MODEL_TARGET_BOX, 1915, 1992, 3966, 0, 0, 0, (1 << 16) | (1), bhvTargetBox),
 		OBJECT(MODEL_TARGET_BOX, 775, 1568, 5945, 0, 0, 0, (1 << 16) | (1), bhvTargetBox),
 		OBJECT(MODEL_TARGET_BOX, -5775, 695, 147, 0, 0, 0, (1 << 16), bhvTargetBox),

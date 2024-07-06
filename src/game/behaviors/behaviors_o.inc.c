@@ -873,7 +873,7 @@ void bhv_machine_door(void) {
 }
 
 void bhv_artreus_artifact_on_machine(void) {
-    u8 have_artifact = TRUE;
+    u8 have_artifact = (save_file_get_flags() & SAVE_FLAG_ARTREUS_ARTIFACT);
 
     if (have_artifact) {
         cur_obj_unhide();

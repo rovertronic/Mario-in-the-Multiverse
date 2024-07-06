@@ -467,7 +467,7 @@ void bhv_shop_controller(void) {
             if ((gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) && !shop_sold_out) {
                 switch(shop_target_item) {
                     case 0:
-                        if (try_to_buy(250)) {
+                        if (try_to_buy(150)) {
                             save_file_unlock_ability(ABILITY_UTIL_COMPASS);
                             save_file_set_coins();
                             play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
@@ -475,7 +475,7 @@ void bhv_shop_controller(void) {
                         }
                         break;
                     case 1:
-                        if (try_to_buy(200)) {
+                        if (try_to_buy(100)) {
                             save_file_unlock_ability(ABILITY_UTIL_MIRROR);
                             save_file_set_coins();
                             play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
@@ -483,7 +483,7 @@ void bhv_shop_controller(void) {
                         }
                         break;
                     case 2:
-                        if (try_to_buy(350)) {
+                        if (try_to_buy(250)) {
                             save_file_unlock_ability(ABILITY_UTIL_MILK);
                             save_file_set_coins();
                             play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
@@ -491,7 +491,7 @@ void bhv_shop_controller(void) {
                         }
                         break;
                     case 3:
-                        if (try_to_buy(200)) { // Star
+                        if (try_to_buy(100)) { // Star
                             save_file_set_coins();
 
                             shop_target_item = -1;
@@ -507,7 +507,7 @@ void bhv_shop_controller(void) {
                         }
                         break;
                     case 4:
-                        if (try_to_buy(500)) {
+                        if (try_to_buy(400)) {
                             save_file_set_coins();
                             save_file_set_flags(SAVE_FLAG_ARTREUS_ARTIFACT);
                             play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);

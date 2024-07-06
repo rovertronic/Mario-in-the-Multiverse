@@ -832,11 +832,11 @@ f32 hud_alpha = 255.0f;
 u8 shop_show_ui = FALSE;
 char * shop_text[] = {
     "Compass, Mirror, Milk? You want it? It's yours\nmy friend, as long as you have enough coins.\nUse ^ and | to browse, A to buy, B to exit.",
-    "Redstone Compass - 250 coins\nPoints to the nearest mission-specific object.\nCrafted with 4 iron bars and 1 redstone.",
-    "Magic Mirror - 200 coins\nLets you instantly warp to the last checkpoint.\nGaze in the mirror to return home.",
-    "Lon Lon Milk - 350 coins\nDrink it to instantly heal yourself.\nThe highest quality milk in Hyrule.",
-    "121st Power Star - 200 coins\nAn additional power star.\nWas uncovered deep within the icy slide.",
-    "Atreus' Artifact - 500 coins\nAn eye that pierces the fabric of universes.\nRequired to repair the Multiverse Machine.",
+    "Redstone Compass - 150 coins\nPoints to the nearest mission-specific object.\nCrafted with 4 iron bars and 1 redstone.",
+    "Magic Mirror - 100 coins\nLets you instantly warp to the last checkpoint.\nGaze in the mirror to return home.",
+    "Lon Lon Milk - 250 coins\nDrink it to instantly heal yourself.\nThe highest quality milk in Hyrule.",
+    "121st Power Star - 100 coins\nAn additional power star.\nWas uncovered deep within the icy slide.",
+    "Atreus' Artifact - 400 coins\nAn eye that pierces the fabric of universes.\nRequired to repair the Multiverse Machine.",
 };
 char shop_cant_afford_text[] = "Sorry Mario, I can't give credit!\nCome back when you're a little, mmm... richer!";
 char shop_sold_out_text[] = "OUT OF STOCK";

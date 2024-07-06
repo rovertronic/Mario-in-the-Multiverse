@@ -1268,6 +1268,9 @@ s32 init_level(void) {
         case LEVEL_BOWSER_COURSE:
             hub_level_current_index = HUBLEVEL_BOWSER;
             break;
+        case LEVEL_G:
+            hub_level_current_index = HUBLEVEL_C1;
+            break;
     }
 
     // NOTE: gStarModelLastCollected reset here as a safety to prevent possible UB if assigned a model used

@@ -17,7 +17,7 @@
     #define EEPROM_SIZE 0x800//--**
 #endif
 
-#define NUM_SAVE_FILES 3
+#define NUM_SAVE_FILES 1
 
 struct SaveBlockSignature {
     u16 magic;

@@ -94,28 +94,44 @@ u8 hub_star_string[] = {0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,DIALOG_CHAR_TERM
 //In course order, not alphabetical!
 //Only mess with /* Level */ entry, everything else is pre-configured
 struct mitm_hub_level hub_levels[] = {
-          /* Author */      /* Level */  /*Star Flags*/   /*Star Req*/  /*Start Area*/  /*Return Hub Warp ID*/
-    /*G*/ {&author_string_g, LEVEL_G,     COURSE_BOB,      0/*0 */,      3,             20},
-    /*A*/ {&author_string_a, LEVEL_A,     COURSE_WF,       0/*1 */,      1,             21},
-    /*C*/ {&author_string_c, LEVEL_C,     COURSE_JRB,      0/*1 */,      1,             22},
-    /*I*/ {&author_string_i, LEVEL_I,     COURSE_CCM,      0/*3 */,      1,             23},
-    /*H*/ {&author_string_h, LEVEL_H,     COURSE_BBH,      0/*5 */,      1,             24},
-    /*B*/ {&author_string_b, LEVEL_B,     COURSE_HMC,      0/*10*/,      1,             25},
-    /*L*/ {&author_string_l, LEVEL_L,     COURSE_LLL,      0/*15*/,      6,             26},
-    /*K*/ {&author_string_k, LEVEL_BOB,   COURSE_SSL,      0/*15*/,      1,             27},
-    /*E*/ {&author_string_e, LEVEL_E,     COURSE_DDD,      0/*20*/,      1,             28},
-    /*F*/ {&author_string_f, LEVEL_F,     COURSE_SL ,      0/*20*/,      1,             29},
-    /*J*/ {&author_string_j, LEVEL_J,     COURSE_WDW,      0/*25*/,      1,             30},
-    /*D*/ {&author_string_d, LEVEL_D,     COURSE_TTM,      0/*30*/,      1,             31},
-    /*O*/ {&author_string_o, LEVEL_O,     COURSE_THI,      0/*30*/,      1,             32},
-    /*N*/ {&author_string_n, LEVEL_N,     COURSE_TTC,      0/*50*/,      1,             33},
-    /*M*/ {&author_string_m, LEVEL_M,     COURSE_RR ,      0/*50*/,      1,             34},
+          /* Author          Level      StarFlags     StarReq  StartArea  ReturnWarp  StarCt DreamCt  Name */
+    /*G*/ {&author_string_g, LEVEL_G,   COURSE_BOB,   0/*0 */, 3,         20,         8,     0,       "MARIO SUPER STAR ULTRA"},
+    /*A*/ {&author_string_a, LEVEL_A,   COURSE_WF,    0/*1 */, 1,         21,         8,     0,       "MARIO IN BIKINI BOTTOM"},
+    /*C*/ {&author_string_c, LEVEL_C,   COURSE_JRB,   0/*1 */, 1,         22,         8,     0,       "PIRANHA PIT"},
+    /*I*/ {&author_string_i, LEVEL_I,   COURSE_CCM,   0/*3 */, 1,         23,         8,     0,       "MUSHROOM HAVOC"},
+    /*H*/ {&author_string_h, LEVEL_H,   COURSE_BBH,   0/*5 */, 1,         24,         8,     0,       "OPPORTUNITY"},
+    /*B*/ {&author_string_b, LEVEL_B,   COURSE_HMC,   0/*10*/, 1,         25,         8,     0,       "-"},
+    /*L*/ {&author_string_l, LEVEL_L,   COURSE_LLL,   0/*15*/, 6,         26,         8,     0,       "BEYOND THE CURSED PIZZA"},
+    /*K*/ {&author_string_k, LEVEL_BOB, COURSE_SSL,   0/*15*/, 1,         27,         8,     0,       "-"},
+    /*E*/ {&author_string_e, LEVEL_E,   COURSE_DDD,   0/*20*/, 1,         28,         8,     0,       "DOOM"},
+    /*F*/ {&author_string_f, LEVEL_F,   COURSE_SL,    0/*20*/, 1,         29,         8,     0,       "FROM RUSSIA WITH LOVE"},
+    /*J*/ {&author_string_j, LEVEL_J,   COURSE_WDW,   0/*25*/, 1,         30,         8,     0,       "ECRUTEAK CITY"},
+    /*D*/ {&author_string_d, LEVEL_D,   COURSE_TTM,   0/*30*/, 1,         31,         8,     0,       "NEW N-SANITY ISLAND"},
+    /*O*/ {&author_string_o, LEVEL_O,   COURSE_THI,   0/*30*/, 1,         32,         8,     0,       "SAINTS, SINNERS, & MARIO"},
+    /*N*/ {&author_string_n, LEVEL_N,   COURSE_TTC,   0/*50*/, 1,         33,         8,     0,       "MARIO IN HAMSTERBALL"},
+    /*M*/ {&author_string_m, LEVEL_M,   COURSE_RR,    0/*50*/, 1,         34,         8,     0,       "ENVIRONMENTAL STATION M"},
+    /*BC*/{NULL, LEVEL_BOWSER_COURSE,   COURSE_BITDW, 0,       1,         34,         1,     0,       "CENTRUM OMNIUM"},
+   /*HUB*/{NULL,             NULL,      COURSE_BITFS, 0,       1,         34,         1,     0,       "HUB"},
 };
 
 s8 hub_level_index = -1;
 s8 hub_dma_index = -1;
-s8 hub_level_current_index = 0; // temp val
+s8 hub_level_current_index = HUBLEVEL_HUB;
 f32 hub_titlecard_alpha = 0.0f;
+
+void update_hub_star_string(s8 index_of_hublevel) {
+    u8 star_flags = star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(hub_levels[index_of_hublevel].course));
+    u8 star_count = hub_levels[index_of_hublevel].star_count;
+
+    for (u8 i=0;i<star_count;i++) {
+        if (star_flags & (1<<i)) {
+            hub_star_string[i] = 0xFA;
+        } else {
+            hub_star_string[i] = 0xFD;
+        }
+    }
+    hub_star_string[star_count] = DIALOG_CHAR_TERMINATOR;
+}
 
 void level_pipe_in_level_loop(void) {
     switch(o->oAction) {
@@ -193,7 +209,6 @@ void level_pipe_loop(void) {
             o->oOpacity = 250;
             if ((lateral_dist_between_objects(o, gMarioObject) < 120.0f)&&(gMarioState->pos[1] < o->oPosY+500.0f)&&(gMarioState->pos[1] > o->oPosY)) {
                 hub_level_index = o->oBehParams2ndByte;
-                hub_level_current_index = o->oBehParams2ndByte;
                 gMarioState->interactObj = o;
 
                 if (gMarioState->action != ACT_ENTER_HUB_PIPE) {
@@ -219,6 +234,7 @@ void level_pipe_loop(void) {
         break;
         case 4: // Level being entered
             hub_level_index = -1;
+            hub_level_current_index = o->oBehParams2ndByte;
             break;
 
         case 5: // Unlock cutscene
@@ -291,16 +307,7 @@ void render_mitm_hub_hud(void) {
         if (hub_levels[hub_dma_index].star_requirement <= gMarioState->numStars) {
             //Display Collected Stars
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 0, (u8)hub_titlecard_alpha);
-            star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(hub_levels[hub_dma_index].course));
-
-            for (i=0;i<8;i++) {
-                if (star_flags & (1<<i)) {
-                    hub_star_string[i] = 0xFA;
-                } else {
-                    hub_star_string[i] = 0xFD;
-                }
-            }
-
+            update_hub_star_string(hub_dma_index);
             print_generic_string(110,40,hub_star_string);
         } else {
             //Not Enough Stars to Enter
@@ -393,7 +400,7 @@ void bhv_shop_controller(void) {
     sold_out[0] = (save_file_check_ability_unlocked(ABILITY_UTIL_COMPASS) != 0);
     sold_out[1] = (save_file_check_ability_unlocked(ABILITY_UTIL_MIRROR) != 0);
     sold_out[2] = (save_file_check_ability_unlocked(ABILITY_UTIL_MILK) != 0);
-    sold_out[3] = (save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_NONE)) & 1);
+    sold_out[3] = (save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_BITFS)) & 1);
     sold_out[4] = ((save_file_get_flags() & SAVE_FLAG_ARTREUS_ARTIFACT) != 0);
 
     Vec3f camera_target;
@@ -565,7 +572,6 @@ void bhv_shopitem_loop(void) {
 }
 
 extern u8 hint_show_ui;
-extern void *languageTable[][3];
 
 u8 hint_index = 0;
 u8 hint_level = 0;
@@ -593,12 +599,10 @@ void render_hint_ui(u8 hud_alpha) {
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
         print_generic_string_ascii(45, 95, "Need help finding a\npower star?");
 
-        void **courseNameTbl = segmented_to_virtual(languageTable[gInGameLanguage][1]);
-        u8 *courseName = segmented_to_virtual(courseNameTbl[hint_fake_index_list[hint_index]]);
-        print_generic_string(45, 56, &courseName[3]);
+        print_generic_string_ascii(45, 56, hub_levels[hint_index].name);
 
         for (s32 i = 0; i < 10; i++) {
-            u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(hint_fake_index_list[i+1]));
+            u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(hub_levels[hint_index].course));
             sprintf(stringBuf,"C%02d",i+1);
 
             if (star_flags == 0xFF) {
@@ -668,6 +672,10 @@ void render_hint_ui(u8 hud_alpha) {
         gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
     }
 
+}
+
+void bhv_morshu_loop(void) {
+    o->oFaceAngleYaw = o->oAngleToMario;
 }
 
 void bhv_layton_hint_loop(void) {

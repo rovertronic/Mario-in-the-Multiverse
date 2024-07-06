@@ -1261,6 +1261,15 @@ s32 init_level(void) {
 
     g100CoinStarSpawned = FALSE;
 
+    switch(gCurrLevelNum) {
+        case LEVEL_CASTLE:
+            hub_level_current_index = HUBLEVEL_HUB;
+            break;
+        case LEVEL_BOWSER_COURSE:
+            hub_level_current_index = HUBLEVEL_BOWSER;
+            break;
+    }
+
     // NOTE: gStarModelLastCollected reset here as a safety to prevent possible UB if assigned a model used
     // in a non-global group. This checked can be removed as needed.
     if (gStarModelLastCollected != MODEL_BOWSER_KEY

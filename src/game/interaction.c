@@ -26,6 +26,7 @@
 #include "config.h"
 #include "ability.h"
 #include "rigid_body.h"
+#include "mitm_hub.h"
 
 u8  sDelayInvincTimer;
 s16 sInvulnerable;
@@ -928,16 +929,6 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
             save_file_collect_star_or_key(m->numCoins, starIndex);
             m->numStars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
             ability_get_confirm = TRUE;
-        }
-
-
-        u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1, COURSE_NUM_TO_INDEX(gCurrCourseNum));
-        for (u8 i=0;i<8;i++) {
-            if (star_flags & (1<<i)) {
-                hub_star_string[i] = 0xFA;
-            } else {
-                hub_star_string[i] = 0xFD;
-            }
         }
 
         if (!noExit) {

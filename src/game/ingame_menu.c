@@ -1792,15 +1792,6 @@ void render_pause_my_score_coins(void) {
         print_generic_string(MYSCORE_X, 121, LANGUAGE_ARRAY(textMyScore));
     }
 
-    if (courseIndex <= COURSE_NUM_TO_INDEX(COURSE_STAGES_MAX)) {
-        print_generic_string(TXT_COURSE_X, 157, LANGUAGE_ARRAY(textCourse));
-        sprintf(&strCourseNum," %d",courseIndex+1);
-        if (courseIndex+1 > 9) {
-            sprintf(&strCourseNum,"%d",courseIndex+1);
-        }
-        print_generic_string_ascii(CRS_NUM_X1, 157, strCourseNum);
-    }
-
     update_hub_star_string(hub_level_current_index);
     print_generic_string(ACT_NAME_X, 140, &hub_star_string); // No act names in this hack
     print_generic_string_ascii(LVL_NAME_X, 157, hub_levels[hub_level_current_index].name);

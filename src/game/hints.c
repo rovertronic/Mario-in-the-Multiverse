@@ -54,10 +54,10 @@ Shoot every single button to get the star!",
 },
 
 {
-"Follow the rails to the end of the cave. You will\n\
-need the Gadget Watch to open the gate. Throw\n\
-anything & everything you got at the boss!",
-(ABILITY_FLAG_GADGET_WATCH)
+"Follow the rails to the end of the cave.\n\
+Behind the giant purple crystal is this\n\
+star.",
+(0)
 },
 
 };

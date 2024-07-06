@@ -130,6 +130,8 @@
 #include "actors/common1.h"
 #include "actors/common1.h"
 #include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
 
 /* Fast64 begin persistent block [includes] */
 #include "actors/common1.h"
@@ -368,9 +370,6 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_G_WADDLE_DEE, -13629, 446, 14427, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_ABILITY_SIGN, 7235, 808, 15721, 0, -49, 0, (5 << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, -13876, 237, 8376, 0, -40, 0, (4 << 16), bhvStaticObject),
-		OBJECT(MODEL_NONE, 3852, 3467, -2928, 0, -180, 0, (11 << 16), bhvAirborneDeathWarp),
-		OBJECT(MODEL_ABILITY_SIGN, 4373, 3099, -2687, 0, -124, 0, (10 << 16), bhvStaticObject),
-		OBJECT(MODEL_G_MARX_DOOR, 3751, 3761, -2503, 0, 0, 0, 0x00000000, bhvGMarxDoor),
 		OBJECT(MODEL_NONE, -14374, 535, 1562, 0, 21, 0, (6 << 24), bhvGCOStar),
 		OBJECT(MODEL_G_SIR_KIBBLE, 1776, -178, 8353, 0, 0, 0, 0x00000000, bhvSirKibble),
 		OBJECT(MODEL_G_SIR_KIBBLE, -3547, 3511, 21660, 0, 0, 0, 0x00000000, bhvSirKibble),
@@ -399,7 +398,7 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_STAR_PIECE, -10815, 818, 17301, 0, 21, 0, 0x00000000, bhvStarPiece),
 		OBJECT(MODEL_STAR_PIECE, -12868, 827, 11945, 0, 21, 0, 0x00000000, bhvStarPiece),
 		OBJECT(MODEL_STAR, -6556, 6991, 9637, 0, 21, 0, (5 << 24), bhvStar),
-		OBJECT(MODEL_NONE, 3328, 2734, -1692, 0, -124, 0, (50 << 24) | (12 << 16), bhvWarp),
+		OBJECT(MODEL_STAR, 4194, 3401, -2773, 0, 21, 0, (7 << 24), bhvStar),
 		TERRAIN(g_area_4_collision),
 		MACRO_OBJECTS(g_area_4_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_CUSTOM_CRYSTAL_FIELD),
@@ -411,8 +410,9 @@ const LevelScript level_g_entry[] = {
 	AREA(5, g_area_5),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF0, LEVEL_G, 0x04, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(0xF1, LEVEL_G, 0x04, 0x0B, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF1, LEVEL_BOWSER_COURSE, 0x01, 0x07, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0B, LEVEL_G, 0x04, 0x0C, WARP_NO_CHECKPOINT),
+		WARP_NODE(1, LEVEL_ENDING, 0x05, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_MARX, 90, 841, -897, 0, 0, 0, 0x00000000, bhvGMarx),
 		OBJECT(MODEL_NONE, 24, 650, 779, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		TERRAIN(g_area_5_collision),

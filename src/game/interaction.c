@@ -970,6 +970,18 @@ u32 interact_bbh_entrance(struct MarioState *m, UNUSED u32 interactType, struct 
 u32 interact_warp(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 action;
 
+    if (gCurrLevelNum == LEVEL_CASTLE) {
+        u8 have_enough_stars = (gMarioState->numStars >= 60);
+        u8 have_artifact = (save_file_get_flags() & SAVE_FLAG_ARTREUS_ARTIFACT);
+
+        if (!have_enough_stars) {
+            return FALSE;
+        }
+        if (!have_artifact) {
+            return FALSE;
+        }
+    }
+
     if (obj->oInteractionSubtype & INT_SUBTYPE_FADING_WARP) {
         action = m->action;
 

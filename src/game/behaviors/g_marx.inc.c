@@ -606,7 +606,10 @@ void marx_act_dead(void) {
         case 2:
             if (o->oTimer == 90) {
                 SET_BPARAM1(o->oBehParams, 7);
-                spawn_default_star(0, 700, 0);
+
+                level_trigger_warp(gMarioState, WARP_OP_LOOK_UP);
+                sSourceWarpNodeId = 1;
+
                 obj_mark_for_deletion(o);
             }
         break;

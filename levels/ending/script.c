@@ -26,13 +26,13 @@ const LevelScript level_ending_entry[] = {
     LOAD_LEVEL_DATA(ending),
     ALLOC_LEVEL_POOL(),
 
-    AREA(/*index*/ 1, ending_geo_area_1),
+    AREA(/*index*/ 5, ending_geo_area_1),
     END_AREA(),
 
     FREE_LEVEL_POOL(),
     SLEEP(/*frames*/ 60),
     BLACKOUT(/*active*/ FALSE),
-    LOAD_AREA(/*area*/ 1),
+    LOAD_AREA(/*area*/ 5),
     TRANSITION(/*transType*/ WARP_TRANSITION_FADE_FROM_COLOR, /*time*/ 75, /*color*/ 0x00, 0x00, 0x00),
     SLEEP(/*frames*/ 120),
     CALL(/*arg*/ 0, /*func*/ lvl_play_the_end_screen_sound),

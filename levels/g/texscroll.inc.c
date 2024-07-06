@@ -7,7 +7,7 @@ void scroll_g_dl_Circle_006_mesh_layer_1_vtx_0() {
 	int deltaX;
 	Vtx *vertices = segmented_to_virtual(g_dl_Circle_006_mesh_layer_1_vtx_0);
 
-	deltaX = (int)(0.4000000059604645 * 0x20) % width;
+	deltaX = (int)(0.6000000238418579 * 0x20) % width;
 
 	if (absi(currentX) > width) {
 		deltaX -= (int)(absi(currentX) / width) * width * signum_positive(deltaX);
@@ -28,7 +28,7 @@ void scroll_g_dl_Circle_006_mesh_layer_1_vtx_1() {
 	int deltaX;
 	Vtx *vertices = segmented_to_virtual(g_dl_Circle_006_mesh_layer_1_vtx_1);
 
-	deltaX = (int)(0.6000000238418579 * 0x20) % width;
+	deltaX = (int)(0.4000000059604645 * 0x20) % width;
 
 	if (absi(currentX) > width) {
 		deltaX -= (int)(absi(currentX) / width) * width * signum_positive(deltaX);

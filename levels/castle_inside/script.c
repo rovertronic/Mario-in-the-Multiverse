@@ -85,7 +85,7 @@ const LevelScript level_castle_inside_entry[] = {
 		WARP_NODE(0xF1/*death*/, LEVEL_CASTLE, 0x01, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x01 /*death entry*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_SHOPITEM_4, 5539, 3580, 5266, 0, -137, 0, 0x00000000, bhvAArtifactOnMachine),
-		OBJECT(MODEL_NONE, -2062, 1859, -687, 0, 0, 0, (0x01 << 16), bhvDeathWarp),
+		OBJECT(MODEL_NONE, -2062, 3089, -687, 0, 71, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_EGADD, 5547, 3151, 4767, 0, -110, 0, 0x00000000, bhvEgaddNPC),
 		OBJECT(MODEL_HUBPLATFORM, -510, 2651, 1460, 0, 0, 0, 0x00000000, bhvHubPlatform),
 		OBJECT(MODEL_HUBPLATFORM, -3404, 2858, -1546, 0, 0, 0, 0x00000000, bhvHubPlatform),

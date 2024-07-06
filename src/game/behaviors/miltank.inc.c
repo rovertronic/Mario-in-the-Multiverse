@@ -49,7 +49,7 @@ static void miltank_spawn_milk_particles(s8 count, s8 offsetY, s8 forwardVelBase
 }
 
 void bhv_miltank_init(void) {
-    struct RigidBody *body = allocate_rigid_body_from_object(o, &Miltank_Ball_Mesh, 1.0f, miltank_ball_Size, FALSE);
+    struct RigidBody *body = allocate_rigid_body_from_object(o, &Miltank_Ball_Mesh, 0.8f, miltank_ball_Size, FALSE);
     if (o->oFloor->normal.y > 0.99f) body->asleep = TRUE;
     obj_set_hitbox(o, &sMiltankHitbox);
 
@@ -86,9 +86,9 @@ void bhv_miltank_loop(void) {
 
     if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED && o->oTimer > 5){
         Vec3f force;
-        force[0] = (sins(gMarioState->faceAngle[1]) * 125.0f);
-        force[2] = (coss(gMarioState->faceAngle[1]) * 125.0f);
-        force[1] = 150.0f;
+        force[0] = (sins(gMarioState->faceAngle[1]) * 3.0f*125.0f);
+        force[2] = (coss(gMarioState->faceAngle[1]) * 3.0f*125.0f);
+        force[1] = 300.0f;
         rigid_body_add_force(o->rigidBody, &gMarioState->pos, force, TRUE);
         miltank_spawn_milk_particles(8, -10, 15, 20, 10);
         cur_obj_play_sound_2(SOUND_OBJ_DIVING_IN_WATER);

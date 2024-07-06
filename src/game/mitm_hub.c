@@ -171,6 +171,9 @@ void level_pipe_init(void) {
         o->oOpacity = 250;
         return;
     }
+    if (gMarioState->numStars >= hub_levels[o->oBehParams2ndByte].star_requirement) {
+        o->oOpacity = 250;
+    }
 }
 
 void level_pipe_loop(void) {
@@ -206,7 +209,6 @@ void level_pipe_loop(void) {
 
     switch(o->oAction) {
         case 0:
-            o->oOpacity = 250;
             if ((lateral_dist_between_objects(o, gMarioObject) < 120.0f)&&(gMarioState->pos[1] < o->oPosY+500.0f)&&(gMarioState->pos[1] > o->oPosY)) {
                 hub_level_index = o->oBehParams2ndByte;
                 gMarioState->interactObj = o;
@@ -599,10 +601,10 @@ void render_hint_ui(u8 hud_alpha) {
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
         print_generic_string_ascii(45, 95, "Need help finding a\npower star?");
 
-        print_generic_string_ascii(45, 56, hub_levels[hint_index].name);
+        print_generic_string_ascii(45, 56, hub_levels[hint_fake_index_list[hint_index]].name);
 
         for (s32 i = 0; i < 10; i++) {
-            u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(hub_levels[hint_index].course));
+            u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(hub_levels[hint_fake_index_list[hint_index]].course));
             sprintf(stringBuf,"C%02d",i+1);
 
             if (star_flags == 0xFF) {
@@ -620,7 +622,7 @@ void render_hint_ui(u8 hud_alpha) {
         // Hint Abilities
         s32 ability_amount = 0;
         s32 ability_x_offset = 0;
-        u32 hint_ability_flags = hintlist[hint_level][hint_index].dependancies;
+        u32 hint_ability_flags = hintlist[hint_level][hint_fake_index_list[hint_index]].dependancies;
         u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(hint_level+1));
 
         for (s32 i = 0; i < 19; i++) {

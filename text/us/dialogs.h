@@ -458,22 +458,54 @@ Start the P challenge?\n\
 \n\
 //Go!////Don't Go"))
 
-DEFINE_DIALOG(DIALOG_EGADD_1, 2, 4, 95, 200, _("\
-i need 70 stars and\n\
-the artifact pls"))
+DEFINE_DIALOG(DIALOG_EGADD_1, 2, 5, 95, 200, _("\
+Ho ho, I have repaired\n\
+the multiverse machine!\n\
+Unfortunately, I am\n\
+missing one critical\n\
+component- the artifact.\n\
+Oh, that wretched\n\
+greedy shopkeeper found\n\
+it lying around and\n\
+won't let me take it\n\
+back...\n\
+Not without a hefty\n\
+price, at least...\n\
+I'm afraid our only\n\
+option is to buy it\n\
+back.\n\
+Additionally, all the\n\
+fuel spilled, so I need\n\
+60 power stars to get\n\
+it up and running again.\n\
+\n\
+Get all these items for\n\
+me so we can take care\n\
+of this mess!"))
 
 DEFINE_DIALOG(DIALOG_EGADD_2, 2, 4, 95, 200, _("\
-thanks for 70 stars\n\
-but i still need\n\
-artifact"))
+The machine's all fueled\n\
+up now, but unfortunately\n\
+we're getting nowhere\n\
+without the artifact."))
 
-DEFINE_DIALOG(DIALOG_EGADD_3, 2, 4, 95, 200, _("\
-thanks for artifact\n\
-but i still need\n\
-70 stars"))
+DEFINE_DIALOG(DIALOG_EGADD_3, 2, 5, 95, 200, _("\
+Thank you for returning\n\
+the artifact to me! We\n\
+still don't have enough\n\
+fuel to get started,\n\
+unfortunately.\n\
+Remember, we need 60\n\
+stars to get it\n\
+going."))
 
-DEFINE_DIALOG(DIALOG_EGADD_4, 2, 4, 95, 200, _("\
-machine is ready!"))
+DEFINE_DIALOG(DIALOG_EGADD_4, 2, 6, 95, 200, _("\
+Ho ho, the machine is\n\
+up and running!\n\
+A powerful foe up ahead\n\
+holds the key to fixing\n\
+this whole conundrum.\n\
+Good luck!"))
 
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 200, _("\
 Wow! You're smack in the\n\

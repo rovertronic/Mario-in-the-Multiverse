@@ -1612,6 +1612,7 @@ void shade_screen(void) {
 }
 
 void shade_screen_blue(void) {
+    /*
     create_dl_translation_matrix(MENU_MTX_PUSH, GFX_DIMENSIONS_FROM_LEFT_EDGE(0), SCREEN_HEIGHT, 0);
 
     // This is a bit weird. It reuses the dialog text box (width 130, height -80),
@@ -1626,6 +1627,7 @@ void shade_screen_blue(void) {
     gDPSetEnvColor(gDisplayListHead++, 0, 0x5E, 0xB8, 110);
     gSPDisplayList(gDisplayListHead++, dl_draw_text_bg_box);
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+    */
 }
 
 void print_animated_red_coin(s16 x, s16 y) {

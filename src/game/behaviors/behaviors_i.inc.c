@@ -350,7 +350,9 @@ void bhv_hoodmonger_loop(void){
         o->oHealth--;
         create_sound_spawner(o->oDeathSound);
         obj_die_if_health_non_positive();
-        spawn_object(o, MODEL_BLACKLUMS, bhvBlackLums);
+        if (gCurrLevelNum == LEVEL_I) {
+            spawn_object(o, MODEL_BLACKLUMS, bhvBlackLums);
+        }
     }
 
     o->oNearestHoodmongerWandering = cur_obj_nearest_object_with_behavior_and_action(hoodmonger_behavior, HOODMONGER_ACTION_WANDERING); //find nearest hoodmonger not alerted

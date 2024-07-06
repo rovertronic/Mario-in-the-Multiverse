@@ -1755,10 +1755,7 @@ void render_pause_my_score_coins(void) {
     u8 textStar[] = { TEXT_STAR };
     u8 textUnfilledStar[] = { TEXT_UNFILLED_STAR };
 
-    u8 strCourseNum[4];
-
-    void **courseNameTbl = segmented_to_virtual(languageTable[gInGameLanguage][1]);
-    void    **actNameTbl = segmented_to_virtual(languageTable[gInGameLanguage][2]);
+    char strCourseNum[4];
 
     u8 courseIndex = COURSE_NUM_TO_INDEX(gCurrCourseNum);
     u8 starFlags = save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(gCurrCourseNum));
@@ -1784,20 +1781,18 @@ void render_pause_my_score_coins(void) {
         print_generic_string(MYSCORE_X, 121, LANGUAGE_ARRAY(textMyScore));
     }
 
-    u8 *courseName = segmented_to_virtual(courseNameTbl[courseIndex]);
-
     if (courseIndex <= COURSE_NUM_TO_INDEX(COURSE_STAGES_MAX)) {
         print_generic_string(TXT_COURSE_X, 157, LANGUAGE_ARRAY(textCourse));
-        int_to_str(gCurrCourseNum, strCourseNum);
-        print_generic_string(CRS_NUM_X1, 157, strCourseNum);
-
-        u8 *actName = segmented_to_virtual(actNameTbl[COURSE_NUM_TO_INDEX(gCurrCourseNum) * 6 + gDialogCourseActNum - 1]);
-
-        print_generic_string(ACT_NAME_X, 140, &hub_star_string); // No act names in this hack
-        print_generic_string(LVL_NAME_X, 157, &courseName[3]);
-    } else {
-        print_generic_string(SECRET_LVL_NAME_X, 157, &courseName[3]);
+        sprintf(&strCourseNum," %d",courseIndex+1);
+        if (courseIndex+1 > 9) {
+            sprintf(&strCourseNum,"%d",courseIndex+1);
+        }
+        print_generic_string_ascii(CRS_NUM_X1, 157, strCourseNum);
     }
+
+    update_hub_star_string(hub_level_current_index);
+    print_generic_string(ACT_NAME_X, 140, &hub_star_string); // No act names in this hack
+    print_generic_string_ascii(LVL_NAME_X, 157, hub_levels[hub_level_current_index].name);
 
     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 }
@@ -1846,7 +1841,7 @@ void render_pause_course_options(s16 x, s16 y, s8 *index, s16 yIndex) {
     u8 textExitCourse[] = { TEXT_EXIT_COURSE };
     u8 textCameraAngleR[] = { TEXT_CAMERA_ANGLE_R };
 
-    u8 show_exit_course = (gMarioState->numStars > 0);
+    u8 show_exit_course = ((gMarioState->numStars > 0)&&(gCurrLevelNum!=LEVEL_CASTLE));
 
     if (show_exit_course) {
         handle_menu_scrolling(MENU_SCROLL_VERTICAL, index, 1, 3);
@@ -2074,14 +2069,8 @@ s32 render_pause_courses_and_castle(void) {
             level_set_transition(-1, NULL);
             play_sound(SOUND_MENU_PAUSE_OPEN, gGlobalSoundSource);
 
-            if (gCurrCourseNum >= COURSE_MIN
-             && gCurrCourseNum <= COURSE_MAX) {
-                change_dialog_camera_angle();
-                gDialogBoxState = DIALOG_STATE_VERTICAL;
-            } else {
-                highlight_last_course_complete_stars();
-                gDialogBoxState = DIALOG_STATE_HORIZONTAL;
-            }
+            change_dialog_camera_angle();
+            gDialogBoxState = DIALOG_STATE_VERTICAL;
             break;
 
         case DIALOG_STATE_VERTICAL:

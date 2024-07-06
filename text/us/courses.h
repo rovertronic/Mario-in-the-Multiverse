@@ -1,80 +1,80 @@
 /*Do change the name of your level, but leave the act names alone. The act names are unused in this project.*/
 /*Leave the number as XX until course order is determined.*/
 
-COURSE_ACTS(COURSE_BOB, _(" 1 MARIO SUPER STAR ULTRA"),
+COURSE_ACTS(COURSE_BOB, _(""),
        _("")     , _("") , _(""),
        _("")          , _("")        , _(""))
 
-COURSE_ACTS(COURSE_WF, _(" 2 MARIO IN BIKINI BOTTOM"),
+COURSE_ACTS(COURSE_WF, _(""),
        _("")        , _("")    , _(""),
        _(""), _("")    , _(""))
 
-COURSE_ACTS(COURSE_JRB, _(" 3 PIRANHA PIT"),
+COURSE_ACTS(COURSE_JRB, _(""),
        _("")    , _("") , _(""),
        _("")  , _("")     , _(""))
 
-COURSE_ACTS(COURSE_CCM, _(" 4 MUSHROOM HAVOC"),
+COURSE_ACTS(COURSE_CCM, _(""),
        _("")             , _("")             , _(""),
        _("")  , _("")       , _(""))
 
-COURSE_ACTS(COURSE_BBH, _(" 5 OPPORTUNITY"),
+COURSE_ACTS(COURSE_BBH, _(""),
        _("")            , _("") , _(""),
        _("")          , _("")             , _(""))
 
-COURSE_ACTS(COURSE_HMC, _(" 6 HAZY MAZE CAVE"),
+COURSE_ACTS(COURSE_HMC, _(""),
        _("")  , _("")       , _(""),
        _("")     , _("")     , _(""))
 
-COURSE_ACTS(COURSE_LLL, _(" 7 BEYOND THE CURSED PIZZA"),
+COURSE_ACTS(COURSE_LLL, _(""),
        _("")            , _("")             , _(""),
        _("")           , _("")  , _(""))
 
-COURSE_ACTS(COURSE_SSL, _(" 8 SHIFTING SAND LAND"),
+COURSE_ACTS(COURSE_SSL, _(""),
        _("") , _("")      , _(""),
        _(""), _("")   , _(""))
 
-COURSE_ACTS(COURSE_DDD, _(" 9 DOOM"),
+COURSE_ACTS(COURSE_DDD, _(""),
        _("")            , _("")         , _(""),
        _("")        , _("")        , _(""))
 
-COURSE_ACTS(COURSE_SL, _("10 FROM RUSSIA WITH LOVE"),
+COURSE_ACTS(COURSE_SL, _(""),
        _("")            , _("")          , _(""),
        _("")  , _("") , _(""))
 
-COURSE_ACTS(COURSE_WDW, _("11 ECRUTEAK CITY"),
+COURSE_ACTS(COURSE_WDW, _(""),
        _("")         , _("")               , _(""),
        _("")   , _("")      , _(""))
 
-COURSE_ACTS(COURSE_TTM, _("12 NEW N-SANITY ISLAND"),
+COURSE_ACTS(COURSE_TTM, _(""),
        _("")            , _("")    , _(""),
        _("")       , _("") , _(""))
 
-COURSE_ACTS(COURSE_THI, _("13 SAINTS, SINNERS, & MARIO"),
+COURSE_ACTS(COURSE_THI, _(""),
        _("")      , _(""), _(""),
        _("")       , _("")           , _(""))
 
-COURSE_ACTS(COURSE_TTC, _("14 MARIO IN HAMSTERBALL"),
+COURSE_ACTS(COURSE_TTC, _(""),
        _("")            , _("")     , _(""),
        _("")           , _("")    , _(""))
 
-COURSE_ACTS(COURSE_RR, _("15 ENVIRONMENTAL STATION M"),
+COURSE_ACTS(COURSE_RR, _(""),
        _("")  , _("")      , _(""),
        _("")        , _("")             , _(""))
 
-SECRET_STAR(COURSE_BITDW, _("   BOWSER IN THE DARK WORLD"))
-SECRET_STAR(COURSE_BITFS, _("   BOWSER IN THE FIRE SEA"))
-SECRET_STAR(COURSE_BITS, _("   BOWSER IN THE SKY"))
-SECRET_STAR(COURSE_PSS, _("   THE PRINCESS'S SECRET SLIDE"))
-SECRET_STAR(COURSE_COTMC, _("   CAVERN OF THE METAL CAP"))
-SECRET_STAR(COURSE_TOTWC, _("   TOWER OF THE WING CAP"))
-SECRET_STAR(COURSE_VCUTM, _("   VANISH CAP UNDER THE MOAT"))
-SECRET_STAR(COURSE_WMOTR, _("   WING MARIO OVER THE RAINBOW"))
-SECRET_STAR(COURSE_SA, _("   THE SECRET AQUARIUM"))
+SECRET_STAR(COURSE_BITDW, _(""))
+SECRET_STAR(COURSE_BITFS, _(""))
+SECRET_STAR(COURSE_BITS, _(""))
+SECRET_STAR(COURSE_PSS, _(""))
+SECRET_STAR(COURSE_COTMC, _(""))
+SECRET_STAR(COURSE_TOTWC, _(""))
+SECRET_STAR(COURSE_VCUTM, _(""))
+SECRET_STAR(COURSE_WMOTR, _(""))
+SECRET_STAR(COURSE_SA, _(""))
 SECRET_STAR(COURSE_CAKE_END, _(""))
 
-CASTLE_SECRET_STARS(_("   CASTLE SECRET STARS"))
+CASTLE_SECRET_STARS(_(""))
 
-EXTRA_TEXT(0, _("ONE OF THE CASTLE'S SECRET STARS!"))
+EXTRA_TEXT(0, _(""))
 EXTRA_TEXT(1, _(""))
 EXTRA_TEXT(2, _(""))
 EXTRA_TEXT(3, _(""))

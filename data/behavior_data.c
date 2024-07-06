@@ -6518,9 +6518,10 @@ const BehaviorScript bhvLayton[] = {
     END_LOOP(),
 };
 
+extern void bhv_morshu_loop(void);
 const BehaviorScript bhvMorshu[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
     LOAD_ANIMATIONS(oAnimations, morshu_anims),
     DROP_TO_FLOOR(),
     ANIMATE(0),
@@ -6529,7 +6530,7 @@ const BehaviorScript bhvMorshu[] = {
     SET_HITBOX(/*Radius*/ 100, /*Height*/ 250),
     BEGIN_LOOP(),
         SET_INT(oIntangibleTimer, 0),
-        //CALL_NATIVE(bhv_layton_hint_loop),
+        CALL_NATIVE(bhv_morshu_loop),
     END_LOOP(),
 };
 

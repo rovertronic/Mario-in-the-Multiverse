@@ -656,6 +656,10 @@ void render_hint_ui(u8 hud_alpha) {
 
 }
 
+void bhv_morshu_loop(void) {
+    o->oFaceAngleYaw = o->oAngleToMario;
+}
+
 void bhv_layton_hint_loop(void) {
     s8 old_hint_index;
 

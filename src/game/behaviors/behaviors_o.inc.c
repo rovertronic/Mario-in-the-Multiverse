@@ -867,7 +867,7 @@ void bhv_machine_door(void) {
     if ((have_enough_stars)&&(have_artifact)) {
         o->oFaceAngleYaw = -0x7000;
     } else {
-        o->oFaceAngleYaw = 0;
+        //o->oFaceAngleYaw = 0;
         load_object_collision_model();
     }
 }

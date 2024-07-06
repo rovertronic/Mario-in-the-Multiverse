@@ -63,7 +63,7 @@ void scroll_castle_inside_dl_Map_mesh_layer_5_vtx_0() {
 
 void scroll_castle_inside_dl_Map_mesh_layer_5_vtx_1() {
 	int i = 0;
-	int count = 72;
+	int count = 64;
 	int height = 64 * 0x20;
 
 	static int currentY = 0;
@@ -71,27 +71,6 @@ void scroll_castle_inside_dl_Map_mesh_layer_5_vtx_1() {
 	Vtx *vertices = segmented_to_virtual(castle_inside_dl_Map_mesh_layer_5_vtx_1);
 
 	deltaY = (int)(0.3499999940395355 * 0x20) % height;
-
-	if (absi(currentY) > height) {
-		deltaY -= (int)(absi(currentY) / height) * height * signum_positive(deltaY);
-	}
-
-	for (i = 0; i < count; i++) {
-		vertices[i].n.tc[1] += deltaY;
-	}
-	currentY += deltaY;
-}
-
-void scroll_castle_inside_dl_Room_1_002_mesh_layer_5_vtx_1() {
-	int i = 0;
-	int count = 49;
-	int height = 64 * 0x20;
-
-	static int currentY = 0;
-	int deltaY;
-	Vtx *vertices = segmented_to_virtual(castle_inside_dl_Room_1_002_mesh_layer_5_vtx_1);
-
-	deltaY = (int)(3.0 * 0x20) % height;
 
 	if (absi(currentY) > height) {
 		deltaY -= (int)(absi(currentY) / height) * height * signum_positive(deltaY);
@@ -112,19 +91,10 @@ void scroll_gfx_mat_castle_inside_dl_acid_f3d_layer5() {
 
 };
 
-void scroll_gfx_mat_castle_inside_dl_waterfall_001_layer5() {
-	Gfx *mat = segmented_to_virtual(mat_castle_inside_dl_waterfall_001_layer5);
-
-	shift_t(mat, 19, PACK_TILESIZE(0, 4));
-
-};
-
 void scroll_castle_inside() {
 	scroll_castle_inside_dl_machine_mesh_layer_1_vtx_5();
 	scroll_castle_inside_dl_Map_mesh_layer_1_vtx_0();
 	scroll_castle_inside_dl_Map_mesh_layer_5_vtx_0();
 	scroll_castle_inside_dl_Map_mesh_layer_5_vtx_1();
-	scroll_castle_inside_dl_Room_1_002_mesh_layer_5_vtx_1();
 	scroll_gfx_mat_castle_inside_dl_acid_f3d_layer5();
-	scroll_gfx_mat_castle_inside_dl_waterfall_001_layer5();
 };

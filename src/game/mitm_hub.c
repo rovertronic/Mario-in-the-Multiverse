@@ -54,6 +54,20 @@
 #include "ability.h"
 #include "hints.h"
 
+//only for fangame marathon, some levels are skipped
+u8 hint_fake_index_list[] = {
+0,
+1,
+2,
+3,
+6,
+8,
+9,
+10,
+11,
+14,
+};
+
 u8 author_string_a[] = {AUTHOR_A};
 u8 author_string_b[] = {AUTHOR_B};
 u8 author_string_c[] = {AUTHOR_C};
@@ -580,11 +594,11 @@ void render_hint_ui(u8 hud_alpha) {
         print_generic_string_ascii(45, 95, "Need help finding a\npower star?");
 
         void **courseNameTbl = segmented_to_virtual(languageTable[gInGameLanguage][1]);
-        u8 *courseName = segmented_to_virtual(courseNameTbl[hint_index]);
+        u8 *courseName = segmented_to_virtual(courseNameTbl[hint_fake_index_list[hint_index]]);
         print_generic_string(45, 56, &courseName[3]);
 
-        for (s32 i = 0; i < 15; i++) {
-            u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(i+1));
+        for (s32 i = 0; i < 10; i++) {
+            u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(hint_fake_index_list[i+1]));
             sprintf(stringBuf,"C%02d",i+1);
 
             if (star_flags == 0xFF) {
@@ -595,7 +609,7 @@ void render_hint_ui(u8 hud_alpha) {
                 gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
             }
 
-            print_generic_string_ascii(50+(33*(i%3)), 197-(18*(i/3)), stringBuf);
+            print_generic_string_ascii(50+(33*(i%2)), 197-(18*(i/2)), stringBuf);
         }
         gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
     } else {
@@ -693,11 +707,11 @@ void bhv_layton_hint_loop(void) {
         break;
         case 1: // select course
             //handle_menu_scrolling(MENU_SCROLL_INVERTICAL, &shop_target_item, -1, 4);
-            handle_menu_scrolling_2way(&hint_ix, &hint_iy, 0, 4, 2);
-            hint_index = (hint_iy *3)+(hint_ix%3);
+            handle_menu_scrolling_2way(&hint_ix, &hint_iy, 0, 4, 1);
+            hint_index = (hint_iy *2)+(hint_ix%3);
             if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
                 o->oAction = 2;
-                hint_level = hint_index;
+                hint_level = hint_fake_index_list[hint_index];
                 hint_layer = 1;
                 hint_index = 0;
                 hint_ix = 0;

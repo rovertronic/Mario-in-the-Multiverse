@@ -496,8 +496,7 @@ still don't have enough\n\
 fuel to get started,\n\
 unfortunately.\n\
 Remember, we need 60\n\
-stars to get it\n\
-going."))
+stars to get it going."))
 
 DEFINE_DIALOG(DIALOG_EGADD_4, 2, 6, 95, 200, _("\
 Ho ho, the machine is\n\

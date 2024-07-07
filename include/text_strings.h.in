@@ -11,7 +11,7 @@
 
 #define AUTHOR_A                _("By: JoshTheBosh")
 #define AUTHOR_B                _("By: furyiousfight")
-#define AUTHOR_C                _("Idea: Woissil By: Drahnokks")
+#define AUTHOR_C                _("By: Drahnokks")
 #define AUTHOR_D                _("By: JakeDower")
 #define AUTHOR_E                _("By: Dan-GPTV")
 #define AUTHOR_F                _("By: Aesy (Aeza)")

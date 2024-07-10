@@ -215,7 +215,7 @@ void bhv_paint_gun_loop(void) {
             obj_turn_toward_object(o, gMarioObject, O_MOVE_ANGLE_PITCH_INDEX, 0x1000);
             o->oFaceAnglePitch = o->oMoveAnglePitch;
 
-            if(o->oDistanceToMario < 2500 && o->oTimer % 10 == 0) {
+            if(o->oDistanceToMario < 2500 && o->oTimer % 15 == 0) {
                 shoot();
             }
 

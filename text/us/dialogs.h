@@ -440,8 +440,8 @@ end of the level while\n\
 following this criteria:\n\
 -Keep the combo going.\n\
 -Use the Lap 2 portal.\n\
--Collect every star in\n\
-one sitting.\n\
+\n\
+\n\
 You will have a combo\n\
 meter. If it runs out,\n\
 you fail.\n\

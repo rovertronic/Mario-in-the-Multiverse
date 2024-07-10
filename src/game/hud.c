@@ -1101,7 +1101,9 @@ void render_hud(void) {
                     gSPDisplayList(gDisplayListHead++, cbg_Plane_005_mesh);
                 gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
                 gSPDisplayList(gDisplayListHead++, cbmeter_Plane_004_mesh);
-                print_p_rank_starcount(15,220);
+                if (p_rank_true) {
+                    print_p_rank_starcount(15,220);
+                }
             gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
         }
 

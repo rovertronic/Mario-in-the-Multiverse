@@ -88,7 +88,10 @@ void bhv_escape_collect_star_loop(void) {
         cond = (pizza_time);
     } else {
         // p rank mode
-        cond = (pizza_time && p_rank_lap_2 && p_rank_stars >= 5);
+        cond = (pizza_time && p_rank_lap_2);
+        if (p_rank_true) {
+            cond = (pizza_time && p_rank_lap_2 && p_rank_stars >= 5);
+        }
     }
 
     if (cond) {

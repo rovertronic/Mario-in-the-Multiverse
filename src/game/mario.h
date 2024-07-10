@@ -71,6 +71,7 @@ extern u8 p_rank_challenge_prepare;
 extern u8 p_rank_stars;
 extern u8 p_rank_lap_2;
 extern u8 p_rank_success;
+extern u8 p_rank_true;
 extern u8 magic_mirror_disable;
 
 extern s8 esa_hp;

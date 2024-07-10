@@ -6792,7 +6792,7 @@ const BehaviorScript bhvAcage[] = {
 
 const BehaviorScript bhvConcreteBlock[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST | OBJ_FLAG_E__SG_COLLISION_BREAKABLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_E__SG_COLLISION_BREAKABLE)),
     LOAD_COLLISION_DATA(concrete_block_collision),
     SET_FLOAT(oCollisionDistance, 1000),
     CALL_NATIVE(bhv_concrete_block_init),

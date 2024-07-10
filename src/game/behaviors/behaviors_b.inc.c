@@ -49,6 +49,16 @@ void bhv_concrete_block_loop(void) {
             }
         }
     }
+    if (o->oShotByShotgun > 0) {
+        o->oShotByShotgun = 0;
+
+        if (o->oHealth > 0){
+            o->oHealth -= 1;
+        } else {
+            obj_explode_and_spawn_coins(46.0f, COIN_TYPE_YELLOW);
+            create_sound_spawner(SOUND_GENERAL_WALL_EXPLOSION);
+        }
+    }
     o->oInteractStatus = INT_STATUS_NONE;
 }
 

@@ -8239,6 +8239,8 @@ sound_ref .sound_level_e_gun_guy_roaming
 sound_ref .sound_level_e_gun_guy_damage
 sound_ref .sound_level_e_gun_guy_death
 
+sound_ref .sound_level_c_bell
+
 .sound_level_x_0:
 chan_setbank 12
 chan_setinstr 0
@@ -8615,6 +8617,20 @@ layer_note1 39, 0x7f, 127
 layer_end
 
 //End Pokemon
+
+//-----START LEVEL C-----//
+
+.sound_level_c_bell:
+chan_setbank 12
+chan_setinstr 56
+chan_setlayer 0, .layer_level_c_bell
+chan_end
+
+    .layer_level_c_bell:
+    layer_note1 39, 0xEF, 127
+    layer_end
+
+//End level C
 
 //-----START LEVEL I-----//
 

@@ -47,6 +47,8 @@ const LevelScript level_c_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_INK_MOVING_PLATFORM, ink_moving_platform_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_PAINT_BULLET, paint_bullet_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_OCTOZEPPLIN, octozepplin_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_JELLY_FISH, jelly_fish_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_OCTOBA, octoba_geo),
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -88,6 +90,9 @@ const LevelScript level_c_entry[] = {
 		OBJECT(MODEL_TARGET_BOX, 3192, 2039, 9293, 0, 0, 0, (1), bhvHiddenObject),
 		OBJECT(MODEL_TARGET_BOX, 2322, 2039, 9293, 0, 0, 0, 0x00000000, bhvHiddenObject),
 		OBJECT(MODEL_INK_MOVING_PLATFORM, -689, 1768, -7505, 0, 0, 0, 0x00000000, bhvInkMovingPlatform),
+		OBJECT(MODEL_JELLY_FISH, 1589, 2133, 2044, 0, -52, 0, (1 << 16), bhvJellyFish),
+		OBJECT(MODEL_JELLY_FISH, 4706, 4575, -4560, 0, 109, 0, (3 << 16), bhvJellyFish),
+		OBJECT(MODEL_JELLY_FISH, 7048, 3848, 7762, 0, 51, 0, (2 << 16), bhvJellyFish),
 		OBJECT(MODEL_NONE, -1254, 1948, 6701, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, -1254, 2448, 6701, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_OCTOBALL, 978, 1568, -2072, 0, 0, 0, 0x00000000, bhvOctoball),

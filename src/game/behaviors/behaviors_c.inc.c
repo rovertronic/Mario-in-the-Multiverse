@@ -7,6 +7,8 @@ static void spawn_multiple_enemies(const BehaviorScript *behavior, ModelID32 mod
     u8 i;
     for (i = 0; i < amount; i++) {
         struct Object *obj = spawn_object_relative(0, random_signed_value(1500.0f), 0, random_signed_value(1500.0f), o, modelId, behavior);
+        obj_scale(obj, 2.0f);
+        obj->oGraphYOffset = 15;
         SET_BPARAM1(obj->oBehParams, 3);
         if(obj_has_behavior(obj, bhvOctoball)) {
             obj->oOctoballCantRespawn = TRUE;
@@ -19,7 +21,8 @@ void bhv_fight_waves_manager_loop(void) {
     switch(o->oAction){
         case 0: //wait for mario
             if(o->oDistanceToMario < 2000){
-                spawn_multiple_enemies(bhvGoomba, MODEL_GOOMBA, 5);
+                spawn_multiple_enemies(bhvGoomba, MODEL_OCTOBA, 5);
+                play_sound(SOUND_MITM_LEVEL_C_BELL, gGlobalSoundSource);
                 o->oAction++;
             }
             break;
@@ -458,4 +461,66 @@ void bhv_octozepplin_loop(void) {
 
     o->oF8++;
 
+}
+
+#include "include/dialog_ids.h"
+
+//----------------------JELLYFISH----------------------//
+
+void jelly_fish_act_talk(void) {
+    if (set_mario_npc_dialog(MARIO_DIALOG_LOOK_FRONT) == MARIO_DIALOG_STATUS_SPEAK) {
+        o->activeFlags |= ACTIVE_FLAG_INITIATED_TIME_STOP;
+
+        s32 dialogID = DIALOG_C_JELLY_GIBBERISH;
+        if(using_ability(ABILITY_SQUID)) {
+            switch(o->oBehParams2ndByte) {
+                case 1 : dialogID = DIALOG_C_JELLY_PAINT_GUN; break;
+                case 2 : dialogID = DIALOG_C_JELLY_CRANE; break;
+                case 3 : dialogID = DIALOG_C_JELLY_TOWER; break;
+                default : dialogID = DIALOG_C_JELLY_GIBBERISH;
+            }
+        }
+
+        if (cutscene_object_with_dialog(CUTSCENE_DIALOG, o, dialogID)
+            != BOBOMB_BUDDY_BP_STYPE_GENERIC) {
+            set_mario_npc_dialog(MARIO_DIALOG_STOP);
+
+            o->activeFlags &= ~ACTIVE_FLAG_INITIATED_TIME_STOP;
+            o->oBobombBuddyHasTalkedToMario = BOBOMB_BUDDY_HAS_TALKED;
+            o->oInteractStatus = INT_STATUS_NONE;
+            o->oAction = BOBOMB_BUDDY_ACT_IDLE;
+        }
+    }
+}
+
+void bhv_jelly_fish_loop(void) {
+    switch (o->oAction) {
+        case BOBOMB_BUDDY_ACT_IDLE:
+            if (o->oDistanceToMario < 1000.0f) {
+                o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, o->oAngleToMario, 0x140);
+            }
+
+            if (o->oInteractStatus == INT_STATUS_INTERACTED) {
+                o->oAction = BOBOMB_BUDDY_ACT_TURN_TO_TALK;
+            }
+            break;
+
+        case BOBOMB_BUDDY_ACT_TURN_TO_TALK:
+            o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, o->oAngleToMario, 0x1000);
+
+            if ((s16) o->oMoveAngleYaw == (s16) o->oAngleToMario) {
+                o->oAction = BOBOMB_BUDDY_ACT_TALK;
+            }
+
+            cur_obj_play_sound_2(SOUND_ACTION_READ_SIGN);
+            break;
+
+        case BOBOMB_BUDDY_ACT_TALK:
+            jelly_fish_act_talk();
+            break;
+    }
+
+    set_object_visibility(o, 3000);
+
+    o->oInteractStatus = INT_STATUS_NONE;
 }

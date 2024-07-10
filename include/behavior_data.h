@@ -620,6 +620,7 @@ extern const BehaviorScript bhvTargetBox[];
 extern const BehaviorScript bhvFlag[];
 extern const BehaviorScript bhvInkMovingPlatform[];
 extern const BehaviorScript bhvOctozepplin[];
+extern const BehaviorScript bhvJellyFish[];
 /* GROUP C END */
 
 /* GROUP D START */

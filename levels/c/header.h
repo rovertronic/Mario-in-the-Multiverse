@@ -45,4 +45,10 @@ extern const LevelScript level_c_entry[];
 
 #include "levels/c/octozepplin/geo_header.h"
 
+#include "levels/c/jelly_fish/geo_header.h"
+
+#include "levels/c/jelly_fish/anim_header.h"
+
+#include "levels/c/octoba/geo_header.h"
+
 #endif

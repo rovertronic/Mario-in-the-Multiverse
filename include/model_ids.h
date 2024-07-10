@@ -673,6 +673,8 @@ enum GLOBAL_MODELS {
 #define MODEL_INK_MOVING_PLATFORM   0x41 //ink_moving_platform_geo
 #define MODEL_PAINT_BULLET          0x42 //ink_paint_bullet_geo
 #define MODEL_OCTOZEPPLIN           0x43 //octozepplin_geo
+#define MODEL_JELLY_FISH            0x44 //jelly_fish_geo
+#define MODEL_OCTOBA                0x45 //octoba_geo
 /* LEVEL C END */
 
 /* LEVEL D START */

@@ -555,6 +555,9 @@ s32 act_double_jump(struct MarioState *m) {
 
 s32 act_triple_jump(struct MarioState *m) {
     e__fire_shotgun_air();//--E SG
+    if (BUBBLE_HAT_CONDITION) {
+        return set_mario_action(m, ACT_BUBBLE_HAT_JUMP, 0);
+    }
     if (check_dashboost_inputs(m)) {
         return FALSE;
     }
@@ -695,6 +698,12 @@ s32 act_cutter_throw_air(struct MarioState *m) {
 
 s32 act_backflip(struct MarioState *m) {
     e__fire_shotgun_air();//--E SG
+    if (BUBBLE_HAT_CONDITION) {
+        return set_mario_action(m, ACT_BUBBLE_HAT_JUMP, 0);
+    }
+    if (check_dashboost_inputs(m)) {
+        return FALSE;
+    }
 
     if (BUBBLE_HAT_CONDITION) {
         return set_mario_action(m, ACT_BUBBLE_HAT_JUMP, 0);
@@ -909,6 +918,9 @@ s32 act_long_jump(struct MarioState *m) {
     e__fire_shotgun_air();//--E SG
     if (check_dashboost_inputs(m)) {
         return FALSE;
+    }
+    if (BUBBLE_HAT_CONDITION) {
+        return set_mario_action(m, ACT_BUBBLE_HAT_JUMP, 0);
     }
 
     s32 animation;
@@ -1970,6 +1982,9 @@ s32 act_jump_kick(struct MarioState *m) {
     e__fire_shotgun_air();//--E SG
     if (check_dashboost_inputs(m)) {
         return FALSE;
+    }
+    if (BUBBLE_HAT_CONDITION) {
+        return set_mario_action(m, ACT_BUBBLE_HAT_JUMP, 0);
     }
 
     if (m->actionState == ACT_STATE_JUMP_KICK_PLAY_SOUND_AND_ANIM) {

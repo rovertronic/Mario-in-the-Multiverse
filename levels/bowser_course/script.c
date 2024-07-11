@@ -52,8 +52,6 @@ const LevelScript level_bowser_course_entry[] = {
 		WARP_NODE(3/*fout1*/, LEVEL_BOWSER_COURSE, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(4/*fin2*/, LEVEL_BOWSER_COURSE, 0x01, 0x05, WARP_NO_CHECKPOINT),
 		WARP_NODE(5/*fout2*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(6/*boss*/, LEVEL_G, 0x05, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(7, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_ABILITY_SIGN, 9695, 1580, 7543, 0, -32, 0, (ABILITY_KNIGHT << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, 4106, 2004, -915, 0, 150, 0, (ABILITY_BUBBLE_HAT << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, -6519, -362, 4030, 0, 50, 0, (ABILITY_AKU << 16), bhvStaticObject),
@@ -83,7 +81,6 @@ const LevelScript level_bowser_course_entry[] = {
 		OBJECT(MODEL_CHECKPOINT_FLAG, -1595, 10782, -9401, 0, -90, 0, (3 << 16), bhvCheckpointFlag),
 		OBJECT(MODEL_CHECKPOINT_FLAG, 4608, 16266, -5221, 0, -180, 0, (4 << 16), bhvCheckpointFlag),
 		OBJECT(MODEL_NONE, 9416, 1401, 12516, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
-		OBJECT(MODEL_NONE, 3408, 17741, 9164, 0, -180, 0, (7/*bosdeth*/ << 16), bhvDeathWarp),
 		OBJECT(MODEL_EXCLAMATION_BOX, 9416, 451, -6219, 0, 0, 0, (5 << 16), bhvExclamationBox),
 		OBJECT(MODEL_EXCLAMATION_BOX, 731, 11082, -8252, 0, 0, 0, (5 << 16), bhvExclamationBox),
 		OBJECT(MODEL_EXCLAMATION_BOX, 2360, 1550, -6884, 0, 0, 0, (5 << 16), bhvExclamationBox),
@@ -93,7 +90,6 @@ const LevelScript level_bowser_course_entry[] = {
 		OBJECT(MODEL_NONE, 9416, 2039, 7988, 0, -180, 0, (3 << 16), bhvFadingWarp),
 		OBJECT(MODEL_NONE, -5981, -330, 4715, 0, 0, 0, (4 << 16), bhvFadingWarp),
 		OBJECT(MODEL_NONE, 4308, 2465, -1058, 0, 0, 0, (5 << 16), bhvFadingWarp),
-		OBJECT(MODEL_NONE, 3408, 17640, 10126, 0, 0, 0, (6 << 16), bhvFadingWarp),
 		OBJECT(MODEL_NONE, 7428, -181, -9131, 0, 90, 0, 0x00000000, bhvFlamethrower),
 		OBJECT(MODEL_NONE, 3018, 1122, -6449, 0, -180, 0, 0x00000000, bhvFlamethrower),
 		OBJECT(MODEL_NONE, 8813, 1558, 9433, 0, 90, 0, 0x00000000, bhvFlamethrower),
@@ -192,7 +188,7 @@ const LevelScript level_bowser_course_entry[] = {
 		OBJECT(MODEL_BC_WADDLE_DEE, -6043, -362, 4213, 0, -90, 0, 0x00000000, bhvBcWaddleDee),
 		TERRAIN(bowser_course_area_1_collision),
 		MACRO_OBJECTS(bowser_course_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_FLANDRE),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_BC),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

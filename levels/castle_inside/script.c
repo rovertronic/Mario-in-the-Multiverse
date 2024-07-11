@@ -133,7 +133,7 @@ const LevelScript level_castle_inside_entry[] = {
 		OBJECT(MODEL_NONE, 5578, 3192, 5308, 0, 133, 0, (35 << 16), bhvWarp),
 		TERRAIN(castle_inside_area_1_collision),
 		MACRO_OBJECTS(castle_inside_area_1_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_HUB),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

@@ -253,5 +253,11 @@
     ],
     "4D_flandre": [
         "flandre"
+    ],
+    "4E_hub": [
+        "0E_extended_bank"
+    ],
+    "4F_bc": [
+        "0E_extended_bank"
     ]
 }

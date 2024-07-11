@@ -88,6 +88,8 @@ enum SeqId {
     SEQ_C_SEA_ME_NOW,
     SEQ_C9,  // 0x4C
     SEQ_FLANDRE,  // 0x4D
+    SEQ_HUB,
+    SEQ_BC,
     SEQ_COUNT,
 };
 

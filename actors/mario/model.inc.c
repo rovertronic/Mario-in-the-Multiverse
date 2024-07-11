@@ -356,7 +356,7 @@ const Gfx mario_butt_dl[] = {
 // 0x0400CC98 - 0x0400CCC8
 const Gfx mario_butt[] = {
     gsDPPipeSync(),
-    gsDPSetEnvColor(255, 255, 255, 128),
+    //gsDPSetEnvColor(255, 255, 255, 128),
     gsDPSetCombineMode(G_CC_SHADEFADEA, G_CC_SHADEFADEA),
     gsSPLightColor(LIGHT_1, 0xffff),
     gsSPLightColor(LIGHT_2, 0x7fff),

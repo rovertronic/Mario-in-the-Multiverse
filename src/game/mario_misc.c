@@ -528,10 +528,6 @@ Gfx *geo_switch_mario_cap_effect(s32 callContext, struct GraphNode *node, UNUSED
             switchCase->selectedCase = 4;
         }
     }
-
-    if (phasewalk_state > 0) {
-        switchCase->selectedCase = 1;
-    }
     return NULL;
 }
 

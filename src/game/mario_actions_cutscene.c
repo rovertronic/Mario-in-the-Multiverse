@@ -1780,12 +1780,12 @@ s32 act_e_doom_death(struct MarioState *m) {
 		gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_MARIO];
     }
 
-    if (++m->actionTimer >= 35) {
+    if (++m->actionTimer >= 65) {
         if (m->actionState == 0) {
-            if (m->input & INPUT_A_PRESSED) {
+            //-if (m->input & INPUT_A_PRESSED) {
                 m->actionState = 1;
                 level_trigger_warp(m, WARP_OP_DEATH);
-            }
+            //-}
         }
     } else {
         m->faceAngle[1] = calculate_yaw(gLakituState.focus, gLakituState.pos) - DEGREES(38);

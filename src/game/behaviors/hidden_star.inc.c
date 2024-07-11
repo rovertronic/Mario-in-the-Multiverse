@@ -60,7 +60,17 @@ void bhv_gco_star_loop(void) {
 }
 
 void bhv_hidden_star_trigger_loop(void) {
-    if (obj_check_if_collided_with_object(o, gMarioObject)) {
+    u8 spongebob_condition = FALSE;
+    if (gCurrLevelNum == LEVEL_A) {
+        // this hardcoding is pretty awful, but it's the easiest course of action
+        struct Object * nearest_conc = cur_obj_nearest_object_with_behavior(bhvConcreteBlock);
+        spongebob_condition = TRUE;
+        if (nearest_conc && dist_between_objects(o,nearest_conc) < 100.0f) {
+            spongebob_condition = FALSE;
+        }
+    }
+
+    if (obj_check_if_collided_with_object(o, gMarioObject)||spongebob_condition) {
         struct Object *hiddenStar = cur_obj_nearest_object_with_behavior(bhvHiddenStar);
 
         if (hiddenStar != NULL) {

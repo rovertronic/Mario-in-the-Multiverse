@@ -378,11 +378,12 @@ void trampoline_loop(void)
 
     if (gMarioObject->platform == o)
     {
+        cur_obj_play_sound_2(SOUND_OBJ_WATER_BOMB_BOUNCING);
         o->oAction = 1;
         gMarioState->vel[1] = yVel;
         gMarioState->faceAngle[1] = gMarioState->intendedYaw;
         gMarioState->forwardVel = fVel;
-        return set_mario_action(gMarioState, ACT_SPECIAL_TRIPLE_JUMP, 0);
+        return set_mario_action(gMarioState, ACT_TWIRLING, 0);
     } else if (o->oTimer >= 45)
     {
         o->oAction = 0;

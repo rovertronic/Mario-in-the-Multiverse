@@ -1422,6 +1422,7 @@ void update_mario_geometry_inputs(struct MarioState *m) {
         }
         
     } else {
+        check_water_height = -10000;
         m->waterLevel = find_water_level(m->pos[0], m->pos[2]);
         bd_submerged = FALSE;
         have_splashed = FALSE;
@@ -1893,6 +1894,7 @@ u8 p_rank_challenge_prepare = FALSE;
 u8 p_rank_lap_2 = FALSE;
 u8 p_rank_stars = 0;
 u8 p_rank_success = FALSE;
+u8 p_rank_true = FALSE;
 
 u8 magic_mirror_timer = 20;
 u8 magic_mirror_area_change_flag = FALSE;
@@ -1945,7 +1947,9 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     //combo meter logic
     if ((p_rank_challenge_enabled) && ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
         if (combo_meter > 0) {
-            combo_meter--;
+            if ((gGlobalTimer % 2 == 0)||(p_rank_true)) {
+                combo_meter--;
+            }
         } else {
             if (gMarioState->action != ACT_DISAPPEARED) {
                 set_mario_action(gMarioState, ACT_DISAPPEARED, 1);
@@ -2052,7 +2056,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                     gE_ShotgunFlags &= ~E_SGF_AIR_SHOT_USED; }
             }
         }
-        if (gCurrLevelNum == LEVEL_E) {//--C9
+        if ((gCurrLevelNum == LEVEL_E) && !(obj_has_model(gMarioObject, MODEL_SQUID))) {//--C9
             if ((gGlobalTimer % 3) == 0) {
                 gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
             }

@@ -1422,6 +1422,7 @@ void update_mario_geometry_inputs(struct MarioState *m) {
         }
         
     } else {
+        check_water_height = -10000;
         m->waterLevel = find_water_level(m->pos[0], m->pos[2]);
         bd_submerged = FALSE;
         have_splashed = FALSE;

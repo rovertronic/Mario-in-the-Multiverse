@@ -10,6 +10,7 @@
 #include "external.h"
 #include "game/level_update.h"
 #include "game/ability.h"
+#include "include/seq_ids.h"
 
 void note_set_resampling_rate(struct Note *note, f32 resamplingRateInput);
 
@@ -594,7 +595,7 @@ void process_notes(void) {
                 pan = note->parentLayer->notePan;
                 reverbVol = note->parentLayer->seqChannel->reverbVol;
                 // ADD TO SECTION TO BE ABLE TO PAUSE A STREAMED AUDIO
-                if( sCurrPlayMode == PLAY_MODE_PAUSED && note->bankId == 40 /* funky_shell_soundbank */) {
+                if(sCurrPlayMode == PLAY_MODE_PAUSED && note->parentLayer->seqChannel->seqPlayer->seqId == SEQ_FUNKY_SHELL) {
                     frequency *= 0;
                 }
             }

@@ -32,3 +32,7 @@
 #include "levels/c/ink_moving_platform/collision.inc.c"
 #include "levels/c/paint_bullet/model.inc.c"
 #include "levels/c/octozepplin/model.inc.c"
+#include "levels/c/jelly_fish/model.inc.c"
+#include "levels/c/jelly_fish/anims/data.inc.c"
+#include "levels/c/jelly_fish/anims/table.inc.c"
+#include "levels/c/octoba/model.inc.c"

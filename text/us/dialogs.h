@@ -281,6 +281,30 @@ like it can transport you\n\
 somewhere else. I'll let\n\
 you go ahead of Mario."))
 
+DEFINE_DIALOG(DIALOG_C_JELLY_GIBBERISH, 1, 6, 95, 190, _("\
+Nishentop Splatosag\n\
+kelobtem Gabrin karoklimik\n\
+bet gim demottem net\n\
+getunosentem bernotlimik\n\
+bet kagib lewidyoh.\n\
+(incomprehensible gibberfish)"))
+
+DEFINE_DIALOG(DIALOG_C_JELLY_PAINT_GUN, 1, 3, 95, 190, _("\
+These Splattershot gun\n\
+are quite aggresive,\n\
+but not invincible!"))
+
+DEFINE_DIALOG(DIALOG_C_JELLY_CRANE, 1, 3, 95, 190, _("\
+I love cranes! especially\n\
+when they're gigantic and\n\
+crush stone so easily!"))
+
+DEFINE_DIALOG(DIALOG_C_JELLY_TOWER, 1, 4, 95, 190, _("\
+I like you better\n\
+without the mask and\n\
+that blue thing on\n\
+your head."))
+
 DEFINE_DIALOG(DIALOG_N_HAMSTERBALL, 1, 6, 95, 190, _("\
 There are 7 different\n\
 linear courses that you\n\

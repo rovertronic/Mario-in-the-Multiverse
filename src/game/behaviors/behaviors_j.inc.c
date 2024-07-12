@@ -48,6 +48,10 @@ void bhv_dragonite_init(void){
         cur_obj_init_animation(0);
     } else if (o->oBehParams2ndByte == 1){
         ///IF (1), DESPAWN IF YOU HAVE THE ABILITY UNLOCKED
+        if (save_file_check_ability_unlocked(ABILITY_HM_FLY)) {
+            obj_mark_for_deletion(o);
+            return;
+        }
         o->oAction = DRAGONITE_ACT_RESTING;
         obj_scale_xyz(o, 0.8f,0.8f,0.8f);
         obj_set_hitbox(o, &sDragoniteHitbox);
@@ -55,6 +59,11 @@ void bhv_dragonite_init(void){
         o->oGraphYOffset = 20.0f;
     } else {
         ///ALSO DESPAWN DRAGONITE HERE IF YOU HAVE THE ABILITY UNLOCKED, OTHERWISE RUN THE CUTSCENE
+        if (save_file_check_ability_unlocked(ABILITY_HM_FLY)) {
+            obj_mark_for_deletion(o);
+            return;
+        }
+
         cur_obj_init_animation(0);
         o->oAction = DRAGONITE_ACT_CUTSCENE;
         cutscene_object(CUTSCENE_DRAGONITE, o);
@@ -188,8 +197,16 @@ void bhv_dragonite_loop(void){
 void bhv_berry_loop(void){
     f32 dist;
     struct Object *DragoniteObj = cur_obj_find_nearest_object_with_behavior(bhvDragonite, &dist);
+    if (!DragoniteObj) {
+        cur_obj_hide();
+        return;
+    } else {
+        cur_obj_unhide();
+    }
+
     switch(o->oHeldState) {
         case HELD_FREE:
+        object_step();
         break;
         case HELD_HELD:
         cur_obj_unrender_set_action_and_anim(0, 0);
@@ -197,9 +214,11 @@ void bhv_berry_loop(void){
         break;
         case HELD_THROWN:
         cur_obj_get_thrown_or_placed(10.0f, 10.0f, 0);
+        object_step();
         break;
         case HELD_DROPPED:
         cur_obj_get_dropped();
+        object_step();
         break;
     }
 

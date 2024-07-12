@@ -247,18 +247,19 @@ void bhv_paint_gun_loop(void) {
                         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
                             o->oSubAction++;
                             obj_set_model(gMarioObject, MODEL_NONE);
+                            o->oTimer = 0;
                         }
                     }
                     break;
                 case 3: // Mario controls it
                     shock_rocket_stick_control();
-                    set_mario_npc_dialog(MARIO_DIALOG_LOOK_FRONT);
+                    set_mario_action(gMarioState,ACT_CUTSCENE_CONTROLLED,0);
                     gMarioState->usedObj = o;
                     gLakituState.mode = CAMERA_MODE_PAINT_GUN;
                     if (gPlayer1Controller->buttonPressed & A_BUTTON) {
                         shoot();
                     } else if (gPlayer1Controller->buttonPressed & B_BUTTON) {
-                        set_mario_npc_dialog(MARIO_DIALOG_STOP);
+                        set_mario_action(gMarioState,ACT_IDLE,0);
                         gMarioState->usedObj = NULL;
                         gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
                         gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];

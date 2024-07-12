@@ -30,3 +30,5 @@
 #include "levels/c/ink_moving_platform/geo.inc.c"
 #include "levels/c/paint_bullet/geo.inc.c"
 #include "levels/c/octozepplin/geo.inc.c"
+#include "levels/c/jelly_fish/geo.inc.c"
+#include "levels/c/octoba/geo.inc.c"

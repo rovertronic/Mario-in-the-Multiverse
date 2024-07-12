@@ -289,7 +289,13 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "level_e_gun_guy_death"
+        },
+        "inst_level_c_bell": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_c_bell"
         }
+		
     },
     "instrument_list": [
         "inst_level_X_0",
@@ -355,6 +361,8 @@
         "inst_level_e_gun_guy_alert2",
         "inst_level_e_gun_guy_roaming",
         "inst_level_e_gun_guy_damage",
-        "inst_level_e_gun_guy_death"
+        "inst_level_e_gun_guy_death",
+		
+		"inst_level_c_bell"
     ]
 }

@@ -204,6 +204,7 @@ void bhv_berry_loop(void){
         cur_obj_unhide();
     }
 
+    cur_obj_update_floor_and_walls();
     switch(o->oHeldState) {
         case HELD_FREE:
         object_step();

@@ -197,16 +197,14 @@ void bhv_dragonite_loop(void){
 void bhv_berry_loop(void){
     f32 dist;
     struct Object *DragoniteObj = cur_obj_find_nearest_object_with_behavior(bhvDragonite, &dist);
-    if (!DragoniteObj) {
-        cur_obj_hide();
-        return;
-    } else {
-        cur_obj_unhide();
-    }
 
-    cur_obj_update_floor_and_walls();
+    o->oGravity = 2.5f;
+    o->oFriction = 0.8f;
+    o->oBuoyancy = 1.3f;
+
     switch(o->oHeldState) {
         case HELD_FREE:
+        cur_obj_update_floor_and_walls();
         object_step();
         break;
         case HELD_HELD:
@@ -215,15 +213,17 @@ void bhv_berry_loop(void){
         break;
         case HELD_THROWN:
         cur_obj_get_thrown_or_placed(10.0f, 10.0f, 0);
+        cur_obj_update_floor_and_walls();
         object_step();
         break;
         case HELD_DROPPED:
         cur_obj_get_dropped();
+        cur_obj_update_floor_and_walls();
         object_step();
         break;
     }
 
-    if (DragoniteObj->oAction == DRAGONITE_ACT_DESPAWNING){
+    if (DragoniteObj && DragoniteObj->oAction == DRAGONITE_ACT_DESPAWNING){
         gMarioState->action = ACT_IDLE;
         o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
     }

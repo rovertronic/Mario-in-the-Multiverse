@@ -2776,11 +2776,18 @@ void mode_shock_rocket_camera(struct Camera *c) {
     s16 pitch = rocket->oMoveAnglePitch;
     f32 cossPitch = coss(pitch);
     u32 camDecrement;
-    if(rocket->oAction != 1){
-        camDecrement = 150;
-    } else {
-        camDecrement = 100;
+    switch(rocket->oAction) {
+        case SHOCK_ROCKET_ACT_ARMED :
+            camDecrement = 150; //aiming zoom
+            break;
+        case SHOCK_ROCKET_ACT_MOVE : 
+            camDecrement = 100; //moving zoom
+            break;
+        case SHOCK_ROCKET_ACT_WAIT_BEFORE_QUITING :
+            camDecrement = 400; //quiting zoom
+            break;
     }
+    
     Vec3f camOffset = {
         (sins(yaw) * cossPitch) * ((rocket->oForwardVel * ability_chronos_current_slow_factor()) - camDecrement),
         (sins(pitch)) * ((rocket->oForwardVel * ability_chronos_current_slow_factor()) + camDecrement),
@@ -8442,6 +8449,85 @@ void cutscene_dragonite_end(struct Camera *c) {
     c->cutscene = 0;
 }
 
+// LEVEL I Cutscene START
+
+void cutscene_bounty_hunter_toad_focus(struct Camera *c){
+    Vec3f toadPos;
+
+    if (gCutsceneFocus != NULL) {
+        object_pos_to_vec3f(toadPos, gCutsceneFocus);
+        vec3f_copy(c->focus, toadPos);
+    }
+}
+
+void cutscene_bounty_hunter_toad_start(struct Camera *c) {
+    vec3f_set(c->pos, -5719.f, 1526.f, 13877.f);
+    cutscene_event(cutscene_bounty_hunter_toad_focus, c, 0, -1);
+
+    if (gObjCutsceneDone) {
+        gCutsceneTimer = CUTSCENE_LOOP;
+        transition_next_state(c, 1);
+    }
+}
+
+void cutscene_bounty_hunter_toad_end(struct Camera *c) {
+    gCutsceneTimer = CUTSCENE_STOP;
+    c->cutscene = 0;
+}
+
+void cutscene_shock_rocket_challenge_focus(struct Camera *c){
+    Vec3f grillPos;
+
+    if (gCutsceneFocus != NULL) {
+        object_pos_to_vec3f(grillPos, gCutsceneFocus);
+        vec3f_copy(c->focus, grillPos);
+    }
+}
+
+void cutscene_shock_rocket_challenge_start(struct Camera *c) {
+    vec3f_set(c->pos, 1835.f, 2609.f, 1164.f);
+    cutscene_event(cutscene_shock_rocket_challenge_focus, c, 0, -1);
+
+    if (gObjCutsceneDone) {
+        gCutsceneTimer = CUTSCENE_LOOP;
+        transition_next_state(c, 1);
+    }
+}
+
+void cutscene_shock_rocket_challenge_end(struct Camera *c) {
+    gCutsceneTimer = CUTSCENE_STOP;
+    c->cutscene = 0;
+}
+
+void cutscene_master_kaag_focus(struct Camera *c){
+    Vec3f masterKaagPos;
+    Vec3f correctedMasterKaagPos;
+
+    if (gCutsceneFocus != NULL) {
+        object_pos_to_vec3f(masterKaagPos, gCutsceneFocus);
+        vec3f_copy_y_off(correctedMasterKaagPos, masterKaagPos, 600);
+        vec3f_copy(c->focus, correctedMasterKaagPos);
+    }
+}
+
+void cutscene_master_kaag_start(struct Camera *c) {
+    vec3f_set(c->pos, -548.f, 176.f, 988.f);
+    cutscene_event(cutscene_master_kaag_focus, c, 0, -1);
+    sStatusFlags |= CAM_FLAG_SMOOTH_MOVEMENT;
+
+    if (gObjCutsceneDone) {
+        gCutsceneTimer = CUTSCENE_LOOP;
+        transition_next_state(c, 1);
+    }
+}
+
+void cutscene_master_kaag_end(struct Camera *c) {
+    gCutsceneTimer = CUTSCENE_STOP;
+    c->cutscene = 0;
+}
+
+// LEVEL I Cutscene END
+
 void cutscene_exit_waterfall_warp(struct Camera *c) {
     //! hardcoded position
     vec3f_set(c->pos, -3899.f, 39.f, -5671.f);
@@ -10794,6 +10880,33 @@ struct Cutscene sCutsceneDragonite[] = {
     { cutscene_dragonite_end, 0 }
 };
 
+/*
+    All hoodlum killed, focus on the toad
+*/
+
+struct Cutscene sCutsceneBountyHunterToad[] = {
+    { cutscene_bounty_hunter_toad_start, 70},
+    { cutscene_bounty_hunter_toad_end, 0 }
+};
+
+/*
+    Shock rocket tutorial area
+*/
+
+struct Cutscene sCutsceneShockRocketChallenge[] = {
+    { cutscene_shock_rocket_challenge_start, 70},
+    { cutscene_shock_rocket_challenge_end, 0 }
+};
+
+/*
+    Master Kaag boss intro
+*/
+
+struct Cutscene sCutsceneMasterKaag[] = {
+    { cutscene_master_kaag_start, 85},
+    { cutscene_master_kaag_end, 0 }
+};
+
 /**
  * Cutscene for the red coin star spawning. Compared to a regular star, this cutscene can warp long
  * distances.
@@ -11222,6 +11335,9 @@ void play_cutscene(struct Camera *c) {
         CUTSCENE(CUTSCENE_ENTER_PYRAMID_TOP,    sCutsceneEnterPyramidTop)
         CUTSCENE(CUTSCENE_SSL_PYRAMID_EXPLODE,  sCutscenePyramidTopExplode)
         CUTSCENE(CUTSCENE_DRAGONITE,            sCutsceneDragonite)
+        CUTSCENE(CUTSCENE_BOUNTY_HUNTER_TOAD,   sCutsceneBountyHunterToad)
+        CUTSCENE(CUTSCENE_SHOCK_ROCKET_CHALLENGE, sCutsceneShockRocketChallenge)
+        CUTSCENE(CUTSCENE_MASTER_KAAG,          sCutsceneMasterKaag)
     }
 
 #undef CUTSCENE

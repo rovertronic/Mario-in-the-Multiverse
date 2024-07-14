@@ -12,6 +12,18 @@ static struct ObjectHitbox sCollectStarHitbox = {
     /* hurtboxHeight:     */ 0,
 };
 
+static struct ObjectHitbox sCollectFunkyShellStarHitbox = {
+    /* interactType:      */ INTERACT_STAR_OR_KEY,
+    /* downOffset:        */ 200,
+    /* damageOrCoinValue: */ 0,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 80,
+    /* height:            */ 500,
+    /* hurtboxRadius:     */ 0,
+    /* hurtboxHeight:     */ 0,
+};
+
 void bhv_collect_star_init(void) {
     u8 starId = GET_BPARAM1(o->oBehParams);
 #ifdef GLOBAL_STAR_IDS
@@ -26,7 +38,11 @@ void bhv_collect_star_init(void) {
         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_STAR];
     }
 
-    obj_set_hitbox(o, &sCollectStarHitbox);
+    if(gCurrLevelNum == LEVEL_I && gCurrAreaIndex == 4) {
+        obj_set_hitbox(o, &sCollectFunkyShellStarHitbox);
+    } else {
+        obj_set_hitbox(o, &sCollectStarHitbox);
+    }
 }
 
 void bhv_collect_star_loop(void) {

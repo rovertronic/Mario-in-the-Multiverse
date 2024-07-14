@@ -1655,7 +1655,7 @@ void print_toad_token(s16 x, s16 y) {
     u8 textSymSeparator[] = { GLYPH_SLASH, GLYPH_SPACE };
 
     if (gRedCoinsCollected != 0) {
-        print_hud_lut_string(HUD_LUT_GLOBAL, x +  0, y, textSymStar);
+        print_hud_lut_string(HUD_LUT_GLOBAL, x -  3, y, textSymStar);
         int_to_str(gRedCoinsCollected, strToadCount);
         print_hud_lut_string(HUD_LUT_GLOBAL, x + 16, y, strToadCount);
         print_hud_lut_string(HUD_LUT_GLOBAL, x + 32, y, textSymSeparator);

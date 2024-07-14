@@ -7831,6 +7831,7 @@ const BehaviorScript bhvBountyHunterToad[] = {
     SET_INTERACT_TYPE(INTERACT_TEXT),
     SET_HITBOX(/*Radius*/ 80, /*Height*/ 100),
     SET_INT(oIntangibleTimer, 0),
+    SET_FLOAT(oDrawingDistance, 32000),
     CALL_NATIVE(bhv_init_room),
     CALL_NATIVE(bhv_bounty_hunter_toad_init),
     BEGIN_LOOP(),

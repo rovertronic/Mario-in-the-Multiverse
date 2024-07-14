@@ -15,7 +15,7 @@ void master_kaag_act_inactive(void) { // act 0
         o->oObjF4 = spawn_object_relative(0, 0, WEAKPOINT_OFFSET, 0, o, MODEL_NONE, bhvMasterKaagWeakPoint);
         seq_player_unlower_volume(SEQ_PLAYER_LEVEL, 60);
         play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_MASTER_KAAG_BOSS), 0);
-        //gLakituState.mode = CAMERA_MODE_BOSS_FIGHT;
+        cutscene_object(CUTSCENE_MASTER_KAAG, o);
         o->oAction = MASTER_KAAG_ACT_START;
     }
 }

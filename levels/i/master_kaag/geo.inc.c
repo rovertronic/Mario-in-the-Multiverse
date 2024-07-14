@@ -42,7 +42,6 @@ const GeoLayout master_kaag_geo[] = {
 				GEO_ANIMATED_PART(LAYER_OPAQUE, 0, -173, 0, master_kaag_body_mesh_layer_1),
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, master_kaag_material_revert_render_settings),
 	GEO_CLOSE_NODE(),
 	GEO_END(),
 };

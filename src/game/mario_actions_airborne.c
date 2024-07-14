@@ -253,11 +253,19 @@ void update_air_without_turn(struct MarioState *m) {
     }
 }
 
+#define COYOTE_TIME_IN_FRAME 10
+
 void update_air_funky_shell(struct MarioState *m) {
     f32 sidewaysSpeed = 0.0f;
     f32 dragThreshold;
     s16 intendedDYaw;
     f32 intendedMag;
+
+    // COYOTE
+    // if mario is falling, press A, and the coyote time isn't over, then jump
+    if (m->action == ACT_RIDING_SHELL_FALL && m->input & INPUT_A_PRESSED && m->riddenObj->oCoyoteTimer < COYOTE_TIME_IN_FRAME) {
+            return set_mario_action(m, ACT_RIDING_SHELL_JUMP, 0);
+        }
 
     if (!check_horizontal_wind(m)) {
         dragThreshold = m->action == ACT_LONG_JUMP ? 48.0f : 32.0f;
@@ -961,12 +969,16 @@ s32 act_long_jump(struct MarioState *m) {
 s32 act_riding_shell_air(struct MarioState *m) {
     e__fire_shotgun_air();//--E SG
 
-    play_mario_sound(m, SOUND_ACTION_TERRAIN_JUMP, 0);
     set_mario_animation(m, MARIO_ANIM_JUMP_RIDING_SHELL);
 
     if(m->riddenObj != NULL && obj_has_behavior(m->riddenObj, bhvFunkyShell)){
+        // COYOTE
+        // if mario is falling start increment coyote timer (I remove jump mario sound when falling)
+        if(m->action == ACT_RIDING_SHELL_FALL) m->riddenObj->oCoyoteTimer++;
+        else play_mario_sound(m, SOUND_ACTION_TERRAIN_JUMP, 0);
         update_air_funky_shell(m);
     } else {
+        play_mario_sound(m, SOUND_ACTION_TERRAIN_JUMP, 0);
         update_air_without_turn(m);
     }
    

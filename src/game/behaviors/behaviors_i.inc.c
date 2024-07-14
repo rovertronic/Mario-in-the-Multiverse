@@ -31,7 +31,7 @@ void shock_rocket_stick_control(void){
         o->oForwardVel = 30.0f;
     }
     //CAP PITCH TO AVOID CAMERA FLIPPING
-    if (o->oMoveAnglePitch > 0x3FFC) o->oMoveAnglePitch = 0x3FFC;
+    if (o->oMoveAnglePitch > 0x3FF0) o->oMoveAnglePitch = 0x3FF0;
     if (o->oMoveAnglePitch < -0x3FF0) o->oMoveAnglePitch = -0x3FF0;
 }
 

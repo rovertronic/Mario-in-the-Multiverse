@@ -8528,6 +8528,35 @@ void cutscene_master_kaag_end(struct Camera *c) {
 
 // LEVEL I Cutscene END
 
+// LEVEL I Cutscene START
+
+void cutscene_octozepplin_focus(struct Camera *c){
+    Vec3f zepplinPos;
+
+    if (gCutsceneFocus != NULL) {
+        object_pos_to_vec3f(zepplinPos, gCutsceneFocus);
+        vec3f_copy(c->focus, zepplinPos);
+    }
+}
+
+void cutscene_octozepplin_start(struct Camera *c) {
+    vec3f_set(c->pos, -8670.f, 1731.f, 1848.f);
+    cutscene_event(cutscene_octozepplin_focus, c, 0, -1);
+    sStatusFlags |= CAM_FLAG_SMOOTH_MOVEMENT;
+
+    if (gObjCutsceneDone) {
+        gCutsceneTimer = CUTSCENE_LOOP;
+        transition_next_state(c, 1);
+    }
+}
+
+void cutscene_octozepplin_end(struct Camera *c) {
+    gCutsceneTimer = CUTSCENE_STOP;
+    c->cutscene = 0;
+}
+
+// LEVEL C Cutscene END
+
 void cutscene_exit_waterfall_warp(struct Camera *c) {
     //! hardcoded position
     vec3f_set(c->pos, -3899.f, 39.f, -5671.f);
@@ -10907,6 +10936,15 @@ struct Cutscene sCutsceneMasterKaag[] = {
     { cutscene_master_kaag_end, 0 }
 };
 
+/*
+    Octozepplin death
+*/
+
+struct Cutscene sCutsceneOctozepplinDeath[] = {
+    { cutscene_octozepplin_start, 125},
+    { cutscene_octozepplin_end, 0 }
+};
+
 /**
  * Cutscene for the red coin star spawning. Compared to a regular star, this cutscene can warp long
  * distances.
@@ -11338,6 +11376,7 @@ void play_cutscene(struct Camera *c) {
         CUTSCENE(CUTSCENE_BOUNTY_HUNTER_TOAD,   sCutsceneBountyHunterToad)
         CUTSCENE(CUTSCENE_SHOCK_ROCKET_CHALLENGE, sCutsceneShockRocketChallenge)
         CUTSCENE(CUTSCENE_MASTER_KAAG,          sCutsceneMasterKaag)
+        CUTSCENE(CUTSCENE_OCTOZEPPLIN_DEATH,    sCutsceneOctozepplinDeath)
     }
 
 #undef CUTSCENE

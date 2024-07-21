@@ -60,3 +60,4 @@
 #include "machine/geo.inc.c"
 #include "redarrow/geo.inc.c"
 #include "shopitem3/geo.inc.c"
+#include "dream_catalyst/geo.inc.c"

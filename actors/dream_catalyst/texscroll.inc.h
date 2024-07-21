@@ -1,0 +1,6 @@
+extern void scroll_dream_catalyst_rainbow_mesh_layer_5_vtx_1();
+extern void scroll_dream_catalyst_rainbow_mesh_layer_5_vtx_2();
+extern void scroll_gfx_mat_dream_catalyst_rainboo_alt_center_layer5();
+extern void scroll_gfx_mat_dream_catalyst_rainboo_layer5();
+extern void scroll_gfx_mat_dream_catalyst_rainboo_alt_001_layer5();
+extern void scroll_actor_geo_dream_catalyst();

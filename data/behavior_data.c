@@ -9023,9 +9023,6 @@ extern void bhv_credits_slab_loob(void);
 const BehaviorScript bhvCreditsSlab[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-    SET_INTERACT_TYPE(INTERACT_TEXT),
-    SET_INT(oInteractionSubtype, INT_SUBTYPE_NPC),
-    SET_HITBOX(/*Radius*/ 200, /*Height*/ 350),
     BEGIN_LOOP(),
         SET_INT(oIntangibleTimer, 0),
         CALL_NATIVE(bhv_credits_slab_loob),

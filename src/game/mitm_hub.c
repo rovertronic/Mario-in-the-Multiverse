@@ -756,21 +756,36 @@ void bhv_layton_hint_loop(void) {
 }
 
 u8 show_mitm_credits = FALSE;
+u8 mitm_credits_object_state = 0;
+s32 credits_y_offset = 0;
 
 void bhv_credits_slab_loob(void) {
     switch(o->oAction) {
-        case 0: // wait for mario interaction
-            if (o->oInteractStatus == INT_STATUS_INTERACTED) {
-                o->oAction = 1;
-                show_mitm_credits = TRUE;
-            }
-            o->oInteractStatus = 0;
+        case 0:
+            mitm_credits_object_state = 1;
+            o->oAction++;
             break;
-        case 1:
+    }
+
+    switch(mitm_credits_object_state) {
+        case 1: // wait for mario interaction
+            if ((o->oDistanceToMario < 250.0f) && (gMarioState->pos[1] < o->oPosY+5.0f)) {
+                mitm_credits_object_state = 2;
+                show_mitm_credits = TRUE;
+                credits_y_offset = 0;
+                set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
+            }
+            break;
+        case 2:
             if (gPlayer1Controller->buttonPressed & (B_BUTTON | A_BUTTON | START_BUTTON)) {
                 set_mario_action(gMarioState, ACT_IDLE, 0);
-                o->oAction = 0;
+                mitm_credits_object_state = 3;
                 show_mitm_credits = FALSE;
+            }
+            break;
+        case 3:
+            if (o->oDistanceToMario > 1000.0f ) {
+                mitm_credits_object_state = 1;
             }
             break;
     }
@@ -879,8 +894,6 @@ f32 smoothstep2(f32 edge0, f32 edge1, f32 x) {
    return x * x * (3.0f - 2.0f * x);
 }
 
-s32 credits_y_offset = 0;
-
 u8 mitm_text_colors[][3] = {
     {255, 255, 255},
     {255, 255, 0},
@@ -888,9 +901,6 @@ u8 mitm_text_colors[][3] = {
 
 void print_string_ascii_alpha(s32 x, s32 y, char *str, s32 color, s32 alpha) {
     gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
-    gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, alpha);
-    print_generic_string_ascii(x-1, y-1, (u8 *)str);
-
     gDPSetEnvColor(gDisplayListHead++, mitm_text_colors[color][0], mitm_text_colors[color][1], mitm_text_colors[color][2], alpha);
     print_generic_string_ascii(x, y, (u8 *)str);
     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
@@ -905,7 +915,9 @@ void print_mitm_credits(u8 hud_alpha) {
     s32 credits_entries = (sizeof(mitm_credits)/8);
     s32 lower_limit = (credits_entries*16) - 160;
 
-    u8 base_alpha = hud_alpha;
+    u8 base_alpha = 255;
+
+    shade_screen();
 
     credits_y_offset -= (gPlayer1Controller->rawStickY/10.0f);
     if (credits_y_offset <= 0) {

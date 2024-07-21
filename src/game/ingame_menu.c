@@ -762,12 +762,12 @@ s32 get_string_width(u8 *str) {
     return width;
 }
 
-s32 get_string_width_ascii(u8 *str) {
+s32 get_string_width_ascii(char *str) {
     s16 strPos = 0;
     s16 width = 0;
 
-    while (str[strPos] != DIALOG_CHAR_TERMINATOR) {
-        width += gDialogCharWidths[ascii_lut[str[strPos]]];
+    while (str[strPos] != 0) {
+        width += gDialogCharWidths[ascii_lut[(u8)str[strPos]]];
         strPos++;
     }
     return width;

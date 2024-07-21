@@ -905,7 +905,7 @@ void print_mitm_credits(u8 hud_alpha) {
     s32 credits_entries = (sizeof(mitm_credits)/8);
     s32 lower_limit = (credits_entries*16) - 160;
 
-    u8 base_alpha = 255;
+    u8 base_alpha = hud_alpha;
 
     credits_y_offset -= (gPlayer1Controller->rawStickY/10.0f);
     if (credits_y_offset <= 0) {

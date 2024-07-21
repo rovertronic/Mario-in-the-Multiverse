@@ -1154,7 +1154,7 @@ void render_hud(void) {
         }
 #endif
 
-        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )||(shop_show_ui)||(hint_show_ui)) {
+        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )||(shop_show_ui)||(hint_show_ui)||(show_mitm_credits)) {
             hud_alpha = approach_f32_asymptotic(hud_alpha,0.0f,0.2f);
         } else {
             hud_alpha = approach_f32_asymptotic(hud_alpha,255.0f,0.2f);
@@ -1264,9 +1264,9 @@ void render_hud(void) {
         if (hint_show_ui) {
             render_hint_ui(hud_alpha);
         }
-        //if (show_mitm_credits) {
+        if (show_mitm_credits) {
             print_mitm_credits(hud_alpha);
-        //}
+        }
 
         //revert (prolly not needed)
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);

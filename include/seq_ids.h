@@ -87,6 +87,9 @@ enum SeqId {
     SEQ_DOWNTOWN_BB,
     SEQ_C_SEA_ME_NOW,
     SEQ_C9,  // 0x4C
+    SEQ_MITM_FILE_SELECT,
+    SEQ_MITM_HUB,
+    SEQ_MITM_BOWSER_COURSE, // 0x4F
     SEQ_COUNT,
 };
 

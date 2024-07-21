@@ -250,5 +250,14 @@
     ],
     "4C_c9": [
         "c9"
+    ],
+    "4D_mitm_file_select": [
+        "0E_extended_bank"
+    ],
+    "4E_mitm_hub": [
+        "0E_extended_bank"
+    ],
+    "4F_mitm_bowser_course": [
+        "0E_extended_bank"
     ]
 }

@@ -97,7 +97,7 @@ struct mitm_hub_level hub_levels[] = {
     /*N*/ {&author_string_n, LEVEL_N,   COURSE_TTC,   0/*50*/, 1,         33,         8,     0,       "MARIO IN HAMSTERBALL"},
     /*M*/ {&author_string_m, LEVEL_M,   COURSE_RR,    0/*50*/, 1,         34,         8,     0,       "ENVIRONMENTAL STATION M"},
     /*BC*/{NULL, LEVEL_BOWSER_COURSE,   COURSE_BITDW, 0,       1,         34,         1,     0,       "CENTRUM OMNIUM"},
-   /*HUB*/{NULL,             NULL,      COURSE_BITFS, 0,       1,         34,         1,     0,       "HUB"},
+   /*HUB*/{NULL,             NULL,      COURSE_BITFS, 0,       1,         34,         2,     0,       "HUB"},
 };
 
 s8 hub_level_index = -1;

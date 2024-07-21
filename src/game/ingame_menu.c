@@ -762,6 +762,17 @@ s32 get_string_width(u8 *str) {
     return width;
 }
 
+s32 get_string_width_ascii(u8 *str) {
+    s16 strPos = 0;
+    s16 width = 0;
+
+    while (str[strPos] != DIALOG_CHAR_TERMINATOR) {
+        width += gDialogCharWidths[ascii_lut[str[strPos]]];
+        strPos++;
+    }
+    return width;
+}
+
 u8 gHudSymCoin[] = { GLYPH_COIN, GLYPH_SPACE };
 u8 gHudSymX[] = { GLYPH_MULTIPLY, GLYPH_SPACE };
 

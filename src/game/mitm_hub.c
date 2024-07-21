@@ -754,3 +754,185 @@ void bhv_layton_hint_loop(void) {
         break; // select hint
     }
 }
+
+u8 show_mitm_credits = FALSE;
+
+void bhv_credits_slab_loob(void) {
+    switch(o->oAction) {
+        case 0: // wait for mario interaction
+            if (o->oInteractStatus == INT_STATUS_INTERACTED) {
+                o->oAction = 1;
+                show_mitm_credits = TRUE;
+            }
+            o->oInteractStatus = 0;
+            break;
+        case 1:
+            if (gPlayer1Controller->buttonPressed & (B_BUTTON | A_BUTTON | START_BUTTON)) {
+                set_mario_action(gMarioState, ACT_IDLE, 0);
+                o->oAction = 0;
+                show_mitm_credits = FALSE;
+            }
+            break;
+    }
+}
+
+struct mitm_credits_entry {
+    char * text;
+    u32 color;
+};
+
+struct mitm_credits_entry mitm_credits[] = {
+    {"Mario in the Multiverse",1},
+    {"",0},
+
+    {"Collaboration Host",1},
+    {"Rovertronic",0},
+    {"",0},
+
+    {"Abilities",1},
+    {"CowQuack",0},
+    {"JoshTheBosh",0},
+    {"Drahnokks",0},
+    {"Joopii",0},
+    {"furyiousfight",0},
+    {"luigiman0640",0},
+    {"axollyon",0},
+    {"Dan-GPTV",0},
+    {"Aeza",0},
+    {"SpK",0},
+    {"JakeDower",0},
+    {"lincrash",0},
+    {"Mel",0},
+    {"",0},
+
+    {"Levels",1},
+    {"CowQuack",0},
+    {"JoshTheBosh",0},
+    {"Drahnokks",0},
+    {"Woissil",0},
+    {"Joopii",0},
+    {"furyiousfight",0},
+    {"luigiman0640",0},
+    {"KeyBlader",0},
+    {"Dan-GPTV",0},
+    {"Aeza",0},
+    {"SpK",0},
+    {"JakeDower",0},
+    {"lincrash",0},
+    {"Mel",0},
+    {"",0},
+
+    {"Music",1},
+    {"Teraok",0},
+    {"sm64pie",0},
+    {"SpK",0},
+    {"",0},
+
+    {"Title Card Artwork",1},
+    {"Leonitz",0},
+    {"Erableto",0},
+    {"Biobak",0},
+    {"",0},
+
+    {"Additional Help",1},
+    {"",0},
+    {"MrComit:",0},
+    {"MP64 Star Switch Model",0},
+    {"",0},
+    {"theCozies:",0},
+    {"Screen Shaders",0},
+    {"",0},
+    {"Arthurtilly:",0},
+    {"Rigid Body Physics",0},
+    {"",0},
+    {"Alex-GPTV:",0},
+    {"Shotgun Detection Math",0},
+    {"",0},
+    {"Indigo Dindigo:",0},
+    {"Funky Shell Camera Mode",0},
+    {"",0},
+    {"Biobak:",0},
+    {"Squid Model, Optimizations",0},
+    {"",0},
+    {"Erableto:",0},
+    {"Aku Ability Art",0},
+    {"",0},
+    {"MrComit & Cheezepin:",0},
+    {"E.Gadd Model",0},
+    {"",0},
+    {"HackerN64 Team:",0},
+    {"HackerSM64",0},
+};
+
+f32 clamp2(f32 x) {
+  f32 lowerlimit = 0.0f;
+  f32 upperlimit = 1.0f;
+  if (x < lowerlimit) return lowerlimit;
+  if (x > upperlimit) return upperlimit;
+  return x;
+}
+
+f32 smoothstep2(f32 edge0, f32 edge1, f32 x) {
+   // Scale, and clamp x to 0..1 range
+   x = clamp2((x - edge0) / (edge1 - edge0));
+
+   return x * x * (3.0f - 2.0f * x);
+}
+
+s32 credits_y_offset = 0;
+
+u8 mitm_text_colors[][3] = {
+    {255, 255, 255},
+    {255, 255, 0},
+};
+
+void print_string_ascii_alpha(s32 x, s32 y, char *str, s32 color, s32 alpha) {
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+    gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, alpha);
+    print_generic_string_ascii(x-1, y-1, (u8 *)str);
+
+    gDPSetEnvColor(gDisplayListHead++, mitm_text_colors[color][0], mitm_text_colors[color][1], mitm_text_colors[color][2], alpha);
+    print_generic_string_ascii(x, y, (u8 *)str);
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+}
+
+void print_string_ascii_centered_alpha(s32 x, s32 y, char *str, s32 color, s32 alpha) {
+    s32 x1 = get_string_width_ascii(str);
+    print_string_ascii_alpha(x - x1/2, y, str, color, alpha);
+}
+
+void print_mitm_credits(u8 hud_alpha) {
+    s32 credits_entries = (sizeof(mitm_credits)/8);
+    s32 lower_limit = (credits_entries*16) - 160;
+
+    u8 base_alpha = 255;
+
+    credits_y_offset -= (gPlayer1Controller->rawStickY/10.0f);
+    if (credits_y_offset <= 0) {
+        credits_y_offset = 0;
+    }
+    if (credits_y_offset >= lower_limit) {
+        credits_y_offset = lower_limit;
+    }
+    if (credits_y_offset != lower_limit) {
+        print_string_ascii_centered_alpha(300,20 + sins(gGlobalTimer*0x300)*2.5f ,"|",0,base_alpha);
+    }
+    if (credits_y_offset != 0) {
+        print_string_ascii_centered_alpha(300,40 - sins(gGlobalTimer*0x300)*2.5f,"^",0,base_alpha);
+    }
+
+    for (int i=0; i<credits_entries; i++) {
+        u8 alpha = base_alpha;
+        s32 ypos = credits_y_offset+200-(16*i);
+        if ((ypos < 220)&&(ypos >10)) {
+            if (ypos > 200) {
+                alpha = ((base_alpha/255.0f)*smoothstep2(220.0f,200.0f,ypos))*255.0f;
+            }
+            if (ypos < 30) {
+                alpha = ((base_alpha/255.0f)*smoothstep2(10.0f,30.0f,ypos))*255.0f;
+            }
+
+            print_string_ascii_centered_alpha(160,ypos, mitm_credits[i].text, mitm_credits[i].color, alpha);
+        }
+    }
+}

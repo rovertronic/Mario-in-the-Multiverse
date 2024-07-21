@@ -851,5 +851,6 @@ extern const BehaviorScript bhvBcHoodmonger[];
 extern const BehaviorScript bhvBcFspinner[];
 extern const BehaviorScript bhvBcStair[];
 extern const BehaviorScript bhvBcSkiploom[];
+extern const BehaviorScript bhvCreditsSlab[];
 
 #endif // BEHAVIOR_DATA_H

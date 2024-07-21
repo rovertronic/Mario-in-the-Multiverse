@@ -847,6 +847,8 @@ u8 shop_sold_out = FALSE;
 // Hint logic ALSO in mitm_hub.c
 u8 hint_show_ui = FALSE;
 
+extern u8 show_mitm_credits;
+
 /**
  * Render HUD strings using hudDisplayFlags with it's render functions,
  * excluding the cannon reticle which detects a camera preset for it.
@@ -1262,6 +1264,9 @@ void render_hud(void) {
         if (hint_show_ui) {
             render_hint_ui(hud_alpha);
         }
+        //if (show_mitm_credits) {
+            print_mitm_credits(hud_alpha);
+        //}
 
         //revert (prolly not needed)
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);

@@ -678,12 +678,13 @@ void bounce_back_from_attack(struct MarioState *m, u32 interaction) {
         if (m->action == ACT_PUNCHING) {
             m->action = ACT_MOVE_PUNCHING;
         }
-
-        if (!(interaction & INT_SLASH)) {
-            if (m->action & ACT_FLAG_AIR) {
-                mario_set_forward_vel(m, -16.0f);
-            } else {
-                mario_set_forward_vel(m, -48.0f);
+        if (using_ability(!ABILITY_BIG_DADDY)){
+            if (!(interaction & INT_SLASH)) {
+                if (m->action & ACT_FLAG_AIR) {
+                    mario_set_forward_vel(m, -16.0f);
+                } else {
+                    mario_set_forward_vel(m, -48.0f);
+                }
             }
         }
 
@@ -1892,12 +1893,15 @@ void check_kick_or_punch_wall(struct MarioState *m) {
                 if (m->action == ACT_PUNCHING) {
                     m->action = ACT_MOVE_PUNCHING;
                 }
-
+                if (using_ability(!ABILITY_BIG_DADDY)){
                 mario_set_forward_vel(m, -48.0f);
+                }
                 play_sound(SOUND_ACTION_HIT_2, m->marioObj->header.gfx.cameraToObject);
                 m->particleFlags |= PARTICLE_TRIANGLE;
             } else if (m->action & ACT_FLAG_AIR) {
+                if (using_ability(!ABILITY_BIG_DADDY)){
                 mario_set_forward_vel(m, -16.0f);
+                }
                 play_sound(SOUND_ACTION_HIT_2, m->marioObj->header.gfx.cameraToObject);
                 m->particleFlags |= PARTICLE_TRIANGLE;
             }

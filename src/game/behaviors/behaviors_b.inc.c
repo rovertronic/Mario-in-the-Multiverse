@@ -122,12 +122,12 @@ struct ObjectHitbox sBigDaddyHitbox = {
 };
     
 static u8 sBossDaddyAttackHandlers[] = {
-    /* ATTACK_PUNCH:                 */ ATTACK_HANDLER_NOP,
-    /* ATTACK_KICK_OR_TRIP:          */ ATTACK_HANDLER_NOP,
+    /* ATTACK_PUNCH:                 */ ATTACK_HANDLER_SPECIAL_HUGE_GOOMBA_WEAKLY_ATTACKED,
+    /* ATTACK_KICK_OR_TRIP:          */ ATTACK_HANDLER_SPECIAL_HUGE_GOOMBA_WEAKLY_ATTACKED,
     /* ATTACK_FROM_ABOVE:            */ ATTACK_HANDLER_SQUISHED,
     /* ATTACK_GROUND_POUND_OR_TWIRL: */ ATTACK_HANDLER_SQUISHED,
-    /* ATTACK_FAST_ATTACK:           */ ATTACK_HANDLER_NOP,
-    /* ATTACK_FROM_BELOW:            */ ATTACK_HANDLER_NOP,
+    /* ATTACK_FAST_ATTACK:           */ ATTACK_HANDLER_SPECIAL_HUGE_GOOMBA_WEAKLY_ATTACKED,
+    /* ATTACK_FROM_BELOW:            */ ATTACK_HANDLER_SPECIAL_HUGE_GOOMBA_WEAKLY_ATTACKED,
 };
 
 enum {
@@ -308,7 +308,9 @@ void bhv_big_daddy_loop(void) {
     switch (o->oAction){
         case 0:
             if (dist < 500.0f && gMarioState->floor->type == SURFACE_BDADDY){
-                o->oAction = 1;
+                if (o->prevObj->oPosX <= 2478){
+                    o->oAction = 1;
+                }
             }
             break;
         case 1:
@@ -325,7 +327,7 @@ void bhv_big_daddy_loop(void) {
         case 3:
             if (cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP,
                 DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, BIG_DADDY_ABILITY_TEXT)) {
-                    o->oInteractStatus = INT_STATUS_NONE;
+
                     o->oAction = 4;
                 }
             break;
@@ -334,17 +336,7 @@ void bhv_big_daddy_loop(void) {
             spawn_object_relative(0, 400, 0, 0, o, MODEL_EXPLOSION, bhvSafeExplosion);
             spawn_object_relative(ABILITY_BIG_DADDY, 400, 0, 0, o, MODEL_ABILITY, bhvAbilityUnlock);
             o->oAction = 5;
-            break;
-        case 5:
-            if (o->oInteractStatus & INT_STATUS_INTERACTED) {
-                if (cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP,
-                    DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, DIALOG_059)) {
-                    o->activeFlags &= ~ACTIVE_FLAG_INITIATED_TIME_STOP;
-                    o->oInteractStatus = INT_STATUS_NONE;
-                    o->oInteractionSubtype = 0;
-                    o->oSubAction++;
-                }
-            }
+            o->oInteractStatus = INT_STATUS_INTERACTED;;
             break;
     }
     switch (o->oSubAction) {
@@ -461,7 +453,7 @@ void bhv_little_sister_loop(void) {
     }
     if (o->oDistanceToMario < 500.0f && o->oAction == LS_NPC_START && gMarioState->floorHeight == gMarioState->pos[1]){
         if (cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP,
-            DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG_NO_ZOOM, BIG_DADDY_STAR)) {
+            DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG_NO_ZOOM, LITTLE_SISTER_TEXT_1)) {
                 o->oInteractStatus = INT_STATUS_NONE;
                 o->oInteractType = INTERACT_GRABBABLE;
                 o->oInteractionSubtype = INT_SUBTYPE_HOLDABLE_NPC;
@@ -544,7 +536,7 @@ void bhv_little_sister_loop(void) {
         cur_obj_init_animation(0);
         if (o->oInteractStatus & INT_STATUS_INTERACTED) {
             if (cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP,
-                DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, DIALOG_072)) {
+                DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, LITTLE_SISTER_TEXT_2)) {
                 o->activeFlags &= ~ACTIVE_FLAG_INITIATED_TIME_STOP;
                 o->oInteractStatus = INT_STATUS_NONE;
             }
@@ -578,6 +570,7 @@ void bhv_little_sister_loop(void) {
                         o->oAction = LS_NPC_END;
                     } else {
                         o->oAction = LS_IDLE;
+                        o->oInteractStatus = 0;
                         cur_obj_init_animation(0);
                     }
                 }
@@ -687,7 +680,8 @@ void bhv_turret_body_loop(void){
             if (o->prevObj != NULL) {
                 mark_obj_for_deletion(o->prevObj);
             }
-            mark_obj_for_deletion(o);
+            //mark_obj_for_deletion(o);
+            obj_explode_and_spawn_coins(46.0f, COIN_TYPE_YELLOW);
             return; // Exit the function since 'o' has been deleted
         }
         o->oPosY = o->parentObj->oPosY;
@@ -697,7 +691,8 @@ void bhv_turret_body_loop(void){
         if (o->prevObj != NULL) {
             mark_obj_for_deletion(o->prevObj);
         }
-        mark_obj_for_deletion(o);
+        //mark_obj_for_deletion(o);
+        obj_explode_and_spawn_coins(46.0f, COIN_TYPE_YELLOW);
         return; // Exit the function since 'o' has been deleted
     }
     if (o->oObjF4 != NULL && o->oObjF4->oAction == 1){
@@ -705,7 +700,8 @@ void bhv_turret_body_loop(void){
         if (o->prevObj != NULL) {
             mark_obj_for_deletion(o->prevObj);
         }
-        mark_obj_for_deletion(o);
+        //mark_obj_for_deletion(o);
+        obj_explode_and_spawn_coins(46.0f, COIN_TYPE_YELLOW);
         return; // Exit the function since 'o' has been deleted
     }
     if (o->oInteractStatus & INT_STATUS_INTERACTED){
@@ -717,7 +713,8 @@ void bhv_turret_body_loop(void){
             if (o->prevObj != NULL) {
                 mark_obj_for_deletion(o->prevObj);
             }
-            mark_obj_for_deletion(o);
+            //mark_obj_for_deletion(o);
+            obj_explode_and_spawn_coins(46.0f, COIN_TYPE_YELLOW);
             return; // Exit the function since 'o' has been deleted
         } else {
             o->oInteractStatus = INT_STATUS_NONE;
@@ -728,7 +725,8 @@ void bhv_turret_body_loop(void){
         if (o->prevObj != NULL) {
             mark_obj_for_deletion(o->prevObj);
         }
-        mark_obj_for_deletion(o);
+        //mark_obj_for_deletion(o);
+        obj_explode_and_spawn_coins(46.0f, COIN_TYPE_YELLOW);
         return; // Exit the function since 'o' has been deleted
     }
 }
@@ -1311,6 +1309,8 @@ void bhv_boss_daddy_init(void){
     o->oHomeX = -10130;
     o->oHomeY = 746;
     o->oHomeZ = -927;
+    o->oFaceAngleYaw = 0x4000;
+    o->oMoveAngleYaw = o->oFaceAngleYaw;
     obj_set_hitbox(o, &sBigDaddyHitbox);
     o->oHealth = 3;
     o->oInteractType = INTERACT_TEXT;
@@ -1323,6 +1323,7 @@ enum bigDaddyBossStates{
     STATE_IDLE,
     STATE_JUMP_UP,
     STATE_JUMP_DOWN,
+    STATE_JUMP_AROUND,
     STATE_KNOCKED_BACK,
     STATE_RUNNING,
     STATE_ATTACK,
@@ -1334,14 +1335,20 @@ enum bigDaddyBossStates{
     STATE_GETUP,
     STATE_SKID,
     STATE_STOMP,
+    STATE_RESTART,
+    STATE_SPAWN_TURRETS,
 };
 // o->oF8 is what quadrant mario was last in
     s32 TruncForwardVel;
 void bhv_boss_daddy(void){
+    //if (cur_obj_is_mario_in_room() == MARIO_OUTSIDE_ROOM || gMarioState->action == ACT_DEATH_EXIT_LAND){
+    //    print_text(20, 80, "Mario pls come back");
+    //    o->oF4 = STATE_RESTART;
+    //}
     f32 dist;
-    print_text_fmt_int(20, 60, "oHealth: %d", o->oHealth);
-    print_text_fmt_int(20, 20, "oAction: %d", o->oAction);
-    print_text_fmt_int(20, 40, "oF4: %d", o->oF4);
+    //print_text_fmt_int(20, 60, "oHealth: %d", o->oHealth);
+    //print_text_fmt_int(20, 20, "oAction: %d", o->oAction);
+    //print_text_fmt_int(20, 40, "oF4: %d", o->oF4);
     s32 TruncForwardVel = o->oForwardVel;
     //print_text_fmt_int(20, 40, "oForwardVel: %d", TruncForwardVel);
     cur_obj_update_floor_and_walls();
@@ -1350,15 +1357,16 @@ void bhv_boss_daddy(void){
         o->oF8 = gMarioState->floor->force;
     }
     //cur_obj_move_using_fvel_and_gravity();
-    if (gPlayer1Controller->buttonPressed & L_TRIG){
-        o->oF4 = STATE_KNOCKED_BACK;
+    //if (gPlayer1Controller->buttonPressed & L_TRIG){
+        //gMarioState->health = 0xFF;
+        //o->oF4 = STATE_STOMP;
         //spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -10130, 500, -2072, 0, 0, 0);
         //o->oPosX = o->oHomeX;
         //o->oPosY = o->oHomeY;
         //o->oPosZ = o->oHomeZ;
-        o->oAction = 1;
-        o->oTimer = 0;
-    }
+        //o->oAction = 1;
+        //o->oTimer = 0;
+    //}
     switch (o->oF4) {
         case STATE_KNOCKED_BACK:
             o->oInteractType = INTERACT_NONE;
@@ -1398,8 +1406,9 @@ void bhv_boss_daddy(void){
             sBigDaddyHitbox.height = 261;
             obj_set_hitbox(o, &sBigDaddyHitbox);
             o->oInteractType = INTERACT_BOUNCE_TOP;
+            o->oDamageOrCoinValue = 0;
             cur_obj_init_animation(3);
-            if (obj_handle_attacks(&sBigDaddyHitbox, o->oAction, sBossDaddyAttackHandlers)){
+            if (o->oInteractStatus & INT_STATUS_TOUCHED_MARIO && (gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_AIRBORNE){
                 o->oF4 = STATE_SQUISHED;
                 o->oAction = 1;
             } else if (o->oInteractStatus & INT_STATUS_INTERACTED){
@@ -1407,7 +1416,8 @@ void bhv_boss_daddy(void){
             }
             break;
         case STATE_GETUP:
-            o->oInteractType = INTERACT_DAMAGE;
+            o->oInteractType = INTERACT_NONE;
+            o->oDamageOrCoinValue = 1;
             sBigDaddyHitbox.radius = 170;
             sBigDaddyHitbox.height = 420;
             obj_set_hitbox(o, &sBigDaddyHitbox);
@@ -1451,7 +1461,7 @@ void bhv_boss_daddy(void){
             break;
         case STATE_RUNNING:
             o->oInteractType = INTERACT_DAMAGE;
-            print_text_fmt_int(20, 60, "oDistanceToMario: %d", o->oDistanceToMario);
+            //print_text_fmt_int(20, 60, "oDistanceToMario: %d", o->oDistanceToMario);
             cur_obj_init_animation(4);
             cur_obj_unused_play_footstep_sound(1, 15, SOUND_OBJ_POUNDING_LOUD);
             cur_obj_rotate_yaw_toward(o->oAngleToMario, 1792 / (o->oForwardVel / 8));
@@ -1460,13 +1470,47 @@ void bhv_boss_daddy(void){
             }
             if (o->oInteractStatus & INT_STATUS_ATTACKED_MARIO){
                 o->oF4 = STATE_SKID;
+                o->oFC = 0;
                 o->oAction = 1;
                 o->oTimer = 0;
             }
+            
+            if (cur_obj_find_nearest_object_with_behavior(bhvTurretBody, &dist)){
+                if (dist < 250){
+                    o->oObjFC = cur_obj_find_nearest_object_with_behavior(bhvTurretBody, &dist);
+                    mark_obj_for_deletion(o->oObjFC->prevObj);
+                    mark_obj_for_deletion(o->oObjFC);
+                    spawn_object_relative(0, 0, 0, 0, o, MODEL_EXPLOSION, bhvSafeExplosion);
+                    obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 20.0f);
+                    o->oObjFC = NULL;
+                }
+            }
+            if (o->oHealth < 3){
+                if (cur_obj_find_nearest_object_with_behavior(bhvTurretBody, &dist) == NULL || dist > 3000){
+                    o->oF4 = STATE_SKID;
+                    o->oAction = 1;
+                    o->o104 = 1; //o100 being used to show STATE_SKID to spawn turrets
+                
+                }
+            }
+            
+            //obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 20.0f);
             if ((abs_angle_diff(o->oWallAngle, o->oFaceAngleYaw) >= 24576) && (o->oMoveFlags & OBJ_MOVE_HIT_WALL)){
+                if (o->oHealth == 1){
+                    o->oFC += 1;
+                    if (o->oFC < 5){
+                    cur_obj_if_hit_wall_bounce_away();
+                    cur_obj_play_sound_1(SOUND_OBJ_WATER_BOMB_BOUNCING);
+                    } else if (o->oFC >= 5 ){
+                        o->oF4 = STATE_KNOCKED_BACK;
+                        o->oAction = 1;
+                    }
+                } else if (o->oHealth > 1){
                 o->oF4 = STATE_KNOCKED_BACK;
                 o->oAction = 1;
+                }
             }
+            o->oInteractStatus = 0;
                 break;
         case STATE_IDLE:
             cur_obj_init_animation(0);
@@ -1486,8 +1530,13 @@ void bhv_boss_daddy(void){
                 }
                 o->oForwardVel -= .20;
             } else {
-                o->oForwardVel = 0;
-                o->oF4 = STATE_LAUGH;
+                if (o->o104 == 0){
+                    o->oForwardVel = 0;
+                    o->oF4 = STATE_LAUGH;
+                } else {
+                    o->oF4 = STATE_STOMP;
+                    o->oForwardVel = 0;
+                }
             }
             break;
         case STATE_LAUGH:
@@ -1509,6 +1558,54 @@ void bhv_boss_daddy(void){
                     }
                     break;
                 }
+            break;
+        case STATE_SPAWN_TURRETS:
+            switch (o->oAction){
+                case 1:
+                    cur_obj_init_animation(0);
+                    if (cur_obj_find_nearest_object_with_behavior(bhvTurretBody, &dist) == NULL || dist > 3000){
+                        spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -8978, 1000, -927, 0, 0x4000, 0);
+                        spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -10130, 1000, -2072, 0, 0x8000, 0);
+                        spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -11281, 1000, -927, 0, 0xC000, 0); 
+                        spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -10130, 1000, 223, 0, 0, 0);
+                    }
+                    o->oAction = 2;
+                    o->oTimer = 0;
+                    break;
+                case 2:
+                    cur_obj_rotate_yaw_toward(o->oAngleToMario, 1000);
+                    if (o->oTimer >= 90){
+                        o->oObjF8 = NULL; 
+                        if (o->oHealth == 3){
+                            if (o->oPosY >= 740){
+                                o->oF4 = STATE_IDLE;
+                                o->oAction = 1;
+                            } else {
+                                o->oF4 = STATE_JUMP_UP;
+                                o->oAction = 1;
+                            }
+                        } else if (o->oHealth == 2){
+                            o->oAction = 1;
+                            o->oF4 = STATE_RUNNING;
+                        } else if (o->oHealth == 1){
+                            if (find_object_with_behaviors_bparam(bhvTurretPlatform, 10, 3) != NULL){
+                                o->oObjF8 = find_object_with_behaviors_bparam(bhvTurretPlatform, 10, 3);
+                                SET_BPARAM2(o->oObjF8->oBehParams, 1);
+                                SET_BPARAM3(o->oObjF8->oBehParams, 0);
+                                o->oObjF8->oDistanceToMario = 0;
+                                o->oObjF8 = NULL;
+                            }
+                            o->oAction = 1;
+                            if (o->o104 == 0){
+                            o->oF4 = STATE_JUMP_AROUND;
+                            } else {
+                                o->oF4 = STATE_RUNNING;
+                            
+                            }
+                        }
+                    }
+                    break;
+            }
             break;
         case STATE_JUMP_UP:
             o->oHomeX = -10130;
@@ -1543,57 +1640,13 @@ void bhv_boss_daddy(void){
                     cur_obj_init_animation(8);
                     cur_obj_play_sound_1(SOUND_OBJ_POUNDING_LOUD);
                     cur_obj_shake_screen(SHAKE_POS_SMALL);
-                    spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -8978, 1000, -927, 0, 0x4000, 0);
-                    spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -10130, 1000, -2072, 0, 0x8000, 0);
-                    spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -11281, 1000, -927, 0, 0xC000, 0); 
-                    spawn_object_abs_with_rot(o, 0, MODEL_TURRET_BODY, bhvTurretBody, -10130, 1000, 223, 0, 0, 0);
-                    
                     play_sound(SOUND_OBJ_MONTY_MOLE_ATTACK, gGlobalSoundSource);
                     o->oTimer = 0;
                     o->oAction = 5;
                     break;
                 case 5:
-                    if (o->oHealth == 1){
-                        o->oObjF8 = find_object_with_behaviors_bparam(bhvTurretPlatform, 10, 3);
-                        SET_BPARAM2(o->oObjF8->oBehParams, 1);
-                        SET_BPARAM3(o->oObjF8->oBehParams, 0);
-                        o->oObjF8->oDistanceToMario = 0;
-                        o->oObjF8 = NULL;
-
-                        o->oObjF8 = find_object_with_behaviors_bparam(bhvTurretHead, 0, 2);
-                        if (o->oObjF8 != NULL){
-                            SET_BPARAM2(o->oObjF8->oBehParams, 1);
-                            //print_text(20, 20, "Turret Head Found");
-                            obj_set_model(o->oObjF8, MODEL_TURRET_HEAVY);
-                            o->oObjF8 = NULL;
-                        }
-                        o->oObjF8 = find_object_with_behaviors_bparam(bhvTurretHead, 0, 2);
-                        if (o->oObjF8 != NULL){
-                            SET_BPARAM2(o->oObjF8->oBehParams, 1);
-                            //print_text(20, 20, "Turret Head Found");
-                            obj_set_model(o->oObjF8, MODEL_TURRET_HEAVY);
-                            o->oObjF8 = NULL;
-                        }
-                        o->oObjF8 = find_object_with_behaviors_bparam(bhvTurretHead, 0, 2);
-                        if (o->oObjF8 != NULL){
-                            SET_BPARAM2(o->oObjF8->oBehParams, 1);
-                            //print_text(20, 20, "Turret Head Found");
-                            obj_set_model(o->oObjF8, MODEL_TURRET_HEAVY);
-                            o->oObjF8 = NULL;
-                        }
-                        o->oObjF8 = find_object_with_behaviors_bparam(bhvTurretHead, 0, 2);
-                        if (o->oObjF8 != NULL){
-                            SET_BPARAM2(o->oObjF8->oBehParams, 1);
-                            //print_text(20, 20, "Turret Head Found");
-                            obj_set_model(o->oObjF8, MODEL_TURRET_HEAVY);
-                            o->oObjF8 = NULL;
-                        }
-                    }
-                    o->oAction = 6;
-                    break;
-                case 6:
                     if (cur_obj_check_if_at_animation_end()){
-                        o->oF4 = STATE_IDLE;
+                        o->oF4 = STATE_SPAWN_TURRETS;
                         o->oAction = 1;
                     }
                     break;
@@ -1659,7 +1712,97 @@ void bhv_boss_daddy(void){
                     break;
             }
             break;
+        case STATE_JUMP_AROUND:
+            o->oInteractStatus = 0;
+            //print_text_fmt_int(20, 80, "o100: %d", o->o100);
+            switch (o->oAction){
+                case 1:
+                    o->o100 = (o->oF8 + 1) % 4;
+                    if (o->o100 < 1){
+                            o->o100 = 1;
+                        } else if (o->o100 > 4){
+                            o->o100 = 1;
+                        }
+                    o->oAction = 2;
+                    break;
+                case 2:
+                    switch (o->o100){
+                        case 1: 
+                            o->oHomeX = -8881;
+                            o->oHomeY = 20;
+                            o->oHomeZ = 322;
+                            o->oAction = 3;
+                            break;
+                        case 2:
+                            o->oHomeX = -8881;
+                            o->oHomeY = 20;
+                            o->oHomeZ = -2219;
+                            o->oAction = 3;
+                            break;
+                        case 3:
+                            o->oHomeX = -11380;
+                            o->oHomeY = 20;
+                            o->oHomeZ = -2219;
+                            o->oAction = 3;
+                            break;
+                        case 4:
+                            o->oHomeX = -11380;
+                            o->oHomeY = 20;
+                            o->oHomeZ = 322;
+                            o->oAction = 3;
+                            break;
+                        o->oTimer = 0;
+                    }
+                    break;
+                case 3:
+                    cur_obj_init_animation(0);
+                    o->oAngleToHome = cur_obj_angle_to_home();
+                    cur_obj_rotate_yaw_toward(o->oAngleToHome, 1792);
+                    if (o->oFaceAngleYaw == o->oAngleToHome){
+                        if (o->oTimer > 30){
+                        o->oAction = 4;
+                        }
+                    }
+                    break;
+                case 4:
+                    cur_obj_init_animation(6);
+                    if (cur_obj_check_anim_frame(13)){
+                        cur_obj_play_sound_1(SOUND_OBJ_KING_BOBOMB_JUMP);
+                        o->oAction = 5;
+                        o->oVelY = 60;
+                    }
+                    break;
+                case 5:
+                    approach_vec3f_asymptotic(&o->oPosVec, &o->oHomeVec, 0.08, 0.1, 0.08);
+                    if (o->oMoveFlags & OBJ_MOVE_LANDED){
+                        cur_obj_init_animation(8);
+                        spawn_object_abs_with_rot(o, 0, MODEL_B_SHOCKWAVE, bhvBowserShockWave, o->oPosX, o->oFloorHeight, o->oPosZ, 0, 0, 0);
+                        o->o104 += 1;
+                        cur_obj_play_sound_1(SOUND_OBJ_POUNDING_LOUD);
+                        cur_obj_shake_screen(SHAKE_POS_SMALL);
+                        o->o100 = (o->o100 + 1) % 4;
+                        if (o->o100 < 1){
+                            o->o100 = 1;
+                        } else if (o->o100 > 4){
+                            o->o100 = 1;
+                        }
+                        if (o->o104 >= 4){
+                            o->oAction = 6;
+                        } else {
+                            o->oAction = 2;
+                        }
+                        
+                    }
+                    break;
+                case 6:
+                    o->o104 = 0;
+                    o->oF4 = STATE_RUNNING;
+                    o->oTimer = 0;
+                    break;
+            }
+            break;
         case STATE_STOMP:
+            o->oInteractType = INTERACT_DAMAGE;
             switch (o->oAction){
                 case 1:
                     switch (o->oHealth){
@@ -1670,7 +1813,7 @@ void bhv_boss_daddy(void){
                             o->oAction = 4;
                             break;
                         case 1:
-                            o->oAction = 3;
+                            o->oAction = 4;
                             break;
                         }
                         break;
@@ -1678,7 +1821,7 @@ void bhv_boss_daddy(void){
                     cur_obj_init_animation(11);
                     if (cur_obj_check_if_at_animation_end()){
                         cur_obj_play_sound_1(SOUND_OBJ_POUNDING_LOUD);
-                        spawn_object_abs_with_rot(o, 0, MODEL_B_SHOCKWAVE, bhvBowserShockWave, o->oPosX, o->oPosY+20, o->oPosZ, 0, 0, 0);
+                        spawn_object_abs_with_rot(o, 0, MODEL_B_SHOCKWAVE, bhvBowserShockWave, o->oPosX, o->oFloorHeight, o->oPosZ, 0, 0, 0);
                         o->header.gfx.animInfo.animFrame = 0;
                         o->oAction = 3;
                     }
@@ -1687,7 +1830,7 @@ void bhv_boss_daddy(void){
                     cur_obj_init_animation(11);
                     if (cur_obj_check_if_at_animation_end()){
                         cur_obj_play_sound_1(SOUND_OBJ_POUNDING_LOUD);
-                        spawn_object_abs_with_rot(o, 0, MODEL_B_SHOCKWAVE, bhvBowserShockWave, o->oPosX, o->oPosY+20, o->oPosZ, 0, 0, 0);
+                        spawn_object_abs_with_rot(o, 0, MODEL_B_SHOCKWAVE, bhvBowserShockWave, o->oPosX, o->oFloorHeight, o->oPosZ, 0, 0, 0);
                         o->header.gfx.animInfo.animFrame = 0;
                         o->oAction = 4;
                     }
@@ -1696,7 +1839,7 @@ void bhv_boss_daddy(void){
                     cur_obj_init_animation(11);
                     if (cur_obj_check_if_at_animation_end()){
                         cur_obj_play_sound_1(SOUND_OBJ_POUNDING_LOUD);
-                        spawn_object_abs_with_rot(o, 0, MODEL_B_SHOCKWAVE, bhvBowserShockWave, o->oPosX, o->oPosY+20, o->oPosZ, 0, 0, 0);
+                        spawn_object_abs_with_rot(o, 0, MODEL_B_SHOCKWAVE, bhvBowserShockWave, o->oPosX, o->oFloorHeight, o->oPosZ, 0, 0, 0);
                         o->header.gfx.animInfo.animFrame = 0;
                         o->oAction = 5;
                     }
@@ -1705,12 +1848,18 @@ void bhv_boss_daddy(void){
                     //o->oAction = 2;
                 case 5:
                     o->oAction = 1;
+                    if (o->oHealth == 3 && o->o104 == 0){
                     o->oF4 = STATE_JUMP_UP;
+                    } else {
+                        o->oF4 = STATE_SPAWN_TURRETS;
+                    }
                     break;
             }
             break;
         case STATE_INTRO:
             cur_obj_init_animation(12);
+            o->oInteractType = INTERACT_TEXT;
+            o->oInteractionSubtype = INT_SUBTYPE_NPC;
             switch (o->oAction){
                 case 0:
                     if (o->oDistanceToMario < 500.0f && gMarioState->floorHeight == gMarioState->pos[1]){
@@ -1740,7 +1889,47 @@ void bhv_boss_daddy(void){
             stop_background_music(SEQUENCE_ARGS(4, SEQ_EVENT_BOSS));
             spawn_object_relative(0, 0, 100, 0, o, MODEL_EXPLOSION, bhvSafeExplosion);
             spawn_object_relative(7, 0, 100, 0, o, MODEL_STAR, bhvStar);
-            mark_obj_for_deletion(o);
+            mark_obj_for_deletion(o);\
+        case STATE_RESTART:
+            cur_obj_init_animation(12);
+            while (cur_obj_find_nearest_object_with_behavior(bhvTurretBody, &dist) != NULL && dist < 3000){
+                o->oObjF8 = cur_obj_find_nearest_object_with_behavior(bhvTurretBody, &dist);
+                mark_obj_for_deletion(o->oObjF8->prevObj);
+                mark_obj_for_deletion(o->oObjF8);
+                o->oObjF8 = NULL;
+            }
+            o->oObjF8 = cur_obj_find_nearest_object_with_behavior(bhvTurretPlatform, &dist);
+            if (o->oObjF8->oAction >= 1){
+                o->oObjFC = spawn_object_relative(0, 0, 0, 0, o->oObjF8, MODEL_TURRET_PLATFORM, bhvTurretPlatform);
+                SET_BPARAM3(o->oObjFC->oBehParams, 10);
+                o->oObjFC->oPosY = -243;
+                mark_obj_for_deletion(o->oObjF8);
+                o->oObjF8 = NULL;
+                o->oObjFC = NULL;
+            }
+            o->oInteractStatus = 0;
+            o->oFaceAngleYaw = 0x4000;
+            o->oMoveAngleYaw = o->oFaceAngleYaw;
+            //o->oDistanceToMario = 1000;
+            stop_background_music(SEQUENCE_ARGS(4, SEQ_EVENT_BOSS));
+            o->oPosX = -10130;
+            o->oPosY = 19;
+            o->oPosZ = -927;
+            o->oForwardVel = 0;
+            o->oHealth = 3;
+            o->oAction = 0;
+            o->oF4 = STATE_INTRO;
+            break;
 
+    }
+}
+
+void bhv_floating_platform_b_loop(void) {
+
+    // o->oAction = o->oFloatingPlatformIsOnFloor;
+    if (o->oFloatingPlatformIsOnFloor) {
+        o->oPosY = o->oHomeY;
+    } else {
+        floating_platform_act_move_to_home();
     }
 }

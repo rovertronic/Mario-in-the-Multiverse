@@ -670,6 +670,7 @@ void bhv_cork(void);
 void bhv_watertemple(void);
 void bhv_boss_daddy_init(void);
 void bhv_boss_daddy(void);
+void bhv_floating_platform_b_loop(void);
 //void bhv_turret_heavy_loop(void);
 void bhv_sir_kibble_init(void);
 void bhv_sir_kibble_loop(void);

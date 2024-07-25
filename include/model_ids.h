@@ -657,6 +657,30 @@ enum GLOBAL_MODELS {
 /* LEVEL A END */
 
 /* LEVEL B START */
+#define MODEL_BIG_DADDY                          0x151
+#define MODEL_FLOATY                             0x152
+#define MODEL_LITTLE_SISTER                      0x153
+#define MODEL_GAUGE                              0x154
+#define MODEL_WATERFALL                          0x155
+#define MODEL_DEBRIS                             0x156
+#define MODEL_AIRLOCK                            0x157
+#define MODEL_AIRLOCK_BUTTON                     0x158
+#define MODEL_AIRLOCK_WATER                      0x159
+#define MODEL_CRUSHER                            0x15A
+#define MODEL_TURRET_BODY                        0x15B
+#define MODEL_TURRET_HEAD                        0x15C
+#define MODEL_TURRET_BULLET                      0x15D
+#define MODEL_TURRET_HEAVY                       0x15E
+#define MODEL_TURRET_PLATFORM                    0x15F  
+#define MODEL_TURRET_COVER                       0x160
+#define MODEL_GATE                               0x161
+#define MODEL_ALARM                              0x162
+#define MODEL_ALARM_LIT                          0x163
+#define MODEL_TURRET_PANEL                       0x164
+#define MODEL_MEGACORK                           0x165
+#define MODEL_WATERTEMPLE                        0x166
+#define MODEL_B_SHOCKWAVE                        0x167
+
 /* LEVEL B END */
 
 /* LEVEL C START */

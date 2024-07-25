@@ -21,6 +21,7 @@ extern Gfx fbullet_Cube_mesh[];
 extern Gfx bowser_f_bullet_Cube_mesh[];
 
 #include "ge_translation.h"
+#include "levels/B/turret_bullet/geo_header.h"
 
 
 //--MISC
@@ -52,6 +53,12 @@ static void bullet_default_params(struct Bullet *b) {
 	b->gravity       = 0.f;
 	b->hitSphereSize = 0.f;
 	b->damage        = 0;
+}
+static void bullet_b_params(struct Bullet *b) {
+	b->velF          = 100.f;
+	b->gravity       = 0.f;
+	b->hitSphereSize = 100.f;
+	b->damage        = 1;
 }
 static void bullet_f_params(struct Bullet *b) {
 	b->velF          = 50.f;
@@ -108,6 +115,12 @@ Gfx *dobj_bullets(s32 callContext) {
 	case GEO_CONTEXT_CREATE:
 		switch (gCurrLevelNum) {
 		
+		case LEVEL_B:
+			sBulletParamFn = bullet_b_params;
+			sBulletMat     = mat_turret_bullet_f3dlite_material_layer7;
+			sBulletMesh    = turret_bullet_turret_bullet_mesh_layer_7_tri_0;
+			break;
+		
 		case LEVEL_F:
 			sBulletParamFn = bullet_f_params;
 			sBulletMat     = mat_e_sg_piece_mat_f3d_layer1;
@@ -120,13 +133,12 @@ Gfx *dobj_bullets(s32 callContext) {
 			sBulletMesh    = bowser_f_bullet_Cube_mesh;
 			break;
 		
-		/*
 		case LEVEL_K:
 			sBulletParamFn = bullet_k_params;
 			sBulletMat     = NULL;
 			sBulletMesh    = NULL;
 			break;
-		*/
+		
 		//default DL and params, basically just to prevent crashes in case someone forgets to set their DLs,\
 		  or if bullets are spawned in a level that wasn't planned to have bullets
 		default:
@@ -189,7 +201,8 @@ Gfx *dobj_bullets(s32 callContext) {
 					if ((m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH)
 						|| (m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR)) {
 						//deflect
-						b->yaw   =   m->faceAngle[1];
+						print_text(100, 100, "deflect", 0);
+						b->yaw   =   b->yaw+0x8000;
 						b->velY  =  -b->velY;
 						b->flags |=  BULLET_FLAG_DEFLECTED;
 
@@ -287,3 +300,21 @@ Gfx *dobj_bullets(s32 callContext) {
 
 	return NULL;
 }
+
+s32 obj_hit_by_bullet(struct Object *obj, f32 objHitSphereSize) {
+    for (s32 i = 0; i < sBulletCount; i++) {
+        f32 dist = 0.f;
+        Vec3f pos = { obj->oPosX, obj->oPosY + (obj->hitboxRadius * 0.5f), obj->oPosZ };
+        struct Bullet *b = &sBulletList[i];
+        vec3f_get_dist(pos, b->pos, &dist);
+
+        if (dist < (b->hitSphereSize + objHitSphereSize)) {
+            if (b->flags & BULLET_FLAG_DEFLECTED) {
+                return 2;
+            } else {
+                return 1;
+            }
+        }
+    }
+    return 0;
+} 

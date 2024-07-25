@@ -1,0 +1,18 @@
+extern const GeoLayout gate_geo[];
+extern Lights1 gate_engine_edge_lights;
+extern Lights1 gate_grate_cutout_lights;
+extern u8 gate_bioshock_edge_ci8[];
+extern u8 gate_bioshock_edge_pal_rgba16[];
+extern u8 gate_SUPER_MARIO_64_861DC3CF_0_2_all_ci8[];
+extern u8 gate_SUPER_MARIO_64_861DC3CF_0_2_all_pal_rgba16[];
+extern Vtx gate_gate_mesh_layer_1_vtx_0[16];
+extern Gfx gate_gate_mesh_layer_1_tri_0[];
+extern Vtx gate_gate_mesh_layer_4_vtx_0[8];
+extern Gfx gate_gate_mesh_layer_4_tri_0[];
+extern Gfx mat_gate_engine_edge[];
+extern Gfx mat_revert_gate_engine_edge[];
+extern Gfx mat_gate_grate_cutout[];
+extern Gfx mat_revert_gate_grate_cutout[];
+extern Gfx gate_gate_mesh_layer_1[];
+extern Gfx gate_gate_mesh_layer_4[];
+extern Gfx gate_material_revert_render_settings[];

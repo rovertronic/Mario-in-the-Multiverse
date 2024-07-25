@@ -600,6 +600,30 @@ extern const BehaviorScript bhvKingJellyZap[];
 /* GROUP B START */
 extern const BehaviorScript bhvConcreteBlock[];
 extern const BehaviorScript bhvBigConcreteBlock[];
+extern const BehaviorScript bhvBioshockFloaty[];
+extern const BehaviorScript bhvGauge[];
+extern const BehaviorScript bhvWaterfall[];
+extern const BehaviorScript bhvWaterfallHidden[];
+extern const BehaviorScript bhvDebris[];
+extern const BehaviorScript bhvAirlock[];
+extern const BehaviorScript bhvAirlockButton[];
+extern const BehaviorScript bhvAirlockWater[];
+extern const BehaviorScript bhvBigDaddy[];
+extern const BehaviorScript bhvLittleSister[];
+extern const BehaviorScript bhvCrusher[];
+extern const BehaviorScript bhvTurretBody[];
+extern const BehaviorScript bhvTurretHead[];
+extern const BehaviorScript bhvTurretHeavy[];
+extern const BehaviorScript bhvTurretPlatform[];
+extern const BehaviorScript bhvTurretCover[];
+extern const BehaviorScript bhvTurretPanel[];
+extern const BehaviorScript bhvGate[];
+extern const BehaviorScript bhvAlarm[];
+extern const BehaviorScript bhvCork[];
+extern const BehaviorScript bhvWaterTemple[];
+extern const BehaviorScript bhvBossDaddy[];
+extern const BehaviorScript bhvSafeExplosion[];
+
 /* GROUP B END */
 
 /* GROUP C START */

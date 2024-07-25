@@ -12,7 +12,7 @@ MITM EXCLUSIVE: Have all abilities accessible regardless of save status.
 /**
  * Enables most debug options, including PUPPYPRINT_DEBUG.
  */
-// #define DEBUG_ALL
+ //#define DEBUG_ALL
 
 /**
  * Disables all debug options (except PUPPYPRINT).
@@ -68,7 +68,7 @@ MITM EXCLUSIVE: Have all abilities accessible regardless of save status.
 /**
  * Opens all courses and doors. Used for debugging purposes to unlock all content.
  */
-#define UNLOCK_ALL
+//#define UNLOCK_ALL
 
 /**
  * Same as above, but also reads all save file flags as complete.

@@ -10,7 +10,7 @@
 #include "surface_load.h"
 #include "game/puppyprint.h"
 #include "game/ability.h"
-
+Bool8 cam_submerged;
 /**************************************************
  *                      WALLS                     *
  **************************************************/
@@ -588,6 +588,38 @@ f32 find_floor_height(f32 x, f32 y, f32 z) {
 }
 
 /**
+ * made specifically to check for camera, but can be used for any coordinates
+ * uses a raycast directly upward to see if it hits SURFACE_NEW_WATER or SURFACE_NEW_WATER_BOTTOM and return accordingly
+ * as a consequence, all SURFACE_NEW_WATER surfaces must have a downward facing normal
+ * downward normals do not affect the usability of the water surface
+ */
+Bool8 is_camera_submerged(f32 xPos, f32 yPos, f32 zPos) {
+    Vec3f cameraPos = {xPos, yPos, zPos};
+    Vec3f dir = {0, 0x4000, 0};
+    struct Surface *hitSurface;
+    Vec3f hitPos = {0.f, 0.f, 0.f};
+    find_surface_on_ray(cameraPos, dir, &hitSurface, hitPos, RAYCAST_FIND_WATER);
+    if (hitSurface != NULL) {
+        if (hitSurface->type == SURFACE_NEW_WATER){
+            return TRUE; 
+        }else if (hitSurface->type == SURFACE_NEW_WATER_BOTTOM){
+            return FALSE;
+        }
+    } else {
+        if (find_floor_height(xPos, yPos, zPos) == FLOOR_LOWER_LIMIT) {
+            if (gLakituState.pos[1] < find_water_level(gMarioState->pos[0], gMarioState->pos[2])) {
+                //print_text(0, 0, "hitSurface is NULL");
+                return TRUE;
+            }
+        } else {
+            //print_text(0, 0, "hitSurface is NOT NULL");
+        }
+        //return TRUE;
+    }
+    return FALSE;
+}
+
+/**
  * Find the highest dynamic floor under a given position. Perhaps originally static
  * and dynamic floors were checked separately.
  */
@@ -721,7 +753,9 @@ f32 find_water_floor(s32 xPos, s32 yPos, s32 zPos, struct Surface **pfloor) {
 
     // Check for surfaces that are a part of level geometry.
     struct SurfaceNode *surfaceList = gStaticSurfacePartition[cellZ][cellX][SPATIAL_PARTITION_WATER].next;
+    struct SurfaceNode *dynSurfaceList = gDynamicSurfacePartition[cellZ][cellX][SPATIAL_PARTITION_WATER].next;
     struct Surface     *floor       = find_water_floor_from_list(surfaceList, x, y, z, &height);
+    struct Surface     *dynFloor    = find_water_floor_from_list(dynSurfaceList, x, y, z, &height);
 
     if (floor == NULL) {
         height = FLOOR_LOWER_LIMIT;

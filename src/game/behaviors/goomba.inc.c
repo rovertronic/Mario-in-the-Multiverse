@@ -9,7 +9,7 @@
  * Hitbox for goomba.
  */
 static struct ObjectHitbox sGoombaHitbox = {
-    /* interactType:      */ INTERACT_BOUNCE_TOP,
+    /* interactType:      */ INTERACT_DAMAGE,
     /* downOffset:        */ 0,
     /* damageOrCoinValue: */ 1,
     /* health:            */ 0,
@@ -108,6 +108,10 @@ void bhv_goomba_triplet_spawner_update(void) {
  * Initialization function for goomba.
  */
 void bhv_goomba_init(void) {
+    o->activeFlags |= ACTIVE_FLAG_IGNORE_ENV_BOXES;
+    if (o->oPosY <= find_water_level(o->oPosX, o->oPosZ)){
+        cur_obj_set_model(MODEL_AMP);
+    }
     o->oGoombaSize = o->oBehParams2ndByte & GOOMBA_BP_SIZE_MASK;
 
     o->oGoombaScale = sGoombaProperties[o->oGoombaSize].scale;

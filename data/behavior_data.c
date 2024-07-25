@@ -58,6 +58,7 @@
 #include "levels/e/header.h"
 #include "levels/f/header.h"
 #include "levels/J/header.h"
+#include "levels/B/header.h"
 #include "levels/o/header.h"
 #include "levels/d/header.h"
 #include "levels/i/header.h"
@@ -6317,13 +6318,295 @@ const BehaviorScript bhvCutsceneCamera[] = {
         CALL_NATIVE(cm_camera_object_loop),
     END_LOOP(),
 };
-const BehaviorScript bhvIntroBreakdoor[] = {
-    BEGIN(OBJ_LIST_DEFAULT),
-    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+
+const BehaviorScript bhvBioshockFloaty[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(floaty_collision),
+    SET_FLOAT(oFloatingPlatformHeightOffset, 64),
+    SET_HOME(),
     BEGIN_LOOP(),
+        CALL_NATIVE(bhv_floating_platform_b_loop),
+        CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
-/* GROUP D END */
+
+const BehaviorScript bhvGauge[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_BREAKABLE),
+    LOAD_COLLISION_DATA(gauge_collision),
+    LOAD_ANIMATIONS(oAnimations, gauge_anims),
+    ANIMATE(0),
+    CALL_NATIVE(bhv_gauge_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_gauge_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvWaterfallHidden[] = {
+    BEGIN(OBJ_LIST_PUSHABLE),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE )),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_waterfall_hidden_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvWaterfall[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE )),
+    LOAD_COLLISION_DATA(waterfall_collision),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_waterfall_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvDebris[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE )),
+    LOAD_COLLISION_DATA(debris_collision),
+    SET_FLOAT(oDrawingDistance, 7000),
+    CALL_NATIVE(bhv_debris_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_debris_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvAirlock[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE )),
+    LOAD_COLLISION_DATA(airlock_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    SET_HOME(),
+    CALL_NATIVE(bhv_airlock_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_airlock_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvAirlockButton[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE )),
+    LOAD_COLLISION_DATA(airlock_button_collision),
+    SET_FLOAT(oDrawingDistance, 7000),
+    CALL_NATIVE(bhv_airlock_button_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_airlock_button_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvAirlockWater[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    LOAD_COLLISION_DATA(airlock_water_collision),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_airlock_water_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBigDaddy[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, bigdaddy_anims),
+    ANIMATE(2),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 0, /*Friction*/ 0, /*Buoyancy*/ 0, /*Unused*/ 0, 0),
+    SET_HOME(),
+    SET_INTERACT_TYPE(INTERACT_TEXT),
+    SET_HITBOX(/*Radius*/ 170, /*Height*/ 420),
+    SET_INT(oIntangibleTimer, 0),
+    CALL_NATIVE(bhv_big_daddy_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_big_daddy_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvLittleSister[] = {
+    BEGIN(OBJ_LIST_PUSHABLE),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_HOLDABLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    DROP_TO_FLOOR(),
+    LOAD_ANIMATIONS(oAnimations, little_sister_anims),
+    ANIMATE(0),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ -400, /*Bounciness*/ 0, /*Drag strength*/ 0, /*Friction*/ 0, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    SET_INT(oInteractType, INTERACT_TEXT),
+    //SET_INT(oInteractionSubtype, INT_SUBTYPE_HOLDABLE_NPC),
+    SET_INT(oIntangibleTimer, 0),
+    SET_HITBOX(/*Radius*/ 55, /*Height*/ 230),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_little_sister_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvCrusher[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(crusher_collision),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
+    SET_HOME(),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ 0, /*Bounciness*/ -50, /*Drag strength*/ 0, /*Friction*/ 0, /*Buoyancy*/ 0, /*Unused*/ 0, 0),
+    SET_INTERACT_TYPE(INTERACT_DAMAGE),
+    SET_HITBOX(/*Radius*/ 243, /*Height*/ 706),
+    SET_FLOAT(oDrawingDistance, 4000),
+    CALL_NATIVE(bhv_crusher_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_crusher_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvTurretBody[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    SET_HITBOX(/*Radius*/ 110, /*Height*/ 210),
+    SET_INTERACT_TYPE(INTERACT_SPINY_WALKING),
+    SET_FLOAT(oDamageOrCoinValue, 2),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 40, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    CALL_NATIVE(bhv_turret_body_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_turret_body_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvTurretHead[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags,(OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, turret_head_heavy_anims),
+    CALL_NATIVE(bhv_turret_head_init),
+    CALL_NATIVE(bhv_init_room),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_turret_head_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvTurretHeavy[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags,(OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, turret_head_heavy_anims),
+    CALL_NATIVE(bhv_turret_head_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_turret_head_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvTurretPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(turret_platform_collision),
+    OR_INT(oFlags,(OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ACTIVE_FROM_AFAR)),
+    SET_FLOAT(oDrawingDistance, 4000),
+    CALL_NATIVE(bhv_turret_platform_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_turret_platform),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvTurretCover[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags,(OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_ACTIVE_FROM_AFAR)),
+    //LOAD_COLLISION_DATA(turret_cover_collision),
+    SET_FLOAT(oDrawingDistance, 4000),
+    CALL_NATIVE(bhv_turret_cover_init),
+    BEGIN_LOOP(),
+        //CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_turret_cover),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvTurretPanel[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags,(OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_ACTIVE_FROM_AFAR)),
+    SET_FLOAT(oDrawingDistance, 4000),
+    LOAD_COLLISION_DATA(turret_panel_collision),
+    CALL_NATIVE(bhv_turret_panel_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_turret_panel),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvGate[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags,(OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_ACTIVE_FROM_AFAR)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(gate_collision),
+    SET_FLOAT(oDrawingDistance, 4000),
+    CALL_NATIVE(bhv_gate_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_gate),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvAlarm[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_ANIMATIONS(oAnimations, alarm_anims),
+    ANIMATE(0),
+    SET_FLOAT(oDrawingDistance, 4000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_alarm),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvCork[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_COLLISION_DATA(megacork_collision),
+    SET_FLOAT(oDrawingDistance, 6000),
+    //CALL_NATIVE(bhv_cork_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_cork),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvWaterTemple[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    LOAD_COLLISION_DATA(watertemple_collision),
+    SET_HOME(),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_watertemple),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBossDaddy[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_MOVE_Y_WITH_TERMINAL_VEL)),
+    LOAD_ANIMATIONS(oAnimations, bigdaddy_anims),
+    ANIMATE(2),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 170, /*Gravity*/ -400, /*Bounciness*/ 0, /*Drag strength*/ 5000, /*Friction*/ 5000, /*Buoyancy*/ 0, /*Unused*/ 0, 0),
+    SET_HITBOX(/*Radius*/ 170, /*Height*/ 420),
+    SET_INTERACT_TYPE(INTERACT_BULLY),
+    SET_FLOAT(oDrawingDistance, 6000),
+    SET_HOME(),
+    CALL_NATIVE(bhv_init_room),
+    CALL_NATIVE(bhv_boss_daddy_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_boss_daddy),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvSafeExplosion[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BILLBOARD(),
+    SET_INTERACT_TYPE(INTERACT_NONE),
+    SET_INT(oIntangibleTimer, 0),
+    SET_INT(oAnimState, OBJ_ANIM_STATE_INIT_ANIM),
+    CALL_NATIVE(bhv_explosion_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_explosion_loop),
+        ADD_INT(oAnimState, 1),
+    END_LOOP(),
+};
+/* GROUP B END */
 
 /* GROUP E START */
 

@@ -25,6 +25,7 @@ seq_startchannel 8, .channel38
 seq_startchannel 9, .channel59
 seq_startchannel 10, .channelAbility
 seq_startchannel 11, .channelLevel
+seq_startchannel 12, .channel_test_bank
 .seq_loop:
 seq_delay 20000
 seq_jump .seq_loop
@@ -8821,6 +8822,31 @@ chan_end
     layer_end
 
 //-----END LEVEL I-----//
+
+
+.channel_test_bank:
+chan_largenoteson
+chan_setinstr 0
+chan_setpanmix 127
+chan_setnotepriority 14
+chan_setval 0
+chan_iowriteval 5
+chan_stereoheadseteffects 1
+chan_setdyntable .channel_test_bank_table
+chan_jump .main_loop_023589
+
+.channel_test_bank_table:
+sound_ref .sound_test_sound
+
+.sound_test_sound:
+chan_setbank 13
+chan_setinstr 0
+chan_setlayer 0, .layer_test_sound
+chan_end
+
+.layer_test_sound:
+layer_note1 39, 0xFF, 127
+layer_end
 
 .align 2, 0
 .envelope_32C4:

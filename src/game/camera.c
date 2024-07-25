@@ -33,7 +33,7 @@
 
 #define CBUTTON_MASK (U_CBUTTONS | D_CBUTTONS | L_CBUTTONS | R_CBUTTONS)
 
-Bool8 cam_submerged;
+extern Bool8 cam_submerged;
 /**
  * @file camera.c
  * Implements the camera system, including C-button input, camera modes, camera triggers, and cutscenes.
@@ -637,12 +637,12 @@ void calc_y_to_curr_floor(f32 *posOff, f32 posMul, f32 posBound, f32 *focOff, f3
     f32 floorHeight = sMarioGeometry.currFloorHeight;
     f32 waterHeight;
 
-    if (!(sMarioCamState->action & ACT_FLAG_METAL_WATER)) {
+    /*if (!(sMarioCamState->action & ACT_FLAG_METAL_WATER)) {
         //! @bug this should use sMarioGeometry.waterHeight
         if (floorHeight < (waterHeight = find_water_level(sMarioCamState->pos[0], sMarioCamState->pos[2]))) {
             floorHeight = waterHeight;
         }
-    }
+    }*/
 
     if (sMarioCamState->action & ACT_FLAG_ON_POLE) {
         if (sMarioGeometry.currFloorHeight >= gMarioStates[0].usedObj->oPosY && sMarioCamState->pos[1]
@@ -3129,11 +3129,8 @@ void update_lakitu(struct Camera *c) {
     f32 distToFloor;
     s16 newYaw;
 
-    if (c->pos[1] < find_water_level(c->pos[0], c->pos[2])){
-        cam_submerged = TRUE;
-    } else {
-        cam_submerged = FALSE;
-    }
+    cam_submerged = is_camera_submerged(gLakituState.pos[0], gLakituState.pos[1], gLakituState.pos[2]);
+    
     if (!(gCameraMovementFlags & CAM_MOVE_PAUSE_SCREEN)) {
         newYaw = next_lakitu_state(newPos, newFoc, c->pos, c->focus, sOldPosition, sOldFocus,
                                    c->nextYaw);
@@ -9262,6 +9259,29 @@ void cutscene_dialog(struct Camera *c) {
     }
 }
 
+void cutscene_dialog_no_zoom(struct Camera *c) {
+cutscene_event(cutscene_dialog_start, c, 0, 0);
+    cutscene_event(cutscene_dialog_move_mario_shoulder, c, 0, -1);
+    cutscene_event(cutscene_dialog_create_dialog_box, c, 10, 10);
+    sStatusFlags |= CAM_FLAG_SMOOTH_MOVEMENT;
+
+    if (gDialogResponse != DIALOG_RESPONSE_NONE) {
+        sCutsceneDialogResponse = gDialogResponse;
+    }
+
+    if ((get_dialog_id() == DIALOG_NONE) && (sCutsceneVars[8].angle[0] != 0)) {
+        if (c->cutscene != CUTSCENE_RACE_DIALOG) {
+            sCutsceneDialogResponse = DIALOG_RESPONSE_NOT_DEFINED;
+        }
+
+        gCutsceneTimer = CUTSCENE_LOOP;
+        retrieve_info_star(c);
+        transition_next_state(c, 15);
+        sStatusFlags |= CAM_FLAG_UNUSED_CUTSCENE_ACTIVE;
+        cutscene_unsoften_music(c);
+    }
+}
+
 /**
  * Sets the CAM_FLAG_UNUSED_CUTSCENE_ACTIVE flag, which does nothing.
  */
@@ -11197,6 +11217,12 @@ struct Cutscene sCutsceneDialog[] = {
     { cutscene_dialog_end, 0 }
 };
 
+struct Cutscene sCutsceneDialogNoZoom[] = {
+    { cutscene_dialog_no_zoom, CUTSCENE_LOOP },
+    { cutscene_dialog_set_flag, 12 },
+    { cutscene_dialog_end, 0 }
+};
+
 /**
  * Cutscene that plays when Mario reads a sign or message.
  */
@@ -11284,6 +11310,8 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), 
 	ZOOMOUT_AREA_MASK(1, 1, 1, 1, 1, 1, 1, 1), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), 
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), 
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), 
 };
 
 //STATIC_ASSERT(ARRAY_COUNT(sZoomOutAreaMasks) - 1 == LEVEL_MAX / 2, "Make sure you edit sZoomOutAreaMasks when adding / removing courses.");
@@ -11368,6 +11396,7 @@ void play_cutscene(struct Camera *c) {
         CUTSCENE(CUTSCENE_EXIT_FALL_WMOTR,      sCutsceneFallToCastleGrounds)
         CUTSCENE(CUTSCENE_NONPAINTING_DEATH,    sCutsceneNonPaintingDeath)
         CUTSCENE(CUTSCENE_DIALOG,               sCutsceneDialog)
+        CUTSCENE(CUTSCENE_DIALOG_NO_ZOOM,       sCutsceneDialogNoZoom)
         CUTSCENE(CUTSCENE_READ_MESSAGE,         sCutsceneReadMessage)
         CUTSCENE(CUTSCENE_RACE_DIALOG,          sCutsceneDialog)
         CUTSCENE(CUTSCENE_ENTER_PYRAMID_TOP,    sCutsceneEnterPyramidTop)

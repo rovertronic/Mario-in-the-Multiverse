@@ -1635,7 +1635,7 @@ s32 act_squished(struct MarioState *m) {
                 if (m->health < 0x100) {
                     level_trigger_warp(m, WARP_OP_DEATH);
                     // woosh, he's gone!
-                    set_mario_action(m, ACT_DISAPPEARED, 0);
+                    
                 } else if (m->hurtCounter == 0) {
                     // un-squish animation
                     m->squishTimer = 30;

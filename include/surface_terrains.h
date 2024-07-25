@@ -225,6 +225,9 @@ enum SurfaceTypes {
     SURFACE_WOBBLING_WARP,              // 0x00FD // Pool warp (HMC & DDD)
     SURFACE_00FE,                       // 0x00FE // Unused
     SURFACE_TRAPDOOR,                   // 0x00FF // Bowser Left trapdoor, has no action defined
+    SURFACE_BDADDY,                     // For use with the big daddy npc, ensures no interaction from behind the door
+    SURFACE_TURRET_ACTIVATOR,           // self explanatory
+    SURFACE_B_BOSS_QUADRANT,            // For use with Big Daddy boss fight, determines landing location based on player's quadrant
 };
 
 // From Surface 0x1B to 0x1E

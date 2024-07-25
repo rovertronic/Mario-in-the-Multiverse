@@ -1,0 +1,12 @@
+extern const GeoLayout alarm_geo[];
+extern Lights1 alarm_metal_lights;
+extern Lights1 alarm_f3dlite_material_016_lights;
+extern u8 alarm_metal_i8[];
+extern Vtx alarm_root_mesh_layer_1_vtx_0[10];
+extern Gfx alarm_root_mesh_layer_1_tri_0[];
+extern Vtx alarm_root_mesh_layer_1_vtx_1[10];
+extern Gfx alarm_root_mesh_layer_1_tri_1[];
+extern Gfx mat_alarm_metal[];
+extern Gfx mat_alarm_f3dlite_material_016[];
+extern Gfx alarm_root_mesh_layer_1[];
+extern Gfx alarm_material_revert_render_settings[];

@@ -1,6 +1,6 @@
 #include "src/game/envfx_snow.h"
 
-const GeoLayout gate_geo[] = {
+const GeoLayout bgate_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, gate_gate_mesh_layer_1),

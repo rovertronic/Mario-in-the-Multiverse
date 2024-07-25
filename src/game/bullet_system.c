@@ -133,11 +133,13 @@ Gfx *dobj_bullets(s32 callContext) {
 			sBulletMesh    = bowser_f_bullet_Cube_mesh;
 			break;
 		
+		/*
 		case LEVEL_K:
 			sBulletParamFn = bullet_k_params;
 			sBulletMat     = NULL;
 			sBulletMesh    = NULL;
 			break;
+		*/
 		
 		//default DL and params, basically just to prevent crashes in case someone forgets to set their DLs,\
 		  or if bullets are spawned in a level that wasn't planned to have bullets

@@ -48,7 +48,7 @@ const LevelScript level_B_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_TURRET_HEAVY, turret_head_heavy_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_TURRET_PLATFORM, turret_platform_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_TURRET_COVER, turret_cover_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_GATE, gate_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_GATE, bgate_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_ALARM, alarm_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_ALARM_LIT, alarm_lit_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_TURRET_PANEL, turret_panel_geo), 

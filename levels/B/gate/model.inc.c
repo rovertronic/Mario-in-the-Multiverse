@@ -320,7 +320,7 @@ u8 gate_SUPER_MARIO_64_861DC3CF_0_2_all_pal_rgba16[] = {
 	0x95, 0x23, 0x84, 0x17, 
 };
 
-Vtx gate_gate_mesh_layer_1_vtx_0[16] = {
+Vtx b_gate_gate_mesh_layer_1_vtx_0[16] = {
 	{{ {-28, 49, 391}, 0, {-2576, -16}, {0, 127, 0, 255} }},
 	{{ {28, 49, 391}, 0, {-2576, 1008}, {0, 127, 0, 255} }},
 	{{ {28, 49, -391}, 0, {3568, 1008}, {0, 127, 0, 255} }},
@@ -340,7 +340,7 @@ Vtx gate_gate_mesh_layer_1_vtx_0[16] = {
 };
 
 Gfx gate_gate_mesh_layer_1_tri_0[] = {
-	gsSPVertex(gate_gate_mesh_layer_1_vtx_0 + 0, 16, 0),
+	gsSPVertex(b_gate_gate_mesh_layer_1_vtx_0 + 0, 16, 0),
 	gsSP1Triangle(0, 1, 2, 0),
 	gsSP1Triangle(0, 2, 3, 0),
 	gsSP1Triangle(4, 5, 6, 0),

@@ -1898,8 +1898,11 @@ void bhv_boss_daddy(void){
         case STATE_SPAWN_STAR:
             stop_background_music(SEQUENCE_ARGS(4, SEQ_EVENT_BOSS));
             spawn_object_relative(0, 0, 100, 0, o, MODEL_EXPLOSION, bhvSafeExplosion);
-            spawn_object_relative(7, 0, 100, 0, o, MODEL_STAR, bhvStar);
-            mark_obj_for_deletion(o);\
+            struct Object * star = spawn_object(o, MODEL_STAR, bhvStar);
+            star->oPosY += 100.0f;
+            star->oBehParams = 0x07000007;
+            mark_obj_for_deletion(o);
+            break;
         case STATE_RESTART:
             cur_obj_init_animation(12);
             while (cur_obj_find_nearest_object_with_behavior(bhvTurretBody, &dist) != NULL && dist < 3000){

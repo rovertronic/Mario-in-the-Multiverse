@@ -183,7 +183,7 @@ const LevelScript level_B_entry[] = {
 		OBJECT(MODEL_TURRET_PANEL, 14539, 493, -1864, 0, -90, 0, (3 << 24) | (1 << 16), bhvTurretPanel),
 		OBJECT(MODEL_TURRET_PANEL, 5831, 1486, -3701, 0, -135, 0, (4 << 24) | (3 << 16), bhvTurretPanel),
 		OBJECT(MODEL_TURRET_PLATFORM, 14539, 120, -1257, 0, -180, 0, (3 << 24) | (3 << 8), bhvTurretPlatform),
-		OBJECT(MODEL_BIG_DADDY, -10130, 19, -927, 0, 0, 0, 0x00000000, bhvBossDaddy),
+		OBJECT(MODEL_BIG_DADDY, -10130, 19, -927, 0, 0, 0, (7 << 24), bhvBossDaddy),
 		OBJECT(MODEL_CHECKPOINT_FLAG, -5506, 19, -927, 0, 0, 0, (9 << 16), bhvCheckpointFlag),
 		OBJECT(MODEL_TURRET_PLATFORM, -10130, -243, -927, 0, -90, 0, (0 << 16) | (10 << 8), bhvTurretPlatform),
 		OBJECT(MODEL_TURRET_PLATFORM, 10018, 120, -576, 0, -90, 0, (2 << 24) | (1 << 16) | (2 << 8), bhvTurretPlatform),

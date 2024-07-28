@@ -1,1 +1,1 @@
-extern const Collision gate_collision[];
+extern const Collision bgate_collision[];

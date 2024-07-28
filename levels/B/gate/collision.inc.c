@@ -1,4 +1,4 @@
-const Collision gate_collision[] = {
+const Collision bgate_collision[] = {
 	COL_INIT(),
 	COL_VERTEX_INIT(12),
 	COL_VERTEX(-28, 49, 391),

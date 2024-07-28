@@ -232,7 +232,7 @@ void bhv_debris_init(void){
 }
 
 void bhv_debris_loop(void){
-    o->oFaceAngleYaw += 0x100;
+    o->oFaceAngleYaw += 0x80;
     o->oMoveAngleYaw = o->oFaceAngleYaw;
 }
 
@@ -586,6 +586,10 @@ void bhv_little_sister_loop(void) {
                 }
             }
             break;
+    }
+
+    if (o->oAction == LS_IDLE) {
+        o->oInteractStatus = 0;
     }
 }
 

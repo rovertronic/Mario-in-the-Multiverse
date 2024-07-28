@@ -56,7 +56,7 @@ enum ObjFlags {
     OBJ_FLAG_SILHOUETTE                        = (1 << 19), // 0x00080000
     OBJ_FLAG_OCCLUDE_SILHOUETTE                = (1 << 20), // 0x00100000
     OBJ_FLAG_OPACITY_FROM_CAMERA_DIST          = (1 << 21), // 0x00200000
-    OBJ_FLAG_EMIT_LIGHT                        = (1 << 22), // 0x00400000
+    OBJ_FLAG_NO_DREAM_COMET                    = (1 << 22), // 0x00400000
     OBJ_FLAG_ONLY_PROCESS_INSIDE_ROOM          = (1 << 23), // 0x00800000
     //--E SG coll
     OBJ_FLAG_E__SG_ENEMY                       = (1 << 24),//Used for common enemies - flattens the enemy against the surface that they were shot against, spawns their coins

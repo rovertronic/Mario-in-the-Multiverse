@@ -54,7 +54,7 @@ https://github.com/aglab2/sm64asm/blob/master/dl/src/star_radar.cpp
 extern struct SaveBuffer gSaveBuffer;
 
 s32 level_in_dream_comet_mode(void) {
-    return FALSE;
+    return TRUE;
 }
 
 u8 get_dream_star_flags(void) {

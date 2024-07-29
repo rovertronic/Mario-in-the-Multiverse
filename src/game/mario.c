@@ -38,6 +38,7 @@
 #include "src/buffers/buffers.h"
 #include "dialog_ids.h"
 #include "cutscene_manager.h"
+#include "dream_comet.h"
 
 s16 check_water_height = -10000;
 Bool8 have_splashed;
@@ -2173,7 +2174,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 
         struct Surface * marble_floor;
         f32 marble_floor_y = find_floor(gMarioState->pos[0],gMarioState->pos[1],gMarioState->pos[2],&marble_floor);
-        u8 force_marble = ((marble_floor)&&(marble_floor->type == SURFACE_FORCE_MARBLE)&&(gMarioState->pos[1] < marble_floor_y+120.0f)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE));
+        u8 force_marble = ((!level_in_dream_comet_mode())&&(marble_floor)&&(marble_floor->type == SURFACE_FORCE_MARBLE)&&(gMarioState->pos[1] < marble_floor_y+120.0f)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE));
 
         if (using_ability(ABILITY_BUBBLE_HAT) && (gMarioState->action != ACT_BUBBLE_HAT_JUMP)) {
             change_ability(ABILITY_BUBBLE_HAT);

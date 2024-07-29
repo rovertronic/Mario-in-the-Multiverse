@@ -460,7 +460,7 @@ f32 ability_chronos_current_slow_factor(void) {
 s32 check_if_swap_ability_allowed(void) {
     struct Surface * marble_floor;
     f32 marble_floor_y = find_floor(gMarioState->pos[0],gMarioState->pos[1],gMarioState->pos[2],&marble_floor);
-    u8 force_marble = ((marble_floor)&&(marble_floor->type == SURFACE_FORCE_MARBLE)&&(gMarioState->pos[1] < marble_floor_y+120.0f)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE));
+    u8 force_marble = ((!level_in_dream_comet_mode())&&(marble_floor)&&(marble_floor->type == SURFACE_FORCE_MARBLE)&&(gMarioState->pos[1] < marble_floor_y+120.0f)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE));
 
     if (force_marble) {
         return FALSE;

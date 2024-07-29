@@ -5175,7 +5175,7 @@ const BehaviorScript bhvSwoop[] = {
 
 const BehaviorScript bhvFlyGuy[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY)),//--E
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY | OBJ_FLAG_NO_DREAM_COMET)),//--E
     LOAD_ANIMATIONS(oAnimations, flyguy_seg8_anims_08011A64),
     ANIMATE(FLY_GUY_ANIM_FLYING),
     SET_HOME(),
@@ -7102,7 +7102,7 @@ const BehaviorScript bhvConcreteBlock[] = {
 
 const BehaviorScript bhvFightWavesManager[] = {
     BEGIN(OBJ_LIST_LEVEL),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET)),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_fight_waves_manager_loop),
     END_LOOP(),
@@ -7135,7 +7135,7 @@ const BehaviorScript bhvCraneArrowController[] = {
 
 const BehaviorScript bhvCraneArrow[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET)),
     LOAD_COLLISION_DATA(crane_arrow_collision),
     DROP_TO_FLOOR(),
     BEGIN_LOOP(),
@@ -7156,7 +7156,7 @@ const BehaviorScript bhvCraneRock[] = {
 
 const BehaviorScript bhvPaintGun[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_NO_DREAM_COMET)),
     SET_INT(oInteractType, INTERACT_GRABBABLE),
     SET_INT(oInteractionSubtype, INT_SUBTYPE_NOT_GRABBABLE),
     SET_INT(oAnimState, 1),
@@ -8533,7 +8533,7 @@ const BehaviorScript bhvLDoor[] = {
 extern void bhv_l_pillar(void);
 const BehaviorScript bhvL_JohnPillar[] = {
     BEGIN(OBJ_LIST_PUSHABLE),
-    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_CUSTOM),
+    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_NO_DREAM_COMET),
     SET_HITBOX(/*Radius*/ 212, /*Height*/ 1000),
     LOAD_ANIMATIONS(oAnimations, johnp_anims),
     ANIMATE(0),
@@ -8548,7 +8548,7 @@ const BehaviorScript bhvJohnBlock[] = {
     LOAD_COLLISION_DATA(johnblock_collision),
     SET_FLOAT(oDrawingDistance, 16000),
     SET_FLOAT(oCollisionDistance, 500),
-    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_NO_DREAM_COMET)),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_l_johnblock),
     END_LOOP(),
@@ -8581,7 +8581,7 @@ const BehaviorScript bhvL_Cheeseslime[] = {
 extern void bhv_npc_pepperman_loop(void);
 const BehaviorScript bhvL_PeppermanNPC[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET)),
     LOAD_ANIMATIONS(oAnimations, pepperman_anims),
     SET_INTERACT_TYPE(INTERACT_TEXT),
     DROP_TO_FLOOR(),
@@ -8598,7 +8598,7 @@ const BehaviorScript bhvL_PeppermanNPC[] = {
 extern void bhv_boss_pepperman_loop(void);
 const BehaviorScript bhvL_PeppermanBoss[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_NO_DREAM_COMET)),
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 100, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 500, /*Friction*/ 500, /*Buoyancy*/ 0, /*Unused*/ 0, 0),
     LOAD_ANIMATIONS(oAnimations, pepperman_anims),
     DROP_TO_FLOOR(),

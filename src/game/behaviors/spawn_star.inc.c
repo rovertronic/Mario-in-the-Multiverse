@@ -222,21 +222,3 @@ void bhv_hidden_red_coin_star_loop(void) {
             break;
     }
 }
-
-
-void bhv_dream_catalyst(void) {
-    switch(o->oAction) {
-        case 0: //decide if i should become active
-            if (level_in_dream_comet_mode()) {
-                o->oAction = 1;
-            }
-            break;
-        case 1: //init
-            o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_DREAM_STAR];
-            o->oAction = 2;
-            break;
-        case 2: //loop
-            o->oFaceAngleYaw += 0x800;
-            break;
-    }
-}

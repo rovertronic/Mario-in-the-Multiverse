@@ -8,6 +8,7 @@
 #include "puppycam2.h"
 
 #include "course_table.h"
+#include "mitm_hub.h"
 
 #if defined(SRAM)
     #define EEPROM_SIZE 0x8000
@@ -34,6 +35,7 @@ struct SaveFile {
     u8 courseStars[COURSE_COUNT]; // 200 bits
     u8 courseCoinScores[COURSE_STAGES_COUNT]; // 120 bits
     u8 hints_unlocked[15];
+    u8 dreamCatalysts[HUBLEVEL_COUNT];
 
     struct SaveBlockSignature signature; // 32 bits
 };

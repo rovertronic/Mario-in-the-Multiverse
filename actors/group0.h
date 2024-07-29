@@ -523,4 +523,8 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "dream_catalyst/geo_header.h"
 
+#include "star_radar/header.h"
+
+#include "cometbar/header.h"
+
 #endif

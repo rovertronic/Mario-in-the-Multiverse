@@ -20,6 +20,7 @@
 #include "actors/group0.h"
 #include "cutscene_manager.h"
 #include "mario.h"
+#include "dream_comet.h"
 //--E
 #include "levels/e/header.h"
 
@@ -1183,6 +1184,9 @@ void render_hud(void) {
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hud_alpha);
 
         gSPDisplayList(gDisplayListHead++, &hudbar_hudbar_mesh);
+        if (level_in_dream_comet_mode()) {
+            gSPDisplayList(gDisplayListHead++, &cometbar_cometbar_mesh);
+        }
 
         render_meter(293, 185, METER_STYLE_HP, gHudDisplay.wedges, (u8)hud_alpha);
 
@@ -1231,6 +1235,10 @@ void render_hud(void) {
         render_esa_health();
 
         render_ability_get_hud();
+
+        if (level_in_dream_comet_mode()) {
+            render_dream_comet_hud(hud_alpha);
+        }
 
         if (shop_show_ui) {
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);

@@ -158,7 +158,7 @@ void scroll_gfx_mat_B_dl_water_2_layer7() {
 void scroll_gfx_mat_B_dl_waterfall_layer5() {
 	Gfx *mat = segmented_to_virtual(mat_B_dl_waterfall_layer5);
 
-	shift_t(mat, 18, PACK_TILESIZE(0, 4));
+	shift_t(mat, 19, PACK_TILESIZE(0, 4));
 
 };
 

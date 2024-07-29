@@ -78,12 +78,13 @@ u8 pipe_string_b[] = {TEXT_PIPE_B};
 u8 hub_star_string[] = {0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,DIALOG_CHAR_TERMINATOR};
 
 mitm_dream_data mitmdd_b = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_BIG_DADDY,ABILITY_NONE},6};
+mitm_dream_data mitmdd_g = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_NONE,ABILITY_NONE},7};
 
 //In course order, not alphabetical!
 //Only mess with /* Level */ entry, everything else is pre-configured
 struct mitm_hub_level hub_levels[] = {
           /* Author          Level      StarFlags     StarReq  StartArea  ReturnWarp  StarCt Dream      Name */
-    /*G*/ {&author_string_g, LEVEL_G,   COURSE_BOB,   0/*0 */, 3,         20,         8,     NULL,      "MARIO SUPER STAR ULTRA"},
+    /*G*/ {&author_string_g, LEVEL_G,   COURSE_BOB,   0/*0 */, 3,         20,         8,     &mitmdd_g, "MARIO SUPER STAR ULTRA"},
     /*A*/ {&author_string_a, LEVEL_A,   COURSE_WF,    0/*1 */, 1,         21,         8,     NULL,      "MARIO IN BIKINI BOTTOM"},
     /*C*/ {&author_string_c, LEVEL_C,   COURSE_JRB,   0/*1 */, 1,         22,         8,     NULL,      "PIRANHA PIT"},
     /*I*/ {&author_string_i, LEVEL_I,   COURSE_CCM,   0/*3 */, 1,         23,         8,     NULL,      "MUSHROOM HAVOC"},

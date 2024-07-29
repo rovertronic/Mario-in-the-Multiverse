@@ -27,6 +27,7 @@
 #include "ability.h"
 #include "rigid_body.h"
 #include "mitm_hub.h"
+#include "dream_comet.h"
 
 u8  sDelayInvincTimer;
 s16 sInvulnerable;
@@ -896,6 +897,10 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
             starGrabAction = ACT_FALL_AFTER_STAR_GRAB;
         }
 
+        if (level_in_dream_comet_mode()) {
+            starGrabAction = ACT_STAR_DANCE_WATER;
+        }
+
         spawn_object(obj, MODEL_NONE, bhvStarKeyCollectionPuffSpawner);
 
         obj->oInteractStatus = INT_STATUS_INTERACTED;
@@ -925,11 +930,16 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
             }
             ability_get_confirm = FALSE;
         } else {
-            //power star
-            p_rank_stars ++;
-            save_file_collect_star_or_key(m->numCoins, starIndex);
-            m->numStars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
-            ability_get_confirm = TRUE;
+            if (!level_in_dream_comet_mode()) {
+                //power star
+                p_rank_stars ++;
+                save_file_collect_star_or_key(m->numCoins, starIndex);
+                m->numStars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
+                ability_get_confirm = TRUE;
+            } else {
+                //dream catalyst
+                set_dream_star(obj->oBehParams2ndByte);
+            }
         }
 
         if (!noExit) {

@@ -1448,7 +1448,3 @@ s32 lvl_play_the_end_screen_sound(UNUSED s16 initOrUpdate, UNUSED s32 levelNum) 
     play_sound(SOUND_MENU_THANK_YOU_PLAYING_MY_GAME, gGlobalSoundSource);
     return TRUE;
 }
-
-s32 level_in_dream_comet_mode(void) {
-    return FALSE;
-}

@@ -639,11 +639,15 @@ s32 act_debug_free_move(struct MarioState *m) {
 extern u8 ability_get_confirm;
 void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
     struct Object *celebStar = NULL;
+    int celebStarModel = MODEL_STAR;
 
     if (m->actionState == ACT_STATE_STAR_DANCE_CUTSCENE) {
         switch (update_mario_action_timer_pre(m)) {
             case 1:
-                celebStar = spawn_object(m->marioObj, MODEL_STAR, bhvCelebrationStar);
+                if (level_in_dream_comet_mode()) {
+                    celebStarModel = MODEL_DREAM_STAR;
+                }
+                celebStar = spawn_object(m->marioObj, celebStarModel, bhvCelebrationStar);
 #ifdef STAR_DANCE_USES_STARS_MODEL
                 obj_set_model(celebStar, gStarModelLastCollected);
 #else

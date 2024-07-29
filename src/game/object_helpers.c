@@ -2625,3 +2625,21 @@ void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 o
     spawn_default_star(targetX, targetY, targetZ);
     o->oPosY = objectPosY;
 }
+
+struct Object *obj_find_nearest_object_with_behavior_and_bparam2(const BehaviorScript *behavior, int bparam2) {
+    uintptr_t *behaviorAddr = (uintptr_t *) segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != 0
+            && obj->oBehParams2ndByte == bparam2
+        ) {
+            return obj;
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+
+    return NULL;
+}

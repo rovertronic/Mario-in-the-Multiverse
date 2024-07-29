@@ -130,6 +130,7 @@
 #include "actors/common1.h"
 #include "actors/common1.h"
 #include "actors/common1.h"
+#include "actors/common1.h"
 
 /* Fast64 begin persistent block [includes] */
 #include "actors/common1.h"
@@ -288,6 +289,10 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_G_WADDLE_DEE, -3820, 2763, -5266, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_G_WADDLE_DEE, -358, 2763, -7213, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_G_WADDLE_DEE, 4410, 3237, -4660, 0, 0, 0, 0x00000000, bhvGWaddleDee),
+		OBJECT(MODEL_NONE, 554, 607, 1212, 0, 0, 0, (0 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, -1683, 3576, 2210, 0, 0, 0, (1 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, -3301, 4231, -9958, 0, 0, 0, (2 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, -2626, 6097, -8212, 0, 0, 0, (3 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, 2212, -1780, -10226, 0, 0, 0, (90 << 24) | (11 << 16), bhvWarp),
 		OBJECT(MODEL_LEVEL_PIPE, 909, 981, 219, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_GOOMBA, -496, -2108, 11816, 0, 0, 0, 0x00000000, bhvGoomba),
@@ -366,6 +371,9 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_G_WADDLE_DEE, -3498, 3511, 18618, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_G_WADDLE_DEE, -11059, 446, 16110, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_G_WADDLE_DEE, -13629, 446, 14427, 0, 0, 0, 0x00000000, bhvGWaddleDee),
+		OBJECT(MODEL_NONE, 8177, 1845, 14212, 0, 0, 0, (4 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, -9058, 1940, 16332, 0, 0, 0, (5 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, -5350, -803, 13558, 0, 0, 0, (6 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_ABILITY_SIGN, 7235, 808, 15721, 0, -49, 0, (5 << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, -13876, 237, 8376, 0, -40, 0, (4 << 16), bhvStaticObject),
 		OBJECT(MODEL_NONE, 3852, 3467, -2928, 0, -180, 0, (11 << 16), bhvAirborneDeathWarp),

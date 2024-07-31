@@ -86,24 +86,24 @@ mitm_dream_data mitmdd_n = {{ABILITY_DEFAULT,ABILITY_E_SHOTGUN,ABILITY_BUBBLE_HA
 //In course order, not alphabetical!
 //Only mess with /* Level */ entry, everything else is pre-configured
 struct mitm_hub_level hub_levels[] = {
-          /* Author          Level      StarFlags     StarReq  StartArea  ReturnWarp  StarCt Dream      Name */
-    /*G*/ {&author_string_g, LEVEL_G,   COURSE_BOB,   0/*0 */, 3,         20,         8,     &mitmdd_g, "MARIO SUPER STAR ULTRA"},
-    /*A*/ {&author_string_a, LEVEL_A,   COURSE_WF,    0/*1 */, 1,         21,         8,     NULL,      "MARIO IN BIKINI BOTTOM"},
-    /*C*/ {&author_string_c, LEVEL_C,   COURSE_JRB,   0/*1 */, 1,         22,         8,     &mitmdd_c, "PIRANHA PIT"},
-    /*I*/ {&author_string_i, LEVEL_I,   COURSE_CCM,   0/*3 */, 1,         23,         8,     NULL,      "MUSHROOM HAVOC"},
-    /*H*/ {&author_string_h, LEVEL_H,   COURSE_BBH,   0/*5 */, 1,         24,         8,     NULL,      "OPPORTUNITY"},
-    /*B*/ {&author_string_b, LEVEL_B,   COURSE_HMC,   0/*10*/, 1,         25,         8,     &mitmdd_b, "BIOSHOCK RAPTURE"},
-    /*L*/ {&author_string_l, LEVEL_L,   COURSE_LLL,   0/*15*/, 6,         26,         8,     &mitmdd_l, "BEYOND THE CURSED PIZZA"},
-    /*K*/ {&author_string_k, LEVEL_BOB, COURSE_SSL,   0/*15*/, 1,         27,         8,     NULL,      "-"},
-    /*E*/ {&author_string_e, LEVEL_E,   COURSE_DDD,   0/*20*/, 1,         28,         8,     NULL,      "DOOM"},
-    /*F*/ {&author_string_f, LEVEL_F,   COURSE_SL,    0/*20*/, 1,         29,         8,     NULL,      "FROM RUSSIA WITH LOVE"},
-    /*J*/ {&author_string_j, LEVEL_J,   COURSE_WDW,   0/*25*/, 1,         30,         8,     NULL,      "ECRUTEAK CITY"},
-    /*D*/ {&author_string_d, LEVEL_D,   COURSE_TTM,   0/*30*/, 1,         31,         8,     NULL,      "NEW N-SANITY ISLAND"},
-    /*O*/ {&author_string_o, LEVEL_O,   COURSE_THI,   0/*30*/, 1,         32,         8,     NULL,      "SAINTS, SINNERS, & MARIO"},
-    /*N*/ {&author_string_n, LEVEL_N,   COURSE_TTC,   0/*50*/, 1,         33,         8,     &mitmdd_n, "MARIO IN HAMSTERBALL"},
-    /*M*/ {&author_string_m, LEVEL_M,   COURSE_RR,    0/*50*/, 1,         34,         8,     NULL,      "ENVIRONMENTAL STATION M"},
-    /*BC*/{NULL, LEVEL_BOWSER_COURSE,   COURSE_BITDW, 0,       1,         34,         1,     NULL,      "CENTRUM OMNIUM"},
-   /*HUB*/{NULL,             NULL,      COURSE_BITFS, 0,       1,         34,         2,     NULL,      "HUB"},
+          /* Author          Level     StarFlags     StarReq  StartArea  ReturnWarp  StarCt DreamData  Name */
+    /*G*/ {&author_string_g, LEVEL_G,  COURSE_BOB,   0/*0 */, 3,         20,         8,     &mitmdd_g, "MARIO SUPER STAR ULTRA"},
+    /*A*/ {&author_string_a, LEVEL_A,  COURSE_WF,    0/*1 */, 1,         21,         8,     NULL,      "MARIO IN BIKINI BOTTOM"},
+    /*C*/ {&author_string_c, LEVEL_C,  COURSE_JRB,   0/*1 */, 1,         22,         8,     &mitmdd_c, "PIRANHA PIT"},
+    /*I*/ {&author_string_i, LEVEL_I,  COURSE_CCM,   0/*3 */, 1,         23,         8,     NULL,      "MUSHROOM HAVOC"},
+    /*H*/ {&author_string_h, LEVEL_H,  COURSE_BBH,   0/*5 */, 1,         24,         8,     NULL,      "OPPORTUNITY"},
+    /*B*/ {&author_string_b, LEVEL_B,  COURSE_HMC,   0/*10*/, 1,         25,         8,     &mitmdd_b, "BIOSHOCK RAPTURE"},
+    /*L*/ {&author_string_l, LEVEL_L,  COURSE_LLL,   0/*15*/, 6,         26,         8,     &mitmdd_l, "BEYOND THE CURSED PIZZA"},
+    /*K*/ {&author_string_k, LEVEL_K,  COURSE_SSL,   0/*15*/, 2,         27,         8,     NULL,      "KATANA MARIO NEW MECCA"},
+    /*E*/ {&author_string_e, LEVEL_E,  COURSE_DDD,   0/*20*/, 1,         28,         8,     NULL,      "DOOM"},
+    /*F*/ {&author_string_f, LEVEL_F,  COURSE_SL,    0/*20*/, 1,         29,         8,     NULL,      "FROM RUSSIA WITH LOVE"},
+    /*J*/ {&author_string_j, LEVEL_J,  COURSE_WDW,   0/*25*/, 1,         30,         8,     NULL,      "ECRUTEAK CITY"},
+    /*D*/ {&author_string_d, LEVEL_D,  COURSE_TTM,   0/*30*/, 1,         31,         8,     NULL,      "NEW N-SANITY ISLAND"},
+    /*O*/ {&author_string_o, LEVEL_O,  COURSE_THI,   0/*30*/, 1,         32,         8,     NULL,      "SAINTS, SINNERS, & MARIO"},
+    /*N*/ {&author_string_n, LEVEL_N,  COURSE_TTC,   0/*50*/, 1,         33,         8,     &mitmdd_n, "MARIO IN HAMSTERBALL"},
+    /*M*/ {&author_string_m, LEVEL_M,  COURSE_RR,    0/*50*/, 1,         34,         8,     NULL,      "ENVIRONMENTAL STATION M"},
+    /*BC*/{NULL, LEVEL_BOWSER_COURSE,  COURSE_BITDW, 0,       1,         34,         1,     NULL,      "CENTRUM OMNIUM"},
+   /*HUB*/{NULL,             NULL,     COURSE_BITFS, 0,       1,         34,         2,     NULL,      "HUB"},
 };
 
 s8 hub_level_index = -1;

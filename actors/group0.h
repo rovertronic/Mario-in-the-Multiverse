@@ -527,4 +527,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "cometbar/header.h"
 
+#include "spidertron_arm1/geo_header.h"
+
 #endif

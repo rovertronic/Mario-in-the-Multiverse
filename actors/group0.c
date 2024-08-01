@@ -144,3 +144,4 @@
 #include "dream_catalyst/model.inc.c"
 #include "star_radar/model.inc.c"
 #include "cometbar/model.inc.c"
+#include "spidertron_arm1/model.inc.c"

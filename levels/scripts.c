@@ -152,6 +152,7 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_RED_ARROW,               redarrow_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SHOPITEM_3,              shopitem3_geo),
     LOAD_MODEL_FROM_GEO(MODEL_DREAM_STAR,              dream_catalyst_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SPIDERTRON_LIMB_1,       spidertron_arm1_geo),
     FREE_LEVEL_POOL(),
     POP_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),

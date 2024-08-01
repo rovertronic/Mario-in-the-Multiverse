@@ -546,6 +546,49 @@ void mtxf_lookat(Mat4 mtx, Vec3f from, Vec3f to, s16 roll) {
     MTXF_END(mtx);
 }
 
+void mtxf_lookat_nosuck(Mat4 mtx, Vec3f from, Vec3f to, s16 roll) {
+    PUPPYPRINT_ADD_COUNTER(gPuppyCallCounter.matrix);
+    Vec3f colX, colY, colZ;
+    register f32 dx = (to[0] - from[0]);
+    register f32 dz = (to[2] - from[2]);
+    register f32 invLength = sqrtf(sqr(dx) + sqr(dz));
+    invLength = -(1.0f / MAX(invLength, NEAR_ZERO));
+    dx *= invLength;
+    dz *= invLength;
+    f32 sr  = sins(roll);
+    colY[1] = coss(roll);
+    colY[0] = ( sr * dz);
+    colY[2] = (-sr * dx);
+    vec3f_diff(colZ, from, to); // to & from are swapped
+    vec3f_normalize(colZ);
+    vec3f_cross(colX, colY, colZ);
+    vec3f_normalize(colX);
+    vec3f_cross(colY, colZ, colX);
+    vec3f_normalize(colY);
+
+    Mat4 evil_lookat;
+    evil_lookat[0][0] = colX[0];
+    evil_lookat[1][0] = colX[1];
+    evil_lookat[2][0] = colX[2];
+    evil_lookat[0][1] = colY[0];
+    evil_lookat[1][1] = colY[1];
+    evil_lookat[2][1] = colY[2];
+    evil_lookat[0][2] = colZ[0];
+    evil_lookat[1][2] = colZ[1];
+    evil_lookat[2][2] = colZ[2];
+    //evil_lookat[3][0] = -vec3f_dot(from, colX);
+    //evil_lookat[3][1] = -vec3f_dot(from, colY);
+    //evil_lookat[3][2] = -vec3f_dot(from, colZ);
+    MTXF_END(evil_lookat);
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            mtx[i][j] = evil_lookat[j][i];
+        }
+        mtx[i][3] = 0.0f;
+    }
+}
+
 /**
  * Set 'dest' to a transformation matrix that turns an object to face the camera.
  * 'mtx' is the look-at matrix from the camera.

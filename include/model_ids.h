@@ -614,6 +614,7 @@ enum GLOBAL_MODELS {
     MODEL_WEDSER,
     MODEL_SHOPITEM_3, // accident
     MODEL_DREAM_STAR,
+    MODEL_SPIDERTRON_LIMB_1,
 
     // Custom Mario Models
     MODEL_E__MARIO,

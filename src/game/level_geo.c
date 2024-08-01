@@ -134,7 +134,7 @@ Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *
                 }
             }
 
-            guTranslate(&cool_matrix, gLakituState.curPos[0], gLakituState.curPos[1], gLakituState.curPos[2]);
+            guTranslate(&cool_matrix, gCurGraphNodeCamera->pos[0], gCurGraphNodeCamera->pos[1], gCurGraphNodeCamera->pos[2]);
 
             gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
             gSPDisplayList(&cool_display_list[1], segmented_to_virtual(o_spooky_sky_Sphere_001_mesh));
@@ -197,7 +197,7 @@ Gfx *geo_update_h_sky(s32 callContext, struct GraphNode *node, UNUSED void *cont
     Vec3s marioPos;
 
     if (callContext == GEO_CONTEXT_RENDER) {
-        guTranslate(&cool_matrix, gLakituState.curPos[0], gLakituState.curPos[1], gLakituState.curPos[2]);
+        guTranslate(&cool_matrix, gCurGraphNodeCamera->pos[0], gCurGraphNodeCamera->pos[1], gCurGraphNodeCamera->pos[2]);
 
         gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
         gSPDisplayList(&cool_display_list[1], segmented_to_virtual(hsky_Sphere_mesh));
@@ -250,12 +250,12 @@ Gfx *geo_update_f_sky(s32 callContext, struct GraphNode *node, UNUSED void *cont
     Gfx *dl = NULL;
 
     if (callContext == GEO_CONTEXT_RENDER) {
-        guTranslate(&cool_matrix, gLakituState.curPos[0], gLakituState.curPos[1], gLakituState.curPos[2]);
+        guTranslate(&cool_matrix, gCurGraphNodeCamera->pos[0], gCurGraphNodeCamera->pos[1], gCurGraphNodeCamera->pos[2]);
         gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
         gSPDisplayList(&cool_display_list[1], segmented_to_virtual(fsky2_fsky2_mesh));
         gSPPopMatrix(&cool_display_list[2], G_MTX_MODELVIEW);
 
-        guTranslate(&cool_matrix_2, gLakituState.curPos[0]*.75f, gLakituState.curPos[1]*.75f, gLakituState.curPos[2]*.75f);
+        guTranslate(&cool_matrix_2, gCurGraphNodeCamera->pos[0]*.75f, gCurGraphNodeCamera->pos[1]*.75f, gCurGraphNodeCamera->pos[2]*.75f);
         gSPMatrix(&cool_display_list[3], &cool_matrix_2, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
         gSPDisplayList(&cool_display_list[4], segmented_to_virtual(fsky_sky_mesh));
         gSPPopMatrix(&cool_display_list[5], G_MTX_MODELVIEW);
@@ -298,7 +298,7 @@ Gfx *geo_update_f_sky2(s32 callContext, struct GraphNode *node, UNUSED void *con
     Vec3s marioPos;
 
     if (callContext == GEO_CONTEXT_RENDER) {
-        guTranslate(&cool_matrix, gLakituState.curPos[0], gLakituState.curPos[1], gLakituState.curPos[2]);
+        guTranslate(&cool_matrix, gCurGraphNodeCamera->pos[0], gCurGraphNodeCamera->pos[1], gCurGraphNodeCamera->pos[2]);
 
         gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
         gSPDisplayList(&cool_display_list[1], segmented_to_virtual(fsky2_fsky2_mesh));
@@ -320,7 +320,7 @@ Gfx *geo_update_hub_sky(s32 callContext, struct GraphNode *node, UNUSED void *co
     Vec3s marioPos;
 
     if (callContext == GEO_CONTEXT_RENDER) {
-        guTranslate(&cool_matrix, gLakituState.curPos[0], gLakituState.curPos[1], gLakituState.curPos[2]);
+        guTranslate(&cool_matrix, gCurGraphNodeCamera->pos[0], gCurGraphNodeCamera->pos[1], gCurGraphNodeCamera->pos[2]);
 
         gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
         gSPDisplayList(&cool_display_list[1], segmented_to_virtual(hubsky_1Solar_Winds_mesh));
@@ -342,7 +342,7 @@ Gfx *geo_update_l_sky(s32 callContext, struct GraphNode *node, UNUSED void *cont
     Vec3s marioPos;
 
     if (callContext == GEO_CONTEXT_RENDER) {
-        guTranslate(&cool_matrix, gLakituState.pos[0]-(gMarioState->pos[0]/10.0f), gLakituState.pos[1]-(gMarioState->pos[1]/10.0f), gLakituState.pos[2]);
+        guTranslate(&cool_matrix, gCurGraphNodeCamera->pos[0]-(gMarioState->pos[0]/10.0f), gCurGraphNodeCamera->pos[1]-(gMarioState->pos[1]/10.0f), gCurGraphNodeCamera->pos[2]);
 
         gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
         gSPDisplayList(&cool_display_list[1], segmented_to_virtual(ptbg_Plane_mesh));
@@ -402,7 +402,7 @@ Gfx *geo_update_bowser_course_sky(s32 callContext, struct GraphNode *node, UNUSE
     Vec3s marioPos;
 
     if (callContext == GEO_CONTEXT_RENDER) {
-        guTranslate(&cool_matrix, gLakituState.pos[0], gLakituState.pos[1], gLakituState.pos[2]);
+        guTranslate(&cool_matrix, gCurGraphNodeCamera->pos[0], gCurGraphNodeCamera->pos[1], gCurGraphNodeCamera->pos[2]);
 
         gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
         gSPDisplayList(&cool_display_list[1], segmented_to_virtual(mverses_sky_Sphere_mesh));
@@ -419,7 +419,7 @@ extern Gfx ksky_ksky_mesh[];
 Gfx *geo_update_k_sky(s32 callContext, struct GraphNode *node, UNUSED void *context) {
 
     if (callContext == GEO_CONTEXT_RENDER) {
-        guTranslate(&cool_matrix, gLakituState.curPos[0], gLakituState.curPos[1], gLakituState.curPos[2]);
+        guTranslate(&cool_matrix, gCurGraphNodeCamera->pos[0], gCurGraphNodeCamera->pos[1], gCurGraphNodeCamera->pos[2]);
 
         gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
         gSPDisplayList(&cool_display_list[1], segmented_to_virtual(ksky_ksky_mesh));

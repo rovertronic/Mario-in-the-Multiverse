@@ -15,3 +15,5 @@
 
 
 #include "levels/k/geo.inc.c"
+
+#include "levels/k/k_strong_terry/geo.inc.c"

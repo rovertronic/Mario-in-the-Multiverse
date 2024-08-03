@@ -847,6 +847,9 @@ enum {
 /* LEVEL J END */
 
 /* LEVEL K START */
+enum K_MODELS {
+    MODEL_K_STRONG_TERRY=0x150,
+};
 /* LEVEL K END */
 
 /* LEVEL L START */

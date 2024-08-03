@@ -27,6 +27,7 @@ const LevelScript level_k_entry[] = {
 	LOAD_YAY0(0xa, _bits_skybox_yay0SegmentRomStart, _bits_skybox_yay0SegmentRomEnd), 
 	ALLOC_LEVEL_POOL(),
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
+	LOAD_MODEL_FROM_GEO(MODEL_K_STRONG_TERRY, k_strong_terry_geo),
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */

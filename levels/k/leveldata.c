@@ -14,3 +14,4 @@
 #include "levels/k/leveldata.inc.c"
 
 #include "levels/k/ksky/model.inc.c"
+#include "levels/k/k_strong_terry/model.inc.c"

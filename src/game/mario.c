@@ -2521,6 +2521,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 
 void init_mario(void) {
     esa_mhp = -1;
+
+    gMarioState->bloodAlcoholConcentration = 0.1f;
     
     //set_camera_mode(gMarioState->area->camera, gMarioState->area->camera->defMode, 1);
 

@@ -500,6 +500,8 @@ struct MarioState {
             s8 areaCheckpointFlag;
             Vec3f vecCheckpointFlag;
             s8 keypad_id;
+
+            f32 bloodAlcoholConcentration;
 };
 
 typedef uint8_t   qu08_t;

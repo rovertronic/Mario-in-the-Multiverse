@@ -709,6 +709,21 @@ void geo_process_camera(struct GraphNodeCamera *node) {
         scaledCamera[3][i] /= WORLD_SCALE;
     }
 
+    f32 bac = gMarioState->bloodAlcoholConcentration;
+    if (bac > 0.0f) {
+        Mat4 drunkMatrix;
+        mtxf_identity(drunkMatrix);
+        drunkMatrix[0][0] += sins(gGlobalTimer*0x200)*bac*2.0f;
+        drunkMatrix[0][1] += sins(gGlobalTimer*0x200+0x1000)*bac*2.0f;
+        drunkMatrix[0][2] += sins(gGlobalTimer*0x200-0x1000)*bac*2.0f;
+
+        drunkMatrix[2][0] += sins(gGlobalTimer*0x200+0x2000)*bac*.5f;
+        drunkMatrix[2][1] += sins(gGlobalTimer*0x200+0x3000)*bac*.5f;
+        drunkMatrix[2][2] += sins(gGlobalTimer*0x200+0x4000)*bac*.5f;
+        drunkMatrix[1][1] += sins(gGlobalTimer*0x200)*bac*.5f;
+        mtxf_mul(scaledCamera,scaledCamera,drunkMatrix);
+    }
+
     // Convert the scaled matrix to fixed-point and integrate it into the projection matrix stack
     guMtxF2L(scaledCamera, viewMtx);
 #else

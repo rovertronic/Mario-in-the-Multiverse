@@ -387,6 +387,9 @@ Gfx *geo_switch_mario_eyes(s32 callContext, struct GraphNode *node, UNUSED Mat4 
         } else {
             switchCase->selectedCase = bodyState->eyeState - 1;
         }
+        if ((gMarioState->bloodAlcoholConcentration > 0.0f)&&(switchCase->selectedCase == 0)) {
+            switchCase->selectedCase = 1;
+        }
     }
     return NULL;
 }

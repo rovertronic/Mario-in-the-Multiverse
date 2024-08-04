@@ -201,7 +201,7 @@ s32 act_idle(struct MarioState *m) {
 #endif
     }
 
-    if (m->actionArg & 1) {
+    if ((m->actionArg & 1)||(gMarioState->bloodAlcoholConcentration > 0.0f)) {
         set_mario_animation(m, MARIO_ANIM_STAND_AGAINST_WALL);
     } else {
         switch (m->actionState) {

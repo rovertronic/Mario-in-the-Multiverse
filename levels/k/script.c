@@ -76,7 +76,7 @@ const LevelScript level_k_entry[] = {
 		OBJECT(MODEL_NONE, -8063, 4297, -9407, 0, 0, 0, (4 << 24), bhvStar),
 		OBJECT(MODEL_NONE, 13531, -2129, 12286, 0, 0, 0, (5 << 24), bhvStar),
 		OBJECT(MODEL_NONE, 1389, -1919, 4953, 0, 0, 0, (52 << 24) | (2 << 16), bhvWarp),
-		OBJECT(MODEL_NONE, -5278, 571, 1773, 0, 0, 0, (3 << 16), bhvWarp),
+		OBJECT(MODEL_NONE, -4963, 571, 1773, 0, 0, 0, (3 << 16), bhvWarp),
 		OBJECT(MODEL_NONE, -8138, -1399, 10291, 0, 0, 0, (4 << 16), bhvWarp),
 		TERRAIN(k_area_1_collision),
 		MACRO_OBJECTS(k_area_1_macro_objs),

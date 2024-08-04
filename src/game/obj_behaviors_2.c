@@ -47,6 +47,7 @@
 #include "spawn_sound.h"
 #include "puppylights.h"
 #include "rigid_body.h"
+#include "levels/k/header.h"
 
 //! TODO: remove static
 

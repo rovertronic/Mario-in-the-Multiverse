@@ -15,3 +15,7 @@
 
 #include "levels/k/ksky/model.inc.c"
 #include "levels/k/k_strong_terry/model.inc.c"
+#include "levels/k/k_fan/model.inc.c"
+#include "levels/k/k_fan/collision.inc.c"
+#include "levels/k/k_fan_2/collision.inc.c"
+#include "levels/k/k_blood/model.inc.c"

@@ -17,3 +17,5 @@
 #include "levels/k/geo.inc.c"
 
 #include "levels/k/k_strong_terry/geo.inc.c"
+#include "levels/k/k_fan/geo.inc.c"
+#include "levels/k/k_blood/geo.inc.c"

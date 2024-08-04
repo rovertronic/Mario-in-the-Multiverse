@@ -3,7 +3,16 @@
 const GeoLayout k_area_2_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 0, -10254, 0, k_dl_Cube_083_mesh_layer_1),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_ROTATE(LAYER_OPAQUE, 2893, -7532, -4116, -180, 0, 0),
+		GEO_OPEN_NODE(),
+			GEO_SCALE(LAYER_OPAQUE, 54083),
+		GEO_CLOSE_NODE(),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 0, -10254, 0, k_dl_vis_mesh_layer_1),
+		GEO_OPEN_NODE(),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, k_dl_vis_mesh_layer_4),
+			GEO_DISPLAY_LIST(LAYER_OPAQUE_DECAL, k_dl_vis_mesh_layer_2),
+		GEO_CLOSE_NODE(),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

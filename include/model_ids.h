@@ -849,6 +849,8 @@ enum {
 /* LEVEL K START */
 enum K_MODELS {
     MODEL_K_STRONG_TERRY=0x150,
+    MODEL_K_FAN,
+    MODEL_K_BLOOD,
 };
 /* LEVEL K END */
 

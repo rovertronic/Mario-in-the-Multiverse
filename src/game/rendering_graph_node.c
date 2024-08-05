@@ -709,7 +709,7 @@ void geo_process_camera(struct GraphNodeCamera *node) {
         scaledCamera[3][i] /= WORLD_SCALE;
     }
 
-    f32 bac = gMarioState->bloodAlcoholConcentration;
+    f32 bac = gMarioState->bloodAlcoholConcentration*0.1f;
     if (bac > 0.0f) {
         Mat4 drunkMatrix;
         mtxf_identity(drunkMatrix);

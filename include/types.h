@@ -501,7 +501,7 @@ struct MarioState {
             Vec3f vecCheckpointFlag;
             s8 keypad_id;
 
-            f32 bloodAlcoholConcentration;
+            f32 bloodAlcoholConcentration; // 1.0f = 0.08%
 };
 
 typedef uint8_t   qu08_t;

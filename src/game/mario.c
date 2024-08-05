@@ -1354,7 +1354,11 @@ void update_mario_joystick_inputs(struct MarioState *m) {
     }
 
     if (m->intendedMag > 0.0f) {
-        m->intendedYaw = atan2s(-fake_stick_y, controller->stickX) + m->area->camera->yaw;
+        u16 drunk_offset = 0;
+        if (gMarioState->bloodAlcoholConcentration > 1.0f) {
+            drunk_offset = sins(gGlobalTimer*0x200) * 2000.0f * gMarioState->bloodAlcoholConcentration;
+        }
+        m->intendedYaw = atan2s(-fake_stick_y, controller->stickX) + m->area->camera->yaw + drunk_offset;
         m->input |= INPUT_NONZERO_ANALOG;
     } else {
         m->intendedYaw = m->faceAngle[1];
@@ -2231,6 +2235,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         if ((!milk_drunk)&&(using_ability(ABILITY_UTIL_MILK))&&(gPlayer1Controller->buttonPressed & L_TRIG)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
             milk_drunk = TRUE;
             gMarioState->healCounter += 20;
+            gMarioState->bloodAlcoholConcentration = 0.0f; // my alchoholism is cured
             play_sound(SOUND_GENERAL_HEART_SPIN, gGlobalSoundSource);
         }
 
@@ -2522,7 +2527,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 void init_mario(void) {
     esa_mhp = -1;
 
-    gMarioState->bloodAlcoholConcentration = 0.1f;
+    gMarioState->bloodAlcoholConcentration = 0.0f;
     
     //set_camera_mode(gMarioState->area->camera, gMarioState->area->camera->defMode, 1);
 

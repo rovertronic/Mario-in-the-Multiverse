@@ -1190,6 +1190,8 @@ void visualise_object_hitbox(struct Object *node) {
 }
 #endif
 
+u8 object_mirror_mode = FALSE;
+
 /**
  * Process an object node.
  */
@@ -1216,6 +1218,11 @@ void geo_process_object(struct Object *node) {
             } else {
                 mtxf_rotate_zxy_and_translate(gMatStack[gMatStackIndex + 1], node->header.gfx.pos, node->header.gfx.angle);
                 mtxf_scale_vec3f(gMatStack[gMatStackIndex + 1], gMatStack[gMatStackIndex + 1], node->header.gfx.scale);
+            }
+
+            if (object_mirror_mode) {
+                gMatStack[gMatStackIndex + 1][1][1] = -gMatStack[gMatStackIndex + 1][1][1];
+                gMatStack[gMatStackIndex + 1][3][1] = -gMatStack[gMatStackIndex + 1][3][1];
             }
         }
 
@@ -1292,6 +1299,24 @@ void geo_process_object(struct Object *node) {
     }
 }
 
+void set_mirror_backface_culling(u8 toggle_on_or_off) {
+    Gfx *gfx = NULL;
+    gfx = alloc_display_list(3 * sizeof(*gfx));
+
+    if (toggle_on_or_off) {
+        gSPClearGeometryMode(&gfx[0], G_CULL_BACK);
+        gSPSetGeometryMode(&gfx[1], G_CULL_FRONT);
+    } else {
+        gSPSetGeometryMode(&gfx[0], G_CULL_BACK);
+        gSPClearGeometryMode(&gfx[1], G_CULL_FRONT);
+    }
+    gSPEndDisplayList(&gfx[2]);
+
+    geo_append_display_list(gfx, LAYER_OPAQUE);
+    geo_append_display_list(gfx, LAYER_ALPHA);
+}
+
+
 /**
  * Process an object parent node. Temporarily assigns itself as the parent of
  * the subtree rooted at 'sharedChild' and processes the subtree, after which the
@@ -1300,7 +1325,17 @@ void geo_process_object(struct Object *node) {
 void geo_process_object_parent(struct GraphNodeObjectParent *node) {
     if (node->sharedChild != NULL) {
         node->sharedChild->parent = (struct GraphNode *) node;
+
+        if (gCurrLevelNum == LEVEL_K || gCurrAreaIndex == 3) {
+            object_mirror_mode = TRUE;
+            set_mirror_backface_culling(TRUE);
+            geo_process_node_and_siblings(node->sharedChild);
+        }
+
+        object_mirror_mode = FALSE;
+        set_mirror_backface_culling(FALSE);
         geo_process_node_and_siblings(node->sharedChild);
+
         node->sharedChild->parent = NULL;
     }
     if (node->node.children != NULL) {

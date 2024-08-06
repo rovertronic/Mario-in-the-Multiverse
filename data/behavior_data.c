@@ -6826,6 +6826,21 @@ const BehaviorScript bhvMorshu[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvRedd[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
+    LOAD_ANIMATIONS(oAnimations, redd_anims),
+    DROP_TO_FLOOR(),
+    ANIMATE(0),
+    SET_INTERACT_TYPE(INTERACT_TEXT),
+    SET_INT(oInteractionSubtype, INT_SUBTYPE_NPC),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 250),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        //CALL_NATIVE(bhv_redd_loop),
+    END_LOOP(),
+};
+
 /* GROUP A START */
 extern const struct Animation *const jelly_anims[];
 const BehaviorScript bhvJelly[] = {

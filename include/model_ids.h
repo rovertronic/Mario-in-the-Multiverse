@@ -920,6 +920,7 @@ enum {
     MODEL_HUBDOOR,
     MODEL_MORSHU,
     MODEL_HUB_TARGET_BOX,
+    MODEL_REDD,
 };
 
 #endif // MODEL_IDS_H

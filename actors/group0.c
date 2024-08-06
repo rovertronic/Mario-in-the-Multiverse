@@ -145,3 +145,5 @@
 #include "star_radar/model.inc.c"
 #include "cometbar/model.inc.c"
 #include "spidertron_arm1/model.inc.c"
+#include "humanoid/anims/data.inc.c"
+#include "humanoid/anims/table.inc.c"

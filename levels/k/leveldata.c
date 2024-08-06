@@ -19,3 +19,5 @@
 #include "levels/k/k_fan/collision.inc.c"
 #include "levels/k/k_fan_2/collision.inc.c"
 #include "levels/k/k_blood/model.inc.c"
+#include "levels/k/kaguya/model.inc.c"
+#include "levels/k/k_disco/model.inc.c"

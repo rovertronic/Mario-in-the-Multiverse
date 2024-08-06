@@ -529,4 +529,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "spidertron_arm1/geo_header.h"
 
+
+#include "humanoid/anim_header.h"
 #endif

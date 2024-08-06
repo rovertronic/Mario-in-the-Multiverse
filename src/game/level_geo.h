@@ -33,5 +33,7 @@ Gfx *geo_update_l_sky(s32 callContext, struct GraphNode *node, UNUSED void *cont
 Gfx *geo_update_bowser_course_invisible_path(s32 callContext, struct GraphNode *node, UNUSED void *context);
 Gfx *geo_update_bowser_course_sky(s32 callContext, struct GraphNode *node, UNUSED void *context);
 Gfx *geo_update_k_sky(s32 callContext, struct GraphNode *node, UNUSED void *context);
+Gfx *geo_colorful_env(s32 callContext, struct GraphNode *node, UNUSED void *context);
+Gfx *geo_colorful_env_lite(s32 callContext, struct GraphNode *node, UNUSED void *context);
 
 #endif // LEVEL_GEO_H

@@ -430,3 +430,41 @@ Gfx *geo_update_k_sky(s32 callContext, struct GraphNode *node, UNUSED void *cont
     }
     return NULL;
 }
+
+Gfx *geo_colorful_env(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    if (callContext == GEO_CONTEXT_RENDER) {
+        Gfx * colorchange = alloc_display_list(sizeof(Gfx)*2);
+
+        s32 r = 120 + sins(gGlobalTimer*0x50 + 0x0000)*120.0f;
+        s32 g = 120 + sins(gGlobalTimer*0x50 + 0x5555)*120.0f;
+        s32 b = 120 + sins(gGlobalTimer*0x50 + 0xAAAA)*120.0f;
+
+        gDPSetEnvColor(&colorchange[0],r,g,b,255);
+        gSPEndDisplayList(&colorchange[1]);
+
+        geo_append_display_list(colorchange, LAYER_OPAQUE);
+        geo_append_display_list(colorchange, LAYER_ALPHA);
+        geo_append_display_list(colorchange, LAYER_ALPHA_DECAL);
+        geo_append_display_list(colorchange, LAYER_TRANSPARENT_DECAL);
+    }
+    return NULL;
+}
+
+Gfx *geo_colorful_env_lite(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    if (callContext == GEO_CONTEXT_RENDER) {
+        Gfx * colorchange = alloc_display_list(sizeof(Gfx)*2);
+
+        s32 r = 200 + sins(gGlobalTimer*0x50 + 0x0000)*50.0f;
+        s32 g = 200 + sins(gGlobalTimer*0x50 + 0x5555)*50.0f;
+        s32 b = 200 + sins(gGlobalTimer*0x50 + 0xAAAA)*50.0f; 
+
+        gDPSetEnvColor(&colorchange[0],r,g,b,255);
+        gSPEndDisplayList(&colorchange[1]);
+
+        geo_append_display_list(colorchange, LAYER_OPAQUE);
+        geo_append_display_list(colorchange, LAYER_ALPHA);
+        geo_append_display_list(colorchange, LAYER_ALPHA_DECAL);
+        geo_append_display_list(colorchange, LAYER_TRANSPARENT_DECAL);
+    }
+    return NULL;
+}

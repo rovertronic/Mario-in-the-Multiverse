@@ -21,4 +21,8 @@ extern const LevelScript level_k_entry[];
 
 #include "levels/k/k_blood/geo_header.h"
 
+#include "levels/k/kaguya/geo_header.h"
+
+#include "levels/k/k_disco/geo_header.h"
+
 #endif

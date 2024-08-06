@@ -8521,6 +8521,31 @@ const BehaviorScript bhvKblood[] = {
         CALL_NATIVE(bhv_k_blood),
     END_LOOP(),
 };
+
+const BehaviorScript bhvKaguya[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, humanoid_anims),
+    SET_INTERACT_TYPE(INTERACT_TEXT),
+    DROP_TO_FLOOR(),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 60),
+    ANIMATE(1),
+    SET_HOME(),
+    CALL_NATIVE(bhv_npc_init),
+    SET_FLOAT(oGraphYOffset, -25),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        //CALL_NATIVE(bhv_npc_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvKDisco[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        ADD_INT(oFaceAngleYaw, 0x200),
+    END_LOOP(),
+};
 /* GROUP K END */
 
 /* GROUP L START */

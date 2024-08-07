@@ -25,14 +25,14 @@ void scroll_k_dl_Cube_002_mesh_layer_1_vtx_1() {
 
 void scroll_k_dl_z_mesh_layer_5_vtx_0() {
 	int i = 0;
-	int count = 110;
+	int count = 118;
 	int width = 64 * 0x20;
 
 	static int currentX = 0;
 	int deltaX;
 	Vtx *vertices = segmented_to_virtual(k_dl_z_mesh_layer_5_vtx_0);
 
-	deltaX = (int)(1.0 * 0x20) % width;
+	deltaX = (int)(-1.0 * 0x20) % width;
 
 	if (absi(currentX) > width) {
 		deltaX -= (int)(absi(currentX) / width) * width * signum_positive(deltaX);

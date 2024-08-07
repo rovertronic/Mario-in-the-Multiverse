@@ -35,5 +35,6 @@ Gfx *geo_update_bowser_course_sky(s32 callContext, struct GraphNode *node, UNUSE
 Gfx *geo_update_k_sky(s32 callContext, struct GraphNode *node, UNUSED void *context);
 Gfx *geo_colorful_env(s32 callContext, struct GraphNode *node, UNUSED void *context);
 Gfx *geo_colorful_env_lite(s32 callContext, struct GraphNode *node, UNUSED void *context);
+Gfx *geo_update_k_rainbow_triangles(s32 callContext, struct GraphNode *node, UNUSED void *context);
 
 #endif // LEVEL_GEO_H

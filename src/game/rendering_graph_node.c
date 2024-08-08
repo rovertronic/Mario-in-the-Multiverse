@@ -1202,6 +1202,9 @@ void geo_process_object(struct Object *node) {
 
         // Maintain throw matrix pointer if the game is paused as it won't be updated.
         Mat4 *oldThrowMatrix = (sCurrPlayMode == PLAY_MODE_PAUSED) ? node->header.gfx.throwMatrix : NULL;
+        if (object_mirror_mode) {
+            oldThrowMatrix = node->header.gfx.throwMatrix;
+        }
 
         // If the throw matrix is null and the object is invisible, there is no need
         // to update billboarding, scale, rotation, etc. 
@@ -1221,7 +1224,10 @@ void geo_process_object(struct Object *node) {
             }
 
             if (object_mirror_mode) {
+                gMatStack[gMatStackIndex + 1][0][1] = -gMatStack[gMatStackIndex + 1][0][1];
                 gMatStack[gMatStackIndex + 1][1][1] = -gMatStack[gMatStackIndex + 1][1][1];
+                gMatStack[gMatStackIndex + 1][2][1] = -gMatStack[gMatStackIndex + 1][2][1];
+
                 gMatStack[gMatStackIndex + 1][3][1] = -gMatStack[gMatStackIndex + 1][3][1];
             }
         }
@@ -1638,7 +1644,7 @@ void geo_process_node_and_siblings(struct GraphNode *firstNode) {
             }
         } else {
             if (curGraphNode->type == GRAPH_NODE_TYPE_OBJECT) {
-                ((struct GraphNodeObject *) curGraphNode)->throwMatrix = NULL;
+                //((struct GraphNodeObject *) curGraphNode)->throwMatrix = NULL;
             }
         }
     } while (iterateChildren && (curGraphNode = curGraphNode->next) != firstNode);

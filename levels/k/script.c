@@ -121,7 +121,7 @@ const LevelScript level_k_entry[] = {
 		OBJECT(MODEL_K_DISCO, -92, 709, -3547, 0, 0, 0, 0x00000000, bhvKDisco),
 		OBJECT(MODEL_NONE, -6, 0, 650, 0, 0, 0, (42 << 24) | (2 << 16), bhvWarp),
 		OBJECT(MODEL_K_KAGUYA, -156, 0, -2974, 0, 41, 0, 0x00000000, bhvKaguya),
-		OBJECT(MODEL_NONE, 120, 821, -6141, 0, -180, 0, (3 << 24), bhvStar),
+		OBJECT(MODEL_NONE, 120, 0, -6141, 0, -180, 0, (3 << 24), bhvStar),
 		OBJECT(MODEL_NONE, -1783, 0, -6503, 0, -180, 0, (6 << 24), bhvStar),
 		OBJECT(MODEL_NONE, -4, 360, -638, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		TERRAIN(k_area_3_collision),

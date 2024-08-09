@@ -656,17 +656,23 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
                 }
 #endif
 
+                u8 got_an_ability = FALSE;
                 if (obj_has_behavior(m->usedObj,bhvAbilityUnlock)) {
                     obj_set_model(celebStar, MODEL_ABILITY);
                     obj_set_billboard(celebStar);
                     celebStar->oBehParams2ndByte = m->usedObj->oBehParams2ndByte;
+                    got_an_ability = TRUE;
                 }
 
                 disable_background_sound();
                 //! TODO: Is this check necessary? Both seem to do the exact same thing.
                 if (m->actionArg & 1) {
                     // No exit
-                    play_course_clear(obj_has_model(celebStar, MODEL_BOWSER_KEY));
+                    s32 arg = obj_has_model(celebStar, MODEL_BOWSER_KEY);
+                    if (got_an_ability) {
+                        arg = 2;
+                    }
+                    play_course_clear(arg);
                 } else {
                     // Exit
                     if (obj_has_model(celebStar, MODEL_BOWSER_KEY)) {

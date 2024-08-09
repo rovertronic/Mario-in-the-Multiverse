@@ -2349,6 +2349,13 @@ void func_803210D4(u16 fadeDuration) {
  * Called from threads: thread5_game_loop
  */
 void play_course_clear(s32 isKey) {
+    if (isKey == 2) {
+        seq_player_play_sequence(SEQ_PLAYER_ENV, SEQ_MITM_GET_ABILITY, 0);
+        sBackgroundMusicMaxTargetVolume = TARGET_VOLUME_IS_PRESENT_FLAG | 0;
+        begin_background_music_fade(50);
+        return;
+    }
+
     if (isKey) {
         seq_player_play_sequence(SEQ_PLAYER_ENV, SEQ_EVENT_CUTSCENE_COLLECT_KEY, 0);
     } else {

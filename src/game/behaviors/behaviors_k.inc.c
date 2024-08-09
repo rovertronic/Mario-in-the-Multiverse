@@ -55,10 +55,17 @@ void bhv_k_blood(void) {
 
 void bhv_k_bartender(void) {
     o->oAnimState = 0;
-    if (o->oTimer > 30) {
-        o->oAnimState = 1;
+    switch(o->oTimer) {
+        case 30:
+        case 31:
+        case 32:
+        case 37:
+        case 38:
+        case 39:
+            o->oAnimState = 1;
+            break;
     }
-    if (o->oTimer > 33) {
+    if (o->oTimer > 40) {
         o->oTimer = 0;
     }
 }

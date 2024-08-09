@@ -260,5 +260,8 @@
     ],
     "4F_mitm_bowser_course": [
         "0E_extended_bank"
+    ],
+    "50_mitm_ability_get": [
+        "0E_extended_bank"
     ]
 }

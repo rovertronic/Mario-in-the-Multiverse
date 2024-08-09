@@ -853,6 +853,7 @@ enum K_MODELS {
     MODEL_K_BLOOD,
     MODEL_K_KAGUYA,
     MODEL_K_DISCO,
+    MODEL_K_BARTENDER,
 };
 /* LEVEL K END */
 

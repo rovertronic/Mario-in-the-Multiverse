@@ -58,19 +58,6 @@ void scroll_gfx_mat_k_dl_rainbowlight_op() {
 
 };
 
-void scroll_gfx_mat_k_dl_Floor() {
-	Gfx *mat = segmented_to_virtual(mat_k_dl_Floor);
-	static int interval_tex_k_dl_Floor = 5;
-	static int cur_interval_tex_k_dl_Floor = 5;
-
-	if (--cur_interval_tex_k_dl_Floor <= 0) {
-		shift_s(mat, 13, PACK_TILESIZE(0, 64));
-		shift_t(mat, 13, PACK_TILESIZE(0, 32));
-		cur_interval_tex_k_dl_Floor = interval_tex_k_dl_Floor;
-	}
-
-};
-
 void scroll_gfx_mat_k_dl_FloorGlow() {
 	Gfx *mat = segmented_to_virtual(mat_k_dl_FloorGlow);
 	static int interval_tex_k_dl_FloorGlow = 5;
@@ -84,11 +71,24 @@ void scroll_gfx_mat_k_dl_FloorGlow() {
 
 };
 
+void scroll_gfx_mat_k_dl_Floor() {
+	Gfx *mat = segmented_to_virtual(mat_k_dl_Floor);
+	static int interval_tex_k_dl_Floor = 5;
+	static int cur_interval_tex_k_dl_Floor = 5;
+
+	if (--cur_interval_tex_k_dl_Floor <= 0) {
+		shift_s(mat, 13, PACK_TILESIZE(0, 64));
+		shift_t(mat, 13, PACK_TILESIZE(0, 32));
+		cur_interval_tex_k_dl_Floor = interval_tex_k_dl_Floor;
+	}
+
+};
+
 void scroll_k() {
 	scroll_k_dl_Cube_002_mesh_layer_1_vtx_1();
 	scroll_k_dl_z_mesh_layer_5_vtx_0();
 	scroll_gfx_mat_k_dl_rainbowlight();
 	scroll_gfx_mat_k_dl_rainbowlight_op();
-	scroll_gfx_mat_k_dl_Floor();
 	scroll_gfx_mat_k_dl_FloorGlow();
+	scroll_gfx_mat_k_dl_Floor();
 };

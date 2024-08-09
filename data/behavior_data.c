@@ -8546,6 +8546,17 @@ const BehaviorScript bhvKDisco[] = {
         ADD_INT(oFaceAngleYaw, 0x200),
     END_LOOP(),
 };
+
+extern void bhv_k_bartender(void);
+const BehaviorScript bhvKbartender[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, k_bartender_anims),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_k_bartender),
+    END_LOOP(),
+};
 /* GROUP K END */
 
 /* GROUP L START */

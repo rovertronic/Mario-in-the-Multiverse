@@ -34,6 +34,7 @@ const LevelScript level_k_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_K_BLOOD, k_blood_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_K_KAGUYA, kaguya_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_K_DISCO, k_disco_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_K_BARTENDER, k_bartender_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -117,12 +118,13 @@ const LevelScript level_k_entry[] = {
 		WARP_NODE(/*death*/ 0xF1, LEVEL_K, /*this area*/ 0x01, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death entry*/ 0x01, LEVEL_SSL, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(2/*exit dj*/, LEVEL_K, 0x01, 5, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_K_BARTENDER, 2659, 199, -2053, 0, 0, 0, 0x00000000, bhvKbartender),
 		MARIO_POS(0x03, 0, 0, 0, -539),
 		OBJECT(MODEL_K_DISCO, -92, 709, -3547, 0, 0, 0, 0x00000000, bhvKDisco),
 		OBJECT(MODEL_NONE, -6, 0, 650, 0, 0, 0, (42 << 24) | (2 << 16), bhvWarp),
 		OBJECT(MODEL_K_KAGUYA, -156, 0, -2974, 0, 41, 0, 0x00000000, bhvKaguya),
-		OBJECT(MODEL_NONE, 120, 0, -6141, 0, -180, 0, (3 << 24), bhvStar),
-		OBJECT(MODEL_NONE, -1783, 0, -6503, 0, -180, 0, (6 << 24), bhvStar),
+		OBJECT(MODEL_NONE, -1241, -406, -7666, 0, -180, 0, (3 << 24), bhvStar),
+		OBJECT(MODEL_NONE, -1866, -406, -8027, 0, -180, 0, (6 << 24), bhvStar),
 		OBJECT(MODEL_NONE, -4, 360, -638, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		TERRAIN(k_area_3_collision),
 		MACRO_OBJECTS(k_area_3_macro_objs),

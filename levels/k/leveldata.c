@@ -21,3 +21,6 @@
 #include "levels/k/k_blood/model.inc.c"
 #include "levels/k/kaguya/model.inc.c"
 #include "levels/k/k_disco/model.inc.c"
+#include "levels/k/k_bartender/model.inc.c"
+#include "levels/k/k_bartender/anims/data.inc.c"
+#include "levels/k/k_bartender/anims/table.inc.c"

@@ -21,3 +21,4 @@
 #include "levels/k/k_blood/geo.inc.c"
 #include "levels/k/kaguya/geo.inc.c"
 #include "levels/k/k_disco/geo.inc.c"
+#include "levels/k/k_bartender/geo.inc.c"

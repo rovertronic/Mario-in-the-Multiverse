@@ -52,3 +52,13 @@ void bhv_k_blood(void) {
     }
     o->header.gfx.throwMatrix = o->transform;
 }
+
+void bhv_k_bartender(void) {
+    o->oAnimState = 0;
+    if (o->oTimer > 30) {
+        o->oAnimState = 1;
+    }
+    if (o->oTimer > 33) {
+        o->oTimer = 0;
+    }
+}

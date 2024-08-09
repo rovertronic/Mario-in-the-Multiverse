@@ -465,6 +465,7 @@ Gfx *geo_colorful_env_lite(s32 callContext, struct GraphNode *node, UNUSED void 
         geo_append_display_list(colorchange, LAYER_ALPHA);
         geo_append_display_list(colorchange, LAYER_ALPHA_DECAL);
         geo_append_display_list(colorchange, LAYER_TRANSPARENT_DECAL);
+        geo_append_display_list(colorchange, LAYER_TRANSPARENT);
     }
     return NULL;
 }
@@ -477,14 +478,14 @@ Gfx *geo_update_k_rainbow_triangles(s32 callContext, struct GraphNode *node, UNU
     Vtx *vert;
     Vec3s marioPos;
 
-    vert = segmented_to_virtual(&k_dl_visual_mesh_layer_1_vtx_1);
+    vert = segmented_to_virtual(&k_dl_visual_mesh_layer_1_vtx_2);
 
     s32 br = 180 + sins(gGlobalTimer*0x50 + 0x0000)*30.0f;
     s32 bg = 180 + sins(gGlobalTimer*0x50 + 0x5555)*30.0f;
     s32 bb = 180 + sins(gGlobalTimer*0x50 + 0xAAAA)*30.0f;
 
     if (callContext == GEO_CONTEXT_RENDER) {
-        for (i = 0; i < sizeof(k_dl_visual_mesh_layer_1_vtx_1) / sizeof(k_dl_visual_mesh_layer_1_vtx_1[0]); i++) {
+        for (i = 0; i < sizeof(k_dl_visual_mesh_layer_1_vtx_2) / sizeof(k_dl_visual_mesh_layer_1_vtx_2[0]); i++) {
             if (!(vert[i].v.cn[0] == 0 && vert[i].v.cn[1] == 0 && vert[i].v.cn[2] == 0)) {
                 s32 offset = vert[i].v.cn[3];
                 s32 r = sins((gGlobalTimer+offset)*0x300 + 0x0000)*20.0f;

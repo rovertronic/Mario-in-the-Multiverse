@@ -107,3 +107,6 @@
 
 #include "levels/castle_inside/hub_target_box/collision.inc.c"
 #include "levels/castle_inside/hub_target_box/model.inc.c"
+#include "levels/castle_inside/redd/model.inc.c"
+#include "levels/castle_inside/redd/anims/data.inc.c"
+#include "levels/castle_inside/redd/anims/table.inc.c"

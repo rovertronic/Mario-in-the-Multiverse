@@ -60,7 +60,8 @@ const LevelScript level_castle_inside_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_HUBSTARGOO, hub_stargoo_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_HUBDOOR, hub_door_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_MORSHU, morshu_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_HUB_TARGET_BOX, hub_target_box_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_HUB_TARGET_BOX, hub_target_box_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_REDD, redd_geo),
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */

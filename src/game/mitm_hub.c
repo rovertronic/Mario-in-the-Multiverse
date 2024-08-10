@@ -80,6 +80,7 @@ u8 hub_star_string[] = {0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,DIALOG_CHAR_TERM
 mitm_dream_data mitmdd_b = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_BIG_DADDY,ABILITY_NONE},6};
 mitm_dream_data mitmdd_c = {{ABILITY_DEFAULT,ABILITY_PHASEWALK,ABILITY_NONE,ABILITY_NONE},5};
 mitm_dream_data mitmdd_g = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_NONE,ABILITY_NONE},7};
+mitm_dream_data mitmdd_k = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_CHRONOS,ABILITY_NONE},7};
 mitm_dream_data mitmdd_l = {{ABILITY_DEFAULT,ABILITY_KNIGHT,ABILITY_NONE,ABILITY_NONE},4};
 mitm_dream_data mitmdd_n = {{ABILITY_DEFAULT,ABILITY_E_SHOTGUN,ABILITY_BUBBLE_HAT,ABILITY_NONE},7};
 
@@ -94,7 +95,7 @@ struct mitm_hub_level hub_levels[] = {
     /*H*/ {&author_string_h, LEVEL_H,  COURSE_BBH,   0/*5 */, 1,         24,         8,     NULL,      "OPPORTUNITY"},
     /*B*/ {&author_string_b, LEVEL_B,  COURSE_HMC,   0/*10*/, 1,         25,         8,     &mitmdd_b, "BIOSHOCK RAPTURE"},
     /*L*/ {&author_string_l, LEVEL_L,  COURSE_LLL,   0/*15*/, 6,         26,         8,     &mitmdd_l, "BEYOND THE CURSED PIZZA"},
-    /*K*/ {&author_string_k, LEVEL_K,  COURSE_SSL,   0/*15*/, 2,         27,         8,     NULL,      "KATANA MARIO NEW MECCA"},
+    /*K*/ {&author_string_k, LEVEL_K,  COURSE_SSL,   0/*15*/, 2,         27,         8,     &mitmdd_k, "KATANA MARIO NEW MECCA"},
     /*E*/ {&author_string_e, LEVEL_E,  COURSE_DDD,   0/*20*/, 1,         28,         8,     NULL,      "DOOM"},
     /*F*/ {&author_string_f, LEVEL_F,  COURSE_SL,    0/*20*/, 1,         29,         8,     NULL,      "FROM RUSSIA WITH LOVE"},
     /*J*/ {&author_string_j, LEVEL_J,  COURSE_WDW,   0/*25*/, 1,         30,         8,     NULL,      "ECRUTEAK CITY"},

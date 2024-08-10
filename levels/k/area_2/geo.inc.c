@@ -12,6 +12,7 @@ const GeoLayout k_area_2_geo[] = {
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_ALPHA, k_dl_vis_mesh_layer_4),
 			GEO_DISPLAY_LIST(LAYER_OPAQUE_DECAL, k_dl_vis_mesh_layer_2),
+			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, k_dl_vis_mesh_layer_5),
 		GEO_CLOSE_NODE(),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),

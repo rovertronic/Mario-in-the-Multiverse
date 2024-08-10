@@ -4,6 +4,7 @@ const GeoLayout k_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_ASM(0, geo_update_k_sky),
+		GEO_ASM(0, e__shotgun_effects),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -2831, -1284, -4673, 0, -90, 0, k_dl_Cube_001_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -5003, 985, 1838, k_dl_Cube_002_mesh_layer_1),
 		GEO_OPEN_NODE(),

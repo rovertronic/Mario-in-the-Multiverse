@@ -184,7 +184,7 @@ u32 determine_interaction(struct MarioState *m, struct Object *obj) {
 
             if (m->flags & MARIO_PUNCHING) {
                 // 120 degrees total, or 60 each way
-                if (-0x2AAA <= dYawToObject && dYawToObject <= 0x2AAA) {
+                if ((m->marioBodyState->punchState == PUNCH_STATE_TYPE_SLASH) || (-0x2AAA <= dYawToObject && dYawToObject <= 0x2AAA)) {
                     if (m->abilityId == ABILITY_CUTTER) {
                         interaction = INT_HIT_STUN;
                         set_mario_action(m, ACT_FINAL_CUTTER_SEQUENCE, 0);
@@ -1474,7 +1474,9 @@ u32 interact_bounce_top(struct MarioState *m, UNUSED u32 interactType, struct Ob
         queue_rumble_data(5, 80);
 #endif
         attack_object(obj, interaction);
-        bounce_back_from_attack(m, interaction);
+        if (!(interaction & INT_SLASH)) {
+            bounce_back_from_attack(m, interaction);
+        }
 
         if (interaction & INT_HIT_FROM_ABOVE) {
             if (obj->oInteractionSubtype & INT_SUBTYPE_TWIRL_BOUNCE) {

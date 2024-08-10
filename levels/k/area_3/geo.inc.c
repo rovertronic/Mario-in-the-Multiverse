@@ -9,6 +9,7 @@ const GeoLayout k_area_3_geo[] = {
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, k_dl_0refb4floor_mesh_layer_5),
 		GEO_CLOSE_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
 		GEO_TRANSLATE_ROTATE(LAYER_OPAQUE, 136, 1655, -5196, 0, -180, 0),
 		GEO_OPEN_NODE(),
 			GEO_ASM(0, geo_colorful_env_lite),

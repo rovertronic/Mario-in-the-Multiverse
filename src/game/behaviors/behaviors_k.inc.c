@@ -6,7 +6,7 @@ void blood_cast(Vec3f * start, Vec3f * ray) {
 
     Vec3f hitpos;
     struct Surface * surf;
-    find_surface_on_ray(start,ray,&surf,hitpos,RAYCAST_FIND_WALL | RAYCAST_FIND_FLOOR);
+    find_surface_on_ray(start,ray,&surf,hitpos,RAYCAST_FIND_WALL | RAYCAST_FIND_FLOOR | RAYCAST_FIND_CEIL);
 
     if (surf&&!surf->object) {
         struct Object * blood = spawn_object(o,MODEL_K_BLOOD,bhvKblood);
@@ -25,11 +25,12 @@ void bhv_k_fan(void) {
     }
 
     if (o->oDistanceToMario < 2000.0f) {
-        cur_obj_play_sound_1(SOUND_AIR_AMP_BUZZ);
+        //cur_obj_play_sound_1(SOUND_AIR_BLOW_FIRE);
     }
 
     if (gMarioState->wall && gMarioState->wall->object) {
         play_sound(SOUND_MARIO_ATTACKED, gMarioState->marioObj->header.gfx.cameraToObject);
+        gMarioState->hurtCounter+=8;
         set_mario_action(gMarioState,ACT_BACKWARD_AIR_KB,0);
 
         Vec3f blood_cast_ray = {sins(gMarioState->faceAngle[1])*-500.0f,-150.0f,coss(gMarioState->faceAngle[1])*-500.0f};
@@ -46,7 +47,7 @@ void bhv_k_fan(void) {
 void bhv_k_blood(void) {
     Vec3f scale = {1.0f,1.0f,1.0f};
     if (o->oTimer == 0) {
-        s16 roll = (random_u16()%4);
+        s16 roll = (random_u16()%4)*0x4000;
         mtxf_shadow(o->transform, &o->oHomeVec, &o->oPosVec, scale, roll);
         vec3f_copy(&o->transform[3][0],&o->oPosVec);
     }
@@ -68,4 +69,113 @@ void bhv_k_bartender(void) {
     if (o->oTimer > 40) {
         o->oTimer = 0;
     }
+}
+
+static struct ObjectHitbox sKEnemyHitbox = {
+    /* interactType:      */ INTERACT_BOUNCE_TOP,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 4,
+    /* health:            */ 1,
+    /* numLootCoins:      */ 3,
+    /* radius:            */ 60,
+    /* height:            */ 200,
+    /* hurtboxRadius:     */ 60,
+    /* hurtboxHeight:     */ 160,
+};
+
+enum {
+    K_ENEMY_INIT,
+    K_ENEMY_IDLE,
+    K_ENEMY_DIE
+};
+
+void k_kill_enemy(void) {
+    s16 kill_angle;
+    Vec3f origin = {o->oPosX, o->oPosY + 70.0f, o->oPosZ};
+    Vec3f cast = {0.0f,-100.0f,0.0f};
+    blood_cast(origin,cast);
+
+    kill_angle = gMarioState->faceAngle[1] + (750-(random_u16()%1500));
+    vec3f_set(cast,sins(kill_angle)*200.0f,-100.0f,coss(kill_angle)*200.0f);
+    blood_cast(origin,cast);
+
+    kill_angle = gMarioState->faceAngle[1] + (750-(random_u16()%1500));
+    vec3f_set(cast,sins(kill_angle)*400.0f,-100.0f,coss(kill_angle)*400.0f);
+    blood_cast(origin,cast);
+
+    kill_angle = gMarioState->faceAngle[1] + (750-(random_u16()%1500));
+    vec3f_set(cast,sins(kill_angle)*600.0f,-100.0f,coss(kill_angle)*600.0f);
+    blood_cast(origin,cast);
+
+    kill_angle = gMarioState->faceAngle[1] + (750-(random_u16()%1500));
+    vec3f_set(cast,sins(kill_angle)*1000.0f,0.0f,coss(kill_angle)*1000.0f);
+    blood_cast(origin,cast);
+
+    kill_angle = gMarioState->faceAngle[1];
+
+    o->oAction = K_ENEMY_DIE;
+    o->oMoveAngleYaw = kill_angle;
+    o->oForwardVel = 35.0f;
+    o->oVelY = 15.0f;
+    cur_obj_become_intangible();
+
+    cur_obj_init_animation_with_sound(2);
+
+    for (u8 i=0; i<4; i++) {
+        osRecvMesg(&gGameVblankQueue, &gMainReceivedMesg, OS_MESG_BLOCK);
+    }
+}
+
+void k_enemy_vulnerable(void) {
+    if (o->oShotByShotgun > 0) {
+        k_kill_enemy();
+    }
+    if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+        if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
+            k_kill_enemy();
+        }
+    }
+}
+
+void k_generic_enemy_init(void) {
+    if (o->oAction == K_ENEMY_INIT) {
+        obj_set_hitbox(o, &sKEnemyHitbox);
+        o->oGravity = -2.0f;
+        o->oAction = K_ENEMY_IDLE;
+        o->oWallHitboxRadius = 40.0f;
+    }
+}
+
+void k_generic_enemy_handler(void) {
+    cur_obj_update_floor_and_walls();
+    cur_obj_move_standard(78);
+
+    switch(o->oAction) {
+        case K_ENEMY_DIE:
+            o->oForwardVel *= .9f;
+
+            if (o->oMoveFlags & OBJ_MOVE_LANDED) {
+                Vec3f origin = {o->oPosX, o->oPosY + 70.0f, o->oPosZ};
+                Vec3f cast = {0.0f,-100.0f,0.0f};
+                blood_cast(origin,cast);
+                o->oForwardVel = 17.0f;
+                cur_obj_play_sound_2(SOUND_ACTION_BONK);
+            }
+        break;
+    }
+
+    o->oInteractStatus = INTERACT_NONE;
+    o->oShotByShotgun = 0;
+}
+
+void bhv_k_strong_terry(void) {
+    k_generic_enemy_init();
+
+    switch(o->oAction) {
+        case K_ENEMY_IDLE:
+            k_enemy_vulnerable();
+        break;
+    }
+
+    k_generic_enemy_handler();
 }

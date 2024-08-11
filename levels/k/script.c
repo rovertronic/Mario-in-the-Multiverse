@@ -32,9 +32,11 @@ const LevelScript level_k_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_K_STRONG_TERRY, k_strong_terry_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_K_FAN, k_fan_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_K_BLOOD, k_blood_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_K_BLOOD_2, k_blood2_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_K_KAGUYA, kaguya_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_K_DISCO, k_disco_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_K_BARTENDER, k_bartender_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_K_ELECTROHEAD, electrohead_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -131,12 +133,12 @@ const LevelScript level_k_entry[] = {
 		OBJECT(MODEL_K_DISCO, -92, 709, -3547, 0, 0, 0, 0x00000000, bhvKDisco),
 		OBJECT(MODEL_NONE, -1833, 3954, -3743, 0, 0, 0, (6 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -697, 1495, -7019, 0, 0, 0, (5 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_K_ELECTROHEAD, 569, 2017, -6376, 0, -134, 0, (7 << 24), bhvElectrohead),
 		OBJECT(MODEL_NONE, -6, 0, 650, 0, 0, 0, (42 << 24) | (2 << 16), bhvWarp),
 		OBJECT(MODEL_K_KAGUYA, -156, 0, -2974, 0, 41, 0, 0x00000000, bhvKaguya),
 		OBJECT(MODEL_NONE, -1241, -406, -7666, 0, -180, 0, (3 << 24), bhvStar),
-		OBJECT(MODEL_NONE, -1866, -406, -8027, 0, -180, 0, (6 << 24), bhvStar),
+		OBJECT(MODEL_NONE, -1866, 0, -8027, 0, -180, 0, (6 << 24), bhvStar),
 		OBJECT(MODEL_K_STRONG_TERRY, 434, 1617, -1957, 0, 0, 0, 0x00000000, bhvStrongTerry),
-		OBJECT(MODEL_K_STRONG_TERRY, 569, 2017, -6376, 0, -134, 0, 0x00000000, bhvStrongTerry),
 		OBJECT(MODEL_K_STRONG_TERRY, -2414, 1617, -1826, 0, 96, 0, 0x00000000, bhvStrongTerry),
 		OBJECT(MODEL_K_STRONG_TERRY, -2388, 0, -1238, 0, 132, 0, 0x00000000, bhvStrongTerry),
 		OBJECT(MODEL_K_STRONG_TERRY, 2523, 1617, -4012, 0, 0, 0, 0x00000000, bhvStrongTerry),

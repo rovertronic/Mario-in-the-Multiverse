@@ -24,3 +24,5 @@
 #include "levels/k/k_bartender/model.inc.c"
 #include "levels/k/k_bartender/anims/data.inc.c"
 #include "levels/k/k_bartender/anims/table.inc.c"
+#include "levels/k/k_blood2/model.inc.c"
+#include "levels/k/electrohead/model.inc.c"

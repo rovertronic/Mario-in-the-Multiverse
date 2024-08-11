@@ -814,6 +814,7 @@ extern const BehaviorScript bhvKaguya[];
 extern const BehaviorScript bhvKDisco[];
 extern const BehaviorScript bhvKbartender[];
 extern const BehaviorScript bhvStrongTerry[];
+extern const BehaviorScript bhvElectrohead[];
 /* GROUP K END */
 
 /* GROUP L START */

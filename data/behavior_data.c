@@ -8584,6 +8584,18 @@ const BehaviorScript bhvStrongTerry[] = {
         CALL_NATIVE(bhv_k_strong_terry),
     END_LOOP(),
 };
+
+extern void bhv_k_electrohead(void);
+const BehaviorScript bhvElectrohead[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    LOAD_ANIMATIONS(oAnimations, humanoid_anims),
+    ANIMATE(1),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_k_electrohead),
+    END_LOOP(),
+};
 /* GROUP K END */
 
 /* GROUP L START */

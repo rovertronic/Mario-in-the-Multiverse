@@ -9,7 +9,12 @@ void blood_cast(Vec3f * start, Vec3f * ray) {
     find_surface_on_ray(start,ray,&surf,hitpos,RAYCAST_FIND_WALL | RAYCAST_FIND_FLOOR | RAYCAST_FIND_CEIL);
 
     if (surf&&!surf->object) {
-        struct Object * blood = spawn_object(o,MODEL_K_BLOOD,bhvKblood);
+        u16 model = MODEL_K_BLOOD;
+        if (surf->type == SURFACE_VANISH_FLOOR) {
+            model = MODEL_K_BLOOD_2;
+        }
+
+        struct Object * blood = spawn_object(o,model,bhvKblood);
         vec3f_copy(&blood->oPosVec,hitpos);
         vec3f_copy(&blood->oHomeVec,&surf->normal);
     }
@@ -74,7 +79,7 @@ void bhv_k_bartender(void) {
 static struct ObjectHitbox sKEnemyHitbox = {
     /* interactType:      */ INTERACT_BOUNCE_TOP,
     /* downOffset:        */ 0,
-    /* damageOrCoinValue: */ 4,
+    /* damageOrCoinValue: */ 0,
     /* health:            */ 1,
     /* numLootCoins:      */ 3,
     /* radius:            */ 60,
@@ -111,6 +116,10 @@ void k_kill_enemy(void) {
     vec3f_set(cast,sins(kill_angle)*1000.0f,0.0f,coss(kill_angle)*1000.0f);
     blood_cast(origin,cast);
 
+    kill_angle = gMarioState->faceAngle[1] + (750-(random_u16()%1500));
+    vec3f_set(cast,sins(kill_angle)*1000.0f,250.0f,coss(kill_angle)*1000.0f);
+    blood_cast(origin,cast);
+
     kill_angle = gMarioState->faceAngle[1];
 
     o->oAction = K_ENEMY_DIE;
@@ -133,6 +142,8 @@ void k_enemy_vulnerable(void) {
     if (o->oInteractStatus & INT_STATUS_INTERACTED) {
         if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
             k_kill_enemy();
+        } else {
+
         }
     }
 }
@@ -174,6 +185,23 @@ void bhv_k_strong_terry(void) {
     switch(o->oAction) {
         case K_ENEMY_IDLE:
             k_enemy_vulnerable();
+        break;
+    }
+
+    k_generic_enemy_handler();
+}
+
+void bhv_k_electrohead(void) {
+    k_generic_enemy_init();
+
+    switch(o->oAction) {
+        case K_ENEMY_IDLE:
+            k_enemy_vulnerable();
+        break;
+        case K_ENEMY_DIE:
+            if (o->oTimer == 60) {
+                spawn_default_star(o->oPosX,o->oPosY+100.0f,o->oPosZ);
+            }
         break;
     }
 

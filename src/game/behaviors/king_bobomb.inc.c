@@ -7,6 +7,10 @@ Gfx *geo_update_held_mario_pos(s32 callContext, UNUSED struct GraphNode *node, M
         if (obj->prevObj != NULL) {
             obj_update_pos_from_parent_transformation(mtx, obj->prevObj);
             obj_set_gfx_pos_from_pos(obj->prevObj);
+            if (obj_has_behavior(obj,bhvO_Gerik)) {
+                gMarioObject->header.gfx.pos[1] -= 100.0;
+                vec3f_copy(gMarioState->pos,gMarioObject->header.gfx.pos);
+            }
         }
     }
 

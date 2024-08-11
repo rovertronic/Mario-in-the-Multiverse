@@ -853,6 +853,7 @@ extern const BehaviorScript bhvOlift[];
 extern const BehaviorScript bhvOgarage[];
 extern const BehaviorScript bhvOspeaker[];
 extern const BehaviorScript bhvOeasystreetcontroller[];
+extern const BehaviorScript bhvO_Gerik[];
 /* GROUP O END */
 
 extern const BehaviorScript bhvGCannon[];

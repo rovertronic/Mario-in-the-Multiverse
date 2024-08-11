@@ -28,3 +28,4 @@
 #include "levels/o/o_speaker_2/geo.inc.c"
 #include "levels/o/o_speaker_3/geo.inc.c"
 #include "levels/o/o_flame/geo.inc.c"
+#include "levels/o/o_gerik/geo.inc.c"

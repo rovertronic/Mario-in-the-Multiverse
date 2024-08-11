@@ -937,3 +937,77 @@ void bhv_stargoo(void) {
     }
     o->header.gfx.scale[1] = scale;
 }
+
+
+enum {
+    GERIK_INIT,
+    GERIK_CHASE,
+    GERIK_GRABMARIO,
+};
+
+u8 gerik_jump_desire = 0;
+void bhv_o_gerik(void) {
+
+    switch(o->oAction) {
+        case GERIK_INIT:
+            o->oAction = GERIK_CHASE;
+            o->oGravity = -2.0f;
+            o->oWallHitboxRadius = 100.0f;
+            break;
+        case GERIK_CHASE:
+            if (o->oMoveFlags & (OBJ_MOVE_HIT_WALL|OBJ_MOVE_HIT_EDGE)) {
+                o->oMoveAngleYaw += 0x200;
+                o->oTimer = 0;
+                gerik_jump_desire ++;
+                if (gerik_jump_desire > 60) {
+                    gerik_jump_desire = 0;
+                    o->oVelY = 60.0f;
+                    cur_obj_play_sound_2(SOUND_OBJ_KING_BOBOMB_JUMP);
+                }
+            } else {
+                o->oMoveAngleYaw = approach_s16_asymptotic(o->oMoveAngleYaw, o->oAngleToMario, 8);
+                if (o->oTimer > 15) {
+                    gerik_jump_desire = 0;
+                }
+            }
+            o->oForwardVel = 50.0f;
+
+            switch(o->header.gfx.animInfo.animFrame) {
+                case 0:
+                case 11:
+                    cur_obj_play_sound_2(SOUND_ACTION_METAL_STEP);
+                break;
+            }
+
+            cur_obj_update_floor_and_walls();
+            cur_obj_move_standard(78);
+
+            if (o->oDistanceToMario < 250.0f) {
+                cur_obj_play_sound_2(SOUND_OBJ_GRAB_MARIO);
+                o->oAction = GERIK_GRABMARIO;
+                o->prevObj = gMarioObject;
+                set_mario_action(gMarioState,ACT_CM_CUTSCENE,0);
+                set_mario_animation(gMarioState,MARIO_ANIM_DROWNING_PART1);
+                cur_obj_init_animation_with_sound(3);
+                vec3f_copy(gMarioState->pos,gMarioObject->header.gfx.pos);
+            }
+            break;
+        case GERIK_GRABMARIO:
+            if (o->oTimer == 100) {
+                level_trigger_warp(gMarioState, WARP_OP_DEATH);
+                o->prevObj = NULL;
+            }
+            if (o->oTimer > 150) {
+                o->oAction = GERIK_CHASE;
+            }
+            break;
+    }
+
+    if (o->oShotByShotgun > 0) {
+        // The gerik is too strong to be beat by the shotgun ツ
+        cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
+        o->oShotByShotgun = 0;
+    }
+
+    o->oInteractStatus = 0;
+}

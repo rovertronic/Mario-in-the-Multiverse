@@ -41,6 +41,7 @@ const LevelScript level_o_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_O_SPEAKER_2, o_speaker_2_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_O_SPEAKER_3, o_speaker_3_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_RED_FLAME, o_flame_geo), //hope this isn't illegal
+	LOAD_MODEL_FROM_GEO(MODEL_O_GERIK, o_gerik_geo),
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -140,6 +141,7 @@ const LevelScript level_o_entry[] = {
 		OBJECT(MODEL_FLIPSWITCH_1, 1213, -3254, -27141, 0, 0, 0, (6 << 24) | (1 << 16), bhvFlipswitch),
 		OBJECT(MODEL_O_GARAGE, -17088, -1493, -2698, 0, 0, 0, (0xF0 << 8), bhvOgarage),
 		OBJECT(MODEL_O_GARAGE, -17088, -1493, -8399, 0, 0, 0, (0xF0 << 8), bhvOgarage),
+		OBJECT(MODEL_O_GERIK, 195, -1355, -15884, 0, 0, 0, 0x00000000, bhvO_Gerik),
 		OBJECT(MODEL_O_LIFT, 21835, 8772, -3338, 0, 0, 0, 0x00000000, bhvOlift),
 		OBJECT(MODEL_NONE, 1520, -2191, 23248, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 1520, -2494, 23248, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),

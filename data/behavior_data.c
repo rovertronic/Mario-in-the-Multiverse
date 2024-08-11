@@ -8922,6 +8922,21 @@ const BehaviorScript bhvOeasystreetcontroller[] = {
         CALL_NATIVE(bhv_o_easystreet_mission_controller),
     END_LOOP(),
 };
+
+extern void bhv_o_gerik(void);
+const BehaviorScript bhvO_Gerik[] = {
+    BEGIN(OBJ_LIST_PUSHABLE),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    LOAD_ANIMATIONS(oAnimations, humanoid_anims),
+    ANIMATE(0),
+    SET_HOME(),
+    SCALE(/*Unused*/ 0, /*Field*/ 250),
+    SET_FLOAT(oDrawingDistance, 20000),
+    SET_HITBOX(/*Radius*/ 400, /*Height*/ 200),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_o_gerik),
+    END_LOOP(),
+};
 /* GROUP O END */
 
 const BehaviorScript bhvCutterBlast[] = {

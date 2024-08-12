@@ -1923,6 +1923,8 @@ s8 esa_hp = -1;
 s8 esa_mhp = -1;
 char * esa_str = NULL;
 
+u8 make_mario_visible_again_after_this_frame = FALSE;
+
 s32 is_2d_area(void) {
     return ((gCurrLevelNum == LEVEL_L)&&(gCurrAreaIndex < 6));
 }
@@ -2479,7 +2481,10 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         struct SpawnParticlesInfo D_8032F270 = { 2, 20, MODEL_MIST, 0, 40, 5, 30, 20, 252, 30, 10.0f, 10.0f };
 
         //Squid Ability
-        gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
+        if (make_mario_visible_again_after_this_frame) {
+            gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
+            make_mario_visible_again_after_this_frame = FALSE;
+        }
         if(using_ability(ABILITY_SQUID)){
             if (gPlayer1Controller->buttonPressed & L_TRIG){
                 cur_obj_spawn_particles(&D_8032F270);
@@ -2487,10 +2492,12 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                     obj_set_model(gMarioObject, MODEL_MARIO);
                     set_mario_action(gMarioState, ACT_IDLE, 0);
                     gMarioState->marioObj->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
+                    make_mario_visible_again_after_this_frame = TRUE;
                 } else {
                     obj_set_model(gMarioObject, MODEL_SQUID);
                     set_mario_action(gMarioState, ACT_SQUID, 0);
                     gMarioState->marioObj->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
+                    make_mario_visible_again_after_this_frame = TRUE;
                 }
             }
         }

@@ -41,7 +41,7 @@ const LevelScript level_o_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_O_SPEAKER_2, o_speaker_2_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_O_SPEAKER_3, o_speaker_3_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_RED_FLAME, o_flame_geo), //hope this isn't illegal
-	LOAD_MODEL_FROM_GEO(MODEL_O_GERIK, o_gerik_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_O_GERIK, o_gerik_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -84,6 +84,7 @@ const LevelScript level_o_entry[] = {
 		OBJECT(MODEL_CHECKPOINT_FLAG, 13559, 246, 10, 0, 0, 0, (1 << 16), bhvCheckpointFlag),
 		OBJECT(MODEL_CHECKPOINT_FLAG, -21205, -1669, -10369, 0, 0, 0, (2 << 16), bhvCheckpointFlag),
 		OBJECT(MODEL_CHECKPOINT_FLAG, 250, -1355, -22638, 0, 0, 0, (3 << 16), bhvCheckpointFlag),
+		OBJECT(MODEL_CHECKPOINT_FLAG, 19781, 8772, -3341, 0, 0, 0, (4 << 16), bhvCheckpointFlag),
 		OBJECT(MODEL_NONE, 19945, 11839, 10, 0, 0, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_NONE, 19745, 11839, 10, 0, 0, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_NONE, 19345, 11839, 10, 0, 0, 0, 0x00000000, bhvCoinFormation),
@@ -112,6 +113,14 @@ const LevelScript level_o_entry[] = {
 		OBJECT(MODEL_NONE, -14552, -4702, 11666, 0, -133, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_NONE, -12531, -4702, 8888, 0, -80, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_NONE, 19145, 11839, 10, 0, 0, 0, 0x00000000, bhvCoinFormation),
+		OBJECT(MODEL_NONE, 4888, 755, 7911, 0, 0, 0, (0 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, -11201, -142, 7776, 0, 0, 0, (1 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, -14958, 799, -10309, 0, 0, 0, (2 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, 249, 5346, -26238, 0, 0, 0, (3 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, 16243, -2577, 7110, 0, 0, 0, (4 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, -3833, 2085, 2418, 0, 0, 0, (5 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, 3648, -179, -12354, 0, 0, 0, (6 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, 23840, 7728, -1280, 0, 0, 0, (7 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -14604, -2812, 12579, 0, 0, 0, (5 << 24), bhvOeasystreetcontroller),
 		OBJECT(MODEL_LEVEL_PIPE, 1520, -2494, 23907, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_NONE, 21724, -3255, -4836, 0, 0, 0, (2 << 16), bhvWarp),
@@ -141,7 +150,7 @@ const LevelScript level_o_entry[] = {
 		OBJECT(MODEL_FLIPSWITCH_1, 1213, -3254, -27141, 0, 0, 0, (6 << 24) | (1 << 16), bhvFlipswitch),
 		OBJECT(MODEL_O_GARAGE, -17088, -1493, -2698, 0, 0, 0, (0xF0 << 8), bhvOgarage),
 		OBJECT(MODEL_O_GARAGE, -17088, -1493, -8399, 0, 0, 0, (0xF0 << 8), bhvOgarage),
-		OBJECT(MODEL_O_GERIK, 195, -1355, -15884, 0, 0, 0, 0x00000000, bhvO_Gerik),
+		OBJECT(MODEL_O_GERIK, -5872, -1355, -14073, 0, 0, 0, 0x00000000, bhvO_Gerik),
 		OBJECT(MODEL_O_LIFT, 21835, 8772, -3338, 0, 0, 0, 0x00000000, bhvOlift),
 		OBJECT(MODEL_NONE, 1520, -2191, 23248, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 1520, -2494, 23248, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),

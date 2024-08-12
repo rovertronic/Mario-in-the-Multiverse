@@ -83,6 +83,7 @@ mitm_dream_data mitmdd_g = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_NONE,AB
 mitm_dream_data mitmdd_k = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_CHRONOS,ABILITY_NONE},7};
 mitm_dream_data mitmdd_l = {{ABILITY_DEFAULT,ABILITY_KNIGHT,ABILITY_NONE,ABILITY_NONE},4};
 mitm_dream_data mitmdd_n = {{ABILITY_DEFAULT,ABILITY_E_SHOTGUN,ABILITY_BUBBLE_HAT,ABILITY_NONE},7};
+mitm_dream_data mitmdd_o = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_HM_FLY,ABILITY_GADGET_WATCH},8};
 
 //In course order, not alphabetical!
 //Only mess with /* Level */ entry, everything else is pre-configured
@@ -100,7 +101,7 @@ struct mitm_hub_level hub_levels[] = {
     /*F*/ {&author_string_f, LEVEL_F,  COURSE_SL,    0/*20*/, 1,         29,         8,     NULL,      "FROM RUSSIA WITH LOVE"},
     /*J*/ {&author_string_j, LEVEL_J,  COURSE_WDW,   0/*25*/, 1,         30,         8,     NULL,      "ECRUTEAK CITY"},
     /*D*/ {&author_string_d, LEVEL_D,  COURSE_TTM,   0/*30*/, 1,         31,         8,     NULL,      "NEW N-SANITY ISLAND"},
-    /*O*/ {&author_string_o, LEVEL_O,  COURSE_THI,   0/*30*/, 1,         32,         8,     NULL,      "SAINTS, SINNERS, & MARIO"},
+    /*O*/ {&author_string_o, LEVEL_O,  COURSE_THI,   0/*30*/, 1,         32,         8,     &mitmdd_o, "SAINTS, SINNERS, & MARIO"},
     /*N*/ {&author_string_n, LEVEL_N,  COURSE_TTC,   0/*50*/, 1,         33,         8,     &mitmdd_n, "MARIO IN HAMSTERBALL"},
     /*M*/ {&author_string_m, LEVEL_M,  COURSE_RR,    0/*50*/, 1,         34,         8,     NULL,      "ENVIRONMENTAL STATION M"},
     /*BC*/{NULL, LEVEL_BOWSER_COURSE,  COURSE_BITDW, 0,       1,         34,         1,     NULL,      "CENTRUM OMNIUM"},

@@ -4670,7 +4670,7 @@ const BehaviorScript bhvBowserCourseRedCoinStar[] = {
 
 const BehaviorScript bhvHiddenStar[] = {
     BEGIN(OBJ_LIST_LEVEL),
-    OR_INT(oFlags, (OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET)),
     CALL_NATIVE(bhv_hidden_star_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_hidden_star_loop),
@@ -8865,7 +8865,7 @@ const BehaviorScript bhvOTree[] = {
 
 const BehaviorScript bhvOuvstar[] = {
     BEGIN(OBJ_LIST_LEVEL),
-    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET),
     SET_HITBOX(/*Radius*/ 150, /*Height*/ 100),
     SET_INT(oIntangibleTimer, 0),
     BEGIN_LOOP(),
@@ -8905,7 +8905,7 @@ const BehaviorScript bhvOgarage[] = {
 extern void bhv_o_speaker(void);
 const BehaviorScript bhvOspeaker[] = {
     BEGIN(OBJ_LIST_PUSHABLE),
-    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM),
+    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_NO_DREAM_COMET),
     SET_HITBOX(/*Radius*/ 200, /*Height*/ 200),
     SET_FLOAT(oGraphYOffset, 100),
     SET_INT(oIntangibleTimer, 0),
@@ -8917,7 +8917,7 @@ const BehaviorScript bhvOspeaker[] = {
 extern void bhv_o_easystreet_mission_controller(void);
 const BehaviorScript bhvOeasystreetcontroller[] = {
     BEGIN(OBJ_LIST_LEVEL),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_NO_DREAM_COMET)),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_o_easystreet_mission_controller),
     END_LOOP(),
@@ -8926,7 +8926,7 @@ const BehaviorScript bhvOeasystreetcontroller[] = {
 extern void bhv_o_gerik(void);
 const BehaviorScript bhvO_Gerik[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_NO_DREAM_COMET)),
     LOAD_ANIMATIONS(oAnimations, humanoid_anims),
     ANIMATE(0),
     SET_HOME(),

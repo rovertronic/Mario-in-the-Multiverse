@@ -941,25 +941,150 @@ void bhv_stargoo(void) {
 
 enum {
     GERIK_INIT,
+    GERIK_PATROL,
     GERIK_CHASE,
+    GERIK_LEAVE,
     GERIK_GRABMARIO,
 };
 
+#define GERIK_PATROL_RADIUS 21000.0f
+
 u8 gerik_jump_desire = 0;
+s16 gerik_boredom = 0;
+s16 gerik_patrol_angle = 0;
+
+void gerik_step_sound(void) {
+    switch(o->header.gfx.animInfo.animFrame) {
+        case 0:
+        case 11:
+            cur_obj_play_sound_2(SOUND_ACTION_METAL_STEP);
+            cur_obj_shake_screen(SHAKE_POS_MEDIUM);
+        break;
+    }
+}
+
+void gerik_step_sound_slow(void) {
+    if (o->oDistanceToMario < 6000.0f) {
+        switch(o->header.gfx.animInfo.animFrame) {
+            case 0:
+            case 21:
+                cur_obj_play_sound_2(SOUND_ACTION_METAL_STEP);
+            break;
+        }
+    }
+}
+
+void gerik_init_loop() {
+    u8 starflags = save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_THI));
+    u8 starsinlevel = 0;
+    for (int i = 0; i < 8; i++) {
+        if (starflags & (1<<i)) {
+            starsinlevel++;
+        }
+    }
+
+    if (starsinlevel<3) {
+        cur_obj_hide();
+        cur_obj_become_intangible();
+    } else {
+        cur_obj_unhide();
+        cur_obj_become_tangible();
+        cur_obj_init_animation_with_sound(4);
+        o->oAction = GERIK_PATROL;
+
+        o->oGravity = -2.0f;
+        o->oWallHitboxRadius = 100.0f;
+        gerik_jump_desire = 0;
+    }
+}
+
+void gerik_patrol(void) {
+    if (cur_obj_lateral_dist_to_home() > GERIK_PATROL_RADIUS) {
+        o->oMoveAngleYaw = approach_s16_asymptotic(o->oMoveAngleYaw, cur_obj_angle_to_home(), 8);
+    } else {
+        o->oMoveAngleYaw = approach_s16_asymptotic(o->oMoveAngleYaw, gerik_patrol_angle, 8);
+    }
+
+    switch(o->oSubAction) {
+        case 0: // stand for a bit before choosing new patrol spot
+            if (o->oTimer > 60) {
+                o->oSubAction = 1;
+                o->oTimer = 0;
+                cur_obj_init_animation_with_sound(5);
+            }
+            break;
+        case 1: // walk to new patrol
+
+            o->oForwardVel = 15.0f;
+
+            cur_obj_update_floor_and_walls();
+            cur_obj_move_standard(78);
+
+            if (o->oMoveFlags & (OBJ_MOVE_HIT_WALL|OBJ_MOVE_HIT_EDGE)) {
+                o->oSubAction = 0;
+                o->oTimer = 0;
+                gerik_patrol_angle = random_u16();
+                cur_obj_init_animation_with_sound(4);
+                break;
+            }
+
+            gerik_step_sound_slow();
+
+            if (o->oTimer > 80) {
+                o->oSubAction = 0;
+                o->oTimer = 0;
+                gerik_patrol_angle = random_u16();
+                cur_obj_init_animation_with_sound(4);
+            }
+            break;
+    }
+
+    u16 view_angle = ABS(o->oAngleToMario-o->oFaceAngleYaw);
+    
+    Vec3f hitPos;
+    struct Surface * surf = NULL;
+
+    Vec3f ray_start = {o->oPosX,o->oPosY+100.0f,o->oPosZ};
+    Vec3f ray_vector = {gMarioState->pos[0]-o->oPosX,(gMarioState->pos[1]-o->oPosY)+100.0f,gMarioState->pos[2]-o->oPosZ};
+    if (o->oDistanceToMario < 6000.0f) {
+        find_surface_on_ray(ray_start, ray_vector, &surf, hitPos, (RAYCAST_FIND_FLOOR | RAYCAST_FIND_CEIL | RAYCAST_FIND_WALL));
+    }
+
+    if (gerik_boredom > 0) {
+        gerik_boredom -= 2;
+    }
+    if ((gerik_boredom < 1)&&(view_angle < 0x3000)&&(o->oDistanceToMario < 6000.0f)&&(!surf)) {
+        o->oAction = GERIK_CHASE;
+        gerik_boredom = 0;
+        cur_obj_init_animation_with_sound(0);
+    }
+}
+
+void gerik_kill_walkers() {
+    struct Object * walker = cur_obj_nearest_object_with_behavior(bhvOZombie);
+    if ((walker)&&(dist_between_objects(o,walker) < 300.0f)) {
+        if (walker->oAction != 5) {
+            walker->oAction = 5;
+        }
+    }
+}
+
 void bhv_o_gerik(void) {
 
     switch(o->oAction) {
         case GERIK_INIT:
-            o->oAction = GERIK_CHASE;
-            o->oGravity = -2.0f;
-            o->oWallHitboxRadius = 100.0f;
+            gerik_init_loop();
             break;
         case GERIK_CHASE:
-            if (o->oMoveFlags & (OBJ_MOVE_HIT_WALL|OBJ_MOVE_HIT_EDGE)) {
+            if (gerik_boredom == 0) {
+                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_MASTER_KAAG_BOSS), 0);
+            }
+            gerik_boredom ++;
+            if ((o->oMoveFlags & (OBJ_MOVE_HIT_WALL|OBJ_MOVE_HIT_EDGE))&&(o->oMoveFlags & OBJ_MOVE_ON_GROUND)) {
                 o->oMoveAngleYaw += 0x200;
                 o->oTimer = 0;
                 gerik_jump_desire ++;
-                if (gerik_jump_desire > 60) {
+                if (gerik_jump_desire > 200) {
                     gerik_jump_desire = 0;
                     o->oVelY = 60.0f;
                     cur_obj_play_sound_2(SOUND_OBJ_KING_BOBOMB_JUMP);
@@ -972,17 +1097,16 @@ void bhv_o_gerik(void) {
             }
             o->oForwardVel = 50.0f;
 
-            switch(o->header.gfx.animInfo.animFrame) {
-                case 0:
-                case 11:
-                    cur_obj_play_sound_2(SOUND_ACTION_METAL_STEP);
-                break;
+            if (o->oMoveFlags & OBJ_MOVE_ON_GROUND) {
+                gerik_step_sound();
             }
 
             cur_obj_update_floor_and_walls();
             cur_obj_move_standard(78);
 
             if (o->oDistanceToMario < 250.0f) {
+                stop_background_music(SEQUENCE_ARGS(4, SEQ_MASTER_KAAG_BOSS));
+
                 cur_obj_play_sound_2(SOUND_OBJ_GRAB_MARIO);
                 o->oAction = GERIK_GRABMARIO;
                 o->prevObj = gMarioObject;
@@ -991,15 +1115,49 @@ void bhv_o_gerik(void) {
                 cur_obj_init_animation_with_sound(3);
                 vec3f_copy(gMarioState->pos,gMarioObject->header.gfx.pos);
             }
+            if ((cur_obj_lateral_dist_to_home() > GERIK_PATROL_RADIUS)||(gerik_boredom > 1200)) {
+                stop_background_music(SEQUENCE_ARGS(4, SEQ_MASTER_KAAG_BOSS));
+                o->oAction = GERIK_LEAVE;
+                cur_obj_init_animation_with_sound(4);
+            }
             break;
         case GERIK_GRABMARIO:
+            o->oForwardVel *= .7f;
+            cur_obj_update_floor_and_walls();
+            cur_obj_move_standard(78);
             if (o->oTimer == 100) {
                 level_trigger_warp(gMarioState, WARP_OP_DEATH);
                 o->prevObj = NULL;
             }
             if (o->oTimer > 150) {
-                o->oAction = GERIK_CHASE;
+                cur_obj_init_animation_with_sound(4);
+                o->oAction = GERIK_PATROL;
+                vec3f_copy(&o->oPosVec,&o->oHomeVec);
+                o->oMoveAngleYaw = 0;
             }
+            break;
+        case GERIK_LEAVE:
+            if (o->oTimer > 15) {
+                o->oMoveAngleYaw = approach_s16_asymptotic(o->oMoveAngleYaw, cur_obj_angle_to_home(), 8);
+            }
+            if (o->oTimer == 30) {
+                cur_obj_init_animation_with_sound(5);
+            }
+            if (o->oTimer > 30) {
+                o->oForwardVel = 15.0f;
+                gerik_step_sound_slow();
+
+                cur_obj_update_floor_and_walls();
+                cur_obj_move_standard(78);
+
+                 if (o->oMoveFlags & (OBJ_MOVE_HIT_WALL|OBJ_MOVE_HIT_EDGE) || o->oTimer > 400) {
+                    o->oAction = GERIK_PATROL;
+                    cur_obj_init_animation_with_sound(4);
+                 }
+            }
+            break;
+        case GERIK_PATROL:
+            gerik_patrol();
             break;
     }
 
@@ -1007,7 +1165,14 @@ void bhv_o_gerik(void) {
         // The gerik is too strong to be beat by the shotgun ツ
         cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
         o->oShotByShotgun = 0;
+
+        if (o->oAction == GERIK_PATROL) {
+            o->oAction = GERIK_CHASE;
+            gerik_boredom = 0;
+            cur_obj_init_animation_with_sound(0);
+        }
     }
 
-    o->oInteractStatus = 0;
+    o->oIntangibleTimer = 0;
+    //o->oInteractStatus = 0;
 }

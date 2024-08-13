@@ -652,7 +652,7 @@ void bhv_e__door(void) {
 
         case 0:;//
             struct Object *coin = cur_obj_nearest_object_with_behavior(bhvRedCoin);
-            if (dist_between_objects(coin, gMarioObject) < 200.f) {
+            if (coin && dist_between_objects(coin, gMarioObject) < 200.f) {
                 o->oEDCloseDelay = 65535;
                 e__open_door();
             }
@@ -758,7 +758,6 @@ void bhv_e__elevator(void) {
         EEL_ACT_LOWER,
     };
 
-
     switch (o->oAction) {
     case EEL_ACT_INIT:
         spawn_object(o, MODEL_ID_0E, bhvE_ElevatorBase);
@@ -778,16 +777,18 @@ void bhv_e__elevator(void) {
 
         
     case EEL_ACT_DOWN:
-        if (o->oBehParams2ndByte) {
-            struct Object *swltch = cur_obj_nearest_object_with_behavior(bhvE_Switch);
-            if (swltch->oAction != 3) {
-                break; }
-        } else {
-            if (gMarioObject->platform != o) {
-                break; }
+        if (!level_in_dream_comet_mode()) {
+            if (o->oBehParams2ndByte) {
+                struct Object *swltch = cur_obj_nearest_object_with_behavior(bhvE_Switch);
+                if (swltch->oAction != 3) {
+                    break; }
+            } else {
+                if (gMarioObject->platform != o) {
+                    break; }
+            }
+            play_sound(SOUND_MITM_LEVEL_E_ELEVATOR, o->header.gfx.cameraToObject);
+            o->oAction = EEL_ACT_RISE;
         }
-        play_sound(SOUND_MITM_LEVEL_E_ELEVATOR, o->header.gfx.cameraToObject);
-        o->oAction = EEL_ACT_RISE;
         break;
 
         

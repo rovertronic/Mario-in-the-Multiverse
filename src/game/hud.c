@@ -931,7 +931,7 @@ u8 combo_meter_visual = 201;
 
 void render_hud(void) {
     //--E
-    if ((gCurrLevelNum == LEVEL_E)&&(gHudDisplay.flags != HUD_DISPLAY_NONE)) {
+    if ((gCurrLevelNum == LEVEL_E)&&(gHudDisplay.flags != HUD_DISPLAY_NONE)&&(!level_in_dream_comet_mode())) {
         create_dl_ortho_matrix();
         //--**
         create_dl_scale_matrix(MENU_MTX_PUSH, 0.75f, 0.75f, 0);
@@ -1188,7 +1188,11 @@ void render_hud(void) {
             gSPDisplayList(gDisplayListHead++, &cometbar_cometbar_mesh);
         }
 
-        render_meter(293, 185, METER_STYLE_HP, gHudDisplay.wedges, (u8)hud_alpha);
+        s16 meterhp = gHudDisplay.wedges;
+        if (level_in_dream_comet_mode()&&gCurrLevelNum==LEVEL_E) {
+            meterhp = (gE_C9MarioHealth/100.0f)*8;
+        }
+        render_meter(293, 185, METER_STYLE_HP, meterhp, (u8)hud_alpha);
 
 #ifdef BREATH_METER
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_BREATH_METER) {

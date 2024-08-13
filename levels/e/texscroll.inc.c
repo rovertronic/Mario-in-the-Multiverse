@@ -1,6 +1,6 @@
 void scroll_e_dl__model2_mesh_layer_5_vtx_1() {
 	int i = 0;
-	int count = 1473;
+	int count = 1467;
 	int width = 64 * 0x20;
 	int height = 64 * 0x20;
 
@@ -27,20 +27,26 @@ void scroll_e_dl__model2_mesh_layer_5_vtx_1() {
 	currentX += deltaX;	currentY += deltaY;
 }
 
-void scroll_sts_mat_e_dl_acid_f3d_layer5() {
+void scroll_gfx_mat_e_dl_acid_f3d_layer5() {
 	Gfx *mat = segmented_to_virtual(mat_e_dl_acid_f3d_layer5);
-	shift_t(mat, 10, PACK_TILESIZE(0, 16));
-	shift_t(mat, 15, PACK_TILESIZE(0, 19));
+
+
+	shift_t(mat, 11, PACK_TILESIZE(0, 16));
+	shift_t(mat, 13, PACK_TILESIZE(0, 19));
+
 };
 
-void scroll_sts_mat_e_dl_acid_f_f3d_layer5() {
+void scroll_gfx_mat_e_dl_acid_f_f3d_layer5() {
 	Gfx *mat = segmented_to_virtual(mat_e_dl_acid_f_f3d_layer5);
-	shift_s(mat, 10, PACK_TILESIZE(0, 2));
-	shift_t(mat, 15, PACK_TILESIZE(0, 3));
+
+
+	shift_s(mat, 12, PACK_TILESIZE(0, 2));
+	shift_t(mat, 14, PACK_TILESIZE(0, 3));
+
 };
 
 void scroll_e() {
 	scroll_e_dl__model2_mesh_layer_5_vtx_1();
-	scroll_sts_mat_e_dl_acid_f3d_layer5();
-	scroll_sts_mat_e_dl_acid_f_f3d_layer5();
-}
+	scroll_gfx_mat_e_dl_acid_f3d_layer5();
+	scroll_gfx_mat_e_dl_acid_f_f3d_layer5();
+};

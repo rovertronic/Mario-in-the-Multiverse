@@ -79,6 +79,7 @@ u8 hub_star_string[] = {0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,DIALOG_CHAR_TERM
 
 mitm_dream_data mitmdd_b = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_BIG_DADDY,ABILITY_NONE},6};
 mitm_dream_data mitmdd_c = {{ABILITY_DEFAULT,ABILITY_PHASEWALK,ABILITY_NONE,ABILITY_NONE},5};
+mitm_dream_data mitmdd_e = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_E_SHOTGUN,ABILITY_NONE},8};
 mitm_dream_data mitmdd_g = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_NONE,ABILITY_NONE},7};
 mitm_dream_data mitmdd_k = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_CHRONOS,ABILITY_NONE},7};
 mitm_dream_data mitmdd_l = {{ABILITY_DEFAULT,ABILITY_KNIGHT,ABILITY_NONE,ABILITY_NONE},4};
@@ -97,7 +98,7 @@ struct mitm_hub_level hub_levels[] = {
     /*B*/ {&author_string_b, LEVEL_B,  COURSE_HMC,   0/*10*/, 1,         25,         8,     &mitmdd_b, "BIOSHOCK RAPTURE"},
     /*L*/ {&author_string_l, LEVEL_L,  COURSE_LLL,   0/*15*/, 6,         26,         8,     &mitmdd_l, "BEYOND THE CURSED PIZZA"},
     /*K*/ {&author_string_k, LEVEL_K,  COURSE_SSL,   0/*15*/, 2,         27,         8,     &mitmdd_k, "KATANA MARIO NEW MECCA"},
-    /*E*/ {&author_string_e, LEVEL_E,  COURSE_DDD,   0/*20*/, 1,         28,         8,     NULL,      "DOOM"},
+    /*E*/ {&author_string_e, LEVEL_E,  COURSE_DDD,   0/*20*/, 1,         28,         8,     &mitmdd_e, "DOOM"},
     /*F*/ {&author_string_f, LEVEL_F,  COURSE_SL,    0/*20*/, 1,         29,         8,     NULL,      "FROM RUSSIA WITH LOVE"},
     /*J*/ {&author_string_j, LEVEL_J,  COURSE_WDW,   0/*25*/, 1,         30,         8,     NULL,      "ECRUTEAK CITY"},
     /*D*/ {&author_string_d, LEVEL_D,  COURSE_TTM,   0/*30*/, 1,         31,         8,     NULL,      "NEW N-SANITY ISLAND"},
@@ -143,7 +144,6 @@ void level_pipe_in_level_loop(void) {
             break;
         case 3: // Choose
         case 2: //Cancel
-
             if (lateral_dist_between_objects(o, gMarioObject) > 120.0f) {
                 o->oAction = 0;
             }

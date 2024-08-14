@@ -1761,6 +1761,8 @@ void render_widescreen_setting(void) {
 #endif
 
 void render_pause_my_score_coins(void) {
+    u8 hasAuthor = (mitm_levels[hub_level_current_index].author != NULL);
+
     u8 textCourse[] = { TEXT_COURSE };
     u8 textMyScore[] = { TEXT_MY_SCORE };
     u8 textStar[] = { TEXT_STAR };
@@ -1793,17 +1795,21 @@ void render_pause_my_score_coins(void) {
     }
 
     if (courseIndex <= COURSE_NUM_TO_INDEX(COURSE_STAGES_MAX)) {
-        print_generic_string(TXT_COURSE_X, 157, LANGUAGE_ARRAY(textCourse));
+        print_generic_string(TXT_COURSE_X, 157+(16*hasAuthor), LANGUAGE_ARRAY(textCourse));
         sprintf(&strCourseNum," %d",courseIndex+1);
         if (courseIndex+1 > 9) {
             sprintf(&strCourseNum,"%d",courseIndex+1);
         }
-        print_generic_string_ascii(CRS_NUM_X1, 157, strCourseNum);
+        print_generic_string_ascii(CRS_NUM_X1, 157+(16*hasAuthor), strCourseNum);
     }
 
     update_hub_star_string(hub_level_current_index);
     print_generic_string(ACT_NAME_X, 140, &hub_star_string); // No act names in this hack
-    print_generic_string_ascii(LVL_NAME_X, 157, hub_levels[hub_level_current_index].name);
+    print_generic_string_ascii(LVL_NAME_X, 157+(16*hasAuthor), mitm_levels[hub_level_current_index].name);
+    if (hasAuthor) {
+        print_generic_string_ascii(MYSCORE_X, 157, "AUTHOR");
+        print_generic_string_ascii(LVL_NAME_X, 157, mitm_levels[hub_level_current_index].author);
+    }
 
     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 }
@@ -1844,35 +1850,91 @@ void render_pause_camera_options(s16 x, s16 y, s8 *index, s16 xIndex) {
     }
 }
 
-#define X_VAL8 4
-#define Y_VAL8 2
+s8 pingasse[5] = {0,0,0,0,0};
 
-void render_pause_course_options(s16 x, s16 y, s8 *index, s16 yIndex) {
-    u8 textContinue[] = { TEXT_CONTINUE };
-    u8 textExitCourse[] = { TEXT_EXIT_COURSE };
-    u8 textCameraAngleR[] = { TEXT_CAMERA_ANGLE_R };
+struct setting {
+    char * name;
+    char ** config_names;
+    s8 * config_byte;
+    s8 config_count;
+};
 
-    u8 show_exit_course = ((gMarioState->numStars > 0)&&(gCurrLevelNum!=LEVEL_CASTLE));
+char *blood_particles_configs[] = {"Enabled", "Disabled"};
+char *rocket_controls_configs[] = {"Invert Y", "Invert Y & X", "No Invert"};
+char *aim_camera_configs[] = {"Shotgun Only", "Always Available"};
+char *aim_controls_configs[] = {"Invert Y & X", "Invert Y", "No Invert"};
+char *camera_sounds_configs[] = {"Default", "Quiet", "Silent"};
 
-    if (show_exit_course) {
-        handle_menu_scrolling(MENU_SCROLL_VERTICAL, index, 1, 3);
+struct setting settings[] = {
+    {"Blood Particles", blood_particles_configs, &pingasse[0], 2},
+    {"Rocket Controls", rocket_controls_configs, &pingasse[1], 3},
+    {"Aim Camera", aim_camera_configs, &pingasse[2], 2},
+    {"Aim Controls", aim_controls_configs, &pingasse[3], 3},
+    {"Camera Sounds", camera_sounds_configs, &pingasse[4], 3},
+};
+
+#define SETTINGS_CT 5
+s8 settings_index = 0;
+s8 settings_state = 0;
+void render_settings(void) {
+    char sprintf_buffer[50];
+    if (settings_state == 0) {
+        handle_menu_scrolling(MENU_SCROLL_VERTICAL, &settings_index, 0, SETTINGS_CT-1);
+        if (gPlayer1Controller->buttonPressed & A_BUTTON) {
+            settings_state = 1;
+        }
     } else {
-        handle_menu_scrolling(MENU_SCROLL_VERTICAL, index, 1, 2);
+        handle_menu_scrolling(MENU_SCROLL_HORIZONTAL, settings[settings_index].config_byte, 0, settings[settings_index].config_count-1);
+        if (gPlayer1Controller->buttonPressed & A_BUTTON) {
+            settings_state = 0;
+        }
     }
 
     gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
 
-    print_generic_string(x + 10, y - 2, LANGUAGE_ARRAY(textContinue));
-    if (show_exit_course) {
-        print_generic_string(x + 10, y - 33, LANGUAGE_ARRAY(textExitCourse));
+    for (int i = 0; i < SETTINGS_CT; i++) {
+        if (i == settings_index && settings_state == 1) {
+            sprintf(sprintf_buffer,"%s: < %s >",settings[i].name,settings[i].config_names[*settings[i].config_byte]);
+        } else {
+            sprintf(sprintf_buffer,"%s: %s",settings[i].name,settings[i].config_names[*settings[i].config_byte]);
+        }
+        print_generic_string_ascii(80, 170-(i*16), sprintf_buffer);
     }
 
-    print_generic_string(x + 10, y - 17, LANGUAGE_ARRAY(textCameraAngleR));
+    // Arrow
+    create_dl_translation_matrix(MENU_MTX_PUSH, 60, 170-(settings_index*16), 0);
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
+    gSPDisplayList(gDisplayListHead++, dl_draw_triangle);
+    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+}
+
+#define X_VAL8 4
+#define Y_VAL8 2
+
+void render_pause_course_options(s16 x, s16 y, s8 *index, s16 yIndex) {
+
+    // Determine if exit course should be shown
+    u8 show_exit_course = ((gMarioState->numStars > 0)&&(gCurrLevelNum!=LEVEL_CASTLE));
+    u8 scrollct = show_exit_course ? 4 : 3;
+    handle_menu_scrolling(MENU_SCROLL_VERTICAL, index, 1, scrollct);
+
+    // Print Options
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
+
+    print_generic_string_ascii(x + 10, y - 2, "CONTINUE");
+    print_generic_string_ascii(x + 10, y - 17, "CHANGE ABILITIES");
+    print_generic_string_ascii(x + 10, y - 33, "SETTINGS");
+    if (show_exit_course) {
+        print_generic_string_ascii(x + 10, y - 49, "EXIT COURSE");
+    }
     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 
+    // Arrow
     create_dl_translation_matrix(MENU_MTX_PUSH, x - X_VAL8, (y - ((*index - 1) * yIndex)) - Y_VAL8, 0);
-
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
     gSPDisplayList(gDisplayListHead++, dl_draw_triangle);
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
@@ -2064,6 +2126,20 @@ void set_ability_slot(u8 index, u8 ability_id) {
     save_file_set_ability_dpad();
 }
 
+enum {
+    PAUSE_MENU_OPENING,
+    PAUSE_MENU_MAIN,
+    PAUSE_MENU_ABILITIES,
+    PAUSE_MENU_SETTINGS,
+};
+
+void close_pause_menu(void) {
+    level_set_transition(0, NULL);
+    play_sound(SOUND_MENU_PAUSE_CLOSE, gGlobalSoundSource);
+    gMenuMode = MENU_MODE_NONE;
+    gDialogBoxState = DIALOG_STATE_OPENING;
+}
+
 s32 render_pause_courses_and_castle(void) {
     u8 question_str[] = {TEXT_QUESTION};
     s16 index;
@@ -2074,17 +2150,17 @@ s32 render_pause_courses_and_castle(void) {
     if (!gPCOptionOpen) {
 #endif
     switch (gDialogBoxState) {
-        case DIALOG_STATE_OPENING:
+        case PAUSE_MENU_OPENING:
             gDialogLineNum = MENU_OPT_DEFAULT;
             gDialogTextAlpha = 0;
             level_set_transition(-1, NULL);
             play_sound(SOUND_MENU_PAUSE_OPEN, gGlobalSoundSource);
 
             change_dialog_camera_angle();
-            gDialogBoxState = DIALOG_STATE_VERTICAL;
+            gDialogBoxState = PAUSE_MENU_MAIN;
             break;
 
-        case DIALOG_STATE_VERTICAL:
+        case PAUSE_MENU_MAIN:
             //LEVEL PAUSE
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
             create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
@@ -2095,30 +2171,34 @@ s32 render_pause_courses_and_castle(void) {
             render_pause_my_score_coins();
             render_pause_red_coins();
 
-            render_pause_course_options(99, 93, &gDialogLineNum, 15);
+            render_pause_course_options(99, 93, &gDialogLineNum, 16);
 
             if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
-                if (gDialogLineNum == MENU_OPT_EXIT_COURSE) {
-                    gDialogBoxState = DIALOG_STATE_HORIZONTAL;
-                    return MENU_OPT_NONE;
+                switch(gDialogLineNum) {
+                    case 1: // Continue
+                        close_pause_menu();
+                        return MENU_OPT_DEFAULT;
+                        break;
+                    case 2: // Change Abilities
+                        gDialogBoxState = PAUSE_MENU_ABILITIES;
+                        return MENU_OPT_NONE;
+                        break;
+                    case 3: // Settings
+                        settings_index = 0;
+                        settings_state = 0;
+                        gDialogBoxState = PAUSE_MENU_SETTINGS;
+                        return MENU_OPT_NONE;
+                        break;
+                    case 4: // Exit course
+                        close_pause_menu();
+                        return MENU_OPT_2;
+                        break;
+
                 }
-
-                level_set_transition(0, NULL);
-                play_sound(SOUND_MENU_PAUSE_CLOSE, gGlobalSoundSource);
-                gDialogBoxState = DIALOG_STATE_OPENING;
-                gMenuMode = MENU_MODE_NONE;
-
-                if (gDialogLineNum == MENU_OPT_CAMERA_ANGLE_R) {
-                    index = gDialogLineNum;
-                } else { // MENU_OPT_CONTINUE or MENU_OPT_CAMERA_ANGLE_R
-                    index = MENU_OPT_DEFAULT;
-                }
-
-                return index;
             }
             break;
 
-        case DIALOG_STATE_HORIZONTAL:
+        case PAUSE_MENU_ABILITIES:
             //HUB PAUSE / ABILITY SWITCHING
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
             create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
@@ -2203,14 +2283,27 @@ s32 render_pause_courses_and_castle(void) {
             //print_hud_pause_colorful_str();
             //render_pause_castle_menu_box(160, 143);
             //render_pause_castle_main_strings(104, 60);
-
-            if (gPlayer1Controller->buttonPressed & (START_BUTTON)) {
-                level_set_transition(0, NULL);
-                play_sound(SOUND_MENU_PAUSE_CLOSE, gGlobalSoundSource);
-                gMenuMode = MENU_MODE_NONE;
-                gDialogBoxState = DIALOG_STATE_OPENING;
-
+            if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+                gDialogBoxState = PAUSE_MENU_MAIN;
+                return MENU_OPT_NONE;
+            }
+            if (gPlayer1Controller->buttonPressed & START_BUTTON) {
+                close_pause_menu();
                 return MENU_OPT_DEFAULT;
+            }
+            break;
+        case PAUSE_MENU_SETTINGS:
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
+            create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
+            gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+            gSPDisplayList(gDisplayListHead++, generic_pause_gp_mesh);
+            gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+            render_settings();
+
+            if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+                gDialogBoxState = PAUSE_MENU_MAIN;
+                return MENU_OPT_NONE;
             }
             break;
     }

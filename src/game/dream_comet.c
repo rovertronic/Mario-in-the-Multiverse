@@ -71,10 +71,10 @@ s32 have_dream_star(int index) {
 }
 
 u8 get_dream_star_level_count(void) {
-    if (hub_levels[hub_level_current_index].dream_data == NULL) {
+    if (mitm_levels[hub_level_current_index].dream_data == NULL) {
         return 0;
     }
-    return hub_levels[hub_level_current_index].dream_data->dream_star_ct;
+    return mitm_levels[hub_level_current_index].dream_data->dream_star_ct;
 }
 
 Texture * star_radar_frames[] = {

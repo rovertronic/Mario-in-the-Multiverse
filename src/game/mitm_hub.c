@@ -54,22 +54,6 @@
 #include "ability.h"
 #include "hints.h"
 
-u8 author_string_a[] = {AUTHOR_A};
-u8 author_string_b[] = {AUTHOR_B};
-u8 author_string_c[] = {AUTHOR_C};
-u8 author_string_d[] = {AUTHOR_D};
-u8 author_string_e[] = {AUTHOR_E};
-u8 author_string_f[] = {AUTHOR_F};
-u8 author_string_g[] = {AUTHOR_G};
-u8 author_string_h[] = {AUTHOR_H};
-u8 author_string_i[] = {AUTHOR_I};
-u8 author_string_j[] = {AUTHOR_J};
-u8 author_string_k[] = {AUTHOR_K};
-u8 author_string_l[] = {AUTHOR_L};
-u8 author_string_m[] = {AUTHOR_M};
-u8 author_string_n[] = {AUTHOR_N};
-u8 author_string_o[] = {AUTHOR_O};
-
 u8 pipe_string_not_enough[] = {TEXT_PIPE_NOT_ENOUGH};
 u8 pipe_string_enter[] = {TEXT_PIPE_ENTER};
 u8 pipe_string_a[] = {TEXT_PIPE_A};
@@ -88,25 +72,43 @@ mitm_dream_data mitmdd_o = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_HM_FLY,
 
 //In course order, not alphabetical!
 //Only mess with /* Level */ entry, everything else is pre-configured
-struct mitm_hub_level hub_levels[] = {
-          /* Author          Level     StarFlags     StarReq  StartArea  ReturnWarp  StarCt DreamData  Name */
-    /*G*/ {&author_string_g, LEVEL_G,  COURSE_BOB,   0/*0 */, 3,         20,         8,     &mitmdd_g, "MARIO SUPER STAR ULTRA"},
-    /*A*/ {&author_string_a, LEVEL_A,  COURSE_WF,    0/*1 */, 1,         21,         8,     NULL,      "MARIO IN BIKINI BOTTOM"},
-    /*C*/ {&author_string_c, LEVEL_C,  COURSE_JRB,   0/*1 */, 1,         22,         8,     &mitmdd_c, "PIRANHA PIT"},
-    /*I*/ {&author_string_i, LEVEL_I,  COURSE_CCM,   0/*3 */, 1,         23,         8,     NULL,      "MUSHROOM HAVOC"},
-    /*H*/ {&author_string_h, LEVEL_H,  COURSE_BBH,   0/*5 */, 1,         24,         8,     NULL,      "OPPORTUNITY"},
-    /*B*/ {&author_string_b, LEVEL_B,  COURSE_HMC,   0/*10*/, 1,         25,         8,     &mitmdd_b, "BIOSHOCK RAPTURE"},
-    /*L*/ {&author_string_l, LEVEL_L,  COURSE_LLL,   0/*15*/, 6,         26,         8,     &mitmdd_l, "BEYOND THE CURSED PIZZA"},
-    /*K*/ {&author_string_k, LEVEL_K,  COURSE_SSL,   0/*15*/, 2,         27,         8,     &mitmdd_k, "KATANA MARIO NEW MECCA"},
-    /*E*/ {&author_string_e, LEVEL_E,  COURSE_DDD,   0/*20*/, 1,         28,         8,     &mitmdd_e, "DOOM"},
-    /*F*/ {&author_string_f, LEVEL_F,  COURSE_SL,    0/*20*/, 1,         29,         8,     NULL,      "FROM RUSSIA WITH LOVE"},
-    /*J*/ {&author_string_j, LEVEL_J,  COURSE_WDW,   0/*25*/, 1,         30,         8,     NULL,      "ECRUTEAK CITY"},
-    /*D*/ {&author_string_d, LEVEL_D,  COURSE_TTM,   0/*30*/, 1,         31,         8,     NULL,      "NEW N-SANITY ISLAND"},
-    /*O*/ {&author_string_o, LEVEL_O,  COURSE_THI,   0/*30*/, 1,         32,         8,     &mitmdd_o, "SAINTS, SINNERS, & MARIO"},
-    /*N*/ {&author_string_n, LEVEL_N,  COURSE_TTC,   0/*50*/, 1,         33,         8,     &mitmdd_n, "MARIO IN HAMSTERBALL"},
-    /*M*/ {&author_string_m, LEVEL_M,  COURSE_RR,    0/*50*/, 1,         34,         8,     NULL,      "ENVIRONMENTAL STATION M"},
-    /*BC*/{NULL, LEVEL_BOWSER_COURSE,  COURSE_BITDW, 0,       1,         34,         1,     NULL,      "CENTRUM OMNIUM"},
-   /*HUB*/{NULL,             NULL,     COURSE_BITFS, 0,       1,         34,         2,     NULL,      "HUB"},
+struct mitm_level_data mitm_levels[] = {
+          /* Name, Author(s)*/
+          /*Level     StarFlags     StarReq  StartArea  ReturnWarp  StarCt DreamData*/
+    /*G*/ {"MARIO SUPER STAR ULTRA", "CowQuack",
+            LEVEL_G,  COURSE_BOB,   0,       3,         20,         8,     &mitmdd_g},
+    /*A*/ {"MARIO IN BIKINI BOTTOM", "JoshTheBosh",
+            LEVEL_A,  COURSE_WF,    1,       1,         21,         8,     NULL},
+    /*C*/ {"PIRANHA PIT", "Drahnokks & Woissil",
+            LEVEL_C,  COURSE_JRB,   1,       1,         22,         8,     &mitmdd_c},
+    /*I*/ {"MUSHROOM HAVOC", "Drahnokks",
+            LEVEL_I,  COURSE_CCM,   3,       1,         23,         8,     NULL},
+    /*H*/ {"OPPORTUNITY", "joopii",
+            LEVEL_H,  COURSE_BBH,   5,       1,         24,         8,     NULL},
+    /*B*/ {"BIOSHOCK RAPTURE", "furyiousfight",
+            LEVEL_B,  COURSE_HMC,   10,      1,         25,         8,     &mitmdd_b },
+    /*L*/ {"BEYOND THE CURSED PIZZA", "luigiman0640",
+            LEVEL_L,  COURSE_LLL,   15,      6,         26,         8,     &mitmdd_l },
+    /*K*/ {"KATANA MARIO NEW MECCA", "KeyBlader & axollyon",
+            LEVEL_K,  COURSE_SSL,   15,      2,         27,         8,     &mitmdd_k },
+    /*E*/ {"DOOM", "Dorrieal",
+            LEVEL_E,  COURSE_DDD,   20,      1,         28,         8,     &mitmdd_e },
+    /*F*/ {"FROM RUSSIA WITH LOVE", "Aesy (Aeza)",
+            LEVEL_F,  COURSE_SL,    20,      1,         29,         8,     NULL},
+    /*J*/ {"ECRUTEAK CITY", "SpK",
+            LEVEL_J,  COURSE_WDW,   25,      1,         30,         8,     NULL},
+    /*D*/ {"NEW N-SANITY ISLAND", "JakeDower",
+            LEVEL_D,  COURSE_TTM,   30,      1,         31,         8,     NULL},
+    /*O*/ {"SAINTS, SINNERS, & MARIO", "Rovertronic",
+            LEVEL_O,  COURSE_THI,   30,      1,         32,         8,     &mitmdd_o},
+    /*N*/ {"MARIO IN HAMSTERBALL", "LinCrash",
+            LEVEL_N,  COURSE_TTC,   50,      1,         33,         8,     &mitmdd_n},
+    /*M*/ {"ENVIRONMENTAL STATION M", "Mel",
+            LEVEL_M,  COURSE_RR,    50,      1,         34,         8,     NULL},
+    /*BC*/{"CENTRUM OMNIUM", NULL,
+            LEVEL_BOWSER_COURSE,  COURSE_BITDW, 0, 0,   34,         1,     NULL},
+   /*HUB*/{"FRACTURE", NULL,
+   NULL,     COURSE_BITFS, 0,       0,         34,         2,     NULL},
 };
 
 s8 hub_level_index = -1;
@@ -115,8 +117,8 @@ s8 hub_level_current_index = HUBLEVEL_HUB;
 f32 hub_titlecard_alpha = 0.0f;
 
 void update_hub_star_string(s8 index_of_hublevel) {
-    u8 star_flags = star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(hub_levels[index_of_hublevel].course));
-    u8 star_count = hub_levels[index_of_hublevel].star_count;
+    u8 star_flags = star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(mitm_levels[index_of_hublevel].course));
+    u8 star_count = mitm_levels[index_of_hublevel].star_count;
 
     for (u8 i=0;i<star_count;i++) {
         if (star_flags & (1<<i)) {
@@ -174,7 +176,7 @@ void level_pipe_loop(void) {
         return;
     }
 
-    if ((gMarioState->numStars >= hub_levels[o->oBehParams2ndByte].star_requirement)&&(!queued_pipe_cutscene)&&
+    if ((gMarioState->numStars >= mitm_levels[o->oBehParams2ndByte].star_requirement)&&(!queued_pipe_cutscene)&&
         !(gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked & (1 << o->oBehParams2ndByte))) {
         if (o->oTimer > 30) {
             queued_pipe_cutscene = TRUE;
@@ -208,7 +210,10 @@ void level_pipe_loop(void) {
                 if (gMarioState->action != ACT_ENTER_HUB_PIPE) {
                     set_mario_action(gMarioState,ACT_ENTER_HUB_PIPE,0);
                     o->oAction = 1;
-                    if (gMarioState->numStars >= hub_levels[o->oBehParams2ndByte].star_requirement) {
+                    #ifdef UNLOCK_ABILITIES_DEBUG
+                        mitm_levels[o->oBehParams2ndByte].star_requirement = 0;
+                    #endif
+                    if (gMarioState->numStars >= mitm_levels[o->oBehParams2ndByte].star_requirement) {
                         o->oAction = 3;
                     }
                 }
@@ -296,9 +301,8 @@ void render_mitm_hub_hud(void) {
 
         gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hub_titlecard_alpha);
-        print_generic_string(110,55,hub_levels[hub_dma_index].author);
 
-        if (hub_levels[hub_dma_index].star_requirement <= gMarioState->numStars) {
+        if (mitm_levels[hub_dma_index].star_requirement <= gMarioState->numStars) {
             //Display Collected Stars
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 0, (u8)hub_titlecard_alpha);
             update_hub_star_string(hub_dma_index);
@@ -306,7 +310,7 @@ void render_mitm_hub_hud(void) {
         } else {
             //Not Enough Stars to Enter
             gDPSetEnvColor(gDisplayListHead++, 255, 0, 0, (u8)hub_titlecard_alpha);
-            int_to_str(hub_levels[hub_dma_index].star_requirement, &pipe_string_not_enough[10]);
+            int_to_str(mitm_levels[hub_dma_index].star_requirement, &pipe_string_not_enough[10]);
             print_generic_string(110,40,pipe_string_not_enough);
         }
 
@@ -354,15 +358,15 @@ void render_mitm_return_to_hub_hud(void) {
 }
 
 u8 get_hub_level(u8 id) {
-    return hub_levels[id].level ;
+    return mitm_levels[id].level ;
 }
 
 u8 get_hub_area(u8 id) {
-    return hub_levels[id].start_area ;
+    return mitm_levels[id].start_area ;
 }
 
 u8 get_hub_return_id(u8 id) {
-    return hub_levels[id].return_id;
+    return mitm_levels[id].return_id;
 }
 
 void hub_reset_variables(void) {
@@ -593,10 +597,10 @@ void render_hint_ui(u8 hud_alpha) {
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
         print_generic_string_ascii(45, 95, "Need help finding a\npower star?");
 
-        print_generic_string_ascii(45, 56, hub_levels[hint_index].name);
+        print_generic_string_ascii(45, 56, mitm_levels[hint_index].name);
 
         for (s32 i = 0; i < 15; i++) {
-            u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(hub_levels[hint_index].course));
+            u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(mitm_levels[hint_index].course));
             sprintf(stringBuf,"C%02d",i+1);
 
             if (star_flags == 0xFF) {

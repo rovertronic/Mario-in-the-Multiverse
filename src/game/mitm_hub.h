@@ -18,8 +18,9 @@ typedef struct mitm_dream_data {
     u8 dream_star_ct;
 } mitm_dream_data;
 
-struct mitm_hub_level {
-    u8 *author;
+struct mitm_level_data {
+    char * name;
+    char * author;
     u8 level;
     u8 course;
     u8 star_requirement;
@@ -27,7 +28,6 @@ struct mitm_hub_level {
     u8 return_id;
     u8 star_count;
     mitm_dream_data * dream_data;
-    char * name;
 };
 
 enum mitm_hub_level_ids {
@@ -51,6 +51,6 @@ enum mitm_hub_level_ids {
     HUBLEVEL_COUNT,
 };
 
-extern struct mitm_hub_level hub_levels[];
+extern struct mitm_level_data mitm_levels[];
 
 #endif

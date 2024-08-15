@@ -562,7 +562,7 @@ void render_hud_camera_status(s32 x, s32 y) {//--E
             //--E C
         case CAM_STATUS_AIM:
             render_hud_tex_lut(x + 16, y, (*cameraLUT)[6]);
-            if (gE_ShotgunFlags & E_SGF_AIM_FIRE) {
+            if (using_ability(ABILITY_E_SHOTGUN)&&(gE_ShotgunFlags & E_SGF_AIM_FIRE)) {
                 gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
                 gSPDisplayList(gDisplayListHead++, dl_e__crosshair);
                 gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);

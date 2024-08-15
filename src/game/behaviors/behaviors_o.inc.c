@@ -461,7 +461,9 @@ void bhv_o_walker_update(void) {
             cur_obj_become_intangible();
             if (o->oTimer == 0) {
                 cur_obj_init_animation_with_accel_and_sound(4, 1.0f);
-                cur_obj_spawn_particles(&sZombieBlood);
+                if (gSaveBuffer.menuData.config[SETTINGS_BLOOD] == 0) {
+                    cur_obj_spawn_particles(&sZombieBlood);
+                }
             }
             o->oForwardVel = -1.0f;
         
@@ -476,9 +478,11 @@ void bhv_o_walker_update(void) {
             o->oInteractType = INTERACT_NONE;
             if (o->oTimer == 0) {
                 cur_obj_init_animation_with_accel_and_sound(5, 1.0f);
-                o->oPosY += 30.0f;
-                cur_obj_spawn_particles(&sZombieHeadBlood1);
-                o->oPosY -= 30.0f;
+                if (gSaveBuffer.menuData.config[SETTINGS_BLOOD] == 0) {
+                    o->oPosY += 30.0f;
+                    cur_obj_spawn_particles(&sZombieHeadBlood1);
+                    o->oPosY -= 30.0f;
+                }
             }
 
             o->oForwardVel = 0.0f;

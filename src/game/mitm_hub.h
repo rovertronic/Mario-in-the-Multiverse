@@ -21,6 +21,7 @@ typedef struct mitm_dream_data {
 struct mitm_level_data {
     char * name;
     char * author;
+    char * author_abridged;
     u8 level;
     u8 course;
     u8 star_requirement;

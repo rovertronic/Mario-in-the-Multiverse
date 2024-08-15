@@ -29,6 +29,7 @@
 #include "mitm_hub.h"
 #include "ability.h"
 #include "actors/group0.h"
+#include "buffers/buffers.h"
 
 #ifdef VERSION_EU
 #undef LANGUAGE_FUNCTION
@@ -1739,7 +1740,7 @@ void render_widescreen_setting(void) {
 #if defined(VERSION_JP) || defined(VERSION_SH)
     #define CRS_NUM_X1 93
 #elif defined(VERSION_US)
-    #define CRS_NUM_X1 100
+    #define CRS_NUM_X1 98
 #elif defined(VERSION_EU)
     #define CRS_NUM_X1 get_string_width(LANGUAGE_ARRAY(textCourse)) + 51
 #endif
@@ -1757,7 +1758,7 @@ void render_widescreen_setting(void) {
     #define ACT_NAME_X        116
     #define LVL_NAME_X        117
     #define SECRET_LVL_NAME_X 94
-    #define MYSCORE_X         62
+    #define MYSCORE_X         60
 #endif
 
 void render_pause_my_score_coins(void) {
@@ -1795,7 +1796,7 @@ void render_pause_my_score_coins(void) {
     }
 
     if (courseIndex <= COURSE_NUM_TO_INDEX(COURSE_STAGES_MAX)) {
-        print_generic_string(TXT_COURSE_X, 157+(16*hasAuthor), LANGUAGE_ARRAY(textCourse));
+        print_generic_string(MYSCORE_X, 157+(16*hasAuthor), LANGUAGE_ARRAY(textCourse));
         sprintf(&strCourseNum," %d",courseIndex+1);
         if (courseIndex+1 > 9) {
             sprintf(&strCourseNum,"%d",courseIndex+1);
@@ -1863,17 +1864,18 @@ char *blood_particles_configs[] = {"Enabled", "Disabled"};
 char *rocket_controls_configs[] = {"Invert Y", "Invert Y & X", "No Invert"};
 char *aim_camera_configs[] = {"Shotgun Only", "Always Available"};
 char *aim_controls_configs[] = {"Invert Y & X", "Invert Y", "No Invert"};
-char *camera_sounds_configs[] = {"Default", "Quiet", "Silent"};
+char *sound_level_configs[] = {"100", "50", "0"};
+char *music_level_configs[] = {"100", "75", "50", "25", "0"};
 
 struct setting settings[] = {
-    {"Blood Particles", blood_particles_configs, &pingasse[0], 2},
-    {"Rocket Controls", rocket_controls_configs, &pingasse[1], 3},
-    {"Aim Camera", aim_camera_configs, &pingasse[2], 2},
-    {"Aim Controls", aim_controls_configs, &pingasse[3], 3},
-    {"Camera Sounds", camera_sounds_configs, &pingasse[4], 3},
+    {"Music Volume", music_level_configs, &gSaveBuffer.menuData.config[SETTINGS_MUSIC_VOLUME] , 5},
+    {"Camera Volume", sound_level_configs, &gSaveBuffer.menuData.config[SETTINGS_CAMERA_VOLUME], 3},
+    {"Aim Camera", aim_camera_configs, &gSaveBuffer.menuData.config[SETTINGS_AIM_CAMERA], 2},
+    {"Aim Controls", aim_controls_configs, &gSaveBuffer.menuData.config[SETTINGS_AIM_CONTROLS], 3},
+    {"Rocket Controls", rocket_controls_configs, &gSaveBuffer.menuData.config[SETTINGS_ROCKET_CONTROLS], 3},
+    {"Blood Particles", blood_particles_configs, &gSaveBuffer.menuData.config[SETTINGS_BLOOD], 2},
 };
 
-#define SETTINGS_CT 5
 s8 settings_index = 0;
 s8 settings_state = 0;
 void render_settings(void) {
@@ -1896,10 +1898,12 @@ void render_settings(void) {
     for (int i = 0; i < SETTINGS_CT; i++) {
         if (i == settings_index && settings_state == 1) {
             sprintf(sprintf_buffer,"%s: < %s >",settings[i].name,settings[i].config_names[*settings[i].config_byte]);
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 0, gDialogTextAlpha);
         } else {
             sprintf(sprintf_buffer,"%s: %s",settings[i].name,settings[i].config_names[*settings[i].config_byte]);
         }
         print_generic_string_ascii(80, 170-(i*16), sprintf_buffer);
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
     }
 
     // Arrow

@@ -18,7 +18,18 @@ struct ObjectHitbox sShockRocketHitbox = {
 
 void shock_rocket_stick_control(void){
     s16 stickX = gPlayer1Controller->rawStickX;
-    s16 stickY = gPlayer1Controller->rawStickY;
+    s16 stickY = -gPlayer1Controller->rawStickY;
+
+    switch (gSaveBuffer.menuData.config[SETTINGS_ROCKET_CONTROLS]) {
+        case 1:
+            stickX = -gPlayer1Controller->rawStickX;
+            break;
+        case 2:
+            stickY = gPlayer1Controller->rawStickY;
+            break;
+    }
+
+
     if (stickX < 10 && stickX > -10) stickX = 0;
     if (stickY < 10 && stickY > -10) stickY = 0;
     if (find_water_level(o->oPosX, o->oPosZ) > o->oPosY) {
@@ -46,6 +57,10 @@ void shock_rocket_quit(void){
 }
 
 void shock_rocket_armed(void){
+    if (set_cam_angle(0) == CAM_ANGLE_AIM) {
+        set_cam_angle(CAM_ANGLE_LAKITU);
+    }
+
     shock_rocket_stick_control();
     obj_set_model(gMarioObject, MODEL_NONE);
 

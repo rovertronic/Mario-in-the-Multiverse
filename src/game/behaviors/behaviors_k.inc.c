@@ -1,4 +1,8 @@
 void blood_cast(Vec3f * start, Vec3f * ray) {
+    if (gSaveBuffer.menuData.config[SETTINGS_BLOOD] == 1) {
+        return;
+    }
+
     s16 blood_count = count_objects_with_behavior(bhvKblood);
     if (blood_count > 100) {
         return;

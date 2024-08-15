@@ -259,6 +259,10 @@ void bhv_paint_gun_loop(void) {
                     }
                     break;
                 case 3: // Mario controls it
+                    if (set_cam_angle(0) == CAM_ANGLE_AIM) {
+                        set_cam_angle(CAM_ANGLE_LAKITU);
+                    }
+
                     shock_rocket_stick_control();
                     set_mario_action(gMarioState, ACT_CUTSCENE_CONTROLLED, 0);
                     gMarioState->usedObj = o;

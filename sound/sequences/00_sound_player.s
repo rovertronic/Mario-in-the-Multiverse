@@ -6952,6 +6952,9 @@ sound_ref .sound_menu_camera_buzz
 sound_ref .sound_menu_camera_turn
 sound_ref .sound_menu_chronos_slomo_engage
 sound_ref .sound_menu_chronos_slomo_disengage
+sound_ref .sound_menu_camera_zoom_in_quiet
+sound_ref .sound_menu_camera_zoom_out_quiet
+sound_ref .sound_menu_camera_turn_quiet
 
 .sound_menu_chronos_slomo_engage:
 chan_setbank 9
@@ -7089,6 +7092,22 @@ chan_setenvelope .envelope_341C
 chan_setlayer 0, .layer_2C64
 chan_end
 
+.sound_menu_camera_zoom_out_quiet:
+chan_setmutebhv 0x0
+chan_setnotepriority 14
+chan_setbank 9
+chan_setinstr 3
+chan_setenvelope .envelope_341C
+chan_setlayer 0, .layer_2C64_quiet
+chan_end
+
+.layer_2C64_quiet:
+layer_portamento 0x1, 32, 0x8
+layer_note1 27, 0x8, 64
+layer_portamento 0x81, 39, 255
+layer_note1 20, 0x28, 64
+layer_end
+
 .layer_2C64:
 layer_portamento 0x1, 32, 0x8
 layer_note1 27, 0x8, 127
@@ -7104,6 +7123,22 @@ chan_setinstr 3
 chan_setenvelope .envelope_3428
 chan_setlayer 0, .layer_2C81
 chan_end
+
+.sound_menu_camera_zoom_in_quiet:
+chan_setmutebhv 0x0
+chan_setnotepriority 14
+chan_setbank 9
+chan_setinstr 3
+chan_setenvelope .envelope_3428
+chan_setlayer 0, .layer_2C81_quiet
+chan_end
+
+.layer_2C81_quiet:
+layer_portamento 0x1, 27, 0x8
+layer_note1 32, 0x8, 46
+layer_portamento 0x81, 20, 255
+layer_note1 39, 0x28, 46
+layer_end
 
 .layer_2C81:
 layer_portamento 0x1, 27, 0x8
@@ -7269,6 +7304,22 @@ chan_setinstr 3
 chan_setenvelope .envelope_3428
 chan_setlayer 0, .layer_2D99
 chan_end
+
+.sound_menu_camera_turn_quiet:
+chan_setmutebhv 0x0
+chan_setnotepriority 14
+chan_setbank 9
+chan_setinstr 3
+chan_setenvelope .envelope_3428
+chan_setlayer 0, .layer_quiet_camera
+chan_end
+
+.layer_quiet_camera:
+layer_portamento 0x81, 23, 255
+layer_note1 35, 0x9, 48
+layer_portamento 0x81, 36, 255
+layer_note1 43, 0x44, 50
+layer_end
 
 .layer_2D99:
 layer_portamento 0x81, 23, 255

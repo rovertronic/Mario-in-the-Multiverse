@@ -30,6 +30,7 @@
 #include "profiling.h"
 #include "ability.h"
 #include "cutscene_manager.h"
+#include "buffers/buffers.h"
 
 #define CBUTTON_MASK (U_CBUTTONS | D_CBUTTONS | L_CBUTTONS | R_CBUTTONS)
 
@@ -1178,7 +1179,7 @@ void mode_8_directions_camera(struct Camera *c) {
 
 //--E C
 void mode_shotgun_aim_camera(struct Camera *c) {
-    if ((!using_ability(ABILITY_E_SHOTGUN)) || (gCameraMovementFlags & CAM_MOVE_C_UP_MODE) || (gMarioState->action & ACT_FLAG_SWIMMING)) {
+    if ((!using_ability(ABILITY_E_SHOTGUN) && gSaveBuffer.menuData.config[SETTINGS_AIM_CAMERA] == 0) || (gCameraMovementFlags & CAM_MOVE_C_UP_MODE) || (gMarioState->action & ACT_FLAG_SWIMMING)) {
         set_cam_angle(CAM_ANGLE_LAKITU);
         gCameraMovementFlags |= CAM_MOVE_ZOOMED_OUT;
         mode_8_directions_camera(c);
@@ -1190,16 +1191,37 @@ void mode_shotgun_aim_camera(struct Camera *c) {
     else {
         sE_TurnSpeed = 0; }
 
+    switch (gSaveBuffer.menuData.config[SETTINGS_AIM_CONTROLS]) {
+        case 0:
+            if (gPlayer1Controller->buttonDown & L_CBUTTONS) {
+                sE_GoalYaw += sE_TurnSpeed; }
+            if (gPlayer1Controller->buttonDown & R_CBUTTONS) {
+                sE_GoalYaw -= sE_TurnSpeed; }
+            break;
+        case 1:
+        case 2:
+            if (gPlayer1Controller->buttonDown & L_CBUTTONS) {
+                sE_GoalYaw -= sE_TurnSpeed; }
+            if (gPlayer1Controller->buttonDown & R_CBUTTONS) {
+                sE_GoalYaw += sE_TurnSpeed; }
+            break;
+    }
 
-    if (gPlayer1Controller->buttonDown & L_CBUTTONS) {
-        sE_GoalYaw += sE_TurnSpeed; }
-    if (gPlayer1Controller->buttonDown & R_CBUTTONS) {
-        sE_GoalYaw -= sE_TurnSpeed; }
-
-    if (gPlayer1Controller->buttonDown & U_CBUTTONS) {
-        sE_GoalPitch -= (sE_TurnSpeed / 2); }
-    if (gPlayer1Controller->buttonDown & D_CBUTTONS) {
-        sE_GoalPitch += (sE_TurnSpeed / 2); }
+    switch (gSaveBuffer.menuData.config[SETTINGS_AIM_CONTROLS]) {
+        case 0:
+        case 1:
+            if (gPlayer1Controller->buttonDown & U_CBUTTONS) {
+                sE_GoalPitch -= (sE_TurnSpeed / 2); }
+            if (gPlayer1Controller->buttonDown & D_CBUTTONS) {
+                sE_GoalPitch += (sE_TurnSpeed / 2); }
+            break;
+        case 2:
+            if (gPlayer1Controller->buttonDown & U_CBUTTONS) {
+                sE_GoalPitch += (sE_TurnSpeed / 2); }
+            if (gPlayer1Controller->buttonDown & D_CBUTTONS) {
+                sE_GoalPitch -= (sE_TurnSpeed / 2); }
+            break;
+    }
 
     if (sE_GoalPitch >= DEGREES(60)) {
         sE_GoalPitch = DEGREES(60); }
@@ -3241,7 +3263,7 @@ void update_camera(struct Camera *c) {
 
                     set_cam_angle(CAM_ANGLE_MARIO);
                 } else if (set_cam_angle(0) == CAM_ANGLE_MARIO) {//--E C
-                    if (using_ability(ABILITY_E_SHOTGUN) && (c->mode != CAMERA_MODE_C_UP) && (!(gMarioState->action & ACT_FLAG_SWIMMING))) {//--C^ & water
+                    if ((using_ability(ABILITY_E_SHOTGUN)||gSaveBuffer.menuData.config[SETTINGS_AIM_CAMERA] == 1) && (c->mode != CAMERA_MODE_C_UP) && (!(gMarioState->action & ACT_FLAG_SWIMMING))) {//--C^ & water
                         set_cam_angle(CAM_ANGLE_AIM);
                         if (sE_LakituAngleTimer) {
                             sE_Pitch     = sE_LastLakituPitch;
@@ -5018,15 +5040,36 @@ void play_camera_buzz_if_c_sideways(void) {
 }
 
 void play_sound_cbutton_up(void) {
-    play_sound(SOUND_MENU_CAMERA_ZOOM_IN, gGlobalSoundSource);
+    switch(gSaveBuffer.menuData.config[SETTINGS_CAMERA_VOLUME]) {
+        case 0:
+            play_sound(SOUND_MENU_CAMERA_ZOOM_IN, gGlobalSoundSource);
+            break;
+        case 1:
+            play_sound(SOUND_MENU_CAMERA_ZOOM_IN_QUIET, gGlobalSoundSource);
+            break;
+    }
 }
 
 void play_sound_cbutton_down(void) {
-    play_sound(SOUND_MENU_CAMERA_ZOOM_OUT, gGlobalSoundSource);
+    switch(gSaveBuffer.menuData.config[SETTINGS_CAMERA_VOLUME]) {
+        case 0:
+            play_sound(SOUND_MENU_CAMERA_ZOOM_OUT, gGlobalSoundSource);
+            break;
+        case 1:
+            play_sound(SOUND_MENU_CAMERA_ZOOM_OUT_QUIET, gGlobalSoundSource);
+            break;
+    }
 }
 
 void play_sound_cbutton_side(void) {
-    play_sound(SOUND_MENU_CAMERA_TURN, gGlobalSoundSource);
+    switch(gSaveBuffer.menuData.config[SETTINGS_CAMERA_VOLUME]) {
+        case 0:
+            play_sound(SOUND_MENU_CAMERA_TURN, gGlobalSoundSource);
+            break;
+        case 1:
+            play_sound(SOUND_MENU_CAMERA_TURN_QUIET, gGlobalSoundSource);
+            break;
+    }
 }
 
 void play_sound_button_change_blocked(void) {

@@ -75,40 +75,40 @@ mitm_dream_data mitmdd_o = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_HM_FLY,
 struct mitm_level_data mitm_levels[] = {
           /* Name, Author(s)*/
           /*Level     StarFlags     StarReq  StartArea  ReturnWarp  StarCt DreamData*/
-    /*G*/ {"MARIO SUPER STAR ULTRA", "CowQuack",
+    /*G*/ {"MARIO SUPER STAR ULTRA", "CowQuack", "CowQuack",
             LEVEL_G,  COURSE_BOB,   0,       3,         20,         8,     &mitmdd_g},
-    /*A*/ {"MARIO IN BIKINI BOTTOM", "JoshTheBosh",
+    /*A*/ {"MARIO IN BIKINI BOTTOM", "JoshTheBosh", "JoshTheBosh",
             LEVEL_A,  COURSE_WF,    1,       1,         21,         8,     NULL},
-    /*C*/ {"PIRANHA PIT", "Drahnokks & Woissil",
+    /*C*/ {"PIRANHA PIT", "Drahnokks, Idea by: Woissil", "Drahnokks & Co.",
             LEVEL_C,  COURSE_JRB,   1,       1,         22,         8,     &mitmdd_c},
-    /*I*/ {"MUSHROOM HAVOC", "Drahnokks",
+    /*I*/ {"MUSHROOM HAVOC", "Drahnokks", "Drahnokks",
             LEVEL_I,  COURSE_CCM,   3,       1,         23,         8,     NULL},
-    /*H*/ {"OPPORTUNITY", "joopii",
+    /*H*/ {"OPPORTUNITY", "joopii", "joopii",
             LEVEL_H,  COURSE_BBH,   5,       1,         24,         8,     NULL},
-    /*B*/ {"BIOSHOCK RAPTURE", "furyiousfight",
+    /*B*/ {"BIOSHOCK RAPTURE", "furyiousfight", "furyiousfight",
             LEVEL_B,  COURSE_HMC,   10,      1,         25,         8,     &mitmdd_b },
-    /*L*/ {"BEYOND THE CURSED PIZZA", "luigiman0640",
+    /*L*/ {"BEYOND THE CURSED PIZZA", "luigiman0640", "luigiman0640",
             LEVEL_L,  COURSE_LLL,   15,      6,         26,         8,     &mitmdd_l },
-    /*K*/ {"KATANA MARIO NEW MECCA", "KeyBlader & axollyon",
+    /*K*/ {"KATANA MARIO NEW MECCA", "KeyBlader & axollyon", "KeyBlader & Co.",
             LEVEL_K,  COURSE_SSL,   15,      2,         27,         8,     &mitmdd_k },
-    /*E*/ {"DOOM", "Dorrieal",
+    /*E*/ {"DOOM", "Dorrieal", "Dorrieal",
             LEVEL_E,  COURSE_DDD,   20,      1,         28,         8,     &mitmdd_e },
-    /*F*/ {"FROM RUSSIA WITH LOVE", "Aesy (Aeza)",
+    /*F*/ {"FROM RUSSIA WITH LOVE", "Aesy (Aeza)", "Aesy (Aeza)",
             LEVEL_F,  COURSE_SL,    20,      1,         29,         8,     NULL},
-    /*J*/ {"ECRUTEAK CITY", "SpK",
+    /*J*/ {"ECRUTEAK CITY", "SpK", "SpK",
             LEVEL_J,  COURSE_WDW,   25,      1,         30,         8,     NULL},
-    /*D*/ {"NEW N-SANITY ISLAND", "JakeDower",
+    /*D*/ {"NEW N-SANITY ISLAND", "JakeDower", "JakeDower",
             LEVEL_D,  COURSE_TTM,   30,      1,         31,         8,     NULL},
-    /*O*/ {"SAINTS, SINNERS, & MARIO", "Rovertronic",
+    /*O*/ {"SAINTS, SINNERS, & MARIO", "Rovertronic", "Rovertronic",
             LEVEL_O,  COURSE_THI,   30,      1,         32,         8,     &mitmdd_o},
-    /*N*/ {"MARIO IN HAMSTERBALL", "LinCrash",
+    /*N*/ {"MARIO IN HAMSTERBALL", "LinCrash", "LinCrash",
             LEVEL_N,  COURSE_TTC,   50,      1,         33,         8,     &mitmdd_n},
-    /*M*/ {"ENVIRONMENTAL STATION M", "Mel",
+    /*M*/ {"ENVIRONMENTAL STATION M", "Mel", "Mel",
             LEVEL_M,  COURSE_RR,    50,      1,         34,         8,     NULL},
-    /*BC*/{"CENTRUM OMNIUM", NULL,
+    /*BC*/{"CENTRUM OMNIUM", NULL, NULL,
             LEVEL_BOWSER_COURSE,  COURSE_BITDW, 0, 0,   34,         1,     NULL},
-   /*HUB*/{"FRACTURE", NULL,
-   NULL,     COURSE_BITFS, 0,       0,         34,         2,     NULL},
+   /*HUB*/{"FRACTURE", NULL, NULL,
+            NULL,     COURSE_BITFS, 0,       0,         34,         2,     NULL},
 };
 
 s8 hub_level_index = -1;
@@ -274,6 +274,8 @@ void render_mitm_hub_hud(void) {
     u8 star_flags = 0;
     s16 i;
 
+    char sprintf_buffer[50];
+
     if (hub_level_index > -1) {
         hub_titlecard_alpha = approach_f32_asymptotic(hub_titlecard_alpha,255.0f,0.1f);
     } else {
@@ -301,6 +303,9 @@ void render_mitm_hub_hud(void) {
 
         gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hub_titlecard_alpha);
+
+        sprintf(sprintf_buffer,"By: %s", mitm_levels[hub_dma_index].author_abridged);
+        print_generic_string_ascii(110,56, sprintf_buffer);
 
         if (mitm_levels[hub_dma_index].star_requirement <= gMarioState->numStars) {
             //Display Collected Stars

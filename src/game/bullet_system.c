@@ -203,10 +203,12 @@ Gfx *dobj_bullets(s32 callContext) {
 					if ((m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH)
 						|| (m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR)) {
 						//deflect
-						print_text(100, 100, "deflect", 0);
-						b->yaw   =   b->yaw+0x8000;
-						b->velY  =  -b->velY;
-						b->flags |=  BULLET_FLAG_DEFLECTED;
+						if (!(b->flags &=  BULLET_FLAG_DEFLECTED)) {
+							play_sound(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL, m->marioObj->header.gfx.cameraToObject);
+							b->yaw   =   b->yaw+0x8000;
+							b->velY  =  -b->velY;
+							b->flags |=  BULLET_FLAG_DEFLECTED;
+						}
 
 					} else if (!(b->flags & BULLET_FLAG_DEFLECTED)) {
 						//damage
@@ -311,9 +313,21 @@ s32 obj_hit_by_bullet(struct Object *obj, f32 objHitSphereSize) {
         vec3f_get_dist(pos, b->pos, &dist);
 
         if (dist < (b->hitSphereSize + objHitSphereSize)) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+s32 obj_hit_by_deflected_bullet(struct Object *obj, f32 objHitSphereSize) {
+    for (s32 i = 0; i < sBulletCount; i++) {
+        f32 dist = 0.f;
+        Vec3f pos = { obj->oPosX, obj->oPosY + (obj->hitboxRadius * 0.5f), obj->oPosZ };
+        struct Bullet *b = &sBulletList[i];
+        vec3f_get_dist(pos, b->pos, &dist);
+
+        if (dist < (b->hitSphereSize + objHitSphereSize)) {
             if (b->flags & BULLET_FLAG_DEFLECTED) {
-                return 2;
-            } else {
                 return 1;
             }
         }

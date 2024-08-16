@@ -492,6 +492,14 @@ void bhv_f_shooter(void) {
         break;
     }
 
+    if (obj_hit_by_deflected_bullet(o, 750.0f) == 1) {
+        o->oNumLootCoins ++;
+        spawn_mist_particles();
+        obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 20.0f);
+        obj_mark_for_deletion(o); 
+        return;
+    }
+
     if (o->oInteractStatus & INT_STATUS_INTERACTED) {
         if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
             spawn_mist_particles();

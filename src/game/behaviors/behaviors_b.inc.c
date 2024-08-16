@@ -700,7 +700,7 @@ void bhv_turret_body_loop(void){
         }
         o->oPosY = o->parentObj->oPosY;
     }
-    if (obj_hit_by_bullet(o, 750.0f) == 2){
+    if (obj_hit_by_deflected_bullet(o, 750.0f) == 1){
         spawn_object_relative(0, 0, 0, 0, o, MODEL_EXPLOSION, bhvSafeExplosion);
         if (o->prevObj != NULL) {
             mark_obj_for_deletion(o->prevObj);

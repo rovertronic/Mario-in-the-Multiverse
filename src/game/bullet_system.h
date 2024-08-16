@@ -33,6 +33,7 @@ void dobj_spawn_bullet(Vec3f pos, s16 rX, s16 rY);
 
 Gfx *dobj_bullets(s32 callContext);
 
+s32 obj_hit_by_deflected_bullet(struct Object *obj, f32 objHitSphereSize);
 s32 obj_hit_by_bullet(struct Object *obj, f32 objHitSphereSize);
 
 #endif //BULLET_SYSTEM_H

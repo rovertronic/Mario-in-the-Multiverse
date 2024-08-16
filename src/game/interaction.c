@@ -1921,10 +1921,18 @@ u32 interact_e__doom_enemy(struct MarioState *m, UNUSED u32 interactType, struct
     else {
         interaction = determine_interaction(m, obj); }
 
+    if (interaction & INT_SLASH) {
+        obj->oHealth--;
+        interaction = INT_FAST_ATTACK_OR_SHELL;
+        attack_object(obj, interaction);
+        return FALSE;
+    }
+
     if (interaction & INT_ATTACK_NOT_FROM_BELOW) {
 #if ENABLE_RUMBLE
         queue_rumble_data(5, 80);
 #endif
+
         attack_object(obj, interaction);
         bounce_back_from_attack(m, interaction);
 

@@ -147,3 +147,4 @@
 #include "spidertron_arm1/model.inc.c"
 #include "humanoid/anims/data.inc.c"
 #include "humanoid/anims/table.inc.c"
+#include "nitroboom/model.inc.c"

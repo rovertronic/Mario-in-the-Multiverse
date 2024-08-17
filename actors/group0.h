@@ -531,4 +531,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 
 #include "humanoid/anim_header.h"
+#include "nitroboom/geo_header.h"
+
 #endif

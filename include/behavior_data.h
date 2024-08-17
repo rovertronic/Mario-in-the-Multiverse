@@ -650,6 +650,7 @@ extern const BehaviorScript bhvJellyFish[];
 
 /* GROUP D START */
 extern const BehaviorScript bhvNitroBox[];
+extern const BehaviorScript bhvNitroBoom[];
 extern const BehaviorScript bhvDelevator[];
 extern const BehaviorScript bhvDbridge[];
 /* GROUP D END */

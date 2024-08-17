@@ -11,25 +11,39 @@ void bhv_nitro_box_loop(void) {
 
     if (obj_check_if_collided_with_object(o, gMarioObject) == TRUE) {
         o->oInteractStatus &= ~INT_STATUS_INTERACTED;
-        spawn_object(o, MODEL_EXPLOSION, bhvExplosion);
         o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
 
         if (aku_invincibility == 0) {
+            spawn_object(o, MODEL_NITRO_BOOM, bhvNitroBoom);
             set_mario_action(gMarioState,ACT_HARD_BACKWARD_GROUND_KB,0);
             gMarioState->faceAngle[1] = o->oAngleToMario+0x8000;
             gMarioState->health = 0xFF; //die
             o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+        } else {
+            spawn_object(o, MODEL_EXPLOSION, bhvExplosion);
         }
     }
 
     set_object_visibility(o, 7000);
 
     if (o->oShotByShotgun > 0) {
-        spawn_object(o, MODEL_EXPLOSION, bhvExplosion);
+        spawn_object(o, MODEL_NITRO_BOOM, bhvNitroBoom);
         set_mario_action(gMarioState,ACT_HARD_BACKWARD_GROUND_KB,0);
         gMarioState->faceAngle[1] = o->oAngleToMario+0x8000;
         gMarioState->health = 0xFF; //die
         o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+    }
+}
+
+void bhv_nitro_boom_loop(void) {
+    cur_obj_scale(1.0f+(o->oTimer*2.0f));
+    if (o->oTimer == 0) {
+        o->oOpacity = 150;
+    }
+    if (o->oOpacity > 0) {
+        o->oOpacity -= 2;
+    } else {
+        mark_obj_for_deletion(o);
     }
 }
 

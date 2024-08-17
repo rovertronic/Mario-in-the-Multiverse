@@ -7318,6 +7318,14 @@ const BehaviorScript bhvNitroBox[] = {
         CALL_NATIVE(bhv_nitro_box_loop),
     END_LOOP(),
 };
+extern void bhv_nitro_boom_loop(void);
+const BehaviorScript bhvNitroBoom[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_nitro_boom_loop),
+    END_LOOP(),
+};
 extern void bhv_d_elevator(void);
 const BehaviorScript bhvDelevator[] = {
     BEGIN(OBJ_LIST_SURFACE),

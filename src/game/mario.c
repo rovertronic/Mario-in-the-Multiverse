@@ -2399,6 +2399,10 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
         //the phasewalk timer runs unconditionally
+        if (phasewalk_timer > 0 && phasewalk_timer < 150) {
+            phasewalk_timer --;
+        }
+
         if (phasewalk_timer > 0) {
             phasewalk_timer --;
             if (phasewalk_timer == 0) {
@@ -2514,6 +2518,19 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             if (aim) {
                 obj_mark_for_deletion(aim);
             }   
+        }
+
+        // Flag flashes
+        if (using_ability(ABILITY_E_SHOTGUN)&&(gE_ShotgunFlags & E_SGF_AIR_SHOT_USED)) {
+            cool_down_ability(ABILITY_E_SHOTGUN);
+        } else {
+            ability_ready(ABILITY_E_SHOTGUN);
+        }
+
+        if (using_ability(ABILITY_CHRONOS)&&(!gMarioState->abilityChronosCanSlash)) {
+            cool_down_ability(ABILITY_CHRONOS);
+        } else {
+            ability_ready(ABILITY_CHRONOS);
         }
 
         if (lastAbility != gMarioState->abilityId) {

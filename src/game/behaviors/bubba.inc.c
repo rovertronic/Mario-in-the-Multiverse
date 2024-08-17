@@ -59,7 +59,7 @@ void bubba_act_attack(void) {
             s16 targetPitch = 10000 - (s16)(20.0f * (find_water_level(o->oPosX, o->oPosZ) - o->oPosY));
             o->oBubbaTargetPitch -= targetPitch;
             o->oMoveAnglePitch = o->oBubbaTargetPitch;
-            o->oBubbaMovePitch = 40.0f;
+            o->oBubbaMovePitch = 20.0f;
             obj_compute_vel_from_move_pitch(o->oBubbaMovePitch);
             o->oAnimState = 0;
         } else {

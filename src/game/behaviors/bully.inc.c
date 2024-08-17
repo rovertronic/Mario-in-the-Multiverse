@@ -304,6 +304,12 @@ void bhv_big_bully_with_minions_loop(void) {
     s16 collisionFlags = 0;
     vec3f_copy(&o->oBullyPrevVec, &o->oPosVec);
 
+    if (o->oShotByShotgun > 0) {
+        // The big uka bully is too strong to be beat by the shotgun ツ
+        cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
+        o->oShotByShotgun = 0;
+    }
+
     bully_check_mario_collision();
 
     switch (o->oAction) {

@@ -593,8 +593,8 @@ your way to the star.",
 { /* star 8 */
 "In the cave, down the elevator, there is a\n\
 bully arena. Kill all 3 bullies to summon the\n\
-Uka Uka Bully boss.",
-(0)
+Uka Uka Bully boss. Aku Aku will help you.",
+(ABILITY_FLAG_AKU)
 },
 
 };

@@ -166,6 +166,9 @@ now, 8 more stars are\n\
 waiting for you!"))
 
 DEFINE_DIALOG(DIALOG_D_NITROWARNING, 1, 4, 95, 190, _("\
+w"))
+
+DEFINE_DIALOG(DIALOG_D_EASTEREGG, 1, 4, 95, 190, _("\
 Warning from a wise\n\
 fox:\n\
 \n\

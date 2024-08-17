@@ -7,5 +7,6 @@
 #include "common1.h"
 #include "group2.h"
 
+#include "bubba/geo.inc.c"
 #include "bully/geo.inc.c"
 #include "blargg/geo.inc.c"

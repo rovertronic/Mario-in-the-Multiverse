@@ -20,3 +20,5 @@
 #include "levels/d/d_bridge/model.inc.c"
 #include "levels/d/d_gate/collision.inc.c"
 #include "levels/d/d_gate/model.inc.c"
+#include "levels/d/d_plat/model.inc.c"
+#include "levels/d/d_plat/collision.inc.c"

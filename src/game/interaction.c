@@ -258,7 +258,7 @@ u32 determine_interaction(struct MarioState *m, struct Object *obj) {
                 interaction = INT_HIT_FROM_ABOVE;
             }
         } else {
-            if (m->pos[1] < obj->oPosY) {
+        if (m->pos[1] < obj->oPosY) {
                 interaction = INT_HIT_FROM_BELOW;
             }
         }
@@ -1330,10 +1330,17 @@ u32 interact_clam_or_bubba(struct MarioState *m, UNUSED u32 interactType, struct
 
 u32 interact_bully(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     u32 interaction;
-    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)||(m->action != ACT_KNIGHT_SLIDE) && (m->action != ACT_KNIGHT_JUMP)) {
+    if ((m->flags & MARIO_METAL_CAP)||(aku_invincibility > 0)) {
         interaction = INT_FAST_ATTACK_OR_SHELL;
     } else {
         interaction = determine_interaction(m, obj);
+    }
+
+    if (obj_has_behavior(obj,bhvBigBullyWithMinions)) {
+        interaction = INT_NONE;
+        if (aku_invincibility > 0) {
+            interaction = determine_interaction(m, obj);
+        }
     }
 
     m->interactObj = obj;

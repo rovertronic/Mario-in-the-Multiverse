@@ -291,12 +291,12 @@ Gfx *render_cannon_circle_base(void) {
     Gfx *dlist = alloc_display_list(20 * sizeof(Gfx));
 #else
     Vtx *verts = alloc_display_list(4 * sizeof(Vtx));
-    Gfx *dlist = alloc_display_list(16 * sizeof(Gfx));
+    Gfx *dlist = alloc_display_list(20 * sizeof(Gfx));
 #endif
     Gfx *g = dlist;
 
     if (verts != NULL && dlist != NULL) {
-        gDPSetPrimColor(gDisplayListHead++, 0, 0, 0, 0, 0, 255);
+        gDPSetPrimColor(g++, 0, 0, 0, 0, 0, 255);
 
         make_simple_vertex(verts, 0,            0,             0, -1, -1152, 1824);
         make_simple_vertex(verts, 1, SCREEN_WIDTH,             0, -1,  1152, 1824);

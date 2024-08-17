@@ -60,8 +60,8 @@ const LevelScript level_castle_inside_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_HUBSTARGOO, hub_stargoo_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_HUBDOOR, hub_door_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_MORSHU, morshu_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_HUB_TARGET_BOX, hub_target_box_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_REDD, redd_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_HUB_TARGET_BOX, hub_target_box_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_REDD, redd_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -144,6 +144,7 @@ const LevelScript level_castle_inside_entry[] = {
 		OBJECT(MODEL_RED_COIN, 6238, 2658, -5952, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_RED_COIN, 8550, 3997, 106, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_RED_COIN, 5291, 3263, 5862, 0, 0, 0, 0x00000000, bhvRedCoin),
+		OBJECT(MODEL_REDD, 1963, 1612, -921, 0, -67, 0, 0x00000000, bhvRedd),
 		OBJECT(MODEL_NONE, 0, 2994, 0, 0, 0, 0, 0x00000000, bhvShopController),
 		OBJECT(MODEL_STAR, -230, 3486, -191, 0, 0, 0, (2 << 16), bhvShopItem),
 		OBJECT(MODEL_STAR, -265, 3315, 36, 0, 0, 0, (0 << 16), bhvShopItem),

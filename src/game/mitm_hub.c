@@ -63,6 +63,7 @@ u8 hub_star_string[] = {0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,DIALOG_CHAR_TERM
 
 mitm_dream_data mitmdd_b = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_BIG_DADDY,ABILITY_NONE},6};
 mitm_dream_data mitmdd_c = {{ABILITY_DEFAULT,ABILITY_PHASEWALK,ABILITY_NONE,ABILITY_NONE},5};
+mitm_dream_data mitmdd_d = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_AKU,ABILITY_NONE},7};
 mitm_dream_data mitmdd_e = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_E_SHOTGUN,ABILITY_NONE},8};
 mitm_dream_data mitmdd_g = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_NONE,ABILITY_NONE},7};
 mitm_dream_data mitmdd_h = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_PHASEWALK,ABILITY_NONE},7};
@@ -99,7 +100,7 @@ struct mitm_level_data mitm_levels[] = {
     /*J*/ {"ECRUTEAK CITY", "SpK", "SpK",
             LEVEL_J,  COURSE_WDW,   25,      1,         30,         8,     NULL},
     /*D*/ {"NEW N-SANITY ISLAND", "JakeDower", "JakeDower",
-            LEVEL_D,  COURSE_TTM,   30,      1,         31,         8,     NULL},
+            LEVEL_D,  COURSE_TTM,   30,      1,         31,         8,     &mitmdd_d},
     /*O*/ {"SAINTS, SINNERS, & MARIO", "Rovertronic", "Rovertronic",
             LEVEL_O,  COURSE_THI,   30,      1,         32,         8,     &mitmdd_o},
     /*N*/ {"MARIO IN HAMSTERBALL", "LinCrash", "LinCrash",

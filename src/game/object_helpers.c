@@ -2643,3 +2643,11 @@ struct Object *obj_find_nearest_object_with_behavior_and_bparam2(const BehaviorS
 
     return NULL;
 }
+
+void cur_obj_die_if_on_death_floor(void) {
+    struct Surface * floor;
+    f32 fheight = find_floor(o->oPosX,o->oPosY,o->oPosZ, &floor);
+    if (floor && fheight+120.0f > o->oPosY && floor->type == SURFACE_DEATH_PLANE) {
+        obj_mark_for_deletion(o);
+    }
+}

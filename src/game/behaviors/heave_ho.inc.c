@@ -158,5 +158,7 @@ void bhv_heave_ho_loop(void) {
             break;
     }
 
+    cur_obj_die_if_on_death_floor();
+
     o->oInteractStatus = INT_STATUS_NONE;
 }

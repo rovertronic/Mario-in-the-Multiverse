@@ -287,5 +287,6 @@ void cur_obj_spawn_loot_blue_coin(void);
 void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 offsetY);
 struct Object *obj_find_nearest_object_with_behavior_and_bparam2(const BehaviorScript *behavior, int bparam2);
 s16 cur_obj_mario_angle_to_home(void);
+void cur_obj_die_if_on_death_floor(void);
 
 #endif // OBJECT_HELPERS_H

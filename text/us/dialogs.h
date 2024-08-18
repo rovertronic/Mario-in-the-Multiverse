@@ -166,9 +166,6 @@ now, 8 more stars are\n\
 waiting for you!"))
 
 DEFINE_DIALOG(DIALOG_D_NITROWARNING, 1, 4, 95, 190, _("\
-w"))
-
-DEFINE_DIALOG(DIALOG_D_EASTEREGG, 1, 4, 95, 190, _("\
 Warning from a wise\n\
 fox:\n\
 \n\
@@ -177,6 +174,18 @@ fox:\n\
 dare to touch Nitro\n\
 boxes without wearing\n\
 my powerful mask''"))
+
+DEFINE_DIALOG(DIALOG_D_EASTEREGG, 1, 5, 95, 190, _("\
+Congratulations, you\n\
+found the secret\n\
+room!\n\
+\n\
+\n\
+This statue represents\n\
+the memory of the\n\
+Power Crystals from\n\
+the old world, sources of\n\
+great powers."))
 
 DEFINE_DIALOG(DIALOG_I_START_TOAD, 1, 5, 95, 190, _("\
 Mario Glad to see you\n\

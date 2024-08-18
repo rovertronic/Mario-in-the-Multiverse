@@ -787,6 +787,10 @@ void reset_mario_pitch(struct MarioState *m) {
 
 u32 interact_coin(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
 
+    if (obj->parentObj == gMarioState->marioObj) {
+        return FALSE;
+    }
+
     if (GET_BPARAM3(obj->oBehParams) == 0xF0) {
         return FALSE;
     }

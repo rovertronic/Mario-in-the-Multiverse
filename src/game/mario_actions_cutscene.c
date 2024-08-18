@@ -160,6 +160,19 @@ void print_displaying_credits_entry(void) {
     }
 }
 
+void drop_coins_on_death(void) {
+    for (int i = 0; i < 5; i++) {
+        if (gMarioState->numGlobalCoins > 0) {
+            spawn_object(gMarioObject, MODEL_YELLOW_COIN, bhvSingleCoinGetsSpawned);
+            gMarioState->numGlobalCoins --;
+        }
+    }
+
+    save_file_set_coins();
+    gSaveFileModified = TRUE;
+    save_file_do_save(gCurrSaveFileNum - 1);
+}
+
 void bhv_end_peach_loop(void) {
     cur_obj_init_animation_with_sound(sEndPeachAnimation);
     if (cur_obj_check_if_near_animation_end()) {
@@ -1302,6 +1315,7 @@ s32 act_unused_death_exit(struct MarioState *m) {
 
 s32 act_falling_death_exit(struct MarioState *m) {
     if (launch_mario_until_land(m, ACT_DEATH_EXIT_LAND, MARIO_ANIM_GENERAL_FALL, 0.0f)) {
+        drop_coins_on_death();
         play_sound(SOUND_MARIO_OOOF2, m->marioObj->header.gfx.cameraToObject);
 #if ENABLE_RUMBLE
         queue_rumble_data(5, 80);

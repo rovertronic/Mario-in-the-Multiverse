@@ -187,6 +187,64 @@ Power Crystals from\n\
 the old world, sources of\n\
 great powers."))
 
+DEFINE_DIALOG(DIALOG_G_BANANADEE, 1, 6, 95, 190, _("\
+Wow, it's Mario! I\n\
+haven't seen you since\n\
+the great king's royal\n\
+match!\n\
+\n\
+\n\
+I'm sure you can tell,\n\
+but things are a little\n\
+crazy around here\n\
+right now...\n\
+\n\
+\n\
+Looks like you're trying\n\
+to sort this all out!\n\
+\n\
+\n\
+\n\
+\n\
+Here's a word of advice,\n\
+I scouted ahead into\n\
+the cave over there\n\
+and it seems pretty\n\
+challenging.\n\
+\n\
+That cutter ability of\n\
+yours is helpful, but\n\
+it won't be enough to\n\
+collect any star power\n\
+down there.\n\
+\n\
+You might notice this\n\
+at other points in your\n\
+adventure too.\n\
+\n\
+\n\
+\n\
+I'm sure certain areas\n\
+won't be passable without\n\
+some extra abilities...\n\
+\n\
+\n\
+\n\
+Don't worry though, these\n\
+dimensions colliding did\n\
+have a silver lining!\n\
+\n\
+\n\
+\n\
+If you begin see any\n\
+signs that you might not\n\
+have the necessary ability\n\
+to pass a trial, you're\n\
+bound to be able to find\n\
+it in a different world!\n\
+Good luck, Mario!\n\
+I believe in you!"))
+
 DEFINE_DIALOG(DIALOG_I_START_TOAD, 1, 5, 95, 190, _("\
 Mario Glad to see you\n\
 there! Be careful, these\n\

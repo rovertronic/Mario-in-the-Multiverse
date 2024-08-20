@@ -1,0 +1,28 @@
+#include "src/game/envfx_snow.h"
+
+const GeoLayout g_banana_dee_geo[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_ANIMATED_PART(LAYER_OPAQUE, 0, 0, 0, g_banana_dee_Bone_mesh_layer_1),
+		GEO_OPEN_NODE(),
+			GEO_SHADOW(1, 148, 100),
+			GEO_TRANSLATE_ROTATE(LAYER_OPAQUE, 34, 72, -3, 0, 0, -137),
+			GEO_OPEN_NODE(),
+				GEO_ANIMATED_PART(LAYER_OPAQUE, 0, 0, 0, g_banana_dee_Bone_002_mesh_layer_1),
+			GEO_CLOSE_NODE(),
+			GEO_TRANSLATE_ROTATE(LAYER_OPAQUE, -33, 72, -3, 1, 0, 137),
+			GEO_OPEN_NODE(),
+				GEO_ANIMATED_PART(LAYER_OPAQUE, 0, 0, 0, g_banana_dee_Bone_003_mesh_layer_1),
+			GEO_CLOSE_NODE(),
+			GEO_TRANSLATE_ROTATE(LAYER_OPAQUE, 28, 50, 0, -180, 90, 0),
+			GEO_OPEN_NODE(),
+				GEO_ANIMATED_PART(LAYER_OPAQUE, 0, 0, 0, g_banana_dee_Bone_004_mesh_layer_1),
+			GEO_CLOSE_NODE(),
+			GEO_TRANSLATE_ROTATE(LAYER_OPAQUE, -28, 50, 0, -180, 90, 0),
+			GEO_OPEN_NODE(),
+				GEO_ANIMATED_PART(LAYER_OPAQUE, 0, 0, 0, g_banana_dee_Bone_005_mesh_layer_1),
+			GEO_CLOSE_NODE(),
+		GEO_CLOSE_NODE(),
+	GEO_CLOSE_NODE(),
+	GEO_END(),
+};

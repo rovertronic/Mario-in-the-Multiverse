@@ -131,6 +131,8 @@
 #include "actors/common1.h"
 #include "actors/common1.h"
 #include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
 
 /* Fast64 begin persistent block [includes] */
 #include "actors/common1.h"
@@ -179,6 +181,7 @@ const LevelScript level_g_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_DOOR, g_marx_door_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_G_WADDLE_DEE, g_waddle_dee_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_G_WARP_PIPE, warp_pipe_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_G_BANANA_DEE, g_banana_dee_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -246,6 +249,7 @@ const LevelScript level_g_entry[] = {
 		WARP_NODE(0x0B, LEVEL_G, 0x04, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0C, LEVEL_G, 0x04, 0x0D, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_G_BANANA_DEE, 2871, 503, -8725, 0, 27, 0, (DIALOG_G_BANANADEE << 16), bhvGBananaDee),
 		OBJECT(MODEL_G_BRONTO_BURT, 4962, 4226, -1141, 0, -165, 0, 0x00000000, bhvGBrontoBurt),
 		OBJECT(MODEL_G_BRONTO_BURT, 1980, 3056, -6224, 0, -122, 0, 0x00000000, bhvGBrontoBurt),
 		OBJECT(MODEL_G_BRONTO_BURT, 2780, 3091, -5682, 0, -122, 0, 0x00000000, bhvGBrontoBurt),

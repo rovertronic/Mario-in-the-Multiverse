@@ -786,6 +786,19 @@ enum {
 #define MODEL_G_MARX_DOOR              0x169
 #define MODEL_G_WADDLE_DEE              0x16A
 #define MODEL_G_WARP_PIPE              0x16B
+
+/*
+Funny story: I'm pretty sure I'm dyslexic.
+This whole fucking time, it was * banDANA dee *
+However, my dumb ass read the blend file as "banana" dee, so i named
+every fucking variable in reference to this NPC as such.
+I didn't realize until I looked at the model and realized that he
+was wearing a bandana, and then it clicked. I'm a fucking moron. Oops!
+Too bad I'm not changing every variable name, especially since the
+blend file associated with this NPC is cursed.
+*/
+
+#define MODEL_G_BANANA_DEE 0x16C
 /* LEVEL G END */
 
 /* LEVEL H START */

@@ -43,3 +43,4 @@
 #include "levels/g/g_moving_platform/geo.inc.c"
 #include "levels/g/g_marx_door/geo.inc.c"
 #include "levels/g/g_waddle_dee/geo.inc.c"
+#include "levels/g/g_banana_dee/geo.inc.c"

@@ -263,5 +263,8 @@
     ],
     "50_mitm_ability_get": [
         "0E_extended_bank"
+    ],
+    "51_k_chinatown": [
+        "0E_extended_bank"
     ]
 }

@@ -91,6 +91,7 @@ enum SeqId {
     SEQ_MITM_HUB,
     SEQ_MITM_BOWSER_COURSE, // 0x4F
     SEQ_MITM_GET_ABILITY,
+    SEQ_K_CHINATOWN,
     SEQ_COUNT,
 };
 

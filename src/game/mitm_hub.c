@@ -607,7 +607,7 @@ void render_hint_ui(u8 hud_alpha) {
         print_generic_string_ascii(45, 56, mitm_levels[hint_index].name);
 
         for (s32 i = 0; i < 15; i++) {
-            u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(mitm_levels[hint_index].course));
+            u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(mitm_levels[i].course));
             sprintf(stringBuf,"C%02d",i+1);
 
             if (star_flags == 0xFF) {

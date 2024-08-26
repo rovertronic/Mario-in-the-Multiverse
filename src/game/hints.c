@@ -241,6 +241,7 @@ sorcerer that appear around the arena.",
 (ABILITY_FLAG_SHOCK_ROCKET)
 },
 
+/* COURSE 5 */
 };
 
 hint course_5_hints[] = {
@@ -298,9 +299,70 @@ assist you in climbing the hostile geometry.",
 (0)
 },
 
+/* COURSE 6 */
 };
 
+hint course_6_hints[] = {
 
+{ /* star 1 */
+"Carry the little sister out of the turret\n\
+rooms and bring her back to her Big Daddy.\n\
+Press the red buttons to open the gates.",
+(0)
+},
+
+{ /* star 2 */
+"There is a dome with red coins. Jump on\n\
+the driftwoods to get the red coins to get\n\
+this star.",
+(0)
+},
+
+{ /* star 3 */
+"In the open water, there is a star piece\n\
+switch with rotating wood platforms. Collect\n\
+the pieces in time to get this star.",
+(ABILITY_FLAG_BIG_DADDY)
+},
+
+{ /* star 4 */
+"Destroy the pressure meters to activate water\n\
+spouts. Use the Big Daddy drill to destroy the\n\
+giant concrete block to get this star.",
+(ABILITY_FLAG_BIG_DADDY|ABILITY_FLAG_SHOCK_ROCKET|ABILITY_FLAG_PHASEWALK)
+},
+
+{ /* star 5 */
+"Ground pound the giant corks to drain the\n\
+water. Use the phasewalk to go through the\n\
+grilles and use the squid to go back up.",
+(ABILITY_FLAG_BIG_DADDY | ABILITY_FLAG_PHASEWALK | ABILITY_FLAG_SQUID)
+},
+
+{ /* star 6 */
+"Go through the open water and find a glass\n\
+wall. Go up, and parkour up the water spouts\n\
+up to the power star.",
+(ABILITY_FLAG_BIG_DADDY)
+},
+
+{ /* star 7 */
+"Go through the open water and find a glass\n\
+wall. Go through the tunnel and do wallkicks\n\
+to get to this star (Or swim with risk.)",
+(ABILITY_FLAG_BIG_DADDY)
+},
+
+{ /* star 8 */
+"In the dark tunnel, there is a mad Big\n\
+Daddy. Destroy the turrets and jump on\n\
+his head when he's knocked out.",
+(0)
+},
+
+};
+
+/* COURSE 7 */
 hint course_7_hints[] = {
 
 { /* star 1 */
@@ -319,9 +381,9 @@ iron blocks that are in the way.",
 
 { /* star 3 */
 "In one of the purple rooms, there is a\n\
-gap in the ceiling. Use the Dash Booster\n\
+gap in the ceiling. Use the HM Fly\n\
 to launch your way up into the star.",
-(ABILITY_FLAG_KNIGHT|ABILITY_FLAG_DASH_BOOSTER)
+(ABILITY_FLAG_KNIGHT|ABILITY_FLAG_HM_FLY)
 },
 
 { /* star 4 */
@@ -360,7 +422,52 @@ Follow his instructions from there.",
 
 };
 
+/* COURSE 8 */
+hint course_8_hints[] = {
 
+{ /* star 1 */
+"",
+(0)
+},
+
+{ /* star 2 */
+"",
+(0)
+},
+
+{ /* star 3 */
+"",
+(0)
+},
+
+{ /* star 4 */
+"",
+(0)
+},
+
+{ /* star 5 */
+"",
+(0)
+},
+
+{ /* star 6 */
+"",
+(0)
+},
+
+{ /* star 7 */
+"",
+(0)
+},
+
+{ /* star 8 */
+"",
+(0)
+},
+
+};
+
+/* COURSE 9 */
 hint course_9_hints[] = {
 
 { /* star 1 */
@@ -418,6 +525,7 @@ blast your way up to the star.",
 (ABILITY_FLAG_E_SHOTGUN)
 },
 
+/* COURSE 10 */
 };
 
 hint course_10_hints[] = {
@@ -479,6 +587,7 @@ boss. Only the Shock Rocket can damage it.",
 
 };
 
+/* COURSE 11 */
 hint course_11_hints[] = {
 
 { /* star 1 */
@@ -539,6 +648,7 @@ your Dragonite to attack Ho-Oh with (A) midair.",
 
 };
 
+/* COURSE 12 */
 hint course_12_hints[] = {
 
 { /* star 1 */
@@ -599,6 +709,7 @@ Uka Uka Bully boss. Aku Aku will help you.",
 
 };
 
+/* COURSE 13 */
 hint course_13_hints[] = {
 
 { /* star 1 */
@@ -638,7 +749,7 @@ your way through concrete blocks and walkers.",
 
 { /* star 6 */
 "Jump into the trash pit, and loud music will\n\
-being to stir the walkers. Destroy all the\n\
+begin to stir the walkers. Destroy all the\n\
 speakers and survive to get this star.",
 (0)
 },
@@ -657,6 +768,7 @@ Inkling. You'll find the star at the end.",
 (ABILITY_FLAG_SQUID | ABILITY_FLAG_SHOCK_ROCKET)
 },
 
+/* COURSE 14 */
 };
 
 hint course_14_hints[] = {
@@ -717,6 +829,7 @@ get this star!",
 (0)
 },
 
+/* COURSE 15 */
 };
 
 hint course_15_hints[] = {
@@ -784,9 +897,9 @@ hint * hintlist[] = {
     course_3_hints,
     course_4_hints,
     course_5_hints,
-    course_1_hints,
+    course_6_hints,
     course_7_hints,
-    course_1_hints,
+    course_8_hints,
     course_9_hints,
     course_10_hints,
     course_11_hints,

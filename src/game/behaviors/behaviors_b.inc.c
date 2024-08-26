@@ -474,6 +474,7 @@ void bhv_little_sister_loop(void) {
     }
     if (o->oAction == LS_CUTSCENE){
         inCutscene = TRUE;
+        magic_mirror_disable = TRUE;
         switch (curCutsceneState) {
             case 0:
                 curCutsceneState = 1;
@@ -539,6 +540,7 @@ void bhv_little_sister_loop(void) {
         }
     }
     if (o->oAction == LS_NPC_END){
+        magic_mirror_disable = FALSE;
         o->oHomeX = o->oPosX;
         o->oHomeY = o->oPosY;
         o->oHomeZ = o->oPosZ;

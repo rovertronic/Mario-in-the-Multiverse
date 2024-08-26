@@ -1677,7 +1677,7 @@ void print_toad_token(s16 x, s16 y) {
 }
 
 
-#define HUD_RED_COIN_Y 32
+#define HUD_RED_COIN_Y 28
 void render_pause_red_coins(void) {
     s8 x;
 

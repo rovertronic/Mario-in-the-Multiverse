@@ -80,7 +80,7 @@ struct CreditsEntry sCreditsSequence[] = {
     { LEVEL_D, 1, 33, 0, {-1851,3216,-4258}, credits12, ABILITY_AKU},
     { LEVEL_O, 1, 2, 99, {2231,-2250,229}, credits13, ABILITY_ESTEEMED_MORTAL},
     { LEVEL_N, 2, 51, 57, {-29,617,294}, credits14, ABILITY_DEFAULT},
-    { LEVEL_M, 1, 17, -72, { -8800, 2300, -12900 }, credits15, ABILITY_DASH_BOOSTER},
+    { LEVEL_M, 1, 17, -72, { -7163, 2100, -12648 }, credits15, ABILITY_DASH_BOOSTER},
     { LEVEL_CASTLE_GROUNDS, 1, 1, -128, { 0, 906, -1200 }, NULL, ABILITY_DEFAULT},
     { LEVEL_NONE, 0, 1, 0, { 0, 0, 0 }, NULL, ABILITY_DEFAULT},
 };

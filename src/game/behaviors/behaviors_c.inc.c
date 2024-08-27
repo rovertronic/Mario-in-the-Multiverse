@@ -208,6 +208,13 @@ void shoot(void) {
     obj_copy_angle(paintBullet, o);
 }
 
+void remove_mario_from_paint_gun(void) {
+    set_mario_action(gMarioState,ACT_IDLE,0);
+    gMarioState->usedObj = NULL;
+    gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
+    gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
+}
+
 void bhv_paint_gun_loop(void) {
     obj_set_hitbox(o, &sPaintGunHitbox);
     o->oInteractionSubtype = INT_SUBTYPE_NOT_GRABBABLE;
@@ -252,23 +259,29 @@ void bhv_paint_gun_loop(void) {
                     }
                     break;
                 case 3: // Mario controls it
+                    if (set_cam_angle(0) == CAM_ANGLE_AIM) {
+                        set_cam_angle(CAM_ANGLE_LAKITU);
+                    }
+
                     shock_rocket_stick_control();
-                    set_mario_action(gMarioState,ACT_CUTSCENE_CONTROLLED,0);
+                    set_mario_action(gMarioState, ACT_CUTSCENE_CONTROLLED, 0);
                     gMarioState->usedObj = o;
                     gLakituState.mode = CAMERA_MODE_PAINT_GUN;
                     if (gPlayer1Controller->buttonPressed & A_BUTTON) {
                         shoot();
                     } else if (gPlayer1Controller->buttonPressed & B_BUTTON) {
-                        set_mario_action(gMarioState,ACT_IDLE,0);
-                        gMarioState->usedObj = NULL;
-                        gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
-                        gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
+                        remove_mario_from_paint_gun();
                         o->oSubAction--;
                     }
                     break;
             }
             break;
     }
+
+    //CAP PITCH TO AVOID CAMERA FLIPPING
+    if (o->oMoveAnglePitch > 0x1600) o->oMoveAnglePitch = 0x1600;
+    if (o->oMoveAnglePitch < -0x1800) o->oMoveAnglePitch = -0x1800;
+
     o->oInteractStatus = 0;
     o->oShotByShotgun = 0;
 }
@@ -313,8 +326,6 @@ void bhv_paint_stain_loop(void) {
     struct Surface *sObjFloor;
     find_floor(o->oPosX, o->oPosY, o->oPosZ, &sObjFloor);
     Vec3f snormals = {sObjFloor->normal.x, sObjFloor->normal.y, sObjFloor->normal.z};
-    //object_step();
-    //obj_orient_graph(o, sObjFloor->normal.x, sObjFloor->normal.y, sObjFloor->normal.z);
 
     mtxf_align_terrain_normal(o->transform, snormals, &o->oPosVec, o->oFaceAngleYaw);
     o->header.gfx.throwMatrix = o->transform;
@@ -432,12 +443,16 @@ void bhv_octozepplin_loop(void) {
 
             if(o->oHealth <= 0) {
                 spawn_big_explosion(50.0f);
+                //remove_mario_from_paint_gun();
+                cutscene_object(CUTSCENE_OCTOZEPPLIN_DEATH, o);
                 o->oAction++;
             }
             break;
         case 1: //exploding
             if(o->oTimer < 120) {
                 o->oFaceAngleRoll = oscillate_roll_with_factor(50);
+                o->oPosY -= 10;
+                o->oFaceAnglePitch -= 0x20;
                 if(o->oTimer % 10 == 0) {
                     struct Object *explosion = spawn_big_explosion(80.0f);
                     s16 newX = explosion->oPosX + random_signed_value(1000.f);
@@ -451,8 +466,8 @@ void bhv_octozepplin_loop(void) {
             }
             break;
         case 2: // dying
-            if (o->oTimer == 3) spawn_big_explosion(200.0f);
-            if (o->oTimer == 20) {
+            if (o->oTimer == 0) spawn_big_explosion(500.0f);
+            if (o->oTimer == 5) {
                 obj_mark_for_deletion(o);
                 spawn_default_star(-9270, 570, -2195);
                 o->oAction++;

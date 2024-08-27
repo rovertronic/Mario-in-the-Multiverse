@@ -61,6 +61,7 @@ const LevelScript level_castle_inside_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_HUBDOOR, hub_door_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_MORSHU, morshu_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_HUB_TARGET_BOX, hub_target_box_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_REDD, redd_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -85,6 +86,9 @@ const LevelScript level_castle_inside_entry[] = {
 		WARP_NODE(0xF1/*death*/, LEVEL_CASTLE, 0x01, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x01 /*death entry*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_SHOPITEM_4, -8342, 3087, 93, 0, 90, 0, 0x00000000, bhvAArtifactOnMachine),
+		OBJECT(MODEL_NONE, 2180, 1612, 1466, 0, 0, 0, 0x00000000, bhvCreditsSlab),
+		OBJECT(MODEL_NONE, 2312, 1612, 1281, 0, 0, 0, 0x00000000, bhvCreditsSlab),
+		OBJECT(MODEL_NONE, 2047, 1612, 1652, 0, 0, 0, 0x00000000, bhvCreditsSlab),
 		OBJECT(MODEL_NONE, -2062, 1859, -687, 0, 0, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_EGADD, -7982, 2658, 439, 0, 117, 0, 0x00000000, bhvEgaddNPC),
 		OBJECT(MODEL_HUBPLATFORM, -510, 2651, 1460, 0, 0, 0, 0x00000000, bhvHubPlatform),
@@ -131,6 +135,16 @@ const LevelScript level_castle_inside_entry[] = {
 		OBJECT(MODEL_MORSHU, 0, 2994, 0, 0, 0, 0, 0x00000000, bhvMorshu),
 		OBJECT(MODEL_NITRO_BOX, 607, 2658, -8024, 0, 0, 0, 0x00000000, bhvNitroBox),
 		OBJECT(MODEL_NITRO_BOX, -584, 2658, -7787, 0, 0, 0, 0x00000000, bhvNitroBox),
+		OBJECT(MODEL_NONE, -5639, 2533, -1813, 0, 0, 0, (1 << 24), bhvBowserCourseRedCoinStar),
+		OBJECT(MODEL_RED_COIN, -2238, 4340, -4222, 0, 0, 0, 0x00000000, bhvRedCoin),
+		OBJECT(MODEL_RED_COIN, 2024, 3058, -4793, 0, 0, 0, 0x00000000, bhvRedCoin),
+		OBJECT(MODEL_RED_COIN, 4869, 2204, -1925, 0, 0, 0, 0x00000000, bhvRedCoin),
+		OBJECT(MODEL_RED_COIN, 1913, 3584, 5205, 0, 0, 0, 0x00000000, bhvRedCoin),
+		OBJECT(MODEL_RED_COIN, 582, 4176, -10281, 0, 0, 0, 0x00000000, bhvRedCoin),
+		OBJECT(MODEL_RED_COIN, 6238, 2658, -5952, 0, 0, 0, 0x00000000, bhvRedCoin),
+		OBJECT(MODEL_RED_COIN, 8550, 3997, 106, 0, 0, 0, 0x00000000, bhvRedCoin),
+		OBJECT(MODEL_RED_COIN, 5291, 3263, 5862, 0, 0, 0, 0x00000000, bhvRedCoin),
+		OBJECT(MODEL_REDD, 1963, 1612, -921, 0, -67, 0, 0x00000000, bhvRedd),
 		OBJECT(MODEL_NONE, 0, 2994, 0, 0, 0, 0, 0x00000000, bhvShopController),
 		OBJECT(MODEL_STAR, -230, 3486, -191, 0, 0, 0, (2 << 16), bhvShopItem),
 		OBJECT(MODEL_STAR, -265, 3315, 36, 0, 0, 0, (0 << 16), bhvShopItem),
@@ -143,7 +157,7 @@ const LevelScript level_castle_inside_entry[] = {
 		OBJECT(MODEL_NONE, -8399, 2700, 93, 0, 0, 0, (35 << 16), bhvWarp),
 		TERRAIN(castle_inside_area_1_collision),
 		MACRO_OBJECTS(castle_inside_area_1_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_MITM_HUB),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

@@ -88,6 +88,7 @@ void bhv_coin_init(void) {
     o->oVelY = random_float() * 10.0f + 30 + o->oCoinBaseYVel;
     o->oForwardVel = random_float() * 10.0f;
     o->oMoveAngleYaw = random_u16();
+    o->oHealth = 0;
 
     cur_obj_set_behavior(bhvYellowCoin);
     obj_set_hitbox(o, &sYellowCoinHitbox);
@@ -147,6 +148,20 @@ void bhv_coin_loop(void) {
     }
 
     bhv_coin_sparkles_init();
+
+
+    if (o->parentObj == gMarioObject) {
+        o->oHealth++;
+        o->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
+        if (o->oHealth > 30) {
+            if (o->oHealth % 2 == 0) {
+                o->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
+            }
+            if (o->oHealth > 50) {
+                obj_mark_for_deletion(o);
+            }
+        }
+    }
 }
 
 void bhv_coin_formation_spawned_coin_loop(void) {

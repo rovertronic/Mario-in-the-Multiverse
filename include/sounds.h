@@ -38,6 +38,7 @@ enum SoundBank {
     SOUND_BANK_OBJ2,
     SOUND_BANK_MITM_ABILITY,
     SOUND_BANK_MITM_LEVEL,
+    SOUND_BANK_TEST_BANK,
     SOUND_BANK_COUNT
 };
 
@@ -59,7 +60,8 @@ enum SoundBank {
     (1 << SOUND_BANK_VOICE) |\
     (1 << SOUND_BANK_GENERAL) |\
     (1 << SOUND_BANK_MITM_ABILITY) |\
-    (1 << SOUND_BANK_MITM_LEVEL))
+    (1 << SOUND_BANK_MITM_LEVEL)) |\
+    (1 << SOUND_BANK_TEST_BANK)
 
 /* Audio playback bitflags. */
 #define SOUND_NO_VOLUME_LOSS        0x1000000 // No volume loss with distance
@@ -549,6 +551,9 @@ enum SoundBank {
 #define SOUND_MENU_STAR_SOUND_LETS_A_GO          /* 0x7024FF81 */ SOUND_ARG_LOAD(SOUND_BANK_MENU,     0x24, 0xFF, SOUND_DISCRETE)
 #define SOUND_MENU_CHRONOS_SLOMO_ENGAGE                           SOUND_ARG_LOAD(SOUND_BANK_MENU,     0x40, 0xF0, SOUND_DISCRETE)
 #define SOUND_MENU_CHRONOS_SLOMO_DISENGAGE                        SOUND_ARG_LOAD(SOUND_BANK_MENU,     0x41, 0xF0, SOUND_DISCRETE)
+#define SOUND_MENU_CAMERA_ZOOM_IN_QUIET          /* 0x70060081 */ SOUND_ARG_LOAD(SOUND_BANK_MENU,     0x42, 0x00, SOUND_DISCRETE)
+#define SOUND_MENU_CAMERA_ZOOM_OUT_QUIET         /* 0x70070081 */ SOUND_ARG_LOAD(SOUND_BANK_MENU,     0x43, 0x00, SOUND_DISCRETE)
+#define SOUND_MENU_CAMERA_TURN_QUIET             /* 0x700F0081 */ SOUND_ARG_LOAD(SOUND_BANK_MENU,     0x44, 0x00, SOUND_DISCRETE)
 
 // US/EU only; an index between 0-7 or 0-4 is added to the sound ID before
 // playing, producing the same sound with different pitch.
@@ -694,4 +699,5 @@ enum SoundBank {
 
 
 
+#define SOUND_TEST_BANK_TEST_SOUND                                SOUND_ARG_LOAD(SOUND_BANK_TEST_BANK, 0x00, 0xFF, SOUND_DISCRETE)
 #endif // SOUNDS_H

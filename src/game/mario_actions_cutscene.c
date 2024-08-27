@@ -160,6 +160,19 @@ void print_displaying_credits_entry(void) {
     }
 }
 
+void drop_coins_on_death(void) {
+    for (int i = 0; i < 5; i++) {
+        if (gMarioState->numGlobalCoins > 0) {
+            spawn_object(gMarioObject, MODEL_YELLOW_COIN, bhvSingleCoinGetsSpawned);
+            gMarioState->numGlobalCoins --;
+        }
+    }
+
+    save_file_set_coins();
+    gSaveFileModified = TRUE;
+    save_file_do_save(gCurrSaveFileNum - 1);
+}
+
 void bhv_end_peach_loop(void) {
     cur_obj_init_animation_with_sound(sEndPeachAnimation);
     if (cur_obj_check_if_near_animation_end()) {
@@ -639,11 +652,15 @@ s32 act_debug_free_move(struct MarioState *m) {
 extern u8 ability_get_confirm;
 void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
     struct Object *celebStar = NULL;
+    int celebStarModel = MODEL_STAR;
 
     if (m->actionState == ACT_STATE_STAR_DANCE_CUTSCENE) {
         switch (update_mario_action_timer_pre(m)) {
             case 1:
-                celebStar = spawn_object(m->marioObj, MODEL_STAR, bhvCelebrationStar);
+                if (level_in_dream_comet_mode()) {
+                    celebStarModel = MODEL_DREAM_STAR;
+                }
+                celebStar = spawn_object(m->marioObj, celebStarModel, bhvCelebrationStar);
 #ifdef STAR_DANCE_USES_STARS_MODEL
                 obj_set_model(celebStar, gStarModelLastCollected);
 #else
@@ -652,17 +669,23 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
                 }
 #endif
 
+                u8 got_an_ability = FALSE;
                 if (obj_has_behavior(m->usedObj,bhvAbilityUnlock)) {
                     obj_set_model(celebStar, MODEL_ABILITY);
                     obj_set_billboard(celebStar);
                     celebStar->oBehParams2ndByte = m->usedObj->oBehParams2ndByte;
+                    got_an_ability = TRUE;
                 }
 
                 disable_background_sound();
                 //! TODO: Is this check necessary? Both seem to do the exact same thing.
                 if (m->actionArg & 1) {
                     // No exit
-                    play_course_clear(obj_has_model(celebStar, MODEL_BOWSER_KEY));
+                    s32 arg = obj_has_model(celebStar, MODEL_BOWSER_KEY);
+                    if (got_an_ability) {
+                        arg = 2;
+                    }
+                    play_course_clear(arg);
                 } else {
                     // Exit
                     if (obj_has_model(celebStar, MODEL_BOWSER_KEY)) {
@@ -1292,6 +1315,7 @@ s32 act_unused_death_exit(struct MarioState *m) {
 
 s32 act_falling_death_exit(struct MarioState *m) {
     if (launch_mario_until_land(m, ACT_DEATH_EXIT_LAND, MARIO_ANIM_GENERAL_FALL, 0.0f)) {
+        drop_coins_on_death();
         play_sound(SOUND_MARIO_OOOF2, m->marioObj->header.gfx.cameraToObject);
 #if ENABLE_RUMBLE
         queue_rumble_data(5, 80);
@@ -1635,7 +1659,7 @@ s32 act_squished(struct MarioState *m) {
                 if (m->health < 0x100) {
                     level_trigger_warp(m, WARP_OP_DEATH);
                     // woosh, he's gone!
-                    set_mario_action(m, ACT_DISAPPEARED, 0);
+                    
                 } else if (m->hurtCounter == 0) {
                     // un-squish animation
                     m->squishTimer = 30;

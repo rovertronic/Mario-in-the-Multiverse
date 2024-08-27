@@ -175,6 +175,76 @@ dare to touch Nitro\n\
 boxes without wearing\n\
 my powerful mask''"))
 
+DEFINE_DIALOG(DIALOG_D_EASTEREGG, 1, 5, 95, 190, _("\
+Congratulations, you\n\
+found the secret\n\
+room!\n\
+\n\
+\n\
+This statue represents\n\
+the memory of the\n\
+Power Crystals from\n\
+the old world, sources of\n\
+great powers."))
+
+DEFINE_DIALOG(DIALOG_G_BANANADEE, 1, 6, 95, 190, _("\
+Wow, it's Mario! I\n\
+haven't seen you since\n\
+the great king's royal\n\
+match!\n\
+\n\
+\n\
+I'm sure you can tell,\n\
+but things are a little\n\
+crazy around here\n\
+right now...\n\
+\n\
+\n\
+Looks like you're trying\n\
+to sort this all out!\n\
+\n\
+\n\
+\n\
+\n\
+Here's a word of advice,\n\
+I scouted ahead into\n\
+the cave over there\n\
+and it seems pretty\n\
+challenging.\n\
+\n\
+That cutter ability of\n\
+yours is helpful, but\n\
+it won't be enough to\n\
+collect any star power\n\
+down there.\n\
+\n\
+You might notice this\n\
+at other points in your\n\
+adventure too.\n\
+\n\
+\n\
+\n\
+I'm sure certain areas\n\
+won't be passable without\n\
+some extra abilities...\n\
+\n\
+\n\
+\n\
+Don't worry though, these\n\
+dimensions colliding did\n\
+have a silver lining!\n\
+\n\
+\n\
+\n\
+If you begin see any\n\
+signs that you might not\n\
+have the necessary ability\n\
+to pass a trial, you're\n\
+bound to be able to find\n\
+it in a different world!\n\
+Good luck, Mario!\n\
+I believe in you!"))
+
 DEFINE_DIALOG(DIALOG_I_START_TOAD, 1, 5, 95, 190, _("\
 Mario Glad to see you\n\
 there! Be careful, these\n\
@@ -498,6 +568,7 @@ but i still need\n\
 
 DEFINE_DIALOG(DIALOG_EGADD_4, 2, 4, 95, 200, _("\
 machine is ready!"))
+
 
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 200, _("\
 Wow! You're smack in the\n\
@@ -2610,3 +2681,60 @@ Oh, fantastic.\n\
 Now I get to sweep up\n\
 all this concrete dust.\n\
 Thanks for nothing."))
+
+DEFINE_DIALOG(BIG_DADDY_HELP, 1, 5, 30, 200, _("\
+You there, short splicer.\n\
+My @519cb5FFLittle Sister@-------- wandered\n\
+off through this area,\n\
+and I need someone\n\
+a bit more nimble to go\n\
+retrieve her.\n\
+I'll even sweeten the\n\
+deal, if you bring her\n\
+back to me, I'll give you\n\
+a @ccb741FFPower Star@--------."))
+
+DEFINE_DIALOG(BIG_DADDY_HELP_REPEAT, 1, 2, 30, 200, _("\
+What are you waiting for?\n\
+Go find my @519cb5FFLittle Sister@--------!"))
+
+DEFINE_DIALOG(BIG_DADDY_STAR, 1, 2, 30, 200, _("\
+A deals a deal, here's\n\
+your @ccb741FFPower Star@--------."))
+
+DEFINE_DIALOG(BIG_DADDY_ABILITY_TEXT, 1, 6, 30, 200, _("\
+Say, if you're looking for\n\
+more @ccb741FFStars@--------, you'll need a\n\
+way to @86d9d2FFbreathe underwater@--------.\n\
+Take this, it's an older\n\
+model, but it should do\n\
+the trick."))
+
+DEFINE_DIALOG(LITTLE_SISTER_TEXT_1, 1, 3, 30, 200, _("\
+Mr. Bubbles, is that...?\n\
+Huh? You're not\n\
+Mr. Bubbles!\n\
+He sent you to find me?\n\
+Why wouldn't he come?\n\
+Unless..."))
+
+DEFINE_DIALOG(LITTLE_SISTER_TEXT_2, 1, 2, 30, 200, _("\
+Mr. Bubbles I'll never\n\
+leave your sight again!"))
+
+DEFINE_DIALOG(BIG_DADDY_FIGHT_INTRO, 1, 2, 30, 200, _("\
+Where is she? Where is\n\
+my @519cb5FFLittle Sister@--------?\n\
+YOU! You're the one who\n\
+took her, aren't you?\n\
+You're gonna regret\n\
+ever coming here!"))
+
+DEFINE_DIALOG(BIG_DADDY_DEATH, 1, 2, 30, 200, _("\
+Gah, you splicers are\n\
+tougher than you look."))
+
+
+
+
+

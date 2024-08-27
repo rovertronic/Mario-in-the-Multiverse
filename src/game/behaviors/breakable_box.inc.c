@@ -116,7 +116,7 @@ void hidden_unbreakable_box_actions(void) {
 
 void hidden_unbreakable_box_leveld_actions(void) {
     struct Object *switchObj;
-    obj_set_collision_data(o, d_bridge_collision);
+    obj_set_collision_data(o, d_plat_collision);
     switch (o->oAction) {
         case BREAKABLE_BOX_ACT_HIDDEN:
             cur_obj_disable_rendering();

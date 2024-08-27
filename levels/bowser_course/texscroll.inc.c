@@ -1,11 +1,11 @@
-void scroll_bowser_course_dl_vis_mesh_layer_1_vtx_6() {
+void scroll_bowser_course_dl_vis_mesh_layer_1_vtx_7() {
 	int i = 0;
 	int count = 28;
 	int width = 32 * 0x20;
 
 	static int currentX = 0;
 	int deltaX;
-	Vtx *vertices = segmented_to_virtual(bowser_course_dl_vis_mesh_layer_1_vtx_6);
+	Vtx *vertices = segmented_to_virtual(bowser_course_dl_vis_mesh_layer_1_vtx_7);
 
 	deltaX = (int)(0.5 * 0x20) % width;
 
@@ -53,7 +53,7 @@ void scroll_gfx_mat_bowser_course_dl_arrow() {
 };
 
 void scroll_bowser_course() {
-	scroll_bowser_course_dl_vis_mesh_layer_1_vtx_6();
+	scroll_bowser_course_dl_vis_mesh_layer_1_vtx_7();
 	scroll_gfx_mat_bowser_course_dl_startile_001_layer1();
 	scroll_gfx_mat_bowser_course_dl_rainbowbrick_layer1();
 	scroll_gfx_mat_bowser_course_dl_floorsidingB_layer1();

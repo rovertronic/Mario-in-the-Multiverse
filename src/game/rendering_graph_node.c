@@ -48,6 +48,8 @@
  *
  */
 
+u8 object_mirror_mode = FALSE;
+
 s16 gMatStackIndex = 0;
 ALIGNED16 Mat4 gMatStack[32];
 ALIGNED16 Mtx *gMatStackFixed[32];
@@ -709,6 +711,21 @@ void geo_process_camera(struct GraphNodeCamera *node) {
         scaledCamera[3][i] /= WORLD_SCALE;
     }
 
+    f32 bac = gMarioState->bloodAlcoholConcentration*0.1f;
+    if (bac > 0.0f) {
+        Mat4 drunkMatrix;
+        mtxf_identity(drunkMatrix);
+        drunkMatrix[0][0] += sins(gGlobalTimer*0x200)*bac*2.0f;
+        drunkMatrix[0][1] += sins(gGlobalTimer*0x200+0x1000)*bac*2.0f;
+        drunkMatrix[0][2] += sins(gGlobalTimer*0x200-0x1000)*bac*2.0f;
+
+        drunkMatrix[2][0] += sins(gGlobalTimer*0x200+0x2000)*bac*.5f;
+        drunkMatrix[2][1] += sins(gGlobalTimer*0x200+0x3000)*bac*.5f;
+        drunkMatrix[2][2] += sins(gGlobalTimer*0x200+0x4000)*bac*.5f;
+        drunkMatrix[1][1] += sins(gGlobalTimer*0x200)*bac*.5f;
+        mtxf_mul(scaledCamera,scaledCamera,drunkMatrix);
+    }
+
     // Convert the scaled matrix to fixed-point and integrate it into the projection matrix stack
     guMtxF2L(scaledCamera, viewMtx);
 #else
@@ -989,72 +1006,72 @@ void geo_set_animation_globals(struct AnimInfo *node, s32 hasAnimation, s32 abil
  * the floor below it.
  */
 void geo_process_shadow(struct GraphNodeShadow *node) {
-#ifndef DISABLE_SHADOWS
-    if (gCurGraphNodeCamera != NULL && gCurGraphNodeObject != NULL) {
-        //--E
-        if (((struct Object *)(gCurGraphNodeObject))->behavior == segmented_to_virtual(bhvE_FlattenedObj)) {
-            if (node->node.children != NULL) {
-                geo_process_node_and_siblings(node->node.children); }
-            return;
-        }
-
-
-        Vec3f shadowPos;
-        f32 shadowScale;
-
-        if (gCurGraphNodeHeldObject != NULL) {
-            vec3f_copy(shadowPos, gMatStack[gMatStackIndex][3]);
-            shadowScale = node->shadowScale * gCurGraphNodeHeldObject->objNode->header.gfx.scale[0];
-        } else {
-            vec3f_copy(shadowPos, gCurGraphNodeObject->pos);
-            shadowScale = node->shadowScale * gCurGraphNodeObject->scale[0];
-        }
-
-        s8 shifted = (gCurrAnimEnabled
-                      && (gCurrAnimType == ANIM_TYPE_TRANSLATION
-                       || gCurrAnimType == ANIM_TYPE_LATERAL_TRANSLATION)
-        );
-
-        if (shifted) {
-            struct GraphNode *geo = node->node.children;
-            f32 objScale = 1.0f;
-            if (geo != NULL && geo->type == GRAPH_NODE_TYPE_SCALE) {
-                objScale = ((struct GraphNodeScale *) geo)->scale;
+    if (!object_mirror_mode) {
+        if (gCurGraphNodeCamera != NULL && gCurGraphNodeObject != NULL) {
+            //--E
+            if (((struct Object *)(gCurGraphNodeObject))->behavior == segmented_to_virtual(bhvE_FlattenedObj)) {
+                if (node->node.children != NULL) {
+                    geo_process_node_and_siblings(node->node.children); }
+                return;
             }
 
-            f32 animScale = gCurrAnimTranslationMultiplier * objScale;
-            Vec3f animOffset;
-            animOffset[0] = gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)] * animScale;
-            animOffset[1] = 0.0f;
-            gCurrAnimAttribute += 2;
-            animOffset[2] = gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)] * animScale;
-            gCurrAnimAttribute -= 6;
 
-            // simple matrix rotation so the shadow offset rotates along with the object
-            f32 sinAng = sins(gCurGraphNodeObject->angle[1]);
-            f32 cosAng = coss(gCurGraphNodeObject->angle[1]);
+            Vec3f shadowPos;
+            f32 shadowScale;
 
-            shadowPos[0] += animOffset[0] * cosAng + animOffset[2] * sinAng;
-            shadowPos[2] += -animOffset[0] * sinAng + animOffset[2] * cosAng;
-        }
+            if (gCurGraphNodeHeldObject != NULL) {
+                vec3f_copy(shadowPos, gMatStack[gMatStackIndex][3]);
+                shadowScale = node->shadowScale * gCurGraphNodeHeldObject->objNode->header.gfx.scale[0];
+            } else {
+                vec3f_copy(shadowPos, gCurGraphNodeObject->pos);
+                shadowScale = node->shadowScale * gCurGraphNodeObject->scale[0];
+            }
 
-        Gfx *shadowList = create_shadow_below_xyz(shadowPos, shadowScale * 0.5f,
-                                                  node->shadowSolidity, node->shadowType, shifted);
-
-        if (shadowList != NULL) {
-            mtxf_shadow(gMatStack[gMatStackIndex + 1],
-                gCurrShadow.floorNormal, shadowPos, gCurrShadow.scale, gCurGraphNodeObject->angle[1]);
-
-            inc_mat_stack();
-            geo_append_display_list(
-                (void *) VIRTUAL_TO_PHYSICAL(shadowList),
-                gCurrShadow.isDecal ? LAYER_TRANSPARENT_DECAL : LAYER_TRANSPARENT
+            s8 shifted = (gCurrAnimEnabled
+                        && (gCurrAnimType == ANIM_TYPE_TRANSLATION
+                        || gCurrAnimType == ANIM_TYPE_LATERAL_TRANSLATION)
             );
 
-            gMatStackIndex--;
+            if (shifted) {
+                struct GraphNode *geo = node->node.children;
+                f32 objScale = 1.0f;
+                if (geo != NULL && geo->type == GRAPH_NODE_TYPE_SCALE) {
+                    objScale = ((struct GraphNodeScale *) geo)->scale;
+                }
+
+                f32 animScale = gCurrAnimTranslationMultiplier * objScale;
+                Vec3f animOffset;
+                animOffset[0] = gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)] * animScale;
+                animOffset[1] = 0.0f;
+                gCurrAnimAttribute += 2;
+                animOffset[2] = gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)] * animScale;
+                gCurrAnimAttribute -= 6;
+
+                // simple matrix rotation so the shadow offset rotates along with the object
+                f32 sinAng = sins(gCurGraphNodeObject->angle[1]);
+                f32 cosAng = coss(gCurGraphNodeObject->angle[1]);
+
+                shadowPos[0] += animOffset[0] * cosAng + animOffset[2] * sinAng;
+                shadowPos[2] += -animOffset[0] * sinAng + animOffset[2] * cosAng;
+            }
+
+            Gfx *shadowList = create_shadow_below_xyz(shadowPos, shadowScale * 0.5f,
+                                                    node->shadowSolidity, node->shadowType, shifted);
+
+            if (shadowList != NULL) {
+                mtxf_shadow(gMatStack[gMatStackIndex + 1],
+                    gCurrShadow.floorNormal, shadowPos, gCurrShadow.scale, gCurGraphNodeObject->angle[1]);
+
+                inc_mat_stack();
+                geo_append_display_list(
+                    (void *) VIRTUAL_TO_PHYSICAL(shadowList),
+                    gCurrShadow.isDecal ? LAYER_TRANSPARENT_DECAL : LAYER_TRANSPARENT
+                );
+
+                gMatStackIndex--;
+            }
         }
     }
-#endif
     if (node->node.children != NULL) {
         geo_process_node_and_siblings(node->node.children);
     }
@@ -1185,6 +1202,9 @@ void geo_process_object(struct Object *node) {
 
         // Maintain throw matrix pointer if the game is paused as it won't be updated.
         Mat4 *oldThrowMatrix = (sCurrPlayMode == PLAY_MODE_PAUSED) ? node->header.gfx.throwMatrix : NULL;
+        if (object_mirror_mode) {
+            oldThrowMatrix = node->header.gfx.throwMatrix;
+        }
 
         // If the throw matrix is null and the object is invisible, there is no need
         // to update billboarding, scale, rotation, etc. 
@@ -1201,6 +1221,14 @@ void geo_process_object(struct Object *node) {
             } else {
                 mtxf_rotate_zxy_and_translate(gMatStack[gMatStackIndex + 1], node->header.gfx.pos, node->header.gfx.angle);
                 mtxf_scale_vec3f(gMatStack[gMatStackIndex + 1], gMatStack[gMatStackIndex + 1], node->header.gfx.scale);
+            }
+
+            if (object_mirror_mode) {
+                gMatStack[gMatStackIndex + 1][0][1] = -gMatStack[gMatStackIndex + 1][0][1];
+                gMatStack[gMatStackIndex + 1][1][1] = -gMatStack[gMatStackIndex + 1][1][1];
+                gMatStack[gMatStackIndex + 1][2][1] = -gMatStack[gMatStackIndex + 1][2][1];
+
+                gMatStack[gMatStackIndex + 1][3][1] = -gMatStack[gMatStackIndex + 1][3][1];
             }
         }
 
@@ -1277,6 +1305,24 @@ void geo_process_object(struct Object *node) {
     }
 }
 
+void set_mirror_backface_culling(u8 toggle_on_or_off) {
+    Gfx *gfx = NULL;
+    gfx = alloc_display_list(3 * sizeof(*gfx));
+
+    if (toggle_on_or_off) {
+        gSPClearGeometryMode(&gfx[0], G_CULL_BACK);
+        gSPSetGeometryMode(&gfx[1], G_CULL_FRONT);
+    } else {
+        gSPSetGeometryMode(&gfx[0], G_CULL_BACK);
+        gSPClearGeometryMode(&gfx[1], G_CULL_FRONT);
+    }
+    gSPEndDisplayList(&gfx[2]);
+
+    geo_append_display_list(gfx, LAYER_OPAQUE);
+    geo_append_display_list(gfx, LAYER_ALPHA);
+}
+
+
 /**
  * Process an object parent node. Temporarily assigns itself as the parent of
  * the subtree rooted at 'sharedChild' and processes the subtree, after which the
@@ -1285,7 +1331,17 @@ void geo_process_object(struct Object *node) {
 void geo_process_object_parent(struct GraphNodeObjectParent *node) {
     if (node->sharedChild != NULL) {
         node->sharedChild->parent = (struct GraphNode *) node;
+
+        if (gCurrLevelNum == LEVEL_K && gCurrAreaIndex == 3) {
+            object_mirror_mode = TRUE;
+            set_mirror_backface_culling(TRUE);
+            geo_process_node_and_siblings(node->sharedChild);
+        }
+
+        object_mirror_mode = FALSE;
+        set_mirror_backface_culling(FALSE);
         geo_process_node_and_siblings(node->sharedChild);
+
         node->sharedChild->parent = NULL;
     }
     if (node->node.children != NULL) {
@@ -1588,7 +1644,7 @@ void geo_process_node_and_siblings(struct GraphNode *firstNode) {
             }
         } else {
             if (curGraphNode->type == GRAPH_NODE_TYPE_OBJECT) {
-                ((struct GraphNodeObject *) curGraphNode)->throwMatrix = NULL;
+                //((struct GraphNodeObject *) curGraphNode)->throwMatrix = NULL;
             }
         }
     } while (iterateChildren && (curGraphNode = curGraphNode->next) != firstNode);

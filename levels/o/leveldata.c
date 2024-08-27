@@ -30,3 +30,4 @@
 #include "levels/o/o_speaker_2/model.inc.c"
 #include "levels/o/o_speaker_3/model.inc.c"
 #include "levels/o/o_flame/model.inc.c"
+#include "levels/o/o_gerik/model.inc.c"

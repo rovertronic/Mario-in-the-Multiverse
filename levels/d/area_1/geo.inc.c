@@ -10,6 +10,7 @@ const GeoLayout d_area_1_geo[] = {
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, d_dl_Tropical_Island_mesh_layer_6),
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, d_dl_Tropical_Island_mesh_layer_5),
 		GEO_CLOSE_NODE(),
+		GEO_ASM(0, geo_cannon_circle_base),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

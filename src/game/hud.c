@@ -20,6 +20,7 @@
 #include "actors/group0.h"
 #include "cutscene_manager.h"
 #include "mario.h"
+#include "dream_comet.h"
 //--E
 #include "levels/e/header.h"
 
@@ -561,7 +562,7 @@ void render_hud_camera_status(s32 x, s32 y) {//--E
             //--E C
         case CAM_STATUS_AIM:
             render_hud_tex_lut(x + 16, y, (*cameraLUT)[6]);
-            if (gE_ShotgunFlags & E_SGF_AIM_FIRE) {
+            if (using_ability(ABILITY_E_SHOTGUN)&&(gE_ShotgunFlags & E_SGF_AIM_FIRE)) {
                 gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
                 gSPDisplayList(gDisplayListHead++, dl_e__crosshair);
                 gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
@@ -847,6 +848,8 @@ u8 shop_sold_out = FALSE;
 // Hint logic ALSO in mitm_hub.c
 u8 hint_show_ui = FALSE;
 
+extern u8 show_mitm_credits;
+
 /**
  * Render HUD strings using hudDisplayFlags with it's render functions,
  * excluding the cannon reticle which detects a camera preset for it.
@@ -928,7 +931,7 @@ u8 combo_meter_visual = 201;
 
 void render_hud(void) {
     //--E
-    if ((gCurrLevelNum == LEVEL_E)&&(gHudDisplay.flags != HUD_DISPLAY_NONE)) {
+    if ((gCurrLevelNum == LEVEL_E)&&(gHudDisplay.flags != HUD_DISPLAY_NONE)&&(!level_in_dream_comet_mode())) {
         create_dl_ortho_matrix();
         //--**
         create_dl_scale_matrix(MENU_MTX_PUSH, 0.75f, 0.75f, 0);
@@ -1152,7 +1155,7 @@ void render_hud(void) {
         }
 #endif
 
-        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )||(shop_show_ui)||(hint_show_ui)) {
+        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )||(shop_show_ui)||(hint_show_ui)||(show_mitm_credits)) {
             hud_alpha = approach_f32_asymptotic(hud_alpha,0.0f,0.2f);
         } else {
             hud_alpha = approach_f32_asymptotic(hud_alpha,255.0f,0.2f);
@@ -1181,8 +1184,15 @@ void render_hud(void) {
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hud_alpha);
 
         gSPDisplayList(gDisplayListHead++, &hudbar_hudbar_mesh);
+        if (level_in_dream_comet_mode()) {
+            gSPDisplayList(gDisplayListHead++, &cometbar_cometbar_mesh);
+        }
 
-        render_meter(293, 185, METER_STYLE_HP, gHudDisplay.wedges, (u8)hud_alpha);
+        s16 meterhp = gHudDisplay.wedges;
+        if (level_in_dream_comet_mode()&&gCurrLevelNum==LEVEL_E) {
+            meterhp = (gE_C9MarioHealth/100.0f)*8;
+        }
+        render_meter(293, 185, METER_STYLE_HP, meterhp, (u8)hud_alpha);
 
 #ifdef BREATH_METER
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_BREATH_METER) {
@@ -1230,6 +1240,10 @@ void render_hud(void) {
 
         render_ability_get_hud();
 
+        if (level_in_dream_comet_mode()) {
+            render_dream_comet_hud(hud_alpha);
+        }
+
         if (shop_show_ui) {
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
             create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
@@ -1261,6 +1275,9 @@ void render_hud(void) {
 
         if (hint_show_ui) {
             render_hint_ui(hud_alpha);
+        }
+        if (show_mitm_credits) {
+            print_mitm_credits(hud_alpha);
         }
 
         //revert (prolly not needed)

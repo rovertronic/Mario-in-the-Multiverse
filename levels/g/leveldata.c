@@ -56,3 +56,6 @@
 #include "levels/g/g_waddle_dee/anims/data.inc.c"
 #include "levels/g/g_waddle_dee/anims/table.inc.c"
 #include "levels/g/g_fixed_block/collision.inc.c"
+#include "levels/g/g_banana_dee/anims/data.inc.c"
+#include "levels/g/g_banana_dee/anims/table.inc.c"
+#include "levels/g/g_banana_dee/model.inc.c"

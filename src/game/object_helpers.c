@@ -870,6 +870,23 @@ s32 count_objects_with_behavior_bparam1_action(const BehaviorScript *behavior, u
     return count;
 }
 
+struct Object *find_object_with_behaviors_bparam(const BehaviorScript *behavior, u32 bparam, int bparamNumber) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct ObjectNode *obj = listHead->next;
+    int shift = (4 - bparamNumber) * 8;
+
+    while (listHead != obj) {
+        if (((struct Object *) obj)->behavior == behaviorAddr &&
+            (((struct Object *) obj)->oBehParams >> shift) == bparam) {
+            return (struct Object *)obj;
+        }
+        obj = obj->next;
+    }
+
+    return NULL; // No object found with specified criteria
+}
+
 struct Object *cur_obj_find_nearby_held_actor(const BehaviorScript *behavior, f32 maxDist) {
     const BehaviorScript *behaviorAddr = segmented_to_virtual(behavior);
     struct ObjectNode *listHead = &gObjectLists[OBJ_LIST_GENACTOR];
@@ -2607,4 +2624,30 @@ void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 o
     o->oPosY += offsetY + gDebugInfo[DEBUG_PAGE_ENEMYINFO][0];
     spawn_default_star(targetX, targetY, targetZ);
     o->oPosY = objectPosY;
+}
+
+struct Object *obj_find_nearest_object_with_behavior_and_bparam2(const BehaviorScript *behavior, int bparam2) {
+    uintptr_t *behaviorAddr = (uintptr_t *) segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != 0
+            && obj->oBehParams2ndByte == bparam2
+        ) {
+            return obj;
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+
+    return NULL;
+}
+
+void cur_obj_die_if_on_death_floor(void) {
+    struct Surface * floor;
+    f32 fheight = find_floor(o->oPosX,o->oPosY,o->oPosZ, &floor);
+    if (floor && fheight+120.0f > o->oPosY && floor->type == SURFACE_DEATH_PLANE) {
+        obj_mark_for_deletion(o);
+    }
 }

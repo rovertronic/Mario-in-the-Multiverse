@@ -38,6 +38,7 @@
 #include "src/buffers/buffers.h"
 #include "dialog_ids.h"
 #include "cutscene_manager.h"
+#include "dream_comet.h"
 
 s16 check_water_height = -10000;
 Bool8 have_splashed;
@@ -469,6 +470,7 @@ s32 mario_get_floor_class(struct MarioState *m) {
             case SURFACE_NOT_SLIPPERY:
             case SURFACE_HARD_NOT_SLIPPERY:
             case SURFACE_SWITCH:
+            case SURFACE_FORCE_SHADOW_NOSLIP:
                 floorClass = SURFACE_CLASS_NOT_SLIPPERY;
                 break;
 
@@ -1352,7 +1354,11 @@ void update_mario_joystick_inputs(struct MarioState *m) {
     }
 
     if (m->intendedMag > 0.0f) {
-        m->intendedYaw = atan2s(-fake_stick_y, controller->stickX) + m->area->camera->yaw;
+        u16 drunk_offset = 0;
+        if (gMarioState->bloodAlcoholConcentration > 1.0f) {
+            drunk_offset = sins(gGlobalTimer*0x200) * 2000.0f * gMarioState->bloodAlcoholConcentration;
+        }
+        m->intendedYaw = atan2s(-fake_stick_y, controller->stickX) + m->area->camera->yaw + drunk_offset;
         m->input |= INPUT_NONZERO_ANALOG;
     } else {
         m->intendedYaw = m->faceAngle[1];
@@ -1629,7 +1635,11 @@ void update_mario_health(struct MarioState *m) {
 void update_mario_breath(struct MarioState *m) {
     if (m->breath >= 0x100 && m->health >= 0x100) {
         if (m->pos[1] < (m->waterLevel - 140) && !(m->flags & MARIO_METAL_CAP) && !(m->action & ACT_FLAG_INTANGIBLE)) {
+            if (gCurrLevelNum == LEVEL_B){
+                m->breath-=8;
+            } else {
             m->breath--;
+            }
             if (m->breath < 0x300) {
                 // Play a noise to alert the player when Mario is close to drowning.
                 play_sound(SOUND_MOVING_ALMOST_DROWNING, gGlobalSoundSource);
@@ -1913,6 +1923,8 @@ s8 esa_hp = -1;
 s8 esa_mhp = -1;
 char * esa_str = NULL;
 
+u8 make_mario_visible_again_after_this_frame = FALSE;
+
 s32 is_2d_area(void) {
     return ((gCurrLevelNum == LEVEL_L)&&(gCurrAreaIndex < 6));
 }
@@ -1924,10 +1936,10 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
     //debug activate credits
-    //if (gPlayer1Controller->buttonPressed & D_JPAD) {
-    //    level_trigger_warp(gMarioState, WARP_OP_CREDITS_START);
-    //    gMarioState->actionState = ACT_STATE_END_PEACH_CUTSCENE_FADE_OUT_END;
-    //}
+    if (gPlayer1Controller->buttonPressed & D_JPAD) {
+        level_trigger_warp(gMarioState, WARP_OP_CREDITS_START);
+        gMarioState->actionState = ACT_STATE_END_PEACH_CUTSCENE_FADE_OUT_END;
+    }
     
     // Updates once per frame:
     vec3f_get_dist_and_lateral_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->lateralSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);
@@ -2168,7 +2180,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 
         struct Surface * marble_floor;
         f32 marble_floor_y = find_floor(gMarioState->pos[0],gMarioState->pos[1],gMarioState->pos[2],&marble_floor);
-        u8 force_marble = ((marble_floor)&&(marble_floor->type == SURFACE_FORCE_MARBLE)&&(gMarioState->pos[1] < marble_floor_y+120.0f)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE));
+        u8 force_marble = ((!level_in_dream_comet_mode())&&(marble_floor)&&(marble_floor->type == SURFACE_FORCE_MARBLE)&&(gMarioState->pos[1] < marble_floor_y+120.0f)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE));
 
         if (using_ability(ABILITY_BUBBLE_HAT) && (gMarioState->action != ACT_BUBBLE_HAT_JUMP)) {
             change_ability(ABILITY_BUBBLE_HAT);
@@ -2225,6 +2237,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         if ((!milk_drunk)&&(using_ability(ABILITY_UTIL_MILK))&&(gPlayer1Controller->buttonPressed & L_TRIG)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
             milk_drunk = TRUE;
             gMarioState->healCounter += 20;
+            gMarioState->bloodAlcoholConcentration = 0.0f; // my alchoholism is cured
             play_sound(SOUND_GENERAL_HEART_SPIN, gGlobalSoundSource);
         }
 
@@ -2386,6 +2399,10 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
         //the phasewalk timer runs unconditionally
+        if (phasewalk_timer > 0 && phasewalk_timer < 150) {
+            phasewalk_timer --;
+        }
+
         if (phasewalk_timer > 0) {
             phasewalk_timer --;
             if (phasewalk_timer == 0) {
@@ -2468,7 +2485,10 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         struct SpawnParticlesInfo D_8032F270 = { 2, 20, MODEL_MIST, 0, 40, 5, 30, 20, 252, 30, 10.0f, 10.0f };
 
         //Squid Ability
-        gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
+        if (make_mario_visible_again_after_this_frame) {
+            gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
+            make_mario_visible_again_after_this_frame = FALSE;
+        }
         if(using_ability(ABILITY_SQUID)){
             if (gPlayer1Controller->buttonPressed & L_TRIG){
                 cur_obj_spawn_particles(&D_8032F270);
@@ -2476,10 +2496,12 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                     obj_set_model(gMarioObject, MODEL_MARIO);
                     set_mario_action(gMarioState, ACT_IDLE, 0);
                     gMarioState->marioObj->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
+                    make_mario_visible_again_after_this_frame = TRUE;
                 } else {
                     obj_set_model(gMarioObject, MODEL_SQUID);
                     set_mario_action(gMarioState, ACT_SQUID, 0);
                     gMarioState->marioObj->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
+                    make_mario_visible_again_after_this_frame = TRUE;
                 }
             }
         }
@@ -2496,6 +2518,19 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             if (aim) {
                 obj_mark_for_deletion(aim);
             }   
+        }
+
+        // Flag flashes
+        if (using_ability(ABILITY_E_SHOTGUN)&&(gE_ShotgunFlags & E_SGF_AIR_SHOT_USED)) {
+            cool_down_ability(ABILITY_E_SHOTGUN);
+        } else {
+            ability_ready(ABILITY_E_SHOTGUN);
+        }
+
+        if (using_ability(ABILITY_CHRONOS)&&(!gMarioState->abilityChronosCanSlash)) {
+            cool_down_ability(ABILITY_CHRONOS);
+        } else {
+            ability_ready(ABILITY_CHRONOS);
         }
 
         if (lastAbility != gMarioState->abilityId) {
@@ -2515,8 +2550,17 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 
 void init_mario(void) {
     esa_mhp = -1;
+
+    gMarioState->bloodAlcoholConcentration = 0.0f;
     
     //set_camera_mode(gMarioState->area->camera, gMarioState->area->camera->defMode, 1);
+
+    if (level_in_dream_comet_mode() && mitm_levels[hub_level_current_index].dream_data != NULL) {
+        for (int i = 0; i < 4; i++) {
+            ability_slot[i] = mitm_levels[hub_level_current_index].dream_data->ability_lock[i];
+        }
+    }
+
 
     gMarioState->actionTimer = 0;
     gMarioState->framesSinceA = 0xFF;

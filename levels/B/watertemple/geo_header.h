@@ -1,0 +1,15 @@
+extern const GeoLayout watertemple_geo[];
+extern Lights1 watertemple_water_1_lights;
+extern u8 watertemple_water_galaxy_i4_i4[];
+extern u8 watertemple_sonic_adventure_water_2_i8[];
+extern Vtx watertemple_watertemple_mesh_layer_7_vtx_0[6];
+extern Gfx watertemple_watertemple_mesh_layer_7_tri_0[];
+extern Vtx watertemple_watertemple_mesh_layer_5_vtx_0[6];
+extern Gfx watertemple_watertemple_mesh_layer_5_tri_0[];
+extern Gfx mat_watertemple_water_2_layer7[];
+extern Gfx mat_revert_watertemple_water_2_layer7[];
+extern Gfx mat_watertemple_water_1[];
+extern Gfx mat_revert_watertemple_water_1[];
+extern Gfx watertemple_watertemple_mesh_layer_7[];
+extern Gfx watertemple_watertemple_mesh_layer_5[];
+extern Gfx watertemple_material_revert_render_settings[];

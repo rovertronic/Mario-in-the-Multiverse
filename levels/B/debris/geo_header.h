@@ -1,0 +1,17 @@
+extern const GeoLayout debris_geo[];
+extern Lights1 debris_wood_floaty_lights;
+extern Lights1 debris_waterfall_layer5_lights;
+extern u8 debris_wood_floor_ci4_ci4[];
+extern u8 debris_wood_floor_ci4_pal_rgba16[];
+extern u8 debris_waterfall_i8[];
+extern Vtx debris_debris_mesh_layer_1_vtx_0[104];
+extern Gfx debris_debris_mesh_layer_1_tri_0[];
+extern Vtx debris_debris_mesh_layer_5_vtx_0[28];
+extern Gfx debris_debris_mesh_layer_5_tri_0[];
+extern Gfx mat_debris_wood_floaty[];
+extern Gfx mat_revert_debris_wood_floaty[];
+extern Gfx mat_debris_waterfall_layer5[];
+extern Gfx mat_revert_debris_waterfall_layer5[];
+extern Gfx debris_debris_mesh_layer_1[];
+extern Gfx debris_debris_mesh_layer_5[];
+extern Gfx debris_material_revert_render_settings[];

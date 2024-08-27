@@ -47,8 +47,8 @@ const LevelScript level_c_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_INK_MOVING_PLATFORM, ink_moving_platform_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_PAINT_BULLET, paint_bullet_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_OCTOZEPPLIN, octozepplin_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_JELLY_FISH, jelly_fish_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_OCTOBA, octoba_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_JELLY_FISH, jelly_fish_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_OCTOBA, octoba_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -76,6 +76,12 @@ const LevelScript level_c_entry[] = {
 		OBJECT(MODEL_STAR_BOULDER, 15153, 1798, -4310, 0, 0, 0, 0x00000000, bhvCraneRock),
 		OBJECT(MODEL_STAR_BOULDER, 21782, 1664, 444, 0, 0, 0, 0x00000000, bhvCraneRock),
 		OBJECT(MODEL_STAR_BOULDER, 16464, 1749, 6422, 0, 0, 0, 0x00000000, bhvCraneRock),
+		OBJECT(MODEL_NONE, -1117, 4992, -7570, 0, 0, 0, 0x00000000, bhvStaticObject),
+		OBJECT(MODEL_NONE, -2942, 5108, -7716, 0, 0, 0, (0 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, 4634, 2915, 927, 0, 0, 0, (1 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, 5027, 5268, -4389, 0, 0, 0, (2 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, 6893, 2859, 9859, 0, 0, 0, (3 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, 6203, 1192, -4193, 0, 0, 0, (4 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_EXCLAMATION_BOX, 936, 2003, -2597, 0, 0, 0, (5 << 16), bhvExclamationBox),
 		OBJECT(MODEL_LEVEL_PIPE, -1633, 1948, 7425, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_NONE, 3992, 1202, -2044, 0, 0, 0, 0x00000000, bhvFightWavesManager),

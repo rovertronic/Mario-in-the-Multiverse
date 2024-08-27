@@ -1,0 +1,11 @@
+extern const GeoLayout k_fan_geo[];
+extern u8 k_fan_rgba16_anonmoose_envmap_silver1_i8[];
+extern Vtx k_fan_Plane_003_mesh_layer_6_vtx_0[44];
+extern Gfx k_fan_Plane_003_mesh_layer_6_tri_0[];
+extern Vtx k_fan_Plane_003_mesh_layer_1_vtx_0[255];
+extern Gfx k_fan_Plane_003_mesh_layer_1_tri_0[];
+extern Gfx mat_k_fan_shadow[];
+extern Gfx mat_k_fan_env[];
+extern Gfx mat_revert_k_fan_env[];
+extern Gfx k_fan_Plane_003_mesh_layer_6[];
+extern Gfx k_fan_Plane_003_mesh_layer_1[];

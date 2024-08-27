@@ -473,7 +473,7 @@ s32 bonk_or_hit_lava_wall(struct MarioState *m, struct WallCollisionData *wallDa
 
     for (i = 0; i < wallData->numWalls; i++) {
         if (wallData->walls[i] != NULL) {
-            if (wallData->walls[i]->type == SURFACE_BURNING) {
+            if ((wallData->walls[i]->type == SURFACE_BURNING) && (aku_invincibility == 0)) {
                 set_mario_wall(m, wallData->walls[i]);
                 return AIR_STEP_HIT_LAVA_WALL;
             }

@@ -17,6 +17,7 @@
 #include "tile_scroll.h"
 #include "game_init.h"
 #include "level_update.h"
+#include "interaction.h"
 
 #include "ge_translation.h"
 
@@ -105,10 +106,21 @@ static s32 c9dobj_check_collision(struct E_C9Dobj *b, Vec3f vel, s32 damage) {
 	if (dist < (b->hitSphereSize + 80.f)) {
 		if ((m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH)
 			|| (m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR)) {
-			//deflect
-			b->yaw   =   m->faceAngle[1];
-			b->velY  =  -b->velY;
-			b->state |=  BIT(1);
+			//
+			if (!(b->state & BIT(1))) {
+				play_sound(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL, m->marioObj->header.gfx.cameraToObject);
+				if (abs_angle_diff(m->faceAngle[1],b->yaw) > 0x4000) {
+					b->yaw = b->yaw+0x8000;
+				} else {
+					b->yaw = m->faceAngle[1];
+				}
+			
+				b->hitSphereSize += 50.0f;
+
+				b->velY  =  -b->velY;
+				b->pitch =  -b->pitch;
+				b->state |=  BIT(1);
+			}
 
 		} else if (!(b->state & BIT(1))) {
 			//damage
@@ -170,14 +182,19 @@ static s32 c9dobj_check_collision(struct E_C9Dobj *b, Vec3f vel, s32 damage) {
 				vec3f_get_dist(b->pos, oPos, &dist);
 
 				if (dist < (b->hitSphereSize + obj->hitboxRadius)) {
+					if (b->state & BIT(1)) {
+						obj->oHealth-=20.0f;
+						obj->oInteractStatus |= INT_STATUS_WAS_ATTACKED;
+						return 2;
+					}
+
 					//damage
 					obj->oAnimState  = ((damage / 100) + (((random_u16()) % 2) == 0));//oEEAttackedByEnemy | damage value also stored in oAnimState
-					if (!(b->state & BIT(1))) {
-						if (attackerNotNull) {//--**
-							if (obj->OBJECT_FIELD_S32(0x4A) == FALSE) {
-								obj->OBJECT_FIELD_OBJ(0x22) = b->attacker; }
-						}
+					if (attackerNotNull) {//--**
+						if (obj->OBJECT_FIELD_S32(0x4A) == FALSE) {
+							obj->OBJECT_FIELD_OBJ(0x22) = b->attacker; }
 					}
+
 					return 2;
 				}
 			}
@@ -239,12 +256,12 @@ Gfx *e__c9_dobj(s32 callContext, struct GraphNode *node, UNUSED Mat4 unused) {
 							  (b->velY),
 							  (coss(b->yaw) * b->velF) };
 
-				if (c9dobj_check_collision(b, vel, 2)) {
+				if (c9dobj_check_collision(b, vel, 2)) {			
 					struct SGSmoke *smoke = e__sg_smoke(b->pos);
 					if (smoke != NULL) {
 						smoke->timer = 4;
 						smoke->scale = 3.f;
-					}					
+					}
 					b->state &= ~BIT(0);
 					sC9DobjCounts[0]--;
 				}

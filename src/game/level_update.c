@@ -50,7 +50,7 @@ const char *credits05[] = { "1OPPORTUNITY","JOOPII"};
 const char *credits06[] = { "1BIOSHOCK","FURYIOUSFIGHT"};
 const char *credits07[] = { "1BEYOND THE CURSED PIZZA","LUIGIMAN O64O"};
 const char *credits08[] = { "2NEW MECCA","AXOLLYON","KEYBLADER"};
-const char *credits09[] = { "1DOOM", "DAN GPTV" };
+const char *credits09[] = { "1DOOM", "DORRIEAL" };
 const char *credits10[] = { "1FROM RUSSIA WITH LOVE","AEZA"}; 
 const char *credits11[] = { "1ECRUTEAK CITY","SPK" };
 const char *credits12[] = { "1NEW N SANITY ISLAND", "JAKE DOWER" };
@@ -68,19 +68,19 @@ struct CreditsEntry sCreditsSequence[] = {
     { LEVEL_CASTLE, 1, 1, 117, {-5635,2250,-1806}, credits00 , ABILITY_DEFAULT},
     { LEVEL_G, 3, 1, 0, {475,1283,-1275}, credits01, ABILITY_CUTTER},
     { LEVEL_A, 4, 50, 126, {-4465,-31,12360}, credits02, ABILITY_BUBBLE_HAT},
-    { LEVEL_JRB, 1, 18, 22, { 3800, 9840, 2727 }, credits03, ABILITY_SQUID},
+    { LEVEL_C, 1, 18, 0, { -1117, 4992, -7570 }, credits03, ABILITY_SQUID},
     { LEVEL_I, 3, 34, 205, {6732,440,-3848}, credits04, ABILITY_SHOCK_ROCKET},
     { LEVEL_H, 1, 1, 240, {-1514,-245,858}, credits05, ABILITY_PHASEWALK},
-    { LEVEL_JRB, 1, 18, 22, { 3800, 9840, 2727 }, credits06, ABILITY_BIG_DADDY},
+    { LEVEL_B, 1, 18, -182, { -5507, 629, 5798 }, credits06, ABILITY_BIG_DADDY},
     { LEVEL_L, 1, 17, -64, {1512,-300,0}, credits07, ABILITY_KNIGHT},
-    { LEVEL_JRB, 1, 18, 22, { 3800, 9840, 2727 }, credits08, ABILITY_CHRONOS},
+    { LEVEL_K, 3, 18, 22, { 0,0,0 }, credits08, ABILITY_CHRONOS},
     { LEVEL_E, 1, 65, 0, {-8827,6226,-4956}, credits09, ABILITY_E_SHOTGUN},
     { LEVEL_F, 3, 50, 0, {-759,230,2346}, credits10, ABILITY_GADGET_WATCH},
     { LEVEL_J, 2, 17, 114, {-3399,3224,-538}, credits11, ABILITY_HM_FLY},
     { LEVEL_D, 1, 33, 0, {-1851,3216,-4258}, credits12, ABILITY_AKU},
     { LEVEL_O, 1, 2, 99, {2231,-2250,229}, credits13, ABILITY_ESTEEMED_MORTAL},
     { LEVEL_N, 2, 51, 57, {-29,617,294}, credits14, ABILITY_DEFAULT},
-    { LEVEL_TTC, 1, 17, -72, { -1304, -71, -967 }, credits15, ABILITY_DASH_BOOSTER},
+    { LEVEL_M, 1, 17, -72, { -7163, 2100, -12648 }, credits15, ABILITY_DASH_BOOSTER},
     { LEVEL_CASTLE_GROUNDS, 1, 1, -128, { 0, 906, -1200 }, NULL, ABILITY_DEFAULT},
     { LEVEL_NONE, 0, 1, 0, { 0, 0, 0 }, NULL, ABILITY_DEFAULT},
 };

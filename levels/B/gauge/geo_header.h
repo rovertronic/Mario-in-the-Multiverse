@@ -1,0 +1,18 @@
+extern const GeoLayout gauge_geo[];
+extern Lights1 gauge_metal_lights;
+extern Lights1 gauge_gauge_lights;
+extern u8 gauge_metal_rgba16[];
+extern u8 gauge_pressure_gauge_ci4[];
+extern u8 gauge_pressure_gauge_pal_rgba16[];
+extern Vtx gauge_root_mesh_layer_1_vtx_0[69];
+extern Gfx gauge_root_mesh_layer_1_tri_0[];
+extern Vtx gauge_root_mesh_layer_1_vtx_1[6];
+extern Gfx gauge_root_mesh_layer_1_tri_1[];
+extern Vtx gauge_Bone_mesh_layer_1_vtx_0[24];
+extern Gfx gauge_Bone_mesh_layer_1_tri_0[];
+extern Gfx mat_gauge_metal[];
+extern Gfx mat_gauge_gauge[];
+extern Gfx mat_revert_gauge_gauge[];
+extern Gfx gauge_root_mesh_layer_1[];
+extern Gfx gauge_Bone_mesh_layer_1[];
+extern Gfx gauge_material_revert_render_settings[];

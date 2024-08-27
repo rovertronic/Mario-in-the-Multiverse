@@ -101,11 +101,11 @@ enum SurfaceTypes {
     SURFACE_0081,                       // 0x0081 // Unused
     SURFACE_0082,                       // 0x0082 // Unused
     SURFACE_FORCE_SHADOW,               // 0x0083 // Unused
-    SURFACE_0084,                       // 0x0084 // Unused
+    SURFACE_FORCE_SHADOW_NOSLIP,        // 0x0084 // Unused
     SURFACE_0085,                       // 0x0085 // Unused
     SURFACE_0086,                       // 0x0086 // Unused
     SURFACE_FORCE_MARBLE,               // 0x0087 // force mario into marble form
-    SURFACE_0088,                       // 0x0088 // Unused
+    SURFACE_DANCE,                      // 0x0088 // Unused
     SURFACE_0089,                       // 0x0089 // Unused
     SURFACE_008A,                       // 0x008A // Unused
     SURFACE_008B,                       // 0x008B // Unused
@@ -225,6 +225,9 @@ enum SurfaceTypes {
     SURFACE_WOBBLING_WARP,              // 0x00FD // Pool warp (HMC & DDD)
     SURFACE_00FE,                       // 0x00FE // Unused
     SURFACE_TRAPDOOR,                   // 0x00FF // Bowser Left trapdoor, has no action defined
+    SURFACE_BDADDY,                     // For use with the big daddy npc, ensures no interaction from behind the door
+    SURFACE_TURRET_ACTIVATOR,           // self explanatory
+    SURFACE_B_BOSS_QUADRANT,            // For use with Big Daddy boss fight, determines landing location based on player's quadrant
 };
 
 // From Surface 0x1B to 0x1E

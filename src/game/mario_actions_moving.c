@@ -1104,7 +1104,11 @@ s32 act_hold_heavy_walking(struct MarioState *m) {
         return set_mario_action(m, ACT_HOLD_HEAVY_IDLE, 0);
     }
 
-    m->intendedMag *= 0.1f;
+    if(obj_has_behavior(m->usedObj, bhvPlum)) {
+        m->intendedMag *= 0.25f;
+    } else {
+        m->intendedMag *= 0.1f;
+    }
 
     update_walking_speed(m);
 
@@ -1414,6 +1418,12 @@ s32 act_riding_shell_ground(struct MarioState *m) {
         if (m->input & INPUT_A_PRESSED) {
             return set_mario_action(m, ACT_RIDING_SHELL_JUMP, 0);
         }
+    }
+
+    // COYOTE
+    // if mario touch ground reset coyote timer
+    if(m->riddenObj && obj_has_behavior(m->riddenObj, bhvFunkyShell)) {
+        m->riddenObj->oCoyoteTimer = 0;
     }
 
     if (m->riddenObj && !obj_has_behavior(m->riddenObj, bhvFunkyShell) && m->input & INPUT_Z_PRESSED) {

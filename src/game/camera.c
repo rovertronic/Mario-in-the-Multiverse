@@ -30,10 +30,16 @@
 #include "profiling.h"
 #include "ability.h"
 #include "cutscene_manager.h"
+#include "buffers/buffers.h"
+#include "levels/B/header.h"
+#include "levels/c/header.h"
+#include "levels/k/header.h"
+#include "levels/n/header.h"
+#include "levels/m/header.h"
 
 #define CBUTTON_MASK (U_CBUTTONS | D_CBUTTONS | L_CBUTTONS | R_CBUTTONS)
 
-Bool8 cam_submerged;
+extern Bool8 cam_submerged;
 /**
  * @file camera.c
  * Implements the camera system, including C-button input, camera modes, camera triggers, and cutscenes.
@@ -637,12 +643,12 @@ void calc_y_to_curr_floor(f32 *posOff, f32 posMul, f32 posBound, f32 *focOff, f3
     f32 floorHeight = sMarioGeometry.currFloorHeight;
     f32 waterHeight;
 
-    if (!(sMarioCamState->action & ACT_FLAG_METAL_WATER)) {
+    /*if (!(sMarioCamState->action & ACT_FLAG_METAL_WATER)) {
         //! @bug this should use sMarioGeometry.waterHeight
         if (floorHeight < (waterHeight = find_water_level(sMarioCamState->pos[0], sMarioCamState->pos[2]))) {
             floorHeight = waterHeight;
         }
-    }
+    }*/
 
     if (sMarioCamState->action & ACT_FLAG_ON_POLE) {
         if (sMarioGeometry.currFloorHeight >= gMarioStates[0].usedObj->oPosY && sMarioCamState->pos[1]
@@ -1178,7 +1184,7 @@ void mode_8_directions_camera(struct Camera *c) {
 
 //--E C
 void mode_shotgun_aim_camera(struct Camera *c) {
-    if ((!using_ability(ABILITY_E_SHOTGUN)) || (gCameraMovementFlags & CAM_MOVE_C_UP_MODE) || (gMarioState->action & ACT_FLAG_SWIMMING)) {
+    if ((!using_ability(ABILITY_E_SHOTGUN) && gSaveBuffer.menuData.config[SETTINGS_AIM_CAMERA] == 0) || (gCameraMovementFlags & CAM_MOVE_C_UP_MODE) || (gMarioState->action & ACT_FLAG_SWIMMING)) {
         set_cam_angle(CAM_ANGLE_LAKITU);
         gCameraMovementFlags |= CAM_MOVE_ZOOMED_OUT;
         mode_8_directions_camera(c);
@@ -1190,16 +1196,37 @@ void mode_shotgun_aim_camera(struct Camera *c) {
     else {
         sE_TurnSpeed = 0; }
 
+    switch (gSaveBuffer.menuData.config[SETTINGS_AIM_CONTROLS]) {
+        case 0:
+            if (gPlayer1Controller->buttonDown & L_CBUTTONS) {
+                sE_GoalYaw += sE_TurnSpeed; }
+            if (gPlayer1Controller->buttonDown & R_CBUTTONS) {
+                sE_GoalYaw -= sE_TurnSpeed; }
+            break;
+        case 1:
+        case 2:
+            if (gPlayer1Controller->buttonDown & L_CBUTTONS) {
+                sE_GoalYaw -= sE_TurnSpeed; }
+            if (gPlayer1Controller->buttonDown & R_CBUTTONS) {
+                sE_GoalYaw += sE_TurnSpeed; }
+            break;
+    }
 
-    if (gPlayer1Controller->buttonDown & L_CBUTTONS) {
-        sE_GoalYaw += sE_TurnSpeed; }
-    if (gPlayer1Controller->buttonDown & R_CBUTTONS) {
-        sE_GoalYaw -= sE_TurnSpeed; }
-
-    if (gPlayer1Controller->buttonDown & U_CBUTTONS) {
-        sE_GoalPitch -= (sE_TurnSpeed / 2); }
-    if (gPlayer1Controller->buttonDown & D_CBUTTONS) {
-        sE_GoalPitch += (sE_TurnSpeed / 2); }
+    switch (gSaveBuffer.menuData.config[SETTINGS_AIM_CONTROLS]) {
+        case 0:
+        case 1:
+            if (gPlayer1Controller->buttonDown & U_CBUTTONS) {
+                sE_GoalPitch -= (sE_TurnSpeed / 2); }
+            if (gPlayer1Controller->buttonDown & D_CBUTTONS) {
+                sE_GoalPitch += (sE_TurnSpeed / 2); }
+            break;
+        case 2:
+            if (gPlayer1Controller->buttonDown & U_CBUTTONS) {
+                sE_GoalPitch += (sE_TurnSpeed / 2); }
+            if (gPlayer1Controller->buttonDown & D_CBUTTONS) {
+                sE_GoalPitch -= (sE_TurnSpeed / 2); }
+            break;
+    }
 
     if (sE_GoalPitch >= DEGREES(60)) {
         sE_GoalPitch = DEGREES(60); }
@@ -2776,11 +2803,18 @@ void mode_shock_rocket_camera(struct Camera *c) {
     s16 pitch = rocket->oMoveAnglePitch;
     f32 cossPitch = coss(pitch);
     u32 camDecrement;
-    if(rocket->oAction != 1){
-        camDecrement = 150;
-    } else {
-        camDecrement = 100;
+    switch(rocket->oAction) {
+        case SHOCK_ROCKET_ACT_ARMED :
+            camDecrement = 150; //aiming zoom
+            break;
+        case SHOCK_ROCKET_ACT_MOVE : 
+            camDecrement = 100; //moving zoom
+            break;
+        case SHOCK_ROCKET_ACT_WAIT_BEFORE_QUITING :
+            camDecrement = 400; //quiting zoom
+            break;
     }
+    
     Vec3f camOffset = {
         (sins(yaw) * cossPitch) * ((rocket->oForwardVel * ability_chronos_current_slow_factor()) - camDecrement),
         (sins(pitch)) * ((rocket->oForwardVel * ability_chronos_current_slow_factor()) + camDecrement),
@@ -3122,11 +3156,8 @@ void update_lakitu(struct Camera *c) {
     f32 distToFloor;
     s16 newYaw;
 
-    if (c->pos[1] < find_water_level(c->pos[0], c->pos[2])){
-        cam_submerged = TRUE;
-    } else {
-        cam_submerged = FALSE;
-    }
+    cam_submerged = is_camera_submerged(gLakituState.pos[0], gLakituState.pos[1], gLakituState.pos[2]);
+    
     if (!(gCameraMovementFlags & CAM_MOVE_PAUSE_SCREEN)) {
         newYaw = next_lakitu_state(newPos, newFoc, c->pos, c->focus, sOldPosition, sOldFocus,
                                    c->nextYaw);
@@ -3237,7 +3268,7 @@ void update_camera(struct Camera *c) {
 
                     set_cam_angle(CAM_ANGLE_MARIO);
                 } else if (set_cam_angle(0) == CAM_ANGLE_MARIO) {//--E C
-                    if (using_ability(ABILITY_E_SHOTGUN) && (c->mode != CAMERA_MODE_C_UP) && (!(gMarioState->action & ACT_FLAG_SWIMMING))) {//--C^ & water
+                    if ((using_ability(ABILITY_E_SHOTGUN)||gSaveBuffer.menuData.config[SETTINGS_AIM_CAMERA] == 1) && (c->mode != CAMERA_MODE_C_UP) && (!(gMarioState->action & ACT_FLAG_SWIMMING))) {//--C^ & water
                         set_cam_angle(CAM_ANGLE_AIM);
                         if (sE_LakituAngleTimer) {
                             sE_Pitch     = sE_LastLakituPitch;
@@ -5014,15 +5045,36 @@ void play_camera_buzz_if_c_sideways(void) {
 }
 
 void play_sound_cbutton_up(void) {
-    play_sound(SOUND_MENU_CAMERA_ZOOM_IN, gGlobalSoundSource);
+    switch(gSaveBuffer.menuData.config[SETTINGS_CAMERA_VOLUME]) {
+        case 0:
+            play_sound(SOUND_MENU_CAMERA_ZOOM_IN, gGlobalSoundSource);
+            break;
+        case 1:
+            play_sound(SOUND_MENU_CAMERA_ZOOM_IN_QUIET, gGlobalSoundSource);
+            break;
+    }
 }
 
 void play_sound_cbutton_down(void) {
-    play_sound(SOUND_MENU_CAMERA_ZOOM_OUT, gGlobalSoundSource);
+    switch(gSaveBuffer.menuData.config[SETTINGS_CAMERA_VOLUME]) {
+        case 0:
+            play_sound(SOUND_MENU_CAMERA_ZOOM_OUT, gGlobalSoundSource);
+            break;
+        case 1:
+            play_sound(SOUND_MENU_CAMERA_ZOOM_OUT_QUIET, gGlobalSoundSource);
+            break;
+    }
 }
 
 void play_sound_cbutton_side(void) {
-    play_sound(SOUND_MENU_CAMERA_TURN, gGlobalSoundSource);
+    switch(gSaveBuffer.menuData.config[SETTINGS_CAMERA_VOLUME]) {
+        case 0:
+            play_sound(SOUND_MENU_CAMERA_TURN, gGlobalSoundSource);
+            break;
+        case 1:
+            play_sound(SOUND_MENU_CAMERA_TURN_QUIET, gGlobalSoundSource);
+            break;
+    }
 }
 
 void play_sound_button_change_blocked(void) {
@@ -6557,6 +6609,9 @@ struct CameraTrigger sCamBowserCourse[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger sCamM[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamK[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger *sCameraTriggers[LEVEL_COUNT + 1] = {
@@ -8442,6 +8497,114 @@ void cutscene_dragonite_end(struct Camera *c) {
     c->cutscene = 0;
 }
 
+// LEVEL I Cutscene START
+
+void cutscene_bounty_hunter_toad_focus(struct Camera *c){
+    Vec3f toadPos;
+
+    if (gCutsceneFocus != NULL) {
+        object_pos_to_vec3f(toadPos, gCutsceneFocus);
+        vec3f_copy(c->focus, toadPos);
+    }
+}
+
+void cutscene_bounty_hunter_toad_start(struct Camera *c) {
+    vec3f_set(c->pos, -5719.f, 1526.f, 13877.f);
+    cutscene_event(cutscene_bounty_hunter_toad_focus, c, 0, -1);
+
+    if (gObjCutsceneDone) {
+        gCutsceneTimer = CUTSCENE_LOOP;
+        transition_next_state(c, 1);
+    }
+}
+
+void cutscene_bounty_hunter_toad_end(struct Camera *c) {
+    gCutsceneTimer = CUTSCENE_STOP;
+    c->cutscene = 0;
+}
+
+void cutscene_shock_rocket_challenge_focus(struct Camera *c){
+    Vec3f grillPos;
+
+    if (gCutsceneFocus != NULL) {
+        object_pos_to_vec3f(grillPos, gCutsceneFocus);
+        vec3f_copy(c->focus, grillPos);
+    }
+}
+
+void cutscene_shock_rocket_challenge_start(struct Camera *c) {
+    vec3f_set(c->pos, 1835.f, 2609.f, 1164.f);
+    cutscene_event(cutscene_shock_rocket_challenge_focus, c, 0, -1);
+
+    if (gObjCutsceneDone) {
+        gCutsceneTimer = CUTSCENE_LOOP;
+        transition_next_state(c, 1);
+    }
+}
+
+void cutscene_shock_rocket_challenge_end(struct Camera *c) {
+    gCutsceneTimer = CUTSCENE_STOP;
+    c->cutscene = 0;
+}
+
+void cutscene_master_kaag_focus(struct Camera *c){
+    Vec3f masterKaagPos;
+    Vec3f correctedMasterKaagPos;
+
+    if (gCutsceneFocus != NULL) {
+        object_pos_to_vec3f(masterKaagPos, gCutsceneFocus);
+        vec3f_copy_y_off(correctedMasterKaagPos, masterKaagPos, 600);
+        vec3f_copy(c->focus, correctedMasterKaagPos);
+    }
+}
+
+void cutscene_master_kaag_start(struct Camera *c) {
+    vec3f_set(c->pos, -548.f, 176.f, 988.f);
+    cutscene_event(cutscene_master_kaag_focus, c, 0, -1);
+    sStatusFlags |= CAM_FLAG_SMOOTH_MOVEMENT;
+
+    if (gObjCutsceneDone) {
+        gCutsceneTimer = CUTSCENE_LOOP;
+        transition_next_state(c, 1);
+    }
+}
+
+void cutscene_master_kaag_end(struct Camera *c) {
+    gCutsceneTimer = CUTSCENE_STOP;
+    c->cutscene = 0;
+}
+
+// LEVEL I Cutscene END
+
+// LEVEL I Cutscene START
+
+void cutscene_octozepplin_focus(struct Camera *c){
+    Vec3f zepplinPos;
+
+    if (gCutsceneFocus != NULL) {
+        object_pos_to_vec3f(zepplinPos, gCutsceneFocus);
+        vec3f_copy(c->focus, zepplinPos);
+    }
+}
+
+void cutscene_octozepplin_start(struct Camera *c) {
+    vec3f_set(c->pos, -8670.f, 1731.f, 1848.f);
+    cutscene_event(cutscene_octozepplin_focus, c, 0, -1);
+    sStatusFlags |= CAM_FLAG_SMOOTH_MOVEMENT;
+
+    if (gObjCutsceneDone) {
+        gCutsceneTimer = CUTSCENE_LOOP;
+        transition_next_state(c, 1);
+    }
+}
+
+void cutscene_octozepplin_end(struct Camera *c) {
+    gCutsceneTimer = CUTSCENE_STOP;
+    c->cutscene = 0;
+}
+
+// LEVEL C Cutscene END
+
 void cutscene_exit_waterfall_warp(struct Camera *c) {
     //! hardcoded position
     vec3f_set(c->pos, -3899.f, 39.f, -5671.f);
@@ -9126,6 +9289,29 @@ void cutscene_dialog_create_dialog_box(struct Camera *c) {
  */
 void cutscene_dialog(struct Camera *c) {
     cutscene_event(cutscene_dialog_start, c, 0, 0);
+    cutscene_event(cutscene_dialog_move_mario_shoulder, c, 0, -1);
+    cutscene_event(cutscene_dialog_create_dialog_box, c, 10, 10);
+    sStatusFlags |= CAM_FLAG_SMOOTH_MOVEMENT;
+
+    if (gDialogResponse != DIALOG_RESPONSE_NONE) {
+        sCutsceneDialogResponse = gDialogResponse;
+    }
+
+    if ((get_dialog_id() == DIALOG_NONE) && (sCutsceneVars[8].angle[0] != 0)) {
+        if (c->cutscene != CUTSCENE_RACE_DIALOG) {
+            sCutsceneDialogResponse = DIALOG_RESPONSE_NOT_DEFINED;
+        }
+
+        gCutsceneTimer = CUTSCENE_LOOP;
+        retrieve_info_star(c);
+        transition_next_state(c, 15);
+        sStatusFlags |= CAM_FLAG_UNUSED_CUTSCENE_ACTIVE;
+        cutscene_unsoften_music(c);
+    }
+}
+
+void cutscene_dialog_no_zoom(struct Camera *c) {
+cutscene_event(cutscene_dialog_start, c, 0, 0);
     cutscene_event(cutscene_dialog_move_mario_shoulder, c, 0, -1);
     cutscene_event(cutscene_dialog_create_dialog_box, c, 10, 10);
     sStatusFlags |= CAM_FLAG_SMOOTH_MOVEMENT;
@@ -10088,28 +10274,6 @@ struct CutsceneSplinePoint o_area_1_spline_level13_pos[] = {
 	{ 10, 60, { 13760, 570, 17 }},
 	{ -1, 60, { 13926, 570, 17 }},
 };
-struct CutsceneSplinePoint n_area_2_spline_level_14_foc[] = {
-	{ 0, 50, { -769, 844, 997 }},
-	{ 1, 50, { -431, 844, 887 }},
-	{ 2, 50, { -212, 844, 887 }},
-	{ 3, 50, { 126, 844, 997 }},
-	{ 4, 50, { 275, 882, 1199 }},
-	{ 5, 50, { 275, 983, 1526 }},
-	{ 6, 50, { 212, 983, 1763 }},
-	{ 7, 50, { -25, 983, 1870 }},
-	{ -1, 50, { -143, 983, 1870 }},
-};
-struct CutsceneSplinePoint n_area_2_spline_level_14_pos[] = {
-	{ 0, 50, { -6329, 2413, -6442 }},
-	{ 1, 50, { -2632, 2413, -7642 }},
-	{ 2, 50, { -232, 2413, -7642 }},
-	{ 3, 50, { 3465, 2413, -6442 }},
-	{ 4, 50, { 5094, 2835, -4227 }},
-	{ 5, 50, { 5094, 3939, -653 }},
-	{ 6, 50, { 4399, 3939, 1942 }},
-	{ 7, 50, { 1807, 3939, 3114 }},
-	{ -1, 50, { 523, 3939, 3114 }},
-};
 
 extern struct CutsceneSplinePoint sCcmOutsideCreditsSplinePositions[];
 extern struct CutsceneSplinePoint sCcmOutsideCreditsSplineFocus[];
@@ -10130,21 +10294,21 @@ void cutscene_credits(struct Camera *c) {
             pos = castle_inside_area_1_spline_hub_pos;
             focus = castle_inside_area_1_spline_hub_foc;
             break;
-        case LEVEL_G:
-            pos = g_area_3_spline_level_1_pos;
-            focus = g_area_3_spline_level_1_foc;
-            break;
         case LEVEL_A:
             pos = a_area_4_spline_level2_pos;
             focus = a_area_4_spline_level2_foc;
             break;
-        case LEVEL_I:
-            pos = i_area_3_spline_level4_pos;
-            focus = i_area_3_spline_level4_foc;
+        case LEVEL_B:
+            pos = segmented_to_virtual(B_area_1_spline_credits_pos);
+            focus = segmented_to_virtual(B_area_1_spline_credits_foc);
             break;
-        case LEVEL_L:
-            pos = l_area_1_spline_level_l_pos;
-            focus = l_area_1_spline_level_l_pos_001;
+        case LEVEL_C:
+            pos = segmented_to_virtual(c_area_1_spline_credits_pos);
+            focus = segmented_to_virtual(c_area_1_spline_credits_foc);
+            break;
+        case LEVEL_D:
+            pos = d_area_1_spline_level_12_pos;
+            focus = d_area_1_spline_level_12_foc;
             break;
         case LEVEL_E:
             pos = e_area_1_spline_level9_pos;
@@ -10154,21 +10318,37 @@ void cutscene_credits(struct Camera *c) {
             pos = f_area_3_spline_level_10_pos;
             focus = f_area_3_spline_level_10_foc;
             break;
+        case LEVEL_G:
+            pos = g_area_3_spline_level_1_pos;
+            focus = g_area_3_spline_level_1_foc;
+            break;
+        case LEVEL_I:
+            pos = i_area_3_spline_level4_pos;
+            focus = i_area_3_spline_level4_foc;
+            break;
         case LEVEL_J:
             pos = J_area_2_spline_level_11_pos;
             focus = J_area_2_spline_level_11_foc;
             break;
-        case LEVEL_D:
-            pos = d_area_1_spline_level_12_pos;
-            focus = d_area_1_spline_level_12_foc;
+        case LEVEL_K:
+            pos = segmented_to_virtual(k_area_1_spline_credits_pos);
+            focus = segmented_to_virtual(k_area_1_spline_credits_foc);
+            break;
+        case LEVEL_L:
+            pos = l_area_1_spline_level_l_pos;
+            focus = l_area_1_spline_level_l_pos_001;
+            break;
+        case LEVEL_M:
+            pos = segmented_to_virtual(m_area_1_spline_credits_pos);
+            focus = segmented_to_virtual(m_area_1_spline_credits_foc);
+            break;
+        case LEVEL_N:
+            pos = segmented_to_virtual(n_area_2_spline_level_14_pos);
+            focus = segmented_to_virtual(n_area_2_spline_level_14_foc);
             break;
         case LEVEL_O:
             pos = o_area_1_spline_level13_pos;
             focus = o_area_1_spline_level13_foc;
-            break;
-        case LEVEL_N:
-            pos = n_area_2_spline_level_14_pos;
-            focus = n_area_2_spline_level_14_foc;
             break;
     }
 
@@ -10794,6 +10974,42 @@ struct Cutscene sCutsceneDragonite[] = {
     { cutscene_dragonite_end, 0 }
 };
 
+/*
+    All hoodlum killed, focus on the toad
+*/
+
+struct Cutscene sCutsceneBountyHunterToad[] = {
+    { cutscene_bounty_hunter_toad_start, 70},
+    { cutscene_bounty_hunter_toad_end, 0 }
+};
+
+/*
+    Shock rocket tutorial area
+*/
+
+struct Cutscene sCutsceneShockRocketChallenge[] = {
+    { cutscene_shock_rocket_challenge_start, 70},
+    { cutscene_shock_rocket_challenge_end, 0 }
+};
+
+/*
+    Master Kaag boss intro
+*/
+
+struct Cutscene sCutsceneMasterKaag[] = {
+    { cutscene_master_kaag_start, 85},
+    { cutscene_master_kaag_end, 0 }
+};
+
+/*
+    Octozepplin death
+*/
+
+struct Cutscene sCutsceneOctozepplinDeath[] = {
+    { cutscene_octozepplin_start, 125},
+    { cutscene_octozepplin_end, 0 }
+};
+
 /**
  * Cutscene for the red coin star spawning. Compared to a regular star, this cutscene can warp long
  * distances.
@@ -11046,6 +11262,12 @@ struct Cutscene sCutsceneDialog[] = {
     { cutscene_dialog_end, 0 }
 };
 
+struct Cutscene sCutsceneDialogNoZoom[] = {
+    { cutscene_dialog_no_zoom, CUTSCENE_LOOP },
+    { cutscene_dialog_set_flag, 12 },
+    { cutscene_dialog_end, 0 }
+};
+
 /**
  * Cutscene that plays when Mario reads a sign or message.
  */
@@ -11125,14 +11347,14 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // TTM            | Unused
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // Unused         | Unused
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
-	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
+	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 1, 1, 1), 
 	ZOOMOUT_AREA_MASK(1, 1, 1, 0, 1, 0, 0, 0), 
 	ZOOMOUT_AREA_MASK(1, 0, 1, 1, 1, 1, 1, 1), 
 	ZOOMOUT_AREA_MASK(0, 0, 1, 0, 1, 0, 0, 0), 
-	ZOOMOUT_AREA_MASK(1, 1, 1, 0, 1, 0, 0, 0), 
+	ZOOMOUT_AREA_MASK(1, 1, 1, 0, 1, 1, 1, 1), 
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), 
 	ZOOMOUT_AREA_MASK(1, 1, 1, 1, 1, 1, 1, 1), 
-	ZOOMOUT_AREA_MASK(1, 1, 1, 1, 0, 0, 0, 0), 
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), 
 };
 
 //STATIC_ASSERT(ARRAY_COUNT(sZoomOutAreaMasks) - 1 == LEVEL_MAX / 2, "Make sure you edit sZoomOutAreaMasks when adding / removing courses.");
@@ -11217,11 +11439,16 @@ void play_cutscene(struct Camera *c) {
         CUTSCENE(CUTSCENE_EXIT_FALL_WMOTR,      sCutsceneFallToCastleGrounds)
         CUTSCENE(CUTSCENE_NONPAINTING_DEATH,    sCutsceneNonPaintingDeath)
         CUTSCENE(CUTSCENE_DIALOG,               sCutsceneDialog)
+        CUTSCENE(CUTSCENE_DIALOG_NO_ZOOM,       sCutsceneDialogNoZoom)
         CUTSCENE(CUTSCENE_READ_MESSAGE,         sCutsceneReadMessage)
         CUTSCENE(CUTSCENE_RACE_DIALOG,          sCutsceneDialog)
         CUTSCENE(CUTSCENE_ENTER_PYRAMID_TOP,    sCutsceneEnterPyramidTop)
         CUTSCENE(CUTSCENE_SSL_PYRAMID_EXPLODE,  sCutscenePyramidTopExplode)
         CUTSCENE(CUTSCENE_DRAGONITE,            sCutsceneDragonite)
+        CUTSCENE(CUTSCENE_BOUNTY_HUNTER_TOAD,   sCutsceneBountyHunterToad)
+        CUTSCENE(CUTSCENE_SHOCK_ROCKET_CHALLENGE, sCutsceneShockRocketChallenge)
+        CUTSCENE(CUTSCENE_MASTER_KAAG,          sCutsceneMasterKaag)
+        CUTSCENE(CUTSCENE_OCTOZEPPLIN_DEATH,    sCutsceneOctozepplinDeath)
     }
 
 #undef CUTSCENE

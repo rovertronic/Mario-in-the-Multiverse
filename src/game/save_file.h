@@ -8,6 +8,18 @@
 #include "puppycam2.h"
 
 #include "course_table.h"
+#include "mitm_hub.h"
+
+enum {
+    SETTINGS_MUSIC_VOLUME,
+    SETTINGS_CAMERA_VOLUME,
+    SETTINGS_AIM_CAMERA,
+    SETTINGS_AIM_CONTROLS,
+    SETTINGS_ROCKET_CONTROLS,
+    SETTINGS_WALLKICK,
+    SETTINGS_BLOOD,
+    SETTINGS_CT,
+};
 
 #if defined(SRAM)
     #define EEPROM_SIZE 0x8000
@@ -34,6 +46,7 @@ struct SaveFile {
     u8 courseStars[COURSE_COUNT]; // 200 bits
     u8 courseCoinScores[COURSE_STAGES_COUNT]; // 120 bits
     u8 hints_unlocked[15];
+    u8 dreamCatalysts[HUBLEVEL_COUNT];
 
     struct SaveBlockSignature signature; // 32 bits
 };
@@ -49,6 +62,7 @@ struct MainMenuSaveData {
     // Each save file has a 2 bit "age" for each course. The higher this value,
     // the older the high score is. This is used for tie-breaking when displaying
     // on the high score screen.
+    s8 config[SETTINGS_CT];
     u32 coinScoreAges[NUM_SAVE_FILES];
     u8 soundMode: 2;
 #ifdef WIDE

@@ -18,7 +18,18 @@ struct ObjectHitbox sShockRocketHitbox = {
 
 void shock_rocket_stick_control(void){
     s16 stickX = gPlayer1Controller->rawStickX;
-    s16 stickY = gPlayer1Controller->rawStickY;
+    s16 stickY = -gPlayer1Controller->rawStickY;
+
+    switch (gSaveBuffer.menuData.config[SETTINGS_ROCKET_CONTROLS]) {
+        case 1:
+            stickX = -gPlayer1Controller->rawStickX;
+            break;
+        case 2:
+            stickY = gPlayer1Controller->rawStickY;
+            break;
+    }
+
+
     if (stickX < 10 && stickX > -10) stickX = 0;
     if (stickY < 10 && stickY > -10) stickY = 0;
     if (find_water_level(o->oPosX, o->oPosZ) > o->oPosY) {
@@ -31,7 +42,7 @@ void shock_rocket_stick_control(void){
         o->oForwardVel = 30.0f;
     }
     //CAP PITCH TO AVOID CAMERA FLIPPING
-    if (o->oMoveAnglePitch > 0x3FFC) o->oMoveAnglePitch = 0x3FFC;
+    if (o->oMoveAnglePitch > 0x3FF0) o->oMoveAnglePitch = 0x3FF0;
     if (o->oMoveAnglePitch < -0x3FF0) o->oMoveAnglePitch = -0x3FF0;
 }
 
@@ -46,6 +57,10 @@ void shock_rocket_quit(void){
 }
 
 void shock_rocket_armed(void){
+    if (set_cam_angle(0) == CAM_ANGLE_AIM) {
+        set_cam_angle(CAM_ANGLE_LAKITU);
+    }
+
     shock_rocket_stick_control();
     obj_set_model(gMarioObject, MODEL_NONE);
 
@@ -305,7 +320,6 @@ void bhv_hoodmonger_loop(void){
                     if(o->oShootingCooldown <= 0){
                         struct Object *bullet = spawn_object_relative(0, 0, 110, 250, o, bullet_model, bhvHoodmongerBullet);
                         bullet->oMoveAnglePitch = o->oMoveAnglePitch;
-                        //spawn_object_rel_with_rot(o, MODEL_HOODMONGER_BULLET, bhvHoodmongerBullet, 0, 110, 200, o->parentObj->oMoveAnglePitch, o->parentObj->oMoveAngleYaw, 0);
                         create_sound_spawner(SOUND_MITM_LEVEL_I_HOODMONGER_SHOT);
                         cur_obj_init_animation_and_anim_frame(HOODMONGER_ANIM_SHOOT, 0);
                         o->oShootingCooldown = 50;
@@ -315,7 +329,7 @@ void bhv_hoodmonger_loop(void){
                     if(o->oDistanceToMario < 200){
                         o->oWantedSubAction = HOODMONGER_ALERTED_SUBACTION_PARRY;
                         cur_obj_play_sound_2(SOUND_MITM_LEVEL_I_HOODMONGER_PARRY);
-                        o->hitboxRadius = 180;
+                        o->hitboxRadius = 200;
                     }
                     if(o->oShootingCooldown == 40 && o->oDistanceToMario < 1000){
                         create_sound_spawner(SOUND_MITM_LEVEL_I_HOODMONGER_RELOAD);
@@ -598,7 +612,7 @@ void bhv_rotating_gear_decorative_loop(void){
 /*************************GATE OPEN BY BUTTONS*****************************/
 
 void bhv_grill_openable_by_rocket_button_loop(void){
-    //Handle if a gat can be open by 2 different way
+    //Handle if a gate can be open by 2 different way
     s32 firstButtonGroupToCheck;
     s32 secondButtonGroupToCheck;
     s32 openingSpeed = ((o->oBehParams >> 8) & 0xFF);
@@ -613,6 +627,9 @@ void bhv_grill_openable_by_rocket_button_loop(void){
         if(firstButtonGroupToCheck != 0 || secondButtonGroupToCheck != 0){
             o->oTimer == 0;
             o->oAction++;
+            if(gCurrLevelNum == LEVEL_I && gCurrAreaIndex == 2) {
+                cutscene_object(CUTSCENE_SHOCK_ROCKET_CHALLENGE, o);
+            }
         }
         break;
     //opening
@@ -1060,8 +1077,7 @@ void bhv_bounty_hunter_toad_loop(void) {
                 break;
             case 1:
                 toad_message_opaque();
-                if((count_objects_with_behavior(bhvHoodmonger) + count_objects_with_behavior(bhvHoodboomer)) == 0 && 
-                o->oToadMessageDialogId == TOAD_BOUNTY_HUNTER_BEFORE ) {
+                if(o->oIsAllEnemiesDead && o->oToadMessageDialogId == TOAD_BOUNTY_HUNTER_BEFORE ) {
                     o->oToadMessageDialogId = TOAD_BOUNTY_HUNTER_THANKS;
                 }
                 break;
@@ -1082,6 +1098,16 @@ void bhv_bounty_hunter_toad_loop(void) {
                 }
                 break;
         }
+    }
+
+    if((count_objects_with_behavior(bhvHoodmonger) + count_objects_with_behavior(bhvHoodboomer)) == 0) {
+        s16 bountyStarCollected = save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(gCurrCourseNum)) & (1 << GET_BPARAM1(o->oBehParams));
+        if(o->oTimer > 40 && !o->oIsAllEnemiesDead && !bountyStarCollected) {
+            o->oIsAllEnemiesDead = TRUE;
+            cutscene_object(CUTSCENE_BOUNTY_HUNTER_TOAD, o);
+        }
+    } else {
+        o->oTimer = 0;
     }
 }
 

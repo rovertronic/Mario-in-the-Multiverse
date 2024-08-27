@@ -151,6 +151,9 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_MACHINE,                 machine_geo),
     LOAD_MODEL_FROM_GEO(MODEL_RED_ARROW,               redarrow_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SHOPITEM_3,              shopitem3_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_DREAM_STAR,              dream_catalyst_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SPIDERTRON_LIMB_1,       spidertron_arm1_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_NITRO_BOOM,              nitroboom_geo),
     FREE_LEVEL_POOL(),
     POP_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),
@@ -252,6 +255,7 @@ const LevelScript script_func_global_3[] = {
     LOAD_MODEL_FROM_GEO(MODEL_BLARGG,                  blargg_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BULLY,                   bully_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BULLY_BOSS,              bully_boss_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BUBBA,                   bubba_geo),
     RETURN(),
 };
 
@@ -329,7 +333,6 @@ const LevelScript script_func_global_12[] = {
     LOAD_MODEL_FROM_GEO(MODEL_SPINY,                   spiny_geo),
     LOAD_MODEL_FROM_GEO(MODEL_WIGGLER_HEAD,            wiggler_head_geo),
     LOAD_MODEL_FROM_GEO(MODEL_WIGGLER_BODY,            wiggler_body_geo),
-    LOAD_MODEL_FROM_GEO(MODEL_BUBBA,                   bubba_geo),
     RETURN(),
 };
 

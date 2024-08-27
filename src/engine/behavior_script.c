@@ -894,6 +894,11 @@ void cur_obj_update(void) {
     BhvCommandProc bhvCmdProc;
     s32 bhvProcResult;
 
+    if (level_in_dream_comet_mode() && (o->oFlags & OBJ_FLAG_NO_DREAM_COMET)) {
+        mark_obj_for_deletion(o);
+        return;
+    }
+
     s32 inRoom = cur_obj_is_mario_in_room();
 
     if (cur_obj_is_mario_in_room() == MARIO_OUTSIDE_ROOM && (objFlags & OBJ_FLAG_ONLY_PROCESS_INSIDE_ROOM)) {

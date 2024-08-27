@@ -41,4 +41,6 @@ extern const LevelScript level_o_entry[];
 
 #include "levels/o/o_flame/geo_header.h"
 
+#include "levels/o/o_gerik/geo_header.h"
+
 #endif

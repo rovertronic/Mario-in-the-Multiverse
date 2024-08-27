@@ -1,0 +1,26 @@
+#include <ultra64.h>
+#include "sm64.h"
+#include "geo_commands.h"
+
+#include "game/level_geo.h"
+#include "game/geo_misc.h"
+#include "game/camera.h"
+#include "game/moving_texture.h"
+#include "game/screen_transition.h"
+#include "game/paintings.h"
+
+#include "make_const_nonconst.h"
+
+#include "levels/k/header.h"
+
+
+#include "levels/k/geo.inc.c"
+
+#include "levels/k/k_strong_terry/geo.inc.c"
+#include "levels/k/k_fan/geo.inc.c"
+#include "levels/k/k_blood/geo.inc.c"
+#include "levels/k/kaguya/geo.inc.c"
+#include "levels/k/k_disco/geo.inc.c"
+#include "levels/k/k_bartender/geo.inc.c"
+#include "levels/k/k_blood2/geo.inc.c"
+#include "levels/k/electrohead/geo.inc.c"

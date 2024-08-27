@@ -54,22 +54,6 @@
 #include "ability.h"
 #include "hints.h"
 
-u8 author_string_a[] = {AUTHOR_A};
-u8 author_string_b[] = {AUTHOR_B};
-u8 author_string_c[] = {AUTHOR_C};
-u8 author_string_d[] = {AUTHOR_D};
-u8 author_string_e[] = {AUTHOR_E};
-u8 author_string_f[] = {AUTHOR_F};
-u8 author_string_g[] = {AUTHOR_G};
-u8 author_string_h[] = {AUTHOR_H};
-u8 author_string_i[] = {AUTHOR_I};
-u8 author_string_j[] = {AUTHOR_J};
-u8 author_string_k[] = {AUTHOR_K};
-u8 author_string_l[] = {AUTHOR_L};
-u8 author_string_m[] = {AUTHOR_M};
-u8 author_string_n[] = {AUTHOR_N};
-u8 author_string_o[] = {AUTHOR_O};
-
 u8 pipe_string_not_enough[] = {TEXT_PIPE_NOT_ENOUGH};
 u8 pipe_string_enter[] = {TEXT_PIPE_ENTER};
 u8 pipe_string_a[] = {TEXT_PIPE_A};
@@ -77,27 +61,56 @@ u8 pipe_string_b[] = {TEXT_PIPE_B};
 
 u8 hub_star_string[] = {0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,DIALOG_CHAR_TERMINATOR};
 
+mitm_dream_data mitmdd_b = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_BIG_DADDY,ABILITY_NONE},6};
+mitm_dream_data mitmdd_c = {{ABILITY_DEFAULT,ABILITY_PHASEWALK,ABILITY_NONE,ABILITY_NONE},5};
+mitm_dream_data mitmdd_d = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_AKU,ABILITY_NONE},7};
+mitm_dream_data mitmdd_e = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_E_SHOTGUN,ABILITY_NONE},8};
+mitm_dream_data mitmdd_g = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_NONE,ABILITY_NONE},7};
+mitm_dream_data mitmdd_h = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_PHASEWALK,ABILITY_NONE},7};
+mitm_dream_data mitmdd_k = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_CHRONOS,ABILITY_NONE},7};
+mitm_dream_data mitmdd_l = {{ABILITY_DEFAULT,ABILITY_KNIGHT,ABILITY_NONE,ABILITY_NONE},4};
+mitm_dream_data mitmdd_n = {{ABILITY_DEFAULT,ABILITY_E_SHOTGUN,ABILITY_BUBBLE_HAT,ABILITY_NONE},7};
+mitm_dream_data mitmdd_o = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_HM_FLY,ABILITY_GADGET_WATCH},8};
+
 //In course order, not alphabetical!
 //Only mess with /* Level */ entry, everything else is pre-configured
-struct mitm_hub_level hub_levels[] = {
-          /* Author          Level      StarFlags     StarReq  StartArea  ReturnWarp  StarCt DreamCt  Name */
-    /*G*/ {&author_string_g, LEVEL_G,   COURSE_BOB,   0/*0 */, 3,         20,         8,     0,       "MARIO SUPER STAR ULTRA"},
-    /*A*/ {&author_string_a, LEVEL_A,   COURSE_WF,    0/*1 */, 1,         21,         8,     0,       "MARIO IN BIKINI BOTTOM"},
-    /*C*/ {&author_string_c, LEVEL_C,   COURSE_JRB,   0/*1 */, 1,         22,         8,     0,       "PIRANHA PIT"},
-    /*I*/ {&author_string_i, LEVEL_I,   COURSE_CCM,   0/*3 */, 1,         23,         8,     0,       "MUSHROOM HAVOC"},
-    /*H*/ {&author_string_h, LEVEL_H,   COURSE_BBH,   0/*5 */, 1,         24,         8,     0,       "OPPORTUNITY"},
-    /*B*/ {&author_string_b, LEVEL_B,   COURSE_HMC,   0/*10*/, 1,         25,         8,     0,       "-"},
-    /*L*/ {&author_string_l, LEVEL_L,   COURSE_LLL,   0/*15*/, 6,         26,         8,     0,       "BEYOND THE CURSED PIZZA"},
-    /*K*/ {&author_string_k, LEVEL_BOB, COURSE_SSL,   0/*15*/, 1,         27,         8,     0,       "-"},
-    /*E*/ {&author_string_e, LEVEL_E,   COURSE_DDD,   0/*20*/, 1,         28,         8,     0,       "DOOM"},
-    /*F*/ {&author_string_f, LEVEL_F,   COURSE_SL,    0/*20*/, 1,         29,         8,     0,       "FROM RUSSIA WITH LOVE"},
-    /*J*/ {&author_string_j, LEVEL_J,   COURSE_WDW,   0/*25*/, 1,         30,         8,     0,       "ECRUTEAK CITY"},
-    /*D*/ {&author_string_d, LEVEL_D,   COURSE_TTM,   0/*30*/, 1,         31,         8,     0,       "NEW N-SANITY ISLAND"},
-    /*O*/ {&author_string_o, LEVEL_O,   COURSE_THI,   0/*30*/, 1,         32,         8,     0,       "SAINTS, SINNERS, & MARIO"},
-    /*N*/ {&author_string_n, LEVEL_N,   COURSE_TTC,   0/*50*/, 1,         33,         8,     0,       "MARIO IN HAMSTERBALL"},
-    /*M*/ {&author_string_m, LEVEL_M,   COURSE_RR,    0/*50*/, 1,         34,         8,     0,       "ENVIRONMENTAL STATION M"},
-    /*BC*/{NULL, LEVEL_BOWSER_COURSE,   COURSE_BITDW, 0,       1,         34,         1,     0,       "CENTRUM OMNIUM"},
-   /*HUB*/{NULL,             NULL,      COURSE_BITFS, 0,       1,         34,         1,     0,       "HUB"},
+struct mitm_level_data mitm_levels[] = {
+          /* Name, Author(s)*/
+          /*Level     StarFlags     StarReq  StartArea  ReturnWarp  StarCt DreamData*/
+    /*G*/ {"MARIO SUPER STAR ULTRA", "CowQuack", "CowQuack",
+            LEVEL_G,  COURSE_BOB,   0,       3,         20,         8,     &mitmdd_g},
+    /*A*/ {"MARIO IN BIKINI BOTTOM", "JoshTheBosh", "JoshTheBosh",
+            LEVEL_A,  COURSE_WF,    1,       1,         21,         8,     NULL},
+    /*C*/ {"PIRANHA PIT", "Drahnokks, Idea by: Woissil", "Drahnokks & Co.",
+            LEVEL_C,  COURSE_JRB,   1,       1,         22,         8,     &mitmdd_c},
+    /*I*/ {"MUSHROOM HAVOC", "Drahnokks", "Drahnokks",
+            LEVEL_I,  COURSE_CCM,   3,       1,         23,         8,     NULL},
+    /*H*/ {"OPPORTUNITY", "joopii", "joopii",
+            LEVEL_H,  COURSE_BBH,   5,       1,         24,         8,     &mitmdd_h },
+    /*B*/ {"BIOSHOCK RAPTURE", "furyiousfight", "furyiousfight",
+            LEVEL_B,  COURSE_HMC,   10,      1,         25,         8,     &mitmdd_b },
+    /*L*/ {"BEYOND THE CURSED PIZZA", "luigiman0640", "luigiman0640",
+            LEVEL_L,  COURSE_LLL,   15,      6,         26,         8,     &mitmdd_l },
+    /*K*/ {"KATANA MARIO NEW MECCA", "KeyBlader & axollyon", "KeyBlader & Co.",
+            LEVEL_K,  COURSE_SSL,   15,      2,         27,         8,     &mitmdd_k },
+    /*E*/ {"DOOM", "Dorrieal", "Dorrieal",
+            LEVEL_E,  COURSE_DDD,   20,      1,         28,         8,     &mitmdd_e },
+    /*F*/ {"FROM RUSSIA WITH LOVE", "Aeza", "Aeza",
+            LEVEL_F,  COURSE_SL,    20,      1,         29,         8,     NULL},
+    /*J*/ {"ECRUTEAK CITY", "SpK", "SpK",
+            LEVEL_J,  COURSE_WDW,   25,      1,         30,         8,     NULL},
+    /*D*/ {"NEW N-SANITY ISLAND", "JakeDower", "JakeDower",
+            LEVEL_D,  COURSE_TTM,   30,      1,         31,         8,     &mitmdd_d},
+    /*O*/ {"SAINTS, SINNERS, & MARIO", "Rovertronic", "Rovertronic",
+            LEVEL_O,  COURSE_THI,   30,      1,         32,         8,     &mitmdd_o},
+    /*N*/ {"MARIO IN HAMSTERBALL", "LinCrash", "LinCrash",
+            LEVEL_N,  COURSE_TTC,   50,      1,         33,         8,     &mitmdd_n},
+    /*M*/ {"ENVIRONMENTAL STATION M", "Mel", "Mel",
+            LEVEL_M,  COURSE_RR,    50,      1,         34,         8,     NULL},
+    /*BC*/{"CENTRUM OMNIUM", NULL, NULL,
+            LEVEL_BOWSER_COURSE,  COURSE_BITDW, 0, 0,   34,         1,     NULL},
+   /*HUB*/{"FRACTURE", NULL, NULL,
+            NULL,     COURSE_BITFS, 0,       0,         34,         2,     NULL},
 };
 
 s8 hub_level_index = -1;
@@ -106,8 +119,8 @@ s8 hub_level_current_index = HUBLEVEL_HUB;
 f32 hub_titlecard_alpha = 0.0f;
 
 void update_hub_star_string(s8 index_of_hublevel) {
-    u8 star_flags = star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(hub_levels[index_of_hublevel].course));
-    u8 star_count = hub_levels[index_of_hublevel].star_count;
+    u8 star_flags = star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(mitm_levels[index_of_hublevel].course));
+    u8 star_count = mitm_levels[index_of_hublevel].star_count;
 
     for (u8 i=0;i<star_count;i++) {
         if (star_flags & (1<<i)) {
@@ -135,7 +148,6 @@ void level_pipe_in_level_loop(void) {
             break;
         case 3: // Choose
         case 2: //Cancel
-
             if (lateral_dist_between_objects(o, gMarioObject) > 120.0f) {
                 o->oAction = 0;
             }
@@ -166,7 +178,7 @@ void level_pipe_loop(void) {
         return;
     }
 
-    if ((gMarioState->numStars >= hub_levels[o->oBehParams2ndByte].star_requirement)&&(!queued_pipe_cutscene)&&
+    if ((gMarioState->numStars >= mitm_levels[o->oBehParams2ndByte].star_requirement)&&(!queued_pipe_cutscene)&&
         !(gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked & (1 << o->oBehParams2ndByte))) {
         if (o->oTimer > 30) {
             queued_pipe_cutscene = TRUE;
@@ -200,7 +212,10 @@ void level_pipe_loop(void) {
                 if (gMarioState->action != ACT_ENTER_HUB_PIPE) {
                     set_mario_action(gMarioState,ACT_ENTER_HUB_PIPE,0);
                     o->oAction = 1;
-                    if (gMarioState->numStars >= hub_levels[o->oBehParams2ndByte].star_requirement) {
+                    #ifdef UNLOCK_ABILITIES_DEBUG
+                        mitm_levels[o->oBehParams2ndByte].star_requirement = 0;
+                    #endif
+                    if (gMarioState->numStars >= mitm_levels[o->oBehParams2ndByte].star_requirement) {
                         o->oAction = 3;
                     }
                 }
@@ -261,6 +276,8 @@ void render_mitm_hub_hud(void) {
     u8 star_flags = 0;
     s16 i;
 
+    char sprintf_buffer[50];
+
     if (hub_level_index > -1) {
         hub_titlecard_alpha = approach_f32_asymptotic(hub_titlecard_alpha,255.0f,0.1f);
     } else {
@@ -288,9 +305,11 @@ void render_mitm_hub_hud(void) {
 
         gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hub_titlecard_alpha);
-        print_generic_string(110,55,hub_levels[hub_dma_index].author);
 
-        if (hub_levels[hub_dma_index].star_requirement <= gMarioState->numStars) {
+        sprintf(sprintf_buffer,"By: %s", mitm_levels[hub_dma_index].author_abridged);
+        print_generic_string_ascii(110,56, sprintf_buffer);
+
+        if (mitm_levels[hub_dma_index].star_requirement <= gMarioState->numStars) {
             //Display Collected Stars
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 0, (u8)hub_titlecard_alpha);
             update_hub_star_string(hub_dma_index);
@@ -298,7 +317,7 @@ void render_mitm_hub_hud(void) {
         } else {
             //Not Enough Stars to Enter
             gDPSetEnvColor(gDisplayListHead++, 255, 0, 0, (u8)hub_titlecard_alpha);
-            int_to_str(hub_levels[hub_dma_index].star_requirement, &pipe_string_not_enough[10]);
+            int_to_str(mitm_levels[hub_dma_index].star_requirement, &pipe_string_not_enough[10]);
             print_generic_string(110,40,pipe_string_not_enough);
         }
 
@@ -346,15 +365,15 @@ void render_mitm_return_to_hub_hud(void) {
 }
 
 u8 get_hub_level(u8 id) {
-    return hub_levels[id].level ;
+    return mitm_levels[id].level ;
 }
 
 u8 get_hub_area(u8 id) {
-    return hub_levels[id].start_area ;
+    return mitm_levels[id].start_area ;
 }
 
 u8 get_hub_return_id(u8 id) {
-    return hub_levels[id].return_id;
+    return mitm_levels[id].return_id;
 }
 
 void hub_reset_variables(void) {
@@ -585,10 +604,10 @@ void render_hint_ui(u8 hud_alpha) {
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
         print_generic_string_ascii(45, 95, "Need help finding a\npower star?");
 
-        print_generic_string_ascii(45, 56, hub_levels[hint_index].name);
+        print_generic_string_ascii(45, 56, mitm_levels[hint_index].name);
 
         for (s32 i = 0; i < 15; i++) {
-            u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(hub_levels[hint_index].course));
+            u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(mitm_levels[i].course));
             sprintf(stringBuf,"C%02d",i+1);
 
             if (star_flags == 0xFF) {
@@ -752,5 +771,216 @@ void bhv_layton_hint_loop(void) {
                 cur_obj_init_animation_with_sound(1);
             }
         break; // select hint
+    }
+}
+
+u8 show_mitm_credits = FALSE;
+u8 mitm_credits_object_state = 0;
+s32 credits_y_offset = 0;
+
+void bhv_credits_slab_loob(void) {
+    switch(o->oAction) {
+        case 0:
+            mitm_credits_object_state = 1;
+            o->oAction++;
+            break;
+    }
+
+    switch(mitm_credits_object_state) {
+        case 1: // wait for mario interaction
+            if ((o->oDistanceToMario < 250.0f) && (gMarioState->pos[1] < o->oPosY+5.0f)) {
+                mitm_credits_object_state = 2;
+                show_mitm_credits = TRUE;
+                credits_y_offset = 0;
+                set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
+            }
+            break;
+        case 2:
+            if (gPlayer1Controller->buttonPressed & (B_BUTTON | A_BUTTON | START_BUTTON)) {
+                set_mario_action(gMarioState, ACT_IDLE, 0);
+                mitm_credits_object_state = 3;
+                show_mitm_credits = FALSE;
+            }
+            break;
+        case 3:
+            if (o->oDistanceToMario > 1000.0f ) {
+                mitm_credits_object_state = 1;
+            }
+            break;
+    }
+}
+
+struct mitm_credits_entry {
+    char * text;
+    u32 color;
+};
+
+struct mitm_credits_entry mitm_credits[] = {
+    {"Mario in the Multiverse",1},
+    {"",0},
+
+    {"Collaboration Host",1},
+    {"Rovertronic",2},
+    {"",0},
+
+    {"Super Contributors",1},
+    {"Super Contributors are collab members",0},
+    {"who went above and beyond to contribute",0},
+    {"extra on top of initial obligations.",0},
+    {"",0},
+    {"Drahnokks:",2},
+    {"An entire level, Morshu & Redd Model",0},
+    {"",0},
+    {"Aeza:",2},
+    {"Hub & Birthday Castle Models",0},
+    {"",0},
+    {"CowQuack:",2},
+    {"Rope system",0},
+    {"",0},
+
+    {"Abilities",1},
+    {"CowQuack",2},
+    {"JoshTheBosh",2},
+    {"Drahnokks",2},
+    {"Joopii",2},
+    {"furyiousfight",2},
+    {"luigiman0640",2},
+    {"axollyon",2},
+    {"Dorrieal",2},
+    {"Aeza",2},
+    {"SpK",2},
+    {"JakeDower",2},
+    {"lincrash",2},
+    {"Mel",2},
+    {"",0},
+
+    {"Levels",1},
+    {"CowQuack",2},
+    {"JoshTheBosh",2},
+    {"Drahnokks",2},
+    {"Woissil",2},
+    {"Joopii",2},
+    {"furyiousfight",2},
+    {"luigiman0640",2},
+    {"KeyBlader",2},
+    {"Dorrieal",2},
+    {"Aeza",2},
+    {"SpK",2},
+    {"JakeDower",2},
+    {"lincrash",2},
+    {"Mel",2},
+    {"",0},
+
+    {"Music",1},
+    {"Teraok",2},
+    {"sm64pie",2},
+    {"SpK",2},
+    {"Leonitz",2},
+    {"",0},
+
+    {"Title Card Artwork",1},
+    {"Leonitz",2},
+    {"Erableto",2},
+    {"Biobak",2},
+    {"",0},
+
+    {"Additional Help",1},
+    {"",0},
+    {"MrComit:",2},
+    {"MP64 Star Switch Model",0},
+    {"",0},
+    {"theCozies:",2},
+    {"Screen Shaders",0},
+    {"",0},
+    {"Arthurtilly:",2},
+    {"Rigid Body Physics",0},
+    {"",0},
+    {"Alex-GPTV:",2},
+    {"Shotgun Detection Math",0},
+    {"",0},
+    {"Indigo Dindigo:",2},
+    {"Funky Shell Camera Mode",0},
+    {"",0},
+    {"Biobak:",2},
+    {"Squid Model, Optimizations",0},
+    {"",0},
+    {"Erableto:",2},
+    {"Aku Ability Art",0},
+    {"",0},
+    {"MrComit & Cheezepin:",2},
+    {"E.Gadd Model",0},
+    {"",0},
+    {"HackerN64 Team:",2},
+    {"HackerSM64",0},
+};
+
+f32 clamp2(f32 x) {
+  f32 lowerlimit = 0.0f;
+  f32 upperlimit = 1.0f;
+  if (x < lowerlimit) return lowerlimit;
+  if (x > upperlimit) return upperlimit;
+  return x;
+}
+
+f32 smoothstep2(f32 edge0, f32 edge1, f32 x) {
+   // Scale, and clamp x to 0..1 range
+   x = clamp2((x - edge0) / (edge1 - edge0));
+
+   return x * x * (3.0f - 2.0f * x);
+}
+
+u8 mitm_text_colors[][3] = {
+    {255, 255, 255},
+    {220, 0, 240},
+    {0, 255, 255},
+};
+
+void print_string_ascii_alpha(s32 x, s32 y, char *str, s32 color, s32 alpha) {
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+    gDPSetEnvColor(gDisplayListHead++, mitm_text_colors[color][0], mitm_text_colors[color][1], mitm_text_colors[color][2], alpha);
+    print_generic_string_ascii(x, y, (u8 *)str);
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+}
+
+void print_string_ascii_centered_alpha(s32 x, s32 y, char *str, s32 color, s32 alpha) {
+    s32 x1 = get_string_width_ascii(str);
+    print_string_ascii_alpha(x - x1/2, y, str, color, alpha);
+}
+
+void print_mitm_credits(u8 hud_alpha) {
+    s32 credits_entries = (sizeof(mitm_credits)/8);
+    s32 lower_limit = (credits_entries*16) - 160;
+
+    u8 base_alpha = 255;
+
+    shade_screen();
+
+    credits_y_offset -= (gPlayer1Controller->rawStickY/10.0f);
+    if (credits_y_offset <= 0) {
+        credits_y_offset = 0;
+    }
+    if (credits_y_offset >= lower_limit) {
+        credits_y_offset = lower_limit;
+    }
+    if (credits_y_offset != lower_limit) {
+        print_string_ascii_centered_alpha(300,20 + sins(gGlobalTimer*0x300)*2.5f ,"|",0,base_alpha);
+    }
+    if (credits_y_offset != 0) {
+        print_string_ascii_centered_alpha(300,40 - sins(gGlobalTimer*0x300)*2.5f,"^",0,base_alpha);
+    }
+
+    for (int i=0; i<credits_entries; i++) {
+        u8 alpha = base_alpha;
+        s32 ypos = credits_y_offset+200-(16*i);
+        if ((ypos < 220)&&(ypos >10)) {
+            if (ypos > 200) {
+                alpha = ((base_alpha/255.0f)*smoothstep2(220.0f,200.0f,ypos))*255.0f;
+            }
+            if (ypos < 30) {
+                alpha = ((base_alpha/255.0f)*smoothstep2(10.0f,30.0f,ypos))*255.0f;
+            }
+
+            print_string_ascii_centered_alpha(160,ypos, mitm_credits[i].text, mitm_credits[i].color, alpha);
+        }
     }
 }

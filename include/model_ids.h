@@ -589,6 +589,7 @@ enum GLOBAL_MODELS {
     MODEL_SLASH_PARTICLE,
     MODEL_DRAGONITE,
     MODEL_NITRO_BOX,
+    MODEL_NITRO_BOOM,
     MODEL_MARBLE,
     MODEL_SHOCK_ROCKET,
     MODEL_ROCKET_BUTTON_OFF,
@@ -613,6 +614,8 @@ enum GLOBAL_MODELS {
     MODEL_RED_ARROW,
     MODEL_WEDSER,
     MODEL_SHOPITEM_3, // accident
+    MODEL_DREAM_STAR,
+    MODEL_SPIDERTRON_LIMB_1,
 
     // Custom Mario Models
     MODEL_E__MARIO,
@@ -664,6 +667,30 @@ enum GLOBAL_MODELS {
 /* LEVEL A END */
 
 /* LEVEL B START */
+#define MODEL_BIG_DADDY                          0x151
+#define MODEL_FLOATY                             0x152
+#define MODEL_LITTLE_SISTER                      0x153
+#define MODEL_GAUGE                              0x154
+#define MODEL_WATERFALL                          0x155
+#define MODEL_DEBRIS                             0x156
+#define MODEL_AIRLOCK                            0x157
+#define MODEL_AIRLOCK_BUTTON                     0x158
+#define MODEL_AIRLOCK_WATER                      0x159
+#define MODEL_CRUSHER                            0x15A
+#define MODEL_TURRET_BODY                        0x15B
+#define MODEL_TURRET_HEAD                        0x15C
+#define MODEL_TURRET_BULLET                      0x15D
+#define MODEL_TURRET_HEAVY                       0x15E
+#define MODEL_TURRET_PLATFORM                    0x15F  
+#define MODEL_TURRET_COVER                       0x160
+#define MODEL_GATE                               0x161
+#define MODEL_ALARM                              0x162
+#define MODEL_ALARM_LIT                          0x163
+#define MODEL_TURRET_PANEL                       0x164
+#define MODEL_MEGACORK                           0x165
+#define MODEL_WATERTEMPLE                        0x166
+#define MODEL_B_SHOCKWAVE                        0x167
+
 /* LEVEL B END */
 
 /* LEVEL C START */
@@ -693,6 +720,7 @@ enum GLOBAL_MODELS {
 #define MODEL_D_ELEVATOR 0x155
 #define MODEL_D_BRIDGE 0x156
 #define MODEL_D_GATE 0x157
+#define MODEL_D_PLATFORM 0x158
 /* LEVEL D END */
 
 /* LEVEL E START */
@@ -766,6 +794,19 @@ enum {
 #define MODEL_G_MARX_DOOR              0x169
 #define MODEL_G_WADDLE_DEE              0x16A
 #define MODEL_G_WARP_PIPE              0x16B
+
+/*
+Funny story: I'm pretty sure I'm dyslexic.
+This whole fucking time, it was * banDANA dee *
+However, my dumb ass read the blend file as "banana" dee, so i named
+every fucking variable in reference to this NPC as such.
+I didn't realize until I looked at the model and realized that he
+was wearing a bandana, and then it clicked. I'm a fucking moron. Oops!
+Too bad I'm not changing every variable name, especially since the
+blend file associated with this NPC is cursed.
+*/
+
+#define MODEL_G_BANANA_DEE 0x16C
 /* LEVEL G END */
 
 /* LEVEL H START */
@@ -829,6 +870,16 @@ enum {
 /* LEVEL J END */
 
 /* LEVEL K START */
+enum K_MODELS {
+    MODEL_K_STRONG_TERRY=0x150,
+    MODEL_K_ELECTROHEAD,
+    MODEL_K_FAN,
+    MODEL_K_BLOOD,
+    MODEL_K_BLOOD_2,
+    MODEL_K_KAGUYA,
+    MODEL_K_DISCO,
+    MODEL_K_BARTENDER,
+};
 /* LEVEL K END */
 
 /* LEVEL L START */
@@ -869,6 +920,7 @@ enum {
 #define MODEL_O_SPEAKER_1 0x159
 #define MODEL_O_SPEAKER_2 0x15A
 #define MODEL_O_SPEAKER_3 0x15B
+#define MODEL_O_GERIK     0x15C
 /* LEVEL O END */
 
 /* Bowser Level */
@@ -895,6 +947,7 @@ enum {
     MODEL_HUBDOOR,
     MODEL_MORSHU,
     MODEL_HUB_TARGET_BOX,
+    MODEL_REDD,
 };
 
 #endif // MODEL_IDS_H

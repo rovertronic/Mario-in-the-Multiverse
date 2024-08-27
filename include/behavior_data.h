@@ -3,6 +3,9 @@
 
 #include "types.h"
 
+/* fast64 object exports get inserted here */
+extern const BehaviorScript bhvGBananaDee[];
+
 extern const BehaviorScript bhvStarDoor[];
 extern const BehaviorScript bhvMrI[];
 extern const BehaviorScript bhvMrIIris[];
@@ -571,6 +574,7 @@ extern const BehaviorScript bhvAArtifactOnMachine[];
 extern const BehaviorScript bhvHubDoor[];
 extern const BehaviorScript bhvStarGoo[];
 extern const BehaviorScript bhvHubTargetBox[];
+extern const BehaviorScript bhvRedd[];
 
 /* GROUP A START */
 extern const BehaviorScript bhvJelly[];
@@ -609,6 +613,30 @@ extern const BehaviorScript bhvAChainedCage[];
 /* GROUP B START */
 extern const BehaviorScript bhvConcreteBlock[];
 extern const BehaviorScript bhvBigConcreteBlock[];
+extern const BehaviorScript bhvBioshockFloaty[];
+extern const BehaviorScript bhvGauge[];
+extern const BehaviorScript bhvWaterfall[];
+extern const BehaviorScript bhvWaterfallHidden[];
+extern const BehaviorScript bhvDebris[];
+extern const BehaviorScript bhvAirlock[];
+extern const BehaviorScript bhvAirlockButton[];
+extern const BehaviorScript bhvAirlockWater[];
+extern const BehaviorScript bhvBigDaddy[];
+extern const BehaviorScript bhvLittleSister[];
+extern const BehaviorScript bhvCrusher[];
+extern const BehaviorScript bhvTurretBody[];
+extern const BehaviorScript bhvTurretHead[];
+extern const BehaviorScript bhvTurretHeavy[];
+extern const BehaviorScript bhvTurretPlatform[];
+extern const BehaviorScript bhvTurretCover[];
+extern const BehaviorScript bhvTurretPanel[];
+extern const BehaviorScript bhvGate[];
+extern const BehaviorScript bhvAlarm[];
+extern const BehaviorScript bhvCork[];
+extern const BehaviorScript bhvWaterTemple[];
+extern const BehaviorScript bhvBossDaddy[];
+extern const BehaviorScript bhvSafeExplosion[];
+
 /* GROUP B END */
 
 /* GROUP C START */
@@ -634,6 +662,7 @@ extern const BehaviorScript bhvJellyFish[];
 
 /* GROUP D START */
 extern const BehaviorScript bhvNitroBox[];
+extern const BehaviorScript bhvNitroBoom[];
 extern const BehaviorScript bhvDelevator[];
 extern const BehaviorScript bhvDbridge[];
 /* GROUP D END */
@@ -792,6 +821,13 @@ extern const BehaviorScript bhvMagikarp[];
 /* GROUP J END */
 
 /* GROUP K START */
+extern const BehaviorScript bhvKfan[];
+extern const BehaviorScript bhvKblood[];
+extern const BehaviorScript bhvKaguya[];
+extern const BehaviorScript bhvKDisco[];
+extern const BehaviorScript bhvKbartender[];
+extern const BehaviorScript bhvStrongTerry[];
+extern const BehaviorScript bhvElectrohead[];
 /* GROUP K END */
 
 /* GROUP L START */
@@ -830,6 +866,7 @@ extern const BehaviorScript bhvOlift[];
 extern const BehaviorScript bhvOgarage[];
 extern const BehaviorScript bhvOspeaker[];
 extern const BehaviorScript bhvOeasystreetcontroller[];
+extern const BehaviorScript bhvO_Gerik[];
 /* GROUP O END */
 
 extern const BehaviorScript bhvGCannon[];
@@ -860,5 +897,7 @@ extern const BehaviorScript bhvBcHoodmonger[];
 extern const BehaviorScript bhvBcFspinner[];
 extern const BehaviorScript bhvBcStair[];
 extern const BehaviorScript bhvBcSkiploom[];
+extern const BehaviorScript bhvCreditsSlab[];
+extern const BehaviorScript bhvDreamCatalyst[];
 
 #endif // BEHAVIOR_DATA_H

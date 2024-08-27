@@ -6,6 +6,9 @@
 #include "seqplayer.h"
 #include "game/main.h"
 #include "engine/math_util.h"
+#include "buffers/buffers.h"
+#include "game/save_file.h"
+#include "audio/external.h"
 
 #if defined(VERSION_EU) || defined(VERSION_SH)
 void sequence_channel_process_sound(struct SequenceChannel *seqChannel, s32 recalculateVolume) {
@@ -53,11 +56,18 @@ void sequence_channel_process_sound(struct SequenceChannel *seqChannel, s32 reca
 }
 #else
 static void sequence_channel_process_sound(struct SequenceChannel *seqChannel) {
+    f32 myMusicVolume = 1.0f-(gSaveBuffer.menuData.config[SETTINGS_MUSIC_VOLUME] *.25f);
+
     s32 i;
 
     f32 channelVolume = seqChannel->volume * seqChannel->volumeScale * seqChannel->seqPlayer->fadeVolume;
     if (seqChannel->seqPlayer->muted && (seqChannel->muteBehavior & MUTE_BEHAVIOR_SOFTEN) != 0) {
         channelVolume *= seqChannel->seqPlayer->muteVolumeScale;
+    }
+
+    if (seqChannel->seqPlayer == &gSequencePlayers[SEQ_PLAYER_LEVEL]
+        || seqChannel->seqPlayer == &gSequencePlayers[SEQ_PLAYER_ENV]) {
+        channelVolume *= myMusicVolume;
     }
 
     f32 panFromChannel = seqChannel->pan * seqChannel->panChannelWeight;

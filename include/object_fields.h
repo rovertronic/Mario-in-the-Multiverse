@@ -1321,16 +1321,22 @@
 #define /*0x0F4*/ oNumSwitchesLeft OBJECT_FIELD_S32(0x1B)
 
 //C Octoball
-#define /*0x0F4*/ oOctoballCantRespawn OBJECT_FIELD_S32(0x1F)
+#define /*0x100*/ oOctoballCantRespawn OBJECT_FIELD_S32(0x1F)
+
+//I Funky Shell
+#define /*0x0FC*/ oCoyoteTimer  OBJECT_FIELD_S32(0x1D)
+
+//I Bounty Hunter Toad
+#define /*0x0F4*/ oIsAllEnemiesDead  OBJECT_FIELD_S32(0x1B)
 
 //Marx
-#define /*0x0F4*/ oMarxTeleportTimer OBJECT_FIELD_S32(0x1B)
-#define /*0x0F8*/ oMarxTeleportX    OBJECT_FIELD_F32(0x1C)
+#define /*0x0F4*/ oMarxTeleportTimer       OBJECT_FIELD_S32(0x1B)
+#define /*0x0F8*/ oMarxTeleportX           OBJECT_FIELD_F32(0x1C)
 #define /*0x0FC*/ oMarxTeleportY           OBJECT_FIELD_F32(0x1D)
-#define /*0x100*/ oMarxTeleportZ    OBJECT_FIELD_F32(0x1E)
-#define /*0x100*/ oMarxLastAttack    OBJECT_FIELD_S32(0x1F)
-#define /*0x0F4*/ oMarxInvincibilityTimer OBJECT_FIELD_S32(0x20)
-#define /*0x0F4*/ oMarxHealth    OBJECT_FIELD_S32(0x21)
+#define /*0x100*/ oMarxTeleportZ           OBJECT_FIELD_F32(0x1E)
+#define /*0x100*/ oMarxLastAttack          OBJECT_FIELD_S32(0x1F)
+#define /*0x0F4*/ oMarxInvincibilityTimer  OBJECT_FIELD_S32(0x20)
+#define /*0x0F4*/ oMarxHealth              OBJECT_FIELD_S32(0x21)
 
 
 /*Custom general defines:

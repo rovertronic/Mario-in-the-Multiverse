@@ -521,4 +521,16 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "shopitem3/geo_header.h"
 
+#include "dream_catalyst/geo_header.h"
+
+#include "star_radar/header.h"
+
+#include "cometbar/header.h"
+
+#include "spidertron_arm1/geo_header.h"
+
+
+#include "humanoid/anim_header.h"
+#include "nitroboom/geo_header.h"
+
 #endif

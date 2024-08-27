@@ -33,6 +33,7 @@
 #include "spawn_sound.h"
 #include "rumble_init.h"
 #include "puppylights.h"
+#include "spidertron.h"
 
 /**
  * @file obj_behaviors.c

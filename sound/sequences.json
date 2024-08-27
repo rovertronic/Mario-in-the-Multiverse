@@ -13,7 +13,8 @@
         "09",
         "0A_mario_peach",
         "0B_mitm_ability",
-        "0C_mitm_level"
+        "0C_mitm_level",
+        "28_test_bank"
     ],
     "01_cutscene_collect_star": [
         "24"
@@ -250,5 +251,20 @@
     ],
     "4C_c9": [
         "c9"
+    ],
+    "4D_mitm_file_select": [
+        "0E_extended_bank"
+    ],
+    "4E_mitm_hub": [
+        "0E_extended_bank"
+    ],
+    "4F_mitm_bowser_course": [
+        "0E_extended_bank"
+    ],
+    "50_mitm_ability_get": [
+        "0E_extended_bank"
+    ],
+    "51_k_chinatown": [
+        "0E_extended_bank"
     ]
 }

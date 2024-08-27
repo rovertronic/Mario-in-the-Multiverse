@@ -130,6 +130,9 @@
 #include "actors/common1.h"
 #include "actors/common1.h"
 #include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
 
 /* Fast64 begin persistent block [includes] */
 #include "actors/common1.h"
@@ -178,6 +181,7 @@ const LevelScript level_g_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_G_MARX_DOOR, g_marx_door_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_G_WADDLE_DEE, g_waddle_dee_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_G_WARP_PIPE, warp_pipe_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_G_BANANA_DEE, g_banana_dee_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -245,6 +249,7 @@ const LevelScript level_g_entry[] = {
 		WARP_NODE(0x0B, LEVEL_G, 0x04, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0C, LEVEL_G, 0x04, 0x0D, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_G_BANANA_DEE, 2871, 503, -8725, 0, 27, 0, (DIALOG_G_BANANADEE << 16), bhvGBananaDee),
 		OBJECT(MODEL_G_BRONTO_BURT, 4962, 4226, -1141, 0, -165, 0, 0x00000000, bhvGBrontoBurt),
 		OBJECT(MODEL_G_BRONTO_BURT, 1980, 3056, -6224, 0, -122, 0, 0x00000000, bhvGBrontoBurt),
 		OBJECT(MODEL_G_BRONTO_BURT, 2780, 3091, -5682, 0, -122, 0, 0x00000000, bhvGBrontoBurt),
@@ -288,6 +293,10 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_G_WADDLE_DEE, -3820, 2763, -5266, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_G_WADDLE_DEE, -358, 2763, -7213, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_G_WADDLE_DEE, 4410, 3237, -4660, 0, 0, 0, 0x00000000, bhvGWaddleDee),
+		OBJECT(MODEL_NONE, 554, 607, 1212, 0, 0, 0, (0 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, -1683, 3576, 2210, 0, 0, 0, (1 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, -3301, 4231, -9958, 0, 0, 0, (2 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, -2626, 6097, -8212, 0, 0, 0, (3 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, 2212, -1780, -10226, 0, 0, 0, (90 << 24) | (11 << 16), bhvWarp),
 		OBJECT(MODEL_LEVEL_PIPE, 909, 981, 219, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_GOOMBA, -496, -2108, 11816, 0, 0, 0, 0x00000000, bhvGoomba),
@@ -366,6 +375,9 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_G_WADDLE_DEE, -3498, 3511, 18618, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_G_WADDLE_DEE, -11059, 446, 16110, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_G_WADDLE_DEE, -13629, 446, 14427, 0, 0, 0, 0x00000000, bhvGWaddleDee),
+		OBJECT(MODEL_NONE, 8177, 1845, 14212, 0, 0, 0, (4 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, -9058, 1940, 16332, 0, 0, 0, (5 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, -5350, -803, 13558, 0, 0, 0, (6 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_ABILITY_SIGN, 7235, 808, 15721, 0, -49, 0, (5 << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, -13876, 237, 8376, 0, -40, 0, (4 << 16), bhvStaticObject),
 		OBJECT(MODEL_NONE, 3852, 3467, -2928, 0, -180, 0, (11 << 16), bhvAirborneDeathWarp),

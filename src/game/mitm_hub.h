@@ -8,20 +8,27 @@ u8 get_hub_level(u8 id);
 u8 get_hub_area(u8 id);
 u8 get_hub_return_id(u8 id);
 void update_hub_star_string(s8 hub_level_index);
+void print_mitm_credits(u8 hud_alpha);
 
 extern u8 hub_star_string[]; // For use on the level pause screen
 extern s8 hub_level_current_index;
 
-struct mitm_hub_level {
-    u8 *author;
+typedef struct mitm_dream_data {
+    u8 ability_lock[4];
+    u8 dream_star_ct;
+} mitm_dream_data;
+
+struct mitm_level_data {
+    char * name;
+    char * author;
+    char * author_abridged;
     u8 level;
     u8 course;
     u8 star_requirement;
     u8 start_area;
     u8 return_id;
     u8 star_count;
-    u8 dream_count;
-    char * name;
+    mitm_dream_data * dream_data;
 };
 
 enum mitm_hub_level_ids {
@@ -42,8 +49,9 @@ enum mitm_hub_level_ids {
     HUBLEVEL_C15,
     HUBLEVEL_BOWSER,
     HUBLEVEL_HUB,
+    HUBLEVEL_COUNT,
 };
 
-extern struct mitm_hub_level hub_levels[];
+extern struct mitm_level_data mitm_levels[];
 
 #endif

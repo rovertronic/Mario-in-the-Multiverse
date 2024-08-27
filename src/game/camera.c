@@ -31,6 +31,11 @@
 #include "ability.h"
 #include "cutscene_manager.h"
 #include "buffers/buffers.h"
+#include "levels/B/header.h"
+#include "levels/c/header.h"
+#include "levels/k/header.h"
+#include "levels/n/header.h"
+#include "levels/m/header.h"
 
 #define CBUTTON_MASK (U_CBUTTONS | D_CBUTTONS | L_CBUTTONS | R_CBUTTONS)
 
@@ -10269,28 +10274,6 @@ struct CutsceneSplinePoint o_area_1_spline_level13_pos[] = {
 	{ 10, 60, { 13760, 570, 17 }},
 	{ -1, 60, { 13926, 570, 17 }},
 };
-struct CutsceneSplinePoint n_area_2_spline_level_14_foc[] = {
-	{ 0, 50, { -769, 844, 997 }},
-	{ 1, 50, { -431, 844, 887 }},
-	{ 2, 50, { -212, 844, 887 }},
-	{ 3, 50, { 126, 844, 997 }},
-	{ 4, 50, { 275, 882, 1199 }},
-	{ 5, 50, { 275, 983, 1526 }},
-	{ 6, 50, { 212, 983, 1763 }},
-	{ 7, 50, { -25, 983, 1870 }},
-	{ -1, 50, { -143, 983, 1870 }},
-};
-struct CutsceneSplinePoint n_area_2_spline_level_14_pos[] = {
-	{ 0, 50, { -6329, 2413, -6442 }},
-	{ 1, 50, { -2632, 2413, -7642 }},
-	{ 2, 50, { -232, 2413, -7642 }},
-	{ 3, 50, { 3465, 2413, -6442 }},
-	{ 4, 50, { 5094, 2835, -4227 }},
-	{ 5, 50, { 5094, 3939, -653 }},
-	{ 6, 50, { 4399, 3939, 1942 }},
-	{ 7, 50, { 1807, 3939, 3114 }},
-	{ -1, 50, { 523, 3939, 3114 }},
-};
 
 extern struct CutsceneSplinePoint sCcmOutsideCreditsSplinePositions[];
 extern struct CutsceneSplinePoint sCcmOutsideCreditsSplineFocus[];
@@ -10311,21 +10294,21 @@ void cutscene_credits(struct Camera *c) {
             pos = castle_inside_area_1_spline_hub_pos;
             focus = castle_inside_area_1_spline_hub_foc;
             break;
-        case LEVEL_G:
-            pos = g_area_3_spline_level_1_pos;
-            focus = g_area_3_spline_level_1_foc;
-            break;
         case LEVEL_A:
             pos = a_area_4_spline_level2_pos;
             focus = a_area_4_spline_level2_foc;
             break;
-        case LEVEL_I:
-            pos = i_area_3_spline_level4_pos;
-            focus = i_area_3_spline_level4_foc;
+        case LEVEL_B:
+            pos = segmented_to_virtual(B_area_1_spline_credits_pos);
+            focus = segmented_to_virtual(B_area_1_spline_credits_foc);
             break;
-        case LEVEL_L:
-            pos = l_area_1_spline_level_l_pos;
-            focus = l_area_1_spline_level_l_pos_001;
+        case LEVEL_C:
+            pos = segmented_to_virtual(c_area_1_spline_credits_pos);
+            focus = segmented_to_virtual(c_area_1_spline_credits_foc);
+            break;
+        case LEVEL_D:
+            pos = d_area_1_spline_level_12_pos;
+            focus = d_area_1_spline_level_12_foc;
             break;
         case LEVEL_E:
             pos = e_area_1_spline_level9_pos;
@@ -10335,21 +10318,37 @@ void cutscene_credits(struct Camera *c) {
             pos = f_area_3_spline_level_10_pos;
             focus = f_area_3_spline_level_10_foc;
             break;
+        case LEVEL_G:
+            pos = g_area_3_spline_level_1_pos;
+            focus = g_area_3_spline_level_1_foc;
+            break;
+        case LEVEL_I:
+            pos = i_area_3_spline_level4_pos;
+            focus = i_area_3_spline_level4_foc;
+            break;
         case LEVEL_J:
             pos = J_area_2_spline_level_11_pos;
             focus = J_area_2_spline_level_11_foc;
             break;
-        case LEVEL_D:
-            pos = d_area_1_spline_level_12_pos;
-            focus = d_area_1_spline_level_12_foc;
+        case LEVEL_K:
+            pos = segmented_to_virtual(k_area_1_spline_credits_pos);
+            focus = segmented_to_virtual(k_area_1_spline_credits_foc);
+            break;
+        case LEVEL_L:
+            pos = l_area_1_spline_level_l_pos;
+            focus = l_area_1_spline_level_l_pos_001;
+            break;
+        case LEVEL_M:
+            pos = segmented_to_virtual(m_area_1_spline_credits_pos);
+            focus = segmented_to_virtual(m_area_1_spline_credits_foc);
+            break;
+        case LEVEL_N:
+            pos = segmented_to_virtual(n_area_2_spline_level_14_pos);
+            focus = segmented_to_virtual(n_area_2_spline_level_14_foc);
             break;
         case LEVEL_O:
             pos = o_area_1_spline_level13_pos;
             focus = o_area_1_spline_level13_foc;
-            break;
-        case LEVEL_N:
-            pos = n_area_2_spline_level_14_pos;
-            focus = n_area_2_spline_level_14_foc;
             break;
     }
 

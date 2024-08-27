@@ -70,6 +70,7 @@ const LevelScript level_B_entry[] = {
 		OBJECT(MODEL_NONE, -7104, 2043, 6128, 0, 0, 0, (3 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -10130, 948, -927, 0, 0, 0, (4 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -8, 240, 4246, 0, 0, 0, (5 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, -5507, 629, 5798, 0, 124, 0, 0x00000000, bhvStaticObject),
 		OBJECT(MODEL_AIRLOCK, -2688, 382, -35, 0, 0, 0, (1 << 24), bhvAirlock),
 		OBJECT(MODEL_AIRLOCK_BUTTON, -2350, 495, -99, 0, 0, 0, (0 << 24), bhvAirlockButton),
 		OBJECT(MODEL_AIRLOCK_BUTTON, -2350, 495, 1009, 0, 0, 0, (0 << 24), bhvAirlockButton),

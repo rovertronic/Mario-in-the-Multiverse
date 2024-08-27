@@ -5,6 +5,10 @@ extern const GeoLayout c_area_1[];
 extern const Collision c_area_1_collision[];
 extern const u8 c_area_1_collision_rooms[];
 extern const MacroObject c_area_1_macro_objs[];
+#include "src/game/camera.h"
+
+extern struct CutsceneSplinePoint c_area_1_spline_credits_foc[];
+extern struct CutsceneSplinePoint c_area_1_spline_credits_pos[];
 extern Lights1 c_dl_f3dlite_material_005_lights;
 extern Lights1 c_dl_glass_lights;
 extern u8 c_dl_sable_ci4[];

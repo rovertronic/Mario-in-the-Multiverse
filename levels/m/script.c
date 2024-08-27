@@ -52,7 +52,7 @@ const LevelScript level_m_entry[] = {
 		OBJECT(MODEL_NONE, -4465, 2700, 5966, 0, 0, 0, (0 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, -4606, 2700, -211, 0, 0, 0, (0 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, -5285, 1300, -3212, 0, -44, 0, (0 << 16), bhvCoinFormation),
-		OBJECT(MODEL_NONE, -8800, 2300, -12900, 0, 0, 0, (0 << 16), bhvCoinFormation),
+		OBJECT(MODEL_NONE, -8800, 2300, -12900, 0, 0, 0, (1 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, 8000, 4300, -2800, 0, 0, 0, (0 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, -600, 1875, -6200, 0, 0, 0, (1 << 16), bhvCoinFormation),
 		OBJECT(MODEL_M_CLASSC, -1900, 3700, -12900, 0, 90, 0, 0x00000000, bhvM_ClassC),

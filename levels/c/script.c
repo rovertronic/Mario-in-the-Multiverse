@@ -76,6 +76,7 @@ const LevelScript level_c_entry[] = {
 		OBJECT(MODEL_STAR_BOULDER, 15153, 1798, -4310, 0, 0, 0, 0x00000000, bhvCraneRock),
 		OBJECT(MODEL_STAR_BOULDER, 21782, 1664, 444, 0, 0, 0, 0x00000000, bhvCraneRock),
 		OBJECT(MODEL_STAR_BOULDER, 16464, 1749, 6422, 0, 0, 0, 0x00000000, bhvCraneRock),
+		OBJECT(MODEL_NONE, -1117, 4992, -7570, 0, 0, 0, 0x00000000, bhvStaticObject),
 		OBJECT(MODEL_NONE, -2942, 5108, -7716, 0, 0, 0, (0 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, 4634, 2915, 927, 0, 0, 0, (1 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, 5027, 5268, -4389, 0, 0, 0, (2 << 16), bhvDreamCatalyst),

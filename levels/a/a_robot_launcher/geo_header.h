@@ -1,0 +1,12 @@
+extern const GeoLayout a_robot_launcher_geo[];
+extern u8 a_robot_launcher_metal2_ci4[];
+extern u8 a_robot_launcher_metal2_pal_rgba16[];
+extern Vtx a_robot_launcher_Plane_003_mesh_layer_1_vtx_0[213];
+extern Gfx a_robot_launcher_Plane_003_mesh_layer_1_tri_0[];
+extern Vtx a_robot_launcher_Plane_003_mesh_layer_1_vtx_1[27];
+extern Gfx a_robot_launcher_Plane_003_mesh_layer_1_tri_1[];
+extern Gfx mat_a_robot_launcher_f3dlite_material_001[];
+extern Gfx mat_revert_a_robot_launcher_f3dlite_material_001[];
+extern Gfx mat_a_robot_launcher_f3dlite_material[];
+extern Gfx mat_revert_a_robot_launcher_f3dlite_material[];
+extern Gfx a_robot_launcher_Plane_003_mesh_layer_1[];

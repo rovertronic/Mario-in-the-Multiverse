@@ -3,6 +3,12 @@
 #include "src/game/ability.h"
 #include "src/game/mario_actions_airborne.h"
 #include "src/game/mario.h"
+#include "src/game/hud.h"
+#include "src/game/print.h"
+#include "src/game/game_init.h"
+#include "src/game/puppyprint.h"
+#include "src/audio/external.h"
+#include "levels/a/a_ham_robot/geo_header.h"
 
 // Jelly
 s32 jelly_check_dmg(void) {
@@ -188,87 +194,87 @@ void fcp_loop(void)
 
 // Taxi stop
 
-void taxistop_loop(void)
-{
-    s16 eventTimer = 52;
-    switch (o->oAction)
-    {
+u16 time;
+
+void taxi_stop_text(void) {
+    Color red = 255;
+    Color green = 255;
+    Color blue = 255;
+    time++;
+    if (time >= 128) {
+        time = 0;
+    }
+    print_set_envcolour(red, green, blue * sins(time * 0x100), 255);
+    print_small_text_buffered(SCREEN_CENTER_X, 200, "Press L To Travel", PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, FONT_VANILLA);
+}
+
+void taxistop_loop(void) {
+    s16 transitionTimer = 52;
+    u8 behparams = GET_BPARAM1(o->oBehParams);
+    u8 behparams2 = o->oBehParams2ndByte;
+    if ((gMarioObject->platform == o) && (gPlayer1Controller->buttonPressed == L_TRIG)) {
+        o->oAction = 1;
+    }
+    if (gMarioObject->platform == o) {
+        taxi_stop_text();
+    }
+    switch (o->oAction) {
         case 0:
             break;
         case 1:
-                gLakituState.goalPos[0] = 5181;
-                gLakituState.goalPos[1] = -3;
-                gLakituState.goalPos[2] = -7742;
+            if (o->oTimer == 1) {
                 set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
-                play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, eventTimer, 0, 0, 0);
-                if (o->oTimer >= 18)
-                {
-                    gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_NONE];
+                struct Object * boat = spawn_object(o, MODEL_TSBOAT, bhvtsBoat);
+                if (behparams == 4) {
+                    boat->oPosZ -= 500;
+                } else if (behparams == 3) {
+                    boat->oPosX -= 500;
+                } else if (behparams == 1) {
+                    boat->oPosX += 500;
                 }
-                if (o->oTimer >= 51)
-                {
-                    initiate_warp(LEVEL_A, 4, 0x0A, 0);
-                }
-            break;
-        case 2:
-                gLakituState.goalPos[0] = -11647;
-                gLakituState.goalPos[1] = 316;
-                gLakituState.goalPos[2] = -5005;
-                set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
-                play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, eventTimer, 0, 0, 0);
-                if (o->oTimer >= 18)
-                {
-                    gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_NONE];
-                }
-                if (o->oTimer >= 51)
-                {
-                    initiate_warp(LEVEL_A, 1, 0x05, 0);
-                }
-            break;
-        case 3:
-            gLakituState.goalPos[0] = 0;
-            gLakituState.goalPos[1] = 0;
-            gLakituState.goalPos[2] = 0;
-            set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
-            play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, eventTimer, 0, 0, 0);
-            if (o->oTimer >= 18)
-            {
+            }
+            if (o->oTimer == 14) {
                 gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_NONE];
             }
-            if (o->oTimer >= 51)
-            {
-                initiate_warp(LEVEL_A, 3, 0x0A, 0);
+            if (o->oTimer == 30) {
+                play_transition(WARP_TRANSITION_FADE_INTO_STAR, transitionTimer - 29, 0, 0, 0);
+            }
+            if (o->oTimer == 52) {
+                initiate_warp(LEVEL_A, behparams, behparams2, 0);
+            }
+            switch (behparams) {
+                case 1:
+                    gCamera->cutscene = 1;
+                    gLakituState.goalPos[0] = o->oPosX + 1000;
+                    gLakituState.goalPos[1] = o->oPosY + 200;
+                    gLakituState.goalPos[2] = o->oPosZ;
+    
+                    gLakituState.goalFocus[0] = o->oPosX;
+                    gLakituState.goalFocus[1] = o->oPosY + 100;
+                    gLakituState.goalFocus[2] = o->oPosZ;
+                    break;
+                case 3:
+                    gCamera->cutscene = 1;
+                    gLakituState.goalPos[0] = o->oPosX - 1000;
+                    gLakituState.goalPos[1] = o->oPosY + 200;
+                    gLakituState.goalPos[2] = o->oPosZ;
+    
+                    gLakituState.goalFocus[0] = o->oPosX;
+                    gLakituState.goalFocus[1] = o->oPosY + 100;
+                    gLakituState.goalFocus[2] = o->oPosZ;
+                    break;
+                case 4:
+                    gCamera->cutscene = 1;
+                    gLakituState.goalPos[0] = o->oPosX;
+                    gLakituState.goalPos[1] = o->oPosY + 200;
+                    gLakituState.goalPos[2] = o->oPosZ - 1000;
+    
+                    gLakituState.goalFocus[0] = o->oPosX;
+                    gLakituState.goalFocus[1] = o->oPosY + 100;
+                    gLakituState.goalFocus[2] = o->oPosZ;
+                    break;
             }
             break;
-    }
-    if (gMarioObject->platform == o)
-    {
-        switch (o->oBehParams2ndByte)
-        {
-            case 0:
-                break;
-            case 1:
-                if (o->oTimer == 1)
-                {
-                    spawn_object(o, MODEL_TSBOAT, bhvtsBoat);                    
-                }
-                o->oAction = 1;
-                break;
-            case 2:
-                if (o->oTimer == 1)
-                {
-                    spawn_object(o, MODEL_TSBOAT, bhvtsBoat);                    
-                }
-                o->oAction = 2;
-                break;
-            case 3:
-                if (o->oTimer == 1)
-                {
-                    spawn_object(o, MODEL_TSBOAT, bhvtsBoat);                    
-                }
-                o->oAction = 3;
-                break;
-        }
     }
 }
 
@@ -290,7 +296,7 @@ struct ObjectHitbox sTikiHitbox = {
     /* downOffset:        */  20,
     /* damageOrCoinValue: */   0,
     /* health:            */   1,
-    /* numLootCoins:      */   0,
+    /* numLootCoins:      */   2,
     /* radius:            */ 150,
     /* height:            */ 200,
     /* hurtboxRadius:     */ 150,
@@ -1085,4 +1091,729 @@ void a_cage_loop(void) {
             }
             break;
     }
+}
+// Robots
+
+u8 robotsKilled;
+u8 robotCount;
+u8 starCutsceneActive;
+
+// UFO robot
+
+static struct ObjectHitbox sAUFOHitbox = {
+    /* interactType:      */ INTERACT_SHOCK,
+    /* downOffset:        */ 50,
+    /* damageOrCoinValue: */ 1,
+    /* health:            */ 1,
+    /* numLootCoins:      */ 1,
+    /* radius:            */ 80,
+    /* height:            */ 90,
+    /* hurtboxRadius:     */ 70,
+    /* hurtboxHeight:     */ 80,
+};
+
+void a_ufo_robot_init(void) {
+    o->oGravity = 0.0f;
+    o->oFriction = 0.999f;
+    o->header.gfx.pos[1] = 5;
+    obj_set_hitbox(o, &sAUFOHitbox);
+}
+
+void a_ufo_robot_loop(void) {
+    object_step();
+
+    // random chance that the ufo robot will spawn a coin when it dies.
+    sAUFOHitbox.numLootCoins = (random_u16() % 2);
+    
+    if (gMarioObject->platform == o) {
+        if (gMarioState->action == ACT_GROUND_POUND_LAND) {
+            o->oAction = 2;
+            robotsKilled++;
+            cur_obj_play_sound_2(SOUND_GENERAL_BREAK_BOX);
+        }
+    }
+    
+    switch (o->oAction) {
+        case 0:
+            cur_obj_init_animation(0);
+            load_object_collision_model();
+            if (o->oDistanceToMario < 1000.0f) {
+                o->oAction = 1;
+                o->oF8 = 100;
+            }
+            o->oForwardVel = 0;
+            break;
+        case 1:
+            cur_obj_init_animation(0);
+            o->oForwardVel = 10;
+            load_object_collision_model();
+            cur_obj_rotate_yaw_toward(o->oAngleToMario, 0x400);
+            if (o->oDistanceToMario > 1000.0f) {
+                o->oAction = 0;
+            }
+            break;
+        case 2:
+            o->oF8++;
+            o->oForwardVel = 0;
+            if (o->oTimer == 12) {
+                o->oAction = 3;
+            }
+            break;
+        case 3:
+            cur_obj_disable_rendering();
+            cur_obj_become_intangible();
+            if (o->oTimer == 1) {
+                spawn_mist_particles();
+            }
+            if (o->oTimer == 12) {
+                obj_mark_for_deletion(o);
+                obj_explode_and_spawn_coins(1.0f, COIN_TYPE_YELLOW);
+            }
+            break;
+    }
+
+    if (o->oAction == 2) {
+        o->header.gfx.scale[1] = 5 * sins(o->oF8 * 0x122);
+    }
+}
+
+// Chum bucket cutscene
+
+void chum_bucket_cutscene_vel_xyz(f32 x, f32 y, f32 z) {
+    gLakituState.goalPos[0] += x;
+    gLakituState.goalPos[1] += y;
+    gLakituState.goalPos[2] += z;
+}
+
+void chum_bucket_cutscene_vel_xyz_foc(f32 x, f32 y, f32 z) {
+    gLakituState.goalFocus[0] += x;
+    gLakituState.goalFocus[1] += y;
+    gLakituState.goalFocus[2] += z;
+}
+
+void chum_bucket_cutscene_loop(void) {
+    switch (o->oAction) {
+        case 0:
+            if (o->oTimer == 56) {
+                o->oAction = 1;
+            }
+            break;
+        case 1:
+            gCamera->cutscene = 1;
+            o->oF8++;
+            if (o->oTimer == 1) {
+                set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
+                o->oF8 = 91;
+                gLakituState.goalPos[0] = 3373;
+                gLakituState.goalPos[1] = 1972;
+                gLakituState.goalPos[2] = 2075;
+
+                gLakituState.goalFocus[0] = 2653;
+                gLakituState.goalFocus[1] = 1972;
+                gLakituState.goalFocus[2] = 635;
+            }
+            if (o->oF8 < 129) {
+                chum_bucket_cutscene_vel_xyz(0, 10 * sins(o->oF8 * 0x200), 0);
+            }
+            if (o->oF8 == 255) {
+                o->oAction = 2;
+                spawn_object_abs_with_rot(o, 0, MODEL_NONE, bhvBeatEmUpObject, -2123, 0, 103, 0, 0, 0);
+            }
+            break;
+        case 2:
+            if (o->oTimer == 1) {
+                gCamera->cutscene = 0;   
+                o->oF8 = 0;
+            }
+            
+            if (starCutsceneActive == TRUE) {
+                o->oAction = 3;
+            }
+            break;
+        case 3:
+            gCamera->cutscene = 1;
+            o->oF8++;
+            gMarioState->pos[0] = 2858;
+            gMarioState->pos[1] = 0;
+            gMarioState->pos[2] = -636;
+            gMarioState->faceAngle[1] = 0x0000;
+            if (o->oTimer == 1) {
+                set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
+                gLakituState.goalPos[0] = 3373;
+                gLakituState.goalPos[1] = 1713;
+                gLakituState.goalPos[2] = 2075;
+
+                gLakituState.goalFocus[0] = 2653;
+                gLakituState.goalFocus[1] = 1972;
+                gLakituState.goalFocus[2] = 635;
+            }
+            chum_bucket_cutscene_vel_xyz(-20 * sins(o->oF8 * 0x200), 20 * sins(o->oF8 * 0x200), 0);
+            if (o->oTimer == 60) {
+                o->oAction = 4;
+                o->oF8 = 0;
+            }
+            break;
+        case 4:
+            o->oF8++;
+            chum_bucket_cutscene_vel_xyz(20 * sins(o->oF8 * 0x200), -90 * sins(o->oF8 * 0x312), 7 * sins(o->oF8 * 0x200));
+            chum_bucket_cutscene_vel_xyz_foc(0, -60 * sins(o->oF8 * 0x312), 0);
+            if (o->oTimer == 40) {
+                o->oAction = 5;
+                o->oF8 = 0;
+            }
+            break;
+        case 5:
+            break;
+    }
+}
+
+// Beat em up object
+
+void beat_em_up_object(void) {
+    char* robotText[] = {
+        "DESTROY 10 ROBOTS", 
+        "DESTROY 15 ROBOTS", 
+        "DESTROY 20 ROBOTS"
+    };
+    switch (o->oAction) {
+        case 0:
+            if (o->oTimer == 1) {
+                o->oAction = 1;
+            }
+            break;
+        case 1:
+            robotsKilled = 0;
+            robotCount = 0;
+            print_text_centered(SCREEN_CENTER_X, SCREEN_CENTER_Y, robotText[0]);
+            set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
+            if (o->oTimer == 90) {
+                o->oAction = 2;
+            }
+            break;
+        case 2:
+            print_text_fmt_int(20, 20, "%d OUT OF 10", robotsKilled);
+            if (o->oTimer == 1) {
+                set_mario_action(gMarioState, ACT_IDLE, 0);
+                sound_init();
+                play_music(SEQ_PLAYER_LEVEL, 69 /* lol */, 0);
+            }
+            if (o->oTimer == 2) {
+                play_sound(SOUND_GENERAL_RACE_GUN_SHOT, gMarioState->marioObj->header.gfx.cameraToObject);
+            }
+            if (o->oTimer == 20) {
+                struct Object * spawner = spawn_object_abs_with_rot(o, 0, MODEL_A_ROBOT_LAUNCHER, bhvARobotLauncher, 1456, 258, 1660, 0, 180, 0);
+                spawner->oBehParams2ndByte = 0;
+            }
+            if (robotsKilled >= 10) {
+                o->oAction = 3;
+            }
+            break;
+        case 3:
+            robotsKilled = 0;
+            robotCount = 0;
+            print_text_centered(SCREEN_CENTER_X, SCREEN_CENTER_Y, robotText[1]);
+            if (o->oTimer == 130) {
+                o->oAction = 4;
+            }
+            break;
+        case 4:
+            print_text_fmt_int(20, 20, "%d OUT OF 15", robotsKilled);
+            if (o->oTimer == 2) {
+                play_sound(SOUND_GENERAL_RACE_GUN_SHOT, gMarioState->marioObj->header.gfx.cameraToObject);
+            }
+            if (o->oTimer == 20) {
+                struct Object * spawner1 = spawn_object_abs_with_rot(o, 0, MODEL_A_ROBOT_LAUNCHER, bhvARobotLauncher, 1456, 258, 1660, 0, 180, 0);
+                spawner1->oBehParams2ndByte = 1;
+            }
+            if (o->oTimer == 100) {
+                struct Object * spawner2 = spawn_object_abs_with_rot(o, 0, MODEL_A_ROBOT_LAUNCHER, bhvARobotLauncher, 1350, 258, -516, 0, 180, 0);
+                spawner2->oBehParams2ndByte = 1;
+            }
+            if (robotsKilled >= 15) {
+                o->oAction = 5;
+            }
+            break;
+        case 5:
+            robotsKilled = 0;
+            robotCount = 0;
+            print_text_centered(SCREEN_CENTER_X, SCREEN_CENTER_Y, robotText[2]);
+            if (o->oTimer == 130) {
+                o->oAction = 6;
+            }
+            break;
+        case 6:
+            print_text_fmt_int(20, 20, "%d OUT OF 20", robotsKilled);
+            if (o->oTimer == 2) {
+                play_sound(SOUND_GENERAL_RACE_GUN_SHOT, gMarioState->marioObj->header.gfx.cameraToObject);
+            }
+            if (o->oTimer == 20) {
+                struct Object * spawner1 = spawn_object_abs_with_rot(o, 0, MODEL_A_ROBOT_LAUNCHER, bhvARobotLauncher, 1456, 258, 1660, 0, 180, 0);
+                spawner1->oBehParams2ndByte = 2;
+            }
+            if (o->oTimer == 100) {
+                struct Object * spawner2 = spawn_object_abs_with_rot(o, 0, MODEL_A_ROBOT_LAUNCHER, bhvARobotLauncher, 1350, 258, -516, 0, 180, 0);
+                spawner2->oBehParams2ndByte = 2;
+            }
+            if (o->oTimer == 160) {
+                struct Object * spawner3 = spawn_object_abs_with_rot(o, 0, MODEL_A_ROBOT_LAUNCHER, bhvARobotLauncher, 1350, 258, 623, 0, 180, 0);
+                spawner3->oBehParams2ndByte = 2;
+            }
+            if (robotsKilled >= 20) {
+                o->oAction = 7;
+            }
+            break;
+        case 7:
+            if (o->oTimer == 1) {
+                play_puzzle_jingle();
+                stop_background_music(69);
+            }
+            if (o->oTimer == 80) {
+                starCutsceneActive = TRUE;
+                o->oAction = 8;
+            }
+            break;
+        case 8:
+            if (o->oTimer == 102) {
+                play_sound(SOUND_GENERAL_BREAK_BOX, gMarioState->marioObj->header.gfx.cameraToObject);
+            }
+            if (o->oTimer == 103) {
+                play_sound(SOUND_GENERAL_STAR_APPEARS, gGlobalSoundSource);
+                play_music(SEQ_PLAYER_LEVEL, 21, 0);
+                starCutsceneActive = FALSE;
+            }
+            if (o->oTimer == 184) {
+                gCamera->cutscene = 0;
+                set_mario_action(gMarioState, ACT_IDLE, 0);
+            }
+            break;
+    }
+}
+
+// Ham robot
+
+enum aHamRobotAnims {
+    ANIM_A_HAM_ROBOT_WALK, ANIM_A_HAM_ROBOT_IDLE, ANIM_A_HAM_ROBOT_FIND, 
+    ANIM_A_HAM_ROBOT_SWING_HAMMER, ANIM_A_HAM_ROBOT_GET_UP, ANIM_A_HAM_ROBOT_DESTROYED
+};
+
+static struct ObjectHitbox sAHamRobotHitbox = {
+    /* interactType:      */ INTERACT_BOUNCE_TOP,
+    /* downOffset:        */ 50,
+    /* damageOrCoinValue: */ 1,
+    /* health:            */ 1,
+    /* numLootCoins:      */ 1,
+    /* radius:            */ 180,
+    /* height:            */ 290,
+    /* hurtboxRadius:     */ 10,
+    /* hurtboxHeight:     */ 10,
+};
+
+void ham_robot_init(void) {
+    o->header.gfx.scale[0] = 0.4f;
+    o->header.gfx.scale[1] = 0.4f;
+    o->header.gfx.scale[2] = 0.4f;
+    o->oPosY += 46;
+}
+
+void ham_robot_loop(void) {
+    obj_set_hitbox(o, &sAHamRobotHitbox);
+    object_step();
+    
+    // random chance that the ufo robot will spawn a coin when it dies.
+    sAHamRobotHitbox.numLootCoins = (random_u16() % 2);
+    
+    switch (o->oAction) {
+        case 0 /* IDLE */:
+            if (o->oDistanceToMario < 1000.0f) {
+                o->oAction = 1;
+            }
+            cur_obj_init_animation(ANIM_A_HAM_ROBOT_IDLE);
+            break;
+        case 1 /* FOUND MARIO*/:
+            if (cur_obj_was_attacked_or_ground_pounded()) {
+                o->oAction = 5;
+            }
+            cur_obj_init_animation(ANIM_A_HAM_ROBOT_FIND);
+            cur_obj_rotate_yaw_toward(o->oAngleToMario, 0x1000);
+            if (o->oTimer == 1) {
+                cur_obj_play_sound_2(SOUND_OBJ_GOOMBA_ALERT);
+            }
+            if (o->oTimer == 14) {
+                o->oAction = 2;
+            }
+            break;
+        case 2 /* FOLLOW MARIO */:
+            if (cur_obj_was_attacked_or_ground_pounded()) {
+                o->oAction = 5;
+            }
+            cur_obj_init_animation(ANIM_A_HAM_ROBOT_WALK);
+            cur_obj_rotate_yaw_toward(o->oAngleToMario, 0x400);
+            if (lateral_dist_between_objects(gMarioObject, o) < 300.0f) {
+                o->oAction = 3;
+                o->oInteractStatus = 0;
+            }
+            o->oForwardVel = 14;
+            break;
+        case 3 /* WACK HAMMER */:
+            o->oForwardVel = 0;
+            if (cur_obj_was_attacked_or_ground_pounded()) {
+                o->oAction = 5;
+            }
+            if (o->header.gfx.animInfo.animFrame < 22) {
+                if (cur_obj_was_attacked_or_ground_pounded()) {
+                    o->oAction = 5;
+                }
+            }
+            if (o->header.gfx.animInfo.animFrame == 22) {
+                spawn_object(o, MODEL_PISSWAVE, bhvBowserShockWave);
+            }
+            cur_obj_init_animation(ANIM_A_HAM_ROBOT_SWING_HAMMER);
+            if (o->oTimer == 29) {
+                o->oAction = 4;
+            }
+            break;
+        case 4 /* GET BACK UP */:
+            cur_obj_init_animation(ANIM_A_HAM_ROBOT_GET_UP);
+            if (cur_obj_was_attacked_or_ground_pounded()) {
+                o->oAction = 5;
+            }
+            if (o->oTimer == 29) {
+                o->oAction = 0;
+                o->oInteractStatus = 0;
+            }
+            break;
+        case 5 /* DESTROYED */:
+            o->oForwardVel = -24;
+            cur_obj_init_animation(ANIM_A_HAM_ROBOT_DESTROYED);
+            if (o->oTimer == 17) {
+                obj_mark_for_deletion(o);
+                obj_explode_and_spawn_coins(3.0f, COIN_TYPE_YELLOW);
+                cur_obj_become_intangible();
+                cur_obj_disable_rendering();
+                spawn_mist_particles();    
+                robotsKilled++;
+            }
+            break;
+        case 6 /* INSTANT DESTROY */:
+            obj_mark_for_deletion(o);
+            cur_obj_become_intangible();
+            cur_obj_disable_rendering();
+            spawn_mist_particles();    
+            break;
+    }
+}
+
+// Launched box
+
+void a_launched_box(void) {
+    ModelID32 model;
+    BehaviorScript behavior;
+    //print_text_fmt_int(100, 100, "BOT %d", o->oBehParams2ndByte);
+    cur_obj_update_floor_and_walls();
+
+    switch (o->oAction) {
+        case 0:
+            o->oHomeY = find_floor_height(o->oPosX, o->oPosY, o->oPosZ);
+            o->oAction = 1;
+            break;
+        case 1:
+            cur_obj_rotate_yaw_toward(o->oAngleToMario, 0x2000);
+            if (o->oTimer < 7) {
+                o->oVelY = 37;
+                o->oForwardVel = 21;
+            }
+            if (o->oTimer >= 7) {
+                o->oVelY-=2;
+            }
+            cur_obj_move_xz_using_fvel_and_yaw();
+            o->oPosY += o->oVelY;
+            if (o->oPosY < o->oHomeY - 241) {
+                o->oAction = 2;
+                if (o->oBehParams2ndByte == 2) {
+                    struct Object *ham = spawn_object(o, MODEL_A_HAM_ROBOT, bhvAHamRobot);
+                    ham->oPosY = -5;
+                } 
+                if (o->oBehParams2ndByte == 1){
+                    struct Object *ufo = spawn_object(o, MODEL_A_UFO_ROBOT, bhvAUFORobot);
+                    ufo->oPosY += 190;
+                }
+                if (o->oBehParams2ndByte == 0) {
+                    struct Object *dog = spawn_object(o, MODEL_A_DOG_ROBOT, bhvADogRobot);
+                    dog->oPosY += 100;
+                }
+                spawn_mist_particles();
+                cur_obj_play_sound_2(SOUND_GENERAL_BREAK_BOX);
+            }
+            break;
+        case 2:
+            if (o->oTimer == 27) {
+                obj_mark_for_deletion(o);
+            }
+            cur_obj_disable_rendering();
+            cur_obj_become_intangible();
+            break;
+    }
+}
+
+// Robot launcher
+
+void a_robot_launcher_loop(void) {
+    switch (o->oAction) {
+        case 0:
+            o->header.gfx.scale[1] = 1.0f;
+            o->oF8 = 0;
+            if (o->oTimer == 180) {
+                o->oAction = 1;
+                robotCount++;
+                struct Object *box = spawn_object(o, MODEL_A_LAUNCHED_BOX, bhvALaunchedBox);
+                box->oPosY += 200;
+                box->oBehParams2ndByte = (random_u16() % 3);
+                cur_obj_play_sound_2(SOUND_OBJ_WATER_BOMB_CANNON);
+            }
+            switch (o->oBehParams2ndByte) {
+                case 0:
+                    if (robotCount >= 10) {
+                        o->oAction = 2;
+                    }
+                    break;
+                case 1:
+                    if (robotCount >= 15) {
+                        o->oAction = 2;
+                    }
+                    break;
+                case 2:
+                    if (robotCount >= 20) {
+                        o->oAction = 2;
+                    }
+                    break;
+            }
+            break;
+        case 1:
+            o->oF8++;
+            o->header.gfx.scale[1] = 2 * coss(o->oF8 * 0x433);
+            if (o->oTimer == 9) {
+                o->oAction = 0;
+            }
+            break;
+        case 2:
+            obj_mark_for_deletion(o);
+            spawn_mist_particles();
+            cur_obj_disable_rendering();
+            break;
+    }
+}
+
+// Dog robot
+
+enum dogRobotAnims { 
+    ANIM_DOG_ROBOT_IDLE, ANIM_DOG_ROBOT_JUMP, 
+    ANIM_DOG_ROBOT_BURP, ANIM_DOG_ROBOT_DESTROYED
+};
+
+static struct ObjectHitbox sADogRobotHitbox = {
+    /* interactType:      */ INTERACT_BOUNCE_TOP,
+    /* downOffset:        */ 50,
+    /* damageOrCoinValue: */ 1,
+    /* health:            */ 1,
+    /* numLootCoins:      */ 1,
+    /* radius:            */ 60,
+    /* height:            */ 180,
+    /* hurtboxRadius:     */ 40,
+    /* hurtboxHeight:     */ 160,
+};
+
+void a_dog_robot_init(void) {
+    
+}
+
+void a_dog_robot_loop(void) {
+    obj_set_hitbox(o, &sADogRobotHitbox);
+    object_step();
+    
+    sADogRobotHitbox.numLootCoins = (random_u16() % 2);
+
+    switch (o->oAction) {
+        case 0 /* IDLE */:
+            cur_obj_init_animation(ANIM_DOG_ROBOT_IDLE);
+            o->oForwardVel = 0;
+            if (o->oDistanceToMario < 1000.f) {
+                o->oAction = 1;
+            }
+            break;
+        case 1 /* FIND PLAYER */:
+            cur_obj_init_animation(ANIM_DOG_ROBOT_JUMP);
+            cur_obj_rotate_yaw_toward(o->oAngleToMario, 0x600);
+            if (cur_obj_check_anim_frame(10)) {
+                cur_obj_play_sound_2(SOUND_GENERAL_CRAZY_BOX_BOING_FAST);
+                o->oForwardVel = 20;
+            }
+            if (cur_obj_check_anim_frame(24)) {
+                o->oForwardVel = 0;
+            }
+            if (lateral_dist_between_objects(gMarioObject, o) < 250.f) {
+                o->oAction = 2;
+            }
+            if ((o->oDistanceToMario > 1000.f) && (cur_obj_check_if_near_animation_end())) {
+                o->oAction = 0;
+            }
+            if (cur_obj_was_attacked_or_ground_pounded()) {
+                o->oAction = 3;
+            }
+            break;
+        case 2 /* ATTACK */:
+            o->oForwardVel = 0;
+            cur_obj_rotate_yaw_toward(o->oAngleToMario, 0x600);
+            if (cur_obj_was_attacked_or_ground_pounded()) {
+                o->oAction = 3;
+            }
+            if (cur_obj_check_anim_frame(39)) {
+                o->oAction = 0;
+            }
+            cur_obj_init_animation(ANIM_DOG_ROBOT_BURP);
+            if (cur_obj_check_anim_frame(15)) {
+                cur_obj_play_sound_2(SOUND_OBJ_MRI_SHOOT);
+                spawn_object(o, MODEL_A_GAS_CLOUD, bhvAGasCloud);
+            }
+            break;
+        case 3:
+            o->oForwardVel = -27;
+            cur_obj_init_animation(ANIM_DOG_ROBOT_DESTROYED);
+            if (o->oTimer == 15) {
+                obj_mark_for_deletion(o);
+                obj_explode_and_spawn_coins(3.0f, COIN_TYPE_YELLOW);
+                cur_obj_become_intangible();
+                cur_obj_disable_rendering();
+                spawn_mist_particles();    
+                robotsKilled++;
+            }
+            break;
+    }
+}
+
+// Gas cloud
+
+static struct ObjectHitbox sAGasCloudHitBox = {
+    /* interactType:      */ INTERACT_DAMAGE,
+    /* downOffset:        */ 50,
+    /* damageOrCoinValue: */ 1,
+    /* health:            */ 1,
+    /* numLootCoins:      */ 1,
+    /* radius:            */ 60,
+    /* height:            */ 200,
+    /* hurtboxRadius:     */ 10,
+    /* hurtboxHeight:     */ 10,
+};
+
+void a_gas_cloud_loop(void) {
+    obj_set_hitbox(o, &sAGasCloudHitBox);
+    object_step();
+    switch (o->oAction) {
+        case 0:
+            if (o->oTimer == 1) {
+                cur_obj_rotate_yaw_toward(o->oAngleToMario, 0x2000);
+            }
+            o->oF8++;
+            o->oForwardVel = 15;
+            if (o->oTimer == 75) {
+                o->oAction = 1;
+                o->oFC = 14;
+            }
+            break;
+        case 1:
+            o->oFC++;
+            o->oForwardVel = 15;
+            if (o->oTimer == 10) {
+                o->oAction = 2;
+            }
+            break;
+        case 2:
+            obj_mark_for_deletion(o);
+            break;
+    }
+
+    if (o->oAction == 0) {
+        obj_scale_xyz(o,
+        1.0f - 0.2f * sins(o->oF8 * 0x222),
+        1.0f - 0.2f * coss(o->oF8 * 0x222),
+        1.0f - 0.2f * sins(o->oF8 * 0x222));
+    }
+    if (o->oAction == 1) {
+        obj_scale_xyz(o,
+        1.0f * sins(o->oFC * 0x500),
+        1.0f * sins(o->oFC * 0x500),
+        1.0f * sins(o->oFC * 0x500));
+    }
+}
+
+// Chained cage
+
+void a_chained_cage_loop(void) {
+    struct Object * star = cur_obj_nearest_object_with_behavior(bhvStar);
+    switch (o->oAction) {
+        case 0:
+            if (o->oTimer == 56) {
+                o->oAction = 1;
+            }
+            break;
+        case 1:
+            if (star) {
+                star->oPosY -= 9 * sins(o->oF8 * 0x100);
+            }
+            cur_obj_play_sound_2(SOUND_ENV_ELEVATOR1);
+            o->oVelY = -9 * sins(o->oF8 * 0x100);
+            o->oF8++;
+            if (o->oTimer == 127) {
+                o->oAction = 2;
+            }
+            break;
+        case 2:
+            if (o->oTimer == 2) {
+                cur_obj_play_sound_2(SOUND_GENERAL_ELEVATOR_LAND);
+            }
+            o->oVelY = 0;
+            if (starCutsceneActive == TRUE) {
+                o->oAction = 3;
+            }
+            break;
+        case 3:
+            if (o->oTimer < 60) {
+                o->oVelY = 0;
+            } else {
+                if (star) {
+                    star->oPosY += star->oVelY;
+                    star->oVelY-=2;
+                }
+                o->oVelY-=2;
+            }
+            if (o->oTimer == 61) {
+                cur_obj_play_sound_2(SOUND_GENERAL_BIG_POUND);
+            }
+            if (o->oTimer == 103) {
+                o->oAction = 4;
+                o->oF8 = 0;
+            }
+            break;
+        case 4:
+            o->oF8++;
+            if (star) {
+                if (o->oF8 < 75) {
+                    star->oPosY += 10 * sins(o->oF8 * 0x300);
+                    star->oPosX += -15 * sins(o->oF8 * 0x80);
+                }
+            }
+            if (o->oF8 == 85) {
+                o->oAction = 5;
+            }
+            cur_obj_disable_rendering();
+            spawn_mist_particles();
+            spawn_triangle_break_particles(20, MODEL_DIRT_ANIMATION, 0.7f, 3);
+            cur_obj_play_sound_2(SOUND_GENERAL_BREAK_BOX);
+            break;
+        case 5:
+            obj_mark_for_deletion(o);
+            break;
+    }
+
+    o->oPosY += o->oVelY;
+    o->oPosZ += o->oVelZ;
 }

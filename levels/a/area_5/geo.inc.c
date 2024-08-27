@@ -36,8 +36,6 @@ const GeoLayout a_area_5[] = {
 				GEO_CLOSE_NODE(),
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, a_dl_material_revert_render_settings),
-		GEO_DISPLAY_LIST(LAYER_ALPHA, a_dl_material_revert_render_settings),
 	GEO_CLOSE_NODE(),
 	GEO_END(),
 };

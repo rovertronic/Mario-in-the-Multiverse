@@ -6786,6 +6786,109 @@ const BehaviorScript bhvAcage[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(), 
 };
+
+extern const Collision a_ufo_robot_collision[];
+extern const struct Animation *const a_ufo_robot_anims[];
+void a_ufo_robot_init(void);
+void a_ufo_robot_loop(void);
+const BehaviorScript bhvAUFORobot[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY)),
+    LOAD_COLLISION_DATA(a_ufo_robot_collision),
+    LOAD_ANIMATIONS(oAnimations, a_ufo_robot_anims),
+    ANIMATE(0),
+    CALL_NATIVE(a_ufo_robot_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(a_ufo_robot_loop),
+    END_LOOP(),
+};
+
+void chum_bucket_cutscene_loop(void);
+const BehaviorScript bhvChumBucketCutscene[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(chum_bucket_cutscene_loop),
+    END_LOOP(),
+};
+
+void beat_em_up_object(void);
+const BehaviorScript bhvBeatEmUpObject[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(beat_em_up_object),
+    END_LOOP(),
+};
+
+extern const struct Animation *const a_ham_robot_anims[];
+void ham_robot_init(void);
+void ham_robot_loop(void);
+const BehaviorScript bhvAHamRobot[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY)),
+    LOAD_ANIMATIONS(oAnimations, a_ham_robot_anims),
+    ANIMATE(0),
+    CALL_NATIVE(ham_robot_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(ham_robot_loop),
+    END_LOOP(),
+};
+
+extern const struct Animation *const a_launched_box_anims[];
+void a_launched_box(void);
+const BehaviorScript bhvALaunchedBox[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, a_launched_box_anims),
+    ANIMATE(0),
+    SCALE(0, 50),
+    BEGIN_LOOP(),
+        CALL_NATIVE(a_launched_box),
+    END_LOOP(),
+};
+
+void a_robot_launcher_loop(void);
+const BehaviorScript bhvARobotLauncher[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(a_robot_launcher_loop),
+    END_LOOP(),
+};
+
+extern const struct Animation *const dog_robot_anims[];
+void a_dog_robot_init(void);
+void a_dog_robot_loop(void);
+const BehaviorScript bhvADogRobot[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY)),
+    LOAD_ANIMATIONS(oAnimations, dog_robot_anims),
+    ANIMATE(0),
+    CALL_NATIVE(a_dog_robot_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(a_dog_robot_loop),
+    END_LOOP(),
+};
+
+void a_gas_cloud_loop(void);
+const BehaviorScript bhvAGasCloud[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_ENEMY)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(a_gas_cloud_loop),
+    END_LOOP(),
+};
+
+void a_chained_cage_loop(void);
+const BehaviorScript bhvAChainedCage[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(a_chained_cage_loop),
+    END_LOOP(),
+};
+
 /* GROUP A END */
 
 /* GROUP B START */

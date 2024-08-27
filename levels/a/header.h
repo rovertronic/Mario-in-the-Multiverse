@@ -83,4 +83,28 @@ extern const LevelScript level_a_entry[];
 
 #include "levels/a/kingjellywave/geo_header.h"
 
+#include "levels/a/a_ufo_robot/geo_header.h"
+
+#include "levels/a/a_ufo_robot/collision_header.h"
+
+#include "levels/a/a_ufo_robot/anim_header.h"
+
+#include "levels/a/a_ham_robot/geo_header.h"
+
+#include "levels/a/a_ham_robot/anim_header.h"
+
+#include "levels/a/a_launched_box/geo_header.h"
+
+#include "levels/a/a_launched_box/anim_header.h"
+
+#include "levels/a/a_robot_launcher/geo_header.h"
+
+#include "levels/a/dog_robot/geo_header.h"
+
+#include "levels/a/dog_robot/anim_header.h"
+
+#include "levels/a/gas_cloud/geo_header.h"
+
+#include "levels/a/chained_cage/geo_header.h"
+
 #endif

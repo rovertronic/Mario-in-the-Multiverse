@@ -1,0 +1,6 @@
+#include "anim_a_ham_robot_walk.inc.c"
+#include "anim_a_ham_robot_idle.inc.c"
+#include "anim_a_ham_robot_find.inc.c"
+#include "anim_a_ham_robot_swing_hammer.inc.c"
+#include "anim_a_ham_robot_get_up.inc.c"
+#include "anim_a_ham_robot_destroyed.inc.c"

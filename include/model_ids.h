@@ -653,6 +653,14 @@ enum GLOBAL_MODELS {
 #define MODEL_GOO_DROP                            0x166
 #define MODEL_A_CAGE                              0x167
 #define MODEL_PISSWAVE                            0x168
+#define MODEL_A_UFO_ROBOT                         0x169
+#define MODEL_A_CHUMBUCKET_DOOR                   0x16A
+#define MODEL_A_HAM_ROBOT                         0x16B
+#define MODEL_A_LAUNCHED_BOX                      0x16C
+#define MODEL_A_ROBOT_LAUNCHER                    0x16D
+#define MODEL_A_DOG_ROBOT                         0x16E
+#define MODEL_A_GAS_CLOUD                         0x16F
+#define MODEL_A_CHAINED_CAGE                      0x170
 /* LEVEL A END */
 
 /* LEVEL B START */

@@ -595,6 +595,15 @@ extern const BehaviorScript bhvSpawnJellyKJ[];
 extern const BehaviorScript bhvGooDrop[];
 extern const BehaviorScript bhvAcage[];
 extern const BehaviorScript bhvKingJellyZap[];
+extern const BehaviorScript bhvAUFORobot[];
+extern const BehaviorScript bhvChumBucketCutscene[];
+extern const BehaviorScript bhvBeatEmUpObject[];
+extern const BehaviorScript bhvAHamRobot[];
+extern const BehaviorScript bhvALaunchedBox[];
+extern const BehaviorScript bhvARobotLauncher[];
+extern const BehaviorScript bhvADogRobot[];
+extern const BehaviorScript bhvAGasCloud[];
+extern const BehaviorScript bhvAChainedCage[];
 /* GROUP A END */
 
 /* GROUP B START */

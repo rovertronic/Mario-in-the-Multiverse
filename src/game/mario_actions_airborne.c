@@ -18,6 +18,7 @@
 #include "include/behavior_data.h"
 #include "actors/group0.h"
 #include "object_helpers.h"
+#include "buffers/buffers.h"
 
 #include "config.h"
 
@@ -1669,6 +1670,9 @@ s32 act_air_hit_wall(struct MarioState *m) {
         }
     } else if (m->forwardVel >= 38.0f) {
         m->wallKickTimer = 5;
+        if (gSaveBuffer.menuData.config[SETTINGS_WALLKICK] == 1) {
+            m->wallKickTimer = 10;
+        }
         if (m->vel[1] > 0.0f) {
             m->vel[1] = 0.0f;
         }
@@ -1677,6 +1681,9 @@ s32 act_air_hit_wall(struct MarioState *m) {
         return set_mario_action(m, ACT_BACKWARD_AIR_KB, 0);
     } else {
         m->wallKickTimer = 5;
+        if (gSaveBuffer.menuData.config[SETTINGS_WALLKICK] == 1) {
+            m->wallKickTimer = 10;
+        }
         if (m->vel[1] > 0.0f) {
             m->vel[1] = 0.0f;
         }

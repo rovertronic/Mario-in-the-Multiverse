@@ -1851,8 +1851,6 @@ void render_pause_camera_options(s16 x, s16 y, s8 *index, s16 xIndex) {
     }
 }
 
-s8 pingasse[5] = {0,0,0,0,0};
-
 struct setting {
     char * name;
     char ** config_names;
@@ -1866,6 +1864,7 @@ char *aim_camera_configs[] = {"Shotgun Only", "Always Available"};
 char *aim_controls_configs[] = {"Invert Y & X", "Invert Y", "No Invert"};
 char *sound_level_configs[] = {"100", "50", "0"};
 char *music_level_configs[] = {"100", "75", "50", "25", "0"};
+char *wk_configs[] = {"5 (Standard)","10 (Easier)"};
 
 struct setting settings[] = {
     {"Music Volume", music_level_configs, &gSaveBuffer.menuData.config[SETTINGS_MUSIC_VOLUME] , 5},
@@ -1873,6 +1872,7 @@ struct setting settings[] = {
     {"Aim Camera", aim_camera_configs, &gSaveBuffer.menuData.config[SETTINGS_AIM_CAMERA], 2},
     {"Aim Controls", aim_controls_configs, &gSaveBuffer.menuData.config[SETTINGS_AIM_CONTROLS], 3},
     {"Rocket Controls", rocket_controls_configs, &gSaveBuffer.menuData.config[SETTINGS_ROCKET_CONTROLS], 3},
+    {"Wall Kick Frames", wk_configs, &gSaveBuffer.menuData.config[SETTINGS_WALLKICK], 2},
     {"Blood Particles", blood_particles_configs, &gSaveBuffer.menuData.config[SETTINGS_BLOOD], 2},
 };
 

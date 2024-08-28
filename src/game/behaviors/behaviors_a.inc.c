@@ -1122,6 +1122,8 @@ void a_ufo_robot_init(void) {
 void a_ufo_robot_loop(void) {
     object_step();
 
+    o->oInteractStatus = 0;
+
     // random chance that the ufo robot will spawn a coin when it dies.
     sAUFOHitbox.numLootCoins = (random_u16() % 2);
     
@@ -1484,11 +1486,11 @@ void ham_robot_loop(void) {
             break;
         case 5 /* DESTROYED */:
             o->oForwardVel = -24;
+            cur_obj_become_intangible();
             cur_obj_init_animation(ANIM_A_HAM_ROBOT_DESTROYED);
             if (o->oTimer == 17) {
                 obj_mark_for_deletion(o);
                 obj_explode_and_spawn_coins(3.0f, COIN_TYPE_YELLOW);
-                cur_obj_become_intangible();
                 cur_obj_disable_rendering();
                 spawn_mist_particles();    
                 robotsKilled++;

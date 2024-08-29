@@ -1004,3 +1004,54 @@ struct painting_world painting_world_list[] = {
     {"TICK TOCK CLOCK", LEVEL_TTC},
     {"RAINBOW RIDE", LEVEL_RR},
 };
+
+u8 redd_painting_show_ui = FALSE;
+s8 redd_painting_ix = 0;
+s8 redd_painting_iy = 0;
+void bhv_redd_paintings_loop(void) {
+    s8 old_hint_index;
+
+    o->oAnimState = 0;
+    if (o->oTimer%90 < 4) {
+        o->oAnimState = 1;
+    }
+    switch(o->oAction) {
+        case 0: // wait
+            if (o->oInteractStatus == INT_STATUS_INTERACTED) {
+                redd_painting_show_ui = FALSE;
+                redd_painting_ix = 0;
+                redd_painting_iy = 0;
+                shop_cant_afford = 0;
+                o->oAction = 1;
+                gCamera->cutscene = 1;
+
+                vec3f_copy(&gLakituState.goalFocus, &o->oPosVec);
+                vec3f_copy(&gLakituState.goalPos, &o->oPosVec);
+                gLakituState.goalPos[0] += sins(o->oMoveAngleYaw)*800.0f + sins(o->oMoveAngleYaw - 0x4000)*150.0f;
+                gLakituState.goalPos[2] += coss(o->oMoveAngleYaw)*800.0f + coss(o->oMoveAngleYaw - 0x4000)*150.0f;
+
+                gLakituState.goalFocus[0] += sins(o->oMoveAngleYaw - 0x4000)*150.0f;
+                gLakituState.goalFocus[2] += coss(o->oMoveAngleYaw - 0x4000)*150.0f;
+
+                gLakituState.goalFocus[1] += 140.0f;
+                gLakituState.goalPos[1] += 190.0f;
+            }
+            o->oInteractStatus = 0;
+        break;
+        case 1: // select course
+            handle_menu_scrolling_2way(&redd_painting_ix, &redd_painting_iy, 0, 3, 3);
+            u8 redd_painting_index = (redd_painting_iy *4)+(redd_painting_ix%4);
+            if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
+                hub_level_current_index = HUBLEVEL_PWORLD;
+                initiate_warp(painting_world_list[redd_painting_index].level, 1, 0x0A, WARP_FLAGS_NONE);
+                fade_into_special_warp(WARP_SPECIAL_NONE, 0);
+                gSavedCourseNum = COURSE_NONE;
+            } else if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
+                set_mario_action(gMarioState, ACT_IDLE, 0);
+                gCamera->cutscene = 0;
+                hint_show_ui = FALSE;
+                o->oAction = 0;
+            }
+        break;
+    }
+}

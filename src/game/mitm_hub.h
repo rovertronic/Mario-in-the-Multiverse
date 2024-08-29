@@ -54,6 +54,7 @@ enum mitm_hub_level_ids {
     HUBLEVEL_C15,
     HUBLEVEL_BOWSER,
     HUBLEVEL_HUB,
+    HUBLEVEL_PWORLD,
     HUBLEVEL_COUNT,
 };
 

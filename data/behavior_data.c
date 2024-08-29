@@ -6843,6 +6843,7 @@ const BehaviorScript bhvMorshu[] = {
     END_LOOP(),
 };
 
+extern void bhv_redd_paintings_loop(void);
 const BehaviorScript bhvRedd[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
@@ -6854,7 +6855,7 @@ const BehaviorScript bhvRedd[] = {
     SET_HITBOX(/*Radius*/ 100, /*Height*/ 250),
     BEGIN_LOOP(),
         SET_INT(oIntangibleTimer, 0),
-        //CALL_NATIVE(bhv_redd_loop),
+        CALL_NATIVE(bhv_redd_paintings_loop),
     END_LOOP(),
 };
 

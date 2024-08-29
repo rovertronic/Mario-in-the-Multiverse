@@ -264,6 +264,24 @@ u32 determine_interaction(struct MarioState *m, struct Object *obj) {
         }
     }
 
+    if (gCurrLevelNum == LEVEL_N) {
+        struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
+        if (marble) {
+            f32 speed = vec3_mag(marble->rigidBody->linearVel);
+            interaction = INT_KICK;
+            s16 rebound_direction = obj_angle_to_object(obj,marble);
+            f32 forward_force = obj->oForwardVel*2.f;
+            if (forward_force < 0.0f) {
+                forward_force = 0.0f;
+            }
+            Vec3f force = {sins(rebound_direction)*forward_force,0,coss(rebound_direction)*forward_force};
+            rigid_body_add_force(marble->rigidBody, &gMarioState->pos, force, TRUE);
+        }
+        if (action != ACT_MARBLE) {
+            interaction = INT_NONE;
+        }
+    }
+
     return interaction;
 }
 

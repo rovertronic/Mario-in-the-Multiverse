@@ -447,6 +447,12 @@ void bhv_nball_loop(void) {
         case BULLY_ACT_CHASE_MARIO:
             vec3f_copy(&o->oHomeVec, gMarioState->pos);
             bully_act_chase_mario();
+
+            if (gMarioState->pos[1] < o->oPosY-100.0f) {
+                //don't chase mario off the edge
+                o->oForwardVel = 0.0f;
+            }
+
             bully_step();
             break;
 

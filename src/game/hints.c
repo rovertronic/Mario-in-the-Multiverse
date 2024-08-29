@@ -824,9 +824,9 @@ into the pit and get launched by the cannon!",
 
 { /* star 8 */
 "Collect 7 stars in this level to summon\n\
-the 8-ball boss. Knock it into the void to\n\
-get this star!",
-(0)
+the 8-ball boss. Use the hamsterball to\n\
+knock it into the void to get this star!",
+(ABILITY_FLAG_MARBLE)
 },
 
 /* COURSE 15 */

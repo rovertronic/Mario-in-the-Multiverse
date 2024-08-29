@@ -31,6 +31,11 @@ struct mitm_level_data {
     mitm_dream_data * dream_data;
 };
 
+struct painting_world {
+    char * name;
+    u8 level;
+};
+
 enum mitm_hub_level_ids {
     HUBLEVEL_C1,
     HUBLEVEL_C2,

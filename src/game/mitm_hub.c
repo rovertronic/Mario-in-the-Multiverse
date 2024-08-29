@@ -112,6 +112,8 @@ struct mitm_level_data mitm_levels[] = {
             LEVEL_BOWSER_COURSE,  COURSE_BITDW, 0, 0,   34,         1,     NULL},
    /*HUB*/{"FRACTURE", NULL, NULL,
             NULL,     COURSE_BITFS, 0,       0,         34,         2,     NULL},
+   /*PW*/ {"PAINTING WORLD", NULL, NULL,
+            NULL,     COURSE_NONE,  0,       0,         34,         0,     NULL},
 };
 
 s8 hub_level_index = -1;
@@ -985,3 +987,20 @@ void print_mitm_credits(u8 hud_alpha) {
         }
     }
 }
+
+struct painting_world painting_world_list[] = {
+    {"BOB-OMB BATTLEFIELD", LEVEL_BOB},
+    {"WHOMP'S FORTRESS", LEVEL_WF},
+    {"JOLLY ROGER BAY", LEVEL_JRB},
+    {"COOL COOL MOUNTAIN", LEVEL_CCM},
+    {"BIG BOO'S HAUNT", LEVEL_BBH},
+    {"HAZY MAZE CAVE", LEVEL_HMC},
+    {"LETHAL LAVA LAND", LEVEL_LLL},
+    {"SHIFTING SAND LAND", LEVEL_SSL},
+    {"SNOWMAN'S LAND", LEVEL_SL},
+    {"WET DRY WORLD", LEVEL_WDW},
+    {"TALL TALL MOUNTAIN", LEVEL_TTM},
+    {"TINY HUGE ISLAND", LEVEL_THI},
+    {"TICK TOCK CLOCK", LEVEL_TTC},
+    {"RAINBOW RIDE", LEVEL_RR},
+};

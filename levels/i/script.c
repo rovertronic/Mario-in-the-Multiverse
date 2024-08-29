@@ -37,7 +37,7 @@ const LevelScript level_i_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_HOODBOOMER_BOMB, hoodboomer_bomb_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_PIGPOT, pigpot_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_WINDMILL, windmill_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_GATE, gate_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_GATE, i_gate_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_WOODEN_LEVER, wooden_lever_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_PLUM, plum_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_CAGED_TOAD, caged_toad_geo), 

@@ -1,0 +1,16 @@
+extern const GeoLayout i_gate_geo[];
+extern Lights1 i_gate_f3dlite_material_lights;
+extern Lights1 i_gate_f3dlite_material_001_lights;
+extern u8 i_gate_metal1_ci8[];
+extern u8 i_gate_metal1_pal_rgba16[];
+extern u8 i_gate_metal_bar_ci8[];
+extern u8 i_gate_metal_bar_pal_rgba16[];
+extern Vtx i_gate_gate_mesh_layer_1_vtx_0[104];
+extern Gfx i_gate_gate_mesh_layer_1_tri_0[];
+extern Vtx i_gate_gate_mesh_layer_1_vtx_1[40];
+extern Gfx i_gate_gate_mesh_layer_1_tri_1[];
+extern Gfx mat_i_gate_f3dlite_material[];
+extern Gfx mat_revert_i_gate_f3dlite_material[];
+extern Gfx mat_i_gate_f3dlite_material_001[];
+extern Gfx mat_revert_i_gate_f3dlite_material_001[];
+extern Gfx i_gate_gate_mesh_layer_1[];

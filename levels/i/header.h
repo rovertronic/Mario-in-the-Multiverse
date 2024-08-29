@@ -17,10 +17,6 @@ extern const LevelScript level_i_entry[];
 
 #include "levels/i/windmill/geo_header.h"
 
-#include "levels/i/gate/geo_header.h"
-
-#include "levels/i/gate/collision_header.h"
-
 #include "levels/i/wooden_lever/geo_header.h"
 
 #include "levels/i/plum/geo_header.h"
@@ -80,5 +76,9 @@ extern const LevelScript level_i_entry[];
 #include "levels/i/boss_gate/geo_header.h"
 
 #include "levels/i/boss_gate/collision_header.h"
+
+#include "levels/i/i_gate/geo_header.h"
+
+#include "levels/i/i_gate/collision_header.h"
 
 #endif

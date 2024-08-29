@@ -7909,7 +7909,7 @@ const BehaviorScript bhvRotatingGearDecorative[] = {
 const BehaviorScript bhvGrillOpenableByRocketButton[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_LONG(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET)),
-    LOAD_COLLISION_DATA(gate_collision),
+    LOAD_COLLISION_DATA(i_gate_collision),
     SET_FLOAT(oCollisionDistance, 500),
     SET_FLOAT(oDrawingDistance, 10000),
     BEGIN_LOOP(),

@@ -41,6 +41,7 @@ struct ObjectHitbox sBerryHitbox = {
     /* hurtboxHeight:     */ 250,
 };
 
+u8 dragonite_cutscene_already_played = FALSE;
 void bhv_dragonite_init(void){
     if (o->oBehParams2ndByte == 0){
         obj_scale_xyz(o, 0.0f, 0.0f, 0.0f);
@@ -49,6 +50,8 @@ void bhv_dragonite_init(void){
     } else if (o->oBehParams2ndByte == 1){
         ///IF (1), DESPAWN IF YOU HAVE THE ABILITY UNLOCKED
         if (save_file_check_ability_unlocked(ABILITY_HM_FLY)) {
+            struct Object * star_always_there = spawn_object(o,MODEL_STAR,bhvStar);
+            vec3f_set(&star_always_there->oPosVec,0.0f, 749.0f, -1762.0f);
             obj_mark_for_deletion(o);
             return;
         }
@@ -59,11 +62,12 @@ void bhv_dragonite_init(void){
         o->oGraphYOffset = 20.0f;
     } else {
         ///ALSO DESPAWN DRAGONITE HERE IF YOU HAVE THE ABILITY UNLOCKED, OTHERWISE RUN THE CUTSCENE
-        if (save_file_check_ability_unlocked(ABILITY_HM_FLY)) {
+        if (save_file_check_ability_unlocked(ABILITY_HM_FLY) || dragonite_cutscene_already_played) {
             obj_mark_for_deletion(o);
             return;
         }
 
+        dragonite_cutscene_already_played = TRUE;
         cur_obj_init_animation(0);
         o->oAction = DRAGONITE_ACT_CUTSCENE;
         cutscene_object(CUTSCENE_DRAGONITE, o);
@@ -199,11 +203,14 @@ void bhv_berry_loop(void){
     struct Object *DragoniteObj = cur_obj_find_nearest_object_with_behavior(bhvDragonite, &dist);
     if (!DragoniteObj) {
         cur_obj_hide();
+        cur_obj_become_intangible();
         return;
     } else {
         cur_obj_unhide();
+        cur_obj_become_tangible();
     }
 
+    o->oGravity = 2.f;
     switch(o->oHeldState) {
         case HELD_FREE:
         object_step();

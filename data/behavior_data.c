@@ -8183,7 +8183,7 @@ const BehaviorScript bhvLevelIStartToad[] = {
 /* GROUP J START */
 const BehaviorScript bhvDragonite[] = {
     BEGIN(OBJ_LIST_PUSHABLE),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW | OBJ_FLAG_PERSISTENT_RESPAWN)),
     LOAD_ANIMATIONS(oAnimations, dragonite_anims),
     SET_FLOAT(oDrawingDistance, 32000),
     CALL_NATIVE(bhv_dragonite_init),

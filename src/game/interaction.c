@@ -988,6 +988,11 @@ u32 interact_warp(struct MarioState *m, UNUSED u32 interactType, struct Object *
     if (obj->oInteractionSubtype & INT_SUBTYPE_FADING_WARP) {
         action = m->action;
 
+        if (level_in_dream_comet_mode() && gCurrLevelNum == LEVEL_I) {
+            // hardcoded stop fading warp in rayman level
+            return FALSE;
+        }
+
         if (action == ACT_TELEPORT_FADE_IN) {
             sJustTeleported = TRUE;
 

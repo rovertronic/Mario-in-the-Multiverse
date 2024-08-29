@@ -67,6 +67,7 @@ mitm_dream_data mitmdd_d = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_AKU,ABI
 mitm_dream_data mitmdd_e = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_E_SHOTGUN,ABILITY_NONE},8};
 mitm_dream_data mitmdd_g = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_NONE,ABILITY_NONE},7};
 mitm_dream_data mitmdd_h = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_PHASEWALK,ABILITY_NONE},7};
+mitm_dream_data mitmdd_i = {{ABILITY_DEFAULT,ABILITY_CUTTER,ABILITY_NONE,ABILITY_NONE},7};
 mitm_dream_data mitmdd_k = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_CHRONOS,ABILITY_NONE},7};
 mitm_dream_data mitmdd_l = {{ABILITY_DEFAULT,ABILITY_KNIGHT,ABILITY_NONE,ABILITY_NONE},4};
 mitm_dream_data mitmdd_n = {{ABILITY_DEFAULT,ABILITY_E_SHOTGUN,ABILITY_BUBBLE_HAT,ABILITY_NONE},7};
@@ -84,7 +85,7 @@ struct mitm_level_data mitm_levels[] = {
     /*C*/ {"PIRANHA PIT", "Drahnokks, Idea by: Woissil", "Drahnokks & Co.",
             LEVEL_C,  COURSE_JRB,   1,       1,         22,         8,     &mitmdd_c},
     /*I*/ {"MUSHROOM HAVOC", "Drahnokks", "Drahnokks",
-            LEVEL_I,  COURSE_CCM,   3,       1,         23,         8,     NULL},
+            LEVEL_I,  COURSE_CCM,   3,       1,         23,         8,     &mitmdd_i},
     /*H*/ {"OPPORTUNITY", "joopii", "joopii",
             LEVEL_H,  COURSE_BBH,   5,       1,         24,         8,     &mitmdd_h },
     /*B*/ {"BIOSHOCK RAPTURE", "furyiousfight", "furyiousfight",

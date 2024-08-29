@@ -7908,7 +7908,7 @@ const BehaviorScript bhvRotatingGearDecorative[] = {
 
 const BehaviorScript bhvGrillOpenableByRocketButton[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET)),
     LOAD_COLLISION_DATA(gate_collision),
     SET_FLOAT(oCollisionDistance, 500),
     SET_FLOAT(oDrawingDistance, 10000),
@@ -7959,7 +7959,7 @@ const BehaviorScript bhvPlumBucket[] = {
 
 const BehaviorScript bhvCagedToad[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_CUSTOM)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_NO_DREAM_COMET)),
     SET_HITBOX(/*Radius*/ 120, /*Height*/ 200),
     SET_INT(oIntangibleTimer, 0),
     SET_FLOAT(oDrawingDistance, 8000),
@@ -7978,7 +7978,7 @@ const BehaviorScript bhvFallingToad[] = {
 
 const BehaviorScript bhvHiddenCagedToadsStar[] = {
     BEGIN(OBJ_LIST_LEVEL),
-    OR_INT(oFlags, (OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET)),
     CALL_NATIVE(bhv_caged_toad_star_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_bhv_caged_toad_star_loop),
@@ -8157,7 +8157,7 @@ const BehaviorScript bhvLevelIBossDoorStarSlot[] = {
 
 const BehaviorScript bhvBountyHunterToad[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_INT(oFlags, (OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET)),
     LOAD_ANIMATIONS(oAnimations, toad_seg6_anims_0600FB58),
     ANIMATE(TOAD_ANIM_WEST_WAVING_BOTH_ARMS),
     SET_INTERACT_TYPE(INTERACT_TEXT),

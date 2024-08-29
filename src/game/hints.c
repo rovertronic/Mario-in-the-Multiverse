@@ -193,7 +193,7 @@ Hit both buttons in time to open the gate.",
 },
 
 { /* star 2 */
-"Kill every single hoodlums in the level.\n\
+"Kill every single hoodlum in the level.\n\
 Then, talk to the toad standing on a crate to\n\
 receive the star.",
 (0)

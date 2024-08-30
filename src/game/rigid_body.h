@@ -17,9 +17,9 @@
 #define FRICTION 0.9f
 
 #define NUM_RIGID_BODY_STEPS 3
-#define NUM_IMPULSE_ITERATIONS 3
+#define NUM_IMPULSE_ITERATIONS 1
 
-#define MAX_RIGID_BODIES 6
+#define MAX_RIGID_BODIES 7
 
 typedef Vec4f Quat;
 

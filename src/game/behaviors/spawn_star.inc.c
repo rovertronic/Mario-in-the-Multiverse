@@ -43,6 +43,10 @@ void bhv_collect_star_init(void) {
     } else {
         obj_set_hitbox(o, &sCollectStarHitbox);
     }
+
+    if (in_vanilla_painting_world()) {
+        o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_CARDBOARD_STAR];
+    }
 }
 
 void bhv_collect_star_loop(void) {

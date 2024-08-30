@@ -997,6 +997,7 @@ struct painting_world painting_world_list[] = {
     {"HAZY MAZE CAVE", LEVEL_HMC},
     {"LETHAL LAVA LAND", LEVEL_LLL},
     {"SHIFTING SAND LAND", LEVEL_SSL},
+    {"DIRE DIRE DOCKS", LEVEL_DDD},
     {"SNOWMAN'S LAND", LEVEL_SL},
     {"WET DRY WORLD", LEVEL_WDW},
     {"TALL TALL MOUNTAIN", LEVEL_TTM},
@@ -1004,6 +1005,10 @@ struct painting_world painting_world_list[] = {
     {"TICK TOCK CLOCK", LEVEL_TTC},
     {"RAINBOW RIDE", LEVEL_RR},
 };
+
+s32 in_vanilla_painting_world(void) {
+    return hub_level_current_index == HUBLEVEL_PWORLD;
+}
 
 u8 redd_painting_show_ui = FALSE;
 s8 redd_painting_ix = 0;

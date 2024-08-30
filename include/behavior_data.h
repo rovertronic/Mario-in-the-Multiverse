@@ -890,5 +890,6 @@ extern const BehaviorScript bhvBcStair[];
 extern const BehaviorScript bhvBcSkiploom[];
 extern const BehaviorScript bhvCreditsSlab[];
 extern const BehaviorScript bhvDreamCatalyst[];
+extern const BehaviorScript bhvCarboardStarBody[];
 
 #endif // BEHAVIOR_DATA_H

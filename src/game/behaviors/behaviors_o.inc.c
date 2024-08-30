@@ -1180,3 +1180,64 @@ void bhv_o_gerik(void) {
     o->oIntangibleTimer = 0;
     //o->oInteractStatus = 0;
 }
+
+
+Vec3f cardstar_size = {105.0f,105.0f,105.0f};
+
+Vec3f cardstar_verts[10] = {
+	{0.0f,  1.0f,  0.1f},
+    {1.0f,  0.0f,  0.1f},
+    {-1.0f, 0.0f,  0.1f},
+    {0.5f , -1.0f, 0.1f},
+    {-0.5f, -1.0f, 0.1f},
+
+	{0.0f,  1.0f,  -0.1f},
+    {1.0f,  0.0f,  -0.1f},
+    {-1.0f, 0.0f,  -0.1f},
+    {0.5f , -1.0f, -0.1f},
+    {-0.5f, -1.0f, -0.1f},
+};
+
+struct MeshInfo cardstar_mesh = {
+    cardstar_verts,
+    NULL,
+    NULL,
+    NULL,
+    10, // Number of vertices
+    0,
+    0,
+    0
+};
+
+void bhv_cardstar_init(void) {
+    struct RigidBody *body = allocate_rigid_body_from_object(o, &cardstar_mesh, 1.f, cardstar_size, FALSE);
+}
+
+void bhv_cardstar(void) {
+    struct RigidBody *body = o->rigidBody;
+
+    switch(o->oAction) {
+        case 0:
+            o->oAction = 1;
+        break;
+        case 1:
+            if (o->oDistanceToMario < 100.0f) {
+                o->oAction = 2;
+
+                cur_obj_play_sound_2(SOUND_GENERAL_SMALL_BOX_LANDING);
+                drop_and_set_mario_action(gMarioState, ACT_JUMP_KICK, 0);
+
+                Vec3f force;
+                force[0] = gMarioState->vel[0]*3.0f;
+                force[2] = gMarioState->vel[2]*3.0f;
+                force[1] = 50.0f*3.0f;
+                rigid_body_add_force(body, &gMarioState->pos, force, TRUE);
+            }
+        break;
+        case 2:
+            if (body->linearVel[1] < 0.0f) {
+                o->oAction = 0;
+            }
+        break;
+    }
+}

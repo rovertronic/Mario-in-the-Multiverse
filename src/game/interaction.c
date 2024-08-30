@@ -859,6 +859,13 @@ u32 interact_water_ring(struct MarioState *m, UNUSED u32 interactType, struct Ob
 extern u8 ability_get_confirm;
 extern u8 hub_star_string[];
 u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
+    if (in_vanilla_painting_world()) {
+        //stars are replaced with 10 coins in painting worlds
+        spawn_object(obj, MODEL_CARDBOARD_STAR, bhvCarboardStarBody);
+        obj->oInteractStatus = INT_STATUS_INTERACTED;
+        return TRUE;
+    }
+
     u32 starIndex;
     u32 starGrabAction = ACT_STAR_DANCE_EXIT;
 #ifdef NON_STOP_STARS

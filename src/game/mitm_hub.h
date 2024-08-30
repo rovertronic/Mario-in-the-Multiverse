@@ -9,6 +9,7 @@ u8 get_hub_area(u8 id);
 u8 get_hub_return_id(u8 id);
 void update_hub_star_string(s8 hub_level_index);
 void print_mitm_credits(u8 hud_alpha);
+s32 in_vanilla_painting_world(void);
 
 extern u8 hub_star_string[]; // For use on the level pause screen
 extern s8 hub_level_current_index;

@@ -1,7 +1,8 @@
 // cannon.inc.c
 
 void bhv_cannon_closed_init(void) {
-    if (save_file_is_cannon_unlocked() == TRUE) {
+    // in mitm, cannon bit is 8th star instead
+    //if (save_file_is_cannon_unlocked() == TRUE) {
         // If the cannon is open, spawn a cannon and despawn the object.
         struct Object *cannon = spawn_object(o, MODEL_CANNON_BASE, bhvCannon);
 
@@ -12,7 +13,7 @@ void bhv_cannon_closed_init(void) {
 
         o->oAction = CANNON_TRAP_DOOR_ACT_OPEN;
         o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
-    }
+    //}
 }
 
 void cannon_door_act_opening(void) {

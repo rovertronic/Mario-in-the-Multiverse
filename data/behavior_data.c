@@ -9467,3 +9467,14 @@ const BehaviorScript bhvDreamCatalyst[] = {
         CALL_NATIVE(bhv_dream_catalyst),
     END_LOOP(),
 };
+
+extern void bhv_cardstar_init(void);
+extern void bhv_cardstar(void);
+const BehaviorScript bhvCarboardStarBody[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    CALL_NATIVE(bhv_cardstar_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_cardstar),
+    END_LOOP(),
+};

@@ -989,21 +989,22 @@ void print_mitm_credits(u8 hud_alpha) {
 }
 
 struct painting_world painting_world_list[] = {
-    {"BOB-OMB BATTLEFIELD", LEVEL_BOB},
-    {"WHOMP'S FORTRESS", LEVEL_WF},
-    {"JOLLY ROGER BAY", LEVEL_JRB},
-    {"COOL COOL MOUNTAIN", LEVEL_CCM},
-    {"BIG BOO'S HAUNT", LEVEL_BBH},
-    {"HAZY MAZE CAVE", LEVEL_HMC},
-    {"LETHAL LAVA LAND", LEVEL_LLL},
-    {"SHIFTING SAND LAND", LEVEL_SSL},
-    {"DIRE DIRE DOCKS", LEVEL_DDD},
-    {"SNOWMAN'S LAND", LEVEL_SL},
-    {"WET DRY WORLD", LEVEL_WDW},
-    {"TALL TALL MOUNTAIN", LEVEL_TTM},
-    {"TINY HUGE ISLAND", LEVEL_THI},
-    {"TICK TOCK CLOCK", LEVEL_TTC},
-    {"RAINBOW RIDE", LEVEL_RR},
+    {"Bob-omb Battlefield", LEVEL_BOB},
+    {"Whomp's Fortress", LEVEL_WF},
+    {"Jolly Roger Bay", LEVEL_JRB},
+    {"Cool Cool Mountain", LEVEL_CCM},
+    {"Big Boo's Haunt", LEVEL_BBH},
+    {"Haze Maze Cave", LEVEL_HMC},
+    {"Lethal Lava Land", LEVEL_LLL},
+    {"Shifting Sand Land", LEVEL_SSL},
+    {"Dire Dire Docks", LEVEL_DDD},
+    {"Snowman's Land", LEVEL_SL},
+    {"Wet Dry World", LEVEL_WDW},
+    {"Tall Tall Mountain", LEVEL_TTM},
+    {"Tiny Huge Island", LEVEL_THI},
+    {"Tick Tock Clock", LEVEL_TTC},
+    {"Rainbow Ride", LEVEL_RR},
+    {"Secret Slide", LEVEL_PSS}
 };
 
 s32 in_vanilla_painting_world(void) {
@@ -1023,7 +1024,7 @@ void bhv_redd_paintings_loop(void) {
     switch(o->oAction) {
         case 0: // wait
             if (o->oInteractStatus == INT_STATUS_INTERACTED) {
-                redd_painting_show_ui = FALSE;
+                redd_painting_show_ui = TRUE;
                 redd_painting_ix = 0;
                 redd_painting_iy = 0;
                 shop_cant_afford = 0;
@@ -1047,6 +1048,7 @@ void bhv_redd_paintings_loop(void) {
             handle_menu_scrolling_2way(&redd_painting_ix, &redd_painting_iy, 0, 3, 3);
             u8 redd_painting_index = (redd_painting_iy *4)+(redd_painting_ix%4);
             if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
+                redd_painting_show_ui = FALSE;
                 hub_level_current_index = HUBLEVEL_PWORLD;
                 initiate_warp(painting_world_list[redd_painting_index].level, 1, 0x0A, WARP_FLAGS_NONE);
                 fade_into_special_warp(WARP_SPECIAL_NONE, 0);
@@ -1054,9 +1056,30 @@ void bhv_redd_paintings_loop(void) {
             } else if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
                 set_mario_action(gMarioState, ACT_IDLE, 0);
                 gCamera->cutscene = 0;
-                hint_show_ui = FALSE;
+                redd_painting_show_ui = FALSE;
                 o->oAction = 0;
             }
         break;
     }
+}
+
+void render_painting_ui(f32 alpha) {
+    char stringBuf[100];
+
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
+    create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
+    gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+    gSPDisplayList(gDisplayListHead++, painting_menu_roundbox_003_mesh);
+    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+    u8 redd_painting_index = (redd_painting_iy *4)+(redd_painting_ix%4);
+    create_dl_translation_matrix(MENU_MTX_PUSH, 57+redd_painting_ix*32, 195-redd_painting_iy*32, 0);
+    gSPDisplayList(gDisplayListHead++, selector_selector_mesh);
+    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+    sprintf(stringBuf,"Enter: %s\nThese are sandbox levels intended for play,\nso there are no power stars to collect.",painting_world_list[redd_painting_index].name);
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
+    print_generic_string_ascii(43, 58, stringBuf);
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 }

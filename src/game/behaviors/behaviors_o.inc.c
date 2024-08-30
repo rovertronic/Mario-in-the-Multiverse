@@ -1182,7 +1182,7 @@ void bhv_o_gerik(void) {
 }
 
 
-Vec3f cardstar_size = {105.0f,105.0f,105.0f};
+Vec3f cardstar_size = {70.0f,70.0f,70.0f};
 
 Vec3f cardstar_verts[10] = {
 	{0.0f,  1.0f,  0.1f},
@@ -1210,7 +1210,7 @@ struct MeshInfo cardstar_mesh = {
 };
 
 void bhv_cardstar_init(void) {
-    struct RigidBody *body = allocate_rigid_body_from_object(o, &cardstar_mesh, 1.f, cardstar_size, FALSE);
+    struct RigidBody *body = allocate_rigid_body_from_object(o, &cardstar_mesh, 0.7f, cardstar_size, FALSE);
 }
 
 void bhv_cardstar(void) {

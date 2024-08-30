@@ -849,6 +849,7 @@ u8 shop_sold_out = FALSE;
 u8 hint_show_ui = FALSE;
 
 extern u8 show_mitm_credits;
+extern u8 redd_painting_show_ui;
 
 /**
  * Render HUD strings using hudDisplayFlags with it's render functions,
@@ -1155,7 +1156,7 @@ void render_hud(void) {
         }
 #endif
 
-        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )||(shop_show_ui)||(hint_show_ui)||(show_mitm_credits)) {
+        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )||(shop_show_ui)||(hint_show_ui)||(show_mitm_credits)||(redd_painting_show_ui)) {
             hud_alpha = approach_f32_asymptotic(hud_alpha,0.0f,0.2f);
         } else {
             hud_alpha = approach_f32_asymptotic(hud_alpha,255.0f,0.2f);
@@ -1278,6 +1279,9 @@ void render_hud(void) {
         }
         if (show_mitm_credits) {
             print_mitm_credits(hud_alpha);
+        }
+        if (redd_painting_show_ui) {
+            render_painting_ui(hud_alpha);
         }
 
         //revert (prolly not needed)

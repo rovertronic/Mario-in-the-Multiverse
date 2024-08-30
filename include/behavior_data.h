@@ -75,6 +75,7 @@ extern const BehaviorScript bhvPunchTinyTriangle[];
 extern const BehaviorScript bhvTriangleParticleSpawner[];
 extern const BehaviorScript bhvDoorWarp[];
 extern const BehaviorScript bhvDoor[];
+extern const BehaviorScript bhvDoorFake[];
 extern const BehaviorScript bhvGrindel[];
 extern const BehaviorScript bhvThwomp2[];
 extern const BehaviorScript bhvThwomp[];

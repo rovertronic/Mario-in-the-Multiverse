@@ -243,6 +243,7 @@ static void klepto_act_dive_at_mario(void) {
                 }
             }
 
+            /*
             if (gMarioStates[0].action != ACT_SLEEPING
                 && !(gMarioStates[0].action & (ACT_FLAG_SHORT_HITBOX | ACT_FLAG_BUTT_OR_STOMACH_SLIDE))
                 && o->oDistanceToMario < 200.0f
@@ -251,6 +252,7 @@ static void klepto_act_dive_at_mario(void) {
                 && mario_lose_cap_to_enemy(1)) {
                 o->oAnimState = KLEPTO_ANIM_STATE_HOLDING_CAP;
             }
+            */
         }
     }
 

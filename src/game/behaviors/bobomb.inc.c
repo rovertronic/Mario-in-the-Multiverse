@@ -300,6 +300,11 @@ void bobomb_buddy_act_idle(void) {
     s16 animFrame = o->header.gfx.animInfo.animFrame;
 
     // vec3f_copy(&o->oBobombBuddyPosCopyVec, &o->oPosVec);
+    if (o->oBobombBuddyRole == BOBOMB_BUDDY_ROLE_CANNON) {
+        // no buddies in mitm
+        obj_mark_for_deletion(o);
+        return;
+    }
 
     object_step();
 

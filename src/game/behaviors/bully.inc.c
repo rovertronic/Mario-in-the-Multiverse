@@ -46,6 +46,9 @@ void bhv_big_bully_init(void) {
     obj_set_hitbox(o, &sBigBullyHitbox);
 
     obj_scale(o,2.5f);
+    if (in_vanilla_painting_world()) {
+        obj_scale(o,1.0f);
+    }
 }
 
 void bully_check_mario_collision(void) {

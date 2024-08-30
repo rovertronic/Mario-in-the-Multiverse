@@ -110,3 +110,4 @@
 #include "levels/castle_inside/redd/model.inc.c"
 #include "levels/castle_inside/redd/anims/data.inc.c"
 #include "levels/castle_inside/redd/anims/table.inc.c"
+#include "levels/castle_inside/painting_menu/model.inc.c"

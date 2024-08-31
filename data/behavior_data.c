@@ -8788,7 +8788,7 @@ const BehaviorScript bhvL_PizzaPortal[] = {
 extern void bhv_m_boss_elevator(void);
 const BehaviorScript bhvM_BossElevator[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET)),
     LOAD_COLLISION_DATA(m_bossplatform_collision),
     SET_FLOAT(oCollisionDistance, 4000),
     SET_FLOAT(oDrawingDistance, 32000),
@@ -8801,7 +8801,7 @@ const BehaviorScript bhvM_BossElevator[] = {
 extern void bhv_m_classc(void);
 const BehaviorScript bhvM_ClassC[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_NO_DREAM_COMET)),
     SET_FLOAT(oDrawingDistance, 32000),
     SET_HOME(),
     BEGIN_LOOP(),
@@ -8812,7 +8812,7 @@ const BehaviorScript bhvM_ClassC[] = {
 extern void bhv_m_gate(void);
 const BehaviorScript bhvM_Gate[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET)),
     LOAD_COLLISION_DATA(m_gate_collision),
     SET_FLOAT(oCollisionDistance, 4000),
     SET_FLOAT(oDrawingDistance, 32000),
@@ -8826,7 +8826,7 @@ const BehaviorScript bhvM_Gate[] = {
 extern void goliath_jelly_boss_loop(void);
 const BehaviorScript bhvM_Jelly[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_NO_DREAM_COMET)),
     SCALE(0, 400),
     ANIMATE(0),
     LOAD_ANIMATIONS(oAnimations, m_jelly_anims),

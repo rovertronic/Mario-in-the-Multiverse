@@ -2401,6 +2401,9 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         //the phasewalk timer runs unconditionally
         if (phasewalk_timer > 0 && phasewalk_timer < 150) {
             phasewalk_timer --;
+            if (phasewalk_timer == 0) {
+                ability_ready(ABILITY_PHASEWALK);
+            }
         }
 
         if (phasewalk_timer > 0) {

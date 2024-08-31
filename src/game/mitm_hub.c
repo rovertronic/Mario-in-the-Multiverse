@@ -70,6 +70,7 @@ mitm_dream_data mitmdd_h = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_PHASEWA
 mitm_dream_data mitmdd_i = {{ABILITY_DEFAULT,ABILITY_CUTTER,ABILITY_NONE,ABILITY_NONE},7};
 mitm_dream_data mitmdd_k = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_CHRONOS,ABILITY_NONE},7};
 mitm_dream_data mitmdd_l = {{ABILITY_DEFAULT,ABILITY_KNIGHT,ABILITY_NONE,ABILITY_NONE},4};
+mitm_dream_data mitmdd_m = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_PHASEWALK,ABILITY_KNIGHT},8};
 mitm_dream_data mitmdd_n = {{ABILITY_DEFAULT,ABILITY_E_SHOTGUN,ABILITY_BUBBLE_HAT,ABILITY_NONE},7};
 mitm_dream_data mitmdd_o = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_HM_FLY,ABILITY_GADGET_WATCH},8};
 
@@ -107,13 +108,13 @@ struct mitm_level_data mitm_levels[] = {
     /*N*/ {"MARIO IN HAMSTERBALL", "LinCrash", "LinCrash",
             LEVEL_N,  COURSE_TTC,   50,      1,         33,         8,     &mitmdd_n},
     /*M*/ {"ENVIRONMENTAL STATION M", "Mel", "Mel",
-            LEVEL_M,  COURSE_RR,    50,      1,         34,         8,     NULL},
+            LEVEL_M,  COURSE_RR,    50,      1,         34,         8,     &mitmdd_m},
     /*BC*/{"CENTRUM OMNIUM", NULL, NULL,
-            LEVEL_BOWSER_COURSE,  COURSE_BITDW, 0, 0,   34,         1,     NULL},
+            LEVEL_BOWSER_COURSE,  COURSE_BITDW, 0, 0,   37,         1,     NULL},
    /*HUB*/{"FRACTURE", NULL, NULL,
             NULL,     COURSE_BITFS, 0,       0,         34,         2,     NULL},
    /*PW*/ {"PAINTING WORLD", NULL, NULL,
-            NULL,     COURSE_NONE,  0,       0,         34,         0,     NULL},
+            NULL,     COURSE_NONE,  0,       0,         36,         0,     NULL},
 };
 
 s8 hub_level_index = -1;

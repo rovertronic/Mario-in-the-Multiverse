@@ -33,4 +33,8 @@ extern const LevelScript level_k_entry[];
 
 #include "levels/k/electrohead/geo_header.h"
 
+#include "levels/k/k_tv1/geo_header.h"
+
+#include "levels/k/k_tv2/geo_header.h"
+
 #endif

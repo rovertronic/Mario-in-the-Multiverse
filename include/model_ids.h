@@ -872,6 +872,8 @@ enum K_MODELS {
     MODEL_K_KAGUYA,
     MODEL_K_DISCO,
     MODEL_K_BARTENDER,
+    MODEL_K_TV_1,
+    MODEL_K_TV_2,
 };
 /* LEVEL K END */
 

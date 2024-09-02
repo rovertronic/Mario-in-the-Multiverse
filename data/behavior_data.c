@@ -8655,6 +8655,19 @@ const BehaviorScript bhvKtvAim[] = {
         CALL_NATIVE(bhv_k_tv_aim),
     END_LOOP(),
 };
+
+extern void bhv_k_pounder(void);
+const BehaviorScript bhvKpounder[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(k_pounder_collision),
+    SET_FLOAT(oDrawingDistance, 32000),
+    SET_FLOAT(oCollisionDistance, 3000),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_k_pounder),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
 /* GROUP K END */
 
 /* GROUP L START */

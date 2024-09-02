@@ -37,4 +37,14 @@ extern const LevelScript level_k_entry[];
 
 #include "levels/k/k_tv2/geo_header.h"
 
+#include "levels/k/k_tv3/geo_header.h"
+
+#include "levels/k/k_tv4/geo_header.h"
+
+#include "levels/k/k_lite/geo_header.h"
+
+#include "levels/k/k_pounder/geo_header.h"
+
+#include "levels/k/k_pounder/collision_header.h"
+
 #endif

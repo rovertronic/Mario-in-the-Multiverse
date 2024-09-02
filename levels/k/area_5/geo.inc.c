@@ -3,7 +3,9 @@
 const GeoLayout k_area_5_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_ROTATION_NODE_WITH_DL(LAYER_OPAQUE, 0, -90, 0, k_dl_room_mesh_layer_1),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE_DECAL, 0, -21, 0, k_dl_Plane_007_mesh_layer_2),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 0, -21, 0, 0, -90, 0, k_dl_room_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

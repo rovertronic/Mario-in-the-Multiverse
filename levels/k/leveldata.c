@@ -28,3 +28,8 @@
 #include "levels/k/electrohead/model.inc.c"
 #include "levels/k/k_tv1/model.inc.c"
 #include "levels/k/k_tv2/model.inc.c"
+#include "levels/k/k_tv3/model.inc.c"
+#include "levels/k/k_tv4/model.inc.c"
+#include "levels/k/k_lite/model.inc.c"
+#include "levels/k/k_pounder/model.inc.c"
+#include "levels/k/k_pounder/collision.inc.c"

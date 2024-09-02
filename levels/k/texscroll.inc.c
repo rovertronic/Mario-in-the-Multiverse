@@ -46,7 +46,7 @@ void scroll_k_dl_z_mesh_layer_5_vtx_0() {
 
 void scroll_k_dl_room_mesh_layer_1_vtx_0() {
 	int i = 0;
-	int count = 6;
+	int count = 9;
 	int height = 64 * 0x20;
 
 	static int currentY = 0;
@@ -67,7 +67,7 @@ void scroll_k_dl_room_mesh_layer_1_vtx_0() {
 
 void scroll_k_dl_room_mesh_layer_1_vtx_4() {
 	int i = 0;
-	int count = 6;
+	int count = 9;
 	int height = 64 * 0x20;
 
 	static int currentY = 0;

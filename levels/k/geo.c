@@ -26,3 +26,7 @@
 #include "levels/k/electrohead/geo.inc.c"
 #include "levels/k/k_tv1/geo.inc.c"
 #include "levels/k/k_tv2/geo.inc.c"
+#include "levels/k/k_tv3/geo.inc.c"
+#include "levels/k/k_tv4/geo.inc.c"
+#include "levels/k/k_lite/geo.inc.c"
+#include "levels/k/k_pounder/geo.inc.c"

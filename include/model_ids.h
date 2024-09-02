@@ -874,6 +874,10 @@ enum K_MODELS {
     MODEL_K_BARTENDER,
     MODEL_K_TV_1,
     MODEL_K_TV_2,
+    MODEL_K_TV_3,
+    MODEL_K_TV_4,
+    MODEL_K_LITE,
+    MODEL_K_POUNDER,
 };
 /* LEVEL K END */
 

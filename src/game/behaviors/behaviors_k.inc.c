@@ -232,42 +232,57 @@ void bhv_k_electrohead(void) {
     k_generic_enemy_handler();
 }
 
+Vec3f k_tv_dumpspots[] = {
+    {-984, 21, 2385},
+    {-2133, 21, 1112},
+    {-2133, 21, -1112},
+    {-984, 21, -2385}
+};
+
+u8 tv_target_state = 0;
+u8 tv_state = 0;
+u8 tv_timer = 0;
+
 struct Object * tv_aimer;
 void bhv_k_tv(void) {
     switch(o->oAction) {
+        tv_target_state = 0;
+        tv_state = 0;
+        tv_timer = 0;
         case 0: //wait for mario
-            if (o->oDistanceToMario < 1000.0f) {
+            if (o->oDistanceToMario < 1500.0f) {
                 //talk to him
+                tv_state = 1;
+                tv_target_state = 1;
                 if (cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, DIALOG_K_TV_START)) {
                     o->oAction = 1;
-                    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_K_TV_1];
                     tv_aimer = spawn_object(o,MODEL_WATCH_AIM,bhvKtvAim);
                     k_kill_counter = 0;
                 }
             }
             break;
         case 1: // phase 1: avoid the aimer only
-            if (o->oTimer>90) {
+            if (o->oTimer>120) {
                 o->oAction = 2;
             }
             break;
         case 2: // phase 2: dodge
-            if (o->oTimer>90) {
+            if (o->oTimer % 90 == 0&&(o->oTimer <600)) {
+                struct Object * pounder = spawn_object(o,MODEL_NONE,bhvKpounder);
+                vec3f_copy(&pounder->oPosVec,&gMarioState->pos);
+            }
+            if (o->oTimer>600&&(!cur_obj_nearest_object_with_behavior(bhvKpounder))) {
                 o->oAction = 3;
             }
             break;
         case 3: // phase 3: fight
-            if (o->oTimer < 200) {
-                if (o->oTimer % 20 == 0) {
-                    k_kill_counter --;
-                    struct Object * terry = spawn_object(o,MODEL_K_STRONG_TERRY,bhvStrongTerry);
-                    terry->oPosX = gMarioState->pos[0];
-                    terry->oPosY = gMarioState->pos[1]+400.0f;
-                    terry->oPosZ = gMarioState->pos[2];
-                }
+            if (o->oTimer < 600 &&(o->oTimer % 50 == 0)) {
+                k_kill_counter --;
+                struct Object * terry = spawn_object(o,MODEL_K_STRONG_TERRY,bhvStrongTerry);
+                vec3f_copy(&terry->oPosVec,k_tv_dumpspots[random_u16()%4]);
             }
 
-            if ((o->oTimer>210)&&(k_kill_counter == 0)) {
+            if ((o->oTimer>610)&&(k_kill_counter == 0)) {
                 o->oAction = 4;
             }
             break;
@@ -279,11 +294,24 @@ void bhv_k_tv(void) {
             if (o->oTimer > 30) {
                 if (cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, DIALOG_K_TV_END)) {
                     o->oAction = 5;
-                    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_K_TV_1];
                     spawn_default_star(o->oPosX+1000.0f,o->oPosY-300.0f,o->oPosZ);
+                    tv_state = 0;
+                    tv_target_state = 0;
                 }
             }
             break;
+    }
+
+    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_K_TV_1];
+    if (tv_state != tv_target_state) {
+        tv_timer++;
+        if (tv_timer > 5) {
+            tv_timer = 0;
+            tv_state = tv_target_state;
+            o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_K_TV_1+tv_state];
+        }
+    } else {
+        o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_K_TV_1+tv_state];
     }
 }
 
@@ -292,7 +320,11 @@ void bhv_k_tv_aim(void) {
 
     switch(o->oAction) {
         case 0: //chase mario
-            base_speed = 20.0f;
+            base_speed = 22.0f;
+            if (o->oTimer > 90) {
+                o->oAction=1;
+                tv_target_state = 2;
+            }
             break;
         case 1: //fire
             base_speed = 5.0f;
@@ -301,6 +333,10 @@ void bhv_k_tv_aim(void) {
                 cur_obj_unhide();
             }
             if (o->oTimer > 10) {
+                e__sg_smoke(&o->oPosVec);
+
+                tv_state = 3;
+                tv_target_state = 3;
                 if (o->oDistanceToMario < 100.0f) {
                     set_mario_action(gMarioState,ACT_HARD_BACKWARD_GROUND_KB,0);
                     gMarioState->health = 0xFF; //die
@@ -311,9 +347,15 @@ void bhv_k_tv_aim(void) {
             }
             break;
         case 2: //wait and refresh
-            if (o->oTimer > 30) {
+            if (o->oTimer == 3) {
+                tv_state = 2;
+                tv_target_state = 2;
+            }
+            if (o->oTimer > 40) {
+                tv_target_state = 1;
                 o->oAction = 0;
                 cur_obj_unhide();
+                vec3f_copy(&o->oPosVec,gMarioState->pos);
             }
             break;
     }
@@ -327,7 +369,40 @@ void bhv_k_tv_aim(void) {
     vec3f_normalize(govec);
     vec3_mul_val(govec,speed);
     vec3f_sum(&o->oPosVec,&o->oPosVec,govec);
-    if (o->oTimer > 90) {
-        o->oAction=1;
+}
+
+void bhv_k_pounder(void) {
+    switch(o->oAction) {
+        case 0://init
+            o->oPosY = 0.0f;
+            o->prevObj = spawn_object(o,MODEL_K_LITE,bhvStaticObject);
+            o->prevObj->oOpacity = 0;
+            o->oPosY = 1500.0f;
+            o->oAction = 1;
+            break;
+        case 1: //telegraph
+            o->prevObj->oOpacity = approach_f32_asymptotic(o->prevObj->oOpacity,255.0f,.2f);
+            if (o->oTimer > 30) {
+                o->oAction = 2;
+                o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_K_POUNDER];
+            }
+            break;
+        case 2: //pound
+            o->oPosY -= 50.0f;
+            if (o->oPosY < 3.0f) {
+                o->oPosY = 3.0f;
+                o->oAction = 3;
+                mark_obj_for_deletion(o->prevObj);
+                cur_obj_play_sound_2(SOUND_OBJ_POUNDING_LOUD);
+            }
+            break;
+        case 3: //wait and raise
+            if (o->oTimer > 20) {
+                o->oPosY += 20.0f;
+                if (o->oPosY > 1500.0f) {
+                    mark_obj_for_deletion(o);
+                }
+            }
+        break;
     }
 }

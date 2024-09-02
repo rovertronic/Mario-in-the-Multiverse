@@ -569,6 +569,14 @@ but i still need\n\
 DEFINE_DIALOG(DIALOG_EGADD_4, 2, 4, 95, 200, _("\
 machine is ready!"))
 
+DEFINE_DIALOG(DIALOG_K_TV_START, 1, 3, 95, 190, _("\
+start"))
+
+DEFINE_DIALOG(DIALOG_K_TV_END, 1, 3, 95, 190, _("\
+end"))
+
+DEFINE_DIALOG(DIALOG_K_ELECTROHEAD, 1, 3, 95, 190, _("\
+no kil"))
 
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 200, _("\
 Wow! You're smack in the\n\

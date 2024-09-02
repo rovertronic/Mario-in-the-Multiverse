@@ -8636,6 +8636,25 @@ const BehaviorScript bhvElectrohead[] = {
         CALL_NATIVE(bhv_k_electrohead),
     END_LOOP(),
 };
+
+extern void bhv_k_tv(void);
+const BehaviorScript bhvKtv[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_k_tv),
+    END_LOOP(),
+};
+
+extern void bhv_k_tv_aim(void);
+const BehaviorScript bhvKtvAim[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO),
+    BILLBOARD(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_k_tv_aim),
+    END_LOOP(),
+};
 /* GROUP K END */
 
 /* GROUP L START */

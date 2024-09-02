@@ -80,6 +80,8 @@ void bhv_k_bartender(void) {
     }
 }
 
+s16 k_kill_counter = 0;
+
 static struct ObjectHitbox sKEnemyHitbox = {
     /* interactType:      */ INTERACT_BOUNCE_TOP,
     /* downOffset:        */ 0,
@@ -137,6 +139,8 @@ void k_kill_enemy(void) {
     for (u8 i=0; i<4; i++) {
         osRecvMesg(&gGameVblankQueue, &gMainReceivedMesg, OS_MESG_BLOCK);
     }
+
+    k_kill_counter++;
 }
 
 void k_enemy_vulnerable(void) {
@@ -164,6 +168,22 @@ void k_generic_enemy_init(void) {
 void k_generic_enemy_handler(void) {
     cur_obj_update_floor_and_walls();
     cur_obj_move_standard(78);
+
+    if (o->oFloor) {
+        struct Surface * floor = o->oFloor;
+        if (floor->type == SURFACE_CONVEYOR) {
+            //0xAABB -> AA is speed, BB is angle
+            s16 pushAngle = floor->force << 8;
+            u8 pushSpeed = floor->force >> 8;
+
+            // divide by 2 to be more precise
+            o->oPosX += ((f32)(pushSpeed) / 2) * sins(pushAngle);
+            o->oPosZ += ((f32)(pushSpeed) / 2) * coss(pushAngle);
+        }
+    }
+
+    cur_obj_update_floor_and_walls();
+
 
     switch(o->oAction) {
         case K_ENEMY_DIE:
@@ -210,4 +230,104 @@ void bhv_k_electrohead(void) {
     }
 
     k_generic_enemy_handler();
+}
+
+struct Object * tv_aimer;
+void bhv_k_tv(void) {
+    switch(o->oAction) {
+        case 0: //wait for mario
+            if (o->oDistanceToMario < 1000.0f) {
+                //talk to him
+                if (cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, DIALOG_K_TV_START)) {
+                    o->oAction = 1;
+                    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_K_TV_1];
+                    tv_aimer = spawn_object(o,MODEL_WATCH_AIM,bhvKtvAim);
+                    k_kill_counter = 0;
+                }
+            }
+            break;
+        case 1: // phase 1: avoid the aimer only
+            if (o->oTimer>90) {
+                o->oAction = 2;
+            }
+            break;
+        case 2: // phase 2: dodge
+            if (o->oTimer>90) {
+                o->oAction = 3;
+            }
+            break;
+        case 3: // phase 3: fight
+            if (o->oTimer < 200) {
+                if (o->oTimer % 20 == 0) {
+                    k_kill_counter --;
+                    struct Object * terry = spawn_object(o,MODEL_K_STRONG_TERRY,bhvStrongTerry);
+                    terry->oPosX = gMarioState->pos[0];
+                    terry->oPosY = gMarioState->pos[1]+400.0f;
+                    terry->oPosZ = gMarioState->pos[2];
+                }
+            }
+
+            if ((o->oTimer>210)&&(k_kill_counter == 0)) {
+                o->oAction = 4;
+            }
+            break;
+        case 4: //end of fight
+            if (tv_aimer) {
+                mark_obj_for_deletion(tv_aimer);
+                tv_aimer = NULL;
+            }
+            if (o->oTimer > 30) {
+                if (cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, DIALOG_K_TV_END)) {
+                    o->oAction = 5;
+                    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_K_TV_1];
+                    spawn_default_star(o->oPosX+1000.0f,o->oPosY-300.0f,o->oPosZ);
+                }
+            }
+            break;
+    }
+}
+
+void bhv_k_tv_aim(void) {
+    f32 base_speed = 0.0f;
+
+    switch(o->oAction) {
+        case 0: //chase mario
+            base_speed = 20.0f;
+            break;
+        case 1: //fire
+            base_speed = 5.0f;
+            cur_obj_hide();
+            if ((o->oTimer/2)%2 == 0) {
+                cur_obj_unhide();
+            }
+            if (o->oTimer > 10) {
+                if (o->oDistanceToMario < 100.0f) {
+                    set_mario_action(gMarioState,ACT_HARD_BACKWARD_GROUND_KB,0);
+                    gMarioState->health = 0xFF; //die
+                }
+                cur_obj_play_sound_2(SOUND_OBJ2_EYEROK_SOUND_LONG);
+                o->oAction = 2;
+                cur_obj_hide();
+            }
+            break;
+        case 2: //wait and refresh
+            if (o->oTimer > 30) {
+                o->oAction = 0;
+                cur_obj_unhide();
+            }
+            break;
+    }
+
+    f32 speed = base_speed;
+    if (o->oDistanceToMario < 100.0f) {
+        speed = (o->oDistanceToMario/100.0f)*base_speed;
+    }
+    Vec3f govec;
+    vec3f_diff(govec,&gMarioState->pos,&o->oPosVec);
+    vec3f_normalize(govec);
+    vec3_mul_val(govec,speed);
+    vec3f_sum(&o->oPosVec,&o->oPosVec,govec);
+    if (o->oTimer > 90) {
+        o->oAction=1;
+    }
 }

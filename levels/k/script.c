@@ -176,7 +176,7 @@ const LevelScript level_k_entry[] = {
 		WARP_NODE(1, LEVEL_K, 0x01, 7, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_NONE, 314, 21, 0, 0, 0, 0, (1 << 16), bhvWarp),
 		OBJECT(MODEL_NONE, -361, 21, 0, 0, -90, 0, (0x0A << 16), bhvInstantActiveWarp),
-		OBJECT(MODEL_K_TV_1, -2133, 671, 0, 0, 0, 0, 0x00000000, bhvStaticObject),
+		OBJECT(MODEL_K_TV_1, -2133, 671, 0, 0, 0, 0, 0x00000000, bhvKtv),
 		TERRAIN(k_area_5_collision),
 		MACRO_OBJECTS(k_area_5_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_K_CHINATOWN),

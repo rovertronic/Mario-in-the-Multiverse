@@ -800,17 +800,9 @@ void save_file_unlock_song(u8 seq_id) {
     gSaveFileModified = TRUE;
 }
 
-u8 save_file_check_song_unlocked(u8 seq_id) {
-    int i = 0;
-    while (music_list[i].seq != seq_id) {
-        i++;
-        if (music_list[i].seq == SEQ_COUNT) {
-            //end of the line, bucko
-            return FALSE;
-        }
-    }
-    int byte = i/8;
-    int bit = i%8;
+u8 save_file_check_song_unlocked(u8 music_list_index) {
+    int byte = music_list_index/8;
+    int bit = music_list_index%8;
 
     return gSaveBuffer.files[gCurrSaveFileNum - 1][0].songs_unlocked[byte] & (1 << (bit));
 }

@@ -232,6 +232,28 @@ void bhv_k_electrohead(void) {
     k_generic_enemy_handler();
 }
 
+void bhv_k_billionare(void) {
+    k_generic_enemy_init();
+    s16 home_angle = o->oMoveAngleYaw;
+
+    switch(o->oAction) {
+        case K_ENEMY_IDLE:
+            k_enemy_vulnerable();
+            o->oMoveAngleYaw = home_angle;
+            if (o->oTimer % 30 == 0) {
+                spawn_object_relative(0, 0.0f, 0.f, 100.0f, o, MODEL_BURN_SMOKE, bhvBlackSmokeHoodboomer);
+            }
+        break;
+        case K_ENEMY_DIE:
+            if (o->oTimer == 120) {
+                spawn_default_star(1081, -3124, 430);
+            }
+        break;
+    }
+
+    k_generic_enemy_handler();
+}
+
 Vec3f k_tv_dumpspots[] = {
     {-984, 21, 2385},
     {-2133, 21, 1112},
@@ -246,10 +268,10 @@ u8 tv_timer = 0;
 struct Object * tv_aimer;
 void bhv_k_tv(void) {
     switch(o->oAction) {
-        tv_target_state = 0;
-        tv_state = 0;
-        tv_timer = 0;
         case 0: //wait for mario
+            tv_target_state = 0;
+            tv_state = 0;
+            tv_timer = 0;
             if (o->oDistanceToMario < 1500.0f) {
                 //talk to him
                 tv_state = 1;

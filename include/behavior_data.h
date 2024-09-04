@@ -820,6 +820,7 @@ extern const BehaviorScript bhvKDisco[];
 extern const BehaviorScript bhvKbartender[];
 extern const BehaviorScript bhvStrongTerry[];
 extern const BehaviorScript bhvElectrohead[];
+extern const BehaviorScript bhvKbillionare[];
 extern const BehaviorScript bhvKtv[];
 extern const BehaviorScript bhvKtvAim[];
 extern const BehaviorScript bhvKpounder[];

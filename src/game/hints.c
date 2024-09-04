@@ -426,42 +426,57 @@ Follow his instructions from there.",
 hint course_8_hints[] = {
 
 { /* star 1 */
-"",
-(0)
+"To get through the spinning fan in the vent,\n\
+you need to slow down time with L and slash\n\
+through the gap with your katana.",
+(ABILITY_FLAG_CHRONOS)
 },
 
 { /* star 2 */
-"",
-(0)
+"There is a star piece switch with two slopes\n\
+facing each other. Use the Knight Suit to\n\
+hastily retrieve the star pieces.",
+(ABILITY_FLAG_KNIGHT)
 },
 
 { /* star 3 */
-"",
+"Near the giant box stack, there are a bunch\n\
+of red coins grouped together. They are all\n\
+near one another, so don't wander too far.",
 (0)
 },
 
 { /* star 4 */
-"",
-(0)
+"In the door with a slanted roof, you'll\n\
+enter Murdower hotel. Fly the Shock Rocket\n\
+through a vent to kill Josh Rose outside.",
+(ABILITY_FLAG_SHOCK_ROCKET)
 },
 
 { /* star 5 */
-"",
+"There is a big terraced building near the\n\
+corner of the level. The star is on top.",
 (0)
 },
 
 { /* star 6 */
-"",
-(0)
+"There are a bunch of flipswitches grouped\n\
+together on building rooftops. Activate\n\
+all of them to get the star.",
+(ABILITY_CHRONOS)
 },
 
 { /* star 7 */
-"",
-(0)
+"In Club Multiverse, use Phasewalk to vanish\n\
+through the big crystal dome and don't get\n\
+lied to by DJ Electrohead. Kill him!",
+(ABILITY_PHASEWALK)
 },
 
 { /* star 8 */
-"",
+"Enter the building near the red coin area.\n\
+Survive Leon Von Alvensleben's trial to\n\
+get this star!",
 (0)
 },
 

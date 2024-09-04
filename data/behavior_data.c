@@ -8628,7 +8628,7 @@ const BehaviorScript bhvStrongTerry[] = {
 extern void bhv_k_electrohead(void);
 const BehaviorScript bhvElectrohead[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_NO_DREAM_COMET)),
     LOAD_ANIMATIONS(oAnimations, humanoid_anims),
     ANIMATE(1),
     SET_HOME(),
@@ -8637,10 +8637,22 @@ const BehaviorScript bhvElectrohead[] = {
     END_LOOP(),
 };
 
+extern void bhv_k_billionare(void);
+const BehaviorScript bhvKbillionare[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_NO_DREAM_COMET)),
+    LOAD_ANIMATIONS(oAnimations, humanoid_anims),
+    ANIMATE(1),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_k_billionare),
+    END_LOOP(),
+};
+
 extern void bhv_k_tv(void);
 const BehaviorScript bhvKtv[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO),
+    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_NO_DREAM_COMET),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_k_tv),
     END_LOOP(),

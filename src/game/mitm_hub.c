@@ -1084,3 +1084,167 @@ void render_painting_ui(f32 alpha) {
     print_generic_string_ascii(43, 58, stringBuf);
     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 }
+
+struct music_data music_list[] = {
+    {SEQ_MITM_FILE_SELECT,"File Select","Original composition by: SpK"},
+    {SEQ_MITM_HUB,"Fracture","Original composition by: SpK"},
+    
+    {SEQ_PEACHS_BIRTHDAY,"Peach's Birthday Cake","From: Mario Party\nPorted by: Teraok"},
+    {SEQ_BOWSER_TIME,"Bowser Time!","From: Mario Party DS\nPorted by: Teraok"},
+
+    {SEQ_MITM_GET_ABILITY,"Get Ability","Original composition by: Leonitz\nPorted by: sm64pie"},
+
+    {SEQ_CUSTOM_SAVE_HUT,"Save Hut","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+    {SEQ_CUSTOM_PEANUT_PLAINS,"Peanut Plains","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+    {SEQ_CUSTOM_CRYSTAL_FIELD,"Crystal Field","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+    {SEQ_CUSTOM_TREES_IN_THE_DEPTHS,"Trees in the depths","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+    {SEQ_CUSTOM_MARX,"Marx","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+
+    {SEQ_JELLYFISH_FIELDS,"Jellyfish Fields","From: Battle for Bikini Bottom\nPorted by: JoshTheBosh"},
+    {SEQ_JELLYFISH_SECRET,"Jellyfish Secret","From: Battle for Bikini Bottom\nPorted by: JoshTheBosh"},
+    {SEQ_DOWNTOWN_BB,"Downtown Bikini Bottom","From: Battle for Bikini Bottom\nPorted by: JoshTheBosh"},
+    {SEQ_JELLYFISH_BOSS,"Jellyfish Jam","From: Battle for Bikini Bottom\nPorted by: sm64pie"},
+
+    {SEQ_C_SEA_ME_NOW,"Sea Me Now","From: Splatoon 3\nPorted by: Teraok"},
+
+    {SEQ_LEVEL_I_INSIDE,"SMB1 Underground Rayman Remix","Original composition by: Teraok"},
+    {SEQ_CLEARLEAF_FOREST,"Clearleaf Forest","From: Rayman 3\nPorted by: Teraok"},
+    {SEQ_LEVEL_I_AMBUSH,"Hoodlum Ambush","From: Rayman 3\nPorted by: Teraok"},
+    {SEQ_LEVEL_I_CARRYING_THE_PLUM,"Carrying the Plum","From: Rayman 3\nPorted by: Teraok"},
+    {SEQ_FUNKY_SHELL,"Funky Board","From: Rayman 3\nPorted by: Teraok"},
+    {SEQ_MASTER_KAAG_BOSS,"Master Kaag","From: Rayman 3\nPorted by: Teraok"},
+    
+    {SEQ_H_GEOTHERMAL,"Geothermal","From: Cave Story\nPorted by: Teraok"},
+
+    {SEQ_L_MONDAYS,"Mondays","From: Pizza Tower\nPorted by: sm64pie"},
+    {SEQ_L_HOT_SPAGHETTI,"Hot Spaghetti","From: Pizza Tower\nPorted by: sm64pie"},
+    {SEQ_L_PIZZA_TIME,"Pizza Time","From: Pizza Tower\nPorted by: Teraok"},
+    {SEQ_PEPPERMAN_STRIKES,"Pepperman Strikes!","From: Pizza Tower\nPorted by: sm64pie"},
+
+    {SEQ_K_CHINATOWN,"Chinatown","From: Katana Zero\nPorted by: Teraok"},
+
+    {SEQ_C9,"doom ambiance?","???"},
+
+    {SEQ_F_FRWL,"some james bond song?","???"},
+    {SEQ_F_BOND,"James Bond Theme Song","From: 007 Series\nPorted by: Teraok"},
+
+    {SEQ_CUSTOM_ECRUTEAK,"Ecruteak","From: Pokemon\nPorted by: SpK"},
+    {SEQ_CUSTOM_AZALEA,"Azalea","From: Pokemon\nPorted by: SpK"},
+    {SEQ_CUSTOM_DARK_CAVE,"Dark Cave","From: Pokemon\nPorted by: SpK"},
+    {SEQ_CUSTOM_GYM,"Gym","From: Pokemon\nPorted by: SpK"},
+    {SEQ_CUSTOM_VS_HOOH,"Vs. Hooh","From: Pokemon"},
+
+    {SEQ_D_OVER,"N. Sanity Island","From: Crash Twinsanity\nPorted by: Teraok"},
+    {SEQ_D_UNDER,"Crash Bandicoot Warped: Underwater","From: Crash Twinsanity\nPorted by: Teraok"},
+
+    {SEQ_O_MAINTRACK,"Via Corolla","From: The Walking Dead: Saints & Sinners"},
+    {SEQ_O_EASYSTREET,"Easy Street","From: The Walking Dead"},
+
+    {SEQ_CUSTOM_ESA_VALIANT,"Valiant","From: Environmental Station Alpha\nPorted by: Teraok"},
+    {SEQ_CUSTOM_ESA_SUBMERGED,"Ammoinen","From: Environmental Station Alpha\nPorted by: Teraok"},
+    {SEQ_CUSTOM_ESA_AMMOINEN,"Submerged","From: Environmental Station Alpha\nPorted by: Teraok"},
+
+    {SEQ_MITM_BOWSER_COURSE,"Centrum Omnium","Original composition by: SpK"},
+    {SEQ_COUNT,NULL,NULL},
+};
+
+u8 music_menu_show_ui = FALSE;
+s8 music_menu_index = 0;
+s8 music_menu_isplaying = -1;
+
+void bhv_music_menu_loop(void) {
+    s8 old_hint_index;
+
+    o->oAnimState = 0;
+    if (o->oTimer%90 < 4) {
+        o->oAnimState = 1;
+    }
+    switch(o->oAction) {
+        case 0: //init
+            o->oAction = 1;
+            music_menu_isplaying = -1;
+            break;
+        case 1: // wait
+            if (o->oInteractStatus == INT_STATUS_INTERACTED) {
+                music_menu_show_ui = TRUE;
+                music_menu_index = 0;
+                o->oAction = 2;
+                gCamera->cutscene = 1;
+
+                vec3f_copy(&gLakituState.goalFocus, &o->oPosVec);
+                vec3f_copy(&gLakituState.goalPos, &o->oPosVec);
+                gLakituState.goalPos[0] += sins(o->oMoveAngleYaw)*800.0f + sins(o->oMoveAngleYaw - 0x4000)*150.0f;
+                gLakituState.goalPos[2] += coss(o->oMoveAngleYaw)*800.0f + coss(o->oMoveAngleYaw - 0x4000)*150.0f;
+
+                gLakituState.goalFocus[0] += sins(o->oMoveAngleYaw - 0x4000)*150.0f;
+                gLakituState.goalFocus[2] += coss(o->oMoveAngleYaw - 0x4000)*150.0f;
+
+                gLakituState.goalFocus[1] += 140.0f;
+                gLakituState.goalPos[1] += 190.0f;
+            }
+            o->oInteractStatus = 0;
+        break;
+        case 2: // select course
+            handle_menu_scrolling(MENU_SCROLL_VERTICAL, &music_menu_index, 0, ARRAY_COUNT(music_list)-2);
+            if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
+                if (music_menu_isplaying == music_menu_index) {
+                    stop_background_music(SEQUENCE_ARGS(4, music_list[music_menu_index].seq ));
+                    music_menu_isplaying = -1;
+                } else {
+                    stop_background_music(SEQUENCE_ARGS(4, music_list[music_menu_index].seq ));
+                    set_background_music(0, music_list[music_menu_index].seq, 0);
+                    music_menu_isplaying = music_menu_index;
+                }
+            } else if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
+                set_mario_action(gMarioState, ACT_IDLE, 0);
+                gCamera->cutscene = 0;
+                music_menu_show_ui = FALSE;
+                o->oAction = 1;
+            }
+        break;
+    }
+}
+
+#define MUSIC_MENU_PAGE_LENGTH 7
+void render_music_menu_ui(f32 alpha) {
+    u8 page = music_menu_index/MUSIC_MENU_PAGE_LENGTH;
+    u8 page_index = music_menu_index%MUSIC_MENU_PAGE_LENGTH;
+
+    //gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
+    //create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
+    //gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+    //gSPDisplayList(gDisplayListHead++, painting_menu_roundbox_003_mesh);
+    //gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+    // Selection Triangle
+    create_dl_translation_matrix(MENU_MTX_PUSH, 43, 190-(page_index*16), 0);
+    gSPDisplayList(gDisplayListHead++, dl_draw_triangle);
+    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+
+    for (int i = 0; i < MUSIC_MENU_PAGE_LENGTH; i++) {
+        int trueindex = (page*MUSIC_MENU_PAGE_LENGTH)+i;
+        if (trueindex >= ARRAY_COUNT(music_list)-1) {
+            continue;
+        }
+
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
+
+        if (save_file_check_song_unlocked(trueindex)) {
+            print_generic_string_ascii(40, 190-(i*16), "A");
+        }
+
+        if (trueindex == music_menu_isplaying) {
+            gDPSetEnvColor(gDisplayListHead++, 0, 240, 0, 255.0f-alpha);
+            print_generic_string_ascii(55, 190-(i*16), ">");
+            print_generic_string_ascii(65, 190-(i*16), music_list[trueindex].name);
+        } else {
+            print_generic_string_ascii(55, 190-(i*16), music_list[trueindex].name);
+        }
+    }
+
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
+    print_generic_string_ascii(43, 58, music_list[music_menu_index].desc);
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+}

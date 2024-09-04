@@ -47,6 +47,7 @@ struct SaveFile {
     u8 courseCoinScores[COURSE_STAGES_COUNT]; // 120 bits
     u8 hints_unlocked[15];
     u8 dreamCatalysts[HUBLEVEL_COUNT];
+    u8 songs_unlocked[8];
 
     struct SaveBlockSignature signature; // 32 bits
 };
@@ -219,6 +220,8 @@ void disable_warp_checkpoint(void);
 void check_if_should_set_warp_checkpoint(struct WarpNode *warpNode);
 s32 check_warp_checkpoint(struct WarpNode *warpNode);
 u8 save_file_level_flags(u8 course_id);
+void save_file_unlock_song(u8 seq_id);
+u8 save_file_check_song_unlocked(u8 seq_id);
 
 #if MULTILANG
 enum EuLanguages {

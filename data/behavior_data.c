@@ -6857,6 +6857,7 @@ const BehaviorScript bhvMorshu[] = {
     END_LOOP(),
 };
 
+extern void bhv_music_menu_loop(void);
 extern void bhv_redd_paintings_loop(void);
 const BehaviorScript bhvRedd[] = {
     BEGIN(OBJ_LIST_GENACTOR),
@@ -6869,7 +6870,7 @@ const BehaviorScript bhvRedd[] = {
     SET_HITBOX(/*Radius*/ 100, /*Height*/ 250),
     BEGIN_LOOP(),
         SET_INT(oIntangibleTimer, 0),
-        CALL_NATIVE(bhv_redd_paintings_loop),
+        CALL_NATIVE(bhv_music_menu_loop),
     END_LOOP(),
 };
 

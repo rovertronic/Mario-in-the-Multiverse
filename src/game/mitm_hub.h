@@ -13,6 +13,7 @@ s32 in_vanilla_painting_world(void);
 void render_hint_ui(u8 hud_alpha);
 void print_mitm_credits(u8 hud_alpha);
 void render_painting_ui(f32 alpha);
+void render_music_menu_ui(f32 alpha);
 
 extern u8 hub_star_string[]; // For use on the level pause screen
 extern s8 hub_level_current_index;
@@ -40,6 +41,12 @@ struct painting_world {
     u8 level;
 };
 
+struct music_data {
+    u8 seq;
+    char * name;
+    char * desc;
+};
+
 enum mitm_hub_level_ids {
     HUBLEVEL_C1,
     HUBLEVEL_C2,
@@ -63,5 +70,6 @@ enum mitm_hub_level_ids {
 };
 
 extern struct mitm_level_data mitm_levels[];
+extern struct music_data music_list[];
 
 #endif

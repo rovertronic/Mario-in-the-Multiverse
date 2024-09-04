@@ -12,6 +12,7 @@
 #include "game/level_update.h"
 #include "game/object_list_processor.h"
 #include "game/camera.h"
+#include "game/save_file.h"
 #include "engine/math_util.h"
 #include "seq_ids.h"
 #include "dialog_ids.h"
@@ -2114,6 +2115,8 @@ void play_music(u8 player, u16 seqArgs, u16 fadeTimer) {
     u8 priority = seqArgs >> 8;
     u8 i;
     u8 foundIndex = 0;
+
+    save_file_unlock_song( seqId );
 
     // Except for the background music player, we don't support queued
     // sequences. Just play them immediately, stopping any old sequence.

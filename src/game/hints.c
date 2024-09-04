@@ -463,14 +463,14 @@ corner of the level. The star is on top.",
 "There are a bunch of flipswitches grouped\n\
 together on building rooftops. Activate\n\
 all of them to get the star.",
-(ABILITY_CHRONOS)
+(ABILITY_FLAG_CHRONOS)
 },
 
 { /* star 7 */
 "In Club Multiverse, use Phasewalk to vanish\n\
 through the big crystal dome and don't get\n\
 lied to by DJ Electrohead. Kill him!",
-(ABILITY_PHASEWALK)
+(ABILITY_FLAG_PHASEWALK)
 },
 
 { /* star 8 */

@@ -11,6 +11,7 @@
 #include "level_update.h"
 #include "ability.h"
 #include "game_init.h"
+#include "buffers/buffers.h"
 
 /**
  * Geo function that generates a displaylist for environment effects such as
@@ -108,6 +109,7 @@ Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *
     s32 light;
     Vtx *vert;
     Vec3s marioPos;
+    u8 blood_on = !gSaveBuffer.menuData.config[SETTINGS_BLOOD];
 
     if (callContext == GEO_CONTEXT_RENDER) {
         vec3f_to_vec3s(marioPos, gMarioState->pos);
@@ -123,6 +125,9 @@ Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *
 
                     light = 255 - (dist/4);
                     if (light < 0) {
+                        light = 0;
+                    }
+                    if ((!blood_on) && j == 3) {
                         light = 0;
                     }
                     vert[i].v.cn[3] = light;

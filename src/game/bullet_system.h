@@ -35,5 +35,6 @@ Gfx *dobj_bullets(s32 callContext);
 
 s32 obj_hit_by_deflected_bullet(struct Object *obj, f32 objHitSphereSize);
 s32 obj_hit_by_bullet(struct Object *obj, f32 objHitSphereSize);
+void reset_bullet_system(void);
 
 #endif //BULLET_SYSTEM_H

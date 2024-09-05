@@ -39,6 +39,7 @@
 #include "dialog_ids.h"
 #include "cutscene_manager.h"
 #include "dream_comet.h"
+#include "bullet_system.h"
 
 s16 check_water_height = -10000;
 Bool8 have_splashed;
@@ -2646,6 +2647,7 @@ void init_mario(void) {
 }
 
 void init_mario_from_save_file(void) {
+    reset_bullet_system();
     save_file_get_coins();
     if (save_file_exists(gCurrSaveFileNum - 1)) {
         save_file_get_ability_dpad();

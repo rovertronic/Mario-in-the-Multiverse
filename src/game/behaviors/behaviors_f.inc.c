@@ -476,9 +476,9 @@ void bhv_f_shooter(void) {
             o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, o->oAngleToMario, 0x500);
             o->oFaceAngleYaw = o->oMoveAngleYaw;
 
-            //fire every 5 frames and if mario's in sightlines
+            //fire every 7 frames and if mario's in sightlines
             o->oAnimState = 1;
-            if ((o->oTimer % 5 == 0)&&(view_angle < 0x1500)&&(!surf)) {
+            if ((o->oTimer % 7 == 0)&&(view_angle < 0x1500)&&(!surf)) {
                 o->oAnimState = 0;
                 cur_obj_play_sound_2(SOUND_OBJ2_EYEROK_SOUND_LONG);
                 o->oFaceAnglePitch = -obj_turn_pitch_toward_mario(0.0f, 0x2000);
@@ -492,7 +492,7 @@ void bhv_f_shooter(void) {
         break;
     }
 
-    if (obj_hit_by_deflected_bullet(o, 750.0f) == 1) {
+    if (obj_hit_by_deflected_bullet(o, 200.0f) == 1) {
         o->oNumLootCoins ++;
         spawn_mist_particles();
         obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 20.0f);

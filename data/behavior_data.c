@@ -6870,7 +6870,7 @@ const BehaviorScript bhvRedd[] = {
     SET_HITBOX(/*Radius*/ 100, /*Height*/ 250),
     BEGIN_LOOP(),
         SET_INT(oIntangibleTimer, 0),
-        CALL_NATIVE(bhv_music_menu_loop),
+        CALL_NATIVE(bhv_redd_paintings_loop),
     END_LOOP(),
 };
 

@@ -1050,6 +1050,7 @@ void bhv_redd_paintings_loop(void) {
             u8 redd_painting_index = (redd_painting_iy *4)+(redd_painting_ix%4);
             if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
                 redd_painting_show_ui = FALSE;
+                gCurrActNum = 1;
                 hub_level_current_index = HUBLEVEL_PWORLD;
                 initiate_warp(painting_world_list[redd_painting_index].level, 1, 0x0A, WARP_FLAGS_NONE);
                 fade_into_special_warp(WARP_SPECIAL_NONE, 0);

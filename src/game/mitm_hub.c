@@ -1141,6 +1141,8 @@ struct music_data music_list[] = {
     {SEQ_O_MAINTRACK,"Via Corolla","From: The Walking Dead: Saints & Sinners"},
     {SEQ_O_EASYSTREET,"Easy Street","From: The Walking Dead"},
 
+    {SEQ_HAMSTERBALL,"Beginner Race","From: Hamsterball\nPorted by: sm64pie"},
+
     {SEQ_CUSTOM_ESA_VALIANT,"Valiant","From: Environmental Station Alpha\nPorted by: Teraok"},
     {SEQ_CUSTOM_ESA_SUBMERGED,"Ammoinen","From: Environmental Station Alpha\nPorted by: Teraok"},
     {SEQ_CUSTOM_ESA_AMMOINEN,"Submerged","From: Environmental Station Alpha\nPorted by: Teraok"},

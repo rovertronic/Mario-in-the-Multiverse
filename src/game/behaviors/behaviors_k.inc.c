@@ -21,6 +21,7 @@ void blood_cast(Vec3f * start, Vec3f * ray) {
         struct Object * blood = spawn_object(o,model,bhvKblood);
         vec3f_copy(&blood->oPosVec,hitpos);
         vec3f_copy(&blood->oHomeVec,&surf->normal);
+        blood->oFloor = surf;
     }
 }
 
@@ -59,7 +60,31 @@ void bhv_k_blood(void) {
         s16 roll = (random_u16()%4)*0x4000;
         mtxf_shadow(o->transform, &o->oHomeVec, &o->oPosVec, scale, roll);
         vec3f_copy(&o->transform[3][0],&o->oPosVec);
+
+        if (o->oFloor->type == SURFACE_CONVEYOR) {
+            o->oAction = 1;
+        }
     }
+
+    if (o->oAction == 1) {
+        //roll over conveyor
+        struct Surface * floor;
+        find_floor(o->oPosX,o->oPosY+10.0f,o->oPosZ,&floor);
+        if (floor && floor->type == SURFACE_CONVEYOR) {
+            //0xAABB -> AA is speed, BB is angle
+            s16 pushAngle = floor->force << 8;
+            u8 pushSpeed = floor->force >> 8;
+
+            // divide by 2 to be more precise
+            o->oPosX += ((f32)(pushSpeed) / 2) * sins(pushAngle);
+            o->oPosZ += ((f32)(pushSpeed) / 2) * coss(pushAngle);
+
+            vec3f_copy(&o->transform[3][0],&o->oPosVec);
+        } else {
+            mark_obj_for_deletion(o);
+        }
+    }
+
     o->header.gfx.throwMatrix = o->transform;
 }
 
@@ -97,61 +122,98 @@ static struct ObjectHitbox sKEnemyHitbox = {
 enum {
     K_ENEMY_INIT,
     K_ENEMY_IDLE,
+    K_ENEMY_PATROL_RUN,
+    K_ENEMY_PATROL_IDLE,
+    K_ENEMY_CHASE,
+    K_ENEMY_STAGGER,
+    K_ENEMY_MELEE,
     K_ENEMY_DIE
 };
 
 void k_kill_enemy(void) {
-    s16 kill_angle;
-    Vec3f origin = {o->oPosX, o->oPosY + 70.0f, o->oPosZ};
-    Vec3f cast = {0.0f,-100.0f,0.0f};
-    blood_cast(origin,cast);
+    if (o->oAction != K_ENEMY_DIE) {
+        s16 kill_angle;
+        Vec3f origin = {o->oPosX, o->oPosY + 70.0f, o->oPosZ};
+        Vec3f cast = {0.0f,-100.0f,0.0f};
+        blood_cast(origin,cast);
 
-    kill_angle = gMarioState->faceAngle[1] + (750-(random_u16()%1500));
-    vec3f_set(cast,sins(kill_angle)*200.0f,-100.0f,coss(kill_angle)*200.0f);
-    blood_cast(origin,cast);
+        kill_angle = gMarioState->faceAngle[1] + (750-(random_u16()%1500));
+        vec3f_set(cast,sins(kill_angle)*200.0f,-100.0f,coss(kill_angle)*200.0f);
+        blood_cast(origin,cast);
 
-    kill_angle = gMarioState->faceAngle[1] + (750-(random_u16()%1500));
-    vec3f_set(cast,sins(kill_angle)*400.0f,-100.0f,coss(kill_angle)*400.0f);
-    blood_cast(origin,cast);
+        kill_angle = gMarioState->faceAngle[1] + (750-(random_u16()%1500));
+        vec3f_set(cast,sins(kill_angle)*400.0f,-100.0f,coss(kill_angle)*400.0f);
+        blood_cast(origin,cast);
 
-    kill_angle = gMarioState->faceAngle[1] + (750-(random_u16()%1500));
-    vec3f_set(cast,sins(kill_angle)*600.0f,-100.0f,coss(kill_angle)*600.0f);
-    blood_cast(origin,cast);
+        kill_angle = gMarioState->faceAngle[1] + (750-(random_u16()%1500));
+        vec3f_set(cast,sins(kill_angle)*600.0f,-100.0f,coss(kill_angle)*600.0f);
+        blood_cast(origin,cast);
 
-    kill_angle = gMarioState->faceAngle[1] + (750-(random_u16()%1500));
-    vec3f_set(cast,sins(kill_angle)*1000.0f,0.0f,coss(kill_angle)*1000.0f);
-    blood_cast(origin,cast);
+        kill_angle = gMarioState->faceAngle[1] + (750-(random_u16()%1500));
+        vec3f_set(cast,sins(kill_angle)*1000.0f,0.0f,coss(kill_angle)*1000.0f);
+        blood_cast(origin,cast);
 
-    kill_angle = gMarioState->faceAngle[1] + (750-(random_u16()%1500));
-    vec3f_set(cast,sins(kill_angle)*1000.0f,250.0f,coss(kill_angle)*1000.0f);
-    blood_cast(origin,cast);
+        kill_angle = gMarioState->faceAngle[1] + (750-(random_u16()%1500));
+        vec3f_set(cast,sins(kill_angle)*1000.0f,250.0f,coss(kill_angle)*1000.0f);
+        blood_cast(origin,cast);
 
-    kill_angle = gMarioState->faceAngle[1];
+        kill_angle = gMarioState->faceAngle[1];
 
-    o->oAction = K_ENEMY_DIE;
-    o->oMoveAngleYaw = kill_angle;
-    o->oForwardVel = 35.0f;
-    o->oVelY = 15.0f;
-    cur_obj_become_intangible();
+        o->oAction = K_ENEMY_DIE;
+        o->oMoveAngleYaw = kill_angle;
+        o->oForwardVel = 35.0f;
+        o->oVelY = 15.0f;
+        cur_obj_become_intangible();
 
-    cur_obj_init_animation_with_sound(2);
+        cur_obj_init_animation_with_sound(2);
 
-    for (u8 i=0; i<4; i++) {
-        osRecvMesg(&gGameVblankQueue, &gMainReceivedMesg, OS_MESG_BLOCK);
+        for (u8 i=0; i<4; i++) {
+            osRecvMesg(&gGameVblankQueue, &gMainReceivedMesg, OS_MESG_BLOCK);
+        }
+
+        k_kill_counter++;
     }
-
-    k_kill_counter++;
 }
 
-void k_enemy_vulnerable(void) {
+void k_enemy_melee(void) {
+    o->oInteractType = INTERACT_DAMAGE;
+    o->oDamageOrCoinValue = 4;
+    cur_obj_become_tangible();
+
     if (o->oShotByShotgun > 0) {
         k_kill_enemy();
     }
     if (o->oInteractStatus & INT_STATUS_INTERACTED) {
         if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
             k_kill_enemy();
-        } else {
+        }
+    }
+}
 
+void k_enemy_vulnerable(void) {
+    o->oInteractType = INTERACT_BOUNCE_TOP;
+    o->oDamageOrCoinValue = 0;
+    if (o->oShotByShotgun > 0) {
+        k_kill_enemy();
+    }
+    if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+        if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
+            k_kill_enemy();
+        }
+    }
+}
+
+void k_generic_enemy_search_for_mario(void) {
+    //look for mario
+    Vec3f hitPos;
+    struct Surface * surf = NULL;
+    Vec3f ray_start = {o->oPosX,o->oPosY+100.0f,o->oPosZ};
+    Vec3f ray_vector = {gMarioState->pos[0]-o->oPosX,(gMarioState->pos[1]-o->oPosY)+100.0f,gMarioState->pos[2]-o->oPosZ};
+    if (o->oDistanceToMario < 5000.0f) {
+        u16 view_angle = ABS(obj_angle_to_object(o,gMarioObject)-o->oMoveAngleYaw);
+        find_surface_on_ray(ray_start, ray_vector, &surf, hitPos, (RAYCAST_FIND_FLOOR | RAYCAST_FIND_CEIL | RAYCAST_FIND_WALL));
+        if ((view_angle < 0x2000) && !surf) {
+            o->oAction = K_ENEMY_CHASE;
         }
     }
 }
@@ -167,7 +229,7 @@ void k_generic_enemy_init(void) {
 
 void k_generic_enemy_handler(void) {
     cur_obj_update_floor_and_walls();
-    cur_obj_move_standard(78);
+    cur_obj_move_standard(-78);
 
     if (o->oFloor) {
         struct Surface * floor = o->oFloor;
@@ -196,7 +258,52 @@ void k_generic_enemy_handler(void) {
                 o->oForwardVel = 17.0f;
                 cur_obj_play_sound_2(SOUND_ACTION_BONK);
             }
-        break;
+            break;
+        case K_ENEMY_PATROL_RUN:
+            if (o->oTimer == 0) {
+                cur_obj_init_animation_with_sound(0);
+            }
+            if (o->oMoveFlags & (OBJ_MOVE_HIT_WALL | OBJ_MOVE_HIT_EDGE)) {
+                o->oAction = K_ENEMY_PATROL_IDLE;
+            }
+            o->oForwardVel = 25.0f;
+            if (o->oTimer > 40) {
+                o->oAction = K_ENEMY_PATROL_IDLE;
+            }
+            k_generic_enemy_search_for_mario();
+            break;
+        case K_ENEMY_PATROL_IDLE:
+            o->oForwardVel = 0.f;
+            if (o->oTimer == 0) {
+                cur_obj_init_animation_with_sound(1);
+                o->oAngleVelYaw = random_u16();
+            }
+            o->oMoveAngleYaw = approach_s16_asymptotic(o->oMoveAngleYaw,o->oAngleVelYaw,4);
+            if (o->oTimer > 50) {
+                o->oAction = K_ENEMY_PATROL_RUN;
+            }
+            k_generic_enemy_search_for_mario();
+            break;
+        case K_ENEMY_CHASE:
+            if (o->oTimer == 0) {
+                cur_obj_init_animation_with_sound(0);
+            }
+            o->oMoveAngleYaw = approach_s16_asymptotic(o->oMoveAngleYaw,obj_angle_to_object(o,gMarioObject),4);
+            o->oForwardVel = 25.0f;
+            break;
+        case K_ENEMY_MELEE:
+            if (o->oTimer == 0) {
+                cur_obj_init_animation_with_sound(3);
+                o->oForwardVel = 0.0f;
+            }
+            o->oForwardVel *= .95f;
+            if (o->oTimer == 15) {
+                o->oForwardVel = 35.0f;
+            }
+            if (o->oTimer == 60) {
+                o->oAction = K_ENEMY_PATROL_IDLE;
+            }
+            break;
     }
 
     o->oInteractStatus = INTERACT_NONE;
@@ -208,8 +315,29 @@ void bhv_k_strong_terry(void) {
 
     switch(o->oAction) {
         case K_ENEMY_IDLE:
+            o->oAction = K_ENEMY_PATROL_RUN;
+            break;
+        case K_ENEMY_PATROL_IDLE:
+        case K_ENEMY_PATROL_RUN:
             k_enemy_vulnerable();
-        break;
+            break;
+        case K_ENEMY_CHASE:
+            if (o->oDistanceToMario < 200.0f) {
+                o->oAction = K_ENEMY_MELEE;
+            }
+            k_enemy_vulnerable();
+            break;
+        case K_ENEMY_MELEE:
+            if (o->oTimer == 0) {
+                //ensure the first frame is the slow cond
+                o->oForwardVel = 0.0f;
+            }
+            if (o->oForwardVel > 10.0f) {
+                k_enemy_melee();
+            } else {
+                k_enemy_vulnerable();
+            }
+            break;
     }
 
     k_generic_enemy_handler();
@@ -266,7 +394,7 @@ u8 tv_state = 0;
 u8 tv_timer = 0;
 
 struct Object * tv_aimer;
-void bhv_k_tv(void) {
+void bhv_k_tv(void) {    
     switch(o->oAction) {
         case 0: //wait for mario
             tv_target_state = 0;
@@ -360,6 +488,11 @@ void bhv_k_tv_aim(void) {
                 tv_state = 3;
                 tv_target_state = 3;
                 if (o->oDistanceToMario < 100.0f) {
+                    Vec3f blood_cast_ray = {0.0f,-400.0f,0.0f};
+                    gMarioState->pos[1] += 5.0f;
+                    blood_cast(gMarioState->pos,blood_cast_ray);
+                    gMarioState->pos[1] -= 5.0f;
+
                     set_mario_action(gMarioState,ACT_HARD_BACKWARD_GROUND_KB,0);
                     gMarioState->health = 0xFF; //die
                 }

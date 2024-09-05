@@ -1146,6 +1146,7 @@ struct music_data music_list[] = {
     {SEQ_CUSTOM_ESA_VALIANT,"Valiant","From: Environmental Station Alpha\nPorted by: Teraok"},
     {SEQ_CUSTOM_ESA_SUBMERGED,"Ammoinen","From: Environmental Station Alpha\nPorted by: Teraok"},
     {SEQ_CUSTOM_ESA_AMMOINEN,"Submerged","From: Environmental Station Alpha\nPorted by: Teraok"},
+    {SEQ_CUSTOM_ESA_AMMOINEN,"Swift Mecha","From: Environmental Station Alpha\nPorted by: Teraok"},
 
     {SEQ_MITM_BOWSER_COURSE,"Centrum Omnium","Original composition by: SpK"},
     {SEQ_COUNT,NULL,NULL},

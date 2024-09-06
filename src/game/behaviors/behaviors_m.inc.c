@@ -70,7 +70,7 @@ void bhv_m_classc(void) {
                 o->oBounciness = -0.3f;
                 o->oWallHitboxRadius = 200.0f;
                 magic_mirror_disable = TRUE;
-                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_CUSTOM_KIRBY_BOSS), 0);
+                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_MECHA), 0);
                 o->oHealth = 15;
                 esa_hp = 15;
                 esa_mhp = 15;
@@ -128,7 +128,7 @@ void bhv_m_classc(void) {
                 abilityspawn->oBehParams2ndByte = ABILITY_DASH_BOOSTER;
                 magic_mirror_disable = FALSE;
                 esa_mhp = -1;
-                stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_KIRBY_BOSS));
+                stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_MECHA));
                 mark_obj_for_deletion(o);
             }
             break;

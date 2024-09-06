@@ -165,7 +165,7 @@ void k_kill_enemy(void) {
         o->oVelY = 15.0f;
         cur_obj_become_intangible();
 
-        cur_obj_init_animation_with_sound(2);
+        cur_obj_init_animation_with_sound(HUMANOID_ANIM_DIE);
 
         for (u8 i=0; i<4; i++) {
             osRecvMesg(&gGameVblankQueue, &gMainReceivedMesg, OS_MESG_BLOCK);
@@ -179,15 +179,6 @@ void k_enemy_melee(void) {
     o->oInteractType = INTERACT_DAMAGE;
     o->oDamageOrCoinValue = 4;
     cur_obj_become_tangible();
-
-    if (o->oShotByShotgun > 0) {
-        k_kill_enemy();
-    }
-    if (o->oInteractStatus & INT_STATUS_INTERACTED) {
-        if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
-            k_kill_enemy();
-        }
-    }
 }
 
 void k_enemy_vulnerable(void) {
@@ -203,6 +194,42 @@ void k_enemy_vulnerable(void) {
     }
 }
 
+void k_enemy_staggerable(void) {
+    o->oInteractType = INTERACT_BOUNCE_TOP;
+    o->oDamageOrCoinValue = 0;
+    if (o->oShotByShotgun > 0) {
+        cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
+        o->oAction = K_ENEMY_STAGGER;
+    }
+    if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+        if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
+            cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
+            o->oAction = K_ENEMY_STAGGER;
+        }
+    }
+}
+
+void k_enemy_stagger_vulnerable(void) {
+    o->oInteractType = INTERACT_BOUNCE_TOP;
+    o->oDamageOrCoinValue = 0;
+    if (o->oShotByShotgun > 0) {
+        cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
+        o->oAction = K_ENEMY_STAGGER;
+        o->oMoveAngleYaw = obj_angle_to_object(o,gMarioObject);
+    }
+    if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+        if (o->oInteractStatus & INT_STATUS_CHRONOS_SLASHED) {
+            k_kill_enemy();
+        } else {
+            if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
+                cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
+                o->oAction = K_ENEMY_STAGGER;
+                o->oMoveAngleYaw = obj_angle_to_object(o,gMarioObject);
+            }
+        }
+    }
+}
+
 void k_generic_enemy_search_for_mario(void) {
     //look for mario
     Vec3f hitPos;
@@ -212,7 +239,7 @@ void k_generic_enemy_search_for_mario(void) {
     if (o->oDistanceToMario < 5000.0f) {
         u16 view_angle = ABS(obj_angle_to_object(o,gMarioObject)-o->oMoveAngleYaw);
         find_surface_on_ray(ray_start, ray_vector, &surf, hitPos, (RAYCAST_FIND_FLOOR | RAYCAST_FIND_CEIL | RAYCAST_FIND_WALL));
-        if ((view_angle < 0x2000) && !surf) {
+        if ((view_angle < 0x3000) && !surf) {
             o->oAction = K_ENEMY_CHASE;
         }
     }
@@ -229,7 +256,11 @@ void k_generic_enemy_init(void) {
 
 void k_generic_enemy_handler(void) {
     cur_obj_update_floor_and_walls();
-    cur_obj_move_standard(-78);
+    if (o->oAction == K_ENEMY_DIE) {
+        cur_obj_move_standard(78);
+    } else {
+        cur_obj_move_standard(-78);
+    }
 
     if (o->oFloor) {
         struct Surface * floor = o->oFloor;
@@ -293,15 +324,31 @@ void k_generic_enemy_handler(void) {
             break;
         case K_ENEMY_MELEE:
             if (o->oTimer == 0) {
-                cur_obj_init_animation_with_sound(3);
+                cur_obj_play_sound_2(SOUND_ACTION_SIDE_FLIP_UNK);
                 o->oForwardVel = 0.0f;
             }
             o->oForwardVel *= .95f;
-            if (o->oTimer == 15) {
+            if (o->oTimer == 10) {
+                cur_obj_play_sound_2(SOUND_ACTION_SIDE_FLIP_UNK);
                 o->oForwardVel = 35.0f;
             }
-            if (o->oTimer == 60) {
+            if (o->oTimer >= 60) {
                 o->oAction = K_ENEMY_PATROL_IDLE;
+            }
+            break;
+        case K_ENEMY_STAGGER:
+            cur_obj_become_intangible();
+            if (o->oTimer == 0) {
+                o->oForwardVel = -60.0f;
+            }
+            o->oForwardVel *= .9f;
+            if (o->oTimer > 25) {
+                cur_obj_become_tangible();
+                k_enemy_stagger_vulnerable();
+            }
+            if (o->oTimer >= 35) {
+                o->oAction = K_ENEMY_PATROL_IDLE;
+                cur_obj_become_tangible();
             }
             break;
     }
@@ -315,7 +362,9 @@ void bhv_k_strong_terry(void) {
 
     switch(o->oAction) {
         case K_ENEMY_IDLE:
-            o->oAction = K_ENEMY_PATROL_RUN;
+            if (gCurrAreaIndex != 2) {
+                o->oAction = K_ENEMY_PATROL_RUN;
+            }
             break;
         case K_ENEMY_PATROL_IDLE:
         case K_ENEMY_PATROL_RUN:
@@ -330,12 +379,52 @@ void bhv_k_strong_terry(void) {
         case K_ENEMY_MELEE:
             if (o->oTimer == 0) {
                 //ensure the first frame is the slow cond
+                cur_obj_init_animation_with_sound(HUMANOID_ANIM_TERRY_MASH);
                 o->oForwardVel = 0.0f;
             }
             if (o->oForwardVel > 10.0f) {
                 k_enemy_melee();
             } else {
                 k_enemy_vulnerable();
+            }
+            break;
+    }
+
+    k_generic_enemy_handler();
+}
+
+void bhv_k_skinny_ricky(void) {
+    k_generic_enemy_init();
+
+    switch(o->oAction) {
+        case K_ENEMY_IDLE:
+            o->oAction = K_ENEMY_PATROL_RUN;
+            break;
+        case K_ENEMY_PATROL_IDLE:
+        case K_ENEMY_PATROL_RUN:
+            k_enemy_stagger_vulnerable();
+            break;
+        case K_ENEMY_CHASE:
+            if (o->oDistanceToMario < 200.0f) {
+                o->oAction = K_ENEMY_MELEE;
+            }
+            k_enemy_staggerable();
+            break;
+        case K_ENEMY_MELEE:
+            if (o->oTimer == 0) {
+                //ensure the first frame is the slow cond
+                cur_obj_init_animation_with_sound(HUMANOID_ANIM_RICKY_WHACK);
+                o->oForwardVel = 0.0f;
+            }
+            if (o->oForwardVel > 7.0f) {
+                k_enemy_melee();
+            } else {
+                k_enemy_staggerable();
+            }
+            break;
+        case K_ENEMY_STAGGER:
+            if (o->oTimer == 0) {
+                cur_obj_init_animation_with_sound(HUMANOId_ANIM_STAGGER);
             }
             break;
     }
@@ -418,8 +507,24 @@ void bhv_k_tv(void) {
             break;
         case 2: // phase 2: dodge
             if (o->oTimer % 90 == 0&&(o->oTimer <600)) {
-                struct Object * pounder = spawn_object(o,MODEL_NONE,bhvKpounder);
-                vec3f_copy(&pounder->oPosVec,&gMarioState->pos);
+                f32 ratio = 0.1f + (o->oTimer*.001f);
+                int pounder_count = 0;
+                for (int x = -6; x <= 6; x++) {
+                    for (int z = 1; z <= 5; z++) {
+                        if (pounder_count>80) {
+                            break;
+                        }
+                        if (random_float() <= ratio) {
+                            struct Object * pounder = spawn_object(o,MODEL_NONE,bhvKpounder);
+                            pounder->oPosZ = x*400.0f;
+                            pounder->oPosX = (z*-400.0f)+100.0f;
+                            pounder_count++;
+                        }
+                    }
+                }
+            }
+            if (gMarioState->pos[0] > -100.0f) {
+                gMarioState->pos[0] = -100.0f; //keep mario in crush zone
             }
             if (o->oTimer>600&&(!cur_obj_nearest_object_with_behavior(bhvKpounder))) {
                 o->oAction = 3;
@@ -428,8 +533,17 @@ void bhv_k_tv(void) {
         case 3: // phase 3: fight
             if (o->oTimer < 600 &&(o->oTimer % 50 == 0)) {
                 k_kill_counter --;
-                struct Object * terry = spawn_object(o,MODEL_K_STRONG_TERRY,bhvStrongTerry);
-                vec3f_copy(&terry->oPosVec,k_tv_dumpspots[random_u16()%4]);
+                struct Object * enemy;
+                u16 random_enemy = random_u16()%2;
+                switch(random_enemy) {
+                    case 0:
+                        enemy = spawn_object(o,MODEL_K_STRONG_TERRY,bhvStrongTerry);
+                        break;
+                    case 1:
+                        enemy = spawn_object(o,MODEL_K_SKINNY_RICKY,bhvSkinnyRicky);
+                        break;
+                }
+                vec3f_copy(&enemy->oPosVec,k_tv_dumpspots[random_u16()%4]);
             }
 
             if ((o->oTimer>610)&&(k_kill_counter == 0)) {

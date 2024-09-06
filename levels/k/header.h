@@ -47,4 +47,6 @@ extern const LevelScript level_k_entry[];
 
 #include "levels/k/k_pounder/collision_header.h"
 
+#include "levels/k/k_skinny_ricky/geo_header.h"
+
 #endif

@@ -4,3 +4,6 @@
 #include "anim_holdmario.inc.c"
 #include "anim_axehold.inc.c"
 #include "anim_axewalk.inc.c"
+#include "anim_whack.inc.c"
+#include "anim_terrymash.inc.c"
+#include "anim_stagger.inc.c"

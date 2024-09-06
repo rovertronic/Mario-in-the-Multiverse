@@ -865,6 +865,7 @@ blend file associated with this NPC is cursed.
 /* LEVEL K START */
 enum K_MODELS {
     MODEL_K_STRONG_TERRY=0x150,
+    MODEL_K_SKINNY_RICKY,
     MODEL_K_ELECTROHEAD,
     MODEL_K_FAN,
     MODEL_K_BLOOD,

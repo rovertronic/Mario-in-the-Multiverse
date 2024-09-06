@@ -89,7 +89,7 @@ const LevelScript level_bob_entry[] = {
         WARP_NODE(/*id*/ 0x0D, /*destLevel*/ LEVEL_BOB, /*destArea*/ 0x01, /*destNode*/ 0x0E, /*flags*/ WARP_NO_CHECKPOINT),
         WARP_NODE(/*id*/ 0x0E, /*destLevel*/ LEVEL_BOB, /*destArea*/ 0x01, /*destNode*/ 0x0D, /*flags*/ WARP_NO_CHECKPOINT),
         WARP_NODE(/*id*/ 0xF0, /*destLevel*/ LEVEL_CASTLE, /*destArea*/ 0x01, /*destNode*/ 0x32, /*flags*/ WARP_NO_CHECKPOINT),
-        WARP_NODE(/*id*/ 0xF1, /*destLevel*/ LEVEL_CASTLE, /*destArea*/ 0x01, /*destNode*/ 0x64, /*flags*/ WARP_NO_CHECKPOINT),
+        PAINTING_WORLD_DEATH_WARP(),
         TERRAIN(/*terrainData*/ bob_seg7_collision_level),
         MACRO_OBJECTS(/*objList*/ bob_seg7_macro_objs),
         SHOW_DIALOG(/*index*/ 0x00, DIALOG_000),

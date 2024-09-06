@@ -147,7 +147,7 @@ const LevelScript level_wf_entry[] = {
         WARP_NODE(/*id*/ 0x0B, /*destLevel*/ LEVEL_WF, /*destArea*/ 0x01, /*destNode*/ 0x0C, /*flags*/ WARP_NO_CHECKPOINT),
         WARP_NODE(/*id*/ 0x0C, /*destLevel*/ LEVEL_WF, /*destArea*/ 0x01, /*destNode*/ 0x0B, /*flags*/ WARP_NO_CHECKPOINT),
         WARP_NODE(/*id*/ 0xF0, /*destLevel*/ LEVEL_CASTLE, /*destArea*/ 0x01, /*destNode*/ 0x34, /*flags*/ WARP_NO_CHECKPOINT),
-        WARP_NODE(/*id*/ 0xF1, /*destLevel*/ LEVEL_CASTLE, /*destArea*/ 0x01, /*destNode*/ 0x66, /*flags*/ WARP_NO_CHECKPOINT),
+        PAINTING_WORLD_DEATH_WARP(),
         JUMP_LINK(script_func_local_1),
         JUMP_LINK(script_func_local_2),
         JUMP_LINK(script_func_local_3),

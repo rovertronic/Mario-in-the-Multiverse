@@ -49,4 +49,6 @@ extern const LevelScript level_k_entry[];
 
 #include "levels/k/k_skinny_ricky/geo_header.h"
 
+#include "levels/k/k_slight/geo_header.h"
+
 #endif

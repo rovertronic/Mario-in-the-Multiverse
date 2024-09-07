@@ -10,6 +10,7 @@ const GeoLayout k_area_1_geo[] = {
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, k_dl_Cube_002_mesh_layer_5),
 		GEO_CLOSE_NODE(),
+		GEO_DISPLAY_LIST(LAYER_ALPHA, k_dl_Cube_005_mesh_layer_4),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -977, -4388, -2961, 0, -164, 0, k_dl_Cube_016_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -1233, -4388, -2739, 0, -145, 0, k_dl_Cube_017_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -1063, -4092, -2902, 0, -150, 0, k_dl_Cube_018_mesh_layer_1),

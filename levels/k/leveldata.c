@@ -34,3 +34,4 @@
 #include "levels/k/k_pounder/model.inc.c"
 #include "levels/k/k_pounder/collision.inc.c"
 #include "levels/k/k_skinny_ricky/model.inc.c"
+#include "levels/k/k_slight/model.inc.c"

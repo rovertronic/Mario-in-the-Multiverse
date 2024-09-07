@@ -31,3 +31,4 @@
 #include "levels/k/k_lite/geo.inc.c"
 #include "levels/k/k_pounder/geo.inc.c"
 #include "levels/k/k_skinny_ricky/geo.inc.c"
+#include "levels/k/k_slight/geo.inc.c"

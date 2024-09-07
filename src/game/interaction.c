@@ -968,6 +968,7 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
             } else {
                 //dream catalyst
                 set_dream_star(obj->oBehParams2ndByte);
+                m->numDreamCatalysts = get_dream_star_count();
             }
         }
 

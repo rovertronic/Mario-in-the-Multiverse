@@ -584,6 +584,7 @@ void render_hud_camera_status(s32 x, s32 y) {//--E
 
 u8 hudbar_star[] = {GLYPH_STAR, DIALOG_CHAR_SPACE, 0, 0, 0, DIALOG_CHAR_TERMINATOR};
 u8 hudbar_coin[] = {GLYPH_COIN, DIALOG_CHAR_SPACE, 0, 0, 0, DIALOG_CHAR_TERMINATOR};
+u8 hudbar_dc[] = {GLYPH_DC, DIALOG_CHAR_SPACE, 0, 0, 0, DIALOG_CHAR_TERMINATOR};
 
 //Warning: no automatic terminator
 void int_to_str_000(s32 num, u8 *dst) {
@@ -1185,7 +1186,11 @@ void render_hud(void) {
 
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hud_alpha);
 
-        gSPDisplayList(gDisplayListHead++, &hudbar_hudbar_mesh);
+        if (dream_comet_unlocked()) {
+            gSPDisplayList(gDisplayListHead++, &extended_hudbar_extendedhudbar_mesh);
+        } else {
+            gSPDisplayList(gDisplayListHead++, &hudbar_hudbar_mesh);
+        }
         if (level_in_dream_comet_mode()) {
             gSPDisplayList(gDisplayListHead++, &cometbar_cometbar_mesh);
         }
@@ -1217,6 +1222,7 @@ void render_hud(void) {
             //Need to do this twice... sadge
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hud_alpha);
             int_to_str_000(gHudDisplay.stars, &hudbar_star[2]);
+            int_to_str_000(gMarioState->numDreamCatalysts, &hudbar_dc[2]);
             //--E
             int_to_str_000(hud_display_coins, &hudbar_coin[2]);
             s32 displayCoinCount = TRUE;
@@ -1226,11 +1232,18 @@ void render_hud(void) {
                         displayCoinCount = FALSE; }
                 }
             }
-            if (displayCoinCount) {
-                print_hud_lut_string(HUD_LUT_GLOBAL, 170, 14, hudbar_coin);
+
+            s16 x_offset = 0;
+            if (dream_comet_unlocked()) {
+                x_offset -= 70;
+                print_hud_lut_string(HUD_LUT_GLOBAL, 240, 14, hudbar_dc);
             }
 
-            print_hud_lut_string(HUD_LUT_GLOBAL, 240, 14, hudbar_star);
+            if (displayCoinCount) {
+                print_hud_lut_string(HUD_LUT_GLOBAL, 170+x_offset, 14, hudbar_coin);
+            }
+
+            print_hud_lut_string(HUD_LUT_GLOBAL, 240+x_offset, 14, hudbar_star);
 
         gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
 

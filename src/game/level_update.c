@@ -37,6 +37,7 @@
 #include "cutscene_manager.h"
 #include "mitm_hub.h"
 #include "ability.h"
+#include "dream_comet.h"
 
 #include "config.h"
 
@@ -1265,9 +1266,12 @@ s32 init_level(void) {
 
     g100CoinStarSpawned = FALSE;
 
+
+
     switch(gCurrLevelNum) {
         case LEVEL_CASTLE:
             hub_level_current_index = HUBLEVEL_HUB;
+            dream_comet_enabled = FALSE;
             break;
         case LEVEL_BOWSER_COURSE:
             hub_level_current_index = HUBLEVEL_BOWSER;

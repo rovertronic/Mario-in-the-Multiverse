@@ -535,4 +535,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "cardboard_star/geo_header.h"
 
+#include "extended_hudbar/header.h"
+
 #endif

@@ -53,11 +53,13 @@
 #include "mitm_hub.h"
 #include "ability.h"
 #include "hints.h"
+#include "dream_comet.h"
 
 u8 pipe_string_not_enough[] = {TEXT_PIPE_NOT_ENOUGH};
 u8 pipe_string_enter[] = {TEXT_PIPE_ENTER};
 u8 pipe_string_a[] = {TEXT_PIPE_A};
 u8 pipe_string_b[] = {TEXT_PIPE_B};
+u8 pipe_string_z[] = {TEXT_PIPE_Z};
 
 u8 hub_star_string[] = {0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,DIALOG_CHAR_TERMINATOR};
 
@@ -126,6 +128,11 @@ f32 hub_titlecard_alpha = 0.0f;
 void update_hub_star_string(s8 index_of_hublevel) {
     u8 star_flags = star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(mitm_levels[index_of_hublevel].course));
     u8 star_count = mitm_levels[index_of_hublevel].star_count;
+
+    if (dream_comet_enabled && mitm_levels[index_of_hublevel].dream_data) {
+        star_flags = get_dream_star_flags(index_of_hublevel);
+        star_count = mitm_levels[index_of_hublevel].dream_data->dream_star_ct;
+    }
 
     for (u8 i=0;i<star_count;i++) {
         if (star_flags & (1<<i)) {
@@ -314,24 +321,49 @@ void render_mitm_hub_hud(void) {
         sprintf(sprintf_buffer,"By: %s", mitm_levels[hub_dma_index].author_abridged);
         print_generic_string_ascii(110,56, sprintf_buffer);
 
+        s16 line_2_y = 40;
+        s16 line_3_y = 25;
+        if (dream_comet_unlocked()) {
+            line_2_y = 43;
+            line_3_y = 31;
+        }
+
         if (mitm_levels[hub_dma_index].star_requirement <= gMarioState->numStars) {
             //Display Collected Stars
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 0, (u8)hub_titlecard_alpha);
+            if (dream_comet_enabled) {
+                gDPSetEnvColor(gDisplayListHead++, 255, 0, 255, (u8)hub_titlecard_alpha);
+            }
             update_hub_star_string(hub_dma_index);
-            print_generic_string(110,40,hub_star_string);
+            print_generic_string(110,line_2_y,hub_star_string);
         } else {
             //Not Enough Stars to Enter
             gDPSetEnvColor(gDisplayListHead++, 255, 0, 0, (u8)hub_titlecard_alpha);
             int_to_str(mitm_levels[hub_dma_index].star_requirement, &pipe_string_not_enough[10]);
-            print_generic_string(110,40,pipe_string_not_enough);
+            print_generic_string(110,line_2_y,pipe_string_not_enough);
         }
 
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hub_titlecard_alpha);
-        print_generic_string(113,25,pipe_string_enter);
+        print_generic_string(113,line_3_y,pipe_string_enter);
         gDPSetEnvColor(gDisplayListHead++, 0, 0, 255, (u8)hub_titlecard_alpha);
-        print_generic_string(110,25,pipe_string_a);
+        print_generic_string(110,line_3_y,pipe_string_a);
         gDPSetEnvColor(gDisplayListHead++, 0, 150, 0, (u8)hub_titlecard_alpha);
-        print_generic_string(109,25,pipe_string_b);
+        print_generic_string(109,line_3_y,pipe_string_b);
+
+        if (dream_comet_unlocked()) {
+            gDPSetEnvColor(gDisplayListHead++, 255, 0, 255, (u8)hub_titlecard_alpha);
+            if (dream_comet_enabled) {
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 0, (u8)hub_titlecard_alpha);
+            }
+            print_generic_string(120,18,pipe_string_z);
+
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hub_titlecard_alpha);
+            if (dream_comet_enabled) {
+                print_generic_string_ascii(120,18,"  :Standard");
+            } else {
+                print_generic_string_ascii(120,18,"  :Dream");
+            }
+        }
 
         gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
     }

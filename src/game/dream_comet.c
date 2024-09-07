@@ -53,12 +53,24 @@ https://github.com/aglab2/sm64asm/blob/master/dl/src/star_radar.cpp
 
 extern struct SaveBuffer gSaveBuffer;
 
-s32 level_in_dream_comet_mode(void) {
+u8 dream_comet_enabled = FALSE;
+
+s32 dream_comet_unlocked(void) {
     return FALSE;
 }
 
-u8 get_dream_star_flags(void) {
-    return gSaveBuffer.files[gCurrSaveFileNum - 1][0].dreamCatalysts[hub_level_current_index];
+s32 level_in_dream_comet_mode(void) {
+    if (gCurrLevelNum == LEVEL_CASTLE) {
+        return FALSE;
+    }
+    if (dream_comet_enabled) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+u8 get_dream_star_flags(int mitm_level_index) {
+    return gSaveBuffer.files[gCurrSaveFileNum - 1][0].dreamCatalysts[mitm_level_index];
 }
 
 void set_dream_star(int index) {
@@ -67,7 +79,19 @@ void set_dream_star(int index) {
 }
 
 s32 have_dream_star(int index) {
-    return (get_dream_star_flags() & (1 << index));
+    return (get_dream_star_flags(hub_level_current_index) & (1 << index));
+}
+
+int get_dream_star_count(void) {
+    int ct = 0;
+    for (int i = 0; i < HUBLEVEL_COUNT; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].dreamCatalysts[i] & (1 << j)) {
+                ct ++;
+            }
+        }
+    }
+    return ct;
 }
 
 u8 get_dream_star_level_count(void) {

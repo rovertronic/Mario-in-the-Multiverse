@@ -149,3 +149,4 @@
 #include "humanoid/anims/table.inc.c"
 #include "nitroboom/model.inc.c"
 #include "cardboard_star/model.inc.c"
+#include "extended_hudbar/model.inc.c"

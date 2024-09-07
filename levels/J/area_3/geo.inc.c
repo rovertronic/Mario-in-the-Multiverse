@@ -9,6 +9,7 @@ const GeoLayout J_area_3_geo[] = {
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, J_dl_MooMoo_Farm_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, J_dl_Plane_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, J_dl_Plane_mesh_layer_4),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, J_dl_Plane_005_mesh_layer_6),
 		GEO_ASM(0, e__shotgun_effects),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -35, 0, -87),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, J_dl_TreeBottoms_mesh_layer_4),
@@ -37,8 +38,6 @@ const GeoLayout J_area_3[] = {
 				GEO_CLOSE_NODE(),
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, J_dl_material_revert_render_settings),
-		GEO_DISPLAY_LIST(LAYER_ALPHA, J_dl_material_revert_render_settings),
 	GEO_CLOSE_NODE(),
 	GEO_END(),
 };

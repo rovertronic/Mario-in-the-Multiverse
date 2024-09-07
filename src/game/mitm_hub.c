@@ -68,6 +68,7 @@ mitm_dream_data mitmdd_e = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_E_SHOTG
 mitm_dream_data mitmdd_g = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_NONE,ABILITY_NONE},7};
 mitm_dream_data mitmdd_h = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_PHASEWALK,ABILITY_NONE},7};
 mitm_dream_data mitmdd_i = {{ABILITY_DEFAULT,ABILITY_CUTTER,ABILITY_NONE,ABILITY_NONE},7};
+mitm_dream_data mitmdd_j = {{ABILITY_DEFAULT,ABILITY_BUBBLE_HAT,ABILITY_SQUID,ABILITY_NONE},8};
 mitm_dream_data mitmdd_k = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_CHRONOS,ABILITY_NONE},7};
 mitm_dream_data mitmdd_l = {{ABILITY_DEFAULT,ABILITY_KNIGHT,ABILITY_NONE,ABILITY_NONE},4};
 mitm_dream_data mitmdd_m = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_PHASEWALK,ABILITY_KNIGHT},8};
@@ -100,7 +101,7 @@ struct mitm_level_data mitm_levels[] = {
     /*F*/ {"FROM RUSSIA WITH LOVE", "Aeza", "Aeza",
             LEVEL_F,  COURSE_SL,    20,      1,         29,         8,     NULL},
     /*J*/ {"ECRUTEAK CITY", "SpK", "SpK",
-            LEVEL_J,  COURSE_WDW,   25,      1,         30,         8,     NULL},
+            LEVEL_J,  COURSE_WDW,   25,      1,         30,         8,     &mitmdd_j},
     /*D*/ {"NEW N-SANITY ISLAND", "JakeDower", "JakeDower",
             LEVEL_D,  COURSE_TTM,   30,      1,         31,         8,     &mitmdd_d},
     /*O*/ {"SAINTS, SINNERS, & MARIO", "Rovertronic", "Rovertronic",

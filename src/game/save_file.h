@@ -222,6 +222,7 @@ s32 check_warp_checkpoint(struct WarpNode *warpNode);
 u8 save_file_level_flags(u8 course_id);
 void save_file_unlock_song(u8 seq_id);
 u8 save_file_check_song_unlocked(u8 seq_id);
+void save_main_menu_data(void);
 
 #if MULTILANG
 enum EuLanguages {

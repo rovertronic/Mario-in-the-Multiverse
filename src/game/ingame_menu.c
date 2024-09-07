@@ -2306,6 +2306,8 @@ s32 render_pause_courses_and_castle(void) {
             render_settings();
 
             if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+                gMainMenuDataModified = TRUE;
+                save_main_menu_data();
                 gDialogBoxState = PAUSE_MENU_MAIN;
                 return MENU_OPT_NONE;
             }

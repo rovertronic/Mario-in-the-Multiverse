@@ -37,3 +37,4 @@
 #include "levels/k/k_slight/model.inc.c"
 #include "levels/k/k_shieldo/model.inc.c"
 #include "levels/k/kbul/model.inc.c"
+#include "levels/k/k_josh/model.inc.c"

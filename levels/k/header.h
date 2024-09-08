@@ -55,4 +55,6 @@ extern const LevelScript level_k_entry[];
 
 #include "levels/k/kbul/header.h"
 
+#include "levels/k/k_josh/geo_header.h"
+
 #endif

@@ -33,3 +33,4 @@
 #include "levels/k/k_skinny_ricky/geo.inc.c"
 #include "levels/k/k_slight/geo.inc.c"
 #include "levels/k/k_shieldo/geo.inc.c"
+#include "levels/k/k_josh/geo.inc.c"

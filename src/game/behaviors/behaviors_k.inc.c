@@ -201,6 +201,9 @@ void k_enemy_vulnerable(void) {
             k_kill_enemy();
         }
     }
+    if (obj_hit_by_deflected_bullet(o, 200.0f)) {
+        k_kill_enemy();
+    }
 }
 
 void k_enemy_staggerable(void) {
@@ -221,6 +224,9 @@ void k_enemy_staggerable(void) {
                 k_kill_enemy();
             }
         }
+    }
+    if (obj_hit_by_deflected_bullet(o, 200.0f)) {
+        k_kill_enemy();
     }
 }
 
@@ -248,6 +254,9 @@ void k_enemy_stagger_vulnerable(void) {
                 }
             }
         }
+    }
+    if (obj_hit_by_deflected_bullet(o, 200.0f)) {
+        k_kill_enemy();
     }
 }
 
@@ -397,6 +406,8 @@ void k_generic_enemy_handler(void) {
             }
             break;
     }
+
+    cur_obj_die_if_on_death_floor();
 
     o->oInteractStatus = INTERACT_NONE;
     o->oShotByShotgun = 0;
@@ -591,7 +602,7 @@ void bhv_k_billionare(void) {
             k_enemy_vulnerable();
             o->oMoveAngleYaw = home_angle;
             if (o->oTimer % 30 == 0) {
-                spawn_object_relative(0, 0.0f, 0.f, 100.0f, o, MODEL_BURN_SMOKE, bhvBlackSmokeHoodboomer);
+                spawn_object_relative(0, 0.0f, 50.f, 100.0f, o, MODEL_BURN_SMOKE, bhvBlackSmokeHoodboomer);
             }
         break;
         case K_ENEMY_DIE:
@@ -615,6 +626,11 @@ u8 tv_target_state = 0;
 u8 tv_state = 0;
 u8 tv_timer = 0;
 
+u8 enemy_spawn_index = 0;
+u8 enemy_spawn_table[] = {
+    0,0,1,1,2,0,2,0,0,0
+};
+
 struct Object * tv_aimer;
 void bhv_k_tv(void) {    
     switch(o->oAction) {
@@ -622,6 +638,7 @@ void bhv_k_tv(void) {
             tv_target_state = 0;
             tv_state = 0;
             tv_timer = 0;
+            enemy_spawn_index = 0;
             if (o->oDistanceToMario < 1500.0f) {
                 //talk to him
                 tv_state = 1;
@@ -664,10 +681,10 @@ void bhv_k_tv(void) {
             }
             break;
         case 3: // phase 3: fight
-            if (o->oTimer < 600 &&(o->oTimer % 50 == 0)) {
+            if (o->oTimer < 600 &&(o->oTimer % 90 == 0)) {
                 k_kill_counter --;
                 struct Object * enemy;
-                u16 random_enemy = random_u16()%2;
+                u16 random_enemy = enemy_spawn_table[enemy_spawn_index];
                 switch(random_enemy) {
                     case 0:
                         enemy = spawn_object(o,MODEL_K_STRONG_TERRY,bhvStrongTerry);
@@ -675,8 +692,13 @@ void bhv_k_tv(void) {
                     case 1:
                         enemy = spawn_object(o,MODEL_K_SKINNY_RICKY,bhvSkinnyRicky);
                         break;
+                    case 2:
+                        enemy = spawn_object(o,MODEL_K_SHIELDO,bhvShieldo);
+                        break;
                 }
                 vec3f_copy(&enemy->oPosVec,k_tv_dumpspots[random_u16()%4]);
+                enemy->oMoveAngleYaw = random_u16();
+                enemy_spawn_index++;
             }
 
             if ((o->oTimer>610)&&(k_kill_counter == 0)) {

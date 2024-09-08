@@ -1229,6 +1229,48 @@ Gfx k_shieldo_Left_Hand_mesh_layer_1_tri_0[] = {
 	gsSPEndDisplayList(),
 };
 
+Vtx k_shieldo_Left_Hand_mesh_layer_5_vtx_0[24] = {
+	{{ {50, 44, -10}, 0, {-16, 1008}, {88, 74, 18, 0} }},
+	{{ {28, 47, -6}, 0, {339, 496}, {255, 252, 198, 139} }},
+	{{ {24, 44, 16}, 0, {-16, -16}, {88, 74, 18, 0} }},
+	{{ {50, 44, -10}, 0, {-16, 1008}, {88, 74, 18, 0} }},
+	{{ {24, 44, -35}, 0, {1008, 1008}, {88, 74, 18, 0} }},
+	{{ {28, 47, -13}, 0, {496, 653}, {255, 252, 198, 139} }},
+	{{ {-1, 44, -10}, 0, {1008, -16}, {88, 74, 18, 0} }},
+	{{ {20, 47, -13}, 0, {653, 496}, {255, 252, 198, 139} }},
+	{{ {24, 44, -35}, 0, {1008, 1008}, {88, 74, 18, 0} }},
+	{{ {24, 44, 16}, 0, {-16, -16}, {88, 74, 18, 0} }},
+	{{ {20, 47, -6}, 0, {496, 339}, {255, 252, 198, 139} }},
+	{{ {-1, 44, -10}, 0, {1008, -16}, {88, 74, 18, 0} }},
+	{{ {24, 48, -10}, 0, {463, 463}, {255, 255, 255, 255} }},
+	{{ {24, 47, -5}, 0, {404, 404}, {255, 252, 198, 255} }},
+	{{ {29, 47, -10}, 0, {404, 588}, {255, 252, 198, 255} }},
+	{{ {24, 44, 16}, 0, {-16, -16}, {151, 149, 124, 160} }},
+	{{ {20, 47, -10}, 0, {588, 404}, {255, 252, 198, 255} }},
+	{{ {24, 48, -10}, 0, {529, 463}, {255, 255, 255, 255} }},
+	{{ {-1, 44, -10}, 0, {1008, -16}, {151, 148, 124, 162} }},
+	{{ {24, 47, -14}, 0, {588, 588}, {255, 252, 198, 255} }},
+	{{ {24, 48, -10}, 0, {529, 529}, {255, 255, 255, 255} }},
+	{{ {24, 44, -35}, 0, {1008, 1008}, {151, 149, 124, 160} }},
+	{{ {24, 48, -10}, 0, {463, 529}, {255, 255, 255, 255} }},
+	{{ {50, 44, -10}, 0, {-16, 1008}, {151, 149, 124, 160} }},
+};
+
+Gfx k_shieldo_Left_Hand_mesh_layer_5_tri_0[] = {
+	gsSPVertex(k_shieldo_Left_Hand_mesh_layer_5_vtx_0 + 0, 24, 0),
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0),
+	gsSP2Triangles(6, 7, 8, 0, 9, 10, 11, 0),
+	gsSP2Triangles(12, 13, 14, 0, 14, 13, 1, 0),
+	gsSP2Triangles(15, 1, 13, 0, 13, 10, 15, 0),
+	gsSP2Triangles(16, 10, 13, 0, 17, 16, 13, 0),
+	gsSP2Triangles(18, 10, 16, 0, 7, 18, 16, 0),
+	gsSP2Triangles(16, 19, 7, 0, 20, 19, 16, 0),
+	gsSP2Triangles(21, 7, 19, 0, 5, 21, 19, 0),
+	gsSP2Triangles(19, 14, 5, 0, 22, 14, 19, 0),
+	gsSP2Triangles(5, 14, 23, 0, 1, 23, 14, 0),
+	gsSPEndDisplayList(),
+};
+
 Vtx k_shieldo_Right_Upper_Arm_mesh_layer_1_vtx_0[30] = {
 	{{ {0, -4, 3}, 0, {336, 370}, {253, 134, 36, 255} }},
 	{{ {10, -1, 4}, 0, {341, 370}, {98, 199, 58, 255} }},
@@ -1840,6 +1882,20 @@ Gfx mat_revert_k_shieldo_f3dlite_material[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx mat_k_shieldo_muzzle_flash_empty[] = {
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, 0, 0, 0, 0, SHADE, 0, 0, 0, 0),
+	gsSPGeometryMode(G_CULL_BACK | G_LIGHTING, 0),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_k_shieldo_muzzle_flash_empty[] = {
+	gsDPPipeSync(),
+	gsSPGeometryMode(0, G_CULL_BACK | G_LIGHTING),
+	gsSPEndDisplayList(),
+};
+
 Gfx mat_k_shieldo_face[] = {
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
@@ -1866,7 +1922,28 @@ Gfx mat_revert_k_shieldo_face[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx mat_k_shieldo_muzzle_flash[] = {
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, SHADE),
+	gsSPGeometryMode(G_CULL_BACK | G_LIGHTING, 0),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_k_shieldo_muzzle_flash[] = {
+	gsDPPipeSync(),
+	gsSPGeometryMode(0, G_CULL_BACK | G_LIGHTING),
+	gsSPEndDisplayList(),
+};
+
 Gfx k_shieldo_Butt_mesh_layer_1[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Butt_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
+Gfx k_shieldo_Butt_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
 	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
 	gsSPDisplayList(k_shieldo_Butt_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
@@ -1880,7 +1957,22 @@ Gfx k_shieldo_Chest_skinned_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx k_shieldo_Chest_skinned_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Chest_skinned_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
 Gfx k_shieldo_Chest_mesh_layer_1[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Chest_mesh_layer_1_tri_0),
+	gsSPDisplayList(k_shieldo_Chest_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
+Gfx k_shieldo_Chest_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
 	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
 	gsSPDisplayList(k_shieldo_Chest_mesh_layer_1_tri_0),
 	gsSPDisplayList(k_shieldo_Chest_mesh_layer_1_tri_1),
@@ -1898,6 +1990,16 @@ Gfx k_shieldo_Head_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx k_shieldo_Head_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Head_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPDisplayList(mat_k_shieldo_face),
+	gsSPDisplayList(k_shieldo_Head_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_k_shieldo_face),
+	gsSPEndDisplayList(),
+};
+
 Gfx k_shieldo_Left_Upper_Arm_mesh_layer_1[] = {
 	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
 	gsSPDisplayList(k_shieldo_Left_Upper_Arm_mesh_layer_1_tri_0),
@@ -1905,7 +2007,21 @@ Gfx k_shieldo_Left_Upper_Arm_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx k_shieldo_Left_Upper_Arm_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Left_Upper_Arm_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
 Gfx k_shieldo_Left_Forearm_skinned_mesh_layer_1[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Left_Forearm_skinned_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
+Gfx k_shieldo_Left_Forearm_skinned_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
 	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
 	gsSPDisplayList(k_shieldo_Left_Forearm_skinned_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
@@ -1920,10 +2036,46 @@ Gfx k_shieldo_Left_Forearm_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx k_shieldo_Left_Forearm_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Left_Forearm_mesh_layer_1_tri_0),
+	gsSPDisplayList(k_shieldo_Left_Forearm_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
 Gfx k_shieldo_Left_Hand_mesh_layer_1[] = {
 	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
 	gsSPDisplayList(k_shieldo_Left_Hand_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
+Gfx k_shieldo_Left_Hand_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Left_Hand_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
+Gfx k_shieldo_Left_Hand_mesh_layer_5[] = {
+	gsSPDisplayList(mat_k_shieldo_muzzle_flash),
+	gsSPDisplayList(k_shieldo_Left_Hand_mesh_layer_5_tri_0),
+	gsSPDisplayList(mat_revert_k_shieldo_muzzle_flash),
+	gsSPEndDisplayList(),
+};
+
+Gfx k_shieldo_Left_Hand_mesh_layer_5_mat_override_muzzle_flash_empty_0[] = {
+	gsSPDisplayList(mat_k_shieldo_muzzle_flash_empty),
+	gsSPDisplayList(k_shieldo_Left_Hand_mesh_layer_5_tri_0),
+	gsSPDisplayList(mat_revert_k_shieldo_muzzle_flash_empty),
+	gsDPPipeSync(),
+	gsSPSetGeometryMode(G_LIGHTING),
+	gsSPClearGeometryMode(G_TEXTURE_GEN),
+	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsSPTexture(65535, 65535, 0, 0, 0),
+	gsDPSetEnvColor(255, 255, 255, 255),
+	gsDPSetAlphaCompare(G_AC_NONE),
 	gsSPEndDisplayList(),
 };
 
@@ -1934,7 +2086,21 @@ Gfx k_shieldo_Right_Upper_Arm_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx k_shieldo_Right_Upper_Arm_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Right_Upper_Arm_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
 Gfx k_shieldo_Right_Forearm_skinned_mesh_layer_1[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Right_Forearm_skinned_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
+Gfx k_shieldo_Right_Forearm_skinned_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
 	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
 	gsSPDisplayList(k_shieldo_Right_Forearm_skinned_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
@@ -1949,7 +2115,22 @@ Gfx k_shieldo_Right_Forearm_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx k_shieldo_Right_Forearm_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Right_Forearm_mesh_layer_1_tri_0),
+	gsSPDisplayList(k_shieldo_Right_Forearm_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
 Gfx k_shieldo_Right_Hand_mesh_layer_1[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Right_Hand_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
+Gfx k_shieldo_Right_Hand_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
 	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
 	gsSPDisplayList(k_shieldo_Right_Hand_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
@@ -1963,7 +2144,21 @@ Gfx k_shieldo_Left_Thigh_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx k_shieldo_Left_Thigh_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Left_Thigh_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
 Gfx k_shieldo_Left_Lower_Leg_skinned_mesh_layer_1[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Left_Lower_Leg_skinned_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
+Gfx k_shieldo_Left_Lower_Leg_skinned_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
 	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
 	gsSPDisplayList(k_shieldo_Left_Lower_Leg_skinned_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
@@ -1978,7 +2173,22 @@ Gfx k_shieldo_Left_Lower_Leg_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx k_shieldo_Left_Lower_Leg_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Left_Lower_Leg_mesh_layer_1_tri_0),
+	gsSPDisplayList(k_shieldo_Left_Lower_Leg_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
 Gfx k_shieldo_Left_Foot_mesh_layer_1[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Left_Foot_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
+Gfx k_shieldo_Left_Foot_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
 	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
 	gsSPDisplayList(k_shieldo_Left_Foot_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
@@ -1992,7 +2202,21 @@ Gfx k_shieldo_Right_Thigh_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx k_shieldo_Right_Thigh_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Right_Thigh_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
 Gfx k_shieldo_Right_Lower_Leg_skinned_mesh_layer_1[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Right_Lower_Leg_skinned_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
+Gfx k_shieldo_Right_Lower_Leg_skinned_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
 	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
 	gsSPDisplayList(k_shieldo_Right_Lower_Leg_skinned_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
@@ -2007,7 +2231,22 @@ Gfx k_shieldo_Right_Lower_Leg_mesh_layer_1[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx k_shieldo_Right_Lower_Leg_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Right_Lower_Leg_mesh_layer_1_tri_0),
+	gsSPDisplayList(k_shieldo_Right_Lower_Leg_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
 Gfx k_shieldo_Right_Foot_mesh_layer_1[] = {
+	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
+	gsSPDisplayList(k_shieldo_Right_Foot_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),
+	gsSPEndDisplayList(),
+};
+
+Gfx k_shieldo_Right_Foot_mesh_layer_1_mat_override_muzzle_flash_empty_0[] = {
 	gsSPDisplayList(mat_k_shieldo_f3dlite_material),
 	gsSPDisplayList(k_shieldo_Right_Foot_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_k_shieldo_f3dlite_material),

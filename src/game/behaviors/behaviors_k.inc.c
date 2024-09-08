@@ -38,7 +38,7 @@ void bhv_k_fan(void) {
         //cur_obj_play_sound_1(SOUND_AIR_BLOW_FIRE);
     }
 
-    if (gMarioState->wall && gMarioState->wall->object) {
+    if (gMarioState->wall && gMarioState->wall->object && obj_has_behavior(gMarioState->wall->object,bhvKfan)) {
         play_sound(SOUND_MARIO_ATTACKED, gMarioState->marioObj->header.gfx.cameraToObject);
         gMarioState->hurtCounter+=8;
         set_mario_action(gMarioState,ACT_BACKWARD_AIR_KB,0);
@@ -118,7 +118,7 @@ static struct ObjectHitbox sKEnemyHitbox = {
     /* interactType:      */ INTERACT_BOUNCE_TOP,
     /* downOffset:        */ 0,
     /* damageOrCoinValue: */ 0,
-    /* health:            */ 1,
+    /* health:            */ 0,
     /* numLootCoins:      */ 3,
     /* radius:            */ 60,
     /* height:            */ 200,
@@ -422,6 +422,7 @@ void bhv_k_strong_terry(void) {
                 o->oAction = K_ENEMY_PATROL_RUN;
             }
             k_generic_enemy_search_for_mario();
+            k_enemy_vulnerable();
             break;
         case K_ENEMY_PATROL_IDLE:
         case K_ENEMY_PATROL_RUN:
@@ -490,6 +491,7 @@ void bhv_k_skinny_ricky(void) {
 }
 
 void bhv_k_shieldo(void) {
+    o->oAnimState = 1;
     k_generic_enemy_init();
 
     switch(o->oAction) {
@@ -528,6 +530,7 @@ void bhv_k_shieldo(void) {
                     cur_obj_init_animation_with_sound(HUMANOID_ANIM_SHOOT);
                 }
                 if (o->header.gfx.animInfo.animFrame == 11) {
+                    o->oAnimState = 0;
                     cur_obj_play_sound_2(SOUND_OBJ2_EYEROK_SOUND_LONG);
 
                     o->oFaceAnglePitch = -obj_turn_pitch_toward_mario(0.0f, 0x2000);
@@ -582,10 +585,23 @@ void bhv_k_electrohead(void) {
     switch(o->oAction) {
         case K_ENEMY_IDLE:
             k_enemy_vulnerable();
+
+            if ((o->oDistanceToMario < 1000.0f) && gMarioState->pos[1] < o->oPosY + 10.0f && gMarioState->pos[1] > o->oPosY - 10.0f && o->oHealth == 0) {
+                if (cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, DIALOG_K_ELECTROHEAD)) {
+                    o->oHealth = 1;
+                }
+            }
         break;
         case K_ENEMY_DIE:
             if (o->oTimer == 60) {
                 spawn_default_star(o->oPosX,o->oPosY+100.0f,o->oPosZ);
+            }
+            if (o->oTimer > 70) {
+                if (o->oHealth == 1) {
+                    if (cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, DIALOG_K_ELECTROHEAD_DEAD)) {
+                        o->oHealth = 2;
+                    }
+                }
             }
         break;
     }

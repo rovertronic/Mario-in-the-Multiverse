@@ -46,7 +46,7 @@ const LevelScript level_k_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_K_LITE, k_lite_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_K_POUNDER, k_pounder_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_K_SLIGHT, k_slight_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_K_JOSH, k_josh_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_K_JOSH, k_josh_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -193,7 +193,7 @@ const LevelScript level_k_entry[] = {
 		OBJECT(MODEL_K_STRONG_TERRY, 4098, -7908, -3192, 0, 14, 0, 0x00000000, bhvStrongTerry),
 		TERRAIN(k_area_2_collision),
 		MACRO_OBJECTS(k_area_2_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_K_CHINATOWN),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

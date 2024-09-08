@@ -615,8 +615,29 @@ road. This star has enough\n\
 satiate a typical lifetime.\n\
 Sorry little buddy."))
 
-DEFINE_DIALOG(DIALOG_K_ELECTROHEAD, 1, 3, 95, 190, _("\
-no kil"))
+DEFINE_DIALOG(DIALOG_K_ELECTROHEAD, 1, 4, 95, 190, _("\
+Woah... Where did you\n\
+just come from???\n\
+You're looking for a\n\
+@ffff00ffpower star@--------?\n\
+You can find one in\n\
+a yellow box outside\n\
+on one of the tallest\n\
+buildings... I think.\n\
+Yeah, that sounds about\n\
+right. Good luck finding\n\
+your star!"))
+
+DEFINE_DIALOG(DIALOG_K_ELECTROHEAD_DEAD, 1, 3, 95, 190, _("\
+★ Cough ★\n\
+\n\
+\n\
+@ff0000ffNOOOOOO!@--------\n\
+I thought you would fall\n\
+for my lie!\n\
+You ROM hack players\n\
+usually take everything\n\
+at face value..."))
 
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 200, _("\
 Wow! You're smack in the\n\

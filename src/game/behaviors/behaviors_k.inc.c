@@ -85,6 +85,13 @@ void bhv_k_blood(void) {
         }
     }
 
+    f32 dsqr;
+    vec3f_get_dist_squared(&o->oPosVec,gMarioState->pos,&dsqr);
+
+    if (dsqr > 7000.0f * 7000.0f) {
+        mark_obj_for_deletion(o);
+    }
+
     o->header.gfx.throwMatrix = o->transform;
 }
 
@@ -127,7 +134,9 @@ enum {
     K_ENEMY_CHASE,
     K_ENEMY_STAGGER,
     K_ENEMY_MELEE,
-    K_ENEMY_DIE
+    K_ENEMY_SHOOT,
+    K_ENEMY_BLOCKUP,
+    K_ENEMY_DIE,
 };
 
 void k_kill_enemy(void) {
@@ -200,11 +209,17 @@ void k_enemy_staggerable(void) {
     if (o->oShotByShotgun > 0) {
         cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
         o->oAction = K_ENEMY_STAGGER;
+        o->oTimer = 0;
     }
     if (o->oInteractStatus & INT_STATUS_INTERACTED) {
         if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
             cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
             o->oAction = K_ENEMY_STAGGER;
+            o->oTimer = 0;
+
+            if (using_ability(ABILITY_MARBLE)) {
+                k_kill_enemy();
+            }
         }
     }
 }
@@ -215,6 +230,7 @@ void k_enemy_stagger_vulnerable(void) {
     if (o->oShotByShotgun > 0) {
         cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
         o->oAction = K_ENEMY_STAGGER;
+        o->oTimer = 0;
         o->oMoveAngleYaw = obj_angle_to_object(o,gMarioObject);
     }
     if (o->oInteractStatus & INT_STATUS_INTERACTED) {
@@ -224,7 +240,29 @@ void k_enemy_stagger_vulnerable(void) {
             if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
                 cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
                 o->oAction = K_ENEMY_STAGGER;
+                o->oTimer = 0;
                 o->oMoveAngleYaw = obj_angle_to_object(o,gMarioObject);
+
+                if (using_ability(ABILITY_MARBLE)) {
+                    k_kill_enemy();
+                }
+            }
+        }
+    }
+}
+
+void k_enemy_shielded(void) {
+    o->oInteractType = INTERACT_BOUNCE_TOP;
+    o->oDamageOrCoinValue = 0;
+    if (o->oShotByShotgun > 0) {
+        cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
+    }
+    if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+        if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
+            cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
+
+            if (using_ability(ABILITY_MARBLE)) {
+                k_kill_enemy();
             }
         }
     }
@@ -232,11 +270,14 @@ void k_enemy_stagger_vulnerable(void) {
 
 void k_generic_enemy_search_for_mario(void) {
     //look for mario
+    if (o->oMoveFlags & (OBJ_MOVE_HIT_EDGE|OBJ_MOVE_HIT_WALL)) {
+        return;
+    }
     Vec3f hitPos;
     struct Surface * surf = NULL;
     Vec3f ray_start = {o->oPosX,o->oPosY+100.0f,o->oPosZ};
     Vec3f ray_vector = {gMarioState->pos[0]-o->oPosX,(gMarioState->pos[1]-o->oPosY)+100.0f,gMarioState->pos[2]-o->oPosZ};
-    if (o->oDistanceToMario < 5000.0f) {
+    if (o->oDistanceToMario < 2000.0f) {
         u16 view_angle = ABS(obj_angle_to_object(o,gMarioObject)-o->oMoveAngleYaw);
         find_surface_on_ray(ray_start, ray_vector, &surf, hitPos, (RAYCAST_FIND_FLOOR | RAYCAST_FIND_CEIL | RAYCAST_FIND_WALL));
         if ((view_angle < 0x3000) && !surf) {
@@ -273,9 +314,8 @@ void k_generic_enemy_handler(void) {
             o->oPosX += ((f32)(pushSpeed) / 2) * sins(pushAngle);
             o->oPosZ += ((f32)(pushSpeed) / 2) * coss(pushAngle);
         }
+        cur_obj_update_floor_and_walls();
     }
-
-    cur_obj_update_floor_and_walls();
 
 
     switch(o->oAction) {
@@ -321,6 +361,11 @@ void k_generic_enemy_handler(void) {
             }
             o->oMoveAngleYaw = approach_s16_asymptotic(o->oMoveAngleYaw,obj_angle_to_object(o,gMarioObject),4);
             o->oForwardVel = 25.0f;
+
+            if (o->oMoveFlags & (OBJ_MOVE_HIT_EDGE|OBJ_MOVE_HIT_WALL)) {
+                o->oAction = K_ENEMY_PATROL_IDLE;
+                cur_obj_init_animation_with_sound(1);
+            }
             break;
         case K_ENEMY_MELEE:
             if (o->oTimer == 0) {
@@ -342,13 +387,13 @@ void k_generic_enemy_handler(void) {
                 o->oForwardVel = -60.0f;
             }
             o->oForwardVel *= .9f;
-            if (o->oTimer > 25) {
-                cur_obj_become_tangible();
-                k_enemy_stagger_vulnerable();
-            }
             if (o->oTimer >= 35) {
                 o->oAction = K_ENEMY_PATROL_IDLE;
                 cur_obj_become_tangible();
+            }
+            if (o->oTimer > 25) {
+                cur_obj_become_tangible();
+                k_enemy_stagger_vulnerable();
             }
             break;
     }
@@ -365,6 +410,7 @@ void bhv_k_strong_terry(void) {
             if (gCurrAreaIndex != 2) {
                 o->oAction = K_ENEMY_PATROL_RUN;
             }
+            k_generic_enemy_search_for_mario();
             break;
         case K_ENEMY_PATROL_IDLE:
         case K_ENEMY_PATROL_RUN:
@@ -424,7 +470,94 @@ void bhv_k_skinny_ricky(void) {
             break;
         case K_ENEMY_STAGGER:
             if (o->oTimer == 0) {
-                cur_obj_init_animation_with_sound(HUMANOId_ANIM_STAGGER);
+                cur_obj_init_animation_with_sound(HUMANOID_ANIM_STAGGER);
+            }
+            break;
+    }
+
+    k_generic_enemy_handler();
+}
+
+void bhv_k_shieldo(void) {
+    k_generic_enemy_init();
+
+    switch(o->oAction) {
+        case K_ENEMY_IDLE:
+            o->oAction = K_ENEMY_PATROL_RUN;
+            break;
+        case K_ENEMY_PATROL_IDLE:
+        case K_ENEMY_PATROL_RUN:
+            if (o->oTimer > 20 && o->oDistanceToMario < 1000.0f) {
+                o->oAction = K_ENEMY_SHOOT;
+            }
+            k_enemy_stagger_vulnerable();
+            break;
+        case K_ENEMY_CHASE:
+            if (o->oDistanceToMario < 1000.0f) {
+                o->oAction = K_ENEMY_SHOOT;
+            }
+            k_enemy_staggerable();
+            break;
+        case K_ENEMY_SHOOT:
+            {
+                Vec3f bullet_origin = //where the bullet spawns relative to the enemy
+                {o->oPosX+(sins(o->oFaceAngleYaw)*50.0f)+(sins(o->oFaceAngleYaw-0x4000)*-40.0f),
+                o->oPosY+100.0f,
+                o->oPosZ+(coss(o->oFaceAngleYaw)*50.0f)+(coss(o->oFaceAngleYaw-0x4000)*-40.0f)};
+
+                o->oForwardVel = 0.0f;
+                o->oMoveAngleYaw = approach_s16_asymptotic(o->oMoveAngleYaw,obj_angle_to_object(o,gMarioObject),4);
+
+                if ((lateral_dist_between_objects(o,gMarioObject) < 250.0f)&&(gMarioState->pos[1] > o->oPosY+160.0f)) {
+                    o->oAction = K_ENEMY_BLOCKUP;
+                }
+
+                if (o->oTimer == 0) {
+                    //ensure the first frame is the slow cond
+                    cur_obj_init_animation_with_sound(HUMANOID_ANIM_SHOOT);
+                }
+                if (o->header.gfx.animInfo.animFrame == 11) {
+                    cur_obj_play_sound_2(SOUND_OBJ2_EYEROK_SOUND_LONG);
+
+                    o->oFaceAnglePitch = -obj_turn_pitch_toward_mario(0.0f, 0x2000);
+                    dobj_spawn_bullet(bullet_origin,o->oFaceAnglePitch,o->oFaceAngleYaw);
+                    o->oFaceAnglePitch = 0;
+                }
+
+                if (o->oDistanceToMario > 1100.0f) {
+                    o->oAction = K_ENEMY_CHASE;
+                }
+
+                if (obj_hit_by_deflected_bullet(o, 200.0f)) {
+                    o->oAction = K_ENEMY_STAGGER;
+                    o->oTimer = 0;
+                    cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
+                }
+
+                o->oInteractType = INTERACT_DAMAGE;
+                o->oDamageOrCoinValue = 0;
+
+                k_enemy_shielded();
+            }
+            break;
+        case K_ENEMY_BLOCKUP:
+
+            o->oForwardVel = 0.0f;
+            o->oMoveAngleYaw = approach_s16_asymptotic(o->oMoveAngleYaw,obj_angle_to_object(o,gMarioObject),4);
+            cur_obj_init_animation_with_sound(HUMANOID_ANIM_BLOCKUP);
+
+            o->oInteractType = INTERACT_BOUNCE_TOP;
+            o->oDamageOrCoinValue = 0;
+
+            if (gMarioState->pos[1] < o->oPosY + 20.0f) {
+                o->oAction = K_ENEMY_SHOOT;
+            }
+
+            k_enemy_shielded();
+            break;
+        case K_ENEMY_STAGGER:
+            if (o->oTimer == 0) {
+                cur_obj_init_animation_with_sound(HUMANOID_ANIM_SHIELDBLOCK);
             }
             break;
     }

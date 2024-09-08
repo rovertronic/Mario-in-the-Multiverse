@@ -7,3 +7,6 @@
 #include "anim_whack.inc.c"
 #include "anim_terrymash.inc.c"
 #include "anim_stagger.inc.c"
+#include "anim_shieldblock.inc.c"
+#include "anim_shieldshoot.inc.c"
+#include "anim_shieldblockup.inc.c"

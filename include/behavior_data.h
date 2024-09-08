@@ -825,6 +825,7 @@ extern const BehaviorScript bhvKbillionare[];
 extern const BehaviorScript bhvKtv[];
 extern const BehaviorScript bhvKtvAim[];
 extern const BehaviorScript bhvKpounder[];
+extern const BehaviorScript bhvShieldo[];
 /* GROUP K END */
 
 /* GROUP L START */

@@ -19,6 +19,7 @@
 #include "color_presets.h"
 #include "ability.h"
 #include "emutest.h"
+#include "object_list_processor.h"
 
 #include "config.h"
 #include "config/config_world.h"
@@ -1201,7 +1202,7 @@ void geo_process_object(struct Object *node) {
         s32 noThrowMatrix = (node->header.gfx.throwMatrix == NULL);
 
         // Maintain throw matrix pointer if the game is paused as it won't be updated.
-        Mat4 *oldThrowMatrix = (sCurrPlayMode == PLAY_MODE_PAUSED) ? node->header.gfx.throwMatrix : NULL;
+        Mat4 *oldThrowMatrix = (sCurrPlayMode == PLAY_MODE_PAUSED || (gTimeStopState & TIME_STOP_ACTIVE)) ? node->header.gfx.throwMatrix : NULL;
         if (object_mirror_mode) {
             oldThrowMatrix = node->header.gfx.throwMatrix;
         }

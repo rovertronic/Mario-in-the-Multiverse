@@ -8,5 +8,8 @@ const struct Animation *const humanoid_anims[] = {
 	&humanoid_anim_whack,
 	&humanoid_anim_terrymash,
 	&humanoid_anim_stagger,
+	&humanoid_anim_shieldblock,
+	&humanoid_anim_shieldshoot,
+	&humanoid_anim_shieldblockup,
 	NULL,
 };

@@ -1099,7 +1099,7 @@ void bhv_redd_paintings_loop(void) {
 }
 
 void render_painting_ui(f32 alpha) {
-    char stringBuf[100];
+    char stringBuf[200];
 
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
     create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);

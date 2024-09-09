@@ -2223,7 +2223,7 @@ s32 render_pause_courses_and_castle(void) {
                     menu_ability_y_offset[i] = 0;
                 }
 
-                u8 img = 20;
+                u8 img = ABILITY_LOCK_IMAGE_INDEX;
                 if (save_file_check_ability_unlocked(i) || (i==0)) {
                     img = i;
                 }

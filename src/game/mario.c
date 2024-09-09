@@ -2562,9 +2562,9 @@ void init_mario(void) {
     //set_camera_mode(gMarioState->area->camera, gMarioState->area->camera->defMode, 1);
 
     if (level_in_dream_comet_mode() && mitm_levels[hub_level_current_index].dream_data != NULL) {
-        for (int i = 0; i < 4; i++) {
-            ability_slot[i] = mitm_levels[hub_level_current_index].dream_data->ability_lock[i];
-        }
+        mitm_dream_data *dd = mitm_levels[hub_level_current_index].dream_data;
+        change_ability(dd->ability_lock[0]);
+        ability_dpad_lock(dd->ability_lock[0],dd->ability_lock[1],dd->ability_lock[2],dd->ability_lock[3]);
     }
 
 

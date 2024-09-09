@@ -250,6 +250,32 @@ Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context
 s8 ability_y_offset[4] = {0,0,0,0};
 s8 ability_gravity[4] = {0,0,0,0};
 u8 ability_slot[4] = {ABILITY_NONE, ABILITY_NONE, ABILITY_NONE, ABILITY_NONE};
+u8 ability_slot_reserve[4] = {ABILITY_NONE, ABILITY_NONE, ABILITY_NONE, ABILITY_NONE};
+
+u8 ability_dpad_locked = FALSE;
+void ability_dpad_lock(u8 ab1, u8 ab2, u8 ab3, u8 ab4) {
+    if (ability_dpad_locked) {
+        return;
+    }
+    for (int i = 0; i < 4; i++) {
+        ability_slot_reserve[i] = ability_slot[i];
+    }
+    ability_slot[0] = ab1;
+    ability_slot[1] = ab2;
+    ability_slot[2] = ab3;
+    ability_slot[3] = ab4;
+    ability_dpad_locked = TRUE;
+}
+
+void ability_dpad_unlock(void) {
+    if (!ability_dpad_locked) {
+        return;
+    }
+    for (int i = 0; i < 4; i++) {
+        ability_slot[i] = ability_slot_reserve[i];
+    }
+    ability_dpad_locked = FALSE;
+}
 
 void render_ability_dpad(s16 x, s16 y, u8 alpha) {
     u8 i;
@@ -259,6 +285,10 @@ void render_ability_dpad(s16 x, s16 y, u8 alpha) {
     gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
     gSPDisplayList(gDisplayListHead++, dpad_dpad_mesh);
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+    if (ability_dpad_locked) {
+        render_ability_icon(x,y,alpha,ABILITY_LOCK_IMAGE_INDEX);
+    }
 
     render_ability_icon(x,y+30+ability_y_offset[0],alpha,ability_slot[0]);
     render_ability_icon(x+30,y+ability_y_offset[1],alpha,ability_slot[1]);

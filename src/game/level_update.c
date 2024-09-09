@@ -1272,6 +1272,7 @@ s32 init_level(void) {
         case LEVEL_CASTLE:
             hub_level_current_index = HUBLEVEL_HUB;
             dream_comet_enabled = FALSE;
+            ability_dpad_unlock();
             break;
         case LEVEL_BOWSER_COURSE:
             hub_level_current_index = HUBLEVEL_BOWSER;

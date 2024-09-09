@@ -641,9 +641,12 @@ void render_hint_ui(u8 hud_alpha) {
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
         print_generic_string_ascii(45, 95, "Need help finding a\npower star?");
 
-        print_generic_string_ascii(45, 56, mitm_levels[hint_index].name);
+        if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked & (1<<hint_index)) {
+            print_generic_string_ascii(45, 56, mitm_levels[hint_index].name);
+        }
 
         for (s32 i = 0; i < 15; i++) {
+            u8 unlocked = (gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked & (1<<i));
             u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(mitm_levels[i].course));
             sprintf(stringBuf,"C%02d",i+1);
 
@@ -653,6 +656,10 @@ void render_hint_ui(u8 hud_alpha) {
             } else {
                 // level has remaining stars
                 gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
+            }
+            if (!unlocked) {
+                // level is locked and undiscovered
+                gDPSetEnvColor(gDisplayListHead++, 100, 100, 100, 255.0f-hud_alpha);
             }
 
             print_generic_string_ascii(50+(33*(i%3)), 197-(18*(i/3)), stringBuf);
@@ -760,13 +767,17 @@ void bhv_layton_hint_loop(void) {
             handle_menu_scrolling_2way(&hint_ix, &hint_iy, 0, 4, 2);
             hint_index = (hint_iy *3)+(hint_ix%3);
             if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
-                o->oAction = 2;
-                hint_level = hint_index;
-                hint_layer = 1;
-                hint_index = 0;
-                hint_ix = 0;
-                hint_iy = 0;
-                cur_obj_init_animation_with_sound(2);
+                if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked & (1<<hint_index)) {
+                    o->oAction = 2;
+                    hint_level = hint_index;
+                    hint_layer = 1;
+                    hint_index = 0;
+                    hint_ix = 0;
+                    hint_iy = 0;
+                    cur_obj_init_animation_with_sound(2);
+                } else {
+                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                }
             } else if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
                 set_mario_action(gMarioState, ACT_IDLE, 0);
                 gCamera->cutscene = 0;

@@ -924,6 +924,7 @@ enum K_MODELS {
 #define MODEL_O_SPEAKER_2 0x15A
 #define MODEL_O_SPEAKER_3 0x15B
 #define MODEL_O_GERIK     0x15C
+#define MODEL_O_FLAME     0x15D
 /* LEVEL O END */
 
 /* Bowser Level */

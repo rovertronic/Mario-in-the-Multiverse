@@ -2146,6 +2146,10 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
 
+        if (gMarioState->floor->type == SURFACE_FLOWPIPE_UP) {
+            gMarioState->vel[1] += 5.0f;
+        }
+
         if (gMarioState->floor->type == SURFACE_FLOWPIPE) {
             flowpipe_angle = gMarioState->floor->force << 8;
             if (flowpipe_vel < 70.0f) {

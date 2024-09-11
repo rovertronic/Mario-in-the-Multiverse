@@ -7,9 +7,16 @@ void bhv_1up_interact(void) {
             //pizzaface
             if (gMarioState->action != ACT_DISAPPEARED) {
                 set_mario_action(gMarioState, ACT_DISAPPEARED, 1);
-                level_trigger_warp(gMarioState, WARP_OP_DEATH);
                 pizza_time = FALSE;
-                p_rank_challenge_enabled = FALSE;
+
+                if (p_rank_challenge_enabled) {
+                    level_trigger_warp(gMarioState, WARP_OP_DEATH);
+                    p_rank_challenge_enabled = FALSE;
+                } else {
+                    initiate_warp(LEVEL_L, 0x05, 0x05, WARP_FLAGS_NONE);
+                    sWarpDest.type = WARP_TYPE_CHANGE_LEVEL;
+                    play_transition(WARP_TRANSITION_FADE_INTO_CIRCLE, 5, 0, 0, 0);
+                }
             }
         } else {
             //normal, in vanilla painting worlds usually

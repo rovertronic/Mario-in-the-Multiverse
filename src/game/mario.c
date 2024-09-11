@@ -2148,12 +2148,20 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 
         if (!using_ability(ABILITY_KNIGHT)) {
             if (gMarioState->floor->type == SURFACE_FLOWPIPE_UP) {
-                if (gMarioState->pos[1] < gMarioState->floorHeight+15.0f) {
-                    gMarioState->pos[1] += 15.0f;
+                if ((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_STATIONARY) {
+                    gMarioState->pos[1] += 25.0f;
+                    set_mario_action(gMarioState,ACT_DOUBLE_JUMP,0);
+                }
+                if ((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_MOVING) {
+                    gMarioState->pos[1] += 25.0f;
+                    set_mario_action(gMarioState,ACT_DOUBLE_JUMP,0);
                 }
                 if (gMarioState->pos[1] < gMarioState->floorHeight+2400.0f) {
-                    if (gMarioState->vel[1] < 10.0f) {
+                    if (gMarioState->vel[1] < 15.0f) {
                         gMarioState->vel[1] += 4.0f;
+                    }
+                    if (gMarioState->vel[1] < 6.0f) {
+                        gMarioState->vel[1] = 6.0f;
                     }
                     if ((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_SUBMERGED) {
                         gMarioState->pos[1] += 6.0f;

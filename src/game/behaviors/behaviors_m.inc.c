@@ -201,3 +201,59 @@ void bhv_m_gate(void) {
         o->oPosY = approach_f32_asymptotic(o->oPosY,o->oHomeY+500.0f,0.1f);
     }
 }
+
+void bhv_m_elevator(void) {
+//copy of elevator d but with faster speeds
+
+    struct Surface * dummy_surf;
+
+    switch(o->oAction) {
+        case 0: //init
+            o->oHomeX = find_floor(o->oPosX,o->oPosY,o->oPosZ,&dummy_surf) + 100.0f; //actually ohomey2
+            o->oHomeY = o->oPosY;
+            o->oAction++;
+        break;
+        case 1: //wait for mario (top)
+            if ((gMarioObject->platform == o)||((gMarioState->pos[1]<o->oPosY)&&(lateral_dist_between_objects(o,gMarioObject)<1500.0f)) ) {
+                o->oAction ++;
+            }
+        break;
+        case 2: // go down
+            o->oPosY -= 50.0f;
+            cur_obj_play_sound_1(SOUND_ENV_ELEVATOR1);
+
+            if (o->oPosY < o->oHomeX) {
+                o->oPosY = o->oHomeX;
+                o->oAction++;
+                cur_obj_play_sound_2(SOUND_GENERAL_QUIET_POUND1);
+                cur_obj_shake_screen(SHAKE_POS_SMALL);
+            }
+        break;
+        case 3: //wait for mario to get off (bottom)
+            if (gMarioObject->platform != o) {
+                o->oAction ++;
+            }
+        break;
+        case 4: //wait for mario (bottom)
+            if (gMarioObject->platform == o) {
+                o->oAction ++;
+            }
+        break;
+        case 5: // go up
+            o->oPosY += 50.0f;
+            cur_obj_play_sound_1(SOUND_ENV_ELEVATOR1);
+
+            if (o->oPosY > o->oHomeY) {
+                o->oPosY = o->oHomeY;
+                o->oAction++;
+                cur_obj_play_sound_2(SOUND_GENERAL_QUIET_POUND1);
+                cur_obj_shake_screen(SHAKE_POS_SMALL);
+            }
+        break;
+        case 6: //wait for mario to get off (top)
+            if (gMarioObject->platform != o) {
+                o->oAction = 1;
+            }
+        break;
+    }
+}

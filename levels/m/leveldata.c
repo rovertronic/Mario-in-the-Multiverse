@@ -21,3 +21,5 @@
 #include "levels/m/m_jelly/model.inc.c"
 #include "levels/m/m_jelly/anims/data.inc.c"
 #include "levels/m/m_jelly/anims/table.inc.c"
+#include "levels/m/m_elevator/collision.inc.c"
+#include "levels/m/m_elevator/model.inc.c"

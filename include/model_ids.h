@@ -905,6 +905,7 @@ enum K_MODELS {
 #define MODEL_M_CLASSC                          0x151
 #define MODEL_M_GATE                            0x152
 #define MODEL_M_JELLY                           0x153
+#define MODEL_M_ELEVATOR                        0x154
 /* LEVEL M END */
 
 /* LEVEL N START */

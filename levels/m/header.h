@@ -23,4 +23,8 @@ extern const LevelScript level_m_entry[];
 
 #include "levels/m/m_jelly/anim_header.h"
 
+#include "levels/m/m_elevator/collision_header.h"
+
+#include "levels/m/m_elevator/geo_header.h"
+
 #endif

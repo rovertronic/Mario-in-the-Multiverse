@@ -71,9 +71,9 @@ void bhv_m_classc(void) {
                 o->oWallHitboxRadius = 200.0f;
                 magic_mirror_disable = TRUE;
                 play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_MECHA), 0);
-                o->oHealth = 15;
-                esa_hp = 15;
-                esa_mhp = 15;
+                o->oHealth = 8;
+                esa_hp = 8;
+                esa_mhp = 8;
                 esa_str = "Class C Guardian";
             }
             break;

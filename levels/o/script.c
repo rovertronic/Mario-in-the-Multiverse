@@ -40,7 +40,9 @@ const LevelScript level_o_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_O_SPEAKER_1, o_speaker_1_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_O_SPEAKER_2, o_speaker_2_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_O_SPEAKER_3, o_speaker_3_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_RED_FLAME, o_flame_geo), //hope this isn't illegal
+	//LOAD_MODEL_FROM_GEO(MODEL_O_FLAME, o_flame_geo), //hope this isn't illegal
+	//update: it is
+	LOAD_MODEL_FROM_GEO(MODEL_O_FLAME,o_flame_geo),
 	LOAD_MODEL_FROM_GEO(MODEL_O_GERIK, o_gerik_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
@@ -125,10 +127,10 @@ const LevelScript level_o_entry[] = {
 		OBJECT(MODEL_LEVEL_PIPE, 1520, -2494, 23907, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_NONE, 21724, -3255, -4836, 0, 0, 0, (2 << 16), bhvWarp),
 		OBJECT(MODEL_NONE, 1213, -3103, -30517, 0, 0, 0, (4 << 16), bhvWarp),
-		OBJECT(MODEL_RED_FLAME, 2299, -2294, 22175, 0, 0, 0, 0x00000000, bhvFlame),
-		OBJECT(MODEL_RED_FLAME, -9832, -2294, -6099, 0, 0, 0, 0x00000000, bhvFlame),
-		OBJECT(MODEL_RED_FLAME, -5814, -1155, -15923, 0, 0, 0, 0x00000000, bhvFlame),
-		OBJECT(MODEL_RED_FLAME, -456, -1155, -11784, 0, 0, 0, 0x00000000, bhvFlame),
+		OBJECT(MODEL_O_FLAME, 2299, -2294, 22175, 0, 0, 0, 0x00000000, bhvFlame),
+		OBJECT(MODEL_O_FLAME, -9832, -2294, -6099, 0, 0, 0, 0x00000000, bhvFlame),
+		OBJECT(MODEL_O_FLAME, -5814, -1155, -15923, 0, 0, 0, 0x00000000, bhvFlame),
+		OBJECT(MODEL_O_FLAME, -456, -1155, -11784, 0, 0, 0, 0x00000000, bhvFlame),
 		OBJECT(MODEL_FLIPSWITCH_1, 2440, -3254, -26568, 0, 0, 0, (6 << 24) | (1 << 16), bhvFlipswitch),
 		OBJECT(MODEL_FLIPSWITCH_1, 3040, -3254, -26568, 0, 0, 0, (6 << 24) | (1 << 16), bhvFlipswitch),
 		OBJECT(MODEL_FLIPSWITCH_1, 2440, -3254, -25968, 0, 0, 0, (6 << 24) | (1 << 16), bhvFlipswitch),

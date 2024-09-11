@@ -109,7 +109,7 @@ const LevelScript level_m_entry[] = {
 		OBJECT(MODEL_STAR_PIECE, 9130, -2400, -4230, 0, 0, 0, 0x00000000, bhvStarPiece),
 		OBJECT(MODEL_STAR_PIECE, 8100, -3400, -2400, 0, 0, 0, 0x00000000, bhvStarPiece),
 		OBJECT(MODEL_STAR_PIECE, 8360, -4000, -5660, 0, 0, 0, 0x00000000, bhvStarPiece),
-		OBJECT(MODEL_NONE, 400, 297, -700, 0, 0, 0, (0 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, 0, 297, -700, 0, 0, 0, (0 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, 2200, 501, -13300, 0, 0, 0, (1 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, 9100, -2172, -13700, 0, 0, 0, (2 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -3100, 5133, -10500, 0, 0, 0, (3 << 16), bhvDreamCatalyst),

@@ -848,6 +848,7 @@ extern const BehaviorScript bhvM_ClassC[];
 extern const BehaviorScript bhvM_Gate[];
 extern const BehaviorScript bhvM_Jelly[];
 extern const BehaviorScript bhvMelevator[];
+extern const BehaviorScript bhvM_JellyLaser[];
 /* GROUP M END */
 
 /* GROUP N START */

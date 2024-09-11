@@ -1,0 +1,11 @@
+extern const GeoLayout m_jellylaser_geo[];
+extern Vtx m_jellylaser_Cylinder_mesh_layer_1_vtx_0[88];
+extern Gfx m_jellylaser_Cylinder_mesh_layer_1_tri_0[];
+extern Vtx m_jellylaser_Cylinder_mesh_layer_1_vtx_1[88];
+extern Gfx m_jellylaser_Cylinder_mesh_layer_1_tri_1[];
+extern Vtx m_jellylaser_Cylinder_mesh_layer_1_vtx_2[88];
+extern Gfx m_jellylaser_Cylinder_mesh_layer_1_tri_2[];
+extern Gfx mat_m_jellylaser_laser1[];
+extern Gfx mat_m_jellylaser_laser2[];
+extern Gfx mat_m_jellylaser_laser3[];
+extern Gfx m_jellylaser_Cylinder_mesh_layer_1[];

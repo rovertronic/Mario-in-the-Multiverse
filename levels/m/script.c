@@ -34,6 +34,8 @@ const LevelScript level_m_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_M_GATE, m_gate_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_M_JELLY, m_jelly_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_M_ELEVATOR, m_elevator_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_M_JELLYLASER, m_jellylaser_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_M_JELLYLASER_2, m_jellylaser2_geo),
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */

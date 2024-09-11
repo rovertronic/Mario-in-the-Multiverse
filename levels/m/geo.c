@@ -21,3 +21,5 @@
 #include "levels/m/m_gate/geo.inc.c"
 #include "levels/m/m_jelly/geo.inc.c"
 #include "levels/m/m_elevator/geo.inc.c"
+#include "levels/m/m_jellylaser/geo.inc.c"
+#include "levels/m/m_jellylaser2/geo.inc.c"

@@ -906,6 +906,8 @@ enum K_MODELS {
 #define MODEL_M_GATE                            0x152
 #define MODEL_M_JELLY                           0x153
 #define MODEL_M_ELEVATOR                        0x154
+#define MODEL_M_JELLYLASER                      0x155
+#define MODEL_M_JELLYLASER_2                    0x156
 /* LEVEL M END */
 
 /* LEVEL N START */

@@ -27,4 +27,8 @@ extern const LevelScript level_m_entry[];
 
 #include "levels/m/m_elevator/geo_header.h"
 
+#include "levels/m/m_jellylaser/geo_header.h"
+
+#include "levels/m/m_jellylaser2/geo_header.h"
+
 #endif

@@ -23,3 +23,5 @@
 #include "levels/m/m_jelly/anims/table.inc.c"
 #include "levels/m/m_elevator/collision.inc.c"
 #include "levels/m/m_elevator/model.inc.c"
+#include "levels/m/m_jellylaser/model.inc.c"
+#include "levels/m/m_jellylaser2/model.inc.c"

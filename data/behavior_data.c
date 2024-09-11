@@ -8918,6 +8918,15 @@ const BehaviorScript bhvMelevator[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+extern void bhv_m_jelly_laser_loop(void);
+const BehaviorScript bhvM_JellyLaser[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_m_jelly_laser_loop),
+    END_LOOP(),
+};
 /* GROUP M END */
 
 /* GROUP N START */

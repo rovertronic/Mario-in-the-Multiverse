@@ -80,7 +80,16 @@ void bhv_m_classc(void) {
         case 1: // Deactivate and attackable
             o->oAnimState = 1;
             cur_obj_update_floor_and_walls();
+
+            Vec3f old_pos;
+            vec3f_copy(old_pos,&o->oPosVec);
             cur_obj_move_standard_classc();
+
+            struct Surface * found;
+            find_floor(o->oPosX,o->oPosY,o->oPosZ,&found);
+            if (!found) {
+                vec3f_copy(&o->oPosVec,old_pos);
+            }
 
             o->oVelX *= .9f;
             o->oVelZ *= .9f;

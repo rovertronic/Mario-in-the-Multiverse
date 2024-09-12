@@ -518,8 +518,16 @@ void bhv_f_shooter_star(void) {
     switch(o->oAction) {
         case 0:
             if (!cur_obj_nearest_object_with_behavior(bhvFshooter)) {
-                spawn_default_star(o->oPosX,o->oPosY,o->oPosZ);
-                o->oAction++;
+                //not actually the 100 coin star, just a convenient var to use
+                if (!g100CoinStarSpawned) {
+                    spawn_default_star(o->oPosX,o->oPosY,o->oPosZ);
+                    o->oAction++;
+                    g100CoinStarSpawned = TRUE;
+                } else {
+                    struct Object * star = spawn_object(o,MODEL_NONE,bhvStar);
+                    star->oBehParams = 0x04000000;
+                    o->oAction++;
+                }
             }
         break;
     }

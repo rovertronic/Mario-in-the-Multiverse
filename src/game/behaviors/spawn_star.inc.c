@@ -66,11 +66,16 @@ void bhv_star_spawn_init(void) {
     o->oForwardVel = o->oStarSpawnDisFromHome / 30.0f;
     o->oStarSpawnVelY = o->oPosY;
 
-#ifdef ENABLE_VANILLA_LEVEL_SPECIFIC_CHECKS
-    if (o->oBehParams2ndByte == SPAWN_STAR_ARC_CUTSCENE_BP_DEFAULT_STAR || gCurrCourseNum == COURSE_BBH) {
-#else
+    u8 cut_or_pan = 1; // 1 = pan, 0 = cut
+
     if (o->oBehParams2ndByte == SPAWN_STAR_ARC_CUTSCENE_BP_DEFAULT_STAR) {
-#endif
+        cut_or_pan = 0;
+    }
+    if (gCurrLevelNum == LEVEL_F) {
+        cut_or_pan = 0;
+    }
+
+    if (cut_or_pan) {
         cutscene_object(CUTSCENE_STAR_SPAWN, o);
     } else {
         cutscene_object(CUTSCENE_RED_COIN_STAR_SPAWN, o);

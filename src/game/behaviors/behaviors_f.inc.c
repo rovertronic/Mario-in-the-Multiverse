@@ -410,6 +410,7 @@ void bhv_f_key(void) {
             }
         break;
         case 1:
+            print_text_fmt_int(10, 10, "BOAT KEY OBTAINED", 0);
             o->oAngleVelYaw += 0x70;
             o->oFaceAngleYaw += o->oAngleVelYaw;
             cur_obj_scale(o->oHomeY);
@@ -626,6 +627,15 @@ struct ObjectHitbox sFBoatHitbox = {
 
 void bhv_f_boat(void) {
     struct Surface *floor;
+
+    if (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags & (1<<LEVEL_F_FLAG_KEY))) {
+        if (lateral_dist_between_objects(gMarioObject,o) < 400.0f) {
+            print_text_fmt_int(10, 10, "NEED BOAT KEY", 0);
+        }
+        load_object_collision_model();
+        return;
+    }
+
 
     obj_set_hitbox(o, &sFBoatHitbox);
     cur_obj_scale(1.0f);

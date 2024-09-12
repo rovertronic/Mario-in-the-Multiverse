@@ -7504,7 +7504,7 @@ const BehaviorScript bhvFblastwall[] = {
 extern void bhv_fdynamite_loop(void);
 const BehaviorScript bhvFdynamite[] = {
     BEGIN(OBJ_LIST_LEVEL),
-    OR_LONG(oFlags, (OBJ_FLAG_HOLDABLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_HOLDABLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET)),
     DROP_TO_FLOOR(),
     SET_HOME(),
     BEGIN_LOOP(),
@@ -7568,7 +7568,7 @@ const BehaviorScript bhvF_SchBoard[] = {
 extern void bhv_f_trapdoor(void);
 const BehaviorScript bhvFtrapdoor[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET)),
     LOAD_COLLISION_DATA(f_trapdoor_collision),
     SET_FLOAT(oDrawingDistance, 25000),
     BEGIN_LOOP(),
@@ -7590,7 +7590,7 @@ extern void bhv_f_shooter(void);
 const BehaviorScript bhvFshooter[] = {
     BEGIN(OBJ_LIST_PUSHABLE),
     SET_FLOAT(oDrawingDistance, 10000),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_ENEMY)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_E__SG_ENEMY | OBJ_FLAG_NO_DREAM_COMET)),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_f_shooter),
     END_LOOP(),
@@ -7599,6 +7599,7 @@ const BehaviorScript bhvFshooter[] = {
 extern void bhv_f_shooter_star(void);
 const BehaviorScript bhvFshooterStar[] = {
     BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, OBJ_FLAG_NO_DREAM_COMET),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_f_shooter_star),
     END_LOOP(),
@@ -7648,7 +7649,7 @@ const BehaviorScript bhvFBlowVent[] = {
 extern void bhv_f_boat(void);
 const BehaviorScript bhvFBoat[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET)),
     LOAD_COLLISION_DATA(f_boat_collision),
     SET_FLOAT(oDrawingDistance, 32000),
     BEGIN_LOOP(),
@@ -7662,7 +7663,7 @@ const BehaviorScript bhvFHeli[] = {
     SET_FLOAT(oDrawingDistance, 32000),
     LOAD_ANIMATIONS(oAnimations, f_heli_anims),
     ANIMATE(0),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_E__SG_CUSTOM)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_NO_DREAM_COMET)),
     SET_HOME(),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_f_heli),

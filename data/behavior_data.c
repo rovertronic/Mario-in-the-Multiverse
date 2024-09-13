@@ -4649,7 +4649,7 @@ const BehaviorScript bhvStar[] = {
 
 const BehaviorScript bhvUVstar[] = {
     BEGIN(OBJ_LIST_LEVEL),
-    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET)),
     CALL_NATIVE(bhv_collect_star_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_hidden_by_uv),

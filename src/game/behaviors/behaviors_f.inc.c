@@ -608,7 +608,7 @@ void bhv_f_missiles(void) {
 
 void bhv_f_blowvent(void) {
     struct Object * curtain_platform = cur_obj_nearest_object_with_behavior(bhvFCurtainPlatform);
-    if ((curtain_platform)&&(curtain_platform->oAction == 3)) {
+    if ((curtain_platform)&&(curtain_platform->oAction == 3)&&(random_u16()%2==0)) {
         cur_obj_spawn_strong_wind_particles(12, 3.0f, 0.0f, -50.0f, 120.0f);
     }
 }
@@ -728,13 +728,29 @@ void bhv_f_heli(void) {
             cur_obj_hide();
             obj_set_hitbox(o, &sHelicopterHitbox);
             if (!cur_obj_nearest_object_with_behavior(bhvFshooter) && save_file_check_ability_unlocked(ABILITY_GADGET_WATCH)) {
-                if (o->oTimer > 30) {
-                    cur_obj_unhide();
-                    o->oAction = 1;
-                    play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_F_BOND), 0);
+                if (o->oTimer == 30) {
+                    
+
+                    struct Object * btn = spawn_object(o,MODEL_GOLD_BTN_OFF,bhvFRocketButtonGold);
+                    vec3f_set(&btn->oPosVec,-11500, 3136, -7111);
+                    btn->oFaceAnglePitch += 0x4000;
+
+                    //fucked up
+                    struct Object * me = o;
+                    o = btn;
+                    spawn_mist_particles_variable(0, 0, 200.0f);
+                    o = me;
+
+                    vec3f_copy(&gLakituState.goalFocus,&btn->oPosVec);
+                    vec3f_copy(&gLakituState.goalPos,&btn->oPosVec);
+                    gLakituState.goalPos[0] -= 2000.0f;
+                    gLakituState.goalPos[2] += 1000.0f;
+
                     gCamera->cutscene = 1;
-                    o->prevObj = spawn_object(o,MODEL_F_HELISHADOW,bhvStaticObject);
-                    o->prevObj->oPosY = 600.0f;
+                }
+                if (o->oTimer == 60) {
+                    o->oAction = 6;
+                    gCamera->cutscene = 0;
                 }
             } else {
                 o->oTimer = 0;
@@ -859,6 +875,24 @@ void bhv_f_heli(void) {
                 spawn_default_star(o->oHomeX,o->oHomeY-1300.0f,o->oHomeZ);
                 mark_obj_for_deletion(o->prevObj);
                 mark_obj_for_deletion(o);
+            }
+            break;
+
+        case 6:
+            {
+                struct Object * btn = cur_obj_nearest_object_with_behavior(bhvFRocketButtonGold);
+                if (btn && btn->oAction > 0) {
+                    if (o->oTimer > 30) {
+                        cur_obj_unhide();
+                        o->oAction = 1;
+                        play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_F_BOND), 0);
+                        gCamera->cutscene = 1;
+                        o->prevObj = spawn_object(o,MODEL_F_HELISHADOW,bhvStaticObject);
+                        o->prevObj->oPosY = 600.0f;
+                    }
+                } else {
+                    o->oTimer = 0;
+                }
             }
             break;
     }

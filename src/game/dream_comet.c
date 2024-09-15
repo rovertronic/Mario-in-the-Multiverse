@@ -56,7 +56,7 @@ extern struct SaveBuffer gSaveBuffer;
 u8 dream_comet_enabled = FALSE;
 
 s32 dream_comet_unlocked(void) {
-    return TRUE;
+    return FALSE;
 }
 
 s32 level_in_dream_comet_mode(void) {

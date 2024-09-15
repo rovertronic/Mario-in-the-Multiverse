@@ -206,34 +206,28 @@ void bhv_snufit_balls_loop(void) {
 }
 
 void bhv_helicopter_ball_loop(void) {
+    obj_check_attacks(&sSnufitBulletHitbox, 1);
+
     o->oForwardVel = 100.0f;
 
     // Gravity =/= 0 after it has hit Mario while metal.
     if (o->oGravity == 0.0f) {
 
-        //cursed fake "half" steps. could use raycast but too lazy
-        //if the bullets are closer to mario do more steps
-        if (o->oDistanceToMario < 1500.0f) {
-            for (u8 i=0; i<6; i++) {
-                cur_obj_update_floor_and_walls();
-                obj_compute_vel_from_move_pitch(20.0f);
-                cur_obj_move_standard(78);
+        obj_compute_vel_from_move_pitch(100.0f);
+        cur_obj_move_standard(78);
 
-                if (o->oMoveFlags & OBJ_MOVE_MASK_IN_WATER) {
-                    mark_obj_for_deletion(o);
-                }
-            }
-        } else {
-            for (u8 i=0; i<2; i++) {
-                cur_obj_update_floor_and_walls();
-                obj_compute_vel_from_move_pitch(60.0f);
-                cur_obj_move_standard(78);
-
-                if (o->oMoveFlags & OBJ_MOVE_MASK_IN_WATER) {
-                    mark_obj_for_deletion(o);
-                }
-            }
+        struct Surface * hitsurf;
+        Vec3f ray = {o->oVelX,o->oVelY,o->oVelZ};
+        Vec3f hitpos;
+        find_surface_on_ray(&o->oPosVec,ray, &hitsurf, hitpos, (RAYCAST_FIND_FLOOR | RAYCAST_FIND_WALL | RAYCAST_FIND_CEIL));
+        if (hitsurf) {
+            o->oMoveFlags |= OBJ_MOVE_HIT_WALL;
         }
+
+        if (o->oMoveFlags & (OBJ_MOVE_MASK_IN_WATER | OBJ_MOVE_HIT_EDGE)) {
+            mark_obj_for_deletion(o);
+        }
+
 
         if (o->oAction == 1 || (o->oMoveFlags & (OBJ_MOVE_MASK_ON_GROUND | OBJ_MOVE_HIT_WALL))) {
             // The Snufit shot Mario and has fulfilled its lonely existance.

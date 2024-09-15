@@ -20,6 +20,7 @@ const GeoLayout f_dl_1_1_room_geo[] = {
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, f_dl_Map_mesh_layer_5),
 			GEO_DISPLAY_LIST(LAYER_OPAQUE_DECAL, f_dl_Map_mesh_layer_2),
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, f_dl_Map_mesh_layer_6),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, f_dl_Map_mesh_layer_4),
 		GEO_CLOSE_NODE(),
 		GEO_ASM(0, e__shotgun_effects),
 		GEO_ROTATION_NODE(LAYER_OPAQUE, 0, -180, 0),

@@ -908,6 +908,11 @@ void bhv_f_heli(void) {
         gMarioState->pos[2] = -6288.0f;
         gMarioObject->oPosZ = gMarioState->pos[2];
     }
+    if ((o->oAction != 0)&&(gMarioState->pos[2] < -8285.0f)) {
+        // Keep mario in boss area
+        gMarioState->pos[2] = -8285;
+        gMarioObject->oPosZ = gMarioState->pos[2];
+    }
 
     o->oInteractStatus = INT_STATUS_NONE;
     o->oShotByShotgun = 0;

@@ -783,6 +783,7 @@ void save_file_unlock_ability(u8 ability_id) {
     gSaveFileModified = TRUE;
 }
 
+extern struct Object * gMarioObject;
 void save_file_unlock_song(u8 seq_id) {
     int i = 0;
     while (music_list[i].seq != seq_id) {
@@ -796,7 +797,9 @@ void save_file_unlock_song(u8 seq_id) {
     int bit = i%8;
 
     gSaveBuffer.files[gCurrSaveFileNum - 1][0].songs_unlocked[byte] |= (1 << (bit));
-    gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags |= SAVE_FLAG_FILE_EXISTS;
+    if (gMarioObject != NULL) {
+        gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags |= SAVE_FLAG_FILE_EXISTS;
+    }
     gSaveFileModified = TRUE;
 }
 

@@ -2680,6 +2680,7 @@ void init_mario_from_save_file(void) {
     if (save_file_exists(gCurrSaveFileNum - 1)) {
         save_file_get_ability_dpad();
     } else {
+        save_file_unlock_song(SEQ_MITM_FILE_SELECT);
         save_file_init_ability_dpad();
         gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked = 1;
     }

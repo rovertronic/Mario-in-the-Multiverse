@@ -1936,6 +1936,8 @@ s32 is_2d_area(void) {
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
+    gSaveBuffer.files[gCurrSaveFileNum - 1][0].elapsed_playtime ++;
+
     //debug activate credits
     //if (gPlayer1Controller->buttonPressed & D_JPAD) {
     //    level_trigger_warp(gMarioState, WARP_OP_CREDITS_START);

@@ -1175,6 +1175,7 @@ s32 act_water_jump(struct MarioState *m) {
     }
 
      if (using_ability(ABILITY_HM_FLY) && m->input & INPUT_A_PRESSED && m->canHMFly == 1  && m->actionTimer > 0) {
+        set_camera_mode(m->area->camera, m->area->camera->defMode, 1);
         return set_mario_action(m, ACT_HM_FLY, 0);
     } else {
         update_mario_action_timer_post(m);

@@ -2585,7 +2585,9 @@ void init_mario(void) {
 
     gMarioState->bloodAlcoholConcentration = 0.0f;
     
-    //set_camera_mode(gMarioState->area->camera, gMarioState->area->camera->defMode, 1);
+    if (gMarioState->area && gMarioState->area->camera) {
+        set_camera_mode(gMarioState->area->camera, gMarioState->area->camera->defMode, 1);
+    }
 
     if (level_in_dream_comet_mode() && mitm_levels[hub_level_current_index].dream_data != NULL) {
         mitm_dream_data *dd = mitm_levels[hub_level_current_index].dream_data;

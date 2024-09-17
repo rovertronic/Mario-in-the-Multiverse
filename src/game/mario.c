@@ -40,6 +40,7 @@
 #include "cutscene_manager.h"
 #include "dream_comet.h"
 #include "bullet_system.h"
+#include "actors/group0.h"
 
 s16 check_water_height = -10000;
 Bool8 have_splashed;
@@ -2306,6 +2307,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             gMarioState->healCounter += 20;
             gMarioState->bloodAlcoholConcentration = 0.0f; // my alchoholism is cured
             play_sound(SOUND_GENERAL_HEART_SPIN, gGlobalSoundSource);
+
+            gSPDisplayList(&gfx_ability_hand[0], &milk_hand_hand_gone_mesh);
         }
 
         // Magic Mirror Code

@@ -82,16 +82,20 @@ s32 have_dream_star(int index) {
     return (get_dream_star_flags(hub_level_current_index) & (1 << index));
 }
 
-int get_dream_star_count(void) {
+int get_dream_star_count_file_index(int file) {
     int ct = 0;
     for (int i = 0; i < HUBLEVEL_COUNT; i++) {
         for (int j = 0; j < 8; j++) {
-            if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].dreamCatalysts[i] & (1 << j)) {
+            if (gSaveBuffer.files[file][0].dreamCatalysts[i] & (1 << j)) {
                 ct ++;
             }
         }
     }
     return ct;
+}
+
+int get_dream_star_count(void) {
+    return get_dream_star_count_file_index(gCurrSaveFileNum - 1);
 }
 
 u8 get_dream_star_level_count(void) {

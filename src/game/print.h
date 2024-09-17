@@ -19,6 +19,7 @@ enum PrintfGlyphs {
     GLYPH_SLASH           = 41,
     GLYPH_TOAD_HEAD       = 42,
     GLYPH_DC              = 43,
+    GLYPH_HDC             = 44,
     GLYPH_MINUS           = 47,
     GLYPH_MULTIPLY        = 48,
     GLYPH_COIN            = 49,

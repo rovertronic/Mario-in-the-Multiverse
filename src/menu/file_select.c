@@ -22,6 +22,7 @@
 #include "sm64.h"
 #include "text_strings.h"
 #include "game/ability.h"
+#include "game/dream_comet.h"
 
 #include "eu_translation.h"
 #if MULTILANG
@@ -2277,6 +2278,12 @@ s32 mitm_file_select() {
             u8 starText[6] = {GLYPH_STAR, DIALOG_CHAR_SPACE};
             u8 coinText[6] = {GLYPH_COIN, DIALOG_CHAR_SPACE};
             s16 starCount = save_file_get_total_star_count(i,COURSE_NUM_TO_INDEX(COURSE_MIN),COURSE_NUM_TO_INDEX(COURSE_MAX));
+            int dreamCount = get_dream_star_count_file_index(i);
+            starCount+=dreamCount;
+            if (dreamCount > 0) {
+                starText[0] = GLYPH_HDC;
+            }
+
             s16 coinCount = gSaveBuffer.files[i][0].coins;
             int_to_str(starCount, &starText[2]);
             int_to_str(coinCount, &coinText[2]);

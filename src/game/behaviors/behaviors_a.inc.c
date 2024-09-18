@@ -1749,24 +1749,22 @@ void a_gas_cloud_loop(void) {
 
 // Chained cage
 
+u8 cbGetStar;
 void a_chained_cage_loop(void) {
     struct Object * star = cur_obj_nearest_object_with_behavior(bhvStar);
     switch (o->oAction) {
         case 0:
-            if (o->oTimer == 1) {
-                spawn_object_abs_with_rot(o, 0, MODEL_STAR, bhvStar, 2653, 2872, 659, 0, 0, 0);
-            }
-            if (o->oTimer == 2) {
-               star->oBehParams = 6;
-            }
             cur_obj_enable_rendering();
             obj_set_pos(o, 2653, 2672, 659);
+            if ((cbGetStar == TRUE) && (o->oTimer == 1)) {
+                spawn_object_abs_with_rot(o, 0, MODEL_STAR, bhvStar, 2653, 2872, 659, 0, 0, 0);
+            }
             if (o->oTimer == 56) {
+                cbGetStar = FALSE;
                 o->oAction = 1;
             }
             break;
         case 1:
-            print_text_fmt_int(100, 100, "PARAM %d", star->oBehParams);
             if (star) {
                 star->oPosY -= 9 * sins(o->oF8 * 0x100);
             }
@@ -1782,6 +1780,9 @@ void a_chained_cage_loop(void) {
                 cur_obj_play_sound_2(SOUND_GENERAL_ELEVATOR_LAND);
             }
             o->oVelY = 0;
+            if (gMarioState->action == ACT_FREEFALL) {
+                cbGetStar = TRUE;
+            }
             if (starCutsceneActive == TRUE) {
                 o->oAction = 3;
             }
@@ -1821,6 +1822,9 @@ void a_chained_cage_loop(void) {
             cur_obj_play_sound_2(SOUND_GENERAL_BREAK_BOX);
             break;
         case 5:
+            if (gMarioState->action == ACT_STAR_DANCE_EXIT) {
+                cbGetStar = TRUE;
+            }
             break;
     }
 

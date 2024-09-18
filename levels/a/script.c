@@ -339,7 +339,7 @@ const LevelScript level_a_entry[] = {
 		OBJECT(MODEL_NONE, 2653, 2553, 659, 0, 180, 0, (0x18 << 16), bhvSpinAirborneWarp),
 		OBJECT(MODEL_NONE, -823, -304, 103, 0, 0, 0, 0x00000000, bhvChumBucketCutscene),
 		OBJECT(MODEL_A_CHAINED_CAGE, 2653, 2672, 659, 0, 180, 0, (0x18 << 16), bhvAChainedCage),
-		OBJECT(MODEL_STAR, 2653, 2872, 659, 0, 180, 0, (7 << 24), bhvStar),
+		OBJECT(MODEL_STAR, 2653, 2872, 659, 0, 180, 0, (6 << 24), bhvStar),
 		TERRAIN(a_area_7_collision),
 		MACRO_OBJECTS(a_area_7_macro_objs),
 		STOP_MUSIC(0),

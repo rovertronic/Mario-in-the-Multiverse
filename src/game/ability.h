@@ -1,7 +1,6 @@
 #ifndef ABILITY_H
 #define ABILITY_H
 
-void render_hint_ui(u8 hud_alpha);
 void render_ability_dpad(s16 x, s16 y, u8 alpha);
 void control_ability_dpad(void);
 void change_ability(s8 picked_ability);
@@ -13,6 +12,8 @@ u16 ability_is_cooling_down(u8 ability_id);
 u8 cool_down_ability(u8 ability_id);
 u8 ability_ready(u8 ability_id);
 s32 check_if_swap_ability_allowed(void);
+void ability_dpad_lock(u8 ab1, u8 ab2, u8 ab3, u8 ab4);
+void ability_dpad_unlock(void);
 
 extern Vec3f mario_hand_position;
 extern s16 check_water_height;
@@ -43,6 +44,8 @@ enum ability_ids {
     ABILITY_NONE,
 };
 
+#define ABILITY_LOCK_IMAGE_INDEX 20
+
 struct ability {
     Gfx * hand;
     Gfx * hat;
@@ -53,6 +56,7 @@ struct ability {
 extern Gfx gfx_ability_hand[2];
 extern Gfx gfx_ability_hat[3];
 extern u8 ability_slot[4];
+extern u8 ability_dpad_locked;
 
 
 //--E

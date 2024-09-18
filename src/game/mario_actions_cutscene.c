@@ -29,6 +29,7 @@
 #include "rumble_init.h"
 #include "mitm_hub.h"
 #include "ability.h"
+#include "dream_comet.h"
 
 static struct Object *sIntroWarpPipeObj;
 static struct Object *sEndPeachObj;
@@ -434,6 +435,11 @@ s32 act_enter_hub_pipe(struct MarioState *m) {
             } else {
                 play_sound(SOUND_MENU_CAMERA_BUZZ, m->marioObj->header.gfx.cameraToObject);
             }
+        }
+
+        if ((gPlayer1Controller->buttonPressed & Z_TRIG)&&(dream_comet_unlocked())) {
+            play_sound(SOUND_MENU_CLICK_CHANGE_VIEW, gGlobalSoundSource);
+            dream_comet_enabled = !dream_comet_enabled;
         }
     } else {
         gMarioState->pos[1] = approach_f32_asymptotic(gMarioState->pos[1],gMarioState->interactObj->oPosY+60.0f,0.1f);
@@ -1299,6 +1305,7 @@ s32 act_death_exit(struct MarioState *m) {
 
 s32 act_unused_death_exit(struct MarioState *m) {
     if (launch_mario_until_land(m, ACT_FREEFALL_LAND_STOP, MARIO_ANIM_GENERAL_FALL, 0.0f)) {
+        drop_coins_on_death();
         play_sound(SOUND_MARIO_OOOF2, m->marioObj->header.gfx.cameraToObject);
 #ifdef ENABLE_LIVES
         m->numLives--;

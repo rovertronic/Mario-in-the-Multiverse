@@ -46,6 +46,9 @@ void bhv_big_bully_init(void) {
     obj_set_hitbox(o, &sBigBullyHitbox);
 
     obj_scale(o,2.5f);
+    if (in_vanilla_painting_world()) {
+        obj_scale(o,1.0f);
+    }
 }
 
 void bully_check_mario_collision(void) {
@@ -447,6 +450,12 @@ void bhv_nball_loop(void) {
         case BULLY_ACT_CHASE_MARIO:
             vec3f_copy(&o->oHomeVec, gMarioState->pos);
             bully_act_chase_mario();
+
+            if (gMarioState->pos[1] < o->oPosY-100.0f) {
+                //don't chase mario off the edge
+                o->oForwardVel = 0.0f;
+            }
+
             bully_step();
             break;
 

@@ -58,7 +58,7 @@ const LevelScript level_n_entry[] = {
 		OBJECT(MODEL_NONE, 1132, 19, -1398, 0, 0, 0, (8 << 16), bhvWarp),
 		TERRAIN(n_area_1_collision),
 		MACRO_OBJECTS(n_area_1_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_HAMSTERBALL),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
@@ -81,7 +81,7 @@ const LevelScript level_n_entry[] = {
 		OBJECT(MODEL_NONE, 1345, -1860, -1115, 0, 0, 0, (0 << 24), bhvStar),
 		TERRAIN(n_area_2_collision),
 		MACRO_OBJECTS(n_area_2_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_HAMSTERBALL),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
@@ -107,7 +107,7 @@ const LevelScript level_n_entry[] = {
 		OBJECT(MODEL_NONE, 303, -768, 4347, 0, 0, 0, (1 << 24), bhvStar),
 		TERRAIN(n_area_3_collision),
 		MACRO_OBJECTS(n_area_3_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_HAMSTERBALL),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
@@ -131,7 +131,7 @@ const LevelScript level_n_entry[] = {
 		OBJECT(MODEL_NONE, -4270, 3932, 1062, 0, 0, 0, (2 << 24), bhvStar),
 		TERRAIN(n_area_4_collision),
 		MACRO_OBJECTS(n_area_4_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_HAMSTERBALL),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
@@ -156,7 +156,7 @@ const LevelScript level_n_entry[] = {
 		OBJECT(MODEL_NONE, -8203, -1523, 11757, 0, 0, 0, (3 << 24), bhvStar),
 		TERRAIN(n_area_5_collision),
 		MACRO_OBJECTS(n_area_5_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_HAMSTERBALL),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
@@ -185,7 +185,7 @@ const LevelScript level_n_entry[] = {
 		OBJECT(MODEL_NONE, -3949, 515, -12068, 0, 0, 0, (4 << 24), bhvStar),
 		TERRAIN(n_area_6_collision),
 		MACRO_OBJECTS(n_area_6_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_HAMSTERBALL),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
@@ -214,7 +214,7 @@ const LevelScript level_n_entry[] = {
 		OBJECT(MODEL_NONE, 12576, -4902, 3987, 0, 0, 0, (5 << 24), bhvStar),
 		TERRAIN(n_area_7_collision),
 		MACRO_OBJECTS(n_area_7_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_HAMSTERBALL),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
@@ -246,7 +246,7 @@ const LevelScript level_n_entry[] = {
 		OBJECT(MODEL_NONE, -11524, -2391, -8820, 0, 0, 0, (6 << 24), bhvStar),
 		TERRAIN(n_area_0_collision),
 		MACRO_OBJECTS(n_area_0_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_HAMSTERBALL),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

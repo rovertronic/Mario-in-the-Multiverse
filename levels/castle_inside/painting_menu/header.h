@@ -1,0 +1,11 @@
+extern u8 painting_menu_round_corner_ia8[];
+extern u8 painting_menu_every_painting_rgba16[];
+extern Vtx painting_menu_roundbox_003_mesh_vtx_0[118];
+extern Gfx painting_menu_roundbox_003_mesh_tri_0[];
+extern Vtx painting_menu_roundbox_003_mesh_vtx_1[240];
+extern Gfx painting_menu_roundbox_003_mesh_tri_1[];
+extern Gfx mat_painting_menu_ui_corner[];
+extern Gfx mat_revert_painting_menu_ui_corner[];
+extern Gfx mat_painting_menu_ui_paintings[];
+extern Gfx mat_revert_painting_menu_ui_paintings[];
+extern Gfx painting_menu_roundbox_003_mesh[];

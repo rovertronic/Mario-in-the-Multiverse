@@ -41,14 +41,16 @@ struct SaveFile {
     u32 flags;
     u16 levels_unlocked;
     u16 coins;
+    u32 elapsed_playtime;
     u8 ability_dpad[4];
     u8 level_f_flags;
-    u8 courseStars[COURSE_COUNT]; // 200 bits
-    u8 courseCoinScores[COURSE_STAGES_COUNT]; // 120 bits
-    u8 hints_unlocked[15];
+    u8 courseStars[COURSE_COUNT];
     u8 dreamCatalysts[HUBLEVEL_COUNT];
+    u8 courseCoinScores[COURSE_STAGES_COUNT];
+    u8 hints_unlocked[15];
+    u8 songs_unlocked[8];
 
-    struct SaveBlockSignature signature; // 32 bits
+    struct SaveBlockSignature signature;
 };
 
 enum SaveFileIndex {
@@ -219,6 +221,9 @@ void disable_warp_checkpoint(void);
 void check_if_should_set_warp_checkpoint(struct WarpNode *warpNode);
 s32 check_warp_checkpoint(struct WarpNode *warpNode);
 u8 save_file_level_flags(u8 course_id);
+void save_file_unlock_song(u8 seq_id);
+u8 save_file_check_song_unlocked(u8 seq_id);
+void save_main_menu_data(void);
 
 #if MULTILANG
 enum EuLanguages {

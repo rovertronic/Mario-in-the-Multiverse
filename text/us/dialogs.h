@@ -569,6 +569,75 @@ but i still need\n\
 DEFINE_DIALOG(DIALOG_EGADD_4, 2, 4, 95, 200, _("\
 machine is ready!"))
 
+DEFINE_DIALOG(DIALOG_K_TV_START, 1, 6, 95, 190, _("\
+Hello.\n\
+I am @ff0000ffLeon Von Alvensleben.@--------\n\
+Before I say anything\n\
+further, I must run a\n\
+@ffff00fftest@-------- on you to confirm\n\
+a suspicion I have.\n\
+Make it to the end of\n\
+my test, and I will reveal\n\
+the truth to you."))
+
+DEFINE_DIALOG(DIALOG_K_TV_END, 1, 4, 95, 190, _("\
+Well, that does it.\n\
+Unfortunately, you've had\n\
+the misfortune of injecting\n\
+yourself with @00ffffffchronos.@--------\n\
+I was the one in charge of\n\
+creating this drug, back\n\
+before the universe was\n\
+fractured.\n\
+I regret to inform you\n\
+that you've been tied\n\
+up with a very bad fate.\n\
+\n\
+Indeed, you have incredible\n\
+precognition and intense\n\
+focus which gives you the\n\
+edge in all your battles.\n\
+However, you will never\n\
+rest easy again. Your\n\
+existence is now subject to\n\
+an eternal nightmare.\n\
+Once the effects of the\n\
+drug wears off, you will\n\
+physically die, but mentally\n\
+you'll be in endless agony.\n\
+Fortunately, I have a\n\
+temporary solution that\n\
+should last you a\n\
+reasonable amount of time.\n\
+Have a @ffff00ffpower star@-------- for the\n\
+road. This star has enough\n\
+@00ffffffchronos@-------- imbued within to\n\
+satiate a typical lifetime.\n\
+Sorry little buddy."))
+
+DEFINE_DIALOG(DIALOG_K_ELECTROHEAD, 1, 4, 95, 190, _("\
+Woah... Where did you\n\
+just come from???\n\
+You're looking for a\n\
+@ffff00ffpower star@--------?\n\
+You can find one in\n\
+a yellow box outside\n\
+on one of the tallest\n\
+buildings... I think.\n\
+Yeah, that sounds about\n\
+right. Good luck finding\n\
+your star!"))
+
+DEFINE_DIALOG(DIALOG_K_ELECTROHEAD_DEAD, 1, 3, 95, 190, _("\
+★ Cough ★\n\
+\n\
+\n\
+@ff0000ffNOOOOOO!@--------\n\
+I thought you would fall\n\
+for my lie!\n\
+You ROM hack players\n\
+usually take everything\n\
+at face value..."))
 
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 200, _("\
 Wow! You're smack in the\n\

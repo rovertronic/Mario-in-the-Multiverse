@@ -736,7 +736,9 @@ void goliath_jelly_boss_loop(void) {
     switch(o->oAction) {
         case KING_JELLY_ACT_INIT:
             o->oPosY += 300.0f;
-            o->prevObj = spawn_object(o, MODEL_ZAP, bhvKingJellyZap);
+            if (o->prevObj == NULL) {
+                o->prevObj = spawn_object(o, MODEL_ZAP, bhvKingJellyZap);
+            }
             cur_obj_init_animation(1);
             o->oAction = KING_JELLY_ACT_WAIT;
             o->oBehParams2ndByte = 0;
@@ -750,7 +752,7 @@ void goliath_jelly_boss_loop(void) {
                 esa_str = "Goliath Jelly";
 
                 o->oAction = KING_JELLY_ACT_WANDER;
-                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_JELLYFISH_BOSS), 0);
+                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_MECHA), 0);
             }
             break;
 
@@ -772,7 +774,11 @@ void goliath_jelly_boss_loop(void) {
 
             vec3f_copy(&o->prevObj->oPosVec,&o->oPosVec);
 
-            if (o->oTimer > 160) {
+            if (o->oTimer == 60) {
+                spawn_object(o,MODEL_M_JELLYLASER_2,bhvM_JellyLaser);
+            }
+
+            if (o->oTimer > 190) {
                 o->oAction = KING_JELLY_GO_ABOVE_MARIO;
             }
             break;
@@ -896,7 +902,7 @@ void goliath_jelly_boss_loop(void) {
             
         case KING_JELLY_ACT_DIE:
             if (o->oTimer==0) {
-                stop_background_music(SEQUENCE_ARGS(4, SEQ_JELLYFISH_BOSS));
+                stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_MECHA));
                 cur_obj_play_sound_2(SOUND_OBJ_ENEMY_DEFEAT_SHRINK);
             }
             cur_obj_scale(4.0 * ((30.0f-o->oTimer)/30.0f));
@@ -928,30 +934,77 @@ void goliath_jelly_boss_loop(void) {
 
     }
 
-    //hold mario in the arena unless king jelly has the following states:
-    switch(o->oAction) {
-        case KING_JELLY_ACT_INIT:
-        case KING_JELLY_ACT_WAIT:
-        case KING_JELLY_ACT_DIE:
-        case KING_JELLY_ACT_KILL_CHEATER:
+    if (cur_obj_lateral_dist_from_mario_to_home() > 3000.0f) {
+        switch(o->oAction) {
+            case KING_JELLY_ACT_STUNNED:
+            case KING_JELLY_ACT_WANDER:
+                //mario left or died
+                stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_MECHA));
+                o->oAction = KING_JELLY_ACT_INIT;
+                vec3f_copy(&o->oPosVec,&o->oHomeVec);
             break;
-        default:
-            while(cur_obj_lateral_dist_from_mario_to_home() > 1800.0f) {
-                s16 mario_angle_to_obj_home = cur_obj_mario_angle_to_home();
-                gMarioState->pos[0] += sins(mario_angle_to_obj_home);
-                gMarioState->pos[2] += coss(mario_angle_to_obj_home);
-                gMarioObject->oPosX = gMarioState->pos[0];
-                gMarioObject->oPosZ = gMarioState->pos[2];
-            }
-            /*
-            if (cur_obj_lateral_dist_from_mario_to_home() > 2100.0f) {
-                cur_obj_init_animation(A_KINGJELLY_ANIM_IDLE);
-                o->oAction = KING_JELLY_ACT_KILL_CHEATER;
-            }
-            */
-            break;
+        }
     }
 
     o->oShotByShotgun = 0;
     o->oInteractStatus = 0;
+}
+
+void bhv_m_jelly_laser_loop(void) {
+    o->oPosX = o->parentObj->oPosX;
+    o->oPosY = o->parentObj->oPosY-80.0f;
+    o->oPosZ = o->parentObj->oPosZ;
+
+    o->oFaceAngleYaw += 0x300;
+
+    if (o->oTimer < 80) {
+        obj_scale_xyz(o, 1.5f, 1.5f, 1.0f);
+    }
+    else {
+        obj_scale_xyz(o, 1.5f - (((f32)o->oTimer - 80.0f) / 30.0f), 1.5f - (((f32)o->oTimer - 80.0f) / 30.0f), 1.0f);
+    }
+    if (o->oTimer < 30) {
+        obj_scale_xyz(o, (o->oTimer/30.0f)*1.5f, (o->oTimer/30.0f)*1.5f, 1.0f);
+    }
+
+    if (o->oTimer == 120) {
+        obj_mark_for_deletion(o);
+    }
+
+    if (o->oTimer == 30) {
+        o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_M_JELLYLASER];
+    }
+    if (o->oTimer > 30) {
+        Vec3f pointA;
+        Vec3f pointB;
+        Vec3f pointC;
+        Vec3f pointD;
+
+        s16 laserWidth = 120;
+        s16 laserLength = 10000 + 20*o->oTimer;
+
+        vec3f_set(pointA, o->oPosX + laserWidth * coss(o->oFaceAngleYaw), o->oPosY, o->oPosZ + laserWidth * sins(o->oFaceAngleYaw + 0x50));
+        vec3f_set(pointB, o->oPosX + laserWidth * -coss(o->oFaceAngleYaw), o->oPosY, o->oPosZ + laserWidth * -sins(o->oFaceAngleYaw + 0x50));
+
+        //vec3f_set(pointA, o->oPosX + 300 * coss(o->oFaceAngleYaw + 0x50), o->oPosY, o->oPosZ + 300 * sins(o->oFaceAngleYaw + 0x50));
+        //vec3f_set(pointB, o->oPosX + 300 * coss(o->oFaceAngleYaw - 0x50), o->oPosY, o->oPosZ + 300 * sins(o->oFaceAngleYaw - 0x50));
+        vec3f_set(pointC, pointA[0] + laserLength * sins(o->oFaceAngleYaw), o->oPosY, pointA[2] + laserLength * coss(o->oFaceAngleYaw));
+        vec3f_set(pointD, pointB[0] + laserLength * sins(o->oFaceAngleYaw), o->oPosY, pointB[2] + laserLength * coss(o->oFaceAngleYaw));
+
+
+        if (point_inside_xz_tri(gMarioState->pos, pointA, pointB, pointC) || point_inside_xz_tri(gMarioState->pos, pointA, pointC, pointD)) {
+            if (absf(o->oPosY - gMarioState->pos[1]) < 280 && gMarioState->action != ACT_BACKWARD_AIR_KB) {
+                gMarioState->action = ACT_BACKWARD_AIR_KB;
+                o->oDamageOrCoinValue = 4;
+                take_damage_and_knock_back(gMarioState, o);
+                gMarioState->vel[1] = 5;
+                gMarioState->forwardVel = 0.0f;
+                gMarioState->faceAngle[1] = o->oFaceAngleYaw + 0x8000;
+            }
+        }
+
+        if (gMarioState->action == ACT_BACKWARD_AIR_KB) {
+            gMarioState->pos[1] = o->oPosY - 60;
+        }
+    }
 }

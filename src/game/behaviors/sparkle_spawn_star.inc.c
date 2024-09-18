@@ -26,6 +26,10 @@ void bhv_spawned_star_init(void) {
     }
 
     cur_obj_play_sound_2(SOUND_GENERAL2_STAR_APPEARS);
+
+    if (in_vanilla_painting_world()) {
+        o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_CARDBOARD_STAR];
+    }
 }
 
 void set_sparkle_spawn_star_hitbox(void) {

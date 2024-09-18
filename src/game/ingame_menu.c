@@ -75,7 +75,7 @@ u8 ascii_lut[] = {
     0x9E, /* */ 0xF2, /*!*/ 0x00, /*"*/ 0x00, /*#*/
     0x00, /*$*/ 0x00, /*%*/ 0xE5, /*&*/ 0x3E, /*'*/
     0xE1, /*(*/ 0xE3, /*)*/ 0x00, /***/ 0x00, /*+*/
-    0x6F, /*,*/ 0x9F, /*-*/ 0x3F, /*.*/ 0x00, /*/*/
+    0x6F, /*,*/ 0x9F, /*-*/ 0x3F, /*.*/ 0x70, /*/*/
     0x00, /*0*/ 0x01, /*1*/ 0x02, /*2*/ 0x03, /*3*/
     0x04, /*4*/ 0x05, /*5*/ 0x06, /*6*/ 0x07, /*7*/
     0x08, /*8*/ 0x09, /*9*/ 0xE6, /*:*/ 0x00, /*;*/
@@ -2223,7 +2223,7 @@ s32 render_pause_courses_and_castle(void) {
                     menu_ability_y_offset[i] = 0;
                 }
 
-                u8 img = 20;
+                u8 img = ABILITY_LOCK_IMAGE_INDEX;
                 if (save_file_check_ability_unlocked(i) || (i==0)) {
                     img = i;
                 }
@@ -2306,6 +2306,8 @@ s32 render_pause_courses_and_castle(void) {
             render_settings();
 
             if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+                gMainMenuDataModified = TRUE;
+                save_main_menu_data();
                 gDialogBoxState = PAUSE_MENU_MAIN;
                 return MENU_OPT_NONE;
             }

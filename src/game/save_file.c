@@ -21,6 +21,8 @@
 #endif
 #include "puppycam2.h"
 #include "ability.h"
+#include "mitm_hub.h"
+#include "seq_ids.h"
 
 #ifdef UNIQUE_SAVE_DATA
 u16 MENU_DATA_MAGIC = 0x4849;
@@ -218,7 +220,7 @@ static void add_save_block_signature(void *buffer, s32 size, u16 magic) {
     sig->chksum = calc_checksum(buffer, size);
 }
 
-static void save_main_menu_data(void) {
+void save_main_menu_data(void) {
     if (gMainMenuDataModified) {
         // Compute checksum
         add_save_block_signature(&gSaveBuffer.menuData, sizeof(gSaveBuffer.menuData), MENU_DATA_MAGIC);
@@ -779,6 +781,33 @@ void save_file_unlock_ability(u8 ability_id) {
     gSaveBuffer.files[gCurrSaveFileNum - 1][0].abilities |= (1 << (ability_id-1));
     gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags |= SAVE_FLAG_FILE_EXISTS;
     gSaveFileModified = TRUE;
+}
+
+extern struct Object * gMarioObject;
+void save_file_unlock_song(u8 seq_id) {
+    int i = 0;
+    while (music_list[i].seq != seq_id) {
+        i++;
+        if (music_list[i].seq == SEQ_COUNT) {
+            //end of the line, bucko
+            return;
+        }
+    }
+    int byte = i/8;
+    int bit = i%8;
+
+    gSaveBuffer.files[gCurrSaveFileNum - 1][0].songs_unlocked[byte] |= (1 << (bit));
+    if (gMarioObject != NULL) {
+        gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags |= SAVE_FLAG_FILE_EXISTS;
+    }
+    gSaveFileModified = TRUE;
+}
+
+u8 save_file_check_song_unlocked(u8 music_list_index) {
+    int byte = music_list_index/8;
+    int bit = music_list_index%8;
+
+    return gSaveBuffer.files[gCurrSaveFileNum - 1][0].songs_unlocked[byte] & (1 << (bit));
 }
 
 void save_file_set_sound_mode(u16 mode) {

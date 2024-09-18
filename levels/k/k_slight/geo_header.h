@@ -1,0 +1,18 @@
+extern const GeoLayout k_slight_geo[];
+extern u8 k_slight_TheaterDisplay_ci8[];
+extern u8 k_slight_TheaterDisplay_pal_rgba16[];
+extern u8 k_slight_rgba16_anonmoose_envmap_silver1_i8[];
+extern Vtx k_slight_Cube_009_mesh_layer_1_vtx_0[12];
+extern Gfx k_slight_Cube_009_mesh_layer_1_tri_0[];
+extern Vtx k_slight_Cube_009_mesh_layer_1_vtx_1[57];
+extern Gfx k_slight_Cube_009_mesh_layer_1_tri_1[];
+extern Vtx k_slight_Cube_009_mesh_layer_5_vtx_0[24];
+extern Gfx k_slight_Cube_009_mesh_layer_5_tri_0[];
+extern Gfx mat_k_slight_TheaterDisplay_001[];
+extern Gfx mat_revert_k_slight_TheaterDisplay_001[];
+extern Gfx mat_k_slight_Lightpole_001[];
+extern Gfx mat_revert_k_slight_Lightpole_001[];
+extern Gfx mat_k_slight_Streetlight_001[];
+extern Gfx mat_revert_k_slight_Streetlight_001[];
+extern Gfx k_slight_Cube_009_mesh_layer_1[];
+extern Gfx k_slight_Cube_009_mesh_layer_5[];

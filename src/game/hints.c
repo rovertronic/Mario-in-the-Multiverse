@@ -125,9 +125,9 @@ strike only when the boss is flashing white.",
 hint course_3_hints[] = {
 
 { /* star 1 */
-"Kill the 4 goombas in the arena, and you'll\n\
-start a battle! Fight octoballs then chuckyas,\n\
-and you'll get the inkling ability and star!",
+"Find the battle arena. A bell will ding,\n\
+and you must fight waves of enemies.\n\
+You'll get the inkling ability and this star!",
 (ABILITY_FLAG_SQUID)
 },
 
@@ -175,8 +175,8 @@ get the star at the top in the cage.",
 
 { /* star 8 */
 "Shoot an orange gun to convert it to a blue gun.\n\
-Do the one above tires, and a blimp will appear.\n\
-Shoot it down to get the star!",
+Rapidly shoot the orange blimp until it falls\n\
+out of the sky to get this star.",
 (0)
 },
 
@@ -188,12 +188,12 @@ hint course_4_hints[] = {
 { /* star 1 */
 "Enter the left door and climb the building.\n\
 Kill the last hoodmonger and collect the ability.\n\
-Hit both buttons in time to open the gate.",
+Hit both buttons to open the gate.",
 (ABILITY_FLAG_SHOCK_ROCKET)
 },
 
 { /* star 2 */
-"Kill every single hoodlums in the level.\n\
+"Kill every single hoodlum in the level.\n\
 Then, talk to the toad standing on a crate to\n\
 receive the star.",
 (0)
@@ -237,7 +237,7 @@ it to the star at the end.",
 { /* star 8 */
 "Collect 5 stars in this level to open the boss\n\
 gate. To bypass the boss's defenses, kill the 3\n\
-sorcerer that appear around the arena.",
+sorcerers that appear around the arena.",
 (ABILITY_FLAG_SHOCK_ROCKET)
 },
 
@@ -313,8 +313,8 @@ Press the red buttons to open the gates.",
 
 { /* star 2 */
 "There is a dome with red coins. Jump on\n\
-the driftwoods to get the red coins to get\n\
-this star.",
+the driftwoods to get the red coins and\n\
+collect this star.",
 (0)
 },
 
@@ -341,15 +341,15 @@ grilles and use the squid to go back up.",
 
 { /* star 6 */
 "Go through the open water and find a glass\n\
-wall. Go up, and parkour up the water spouts\n\
-up to the power star.",
+wall. Go through the tunnel and do wallkicks\n\
+to get to this star (Or swim with risk.)",
 (ABILITY_FLAG_BIG_DADDY)
 },
 
 { /* star 7 */
 "Go through the open water and find a glass\n\
-wall. Go through the tunnel and do wallkicks\n\
-to get to this star (Or swim with risk.)",
+wall. Go up, and parkour up the water spouts\n\
+up to the power star.",
 (ABILITY_FLAG_BIG_DADDY)
 },
 
@@ -426,42 +426,57 @@ Follow his instructions from there.",
 hint course_8_hints[] = {
 
 { /* star 1 */
-"",
-(0)
+"To get through the spinning fan in the vent,\n\
+you need to slow down time with L and slash\n\
+through the gap with your katana.",
+(ABILITY_FLAG_CHRONOS)
 },
 
 { /* star 2 */
-"",
-(0)
+"There is a star piece switch with two slopes\n\
+facing each other. Use the Knight Suit to\n\
+hastily retrieve the star pieces.",
+(ABILITY_FLAG_KNIGHT)
 },
 
 { /* star 3 */
-"",
+"Near the giant box stack, there are a bunch\n\
+of red coins grouped together. They are all\n\
+near one another, so don't wander too far.",
 (0)
 },
 
 { /* star 4 */
-"",
-(0)
+"In the door with a slanted roof, you'll\n\
+enter Murdower hotel. Fly the Shock Rocket\n\
+through a vent to kill Josh Rose outside.",
+(ABILITY_FLAG_SHOCK_ROCKET)
 },
 
 { /* star 5 */
-"",
+"There is a big terraced building near the\n\
+corner of the level. The star is on top.",
 (0)
 },
 
 { /* star 6 */
-"",
-(0)
+"There are a bunch of flipswitches grouped\n\
+together on building rooftops. Activate\n\
+all of them to get the star.",
+(ABILITY_FLAG_CHRONOS)
 },
 
 { /* star 7 */
-"",
-(0)
+"In Club Multiverse, use Phasewalk to vanish\n\
+through the big crystal dome and don't get\n\
+lied to by DJ Electrohead. Kill him!",
+(ABILITY_FLAG_PHASEWALK)
 },
 
 { /* star 8 */
-"",
+"Enter the building near the red coin area.\n\
+Survive Leon Von Alvensleben's trial to\n\
+get this star!",
 (0)
 },
 
@@ -620,8 +635,8 @@ blocks. Then collect the star pieces.",
 
 { /* star 5 */
 "Climb up the mountain past the rolling gravelers.\n\
-Use HM Fly to jump from platform to platform to\n\
-get the red coins. Beware that they tilt.",
+Use HM Fly to jump from platform to platform\n\
+to get the red coins. Beware that they tilt.",
 (ABILITY_FLAG_HM_FLY)
 },
 
@@ -824,9 +839,9 @@ into the pit and get launched by the cannon!",
 
 { /* star 8 */
 "Collect 7 stars in this level to summon\n\
-the 8-ball boss. Knock it into the void to\n\
-get this star!",
-(0)
+the 8-ball boss. Use the hamsterball to\n\
+knock it into the void to get this star!",
+(ABILITY_FLAG_MARBLE)
 },
 
 /* COURSE 15 */

@@ -75,6 +75,7 @@ extern const BehaviorScript bhvPunchTinyTriangle[];
 extern const BehaviorScript bhvTriangleParticleSpawner[];
 extern const BehaviorScript bhvDoorWarp[];
 extern const BehaviorScript bhvDoor[];
+extern const BehaviorScript bhvDoorFake[];
 extern const BehaviorScript bhvGrindel[];
 extern const BehaviorScript bhvThwomp2[];
 extern const BehaviorScript bhvThwomp[];
@@ -827,7 +828,13 @@ extern const BehaviorScript bhvKaguya[];
 extern const BehaviorScript bhvKDisco[];
 extern const BehaviorScript bhvKbartender[];
 extern const BehaviorScript bhvStrongTerry[];
+extern const BehaviorScript bhvSkinnyRicky[];
 extern const BehaviorScript bhvElectrohead[];
+extern const BehaviorScript bhvKbillionare[];
+extern const BehaviorScript bhvKtv[];
+extern const BehaviorScript bhvKtvAim[];
+extern const BehaviorScript bhvKpounder[];
+extern const BehaviorScript bhvShieldo[];
 /* GROUP K END */
 
 /* GROUP L START */
@@ -849,6 +856,8 @@ extern const BehaviorScript bhvM_BossElevator[];
 extern const BehaviorScript bhvM_ClassC[];
 extern const BehaviorScript bhvM_Gate[];
 extern const BehaviorScript bhvM_Jelly[];
+extern const BehaviorScript bhvMelevator[];
+extern const BehaviorScript bhvM_JellyLaser[];
 /* GROUP M END */
 
 /* GROUP N START */
@@ -899,5 +908,6 @@ extern const BehaviorScript bhvBcStair[];
 extern const BehaviorScript bhvBcSkiploom[];
 extern const BehaviorScript bhvCreditsSlab[];
 extern const BehaviorScript bhvDreamCatalyst[];
+extern const BehaviorScript bhvCarboardStarBody[];
 
 #endif // BEHAVIOR_DATA_H

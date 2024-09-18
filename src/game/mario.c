@@ -39,6 +39,8 @@
 #include "dialog_ids.h"
 #include "cutscene_manager.h"
 #include "dream_comet.h"
+#include "bullet_system.h"
+#include "actors/group0.h"
 
 s16 check_water_height = -10000;
 Bool8 have_splashed;
@@ -1935,11 +1937,13 @@ s32 is_2d_area(void) {
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
+    gSaveBuffer.files[gCurrSaveFileNum - 1][0].elapsed_playtime ++;
+
     //debug activate credits
-    if (gPlayer1Controller->buttonPressed & D_JPAD) {
-        level_trigger_warp(gMarioState, WARP_OP_CREDITS_START);
-        gMarioState->actionState = ACT_STATE_END_PEACH_CUTSCENE_FADE_OUT_END;
-    }
+    //if (gPlayer1Controller->buttonPressed & D_JPAD) {
+    //    level_trigger_warp(gMarioState, WARP_OP_CREDITS_START);
+    //    gMarioState->actionState = ACT_STATE_END_PEACH_CUTSCENE_FADE_OUT_END;
+    //}
     
     // Updates once per frame:
     vec3f_get_dist_and_lateral_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->lateralSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);
@@ -2145,6 +2149,30 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
 
+        if (!using_ability(ABILITY_KNIGHT)) {
+            if (gMarioState->floor->type == SURFACE_FLOWPIPE_UP) {
+                if ((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_STATIONARY) {
+                    gMarioState->pos[1] += 25.0f;
+                    set_mario_action(gMarioState,ACT_DOUBLE_JUMP,0);
+                }
+                if ((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_MOVING) {
+                    gMarioState->pos[1] += 25.0f;
+                    set_mario_action(gMarioState,ACT_DOUBLE_JUMP,0);
+                }
+                if (gMarioState->pos[1] < gMarioState->floorHeight+2400.0f) {
+                    if (gMarioState->vel[1] < 15.0f) {
+                        gMarioState->vel[1] += 4.0f;
+                    }
+                    if (gMarioState->vel[1] < 6.0f) {
+                        gMarioState->vel[1] = 6.0f;
+                    }
+                    if ((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_SUBMERGED) {
+                        gMarioState->pos[1] += 6.0f;
+                    }
+                }
+            }
+        }
+
         if (gMarioState->floor->type == SURFACE_FLOWPIPE) {
             flowpipe_angle = gMarioState->floor->force << 8;
             if (flowpipe_vel < 70.0f) {
@@ -2203,6 +2231,46 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         update_mario_breath(gMarioState);
 #endif
         update_mario_info_for_cam(gMarioState);
+
+        if (using_ability(ABILITY_MARBLE)) {
+            struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
+            if (!marble && !(gMarioState->riddenObj != NULL && obj_has_behavior(gMarioState->riddenObj, bhvFunkyShell))) {
+                set_mario_action(gMarioState,ACT_MARBLE,0);
+                gMarioState->pos[1] += 100.0f;
+                gMarioObject->oPosY += 100.0f;
+                marble = spawn_object(o,MODEL_MARBLE,bhvPhysicsMarble);
+
+                set_camera_mode(gMarioState->area->camera, gMarioState->area->camera->defMode, 1);
+            }
+            gMarioObject->hitboxHeight = 200;
+            gMarioObject->hitboxRadius = 100;
+            gMarioObject->hitboxDownOffset = 50;
+            gMarioObject->hurtboxHeight = 200;
+            gMarioObject->hurtboxRadius = 100;
+
+        } else {
+            struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
+            if (marble) {
+                //vec3f_copy(gMarioState->vel,marble->rigidBody->linearVel);
+                //marble->rigidBody->linearVel[1] = 0.0f;
+                gMarioState->vel[1] = marble->rigidBody->linearVel[1];
+                marble->rigidBody->linearVel[1] = 0.0f;
+                gMarioState->forwardVel = vec3_mag(marble->rigidBody->linearVel);
+                gMarioState->faceAngle[1] = atan2s(marble->rigidBody->linearVel[2],marble->rigidBody->linearVel[0]);
+                gMarioState->action = ACT_FREEFALL;
+                deallocate_rigid_body(marble->rigidBody);
+                obj_mark_for_deletion(marble);
+                gMarioState->pos[1] -= 100.0f;
+                gMarioObject->oPosY -= 100.0f;
+            }
+            //Restore Mario's hitbox
+            gMarioObject->hitboxHeight = 160;
+            gMarioObject->hitboxRadius = 37;
+            gMarioObject->hitboxDownOffset = 0;
+            gMarioObject->hurtboxHeight = 160;
+            gMarioObject->hurtboxRadius = 37;
+        }
+
         mario_update_hitbox_and_cap_model(gMarioState);
 
         // Both of the wind handling portions play wind audio only in
@@ -2239,6 +2307,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             gMarioState->healCounter += 20;
             gMarioState->bloodAlcoholConcentration = 0.0f; // my alchoholism is cured
             play_sound(SOUND_GENERAL_HEART_SPIN, gGlobalSoundSource);
+
+            gSPDisplayList(&gfx_ability_hand[0], &milk_hand_hand_gone_mesh);
         }
 
         // Magic Mirror Code
@@ -2401,6 +2471,9 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         //the phasewalk timer runs unconditionally
         if (phasewalk_timer > 0 && phasewalk_timer < 150) {
             phasewalk_timer --;
+            if (phasewalk_timer == 0) {
+                ability_ready(ABILITY_PHASEWALK);
+            }
         }
 
         if (phasewalk_timer > 0) {
@@ -2442,44 +2515,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 gMarioState->pos[1] = marble_floor_y + 51.0f;//102.0f;
                 gMarioObject->oPosY = marble_floor_y + 51.0f;//102.0f;
             }
-        }
-
-        if (using_ability(ABILITY_MARBLE)) {
-            struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
-            if (!marble && !(gMarioState->riddenObj != NULL && obj_has_behavior(gMarioState->riddenObj, bhvFunkyShell))) {
-                set_mario_action(gMarioState,ACT_MARBLE,0);
-                gMarioState->pos[1] += 100.0f;
-                gMarioObject->oPosY += 100.0f;
-                marble = spawn_object(o,MODEL_MARBLE,bhvPhysicsMarble);
-
-                set_camera_mode(gMarioState->area->camera, gMarioState->area->camera->defMode, 1);
-            }
-            gMarioObject->hitboxHeight = 200;
-            gMarioObject->hitboxRadius = 100;
-            gMarioObject->hitboxDownOffset = 50;
-            gMarioObject->hurtboxHeight = 200;
-            gMarioObject->hurtboxRadius = 100;
-
-        } else {
-            struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
-            if (marble) {
-                //vec3f_copy(gMarioState->vel,marble->rigidBody->linearVel);
-                //marble->rigidBody->linearVel[1] = 0.0f;
-                gMarioState->vel[1] = marble->rigidBody->linearVel[1];
-                marble->rigidBody->linearVel[1] = 0.0f;
-                gMarioState->forwardVel = vec3_mag(marble->rigidBody->linearVel);
-                gMarioState->faceAngle[1] = atan2s(marble->rigidBody->linearVel[2],marble->rigidBody->linearVel[0]);
-                gMarioState->action = ACT_FREEFALL;
-                deallocate_rigid_body(marble->rigidBody);
-                obj_mark_for_deletion(marble);
-                gMarioState->pos[1] -= 100.0f;
-                gMarioObject->oPosY -= 100.0f;
-            }
-            gMarioObject->hitboxHeight = 160;
-            gMarioObject->hitboxRadius = 37;
-            gMarioObject->hitboxDownOffset = 0;
-            gMarioObject->hurtboxHeight = 160;
-            gMarioObject->hurtboxRadius = 37;
         }
 
         struct SpawnParticlesInfo D_8032F270 = { 2, 20, MODEL_MIST, 0, 40, 5, 30, 20, 252, 30, 10.0f, 10.0f };
@@ -2553,12 +2588,14 @@ void init_mario(void) {
 
     gMarioState->bloodAlcoholConcentration = 0.0f;
     
-    //set_camera_mode(gMarioState->area->camera, gMarioState->area->camera->defMode, 1);
+    if (gMarioState->area && gMarioState->area->camera) {
+        set_camera_mode(gMarioState->area->camera, gMarioState->area->camera->defMode, 1);
+    }
 
     if (level_in_dream_comet_mode() && mitm_levels[hub_level_current_index].dream_data != NULL) {
-        for (int i = 0; i < 4; i++) {
-            ability_slot[i] = mitm_levels[hub_level_current_index].dream_data->ability_lock[i];
-        }
+        mitm_dream_data *dd = mitm_levels[hub_level_current_index].dream_data;
+        change_ability(dd->ability_lock[0]);
+        ability_dpad_lock(dd->ability_lock[0],dd->ability_lock[1],dd->ability_lock[2],dd->ability_lock[3]);
     }
 
 
@@ -2643,10 +2680,12 @@ void init_mario(void) {
 }
 
 void init_mario_from_save_file(void) {
+    reset_bullet_system();
     save_file_get_coins();
     if (save_file_exists(gCurrSaveFileNum - 1)) {
         save_file_get_ability_dpad();
     } else {
+        save_file_unlock_song(SEQ_MITM_FILE_SELECT);
         save_file_init_ability_dpad();
         gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked = 1;
     }
@@ -2664,6 +2703,7 @@ void init_mario_from_save_file(void) {
 
     gMarioState->numCoins = 0;
     gMarioState->numStars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
+    gMarioState->numDreamCatalysts = get_dream_star_count();
     gMarioState->numKeys = 0;
 #ifdef ENABLE_LIVES
     gMarioState->numLives = ENABLE_LIVES;

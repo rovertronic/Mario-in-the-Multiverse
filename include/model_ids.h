@@ -615,6 +615,7 @@ enum GLOBAL_MODELS {
     MODEL_WEDSER,
     MODEL_SHOPITEM_3, // accident
     MODEL_DREAM_STAR,
+    MODEL_CARDBOARD_STAR,
     MODEL_SPIDERTRON_LIMB_1,
 
     // Custom Mario Models
@@ -872,13 +873,23 @@ blend file associated with this NPC is cursed.
 /* LEVEL K START */
 enum K_MODELS {
     MODEL_K_STRONG_TERRY=0x150,
+    MODEL_K_SKINNY_RICKY,
+    MODEL_K_SHIELDO,
     MODEL_K_ELECTROHEAD,
+    MODEL_K_JOSH,
     MODEL_K_FAN,
     MODEL_K_BLOOD,
     MODEL_K_BLOOD_2,
     MODEL_K_KAGUYA,
     MODEL_K_DISCO,
     MODEL_K_BARTENDER,
+    MODEL_K_TV_1,
+    MODEL_K_TV_2,
+    MODEL_K_TV_3,
+    MODEL_K_TV_4,
+    MODEL_K_LITE,
+    MODEL_K_POUNDER,
+    MODEL_K_SLIGHT,
 };
 /* LEVEL K END */
 
@@ -902,6 +913,9 @@ enum K_MODELS {
 #define MODEL_M_CLASSC                          0x151
 #define MODEL_M_GATE                            0x152
 #define MODEL_M_JELLY                           0x153
+#define MODEL_M_ELEVATOR                        0x154
+#define MODEL_M_JELLYLASER                      0x155
+#define MODEL_M_JELLYLASER_2                    0x156
 /* LEVEL M END */
 
 /* LEVEL N START */
@@ -921,6 +935,7 @@ enum K_MODELS {
 #define MODEL_O_SPEAKER_2 0x15A
 #define MODEL_O_SPEAKER_3 0x15B
 #define MODEL_O_GERIK     0x15C
+#define MODEL_O_FLAME     0x15D
 /* LEVEL O END */
 
 /* Bowser Level */

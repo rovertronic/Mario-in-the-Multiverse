@@ -732,11 +732,12 @@ static void level_cmd_nop(void) {
 }
 
 static void level_cmd_show_dialog(void) {
-    if (sCurrAreaIndex != -1) {
-        if (CMD_GET(u8, 2) < 2) {
-            gAreas[sCurrAreaIndex].dialog[CMD_GET(u8, 2)] = CMD_GET(u8, 3);
-        }
-    }
+    // NOBODY is smack dab in the middle of the battlefield
+    //if (sCurrAreaIndex != -1) {
+    //    if (CMD_GET(u8, 2) < 2) {
+    //        gAreas[sCurrAreaIndex].dialog[CMD_GET(u8, 2)] = CMD_GET(u8, 3);
+    //    }
+    //}
     sCurrentCmd = CMD_NEXT;
 }
 

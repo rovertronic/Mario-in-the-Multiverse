@@ -70,17 +70,26 @@ void bhv_m_classc(void) {
                 o->oBounciness = -0.3f;
                 o->oWallHitboxRadius = 200.0f;
                 magic_mirror_disable = TRUE;
-                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_CUSTOM_KIRBY_BOSS), 0);
-                o->oHealth = 15;
-                esa_hp = 15;
-                esa_mhp = 15;
+                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_MECHA), 0);
+                o->oHealth = 8;
+                esa_hp = 8;
+                esa_mhp = 8;
                 esa_str = "Class C Guardian";
             }
             break;
         case 1: // Deactivate and attackable
             o->oAnimState = 1;
             cur_obj_update_floor_and_walls();
+
+            Vec3f old_pos;
+            vec3f_copy(old_pos,&o->oPosVec);
             cur_obj_move_standard_classc();
+
+            struct Surface * found;
+            find_floor(o->oPosX,o->oPosY,o->oPosZ,&found);
+            if (!found) {
+                vec3f_copy(&o->oPosVec,old_pos);
+            }
 
             o->oVelX *= .9f;
             o->oVelZ *= .9f;
@@ -128,7 +137,7 @@ void bhv_m_classc(void) {
                 abilityspawn->oBehParams2ndByte = ABILITY_DASH_BOOSTER;
                 magic_mirror_disable = FALSE;
                 esa_mhp = -1;
-                stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_KIRBY_BOSS));
+                stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_MECHA));
                 mark_obj_for_deletion(o);
             }
             break;
@@ -199,5 +208,61 @@ void bhv_m_gate(void) {
     } else {
         //open
         o->oPosY = approach_f32_asymptotic(o->oPosY,o->oHomeY+500.0f,0.1f);
+    }
+}
+
+void bhv_m_elevator(void) {
+//copy of elevator d but with faster speeds
+
+    struct Surface * dummy_surf;
+
+    switch(o->oAction) {
+        case 0: //init
+            o->oHomeX = find_floor(o->oPosX,o->oPosY,o->oPosZ,&dummy_surf) + 100.0f; //actually ohomey2
+            o->oHomeY = o->oPosY;
+            o->oAction++;
+        break;
+        case 1: //wait for mario (top)
+            if ((gMarioObject->platform == o)||((gMarioState->pos[1]<o->oPosY)&&(lateral_dist_between_objects(o,gMarioObject)<1500.0f)) ) {
+                o->oAction ++;
+            }
+        break;
+        case 2: // go down
+            o->oPosY -= 50.0f;
+            cur_obj_play_sound_1(SOUND_ENV_ELEVATOR1);
+
+            if (o->oPosY < o->oHomeX) {
+                o->oPosY = o->oHomeX;
+                o->oAction++;
+                cur_obj_play_sound_2(SOUND_GENERAL_QUIET_POUND1);
+                cur_obj_shake_screen(SHAKE_POS_SMALL);
+            }
+        break;
+        case 3: //wait for mario to get off (bottom)
+            if (gMarioObject->platform != o) {
+                o->oAction ++;
+            }
+        break;
+        case 4: //wait for mario (bottom)
+            if (gMarioObject->platform == o) {
+                o->oAction ++;
+            }
+        break;
+        case 5: // go up
+            o->oPosY += 50.0f;
+            cur_obj_play_sound_1(SOUND_ENV_ELEVATOR1);
+
+            if (o->oPosY > o->oHomeY) {
+                o->oPosY = o->oHomeY;
+                o->oAction++;
+                cur_obj_play_sound_2(SOUND_GENERAL_QUIET_POUND1);
+                cur_obj_shake_screen(SHAKE_POS_SMALL);
+            }
+        break;
+        case 6: //wait for mario to get off (top)
+            if (gMarioObject->platform != o) {
+                o->oAction = 1;
+            }
+        break;
     }
 }

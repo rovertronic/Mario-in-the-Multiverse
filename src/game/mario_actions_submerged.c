@@ -1539,6 +1539,9 @@ s32 mario_execute_submerged_action(struct MarioState *m) {
     if (check_common_submerged_cancels(m)) {
         return TRUE;
     }
+    if (m->action != ACT_WATER_DEATH && using_ability(ABILITY_SQUID)) {
+        set_mario_action(m,ACT_WATER_DEATH,0);
+    }
 
     m->quicksandDepth = 0.0f;
 

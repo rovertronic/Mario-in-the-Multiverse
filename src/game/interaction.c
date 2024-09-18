@@ -264,6 +264,24 @@ u32 determine_interaction(struct MarioState *m, struct Object *obj) {
         }
     }
 
+    if (gCurrLevelNum == LEVEL_N) {
+        struct Object *marble = cur_obj_nearest_object_with_behavior(bhvPhysicsMarble);
+        if (marble) {
+            f32 speed = vec3_mag(marble->rigidBody->linearVel);
+            interaction = INT_KICK;
+            s16 rebound_direction = obj_angle_to_object(obj,marble);
+            f32 forward_force = obj->oForwardVel*2.f;
+            if (forward_force < 0.0f) {
+                forward_force = 0.0f;
+            }
+            Vec3f force = {sins(rebound_direction)*forward_force,0,coss(rebound_direction)*forward_force};
+            rigid_body_add_force(marble->rigidBody, &gMarioState->pos, force, TRUE);
+        }
+        if (action != ACT_MARBLE) {
+            interaction = INT_NONE;
+        }
+    }
+
     return interaction;
 }
 
@@ -841,6 +859,13 @@ u32 interact_water_ring(struct MarioState *m, UNUSED u32 interactType, struct Ob
 extern u8 ability_get_confirm;
 extern u8 hub_star_string[];
 u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
+    if (in_vanilla_painting_world()) {
+        //stars are replaced with 10 coins in painting worlds
+        spawn_object(obj, MODEL_CARDBOARD_STAR, bhvCarboardStarBody);
+        obj->oInteractStatus = INT_STATUS_INTERACTED;
+        return TRUE;
+    }
+
     u32 starIndex;
     u32 starGrabAction = ACT_STAR_DANCE_EXIT;
 #ifdef NON_STOP_STARS
@@ -943,6 +968,7 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
             } else {
                 //dream catalyst
                 set_dream_star(obj->oBehParams2ndByte);
+                m->numDreamCatalysts = get_dream_star_count();
             }
         }
 
@@ -987,6 +1013,11 @@ u32 interact_warp(struct MarioState *m, UNUSED u32 interactType, struct Object *
 
     if (obj->oInteractionSubtype & INT_SUBTYPE_FADING_WARP) {
         action = m->action;
+
+        if (level_in_dream_comet_mode() && gCurrLevelNum == LEVEL_I) {
+            // hardcoded stop fading warp in rayman level
+            return FALSE;
+        }
 
         if (action == ACT_TELEPORT_FADE_IN) {
             sJustTeleported = TRUE;

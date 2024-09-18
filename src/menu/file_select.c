@@ -22,6 +22,7 @@
 #include "sm64.h"
 #include "text_strings.h"
 #include "game/ability.h"
+#include "game/dream_comet.h"
 
 #include "eu_translation.h"
 #if MULTILANG
@@ -2273,9 +2274,16 @@ s32 mitm_file_select() {
         gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 
         if (save_file_exists(i)) {
+            //display stars and coins
             u8 starText[6] = {GLYPH_STAR, DIALOG_CHAR_SPACE};
             u8 coinText[6] = {GLYPH_COIN, DIALOG_CHAR_SPACE};
             s16 starCount = save_file_get_total_star_count(i,COURSE_NUM_TO_INDEX(COURSE_MIN),COURSE_NUM_TO_INDEX(COURSE_MAX));
+            int dreamCount = get_dream_star_count_file_index(i);
+            starCount+=dreamCount;
+            if (dreamCount > 0) {
+                starText[0] = GLYPH_HDC;
+            }
+
             s16 coinCount = gSaveBuffer.files[i][0].coins;
             int_to_str(starCount, &starText[2]);
             int_to_str(coinCount, &coinText[2]);
@@ -2288,6 +2296,27 @@ s32 mitm_file_select() {
             print_hud_lut_string(HUD_LUT_DIFF, 98+file_x[i], 15+(75*i), starText);
             print_hud_lut_string(HUD_LUT_DIFF, 98+file_x[i], 32+(75*i), coinText);
             gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
+
+            // display playtime
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+            int frames = gSaveBuffer.files[i][0].elapsed_playtime;
+            int seconds = frames/30;
+            int mins = seconds/60;
+            int hours = mins/60;
+            if (hours > 99) {
+                hours = 99;
+            }
+            char strbuf[12];
+            sprintf(&strbuf,"%02d:%02d:%02d",hours,mins%60,seconds%60);
+
+            if (file_selected_index == i) {
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
+            } else {
+                gDPSetEnvColor(gDisplayListHead++, 120, 120, 120, 255);
+            }
+
+            print_generic_string_ascii(98+file_x[i],172-(75*i),strbuf);
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
         }
 
         file_x[i] = approach_f32_asymptotic(file_x[i],file_target_x[i],0.2f);

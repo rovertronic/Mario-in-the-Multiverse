@@ -37,6 +37,7 @@
 #include "cutscene_manager.h"
 #include "mitm_hub.h"
 #include "ability.h"
+#include "dream_comet.h"
 
 #include "config.h"
 
@@ -626,6 +627,10 @@ void initiate_warp(s16 destLevel, s16 destArea, s16 destWarpNode, s32 warpFlags)
 
     if ((gCurrAreaIndex == 6)&&(gCurrLevelNum == LEVEL_L)) {
         // reset level for p ranks and retries
+        sWarpDest.type = WARP_TYPE_CHANGE_LEVEL;
+    }
+    if ((gCurrAreaIndex == 5)&&(gCurrLevelNum == LEVEL_G)) {
+        // reset level to prevent marx crashes
         sWarpDest.type = WARP_TYPE_CHANGE_LEVEL;
     }
 
@@ -1261,12 +1266,19 @@ s32 init_level(void) {
 
     g100CoinStarSpawned = FALSE;
 
+
+
     switch(gCurrLevelNum) {
         case LEVEL_CASTLE:
             hub_level_current_index = HUBLEVEL_HUB;
+            dream_comet_enabled = FALSE;
+            ability_dpad_unlock();
             break;
         case LEVEL_BOWSER_COURSE:
             hub_level_current_index = HUBLEVEL_BOWSER;
+            break;
+        case LEVEL_G:
+            hub_level_current_index = HUBLEVEL_C1;
             break;
     }
 

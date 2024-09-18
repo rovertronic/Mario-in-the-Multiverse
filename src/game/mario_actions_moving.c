@@ -1131,6 +1131,11 @@ s32 act_hold_heavy_walking(struct MarioState *m) {
 s32 act_turning_around(struct MarioState *m) {
     e__fire_shotgun();//--E SG
 
+    if ((m->input & INPUT_B_PRESSED) && using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+        m->faceAngle[1] += 0x8000;
+        return set_mario_action(m, ACT_MOVE_PUNCHING, 10);
+    }
+
     if (m->input & INPUT_ABOVE_SLIDE) {
         return set_mario_action(m, ACT_BEGIN_SLIDING, 0);
     }
@@ -1187,6 +1192,11 @@ s32 act_turning_around(struct MarioState *m) {
 
 s32 act_finish_turning_around(struct MarioState *m) {
     e__fire_shotgun();//--E SG
+
+    if ((m->input & INPUT_B_PRESSED) && using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
+        //m->faceAngle[1] += 0x8000;
+        return set_mario_action(m, ACT_MOVE_PUNCHING, 10);
+    }
 
     if (m->input & INPUT_ABOVE_SLIDE) {
         return set_mario_action(m, ACT_BEGIN_SLIDING, 0);

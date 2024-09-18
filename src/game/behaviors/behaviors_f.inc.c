@@ -410,6 +410,7 @@ void bhv_f_key(void) {
             }
         break;
         case 1:
+            print_text_fmt_int(10, 10, "BOAT KEY OBTAINED", 0);
             o->oAngleVelYaw += 0x70;
             o->oFaceAngleYaw += o->oAngleVelYaw;
             cur_obj_scale(o->oHomeY);
@@ -476,9 +477,9 @@ void bhv_f_shooter(void) {
             o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, o->oAngleToMario, 0x500);
             o->oFaceAngleYaw = o->oMoveAngleYaw;
 
-            //fire every 5 frames and if mario's in sightlines
+            //fire every 7 frames and if mario's in sightlines
             o->oAnimState = 1;
-            if ((o->oTimer % 5 == 0)&&(view_angle < 0x1500)&&(!surf)) {
+            if ((o->oTimer % 7 == 0)&&(view_angle < 0x1500)&&(!surf)) {
                 o->oAnimState = 0;
                 cur_obj_play_sound_2(SOUND_OBJ2_EYEROK_SOUND_LONG);
                 o->oFaceAnglePitch = -obj_turn_pitch_toward_mario(0.0f, 0x2000);
@@ -492,7 +493,7 @@ void bhv_f_shooter(void) {
         break;
     }
 
-    if (obj_hit_by_deflected_bullet(o, 750.0f) == 1) {
+    if (obj_hit_by_deflected_bullet(o, 200.0f) == 1) {
         o->oNumLootCoins ++;
         spawn_mist_particles();
         obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 20.0f);
@@ -518,8 +519,16 @@ void bhv_f_shooter_star(void) {
     switch(o->oAction) {
         case 0:
             if (!cur_obj_nearest_object_with_behavior(bhvFshooter)) {
-                spawn_default_star(o->oPosX,o->oPosY,o->oPosZ);
-                o->oAction++;
+                //not actually the 100 coin star, just a convenient var to use
+                if (!g100CoinStarSpawned) {
+                    spawn_default_star(o->oPosX,o->oPosY,o->oPosZ);
+                    o->oAction++;
+                    g100CoinStarSpawned = TRUE;
+                } else {
+                    struct Object * star = spawn_object(o,MODEL_NONE,bhvStar);
+                    star->oBehParams = 0x04000000;
+                    o->oAction++;
+                }
             }
         break;
     }
@@ -599,7 +608,7 @@ void bhv_f_missiles(void) {
 
 void bhv_f_blowvent(void) {
     struct Object * curtain_platform = cur_obj_nearest_object_with_behavior(bhvFCurtainPlatform);
-    if ((curtain_platform)&&(curtain_platform->oAction == 3)) {
+    if ((curtain_platform)&&(curtain_platform->oAction == 3)&&(random_u16()%2==0)) {
         cur_obj_spawn_strong_wind_particles(12, 3.0f, 0.0f, -50.0f, 120.0f);
     }
 }
@@ -618,6 +627,15 @@ struct ObjectHitbox sFBoatHitbox = {
 
 void bhv_f_boat(void) {
     struct Surface *floor;
+
+    if (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags & (1<<LEVEL_F_FLAG_KEY))) {
+        if (lateral_dist_between_objects(gMarioObject,o) < 400.0f) {
+            print_text_fmt_int(10, 10, "NEED BOAT KEY", 0);
+        }
+        load_object_collision_model();
+        return;
+    }
+
 
     obj_set_hitbox(o, &sFBoatHitbox);
     cur_obj_scale(1.0f);
@@ -710,13 +728,29 @@ void bhv_f_heli(void) {
             cur_obj_hide();
             obj_set_hitbox(o, &sHelicopterHitbox);
             if (!cur_obj_nearest_object_with_behavior(bhvFshooter) && save_file_check_ability_unlocked(ABILITY_GADGET_WATCH)) {
-                if (o->oTimer > 30) {
-                    cur_obj_unhide();
-                    o->oAction = 1;
-                    play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_F_BOND), 0);
+                if (o->oTimer == 30) {
+                    
+
+                    struct Object * btn = spawn_object(o,MODEL_GOLD_BTN_OFF,bhvFRocketButtonGold);
+                    vec3f_set(&btn->oPosVec,-11500, 3136, -7111);
+                    btn->oFaceAnglePitch += 0x4000;
+
+                    //fucked up
+                    struct Object * me = o;
+                    o = btn;
+                    spawn_mist_particles_variable(0, 0, 200.0f);
+                    o = me;
+
+                    vec3f_copy(&gLakituState.goalFocus,&btn->oPosVec);
+                    vec3f_copy(&gLakituState.goalPos,&btn->oPosVec);
+                    gLakituState.goalPos[0] -= 2000.0f;
+                    gLakituState.goalPos[2] += 1000.0f;
+
                     gCamera->cutscene = 1;
-                    o->prevObj = spawn_object(o,MODEL_F_HELISHADOW,bhvStaticObject);
-                    o->prevObj->oPosY = 600.0f;
+                }
+                if (o->oTimer == 60) {
+                    o->oAction = 6;
+                    gCamera->cutscene = 0;
                 }
             } else {
                 o->oTimer = 0;
@@ -843,6 +877,24 @@ void bhv_f_heli(void) {
                 mark_obj_for_deletion(o);
             }
             break;
+
+        case 6:
+            {
+                struct Object * btn = cur_obj_nearest_object_with_behavior(bhvFRocketButtonGold);
+                if (btn && btn->oAction > 0) {
+                    if (o->oTimer > 30) {
+                        cur_obj_unhide();
+                        o->oAction = 1;
+                        play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_F_BOND), 0);
+                        gCamera->cutscene = 1;
+                        o->prevObj = spawn_object(o,MODEL_F_HELISHADOW,bhvStaticObject);
+                        o->prevObj->oPosY = 600.0f;
+                    }
+                } else {
+                    o->oTimer = 0;
+                }
+            }
+            break;
     }
 
     if (o->oTimer % 8 == 0) {
@@ -854,6 +906,11 @@ void bhv_f_heli(void) {
     if ((o->oAction != 0)&&(gMarioState->pos[2] > -6288.0f)) {
         // Keep mario in boss area
         gMarioState->pos[2] = -6288.0f;
+        gMarioObject->oPosZ = gMarioState->pos[2];
+    }
+    if ((o->oAction != 0)&&(gMarioState->pos[2] < -8285.0f)) {
+        // Keep mario in boss area
+        gMarioState->pos[2] = -8285;
         gMarioObject->oPosZ = gMarioState->pos[2];
     }
 

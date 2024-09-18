@@ -53,11 +53,13 @@
 #include "mitm_hub.h"
 #include "ability.h"
 #include "hints.h"
+#include "dream_comet.h"
 
 u8 pipe_string_not_enough[] = {TEXT_PIPE_NOT_ENOUGH};
 u8 pipe_string_enter[] = {TEXT_PIPE_ENTER};
 u8 pipe_string_a[] = {TEXT_PIPE_A};
 u8 pipe_string_b[] = {TEXT_PIPE_B};
+u8 pipe_string_z[] = {TEXT_PIPE_Z};
 
 u8 hub_star_string[] = {0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,DIALOG_CHAR_TERMINATOR};
 
@@ -65,10 +67,14 @@ mitm_dream_data mitmdd_b = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_BIG_DAD
 mitm_dream_data mitmdd_c = {{ABILITY_DEFAULT,ABILITY_PHASEWALK,ABILITY_NONE,ABILITY_NONE},5};
 mitm_dream_data mitmdd_d = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_AKU,ABILITY_NONE},7};
 mitm_dream_data mitmdd_e = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_E_SHOTGUN,ABILITY_NONE},8};
+mitm_dream_data mitmdd_f = {{ABILITY_DEFAULT,ABILITY_GADGET_WATCH,ABILITY_PHASEWALK,ABILITY_NONE},6};
 mitm_dream_data mitmdd_g = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_NONE,ABILITY_NONE},7};
 mitm_dream_data mitmdd_h = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_PHASEWALK,ABILITY_NONE},7};
+mitm_dream_data mitmdd_i = {{ABILITY_DEFAULT,ABILITY_CUTTER,ABILITY_NONE,ABILITY_NONE},7};
+mitm_dream_data mitmdd_j = {{ABILITY_DEFAULT,ABILITY_BUBBLE_HAT,ABILITY_SQUID,ABILITY_NONE},8};
 mitm_dream_data mitmdd_k = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_CHRONOS,ABILITY_NONE},7};
 mitm_dream_data mitmdd_l = {{ABILITY_DEFAULT,ABILITY_KNIGHT,ABILITY_NONE,ABILITY_NONE},4};
+mitm_dream_data mitmdd_m = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_PHASEWALK,ABILITY_KNIGHT},8};
 mitm_dream_data mitmdd_n = {{ABILITY_DEFAULT,ABILITY_E_SHOTGUN,ABILITY_BUBBLE_HAT,ABILITY_NONE},7};
 mitm_dream_data mitmdd_o = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_HM_FLY,ABILITY_GADGET_WATCH},8};
 
@@ -84,7 +90,7 @@ struct mitm_level_data mitm_levels[] = {
     /*C*/ {"PIRANHA PIT", "Drahnokks, Idea by: Woissil", "Drahnokks & Co.",
             LEVEL_C,  COURSE_JRB,   1,       1,         22,         8,     &mitmdd_c},
     /*I*/ {"MUSHROOM HAVOC", "Drahnokks", "Drahnokks",
-            LEVEL_I,  COURSE_CCM,   3,       1,         23,         8,     NULL},
+            LEVEL_I,  COURSE_CCM,   3,       1,         23,         8,     &mitmdd_i},
     /*H*/ {"OPPORTUNITY", "joopii", "joopii",
             LEVEL_H,  COURSE_BBH,   5,       1,         24,         8,     &mitmdd_h },
     /*B*/ {"BIOSHOCK RAPTURE", "furyiousfight", "furyiousfight",
@@ -96,9 +102,9 @@ struct mitm_level_data mitm_levels[] = {
     /*E*/ {"DOOM", "Dorrieal", "Dorrieal",
             LEVEL_E,  COURSE_DDD,   20,      1,         28,         8,     &mitmdd_e },
     /*F*/ {"FROM RUSSIA WITH LOVE", "Aeza", "Aeza",
-            LEVEL_F,  COURSE_SL,    20,      1,         29,         8,     NULL},
+            LEVEL_F,  COURSE_SL,    20,      1,         29,         8,     &mitmdd_f},
     /*J*/ {"ECRUTEAK CITY", "SpK", "SpK",
-            LEVEL_J,  COURSE_WDW,   25,      1,         30,         8,     NULL},
+            LEVEL_J,  COURSE_WDW,   25,      1,         30,         8,     &mitmdd_j},
     /*D*/ {"NEW N-SANITY ISLAND", "JakeDower", "JakeDower",
             LEVEL_D,  COURSE_TTM,   30,      1,         31,         8,     &mitmdd_d},
     /*O*/ {"SAINTS, SINNERS, & MARIO", "Rovertronic", "Rovertronic",
@@ -106,11 +112,13 @@ struct mitm_level_data mitm_levels[] = {
     /*N*/ {"MARIO IN HAMSTERBALL", "LinCrash", "LinCrash",
             LEVEL_N,  COURSE_TTC,   50,      1,         33,         8,     &mitmdd_n},
     /*M*/ {"ENVIRONMENTAL STATION M", "Mel", "Mel",
-            LEVEL_M,  COURSE_RR,    50,      1,         34,         8,     NULL},
+            LEVEL_M,  COURSE_RR,    50,      1,         34,         8,     &mitmdd_m},
     /*BC*/{"CENTRUM OMNIUM", NULL, NULL,
-            LEVEL_BOWSER_COURSE,  COURSE_BITDW, 0, 0,   34,         1,     NULL},
+            LEVEL_BOWSER_COURSE,  COURSE_BITDW, 0, 0,   37,         1,     NULL},
    /*HUB*/{"FRACTURE", NULL, NULL,
             NULL,     COURSE_BITFS, 0,       0,         34,         2,     NULL},
+   /*PW*/ {"PAINTING WORLD", NULL, NULL,
+            NULL,     COURSE_NONE,  0,       0,         36,         0,     NULL},
 };
 
 s8 hub_level_index = -1;
@@ -121,6 +129,11 @@ f32 hub_titlecard_alpha = 0.0f;
 void update_hub_star_string(s8 index_of_hublevel) {
     u8 star_flags = star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(mitm_levels[index_of_hublevel].course));
     u8 star_count = mitm_levels[index_of_hublevel].star_count;
+
+    if (dream_comet_enabled && mitm_levels[index_of_hublevel].dream_data) {
+        star_flags = get_dream_star_flags(index_of_hublevel);
+        star_count = mitm_levels[index_of_hublevel].dream_data->dream_star_ct;
+    }
 
     for (u8 i=0;i<star_count;i++) {
         if (star_flags & (1<<i)) {
@@ -309,24 +322,49 @@ void render_mitm_hub_hud(void) {
         sprintf(sprintf_buffer,"By: %s", mitm_levels[hub_dma_index].author_abridged);
         print_generic_string_ascii(110,56, sprintf_buffer);
 
+        s16 line_2_y = 40;
+        s16 line_3_y = 25;
+        if (dream_comet_unlocked()) {
+            line_2_y = 43;
+            line_3_y = 31;
+        }
+
         if (mitm_levels[hub_dma_index].star_requirement <= gMarioState->numStars) {
             //Display Collected Stars
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 0, (u8)hub_titlecard_alpha);
+            if (dream_comet_enabled) {
+                gDPSetEnvColor(gDisplayListHead++, 255, 0, 255, (u8)hub_titlecard_alpha);
+            }
             update_hub_star_string(hub_dma_index);
-            print_generic_string(110,40,hub_star_string);
+            print_generic_string(110,line_2_y,hub_star_string);
         } else {
             //Not Enough Stars to Enter
             gDPSetEnvColor(gDisplayListHead++, 255, 0, 0, (u8)hub_titlecard_alpha);
             int_to_str(mitm_levels[hub_dma_index].star_requirement, &pipe_string_not_enough[10]);
-            print_generic_string(110,40,pipe_string_not_enough);
+            print_generic_string(110,line_2_y,pipe_string_not_enough);
         }
 
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hub_titlecard_alpha);
-        print_generic_string(113,25,pipe_string_enter);
+        print_generic_string(113,line_3_y,pipe_string_enter);
         gDPSetEnvColor(gDisplayListHead++, 0, 0, 255, (u8)hub_titlecard_alpha);
-        print_generic_string(110,25,pipe_string_a);
+        print_generic_string(110,line_3_y,pipe_string_a);
         gDPSetEnvColor(gDisplayListHead++, 0, 150, 0, (u8)hub_titlecard_alpha);
-        print_generic_string(109,25,pipe_string_b);
+        print_generic_string(109,line_3_y,pipe_string_b);
+
+        if (dream_comet_unlocked()) {
+            gDPSetEnvColor(gDisplayListHead++, 255, 0, 255, (u8)hub_titlecard_alpha);
+            if (dream_comet_enabled) {
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 0, (u8)hub_titlecard_alpha);
+            }
+            print_generic_string(120,18,pipe_string_z);
+
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hub_titlecard_alpha);
+            if (dream_comet_enabled) {
+                print_generic_string_ascii(120,18,"  :Standard");
+            } else {
+                print_generic_string_ascii(120,18,"  :Dream");
+            }
+        }
 
         gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
     }
@@ -604,9 +642,12 @@ void render_hint_ui(u8 hud_alpha) {
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
         print_generic_string_ascii(45, 95, "Need help finding a\npower star?");
 
-        print_generic_string_ascii(45, 56, mitm_levels[hint_index].name);
+        if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked & (1<<hint_index)) {
+            print_generic_string_ascii(45, 56, mitm_levels[hint_index].name);
+        }
 
         for (s32 i = 0; i < 15; i++) {
+            u8 unlocked = (gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked & (1<<i));
             u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(mitm_levels[i].course));
             sprintf(stringBuf,"C%02d",i+1);
 
@@ -616,6 +657,10 @@ void render_hint_ui(u8 hud_alpha) {
             } else {
                 // level has remaining stars
                 gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
+            }
+            if (!unlocked) {
+                // level is locked and undiscovered
+                gDPSetEnvColor(gDisplayListHead++, 100, 100, 100, 255.0f-hud_alpha);
             }
 
             print_generic_string_ascii(50+(33*(i%3)), 197-(18*(i/3)), stringBuf);
@@ -723,13 +768,17 @@ void bhv_layton_hint_loop(void) {
             handle_menu_scrolling_2way(&hint_ix, &hint_iy, 0, 4, 2);
             hint_index = (hint_iy *3)+(hint_ix%3);
             if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
-                o->oAction = 2;
-                hint_level = hint_index;
-                hint_layer = 1;
-                hint_index = 0;
-                hint_ix = 0;
-                hint_iy = 0;
-                cur_obj_init_animation_with_sound(2);
+                if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked & (1<<hint_index)) {
+                    o->oAction = 2;
+                    hint_level = hint_index;
+                    hint_layer = 1;
+                    hint_index = 0;
+                    hint_ix = 0;
+                    hint_iy = 0;
+                    cur_obj_init_animation_with_sound(2);
+                } else {
+                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                }
             } else if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
                 set_mario_action(gMarioState, ACT_IDLE, 0);
                 gCamera->cutscene = 0;
@@ -983,4 +1032,279 @@ void print_mitm_credits(u8 hud_alpha) {
             print_string_ascii_centered_alpha(160,ypos, mitm_credits[i].text, mitm_credits[i].color, alpha);
         }
     }
+}
+
+struct painting_world painting_world_list[] = {
+    {"Bob-omb Battlefield", LEVEL_BOB},
+    {"Whomp's Fortress", LEVEL_WF},
+    {"Jolly Roger Bay", LEVEL_JRB},
+    {"Cool Cool Mountain", LEVEL_CCM},
+    {"Big Boo's Haunt", LEVEL_BBH},
+    {"Haze Maze Cave", LEVEL_HMC},
+    {"Lethal Lava Land", LEVEL_LLL},
+    {"Shifting Sand Land", LEVEL_SSL},
+    {"Dire Dire Docks", LEVEL_DDD},
+    {"Snowman's Land", LEVEL_SL},
+    {"Wet Dry World", LEVEL_WDW},
+    {"Tall Tall Mountain", LEVEL_TTM},
+    {"Tiny Huge Island", LEVEL_THI},
+    {"Tick Tock Clock", LEVEL_TTC},
+    {"Rainbow Ride", LEVEL_RR},
+    {"Secret Slide", LEVEL_PSS}
+};
+
+s32 in_vanilla_painting_world(void) {
+    return hub_level_current_index == HUBLEVEL_PWORLD;
+}
+
+u8 redd_painting_show_ui = FALSE;
+s8 redd_painting_ix = 0;
+s8 redd_painting_iy = 0;
+void bhv_redd_paintings_loop(void) {
+    s8 old_hint_index;
+
+    o->oAnimState = 0;
+    if (o->oTimer%90 < 4) {
+        o->oAnimState = 1;
+    }
+    switch(o->oAction) {
+        case 0: // wait
+            if (o->oInteractStatus == INT_STATUS_INTERACTED) {
+                redd_painting_show_ui = TRUE;
+                redd_painting_ix = 0;
+                redd_painting_iy = 0;
+                shop_cant_afford = 0;
+                o->oAction = 1;
+                gCamera->cutscene = 1;
+
+                vec3f_copy(&gLakituState.goalFocus, &o->oPosVec);
+                vec3f_copy(&gLakituState.goalPos, &o->oPosVec);
+                gLakituState.goalPos[0] += sins(o->oMoveAngleYaw)*800.0f + sins(o->oMoveAngleYaw - 0x4000)*150.0f;
+                gLakituState.goalPos[2] += coss(o->oMoveAngleYaw)*800.0f + coss(o->oMoveAngleYaw - 0x4000)*150.0f;
+
+                gLakituState.goalFocus[0] += sins(o->oMoveAngleYaw - 0x4000)*150.0f;
+                gLakituState.goalFocus[2] += coss(o->oMoveAngleYaw - 0x4000)*150.0f;
+
+                gLakituState.goalFocus[1] += 140.0f;
+                gLakituState.goalPos[1] += 190.0f;
+            }
+            o->oInteractStatus = 0;
+        break;
+        case 1: // select course
+            handle_menu_scrolling_2way(&redd_painting_ix, &redd_painting_iy, 0, 3, 3);
+            u8 redd_painting_index = (redd_painting_iy *4)+(redd_painting_ix%4);
+            if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
+                redd_painting_show_ui = FALSE;
+                gCurrActNum = 1;
+                hub_level_current_index = HUBLEVEL_PWORLD;
+                initiate_warp(painting_world_list[redd_painting_index].level, 1, 0x0A, WARP_FLAGS_NONE);
+                fade_into_special_warp(WARP_SPECIAL_NONE, 0);
+                gSavedCourseNum = COURSE_NONE;
+            } else if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
+                set_mario_action(gMarioState, ACT_IDLE, 0);
+                gCamera->cutscene = 0;
+                redd_painting_show_ui = FALSE;
+                o->oAction = 0;
+            }
+        break;
+    }
+}
+
+void render_painting_ui(f32 alpha) {
+    char stringBuf[200];
+
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
+    create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
+    gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+    gSPDisplayList(gDisplayListHead++, painting_menu_roundbox_003_mesh);
+    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+    u8 redd_painting_index = (redd_painting_iy *4)+(redd_painting_ix%4);
+    create_dl_translation_matrix(MENU_MTX_PUSH, 57+redd_painting_ix*32, 195-redd_painting_iy*32, 0);
+    gSPDisplayList(gDisplayListHead++, selector_selector_mesh);
+    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+    sprintf(stringBuf,"Enter: %s\nThese are sandbox levels intended for play,\nso there are no power stars to collect.",painting_world_list[redd_painting_index].name);
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
+    print_generic_string_ascii(43, 58, stringBuf);
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+}
+
+struct music_data music_list[] = {
+    {SEQ_MITM_FILE_SELECT,"File Select","Original composition by: SpK"},
+    {SEQ_MITM_HUB,"Fracture","Original composition by: SpK"},
+    
+    {SEQ_PEACHS_BIRTHDAY,"Peach's Birthday Cake","From: Mario Party\nPorted by: Teraok"},
+    {SEQ_BOWSER_TIME,"Bowser Time!","From: Mario Party DS\nPorted by: Teraok"},
+
+    {SEQ_MITM_GET_ABILITY,"Get Ability","Original composition by: Leonitz\nPorted by: sm64pie"},
+
+    {SEQ_CUSTOM_SAVE_HUT,"Save Hut","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+    {SEQ_CUSTOM_KIRBY_BOSS,"Boss Battle","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+    {SEQ_CUSTOM_PEANUT_PLAINS,"Peanut Plains","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+    {SEQ_CUSTOM_CRYSTAL_FIELD,"Crystal Field","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+    {SEQ_CUSTOM_TREES_IN_THE_DEPTHS,"Trees in the Depths of the Earth","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+    {SEQ_CUSTOM_MARX,"V.S. Marx","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+
+    {SEQ_JELLYFISH_FIELDS,"Jellyfish Fields","From: Battle for Bikini Bottom\nPorted by: JoshTheBosh"},
+    {SEQ_JELLYFISH_SECRET,"Jellyfish Secret","From: Battle for Bikini Bottom\nPorted by: JoshTheBosh"},
+    {SEQ_DOWNTOWN_BB,"Downtown Bikini Bottom","From: Battle for Bikini Bottom\nPorted by: JoshTheBosh"},
+    {SEQ_JELLYFISH_BOSS,"Jellyfish Jam","From: Battle for Bikini Bottom\nPorted by: sm64pie"},
+
+    {SEQ_C_SEA_ME_NOW,"Sea Me Now","From: Splatoon 3\nPorted by: Teraok"},
+
+    {SEQ_LEVEL_I_INSIDE,"Cave Dungeon Rayman Remix","Original composition by: Teraok"},
+    {SEQ_CLEARLEAF_FOREST,"Clearleaf Forest","From: Rayman 3\nPorted by: Teraok"},
+    {SEQ_LEVEL_I_AMBUSH,"Hoodlum Ambush","From: Rayman 3\nPorted by: Teraok"},
+    {SEQ_LEVEL_I_CARRYING_THE_PLUM,"Carrying the Plum","From: Rayman 3\nPorted by: Teraok"},
+    {SEQ_FUNKY_SHELL,"Funky Board","From: Rayman 3\nPorted by: Teraok"},
+    {SEQ_MASTER_KAAG_BOSS,"Master Kaag","From: Rayman 3\nPorted by: Teraok"},
+    
+    {SEQ_H_GEOTHERMAL,"Geothermal","From: Cave Story\nPorted by: Teraok"},
+
+    {SEQ_L_MONDAYS,"Mondays","From: Pizza Tower\nPorted by: sm64pie"},
+    {SEQ_L_HOT_SPAGHETTI,"Hot Spaghetti","From: Pizza Tower\nPorted by: sm64pie"},
+    {SEQ_L_PIZZA_TIME,"Pizza Time","From: Pizza Tower\nPorted by: Teraok"},
+    {SEQ_PEPPERMAN_STRIKES,"Pepperman Strikes!","From: Pizza Tower\nPorted by: sm64pie"},
+
+    {SEQ_K_CHINATOWN,"Chinatown","From: Katana Zero\nPorted by: Teraok"},
+
+    {SEQ_C9,"Hangar","From: DOOM PSX"},
+
+    {SEQ_F_FRWL,"From Russia with Love","From: From Russia with Love\nPorted by: Teraok"},
+    {SEQ_F_BOND,"James Bond Theme Song","From: 007 Series\nPorted by: Teraok"},
+
+    {SEQ_CUSTOM_ECRUTEAK,"Ecruteak City","From: Pokemon\nPorted by: SpK"},
+    {SEQ_CUSTOM_AZALEA,"Azalea","From: Pokemon\nPorted by: SpK"},
+    {SEQ_CUSTOM_DARK_CAVE,"Dark Cave","From: Pokemon\nPorted by: SpK"},
+    {SEQ_CUSTOM_GYM,"Gym","From: Pokemon\nPorted by: SpK"},
+    {SEQ_CUSTOM_VS_HOOH,"V.S. Hooh","From: Pokemon"},
+
+    {SEQ_D_OVER,"N. Sanity Island","From: Crash Twinsanity\nPorted by: Teraok"},
+    {SEQ_D_UNDER,"Underwater","From: Crash Bandicoot 3: Warped\nPorted by: Teraok"},
+
+    {SEQ_O_MAINTRACK,"Via Corolla","From: The Walking Dead: Saints & Sinners"},
+    {SEQ_O_EASYSTREET,"Easy Street","From: The Walking Dead"},
+
+    {SEQ_HAMSTERBALL,"Beginner Race","From: Hamsterball\nPorted by: sm64pie"},
+
+    {SEQ_CUSTOM_ESA_VALIANT,"Valiant","From: Environmental Station Alpha\nPorted by: Teraok"},
+    {SEQ_CUSTOM_ESA_SUBMERGED,"Ammoinen","From: Environmental Station Alpha\nPorted by: Teraok"},
+    {SEQ_CUSTOM_ESA_AMMOINEN,"Submerged","From: Environmental Station Alpha\nPorted by: Teraok"},
+    {SEQ_CUSTOM_ESA_MECHA,"Swift Mecha","From: Environmental Station Alpha\nPorted by: Teraok"},
+
+    {SEQ_MITM_BOWSER_COURSE,"Centrum Omnium","Original composition by: SpK"},
+    {SEQ_COUNT,NULL,NULL},
+};
+
+u8 music_menu_show_ui = FALSE;
+s8 music_menu_index = 0;
+s8 music_menu_isplaying = -1;
+
+void bhv_music_menu_loop(void) {
+    s8 old_hint_index;
+
+    o->oAnimState = 0;
+    if (o->oTimer%90 < 4) {
+        o->oAnimState = 1;
+    }
+    switch(o->oAction) {
+        case 0: //init
+            o->oAction = 1;
+            music_menu_isplaying = -1;
+            break;
+        case 1: // wait
+            if (o->oInteractStatus == INT_STATUS_INTERACTED) {
+                music_menu_show_ui = TRUE;
+                music_menu_index = 0;
+                o->oAction = 2;
+                gCamera->cutscene = 1;
+
+                vec3f_copy(&gLakituState.goalFocus, &o->oPosVec);
+                vec3f_copy(&gLakituState.goalPos, &o->oPosVec);
+                gLakituState.goalPos[0] += sins(o->oMoveAngleYaw)*800.0f + sins(o->oMoveAngleYaw - 0x4000)*150.0f;
+                gLakituState.goalPos[2] += coss(o->oMoveAngleYaw)*800.0f + coss(o->oMoveAngleYaw - 0x4000)*150.0f;
+
+                gLakituState.goalFocus[0] += sins(o->oMoveAngleYaw - 0x4000)*150.0f;
+                gLakituState.goalFocus[2] += coss(o->oMoveAngleYaw - 0x4000)*150.0f;
+
+                gLakituState.goalFocus[1] += 140.0f;
+                gLakituState.goalPos[1] += 190.0f;
+            }
+            o->oInteractStatus = 0;
+        break;
+        case 2: // select course
+            handle_menu_scrolling(MENU_SCROLL_VERTICAL, &music_menu_index, 0, ARRAY_COUNT(music_list)-2);
+            if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
+                if (save_file_check_song_unlocked(music_menu_index)) {
+                    if (music_menu_isplaying == music_menu_index) {
+                        stop_background_music(SEQUENCE_ARGS(4, music_list[music_menu_index].seq ));
+                        music_menu_isplaying = -1;
+                    } else {
+                        stop_background_music(SEQUENCE_ARGS(4, music_list[music_menu_index].seq ));
+                        set_background_music(0, music_list[music_menu_index].seq, 0);
+                        music_menu_isplaying = music_menu_index;
+                    }
+                } else {
+                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                }
+            } else if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
+                set_mario_action(gMarioState, ACT_IDLE, 0);
+                gCamera->cutscene = 0;
+                music_menu_show_ui = FALSE;
+                o->oAction = 1;
+            }
+        break;
+    }
+}
+
+#define MUSIC_MENU_PAGE_LENGTH 7
+void render_music_menu_ui(f32 alpha) {
+    u8 page = music_menu_index/MUSIC_MENU_PAGE_LENGTH;
+    u8 page_index = music_menu_index%MUSIC_MENU_PAGE_LENGTH;
+
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
+    create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
+    gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+    gSPDisplayList(gDisplayListHead++, bigtext_menu_roundbox_004_mesh);
+    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+    // Selection Triangle
+    create_dl_translation_matrix(MENU_MTX_PUSH, 43, 190-(page_index*16), 0);
+    gSPDisplayList(gDisplayListHead++, dl_draw_triangle);
+    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+
+    for (int i = 0; i < MUSIC_MENU_PAGE_LENGTH; i++) {
+        int trueindex = (page*MUSIC_MENU_PAGE_LENGTH)+i;
+        if (trueindex >= ARRAY_COUNT(music_list)-1) {
+            continue;
+        }
+
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
+
+        if (save_file_check_song_unlocked(trueindex)) {
+            if (trueindex == music_menu_isplaying) {
+                gDPSetEnvColor(gDisplayListHead++, 0, 240, 0, 255.0f-alpha);
+                print_generic_string_ascii(55, 190-(i*16), ">");
+                print_generic_string_ascii(65, 190-(i*16), music_list[trueindex].name);
+            } else {
+                print_generic_string_ascii(55, 190-(i*16), music_list[trueindex].name);
+            }
+        } else {
+            gDPSetEnvColor(gDisplayListHead++, 200, 200, 200, 255.0f-alpha);
+            print_generic_string_ascii(55, 190-(i*16), "???");
+        }
+    }
+
+    char stringBuf[10];
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
+    sprintf( stringBuf, "(%d/%d)", page, (ARRAY_COUNT(music_list)-1)/MUSIC_MENU_PAGE_LENGTH );
+    print_generic_string_ascii(200, 78, stringBuf);
+    if (save_file_check_song_unlocked(music_menu_index)) {
+        print_generic_string_ascii(43, 58, music_list[music_menu_index].desc);
+    }
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 }

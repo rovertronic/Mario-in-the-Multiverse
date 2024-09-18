@@ -13,14 +13,12 @@ struct ObjectHitbox sStrongWindParticleHitbox = {
 };
 
 void bhv_strong_wind_particle_loop(void) {
-    struct Object *penguinObj;
-    f32 distanceFromPenguin;
-    f32 penguinXDist, penguinZDist;
+    cur_obj_become_intangible();
 
     //obj_set_hitbox(o, &sStrongWindParticleHitbox);
 
     if (o->oTimer == 0) {
-        o->oStrongWindParticlePenguinObj = cur_obj_nearest_object_with_behavior(bhvSLWalkingPenguin);
+        //o->oStrongWindParticlePenguinObj = cur_obj_nearest_object_with_behavior(bhvSLWalkingPenguin);
         obj_translate_xyz_random(o, 100.0f);
 
         o->oForwardVel = coss(o->oMoveAnglePitch) * 100.0f;
@@ -31,21 +29,21 @@ void bhv_strong_wind_particle_loop(void) {
     }
 
     cur_obj_move_using_fvel_and_gravity();
-    if (o->oTimer > 15) { // Deactivate after 15 frames
+    if (o->oTimer > 10) { // Deactivate after 10 frames
         obj_mark_for_deletion(o);
     }
 
     // If collided with the SL walking penguin, deactivate.
-    penguinObj = o->oStrongWindParticlePenguinObj;
-    if (penguinObj != NULL) {
-        penguinXDist = penguinObj->oSLWalkingPenguinWindCollisionXPos - o->oPosX;
-        penguinZDist = penguinObj->oSLWalkingPenguinWindCollisionZPos - o->oPosZ;
-        distanceFromPenguin = sqrtf(penguinXDist * penguinXDist + penguinZDist * penguinZDist);
-        if (distanceFromPenguin < 300.0f) {
-            obj_mark_for_deletion(o);
-            cur_obj_become_intangible();
-        }
-    }
+    //penguinObj = o->oStrongWindParticlePenguinObj;
+    //if (penguinObj != NULL) {
+    //    penguinXDist = penguinObj->oSLWalkingPenguinWindCollisionXPos - o->oPosX;
+    //    penguinZDist = penguinObj->oSLWalkingPenguinWindCollisionZPos - o->oPosZ;
+    //    distanceFromPenguin = sqrtf(penguinXDist * penguinXDist + penguinZDist * penguinZDist);
+    //    if (distanceFromPenguin < 300.0f) {
+    //        obj_mark_for_deletion(o);
+    //        cur_obj_become_intangible();
+    //    }
+    //}
 }
 
 // Spawn particles that blow Mario away and knock his cap off from the current object.

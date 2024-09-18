@@ -1,7 +1,6 @@
 extern const GeoLayout i_area_1_geo[];
 extern const GeoLayout i_dl_level_room1_geo[];
 extern const GeoLayout i_dl_level_room2_geo[];
-extern const GeoLayout i_dl_shotgun_geo_asm_geo[];
 extern const GeoLayout i_area_1[];
 extern const Collision i_area_1_collision[];
 extern const u8 i_area_1_collision_rooms[];

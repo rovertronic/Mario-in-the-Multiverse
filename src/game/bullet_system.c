@@ -23,6 +23,7 @@ extern Gfx bowser_f_bullet_Cube_mesh[];
 #include "ge_translation.h"
 #include "levels/B/turret_bullet/geo_header.h"
 
+#include "levels/k/header.h"
 
 //--MISC
 extern u32 sForwardKnockbackActions[][3];
@@ -35,7 +36,7 @@ extern u32 sBackwardKnockbackActions[][3];
 //-- * Data *
 
 
-#define BULLET_MAX  20
+#define BULLET_MAX  40
 
 static struct Bullet sBulletList[BULLET_MAX] = { 0 };
 static void (*sBulletParamFn)(struct Bullet *b) = NULL;
@@ -61,16 +62,16 @@ static void bullet_b_params(struct Bullet *b) {
 	b->damage        = 1;
 }
 static void bullet_f_params(struct Bullet *b) {
-	b->velF          = 50.f;
+	b->velF          = 65.f;
 	b->gravity       = 0.f;
-	b->hitSphereSize = 50.f;
+	b->hitSphereSize = 60.f;
 	b->damage        = 2;
 }
 static void bullet_k_params(struct Bullet *b) {
-	b->velF          = 0.f;
+	b->velF          = 100.f;
 	b->gravity       = 0.f;
-	b->hitSphereSize = 0.f;
-	b->damage        = 0;
+	b->hitSphereSize = 100.f;
+	b->damage        = 4;
 }
 
 void dobj_spawn_bullet(Vec3f pos, s16 rX, s16 rY) {
@@ -81,7 +82,7 @@ void dobj_spawn_bullet(Vec3f pos, s16 rX, s16 rY) {
 		b++; }
 	sBulletCount++;
 
-	b->flags |= BULLET_FLAG_ACTIVE;
+	b->flags = BULLET_FLAG_ACTIVE;
 	b->timer =  0;
 	vec3f_copy(b->pos, pos);
 
@@ -133,13 +134,11 @@ Gfx *dobj_bullets(s32 callContext) {
 			sBulletMesh    = bowser_f_bullet_Cube_mesh;
 			break;
 		
-		/*
 		case LEVEL_K:
 			sBulletParamFn = bullet_k_params;
-			sBulletMat     = NULL;
-			sBulletMesh    = NULL;
+			sBulletMat     = mat_e_sg_piece_mat_f3d_layer1;
+			sBulletMesh    = kbul_kbul_mesh;
 			break;
-		*/
 		
 		//default DL and params, basically just to prevent crashes in case someone forgets to set their DLs,\
 		  or if bullets are spawned in a level that wasn't planned to have bullets
@@ -203,7 +202,7 @@ Gfx *dobj_bullets(s32 callContext) {
 					if ((m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH)
 						|| (m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR)) {
 						//deflect
-						if (!(b->flags &=  BULLET_FLAG_DEFLECTED)) {
+						if (!(b->flags & BULLET_FLAG_DEFLECTED)) {
 							play_sound(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL, m->marioObj->header.gfx.cameraToObject);
 							b->yaw   =   b->yaw+0x8000;
 							b->velY  =  -b->velY;
@@ -306,31 +305,47 @@ Gfx *dobj_bullets(s32 callContext) {
 }
 
 s32 obj_hit_by_bullet(struct Object *obj, f32 objHitSphereSize) {
-    for (s32 i = 0; i < sBulletCount; i++) {
-        f32 dist = 0.f;
-        Vec3f pos = { obj->oPosX, obj->oPosY + (obj->hitboxRadius * 0.5f), obj->oPosZ };
+	Vec3f pos = { obj->oPosX, obj->oPosY + (obj->hitboxRadius * 0.5f), obj->oPosZ };
+	f32 dist = 0.f;
+    for (s32 i = 0; i < BULLET_MAX; i++) {
         struct Bullet *b = &sBulletList[i];
-        vec3f_get_dist(pos, b->pos, &dist);
 
-        if (dist < (b->hitSphereSize + objHitSphereSize)) {
-            return 1;
-        }
+		if (b->flags & BULLET_FLAG_ACTIVE) {
+			vec3f_get_dist(pos, b->pos, &dist);
+
+			if (dist < (b->hitSphereSize + objHitSphereSize)) {
+				return 1;
+			}
+		}
     }
     return 0;
 }
 
 s32 obj_hit_by_deflected_bullet(struct Object *obj, f32 objHitSphereSize) {
-    for (s32 i = 0; i < sBulletCount; i++) {
-        f32 dist = 0.f;
-        Vec3f pos = { obj->oPosX, obj->oPosY + (obj->hitboxRadius * 0.5f), obj->oPosZ };
+	Vec3f pos = { obj->oPosX, obj->oPosY + (obj->hitboxRadius * 0.5f), obj->oPosZ };
+	f32 dist = 0.f;
+    for (s32 i = 0; i < BULLET_MAX; i++) {
         struct Bullet *b = &sBulletList[i];
-        vec3f_get_dist(pos, b->pos, &dist);
 
-        if (dist < (b->hitSphereSize + objHitSphereSize)) {
-            if (b->flags & BULLET_FLAG_DEFLECTED) {
-                return 1;
-            }
-        }
+		if (b->flags & BULLET_FLAG_ACTIVE) {
+        	vec3f_get_dist_squared(pos, b->pos, &dist);
+			f32 hitsphere_squared = (b->hitSphereSize + objHitSphereSize)*(b->hitSphereSize + objHitSphereSize);
+
+			if (dist < hitsphere_squared) {
+				if (b->flags & BULLET_FLAG_DEFLECTED) {
+					b->flags &= ~BULLET_FLAG_ACTIVE;
+					return 1;
+				}
+			}
+		}
     }
     return 0;
 } 
+
+void reset_bullet_system(void) {
+	sBulletCount = 0;
+    for (s32 i = 0; i < BULLET_MAX; i++) {
+        struct Bullet *b = &sBulletList[i];
+		b->flags = BULLET_FLAG_NONE;
+    }
+}

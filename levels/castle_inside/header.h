@@ -196,4 +196,8 @@ extern const LevelScript level_castle_inside_entry[];
 
 #include "levels/castle_inside/redd/anim_header.h"
 
+#include "levels/castle_inside/painting_menu/header.h"
+
+#include "levels/castle_inside/bigtext_menu/header.h"
+
 #endif

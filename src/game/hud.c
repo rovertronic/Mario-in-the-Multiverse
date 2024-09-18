@@ -584,6 +584,7 @@ void render_hud_camera_status(s32 x, s32 y) {//--E
 
 u8 hudbar_star[] = {GLYPH_STAR, DIALOG_CHAR_SPACE, 0, 0, 0, DIALOG_CHAR_TERMINATOR};
 u8 hudbar_coin[] = {GLYPH_COIN, DIALOG_CHAR_SPACE, 0, 0, 0, DIALOG_CHAR_TERMINATOR};
+u8 hudbar_dc[] = {GLYPH_DC, DIALOG_CHAR_SPACE, 0, 0, 0, DIALOG_CHAR_TERMINATOR};
 
 //Warning: no automatic terminator
 void int_to_str_000(s32 num, u8 *dst) {
@@ -849,6 +850,8 @@ u8 shop_sold_out = FALSE;
 u8 hint_show_ui = FALSE;
 
 extern u8 show_mitm_credits;
+extern u8 redd_painting_show_ui;
+extern u8 music_menu_show_ui;
 
 /**
  * Render HUD strings using hudDisplayFlags with it's render functions,
@@ -1155,7 +1158,7 @@ void render_hud(void) {
         }
 #endif
 
-        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )||(shop_show_ui)||(hint_show_ui)||(show_mitm_credits)) {
+        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )||(shop_show_ui)||(hint_show_ui)||(show_mitm_credits)||(redd_painting_show_ui)||(music_menu_show_ui)) {
             hud_alpha = approach_f32_asymptotic(hud_alpha,0.0f,0.2f);
         } else {
             hud_alpha = approach_f32_asymptotic(hud_alpha,255.0f,0.2f);
@@ -1183,7 +1186,11 @@ void render_hud(void) {
 
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hud_alpha);
 
-        gSPDisplayList(gDisplayListHead++, &hudbar_hudbar_mesh);
+        if (dream_comet_unlocked()) {
+            gSPDisplayList(gDisplayListHead++, &extended_hudbar_extendedhudbar_mesh);
+        } else {
+            gSPDisplayList(gDisplayListHead++, &hudbar_hudbar_mesh);
+        }
         if (level_in_dream_comet_mode()) {
             gSPDisplayList(gDisplayListHead++, &cometbar_cometbar_mesh);
         }
@@ -1215,6 +1222,7 @@ void render_hud(void) {
             //Need to do this twice... sadge
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hud_alpha);
             int_to_str_000(gHudDisplay.stars, &hudbar_star[2]);
+            int_to_str_000(gMarioState->numDreamCatalysts, &hudbar_dc[2]);
             //--E
             int_to_str_000(hud_display_coins, &hudbar_coin[2]);
             s32 displayCoinCount = TRUE;
@@ -1224,11 +1232,18 @@ void render_hud(void) {
                         displayCoinCount = FALSE; }
                 }
             }
-            if (displayCoinCount) {
-                print_hud_lut_string(HUD_LUT_GLOBAL, 170, 14, hudbar_coin);
+
+            s16 x_offset = 0;
+            if (dream_comet_unlocked()) {
+                x_offset -= 70;
+                print_hud_lut_string(HUD_LUT_GLOBAL, 240, 14, hudbar_dc);
             }
 
-            print_hud_lut_string(HUD_LUT_GLOBAL, 240, 14, hudbar_star);
+            if (displayCoinCount) {
+                print_hud_lut_string(HUD_LUT_GLOBAL, 170+x_offset, 14, hudbar_coin);
+            }
+
+            print_hud_lut_string(HUD_LUT_GLOBAL, 240+x_offset, 14, hudbar_star);
 
         gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
 
@@ -1278,6 +1293,12 @@ void render_hud(void) {
         }
         if (show_mitm_credits) {
             print_mitm_credits(hud_alpha);
+        }
+        if (redd_painting_show_ui) {
+            render_painting_ui(hud_alpha);
+        }
+        if (music_menu_show_ui) {
+            render_music_menu_ui(hud_alpha);
         }
 
         //revert (prolly not needed)

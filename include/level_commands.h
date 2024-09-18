@@ -514,4 +514,7 @@ enum GoddardScene {
 #define BP(a, b, c, d) \
     (((a) << 24) | ((b) << 16) | ((c) << 8) | (d))
 
+#define PAINTING_WORLD_DEATH_WARP() \
+    WARP_NODE(/*id*/ 0xF1, /*destLevel*/ LEVEL_CASTLE, /*destArea*/ 0x01, /*destNode*/ 0x01, /*flags*/ WARP_NO_CHECKPOINT)
+
 #endif // LEVEL_COMMANDS_H

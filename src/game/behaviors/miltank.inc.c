@@ -49,7 +49,7 @@ static void miltank_spawn_milk_particles(s8 count, s8 offsetY, s8 forwardVelBase
 }
 
 void bhv_miltank_init(void) {
-    struct RigidBody *body = allocate_rigid_body_from_object(o, &Miltank_Ball_Mesh, 1.0f, miltank_ball_Size, FALSE);
+    struct RigidBody *body = allocate_rigid_body_from_object(o, &Miltank_Ball_Mesh, 0.4f, miltank_ball_Size, FALSE);
     if (o->oFloor->normal.y > 0.99f) body->asleep = TRUE;
     obj_set_hitbox(o, &sMiltankHitbox);
 

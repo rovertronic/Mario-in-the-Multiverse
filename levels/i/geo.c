@@ -20,7 +20,6 @@
 #include "levels/i/pigpot/geo.inc.c"
 #include "levels/i/hoodboomer_bomb/geo.inc.c"
 #include "levels/i/windmill/geo.inc.c"
-#include "levels/i/gate/geo.inc.c"
 #include "levels/i/wooden_lever/geo.inc.c"
 #include "levels/i/plum/geo.inc.c"
 #include "levels/i/caged_toad/geo.inc.c"
@@ -41,3 +40,4 @@
 #include "levels/i/dollar/geo.inc.c"
 #include "levels/i/blacklums/geo.inc.c"
 #include "levels/i/boss_gate/geo.inc.c"
+#include "levels/i/i_gate/geo.inc.c"

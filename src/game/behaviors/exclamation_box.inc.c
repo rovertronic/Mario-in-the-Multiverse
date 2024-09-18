@@ -44,6 +44,9 @@ void bhv_rotating_exclamation_mark_loop(void) {
 
 void exclamation_box_act_init(void) {
     if (o->oBehParams2ndByte < EXCLAMATION_BOX_BP_KOOPA_SHELL) {
+        // no cap boxes should spawn in mitm
+        obj_mark_for_deletion(o);
+        return;
         o->oAnimState = o->oBehParams2ndByte;
 #ifdef UNLOCK_ALL
         const u8 tangible = TRUE;

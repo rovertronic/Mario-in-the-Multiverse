@@ -46,8 +46,6 @@ const GeoLayout a_area_4_geo[] = {
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_ALPHA, a_dl_hb01_007_mesh_layer_4),
 		GEO_CLOSE_NODE(),
-		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -5403, 511, -1827, -110, -42, 93, a_dl_Plane_037_mesh_layer_1),
-		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -5311, 889, -1920, 70, -42, 88, a_dl_Plane_038_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_ALPHA, -5316, 715, -1837, -110, -42, 92, a_dl_Plane_040_mesh_layer_4),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 1111, -476, 1823, a_dl_Plane_041_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -6835, 6, 10840, a_dl_Plane_042_mesh_layer_1),

@@ -712,7 +712,7 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
                 else if (
                     /* Hardcoded list of areas that warp you out */
                     (gCurrLevelNum == LEVEL_G && gCurrAreaIndex == 5) ||
-                    (gCurrLevelNum == LEVEL_A && gCurrAreaIndex == 7) ||
+                    (gCurrLevelNum == LEVEL_A && (gCurrAreaIndex == 3 || gCurrAreaIndex == 7)) ||
                     (gCurrLevelNum == LEVEL_I && (gCurrAreaIndex == 4 || gCurrAreaIndex == 5)) ||
                     (gCurrLevelNum == LEVEL_N) ||
                     (gCurrLevelNum == LEVEL_J && gCurrentArea->index == 7) ||

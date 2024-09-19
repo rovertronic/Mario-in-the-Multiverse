@@ -9174,6 +9174,18 @@ const BehaviorScript bhvO_Gerik[] = {
         CALL_NATIVE(bhv_o_gerik),
     END_LOOP(),
 };
+
+/* Group O; Secret Boss */
+
+extern void bhv_sb_torch(void);
+const BehaviorScript bhvSbTorch[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_sb_torch),
+    END_LOOP(),
+};
+
 /* GROUP O END */
 
 const BehaviorScript bhvCutterBlast[] = {

@@ -19,6 +19,7 @@
 #include "src/game/texscroll/bowser_course_texscroll.inc.h"
 #include "src/game/texscroll/c_texscroll.inc.h"
 #include "src/game/texscroll/k_texscroll.inc.h"
+#include "src/game/texscroll/sb_texscroll.inc.h"
 extern void scroll_textures();
 
 #endif

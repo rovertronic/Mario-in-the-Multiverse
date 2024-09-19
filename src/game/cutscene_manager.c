@@ -466,6 +466,86 @@ void cm_kirby_cutscene(void) {
     }
 }
 
+char ascii_gaster1[] = {
+"It appears...\n\
+We have an unexpected visitor."};
+char ascii_yukari1[] = {
+"It wasn't enough for you to beat Bowser\n\
+and have your happily ever after?"};
+char ascii_yukari2[] = {
+"You took it upon yourself to snoop\n\
+around the dream realm and stick your\n\
+big nose where it doesn't belong."};
+char ascii_gaster2[] = {
+"Indeed."};
+char ascii_gaster3[] = {
+"At this point, we haven't much choice\n\
+but to have you dealt with."};
+char ascii_yukari3[] = {
+"I will lop your head off and feed\n\
+it to the youkai of Gensokyo. They\n\
+will quite appreciate a healthy meal."};
+char ascii_gaster4[] = {
+"My experiments have been bottlenecked\n\
+from the lack of a human body to test.\n\
+You will be the perfect subject!"};
+
+void cm_secretboss_intro(void) {
+    switch(cm_cutscene_timer) {
+        case 0:
+            cm_camera_object = 0;
+            cm_target_camera_object = 0;
+            cm_textbox_target_speaker = CM_SPEAKER_GASTER;
+            cm_textbox_text_target = &ascii_gaster1;
+            break;
+        case 1:
+            if (cm_press_a_or_b()) {
+                cm_camera_object = 1;
+                cm_target_camera_object = 1;
+                cm_textbox_target_speaker = CM_SPEAKER_YUKARI;
+                cm_textbox_text_target = &ascii_yukari1;
+            }
+            break;
+        case 2:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_yukari2;
+            }
+            break;
+        case 3:
+            if (cm_press_a_or_b()) {
+                cm_camera_object = 0;
+                cm_target_camera_object = 0;
+                cm_textbox_target_speaker = CM_SPEAKER_GASTER;
+                cm_textbox_text_target = &ascii_gaster3;
+            }
+            break;
+        case 4:
+            if (cm_press_a_or_b()) {
+                cm_camera_object = 1;
+                cm_target_camera_object = 1;
+                cm_textbox_target_speaker = CM_SPEAKER_YUKARI;
+                cm_textbox_text_target = &ascii_yukari3;
+            }
+            break;
+        case 5:
+            if (cm_press_a_or_b()) {
+                cm_camera_object = 0;
+                cm_target_camera_object = 0;
+                cm_textbox_target_speaker = CM_SPEAKER_GASTER;
+                cm_textbox_text_target = &ascii_gaster4;
+            }
+            break;
+        case 30:
+            cm_cutscene_on = FALSE;
+            break;
+    }
+}
+
+void cm_secretboss_end(void) {
+
+}
+
+
 void cm_manager_object_loop(void) {
     if (o->oAction == 0) {
         //init a cutscene
@@ -489,6 +569,12 @@ void cm_manager_object_loop(void) {
         break;
         case 1:
             cm_kirby_cutscene();
+        break;
+        case 2:
+            cm_secretboss_intro();
+        break;
+        case 3:
+            cm_secretboss_end();
         break;
     }
 

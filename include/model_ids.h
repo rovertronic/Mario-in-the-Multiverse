@@ -965,4 +965,11 @@ enum {
     MODEL_REDD,
 };
 
+//SB (SECRET BOSS)
+enum {
+    MODEL_SB_STAIRS=0x151,
+    MODEL_SB_TORCH_1,
+    MODEL_SB_TORCH_2,
+};
+
 #endif // MODEL_IDS_H

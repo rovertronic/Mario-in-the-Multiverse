@@ -1137,6 +1137,14 @@ void render_hud(void) {
                             gDPSetEnvColor(gDisplayListHead++, 255, 40, 40, (u8)cm_textbox_text_alpha);
                             print_generic_string_ascii(43, 58, "Bowser:");
                             break;
+                        case CM_SPEAKER_YUKARI:
+                            gDPSetEnvColor(gDisplayListHead++, 255, 40, 200, (u8)cm_textbox_text_alpha);
+                            print_generic_string_ascii(43, 58, "Yukari Yakumo");
+                            break;
+                        case CM_SPEAKER_GASTER:
+                            gDPSetEnvColor(gDisplayListHead++, 40, 40, 40, (u8)cm_textbox_text_alpha);
+                            print_generic_string_ascii(43, 58, "W.D. Gaster:");
+                            break;
                     }
 
 

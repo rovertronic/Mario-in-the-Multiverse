@@ -876,6 +876,9 @@ extern const BehaviorScript bhvOgarage[];
 extern const BehaviorScript bhvOspeaker[];
 extern const BehaviorScript bhvOeasystreetcontroller[];
 extern const BehaviorScript bhvO_Gerik[];
+/* O; Secret Boss*/
+extern const BehaviorScript bhvSbTorch[];
+
 /* GROUP O END */
 
 extern const BehaviorScript bhvGCannon[];

@@ -118,7 +118,9 @@ struct mitm_level_data mitm_levels[] = {
             LEVEL_BOWSER_COURSE,  COURSE_BITDW, 0, 0,   37,         1,     NULL},
    /*HUB*/{"FRACTURE", NULL, NULL,
             NULL,     COURSE_BITFS, 0,       0,         34,         2,     NULL},
-   /*PW*/ {"PAINTING WORLD", NULL, NULL,
+    /*PW*/{"PAINTING WORLD", NULL, NULL,
+            NULL,     COURSE_NONE,  0,       0,         36,         0,     NULL},
+    /*SB*/{"GAPS AND HANDS", NULL, NULL,
             NULL,     COURSE_NONE,  0,       0,         36,         0,     NULL},
 };
 

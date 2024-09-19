@@ -69,3 +69,4 @@ DEFINE_LEVEL("BIRTHDAY", LEVEL_BIRTHDAY, COURSE_NONE, birthday, generic, 20000, 
 DEFINE_LEVEL("L", LEVEL_L, COURSE_LLL, l, generic, 20000, 0x00, 0x00, 0x00, _, sCamL) 
 DEFINE_LEVEL("BOWSER_COURSE", LEVEL_BOWSER_COURSE, COURSE_BITDW, bowser_course, generic, 20000, 0x00, 0x00, 0x00, _, sCamBowserCourse) 
 DEFINE_LEVEL("K", LEVEL_K, COURSE_SSL, k, generic, 20000, 0x00, 0x00, 0x00, _, sCamK) 
+DEFINE_LEVEL("SB", LEVEL_SB, COURSE_SB, sb, generic, 20000, 0x00, 0x00, 0x00, _, sCamSb) 

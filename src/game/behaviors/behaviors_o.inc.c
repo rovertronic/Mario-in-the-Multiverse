@@ -1241,3 +1241,25 @@ void bhv_cardstar(void) {
         break;
     }
 }
+
+/* SECRET BOSS CODE */
+
+void bhv_sb_torch(void) {
+    switch(o->oAction) {
+        case 0:
+            if (gMarioState->pos[2] > o->oPosZ-100.0f) {
+                o->oAction++;
+                o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_SB_TORCH_2];
+                o->prevObj = spawn_object(o,MODEL_RED_FLAME,bhvFlame);
+                o->prevObj->oPosX += 500.0f;
+                o->prevObj->oPosY += 160.0f;
+                o->prevObj = spawn_object(o,MODEL_RED_FLAME,bhvFlame);
+                o->prevObj->oPosX -= 500.0f;
+                o->prevObj->oPosY += 160.0f;
+            }
+            break;
+        case 1:
+
+            break;
+    }
+}

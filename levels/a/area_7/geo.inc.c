@@ -15,6 +15,8 @@ const GeoLayout a_area_7_geo[] = {
 			GEO_DISPLAY_LIST(LAYER_OPAQUE, a_dl_order_station_mesh_layer_1),
 			GEO_DISPLAY_LIST(LAYER_ALPHA, a_dl_order_station_mesh_layer_4),
 		GEO_CLOSE_NODE(),
+		GEO_ASM(0, e__shotgun_effects),
+		GEO_TRANSLATE_ROTATE(LAYER_OPAQUE, -51556, -2494, 26809, 0, 90, 0),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 1415, 206, 1589, 0, -180, 0, a_dl_table_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 1665, 206, 780, 0, 90, 0, a_dl_table_001_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 1344, 206, -622, 0, -180, 0, a_dl_table_002_mesh_layer_1),

@@ -6968,7 +6968,7 @@ const BehaviorScript bhvFloatingCheckerPlatform[] = {
 extern const struct Animation *const kingjelly_anims[];
 const BehaviorScript bhvKingJelly[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_NO_DREAM_COMET)),
     SCALE(0, 400),
     ANIMATE(0),
     LOAD_ANIMATIONS(oAnimations, kingjelly_anims),
@@ -7155,7 +7155,7 @@ const BehaviorScript bhvChumBucketCutscene[] = {
 void beat_em_up_object(void);
 const BehaviorScript bhvBeatEmUpObject[] = {
     BEGIN(OBJ_LIST_LEVEL),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_ABILITY_CHRONOS_SMOOTH_SLOW)),
     BEGIN_LOOP(),
         CALL_NATIVE(beat_em_up_object),
     END_LOOP(),

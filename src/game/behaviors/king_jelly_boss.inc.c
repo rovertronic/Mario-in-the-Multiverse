@@ -38,6 +38,8 @@ void king_jelly_boss_loop(void) {
     obj_set_hitbox(o, &sKingJellyBossHitbox);
     o->oAnimState = 0;
 
+    o->oFloor = NULL;
+
     switch(o->oAction) {
         case KING_JELLY_ACT_INIT:
             o->oPosY += 300.0f;

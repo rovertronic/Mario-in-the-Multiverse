@@ -63,6 +63,7 @@ u8 pipe_string_z[] = {TEXT_PIPE_Z};
 
 u8 hub_star_string[] = {0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,0xFD,DIALOG_CHAR_TERMINATOR};
 
+mitm_dream_data mitmdd_a = {{ABILITY_DEFAULT,ABILITY_MARBLE,ABILITY_NONE,ABILITY_NONE},5};
 mitm_dream_data mitmdd_b = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_BIG_DADDY,ABILITY_NONE},6};
 mitm_dream_data mitmdd_c = {{ABILITY_DEFAULT,ABILITY_PHASEWALK,ABILITY_NONE,ABILITY_NONE},5};
 mitm_dream_data mitmdd_d = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_AKU,ABILITY_NONE},7};
@@ -86,7 +87,7 @@ struct mitm_level_data mitm_levels[] = {
     /*G*/ {"MARIO SUPER STAR ULTRA", "CowQuack", "CowQuack",
             LEVEL_G,  COURSE_BOB,   0,       3,         20,         8,     &mitmdd_g},
     /*A*/ {"MARIO IN BIKINI BOTTOM", "JoshTheBosh", "JoshTheBosh",
-            LEVEL_A,  COURSE_WF,    1,       1,         21,         8,     NULL},
+            LEVEL_A,  COURSE_WF,    1,       1,         21,         8,     &mitmdd_a},
     /*C*/ {"PIRANHA PIT", "Drahnokks, Idea by: Woissil", "Drahnokks & Co.",
             LEVEL_C,  COURSE_JRB,   1,       1,         22,         8,     &mitmdd_c},
     /*I*/ {"MUSHROOM HAVOC", "Drahnokks", "Drahnokks",

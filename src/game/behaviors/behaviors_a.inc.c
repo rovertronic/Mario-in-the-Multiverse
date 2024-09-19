@@ -1106,7 +1106,7 @@ static struct ObjectHitbox sAUFOHitbox = {
     /* damageOrCoinValue: */ 1,
     /* health:            */ 1,
     /* numLootCoins:      */ 1,
-    /* radius:            */ 80,
+    /* radius:            */ 40,
     /* height:            */ 90,
     /* hurtboxRadius:     */ 70,
     /* hurtboxHeight:     */ 80,
@@ -1129,6 +1129,12 @@ void a_ufo_robot_loop(void) {
     
     if (gMarioObject->platform == o) {
         if (gMarioState->action == ACT_GROUND_POUND_LAND) {
+            o->oAction = 2;
+            robotsKilled++;
+            cur_obj_play_sound_2(SOUND_GENERAL_BREAK_BOX);
+        }
+    } else {
+        if (o->oShotByShotgun > 0) {
             o->oAction = 2;
             robotsKilled++;
             cur_obj_play_sound_2(SOUND_GENERAL_BREAK_BOX);
@@ -1177,6 +1183,8 @@ void a_ufo_robot_loop(void) {
     if (o->oAction == 2) {
         o->header.gfx.scale[1] = 5 * sins(o->oF8 * 0x122);
     }
+
+    o->oShotByShotgun = 0;
 }
 
 // Chum bucket cutscene
@@ -1432,7 +1440,7 @@ void ham_robot_loop(void) {
             cur_obj_init_animation(ANIM_A_HAM_ROBOT_IDLE);
             break;
         case 1 /* FOUND MARIO*/:
-            if (cur_obj_was_attacked_or_ground_pounded()) {
+            if (cur_obj_was_attacked_or_ground_pounded() || (o->oShotByShotgun > 0)) {
                 o->oAction = 5;
             }
             cur_obj_init_animation(ANIM_A_HAM_ROBOT_FIND);
@@ -1445,7 +1453,7 @@ void ham_robot_loop(void) {
             }
             break;
         case 2 /* FOLLOW MARIO */:
-            if (cur_obj_was_attacked_or_ground_pounded()) {
+            if (cur_obj_was_attacked_or_ground_pounded() || (o->oShotByShotgun > 0)) {
                 o->oAction = 5;
             }
             cur_obj_init_animation(ANIM_A_HAM_ROBOT_WALK);
@@ -1458,11 +1466,11 @@ void ham_robot_loop(void) {
             break;
         case 3 /* WACK HAMMER */:
             o->oForwardVel = 0;
-            if (cur_obj_was_attacked_or_ground_pounded()) {
+            if (cur_obj_was_attacked_or_ground_pounded() || (o->oShotByShotgun > 0)) {
                 o->oAction = 5;
             }
             if (o->header.gfx.animInfo.animFrame < 22) {
-                if (cur_obj_was_attacked_or_ground_pounded()) {
+                if (cur_obj_was_attacked_or_ground_pounded() || (o->oShotByShotgun > 0)) {
                     o->oAction = 5;
                 }
             }
@@ -1476,7 +1484,7 @@ void ham_robot_loop(void) {
             break;
         case 4 /* GET BACK UP */:
             cur_obj_init_animation(ANIM_A_HAM_ROBOT_GET_UP);
-            if (cur_obj_was_attacked_or_ground_pounded()) {
+            if (cur_obj_was_attacked_or_ground_pounded() || (o->oShotByShotgun > 0)) {
                 o->oAction = 5;
             }
             if (o->oTimer == 29) {
@@ -1503,6 +1511,7 @@ void ham_robot_loop(void) {
             spawn_mist_particles();    
             break;
     }
+    o->oShotByShotgun = 0;
 }
 
 // Launched box
@@ -1658,14 +1667,14 @@ void a_dog_robot_loop(void) {
             if ((o->oDistanceToMario > 1000.f) && (cur_obj_check_if_near_animation_end())) {
                 o->oAction = 0;
             }
-            if (cur_obj_was_attacked_or_ground_pounded()) {
+            if (cur_obj_was_attacked_or_ground_pounded() || (o->oShotByShotgun > 0)) {
                 o->oAction = 3;
             }
             break;
         case 2 /* ATTACK */:
             o->oForwardVel = 0;
             cur_obj_rotate_yaw_toward(o->oAngleToMario, 0x600);
-            if (cur_obj_was_attacked_or_ground_pounded()) {
+            if (cur_obj_was_attacked_or_ground_pounded() || (o->oShotByShotgun > 0)) {
                 o->oAction = 3;
             }
             if (cur_obj_check_anim_frame(39)) {

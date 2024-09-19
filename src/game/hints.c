@@ -106,9 +106,9 @@ time your ground pounds right to get them all.",
 },
 
 {
-"Behind the Chum Bucket, you'll find a star behind\n\
-some bars. Use the Phasewalk's vanish properties\n\
-to pass through the bars and get the star.",
+"Phasewalk into the Chum Bucket. You'll have to\n\
+fight waves of robots. Beware of the green UFO!\n\
+Ground-pound it without touching the center. ",
 (ABILITY_FLAG_PHASEWALK)
 },
 

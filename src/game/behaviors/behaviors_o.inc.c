@@ -1256,6 +1256,7 @@ void bhv_sb_torch(void) {
                 o->prevObj = spawn_object(o,MODEL_RED_FLAME,bhvFlame);
                 o->prevObj->oPosX -= 500.0f;
                 o->prevObj->oPosY += 160.0f;
+                cur_obj_play_sound_2(SOUND_OBJ_FLAME_BLOWN);
             }
             break;
         case 1:

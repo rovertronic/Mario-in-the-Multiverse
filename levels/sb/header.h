@@ -15,4 +15,6 @@ extern const LevelScript level_sb_entry[];
 
 #include "levels/sb/sb_torch_2/geo_header.h"
 
+#include "levels/sb/sb_gaster/geo_header.h"
+
 #endif

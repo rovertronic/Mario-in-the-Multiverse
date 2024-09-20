@@ -19,3 +19,4 @@
 #include "levels/sb/sb_stairs/geo.inc.c"
 #include "levels/sb/sb_torch_1/geo.inc.c"
 #include "levels/sb/sb_torch_2/geo.inc.c"
+#include "levels/sb/sb_gaster/geo.inc.c"

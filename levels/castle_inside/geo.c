@@ -36,3 +36,5 @@
 
 #include "levels/castle_inside/hub_target_box/geo.inc.c"
 #include "levels/castle_inside/redd/geo.inc.c"
+#include "levels/castle_inside/mumbo/geo.inc.c"
+#include "levels/castle_inside/synthesizer/geo.inc.c"

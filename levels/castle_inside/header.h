@@ -200,4 +200,12 @@ extern const LevelScript level_castle_inside_entry[];
 
 #include "levels/castle_inside/bigtext_menu/header.h"
 
+#include "levels/castle_inside/mumbo/geo_header.h"
+
+#include "levels/castle_inside/mumbo/anim_header.h"
+
+#include "levels/castle_inside/synthesizer/geo_header.h"
+
+#include "levels/castle_inside/synthesizer/collision_header.h"
+
 #endif

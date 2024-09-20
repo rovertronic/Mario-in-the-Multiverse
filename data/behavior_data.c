@@ -6874,6 +6874,30 @@ const BehaviorScript bhvRedd[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvMumbo[] = {
+	BEGIN(OBJ_LIST_GENACTOR),
+	OR_INT(oFlags, OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_ANIMATIONS(oAnimations, mumbo_anims),
+    ANIMATE(0),
+    SET_INTERACT_TYPE(INTERACT_TEXT),
+    SET_INT(oInteractionSubtype, INT_SUBTYPE_NPC),
+    SET_HITBOX(/*Radius*/ 175, /*Height*/ 250),
+    SPAWN_CHILD(MODEL_SYNTHESIZER, bhvSynthesizer),
+	BEGIN_LOOP(),
+		SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_music_menu_loop),
+	END_LOOP(),
+};
+
+const BehaviorScript bhvSynthesizer[] = {
+	BEGIN(OBJ_LIST_SURFACE),
+	OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+	LOAD_COLLISION_DATA(synthesizer_collision),
+	BEGIN_LOOP(),
+		//CALL_NATIVE(load_object_collision_model),
+	END_LOOP(),
+};
+
 /* GROUP A START */
 extern const struct Animation *const jelly_anims[];
 const BehaviorScript bhvJelly[] = {

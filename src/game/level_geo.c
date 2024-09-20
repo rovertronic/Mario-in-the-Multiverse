@@ -505,3 +505,40 @@ Gfx *geo_update_k_rainbow_triangles(s32 callContext, struct GraphNode *node, UNU
     }
     return NULL;
 }
+
+//Mat4 sb_sky_rotation;
+//Mat4 sb_sky_rot_offset;
+
+//SB sky
+extern u8 sbsky_envcolor;
+extern Gfx sbsky_sbsky_mesh[];
+Gfx *geo_update_sb_sky(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    if (callContext == GEO_CONTEXT_CREATE) {
+        //mtxf_identity(sb_sky_rotation);
+
+        //Vec3f zro = {0,0,0};
+        //Vec3s rot = {0x100,0x20,0x0};
+        //mtxf_rotate_xyz_and_translate(sb_sky_rot_offset,zro,rot);
+    }
+    if (callContext == GEO_CONTEXT_RENDER) {
+        Mat4 sb_sky_matrix;
+        mtxf_identity(sb_sky_matrix);
+        
+        //mtxf_mul(sb_sky_rotation,sb_sky_rot_offset,sb_sky_rotation);
+        //mtxf_mul(sb_sky_matrix,sb_sky_rotation,sb_sky_matrix);
+
+        vec3f_copy(&sb_sky_matrix[3][0],gCurGraphNodeCamera->pos);
+        mtxf_to_mtx(&cool_matrix,sb_sky_matrix);
+
+        //guTranslate(&cool_matrix, gCurGraphNodeCamera->pos[0], gCurGraphNodeCamera->pos[1], gCurGraphNodeCamera->pos[2]);
+
+        gSPMatrix(&cool_display_list[0], &cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+        gDPSetEnvColor(&cool_display_list[1],sbsky_envcolor,sbsky_envcolor,sbsky_envcolor,255);
+        gSPDisplayList(&cool_display_list[2], segmented_to_virtual(sbsky_sbsky_mesh));
+        gSPPopMatrix(&cool_display_list[3], G_MTX_MODELVIEW);
+        gSPEndDisplayList(&cool_display_list[4]);
+
+        geo_append_display_list(cool_display_list, LAYER_FORCE);
+    }
+    return NULL;
+}

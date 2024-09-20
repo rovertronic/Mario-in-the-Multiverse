@@ -1142,7 +1142,7 @@ void render_hud(void) {
                             print_generic_string_ascii(43, 58, "Yukari Yakumo");
                             break;
                         case CM_SPEAKER_GASTER:
-                            gDPSetEnvColor(gDisplayListHead++, 40, 40, 40, (u8)cm_textbox_text_alpha);
+                            gDPSetEnvColor(gDisplayListHead++, 255, 255, 40, (u8)cm_textbox_text_alpha);
                             print_generic_string_ascii(43, 58, "W.D. Gaster:");
                             break;
                     }

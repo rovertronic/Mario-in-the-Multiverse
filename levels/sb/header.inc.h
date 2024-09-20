@@ -3,7 +3,7 @@ extern const GeoLayout sb_area_1[];
 extern const Collision sb_area_1_collision[];
 extern const MacroObject sb_area_1_macro_objs[];
 extern u8 sb_dl_whiteconk_i8[];
-extern Vtx sb_dl_pineapple_mesh_layer_1_vtx_0[196];
+extern Vtx sb_dl_pineapple_mesh_layer_1_vtx_0[249];
 extern Gfx sb_dl_pineapple_mesh_layer_1_tri_0[];
 extern Gfx mat_sb_dl_conc[];
 extern Gfx mat_revert_sb_dl_conc[];

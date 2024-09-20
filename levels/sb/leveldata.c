@@ -17,3 +17,4 @@
 #include "levels/sb/sb_torch_1/model.inc.c"
 #include "levels/sb/sb_torch_2/model.inc.c"
 #include "levels/sb/sb_gaster/model.inc.c"
+#include "levels/sb/sbsky/model.inc.c"

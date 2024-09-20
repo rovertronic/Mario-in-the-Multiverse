@@ -473,9 +473,12 @@ char ascii_yukari1[] = {
 "It wasn't enough for you to beat Bowser\n\
 and have your happily ever after?"};
 char ascii_yukari2[] = {
-"You took it upon yourself to snoop\n\
-around the dream realm and stick your\n\
-big nose where it doesn't belong."};
+"You took it upon yourself to snoop around\n\
+the dream realm..."};
+char ascii_yukari2_1[] = {
+"...and stick your big nose\n\
+where it does not belong."};
+
 char ascii_gaster2[] = {
 "Indeed."};
 char ascii_gaster3[] = {
@@ -513,29 +516,37 @@ void cm_secretboss_intro(void) {
             break;
         case 3:
             if (cm_press_a_or_b()) {
-                cm_camera_object = 0;
+                cm_textbox_text_target = &ascii_yukari2_1;
+            }
+            break;
+        case 4:
+            if (cm_press_a_or_b()) {
                 cm_target_camera_object = 0;
                 cm_textbox_target_speaker = CM_SPEAKER_GASTER;
                 cm_textbox_text_target = &ascii_gaster3;
             }
             break;
-        case 4:
+        case 5:
             if (cm_press_a_or_b()) {
-                cm_camera_object = 1;
                 cm_target_camera_object = 1;
                 cm_textbox_target_speaker = CM_SPEAKER_YUKARI;
                 cm_textbox_text_target = &ascii_yukari3;
             }
             break;
-        case 5:
+        case 6:
             if (cm_press_a_or_b()) {
-                cm_camera_object = 0;
                 cm_target_camera_object = 0;
                 cm_textbox_target_speaker = CM_SPEAKER_GASTER;
                 cm_textbox_text_target = &ascii_gaster4;
             }
             break;
-        case 30:
+        case 7:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = NULL;
+            }
+            break;
+        case 60:
+            set_mario_action(gMarioState,ACT_IDLE,0);
             cm_cutscene_on = FALSE;
             break;
     }

@@ -878,6 +878,9 @@ extern const BehaviorScript bhvOeasystreetcontroller[];
 extern const BehaviorScript bhvO_Gerik[];
 /* O; Secret Boss*/
 extern const BehaviorScript bhvSbTorch[];
+extern const BehaviorScript bhvSbGaster[];
+extern const BehaviorScript bhvSbYukari[];
+extern const BehaviorScript bhvSbManager[];
 
 /* GROUP O END */
 

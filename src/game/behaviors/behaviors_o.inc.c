@@ -1264,3 +1264,57 @@ void bhv_sb_torch(void) {
             break;
     }
 }
+
+enum {
+    SB_ACT_INIT,
+    SB_ACT_WAIT,
+    SB_ACT_CUTSCENE,
+    SB_ACT_BATTLE_MAIN,
+};
+
+u8 sbsky_envcolor = 0;
+extern u8 cm_cutscene_on;
+struct Object * gasterObj = NULL;
+struct Object * yukariObj = NULL;
+void bhv_sb_manager(void) {
+    switch(o->oAction) {
+        case SB_ACT_INIT:
+            sbsky_envcolor = 0;
+            o->oAction = SB_ACT_WAIT;
+            break;
+        case SB_ACT_WAIT:
+            if (o->oDistanceToMario < 2500.0f) {
+                struct Object * cutscene = spawn_object(o,MODEL_NONE,bhvCutsceneManager);
+                cutscene->oBehParams2ndByte = 2;
+                o->oAction = SB_ACT_CUTSCENE;
+            }
+            break;
+        case SB_ACT_CUTSCENE:
+            {
+                //somewhat lazy way of clearing out the entryway
+                struct Object * deleteit;
+                deleteit = cur_obj_nearest_object_with_behavior(bhvStaticObject);
+                if (deleteit) {
+                    obj_mark_for_deletion(deleteit);
+                }
+                deleteit = cur_obj_nearest_object_with_behavior(bhvSbTorch);
+                if (deleteit) {
+                    obj_mark_for_deletion(deleteit);
+                }
+                deleteit = cur_obj_nearest_object_with_behavior(bhvFlame);
+                if (deleteit) {
+                    obj_mark_for_deletion(deleteit);
+                }
+
+                if (o->oTimer > 2 && !cm_cutscene_on) {
+                    o->oAction = SB_ACT_BATTLE_MAIN;
+                }
+            }
+            break;
+        case SB_ACT_BATTLE_MAIN:
+            if (sbsky_envcolor < 255) {
+                sbsky_envcolor ++;
+            }
+            break;
+    }
+}

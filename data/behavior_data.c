@@ -9186,6 +9186,40 @@ const BehaviorScript bhvSbTorch[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvSbGaster[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    LOAD_ANIMATIONS(oAnimations, humanoid_anims),
+    ANIMATE(1),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        //CALL_NATIVE(bhv_k_strong_terry),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvSbYukari[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    LOAD_ANIMATIONS(oAnimations, humanoid_anims),
+    ANIMATE(1),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        //CALL_NATIVE(bhv_k_strong_terry),
+    END_LOOP(),
+};
+
+extern void bhv_sb_manager(void);
+const BehaviorScript bhvSbManager[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    LOAD_ANIMATIONS(oAnimations, humanoid_anims),
+    ANIMATE(1),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_sb_manager),
+    END_LOOP(),
+};
+
 /* GROUP O END */
 
 const BehaviorScript bhvCutterBlast[] = {

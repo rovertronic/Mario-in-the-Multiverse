@@ -112,3 +112,8 @@
 #include "levels/castle_inside/redd/anims/table.inc.c"
 #include "levels/castle_inside/painting_menu/model.inc.c"
 #include "levels/castle_inside/bigtext_menu/model.inc.c"
+#include "levels/castle_inside/mumbo/model.inc.c"
+#include "levels/castle_inside/mumbo/anims/data.inc.c"
+#include "levels/castle_inside/mumbo/anims/table.inc.c"
+#include "levels/castle_inside/synthesizer/model.inc.c"
+#include "levels/castle_inside/synthesizer/collision.inc.c"

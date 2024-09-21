@@ -724,6 +724,7 @@ void bhv_f_heli(void) {
 
     switch(o->oAction) {
         case 0: //Hidden. Wait until proper conditions are met for the battle to start.
+            cur_obj_become_intangible();
             o->oAnimState = 1;
             cur_obj_hide();
             obj_set_hitbox(o, &sHelicopterHitbox);
@@ -757,6 +758,7 @@ void bhv_f_heli(void) {
             }
             break;
         case 1: //Drop in cutscene.
+            cur_obj_become_tangible();
             o->oPosY = approach_f32_asymptotic(o->oPosY,o->oHomeY-800.0f,0.02f);
             vec3f_copy(&gLakituState.goalFocus,&o->oPosVec);
             vec3f_copy(&gLakituState.goalPos,&o->oHomeVec);

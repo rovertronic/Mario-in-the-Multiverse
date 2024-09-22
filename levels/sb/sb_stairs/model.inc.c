@@ -763,7 +763,7 @@ u8 sb_stairs_yukaribow_pal_rgba16[] = {
 	0xa8, 0x02, 0xb0, 0x00, 
 };
 
-Vtx sb_stairs_hide_at_fight_start_mesh_layer_1_vtx_0[1872] = {
+Vtx sb_stairs_hide_at_fight_start_mesh_layer_1_vtx_0[1876] = {
 	{{ {215, -373, -2584}, 0, {1794, 5221}, {255, 255, 255, 255} }},
 	{{ {179, -373, -2536}, 0, {1578, 5516}, {255, 255, 255, 255} }},
 	{{ {215, -373, -2536}, 0, {1794, 5516}, {255, 255, 255, 255} }},
@@ -2636,6 +2636,10 @@ Vtx sb_stairs_hide_at_fight_start_mesh_layer_1_vtx_0[1872] = {
 	{{ {58, 1971, 4641}, 0, {1415, 714}, {0, 0, 0, 255} }},
 	{{ {2, 1971, 4641}, 0, {1008, 714}, {0, 0, 0, 255} }},
 	{{ {2, 1971, 4581}, 0, {1008, 278}, {0, 0, 0, 255} }},
+	{{ {-8751, 2584, 5039}, 0, {-16, 1008}, {0, 0, 0, 255} }},
+	{{ {8755, 2584, 5039}, 0, {1008, 1008}, {0, 0, 0, 255} }},
+	{{ {8755, -2824, 5039}, 0, {1008, -16}, {0, 0, 0, 255} }},
+	{{ {-8751, -2824, 5039}, 0, {-16, -16}, {0, 0, 0, 255} }},
 };
 
 Gfx sb_stairs_hide_at_fight_start_mesh_layer_1_tri_0[] = {
@@ -3874,6 +3878,9 @@ Gfx sb_stairs_hide_at_fight_start_mesh_layer_1_tri_0[] = {
 	gsSP1Triangle(8, 10, 11, 0),
 	gsSP1Triangle(12, 13, 14, 0),
 	gsSP1Triangle(12, 14, 15, 0),
+	gsSPVertex(sb_stairs_hide_at_fight_start_mesh_layer_1_vtx_0 + 1872, 4, 0),
+	gsSP1Triangle(0, 1, 2, 0),
+	gsSP1Triangle(0, 2, 3, 0),
 	gsSPEndDisplayList(),
 };
 

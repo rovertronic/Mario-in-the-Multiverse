@@ -6,6 +6,7 @@ const GeoLayout sb_area_1_geo[] = {
 		GEO_ASM(0, e__shotgun_effects),
 		GEO_ASM(0, geo_update_sb_sky),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, sb_dl_pineapple_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, sb_dl_pineapple_mesh_layer_5),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

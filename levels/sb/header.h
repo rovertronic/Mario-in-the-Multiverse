@@ -19,4 +19,12 @@ extern const LevelScript level_sb_entry[];
 
 #include "levels/sb/sbsky/header.h"
 
+#include "levels/sb/sb_yukari/geo_header.h"
+
+#include "levels/sb/sb_humanoid/anim_header.h"
+
+#include "levels/sb/sb_train/geo_header.h"
+
+#include "levels/sb/sb_train/collision_header.h"
+
 #endif

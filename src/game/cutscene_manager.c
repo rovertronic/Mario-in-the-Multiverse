@@ -484,14 +484,6 @@ char ascii_gaster2[] = {
 char ascii_gaster3[] = {
 "At this point, we haven't much choice\n\
 but to have you dealt with."};
-char ascii_yukari3[] = {
-"I will lop your head off and feed\n\
-it to the youkai of Gensokyo. They\n\
-will quite appreciate a healthy meal."};
-char ascii_gaster4[] = {
-"My experiments have been bottlenecked\n\
-from the lack of a human body to test.\n\
-You will be the perfect subject!"};
 
 void cm_secretboss_intro(void) {
     switch(cm_cutscene_timer) {
@@ -527,20 +519,6 @@ void cm_secretboss_intro(void) {
             }
             break;
         case 5:
-            if (cm_press_a_or_b()) {
-                cm_target_camera_object = 1;
-                cm_textbox_target_speaker = CM_SPEAKER_YUKARI;
-                cm_textbox_text_target = &ascii_yukari3;
-            }
-            break;
-        case 6:
-            if (cm_press_a_or_b()) {
-                cm_target_camera_object = 0;
-                cm_textbox_target_speaker = CM_SPEAKER_GASTER;
-                cm_textbox_text_target = &ascii_gaster4;
-            }
-            break;
-        case 7:
             if (cm_press_a_or_b()) {
                 cm_textbox_text_target = NULL;
             }

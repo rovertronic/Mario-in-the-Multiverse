@@ -5,7 +5,7 @@ extern u8 sb_stairs_yukarigap_pal_rgba16[];
 extern u8 sb_stairs_portalframe_i8[];
 extern u8 sb_stairs_yukaribow_ci8[];
 extern u8 sb_stairs_yukaribow_pal_rgba16[];
-extern Vtx sb_stairs_hide_at_fight_start_mesh_layer_1_vtx_0[1872];
+extern Vtx sb_stairs_hide_at_fight_start_mesh_layer_1_vtx_0[1876];
 extern Gfx sb_stairs_hide_at_fight_start_mesh_layer_1_tri_0[];
 extern Vtx sb_stairs_hide_at_fight_start_mesh_layer_1_vtx_1[230];
 extern Gfx sb_stairs_hide_at_fight_start_mesh_layer_1_tri_1[];

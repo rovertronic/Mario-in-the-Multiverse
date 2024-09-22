@@ -70,6 +70,7 @@
 #include "levels/k/header.h"
 #include "levels/bowser_course/header.h"
 #include "levels/c/header.h"
+#include "levels/sb/header.h"
 
 #include "make_const_nonconst.h"
 #include "behavior_data.h"
@@ -9213,8 +9214,8 @@ const BehaviorScript bhvSbTorch[] = {
 const BehaviorScript bhvSbGaster[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
-    LOAD_ANIMATIONS(oAnimations, humanoid_anims),
-    ANIMATE(1),
+    LOAD_ANIMATIONS(oAnimations, sb_humanoid_anims),
+    ANIMATE(0),
     SET_HOME(),
     BEGIN_LOOP(),
         //CALL_NATIVE(bhv_k_strong_terry),
@@ -9224,8 +9225,8 @@ const BehaviorScript bhvSbGaster[] = {
 const BehaviorScript bhvSbYukari[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
-    LOAD_ANIMATIONS(oAnimations, humanoid_anims),
-    ANIMATE(1),
+    LOAD_ANIMATIONS(oAnimations, sb_humanoid_anims),
+    ANIMATE(0),
     SET_HOME(),
     BEGIN_LOOP(),
         //CALL_NATIVE(bhv_k_strong_terry),

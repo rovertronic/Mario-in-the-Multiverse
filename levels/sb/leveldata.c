@@ -18,3 +18,8 @@
 #include "levels/sb/sb_torch_2/model.inc.c"
 #include "levels/sb/sb_gaster/model.inc.c"
 #include "levels/sb/sbsky/model.inc.c"
+#include "levels/sb/sb_yukari/model.inc.c"
+#include "levels/sb/sb_humanoid/anims/data.inc.c"
+#include "levels/sb/sb_humanoid/anims/table.inc.c"
+#include "levels/sb/sb_train/model.inc.c"
+#include "levels/sb/sb_train/collision.inc.c"

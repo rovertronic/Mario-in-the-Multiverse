@@ -1,14 +1,14 @@
-void scroll_sb_gap_Plane_mesh_layer_4_vtx_0() {
+void scroll_sb_gap_Plane_mesh_layer_5_vtx_0() {
 	int i = 0;
-	int count = 8;
-	int width = 64 * 0x20;
+	int count = 138;
+	int width = 32 * 0x20;
 	int height = 32 * 0x20;
 
 	static int currentX = 0;
 	int deltaX;
 	static int currentY = 0;
 	int deltaY;
-	Vtx *vertices = segmented_to_virtual(sb_gap_Plane_mesh_layer_4_vtx_0);
+	Vtx *vertices = segmented_to_virtual(sb_gap_Plane_mesh_layer_5_vtx_0);
 
 	deltaX = (int)(0.20000000298023224 * 0x20) % width;
 	deltaY = (int)(0.20000000298023224 * 0x20) % height;
@@ -28,5 +28,5 @@ void scroll_sb_gap_Plane_mesh_layer_4_vtx_0() {
 }
 
 void scroll_sb_level_geo_sb_gap() {
-	scroll_sb_gap_Plane_mesh_layer_4_vtx_0();
+	scroll_sb_gap_Plane_mesh_layer_5_vtx_0();
 };

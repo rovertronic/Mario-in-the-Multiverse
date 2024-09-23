@@ -29,4 +29,6 @@ extern const LevelScript level_sb_entry[];
 
 #include "levels/sb/sb_gap/geo_header.h"
 
+#include "levels/sb/sbdm/header.h"
+
 #endif

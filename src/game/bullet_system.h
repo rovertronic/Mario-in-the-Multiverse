@@ -28,6 +28,13 @@ struct Bullet {
     u32   damage : 4;
 };
 
+struct Danmaku {
+    Vec3f pos;
+    Vec3f vel;
+    u8 type;
+    u8 flags;
+    u8 timer;
+};
 
 void dobj_spawn_bullet(Vec3f pos, s16 rX, s16 rY);
 
@@ -36,5 +43,7 @@ Gfx *dobj_bullets(s32 callContext);
 s32 obj_hit_by_deflected_bullet(struct Object *obj, f32 objHitSphereSize);
 s32 obj_hit_by_bullet(struct Object *obj, f32 objHitSphereSize);
 void reset_bullet_system(void);
+
+Gfx *geo_danmaku(s32 callContext, struct GraphNode *node, UNUSED void *context);
 
 #endif //BULLET_SYSTEM_H

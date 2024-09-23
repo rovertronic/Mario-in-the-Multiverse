@@ -349,3 +349,69 @@ void reset_bullet_system(void) {
 		b->flags = BULLET_FLAG_NONE;
     }
 }
+
+#define DANMAKU_MAX 500
+struct Danmaku danmaku_array[DANMAKU_MAX];
+
+void create_danmaku(Vec3f pos, Vec3f vel) {
+	for (int i = 0; i < DANMAKU_MAX; i++) {
+		if (!(danmaku_array[i].flags & 1)) {
+			danmaku_array[i].flags = 1;
+			vec3f_copy(danmaku_array[i].pos,pos);
+			vec3f_copy(danmaku_array[i].vel,vel);
+			return;
+		}
+	}
+}
+
+extern Gfx sbdm_dm_mesh[];
+Gfx *geo_danmaku(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+	switch (callContext) {
+	case GEO_CONTEXT_AREA_LOAD:
+		bzero(danmaku_array,DANMAKU_MAX*(sizeof(struct Danmaku)));
+		break;
+	case GEO_CONTEXT_RENDER:
+	  {
+		s32 update = ((!((gTimeStopState & TIME_STOP_ACTIVE)
+						|| (gCameraMovementFlags & CAM_MOVE_PAUSE_SCREEN)))
+						&& ability_chronos_frame_can_progress());
+
+		//allocate DL
+		Gfx *dlS = alloc_display_list((1 + (DANMAKU_MAX * 3) + 8) * sizeof(Gfx));
+		if (dlS == NULL) { return NULL; }
+        Gfx *dlH = dlS;
+
+		//gSPDisplayList(dlH++, sBulletMat);
+		if (update) {
+			for (int i = 0; i < DANMAKU_MAX; i++) {
+				if (danmaku_array[i].flags & 1) { 
+					struct Danmaku * d = &danmaku_array[i];
+					vec3f_add(d->pos,d->vel);
+					d->timer ++;
+					if (d->timer > 120) {
+						d->flags = 0;
+						d->timer = 0;
+					}
+
+					Mat4  mtxf;
+					Vec3s angle = { 0/*(atan2s(b->velY, b->velF) + DEGREES(270))*/, atan2s(d->vel[2],d->vel[0]), 0 };
+					mtxf_rotate_zxy_and_translate(mtxf, d->pos, angle);
+					RENDER_GE(sbdm_dm_mesh, 2.f)
+				}
+			}
+		}
+
+		gSPGeometryMode(dlH++, G_TEXTURE_GEN, G_CULL_BACK | G_LIGHTING);
+		gDPSetCycleType(dlH++, G_CYC_1CYCLE);
+		gDPSetRenderMode(dlH++, G_RM_AA_ZB_XLU_INTER, G_RM_AA_ZB_XLU_INTER2);
+		gSPSetGeometryMode(dlH++, G_LIGHTING);
+		gSPClearGeometryMode(dlH++, G_TEXTURE_GEN);
+		gDPSetCombineLERP(dlH++, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT);
+		gSPTexture(dlH++, 65535, 65535, 0, 0, 0);
+		gSPEndDisplayList(dlH);
+		return dlS;
+	  }
+	}
+
+	return NULL;
+}

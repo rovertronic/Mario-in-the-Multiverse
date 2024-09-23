@@ -1244,6 +1244,8 @@ void bhv_cardstar(void) {
 
 /* SECRET BOSS CODE */
 
+#define SB_Y 2825.0f
+
 void bhv_sb_torch(void) {
     switch(o->oAction) {
         case 0:
@@ -1270,7 +1272,31 @@ enum {
     SB_ACT_WAIT,
     SB_ACT_CUTSCENE,
     SB_ACT_BATTLE_MAIN,
+    SB_ACT_ATTACK_SPIN,
 };
+
+void sb_create_train(Vec3f pos, s16 angle) {
+    struct Object * gap = spawn_object(o,MODEL_SB_GAP,bhvSbGap);
+    gap->oPosX = pos[0]+(sins(angle)*6000.0f);
+    gap->oPosY = pos[1];
+    gap->oPosZ = pos[2]+(coss(angle)*6000.0f);
+    gap->oFaceAngleYaw = angle+0x8000;
+    gap->oHealth = 130;
+
+    gap = spawn_object(o,MODEL_SB_GAP,bhvSbGap);
+    gap->oPosX = pos[0]-(sins(angle)*6000.0f);
+    gap->oPosY = pos[1];
+    gap->oPosZ = pos[2]-(coss(angle)*6000.0f);
+    gap->oFaceAngleYaw = angle;
+    gap->oHealth = 130;
+
+    //actually train, not gap
+    gap = spawn_object(o,MODEL_SB_TRAIN,bhvSbTrain);
+    gap->oPosX = pos[0]-(sins(angle)*6000.0f);
+    gap->oPosY = pos[1]+400.0f;
+    gap->oPosZ = pos[2]-(coss(angle)*6000.0f);
+    gap->oFaceAngleYaw = angle;
+}
 
 u8 sbsky_envcolor = 0;
 extern u8 cm_cutscene_on;
@@ -1281,6 +1307,8 @@ void bhv_sb_manager(void) {
         case SB_ACT_INIT:
             sbsky_envcolor = 0;
             o->oAction = SB_ACT_WAIT;
+            gasterObj = cur_obj_nearest_object_with_behavior(bhvSbGaster);
+            yukariObj = cur_obj_nearest_object_with_behavior(bhvSbYukari);
             break;
         case SB_ACT_WAIT:
             if (o->oDistanceToMario < 2500.0f) {
@@ -1312,25 +1340,54 @@ void bhv_sb_manager(void) {
             }
             break;
         case SB_ACT_BATTLE_MAIN:
-            if (sbsky_envcolor < 255) {
-                sbsky_envcolor ++;
+
+            if (o->oTimer > 30) {
+                o->oAction = SB_ACT_ATTACK_SPIN;
+            }
+            break;
+        case SB_ACT_ATTACK_SPIN:
+            if (o->oTimer == 0) {
+
+            }
+            if (o->oTimer%20==0) {
+                for (int i = 0; i < 0xffff; i+=0x400) {
+                    Vec3f danmaku_vec = {sins(i)*60.0f,0.0f,coss(i)*60.0f};
+                    yukariObj->oPosY += 40.0f;
+                    create_danmaku(&yukariObj->oPosVec,danmaku_vec);
+                    yukariObj->oPosY -= 40.0f;
+                }
+
+
+                Vec3f train_spawn = {o->oHomeX,SB_Y,o->oHomeZ};
+                sb_create_train(train_spawn,gGlobalTimer*0x100);
             }
             break;
     }
+    if (o->oAction >= SB_ACT_BATTLE_MAIN) {
+        if (sbsky_envcolor < 255) {
+            sbsky_envcolor ++;
+        }
+    }
 }
 
-void sb_create_train(Vec3f pos, s16 angle) {
-    struct Object * gap = spawn_object(o,MODEL_SB_GAP,bhvSbGap);
-    gap->oPosX = pos[0]+(sins(angle)*6000.0f);
-    gap->oPosY = pos[1];
-    gap->oPosZ = pos[2]+(sins(angle)*6000.0f);
-    gap->oFaceAngleYaw = angle+0x8000;
+enum {
+    SB_ACTOR_IDLE,
+    SB_ACTOR_PASSIVE,
+    SB_ACTOR_AGGRESSIVE,
+};
 
-    gap = spawn_object(o,MODEL_SB_GAP,bhvSbGap);
-    gap->oPosX = pos[0]-(sins(angle)*6000.0f);
-    gap->oPosY = pos[1];
-    gap->oPosZ = pos[2]-(sins(angle)*6000.0f);
-    gap->oFaceAngleYaw = angle;
+void bhv_sb_actor(void) {
+    switch(o->oAction) {
+        case SB_ACTOR_IDLE:
+
+            break;
+        case SB_ACTOR_AGGRESSIVE:
+            
+            break;
+        case SB_ACTOR_PASSIVE:
+
+            break;
+    }
 }
 
 void bhv_sb_gap(void) {
@@ -1344,5 +1401,47 @@ void bhv_sb_gap(void) {
         if (o->header.gfx.scale[0] < .05f) {
             obj_mark_for_deletion(o);
         }
+    }
+}
+
+static struct ObjectHitbox sTrainHitbox = {
+    /* interactType:      */ INTERACT_DAMAGE,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 3,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 200,
+    /* height:            */ 800,
+    /* hurtboxRadius:     */ 60,
+    /* hurtboxHeight:     */ 160,
+};
+
+
+void bhv_sb_train(void) {
+    if (o->oTimer < 30) {
+        cur_obj_scale(0.01f);
+        cur_obj_hide();
+    } else {
+        if (o->oTimer < 115) {
+            o->header.gfx.scale[1] = approach_f32_asymptotic(o->header.gfx.scale[1],1.5f,0.3f);
+            o->oPosY = approach_f32_asymptotic(o->oPosY,SB_Y,0.3f);
+            load_object_collision_model();
+        } else {
+            o->header.gfx.scale[1] = approach_f32_asymptotic(o->header.gfx.scale[1],0.01f,0.3f);
+            o->oPosY = approach_f32_asymptotic(o->oPosY,SB_Y+400.0f,0.3f);
+        }
+
+        obj_set_hitbox(o,&sTrainHitbox);
+        
+        cur_obj_unhide();
+
+        o->oForwardVel = 140.0f;
+        o->oPosX += sins(o->oFaceAngleYaw) * o->oForwardVel;
+        o->oPosZ += coss(o->oFaceAngleYaw) * o->oForwardVel;
+
+        if (o->oTimer >  130) {
+            obj_mark_for_deletion(o);
+        }
+        cur_obj_scale(o->header.gfx.scale[1]);
     }
 }

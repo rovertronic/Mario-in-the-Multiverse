@@ -9258,6 +9258,18 @@ const BehaviorScript bhvSbManager[] = {
     END_LOOP(),
 };
 
+extern void bhv_sb_train(void);
+const BehaviorScript bhvSbTrain[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(sb_train_collision),
+    SET_FLOAT(oDrawingDistance, 32000),
+    SET_FLOAT(oCollisionDistance, 8000),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_DONT_CALC_COLL_DIST)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_sb_train),
+    END_LOOP(),
+};
+
 /* GROUP O END */
 
 const BehaviorScript bhvCutterBlast[] = {

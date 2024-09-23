@@ -975,6 +975,7 @@ enum {
     MODEL_SB_GASTER,
     MODEL_SB_YUKARI,
     MODEL_SB_TRAIN,
+    MODEL_SB_GAP,
 };
 
 #endif // MODEL_IDS_H

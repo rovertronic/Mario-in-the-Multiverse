@@ -22,3 +22,4 @@
 #include "levels/sb/sb_gaster/geo.inc.c"
 #include "levels/sb/sb_yukari/geo.inc.c"
 #include "levels/sb/sb_train/geo.inc.c"
+#include "levels/sb/sb_gap/geo.inc.c"

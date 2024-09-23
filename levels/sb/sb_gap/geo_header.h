@@ -1,0 +1,15 @@
+extern const GeoLayout sb_gap_geo[];
+extern u8 sb_gap_yukarigap_ci8[];
+extern u8 sb_gap_yukarigap_pal_rgba16[];
+extern u8 sb_gap_yukaribow_ci8[];
+extern u8 sb_gap_yukaribow_pal_rgba16[];
+extern Vtx sb_gap_Plane_mesh_layer_5_vtx_0[138];
+extern Gfx sb_gap_Plane_mesh_layer_5_tri_0[];
+extern Vtx sb_gap_Plane_mesh_layer_4_vtx_0[8];
+extern Gfx sb_gap_Plane_mesh_layer_4_tri_0[];
+extern Gfx mat_sb_gap_yukarigapalpha[];
+extern Gfx mat_revert_sb_gap_yukarigapalpha[];
+extern Gfx mat_sb_gap_yukaribownormal[];
+extern Gfx mat_revert_sb_gap_yukaribownormal[];
+extern Gfx sb_gap_Plane_mesh_layer_5[];
+extern Gfx sb_gap_Plane_mesh_layer_4[];

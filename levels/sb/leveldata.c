@@ -23,3 +23,4 @@
 #include "levels/sb/sb_humanoid/anims/table.inc.c"
 #include "levels/sb/sb_train/model.inc.c"
 #include "levels/sb/sb_train/collision.inc.c"
+#include "levels/sb/sb_gap/model.inc.c"

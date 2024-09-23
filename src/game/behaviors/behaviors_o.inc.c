@@ -1318,3 +1318,31 @@ void bhv_sb_manager(void) {
             break;
     }
 }
+
+void sb_create_train(Vec3f pos, s16 angle) {
+    struct Object * gap = spawn_object(o,MODEL_SB_GAP,bhvSbGap);
+    gap->oPosX = pos[0]+(sins(angle)*6000.0f);
+    gap->oPosY = pos[1];
+    gap->oPosZ = pos[2]+(sins(angle)*6000.0f);
+    gap->oFaceAngleYaw = angle+0x8000;
+
+    gap = spawn_object(o,MODEL_SB_GAP,bhvSbGap);
+    gap->oPosX = pos[0]-(sins(angle)*6000.0f);
+    gap->oPosY = pos[1];
+    gap->oPosZ = pos[2]-(sins(angle)*6000.0f);
+    gap->oFaceAngleYaw = angle;
+}
+
+void bhv_sb_gap(void) {
+    if (o->oTimer == 0) {
+        o->header.gfx.scale[0] = 0.0f;
+    }
+    if (o->oTimer < o->oHealth) {
+        o->header.gfx.scale[0] = approach_f32_asymptotic(o->header.gfx.scale[0],1.0f,0.2f);
+    } else {
+        o->header.gfx.scale[0] = approach_f32_asymptotic(o->header.gfx.scale[0],0.0f,0.2f);
+        if (o->header.gfx.scale[0] < .05f) {
+            obj_mark_for_deletion(o);
+        }
+    }
+}

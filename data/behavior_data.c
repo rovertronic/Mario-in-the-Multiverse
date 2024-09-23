@@ -9217,6 +9217,7 @@ const BehaviorScript bhvSbGaster[] = {
     LOAD_ANIMATIONS(oAnimations, sb_humanoid_anims),
     ANIMATE(0),
     SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 32000),
     BEGIN_LOOP(),
         //CALL_NATIVE(bhv_k_strong_terry),
     END_LOOP(),
@@ -9228,8 +9229,20 @@ const BehaviorScript bhvSbYukari[] = {
     LOAD_ANIMATIONS(oAnimations, sb_humanoid_anims),
     ANIMATE(0),
     SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 32000),
     BEGIN_LOOP(),
         //CALL_NATIVE(bhv_k_strong_terry),
+    END_LOOP(),
+};
+
+void bhv_sb_gap(void);
+const BehaviorScript bhvSbGap[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 32000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_sb_gap),
     END_LOOP(),
 };
 

@@ -25,3 +25,8 @@
 #include "levels/sb/sb_train/collision.inc.c"
 #include "levels/sb/sb_gap/model.inc.c"
 #include "levels/sb/sbdm/model.inc.c"
+#include "levels/sb/sbdms/model.inc.c"
+#include "levels/sb/sbdmk/model.inc.c"
+#include "levels/sb/sb_blaster/model.inc.c"
+#include "levels/sb/sb_blaster/anims/data.inc.c"
+#include "levels/sb/sb_blaster/anims/table.inc.c"

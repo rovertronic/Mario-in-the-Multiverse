@@ -350,7 +350,7 @@ void reset_bullet_system(void) {
     }
 }
 
-#define DANMAKU_MAX 500
+#define DANMAKU_MAX 300
 struct Danmaku danmaku_array[DANMAKU_MAX];
 
 void create_danmaku(Vec3f pos, Vec3f vel) {
@@ -364,39 +364,67 @@ void create_danmaku(Vec3f pos, Vec3f vel) {
 	}
 }
 
-extern Gfx sbdm_dm_mesh[];
+#include "levels/sb/header.h"
 Gfx *geo_danmaku(s32 callContext, struct GraphNode *node, UNUSED void *context) {
 	switch (callContext) {
 	case GEO_CONTEXT_AREA_LOAD:
 		bzero(danmaku_array,DANMAKU_MAX*(sizeof(struct Danmaku)));
 		break;
 	case GEO_CONTEXT_RENDER:
-	  {
+		{
 		s32 update = ((!((gTimeStopState & TIME_STOP_ACTIVE)
 						|| (gCameraMovementFlags & CAM_MOVE_PAUSE_SCREEN)))
 						&& ability_chronos_frame_can_progress());
 
-		//allocate DL
-		Gfx *dlS = alloc_display_list((1 + (DANMAKU_MAX * 3) + 8) * sizeof(Gfx));
+		//allocate D
+		Gfx *dlS = alloc_display_list(((DANMAKU_MAX * 6) + 15) * sizeof(Gfx));
 		if (dlS == NULL) { return NULL; }
         Gfx *dlH = dlS;
 
-		//gSPDisplayList(dlH++, sBulletMat);
-		if (update) {
-			for (int i = 0; i < DANMAKU_MAX; i++) {
-				if (danmaku_array[i].flags & 1) { 
-					struct Danmaku * d = &danmaku_array[i];
+		gSPDisplayList(dlH++, mat_sbdms_sb_dm_shadow_layer1);
+		//danmaku shadows
+		for (int i = 0; i < DANMAKU_MAX; i++) {
+			if (danmaku_array[i].flags & 1) { 
+				struct Danmaku * d = &danmaku_array[i];
+
+				Mat4  mtxf;
+				Vec3s angle = { 0, atan2s(d->vel[2],d->vel[0]), 0 };
+				Vec3f pos = {d->pos[0],SB_Y,d->pos[2]};
+				mtxf_rotate_zxy_and_translate(mtxf, pos, angle);
+				RENDER_GE(sbdms_sbs_mesh_tri_0, 2.f)
+			}
+		}
+
+		gSPDisplayList(dlH++, mat_sbdm_danmaku_layer1);
+		gDPSetEnvColor(dlH++,100,0,100,255);
+
+		f32 hitradius = 100.0f;
+		for (int i = 0; i < DANMAKU_MAX; i++) {
+			if (danmaku_array[i].flags & 1) { 
+				struct Danmaku * d = &danmaku_array[i];
+
+				Mat4  mtxf;
+				Vec3s angle = { 0/*(atan2s(b->velY, b->velF) + DEGREES(270))*/, atan2s(d->vel[2],d->vel[0]), 0 };
+				mtxf_rotate_zxy_and_translate(mtxf, d->pos, angle);
+				//RENDER_GE(sbdm_dm_mesh_tri_0, 2.f)
+				RENDER_GE(sbdmk_kunai_mesh_tri_0, 2.f)
+
+				if (update) {
 					vec3f_add(d->pos,d->vel);
 					d->timer ++;
 					if (d->timer > 120) {
 						d->flags = 0;
 						d->timer = 0;
 					}
-
-					Mat4  mtxf;
-					Vec3s angle = { 0/*(atan2s(b->velY, b->velF) + DEGREES(270))*/, atan2s(d->vel[2],d->vel[0]), 0 };
-					mtxf_rotate_zxy_and_translate(mtxf, d->pos, angle);
-					RENDER_GE(sbdm_dm_mesh, 2.f)
+					f32 distsq;
+					vec3f_get_dist_squared(d->pos,gMarioState->pos,&distsq);
+					if (distsq < hitradius*hitradius) {
+						d->flags = 0;
+						d->timer = 0;
+						gMarioState->hurtCounter += 4;
+						gMarioState->invincTimer = 5;
+						play_sound(SOUND_MARIO_UH, gMarioState->marioObj->header.gfx.cameraToObject);
+					}
 				}
 			}
 		}
@@ -409,8 +437,10 @@ Gfx *geo_danmaku(s32 callContext, struct GraphNode *node, UNUSED void *context) 
 		gDPSetCombineLERP(dlH++, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT);
 		gSPTexture(dlH++, 65535, 65535, 0, 0, 0);
 		gSPEndDisplayList(dlH);
+		struct GraphNodeGenerated *graphNode = (struct GraphNodeGenerated *) node;
+		SET_GRAPH_NODE_LAYER(graphNode->fnNode.node.flags, LAYER_TRANSPARENT_INTER);
 		return dlS;
-	  }
+		}
 	}
 
 	return NULL;

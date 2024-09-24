@@ -15,6 +15,8 @@
 #include "macros.h"
 #include "segments.h"
 
+#define SB_Y 2825.0f
+
 // Crash handler enhancement
 #ifdef CRASH_SCREEN_INCLUDED
 #define DEBUG_ASSERT(exp) do { if (!(exp)) _n64_assert(__FILE__, __LINE__, #exp, 1); } while (0)

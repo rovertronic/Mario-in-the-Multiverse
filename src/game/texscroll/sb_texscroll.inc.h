@@ -1,3 +1,4 @@
+#include "levels/sb/sb_train/texscroll.inc.h"
 #include "levels/sb/sb_gap/texscroll.inc.h"
 #include "levels/sb/sbsky/texscroll.inc.h"
 #include "levels/sb/sb_stairs/texscroll.inc.h"

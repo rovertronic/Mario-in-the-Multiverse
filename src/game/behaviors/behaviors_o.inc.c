@@ -1243,9 +1243,6 @@ void bhv_cardstar(void) {
 }
 
 /* SECRET BOSS CODE */
-
-#define SB_Y 2825.0f
-
 void bhv_sb_torch(void) {
     switch(o->oAction) {
         case 0:
@@ -1350,8 +1347,9 @@ void bhv_sb_manager(void) {
 
             }
             if (o->oTimer%20==0) {
-                for (int i = 0; i < 0xffff; i+=0x400) {
-                    Vec3f danmaku_vec = {sins(i)*60.0f,0.0f,coss(i)*60.0f};
+                for (int i = 0; i < 0xffff; i+=0x800) {
+                    s16 timeoffset = 0x10*o->oTimer;
+                    Vec3f danmaku_vec = {sins(i+timeoffset)*60.0f,0.0f,coss(i+timeoffset)*60.0f};
                     yukariObj->oPosY += 40.0f;
                     create_danmaku(&yukariObj->oPosVec,danmaku_vec);
                     yukariObj->oPosY -= 40.0f;
@@ -1410,8 +1408,8 @@ static struct ObjectHitbox sTrainHitbox = {
     /* damageOrCoinValue: */ 3,
     /* health:            */ 0,
     /* numLootCoins:      */ 0,
-    /* radius:            */ 200,
-    /* height:            */ 800,
+    /* radius:            */ 240,
+    /* height:            */ 1200,
     /* hurtboxRadius:     */ 60,
     /* hurtboxHeight:     */ 160,
 };

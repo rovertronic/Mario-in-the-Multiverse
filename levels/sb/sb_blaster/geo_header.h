@@ -1,0 +1,10 @@
+extern const GeoLayout sb_blaster_geo[];
+extern Lights1 sb_blaster_gasterblaster_lights;
+extern u8 sb_blaster_gasterblaster_i8[];
+extern Vtx sb_blaster_jaw_mesh_layer_1_vtx_0[197];
+extern Gfx sb_blaster_jaw_mesh_layer_1_tri_0[];
+extern Vtx sb_blaster_root_mesh_layer_1_vtx_0[352];
+extern Gfx sb_blaster_root_mesh_layer_1_tri_0[];
+extern Gfx mat_sb_blaster_gasterblaster[];
+extern Gfx sb_blaster_jaw_mesh_layer_1[];
+extern Gfx sb_blaster_root_mesh_layer_1[];

@@ -34,6 +34,7 @@ const LevelScript level_sb_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_SB_TRAIN, sb_train_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_SB_GAP, sb_gap_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_SB_BLASTER, sb_blaster_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_SB_BLAST, sb_blast_geo),
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */

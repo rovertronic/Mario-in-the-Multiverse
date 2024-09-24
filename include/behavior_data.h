@@ -885,6 +885,8 @@ extern const BehaviorScript bhvSbYukari[];
 extern const BehaviorScript bhvSbManager[];
 extern const BehaviorScript bhvSbGap[];
 extern const BehaviorScript bhvSbTrain[];
+extern const BehaviorScript bhvSbBlaster[];
+extern const BehaviorScript bhvSbBlast[];
 
 /* GROUP O END */
 

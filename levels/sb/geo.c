@@ -24,3 +24,4 @@
 #include "levels/sb/sb_train/geo.inc.c"
 #include "levels/sb/sb_gap/geo.inc.c"
 #include "levels/sb/sb_blaster/geo.inc.c"
+#include "levels/sb/sb_blast/geo.inc.c"

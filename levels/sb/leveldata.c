@@ -30,3 +30,4 @@
 #include "levels/sb/sb_blaster/model.inc.c"
 #include "levels/sb/sb_blaster/anims/data.inc.c"
 #include "levels/sb/sb_blaster/anims/table.inc.c"
+#include "levels/sb/sb_blast/model.inc.c"

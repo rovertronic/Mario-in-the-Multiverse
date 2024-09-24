@@ -9270,6 +9270,30 @@ const BehaviorScript bhvSbTrain[] = {
     END_LOOP(),
 };
 
+extern void bhv_sb_blaster(void);
+const BehaviorScript bhvSbBlaster[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, sb_blaster_anims),
+    ANIMATE(0),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 32000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_sb_blaster),
+    END_LOOP(),
+};
+
+
+extern void bhv_sb_blast(void);
+const BehaviorScript bhvSbBlast[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 32000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_sb_blast),
+    END_LOOP(),
+};
+
 /* GROUP O END */
 
 const BehaviorScript bhvCutterBlast[] = {

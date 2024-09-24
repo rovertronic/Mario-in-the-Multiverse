@@ -39,4 +39,6 @@ extern const LevelScript level_sb_entry[];
 
 #include "levels/sb/sb_blaster/anim_header.h"
 
+#include "levels/sb/sb_blast/geo_header.h"
+
 #endif

@@ -1359,6 +1359,12 @@ void bhv_sb_manager(void) {
                 Vec3f train_spawn = {o->oHomeX,SB_Y,o->oHomeZ};
                 sb_create_train(train_spawn,gGlobalTimer*0x100);
             }
+            if (o->oTimer % 90 == 0) {
+                struct Object * blaster = spawn_object(gMarioObject,MODEL_SB_BLASTER,bhvSbBlaster);
+                blaster->oPosX = random_float()*3000.0f;
+                blaster->oPosZ = random_float()*3000.0f;
+                blaster->oFaceAngleYaw = random_u16();
+            }
             break;
     }
     if (o->oAction >= SB_ACT_BATTLE_MAIN) {
@@ -1442,4 +1448,73 @@ void bhv_sb_train(void) {
         }
         cur_obj_scale(o->header.gfx.scale[1]);
     }
+}
+
+void bhv_sb_blaster(void) {
+    switch(o->oAction) {
+        case 0:
+            o->oAction = 1;
+            o->oPosY = SB_Y + 2000.0f;
+            o->oFaceAnglePitch = 0x2000;
+            break;
+        case 1:
+            o->oFaceAnglePitch *= .9f;
+            o->oPosY = approach_f32_asymptotic(o->oPosY,SB_Y+200.0f,0.2f);
+            o->header.gfx.animInfo.animFrame = 0;
+            if (o->oTimer >= 20) {
+                o->oAction = 2;
+            }
+            break;
+        case 2:
+            if (o->oTimer == 15) {
+                spawn_object(o,MODEL_SB_BLAST,bhvSbBlast);
+            }
+            if (o->oTimer > 30) {
+                o->oAction = 3;
+            }
+            break;
+        case 3:
+            o->oPosY = approach_f32_asymptotic(o->oPosY,SB_Y+2000.0f,0.2f);
+            if (o->oTimer > 30) {
+                obj_mark_for_deletion(o);
+            }
+            break;
+    }
+}
+
+void bhv_sb_blast(void) {
+    if (o->oTimer == 0) {
+        o->oOpacity = 255;
+        o->oFaceAnglePitch = 0;
+    }
+    if (o->oOpacity > 10) {
+        o->oOpacity -= 10;
+    } else {
+        obj_mark_for_deletion(o);
+    }
+
+        Vec3f pointA;
+        Vec3f pointB;
+        Vec3f pointC;
+        Vec3f pointD;
+
+        s16 laserWidth = 120;
+        s16 laserLength = 10000 + 20*o->oTimer;
+
+        vec3f_set(pointA, o->oPosX + laserWidth * coss(o->oFaceAngleYaw), o->oPosY, o->oPosZ + laserWidth * sins(o->oFaceAngleYaw + 0x50));
+        vec3f_set(pointB, o->oPosX + laserWidth * -coss(o->oFaceAngleYaw), o->oPosY, o->oPosZ + laserWidth * -sins(o->oFaceAngleYaw + 0x50));
+
+        vec3f_set(pointC, pointA[0] + laserLength * sins(o->oFaceAngleYaw), o->oPosY, pointA[2] + laserLength * coss(o->oFaceAngleYaw));
+        vec3f_set(pointD, pointB[0] + laserLength * sins(o->oFaceAngleYaw), o->oPosY, pointB[2] + laserLength * coss(o->oFaceAngleYaw));
+
+        if (point_inside_xz_tri(gMarioState->pos, pointA, pointB, pointC) || point_inside_xz_tri(gMarioState->pos, pointA, pointC, pointD)) {
+            if (absf(o->oPosY - gMarioState->pos[1]) < 280 && gMarioState->action != ACT_BACKWARD_AIR_KB) {
+                gMarioState->action = ACT_BACKWARD_AIR_KB;
+                o->oDamageOrCoinValue = 4;
+                take_damage_and_knock_back(gMarioState, o);
+                gMarioState->vel[1] = 5;
+                gMarioState->forwardVel = 0.0f;
+                gMarioState->faceAngle[1] = o->oFaceAngleYaw + 0x8000;
+            }
+        }
 }

@@ -353,10 +353,11 @@ void reset_bullet_system(void) {
 #define DANMAKU_MAX 300
 struct Danmaku danmaku_array[DANMAKU_MAX];
 
-void create_danmaku(Vec3f pos, Vec3f vel) {
+void create_danmaku(Vec3f pos, Vec3f vel, u8 type) {
 	for (int i = 0; i < DANMAKU_MAX; i++) {
 		if (!(danmaku_array[i].flags & 1)) {
 			danmaku_array[i].flags = 1;
+			danmaku_array[i].type = type;
 			vec3f_copy(danmaku_array[i].pos,pos);
 			vec3f_copy(danmaku_array[i].vel,vel);
 			return;
@@ -396,34 +397,46 @@ Gfx *geo_danmaku(s32 callContext, struct GraphNode *node, UNUSED void *context) 
 		}
 
 		gSPDisplayList(dlH++, mat_sbdm_danmaku_layer1);
-		gDPSetEnvColor(dlH++,100,0,100,255);
 
 		f32 hitradius = 100.0f;
-		for (int i = 0; i < DANMAKU_MAX; i++) {
-			if (danmaku_array[i].flags & 1) { 
-				struct Danmaku * d = &danmaku_array[i];
+		for (int t = 0; t < 2; t++) {
+			Gfx * dmdl = sbdmk_kunai_mesh_tri_0;
+			switch(t) {
+				case 0:
+					gDPSetEnvColor(dlH++,100,0,100,255);
+					break;
+				case 1:
+					gDPSetEnvColor(dlH++,0,0,0,255);
+					dmdl = sbdmd_diamond_mesh_tri_0;
+					break;
+			}
 
-				Mat4  mtxf;
-				Vec3s angle = { 0/*(atan2s(b->velY, b->velF) + DEGREES(270))*/, atan2s(d->vel[2],d->vel[0]), 0 };
-				mtxf_rotate_zxy_and_translate(mtxf, d->pos, angle);
-				//RENDER_GE(sbdm_dm_mesh_tri_0, 2.f)
-				RENDER_GE(sbdmk_kunai_mesh_tri_0, 2.f)
+			for (int i = 0; i < DANMAKU_MAX; i++) {
+				if (danmaku_array[i].type == t && (danmaku_array[i].flags & 1)) { 
+					struct Danmaku * d = &danmaku_array[i];
 
-				if (update) {
-					vec3f_add(d->pos,d->vel);
-					d->timer ++;
-					if (d->timer > 120) {
-						d->flags = 0;
-						d->timer = 0;
-					}
-					f32 distsq;
-					vec3f_get_dist_squared(d->pos,gMarioState->pos,&distsq);
-					if (distsq < hitradius*hitradius) {
-						d->flags = 0;
-						d->timer = 0;
-						gMarioState->hurtCounter += 4;
-						gMarioState->invincTimer = 5;
-						play_sound(SOUND_MARIO_UH, gMarioState->marioObj->header.gfx.cameraToObject);
+					Mat4  mtxf;
+					Vec3s angle = { 0/*(atan2s(b->velY, b->velF) + DEGREES(270))*/, atan2s(d->vel[2],d->vel[0]), 0 };
+					mtxf_rotate_zxy_and_translate(mtxf, d->pos, angle);
+					//RENDER_GE(sbdm_dm_mesh_tri_0, 2.f)
+					RENDER_GE(dmdl, 2.f)
+
+					if (update) {
+						vec3f_add(d->pos,d->vel);
+						d->timer += absf(d->vel[0]) + absf(d->vel[2]); //count taxicab moves
+						if (d->timer > 10000) {
+							d->flags = 0;
+							d->timer = 0;
+						}
+						f32 distsq;
+						vec3f_get_dist_squared(d->pos,gMarioState->pos,&distsq);
+						if (distsq < hitradius*hitradius) {
+							d->flags = 0;
+							d->timer = 0;
+							gMarioState->hurtCounter += 4;
+							gMarioState->invincTimer = 5;
+							play_sound(SOUND_MARIO_UH, gMarioState->marioObj->header.gfx.cameraToObject);
+						}
 					}
 				}
 			}

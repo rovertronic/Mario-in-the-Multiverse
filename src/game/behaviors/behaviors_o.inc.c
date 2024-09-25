@@ -1351,8 +1351,16 @@ void bhv_sb_manager(void) {
                     s16 timeoffset = 0x10*o->oTimer;
                     Vec3f danmaku_vec = {sins(i+timeoffset)*60.0f,0.0f,coss(i+timeoffset)*60.0f};
                     yukariObj->oPosY += 40.0f;
-                    create_danmaku(&yukariObj->oPosVec,danmaku_vec);
+                    create_danmaku(&yukariObj->oPosVec,danmaku_vec,0);
                     yukariObj->oPosY -= 40.0f;
+                }
+
+                for (int i = 0; i<5; i++) {
+                    Vec3f danmaku_vec = {0.0f,0.0f,0.0f};
+                    vec3f_diff(danmaku_vec,gMarioState->pos,&gasterObj->oPosVec);
+                    vec3f_normalize(danmaku_vec);
+                    vec3f_scale(danmaku_vec,danmaku_vec,30.0f+(i*10.f))
+                    create_danmaku(&gasterObj->oPosVec,danmaku_vec,1);
                 }
 
 

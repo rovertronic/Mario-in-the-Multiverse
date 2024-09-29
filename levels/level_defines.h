@@ -70,3 +70,5 @@ DEFINE_LEVEL("L", LEVEL_L, COURSE_LLL, l, generic, 20000, 0x00, 0x00, 0x00, _, s
 DEFINE_LEVEL("BOWSER_COURSE", LEVEL_BOWSER_COURSE, COURSE_BITDW, bowser_course, generic, 20000, 0x00, 0x00, 0x00, _, sCamBowserCourse) 
 DEFINE_LEVEL("K", LEVEL_K, COURSE_SSL, k, generic, 20000, 0x00, 0x00, 0x00, _, sCamK) 
 DEFINE_LEVEL("SB", LEVEL_SB, COURSE_NONE, sb, generic, 20000, 0x00, 0x00, 0x00, _, sCamSb) 
+DEFINE_LEVEL("MC", LEVEL_MC, COURSE_PSS, mc, generic, 20000, 0x00, 0x00, 0x00, _, sCamMc) 
+DEFINE_LEVEL("BB", LEVEL_BB, COURSE_WMOTR, bb, generic, 20000, 0x00, 0x00, 0x00, _, sCamBb) 

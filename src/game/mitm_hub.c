@@ -122,6 +122,10 @@ struct mitm_level_data mitm_levels[] = {
             NULL,     COURSE_NONE,  0,       0,         36,         0,     NULL},
     /*SB*/{"GAPS AND HANDS", NULL, NULL,
             NULL,     COURSE_NONE,  0,       0,         36,         0,     NULL},
+    /*MC*/{"Mute City", "BroDute", "BroDute",
+            NULL,     COURSE_PSS,  0,        0,         36,         1,     NULL},
+    /*BB*/{"Big Blue", "BroDute", "BroDute",
+            NULL,     COURSE_WMOTR,  0,        0,       36,         1,     NULL},
 };
 
 s8 hub_level_index = -1;
@@ -926,12 +930,14 @@ struct mitm_credits_entry mitm_credits[] = {
     {"JakeDower",2},
     {"lincrash",2},
     {"Mel",2},
+    {"BroDute",2},
     {"",0},
 
     {"Music",1},
     {"Teraok",2},
-    {"sm64pie",2},
     {"SpK",2},
+    {"sm64pie",2},
+    {"Asbeth",2},
     {"Leonitz",2},
     {"",0},
 

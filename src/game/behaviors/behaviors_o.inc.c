@@ -1347,6 +1347,7 @@ void bhv_sb_manager(void) {
 
             }
             if (o->oTimer%20==0) {
+                cur_obj_play_sound_2(SOUND_MITM_LEVEL_SB_BULLET);
                 for (int i = 0; i < 0xffff; i+=0x800) {
                     s16 timeoffset = 0x10*o->oTimer;
                     Vec3f danmaku_vec = {sins(i+timeoffset)*60.0f,0.0f,coss(i+timeoffset)*60.0f};
@@ -1355,11 +1356,12 @@ void bhv_sb_manager(void) {
                     yukariObj->oPosY -= 40.0f;
                 }
 
+                Vec3f danmaku_vec;
                 for (int i = 0; i<5; i++) {
-                    Vec3f danmaku_vec = {0.0f,0.0f,0.0f};
                     vec3f_diff(danmaku_vec,gMarioState->pos,&gasterObj->oPosVec);
                     vec3f_normalize(danmaku_vec);
-                    vec3f_scale(danmaku_vec,danmaku_vec,30.0f+(i*10.f))
+                    f32 spd = 30.0f+(i*10.f);
+                    vec3f_scale(danmaku_vec,danmaku_vec,spd);
                     create_danmaku(&gasterObj->oPosVec,danmaku_vec,1);
                 }
 
@@ -1434,6 +1436,11 @@ void bhv_sb_train(void) {
         cur_obj_scale(0.01f);
         cur_obj_hide();
     } else {
+        if (o->oDistanceToMario < 1500.0f && o->oHealth == 0) {
+            o->oHealth = 1;
+            cur_obj_play_sound_2(SOUND_MITM_LEVEL_SB_TRAIN);
+        }
+
         if (o->oTimer < 115) {
             o->header.gfx.scale[1] = approach_f32_asymptotic(o->header.gfx.scale[1],1.5f,0.3f);
             o->oPosY = approach_f32_asymptotic(o->oPosY,SB_Y,0.3f);
@@ -1461,6 +1468,7 @@ void bhv_sb_train(void) {
 void bhv_sb_blaster(void) {
     switch(o->oAction) {
         case 0:
+            cur_obj_play_sound_2(SOUND_MITM_LEVEL_SB_BLASTER);
             o->oAction = 1;
             o->oPosY = SB_Y + 2000.0f;
             o->oFaceAnglePitch = 0x2000;
@@ -1475,6 +1483,7 @@ void bhv_sb_blaster(void) {
             break;
         case 2:
             if (o->oTimer == 15) {
+                create_sound_spawner(SOUND_GENERAL2_PYRAMID_TOP_EXPLOSION);
                 spawn_object(o,MODEL_SB_BLAST,bhvSbBlast);
             }
             if (o->oTimer > 30) {

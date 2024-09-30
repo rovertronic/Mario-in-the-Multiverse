@@ -294,6 +294,21 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "level_c_bell"
+        },
+        "inst_level_sb_train": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_sb_train"
+        },
+        "inst_level_sb_bullet": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_sb_bullet"
+        },
+        "inst_level_sb_blaster": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_sb_blaster"
         }
 		
     },
@@ -363,6 +378,10 @@
         "inst_level_e_gun_guy_damage",
         "inst_level_e_gun_guy_death",
 		
-		"inst_level_c_bell"
+		"inst_level_c_bell",
+
+        "inst_level_sb_train",
+        "inst_level_sb_bullet",
+        "inst_level_sb_blaster"
     ]
 }

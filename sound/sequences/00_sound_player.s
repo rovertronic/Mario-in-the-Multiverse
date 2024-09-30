@@ -8293,6 +8293,10 @@ sound_ref .sound_level_e_gun_guy_death
 
 sound_ref .sound_level_c_bell
 
+sound_ref .sound_level_sb_train
+sound_ref .sound_level_sb_bullet
+sound_ref .sound_level_sb_blaster
+
 .sound_level_x_0:
 chan_setbank 12
 chan_setinstr 0
@@ -8874,6 +8878,33 @@ chan_end
 
 //-----END LEVEL I-----//
 
+//-----LEVEL SB-----//
+.sound_level_sb_train:
+chan_setbank 12
+chan_setinstr 57
+chan_setlayer 0, .layer_level_sb_long
+chan_end
+
+.sound_level_sb_bullet:
+chan_setbank 12
+chan_setinstr 58
+chan_setlayer 0, .layer_level_sb
+chan_end
+
+.sound_level_sb_blaster:
+chan_setbank 12
+chan_setinstr 59
+chan_setlayer 0, .layer_level_sb
+chan_end
+
+.layer_level_sb:
+layer_note1 39, 0x30, 127
+layer_end
+
+.layer_level_sb_long:
+layer_note1 39, 0x60, 127
+layer_end
+//-----END LEVEL SB-----//
 
 .channel_test_bank:
 chan_largenoteson

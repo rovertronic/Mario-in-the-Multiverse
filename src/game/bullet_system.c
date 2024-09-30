@@ -423,6 +423,9 @@ Gfx *geo_danmaku(s32 callContext, struct GraphNode *node, UNUSED void *context) 
 
 					if (update) {
 						vec3f_add(d->pos,d->vel);
+						if (d->pos[1] < SB_Y+50.0f) {
+							d->pos[1] = SB_Y+50.0f;
+						}
 						d->timer += absf(d->vel[0]) + absf(d->vel[2]); //count taxicab moves
 						if (d->timer > 10000) {
 							d->flags = 0;

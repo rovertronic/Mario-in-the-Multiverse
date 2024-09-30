@@ -628,4 +628,6 @@ ALWAYS_INLINE f32 smoothstep(f32 from, f32 to, f32 amount) {
     return lerpf(from, to, amount);
 }
 
+extern u16 gRandomSeed16;
+
 #endif // MATH_UTIL_H

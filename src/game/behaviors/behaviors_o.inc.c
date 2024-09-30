@@ -1270,6 +1270,13 @@ enum {
     SB_ACT_CUTSCENE,
     SB_ACT_BATTLE_MAIN,
     SB_ACT_ATTACK_SPIN,
+    SB_ATTACK_CIRCLES_BLASTERS,
+};
+
+enum {
+    SB_ACTOR_IDLE,
+    SB_ACTOR_PASSIVE,
+    SB_ACTOR_AGGRESSIVE,
 };
 
 void sb_create_train(Vec3f pos, s16 angle) {
@@ -1339,23 +1346,15 @@ void bhv_sb_manager(void) {
         case SB_ACT_BATTLE_MAIN:
 
             if (o->oTimer > 30) {
-                o->oAction = SB_ACT_ATTACK_SPIN;
+                o->oAction = SB_ATTACK_CIRCLES_BLASTERS;
             }
             break;
         case SB_ACT_ATTACK_SPIN:
             if (o->oTimer == 0) {
-
+                gasterObj->oAction = SB_ACTOR_AGGRESSIVE;
+                yukariObj->oAction = SB_ACTOR_PASSIVE;
             }
             if (o->oTimer%20==0) {
-                cur_obj_play_sound_2(SOUND_MITM_LEVEL_SB_BULLET);
-                for (int i = 0; i < 0xffff; i+=0x800) {
-                    s16 timeoffset = 0x10*o->oTimer;
-                    Vec3f danmaku_vec = {sins(i+timeoffset)*60.0f,0.0f,coss(i+timeoffset)*60.0f};
-                    yukariObj->oPosY += 40.0f;
-                    create_danmaku(&yukariObj->oPosVec,danmaku_vec,0);
-                    yukariObj->oPosY -= 40.0f;
-                }
-
                 Vec3f danmaku_vec;
                 for (int i = 0; i<5; i++) {
                     vec3f_diff(danmaku_vec,gMarioState->pos,&gasterObj->oPosVec);
@@ -1369,11 +1368,28 @@ void bhv_sb_manager(void) {
                 Vec3f train_spawn = {o->oHomeX,SB_Y,o->oHomeZ};
                 sb_create_train(train_spawn,gGlobalTimer*0x100);
             }
-            if (o->oTimer % 90 == 0) {
-                struct Object * blaster = spawn_object(gMarioObject,MODEL_SB_BLASTER,bhvSbBlaster);
-                blaster->oPosX = random_float()*3000.0f;
-                blaster->oPosZ = random_float()*3000.0f;
-                blaster->oFaceAngleYaw = random_u16();
+            break;
+        case SB_ATTACK_CIRCLES_BLASTERS:
+            if (o->oTimer == 0) {
+                gasterObj->oAction = SB_ACTOR_AGGRESSIVE;
+                yukariObj->oAction = SB_ACTOR_PASSIVE;
+            }
+            if (o->oTimer % 30 == 0) {
+                for (int i = 0; i < 0xffff; i+=0x800) {
+                    s16 timeoffset = 0x10*o->oTimer;
+                    Vec3f danmaku_vec = {sins(i+timeoffset)*60.0f,-30.0f,coss(i+timeoffset)*60.0f};
+                    create_danmaku(&yukariObj->oPosVec,danmaku_vec,0);
+                }
+            }
+            if (o->oTimer % 70 == 0) {
+                gRandomSeed16 = o->oTimer;
+                for (int i = 0; i < 2; i++) {
+                    struct Object * blaster = spawn_object(gMarioObject,MODEL_SB_BLASTER,bhvSbBlaster);
+                    s16 random_angle = random_u16();
+                    blaster->oPosX = gMarioState->pos[0] + sins(random_angle)*2500.0f;
+                    blaster->oPosZ = gMarioState->pos[2] + coss(random_angle)*2500.0f;
+                    blaster->oMoveAngleYaw = random_angle+0x8000;
+                }
             }
             break;
     }
@@ -1384,22 +1400,91 @@ void bhv_sb_manager(void) {
     }
 }
 
-enum {
-    SB_ACTOR_IDLE,
-    SB_ACTOR_PASSIVE,
-    SB_ACTOR_AGGRESSIVE,
-};
-
+//set oF4 to trigger generic danmaku sound
+//set oF8 to indicate stunned
 void bhv_sb_actor(void) {
+    f32 orbit_max;
+    f32 orbit_min;
+    s16 orbit_dir;
+    f32 backoff_speed;
+
+    if (o->oF4) {
+        cur_obj_play_sound_2(SOUND_MITM_LEVEL_SB_BULLET);
+        o->oF4 = 0;
+    }
+
+    if (obj_has_behavior(o,bhvSbYukari)) {
+        orbit_dir = -0x200;
+        //yukari orbits counter clockwise
+    } else {
+        //gaster orbits clockwise
+        orbit_dir = 0x200;
+    }
+
     switch(o->oAction) {
         case SB_ACTOR_IDLE:
-
+            o->parentObj = cur_obj_nearest_object_with_behavior(bhvSbManager);
             break;
         case SB_ACTOR_AGGRESSIVE:
-            
+            {
+            orbit_max = 2500.0f;
+            orbit_min = 1200.0f;
+            backoff_speed = 4.0f;
+
+            o->oMoveAngleYaw = approach_s16_asymptotic(o->oMoveAngleYaw,o->oAngleToMario,10);
+            o->oFaceAngleYaw = o->oMoveAngleYaw;
+
+            o->oGravity = 0.0f;
+            o->oPosY = approach_f32_asymptotic(o->oPosY,gMarioState->pos[1] + 400.0f + sins(o->oTimer*0x200)*200.0f ,0.1f);
+
+            o->oVelX += sins(o->oAngleToMario) * 2.0f;
+            o->oVelZ += coss(o->oAngleToMario) * 2.0f;
+
+            //damp vel
+            o->oVelX *= .97f;
+            o->oVelZ *= .97f;
+            if (o->oDistanceToMario > orbit_max) {
+                o->oVelX += sins(o->oAngleToMario) * 2.0f;
+                o->oVelZ += coss(o->oAngleToMario) * 2.0f;
+
+                //damp vel
+                o->oVelX *= .97f;
+                o->oVelZ *= .97f;
+            }
+
+            //too close, back off a fair bit
+            if (o->oDistanceToMario < orbit_min) {
+                //damp vel
+                o->oVelX *= .97f;
+                o->oVelZ *= .97f;
+
+                o->oVelX -= sins(o->oAngleToMario+(o->oTimer*orbit_dir)) * backoff_speed;
+                o->oVelZ -= coss(o->oAngleToMario+(o->oTimer*orbit_dir)) * backoff_speed;
+            }
+
+            cur_obj_update_floor_and_walls();
+            cur_obj_move_standard_classc();
+            }
             break;
         case SB_ACTOR_PASSIVE:
+            {
+            s16 yaw;
+            Vec3f target = {o->parentObj->oPosX + sins(o->oTimer*orbit_dir/2)*6000.0f,.0f,o->parentObj->oPosZ + coss(o->oTimer*orbit_dir/2)*6000.0f};
+            vec3f_get_yaw(&o->oPosVec,target,&yaw);
 
+            o->oGravity = 0.0f;
+            o->oPosY = approach_f32_asymptotic(o->oPosY, SB_Y + 400.0f + sins(o->oTimer*0x200)*200.0f ,0.1f);
+
+            o->oVelX += sins(yaw) * 4.0f;
+            o->oVelZ += coss(yaw) * 4.0f;
+
+            //damp vel
+            o->oVelX *= .97f;
+            o->oVelZ *= .97f;
+
+            cur_obj_update_floor_and_walls();
+            cur_obj_move_standard_classc();
+            }
             break;
     }
 }

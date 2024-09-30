@@ -9211,27 +9211,28 @@ const BehaviorScript bhvSbTorch[] = {
     END_LOOP(),
 };
 
+extern void bhv_sb_actor(void);
 const BehaviorScript bhvSbGaster[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
     LOAD_ANIMATIONS(oAnimations, sb_humanoid_anims),
     ANIMATE(0),
     SET_HOME(),
     SET_FLOAT(oDrawingDistance, 32000),
     BEGIN_LOOP(),
-        //CALL_NATIVE(bhv_k_strong_terry),
+        CALL_NATIVE(bhv_sb_actor),
     END_LOOP(),
 };
 
 const BehaviorScript bhvSbYukari[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
     LOAD_ANIMATIONS(oAnimations, sb_humanoid_anims),
     ANIMATE(0),
     SET_HOME(),
     SET_FLOAT(oDrawingDistance, 32000),
     BEGIN_LOOP(),
-        //CALL_NATIVE(bhv_k_strong_terry),
+        CALL_NATIVE(bhv_sb_actor),
     END_LOOP(),
 };
 

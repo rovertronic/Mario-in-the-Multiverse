@@ -1381,7 +1381,7 @@ void bhv_sb_manager(void) {
                     create_danmaku(&yukariObj->oPosVec,danmaku_vec,0);
                 }
             }
-            if (o->oTimer % 70 == 0) {
+            if (o->oTimer % 71 == 0) {
                 gRandomSeed16 = o->oTimer;
                 for (int i = 0; i < 2; i++) {
                     struct Object * blaster = spawn_object(gMarioObject,MODEL_SB_BLASTER,bhvSbBlaster);

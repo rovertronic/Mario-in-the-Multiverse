@@ -950,6 +950,7 @@ enum K_MODELS {
 #define MODEL_BC_STAIR_2           0x159
 #define MODEL_BC_SHOOTER           0x15A
 #define MODEL_BC_SKIPLOOM          0x15B
+#define MODEL_BC_ATREUS            0x15C
 
 //HUB
 enum {

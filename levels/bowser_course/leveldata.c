@@ -37,3 +37,4 @@
 #include "levels/bowser_course/bc_skiploom/model.inc.c"
 #include "levels/bowser_course/bc_skiploom/anims/data.inc.c"
 #include "levels/bowser_course/bc_skiploom/anims/table.inc.c"
+#include "levels/bowser_course/bc_atreus/model.inc.c"

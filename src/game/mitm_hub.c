@@ -1200,6 +1200,7 @@ struct music_data music_list[] = {
 
     {SEQ_O_MAINTRACK,"Via Corolla","From: The Walking Dead: Saints & Sinners"},
     {SEQ_O_EASYSTREET,"Easy Street","From: The Walking Dead"},
+    {SEQ_O_STH,"Stir The Herd","From: The Walking Dead: Saints & Sinners"},
 
     {SEQ_HAMSTERBALL,"Beginner Race","From: Hamsterball\nPorted by: sm64pie"},
 

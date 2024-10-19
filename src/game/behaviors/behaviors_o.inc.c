@@ -1081,7 +1081,7 @@ void bhv_o_gerik(void) {
             break;
         case GERIK_CHASE:
             if (gerik_boredom == 0) {
-                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_MASTER_KAAG_BOSS), 0);
+                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_O_STH), 0);
             }
             gerik_boredom ++;
             if ((o->oMoveFlags & (OBJ_MOVE_HIT_WALL|OBJ_MOVE_HIT_EDGE))&&(o->oMoveFlags & OBJ_MOVE_ON_GROUND)) {
@@ -1109,7 +1109,7 @@ void bhv_o_gerik(void) {
             cur_obj_move_standard(78);
 
             if (o->oDistanceToMario < 250.0f) {
-                stop_background_music(SEQUENCE_ARGS(4, SEQ_MASTER_KAAG_BOSS));
+                stop_background_music(SEQUENCE_ARGS(4, SEQ_O_STH));
 
                 cur_obj_play_sound_2(SOUND_OBJ_GRAB_MARIO);
                 o->oAction = GERIK_GRABMARIO;
@@ -1120,7 +1120,7 @@ void bhv_o_gerik(void) {
                 vec3f_copy(gMarioState->pos,gMarioObject->header.gfx.pos);
             }
             if ((cur_obj_lateral_dist_to_home() > GERIK_PATROL_RADIUS)||(gerik_boredom > 1200)) {
-                stop_background_music(SEQUENCE_ARGS(4, SEQ_MASTER_KAAG_BOSS));
+                stop_background_music(SEQUENCE_ARGS(4, SEQ_O_STH));
                 o->oAction = GERIK_LEAVE;
                 cur_obj_init_animation_with_sound(4);
             }

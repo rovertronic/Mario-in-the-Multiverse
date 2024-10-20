@@ -5,6 +5,7 @@
 #include "levels/bowser_course/bc_stair_2/texscroll.inc.c"
 #include "levels/bowser_course/mverses_sky/texscroll.inc.c"
 #include "levels/bowser_course/bc_atreus/texscroll.inc.c"
+#include "levels/bowser_course/bc_bosslanding/texscroll.inc.c"
 void scroll_textures_bowser_course() {
 	scroll_bowser_course_level_geo_matplatform();
 	scroll_bowser_course();
@@ -12,4 +13,5 @@ void scroll_textures_bowser_course() {
 	scroll_bowser_course_level_geo_bc_stair_2();
 	scroll_bowser_course_level_dl_mverses_sky();
 	scroll_bowser_course_level_geo_bc_atreus();
+	scroll_bowser_course_level_geo_bc_bosslanding();
 }

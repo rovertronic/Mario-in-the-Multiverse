@@ -9718,6 +9718,40 @@ const BehaviorScript bhvBcSkiploom[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvBcAtreus[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, bc_atreus_anims),
+    ANIMATE(0),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 32000),
+    SCALE(/*Unused*/ 0, /*Field*/ 900),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBcBowser[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_ANIMATIONS(oAnimations, bc_bowser_anims),
+    ANIMATE(0),
+    DROP_TO_FLOOR(),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBcBosslanding[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(bc_bosslanding_collision),
+    SET_FLOAT(oDrawingDistance, 32000),
+    SET_FLOAT(oCollisionDistance, 32000),
+    BEGIN_LOOP(),
+        //CALL_NATIVE(bhv_seesaw_platform_update),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
 extern void bhv_npc_egadd_loop(void);
 const BehaviorScript bhvEgaddNPC[] = {
     BEGIN(OBJ_LIST_GENACTOR),
@@ -9809,3 +9843,4 @@ const BehaviorScript bhvCarboardStarBody[] = {
         CALL_NATIVE(bhv_cardstar),
     END_LOOP(),
 };
+

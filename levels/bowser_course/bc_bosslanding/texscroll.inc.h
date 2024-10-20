@@ -1,0 +1,3 @@
+extern void scroll_bc_bosslanding_vis_001_mesh_layer_1_vtx_3();
+extern void scroll_gfx_mat_bc_bosslanding_floorsidingB_layer1();
+extern void scroll_bowser_course_level_geo_bc_bosslanding();

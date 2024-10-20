@@ -40,6 +40,9 @@ const LevelScript level_bowser_course_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_BC_STAIR_2, bc_stair_2_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BC_SHOOTER, bc_shooter_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BC_SKIPLOOM, bc_skiploom_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BC_ATREUS, bc_atreus_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BC_BOWSER_FORM_1, bowsf1_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BC_BOSSLANDING, bc_bosslanding_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -52,6 +55,7 @@ const LevelScript level_bowser_course_entry[] = {
 		WARP_NODE(3/*fout1*/, LEVEL_BOWSER_COURSE, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(4/*fin2*/, LEVEL_BOWSER_COURSE, 0x01, 0x05, WARP_NO_CHECKPOINT),
 		WARP_NODE(5/*fout2*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(6/*fboss*/, LEVEL_BOWSER_COURSE, 0x02, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_ABILITY_SIGN, 9695, 1580, 7543, 0, -32, 0, (ABILITY_KNIGHT << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, 4106, 2004, -915, 0, 150, 0, (ABILITY_BUBBLE_HAT << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, -6519, -362, 4030, 0, 50, 0, (ABILITY_AKU << 16), bhvStaticObject),
@@ -90,6 +94,7 @@ const LevelScript level_bowser_course_entry[] = {
 		OBJECT(MODEL_NONE, 9416, 2039, 7988, 0, -180, 0, (3 << 16), bhvFadingWarp),
 		OBJECT(MODEL_NONE, -5981, -330, 4715, 0, 0, 0, (4 << 16), bhvFadingWarp),
 		OBJECT(MODEL_NONE, 4308, 2465, -1058, 0, 0, 0, (5 << 16), bhvFadingWarp),
+		OBJECT(MODEL_NONE, 3408, 17640, 10126, 0, 0, 0, (6 << 16), bhvFadingWarp),
 		OBJECT(MODEL_NONE, 7428, -181, -9131, 0, 90, 0, 0x00000000, bhvFlamethrower),
 		OBJECT(MODEL_NONE, 3018, 1122, -6449, 0, -180, 0, 0x00000000, bhvFlamethrower),
 		OBJECT(MODEL_NONE, 8813, 1558, 9433, 0, 90, 0, 0x00000000, bhvFlamethrower),
@@ -194,8 +199,24 @@ const LevelScript level_bowser_course_entry[] = {
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
 
+	AREA(2, bowser_course_area_2),
+		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_BC_ATREUS, 0, 1438, -5989, 0, -90, 0, 0x00000000, bhvBcAtreus),
+		OBJECT(MODEL_BC_BOSSLANDING, -3, 36, 6243, 0, 0, 0, 0x00000000, bhvBcBosslanding),
+		OBJECT(MODEL_BC_BOWSER_FORM_1, 0, 36, -2058, 0, 0, 0, 0x00000000, bhvBcBowser),
+		OBJECT(MODEL_NONE, 2629, 2069, -1010, 0, 0, 0, 0x00000000, bhvCutsceneCamera),
+		MARIO_POS(0x02, 0, 0, 36, 5853),
+		OBJECT(MODEL_NONE, -3, 419, 6243, 0, 0, 0, (0x0A << 16), bhvFadingWarp),
+		TERRAIN(bowser_course_area_2_collision),
+		MACRO_OBJECTS(bowser_course_area_2_macro_objs),
+		STOP_MUSIC(0),
+		TERRAIN_TYPE(TERRAIN_STONE),
+		/* Fast64 begin persistent block [area commands] */
+		/* Fast64 end persistent block [area commands] */
+	END_AREA(),
+
 	FREE_LEVEL_POOL(),
-	MARIO_POS(0x01, 0, 9423, 1133, 13205),
+	MARIO_POS(0x02, 0, 0, 36, 5853),
 	CALL(0, lvl_init_or_update),
 	CALL_LOOP(1, lvl_init_or_update),
 	CLEAR_LEVEL(),

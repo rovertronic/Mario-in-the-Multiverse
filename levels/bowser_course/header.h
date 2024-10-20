@@ -51,4 +51,14 @@ extern const LevelScript level_bowser_course_entry[];
 
 #include "levels/bowser_course/bc_atreus/geo_header.h"
 
+#include "levels/bowser_course/bc_atreus/anim_header.h"
+
+#include "levels/bowser_course/bowsf1/geo_header.h"
+
+#include "levels/bowser_course/bc_bowser/anim_header.h"
+
+#include "levels/bowser_course/bc_bosslanding/geo_header.h"
+
+#include "levels/bowser_course/bc_bosslanding/collision_header.h"
+
 #endif

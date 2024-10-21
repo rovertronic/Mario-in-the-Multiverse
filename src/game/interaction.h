@@ -111,6 +111,7 @@ enum InteractStatus {
     INT_STATUS_HIT_MINE             = (1 << 21), /* 0x00200000 */
     INT_STATUS_STOP_RIDING          = (1 << 22), /* 0x00400000 */
     INT_STATUS_TOUCHED_BOB_OMB      = (1 << 23), /* 0x00800000 */
+    INT_STATUS_SEPHISWORD           = (1 << 24),
 
     INT_STATUS_ATTACK_MASK          =               0x000000FF
 };

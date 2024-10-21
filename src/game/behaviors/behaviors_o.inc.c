@@ -1620,3 +1620,78 @@ void bhv_sb_blast(void) {
             }
         }
 }
+
+enum {
+    FBOWSER_INIT,
+    FBOWSER_SWIPE,
+    FBOWSER_ARC,
+    FBOWSER_PARRIED,
+};
+
+extern Vec3f sephisword_impact_vec;
+void bhv_final_boss_bowser(void) {
+
+    switch(o->oAction) {
+        case FBOWSER_INIT:
+            o->oAction = FBOWSER_SWIPE;
+            break;
+        case FBOWSER_SWIPE:
+        case FBOWSER_ARC:
+
+            if (o->oTimer == 0) {
+                switch(o->oAction) {
+                    case FBOWSER_SWIPE:
+                        cur_obj_init_animation_with_sound(2);
+                    break;
+                    case FBOWSER_ARC:
+                        cur_obj_init_animation_with_sound(3);
+                    break;
+                }
+            }
+
+            switch(o->oAction) {
+                case FBOWSER_SWIPE:
+                    o->oFaceAngleYaw = approach_s16_asymptotic(o->oFaceAngleYaw,o->oAngleToMario,10);
+                    break;
+            }
+
+            if (o->oInteractStatus & INT_STATUS_SEPHISWORD) {
+                o->oInteractStatus = 0;
+
+                s16 dud;
+                s16 parry_angle;
+                Vec3f mario_offset_vel = {gMarioState->pos[0]-sins(gMarioState->faceAngle[1])*gMarioState->forwardVel,gMarioState->pos[1],gMarioState->pos[2]-coss(gMarioState->faceAngle[1])*gMarioState->forwardVel};
+                vec3f_get_angle(mario_offset_vel,sephisword_impact_vec,&dud,&parry_angle);
+
+                s16 parry_offset = abs_angle_diff(gMarioState->faceAngle[1],parry_angle);
+
+                if (((gMarioState->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH) ||
+                (gMarioState->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR)) && (parry_offset < 0x3000)) {
+                    cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
+                    o->oAction = FBOWSER_PARRIED;
+                    //e__sg_spark(sephisword_impact_vec, (0.5f + (random_float() * 3.f)));
+                    struct Object * spark = spawn_object(o,MODEL_SPARKLES,bhvCoinSparkles);
+                    vec3f_copy(&spark->oPosVec,sephisword_impact_vec);
+                } else {
+                    drop_and_set_mario_action(gMarioState, ACT_HARD_BACKWARD_GROUND_KB, 2);
+                }
+            }
+
+            if (cur_obj_check_if_at_animation_end()) {
+                o->oAction = FBOWSER_SWIPE+(random_u16()%2);
+                o->oTimer = 0;
+            }
+
+            break;
+        case FBOWSER_PARRIED:
+            o->header.gfx.animInfo.animFrame-=3;
+            if (o->header.gfx.animInfo.animFrame < 0) {
+                o->header.gfx.animInfo.animFrame=0;
+                o->oAction = FBOWSER_SWIPE+(random_u16()%2);
+                o->oInteractStatus = 0;
+                o->oTimer = 0;
+            }
+            break;
+        
+    }
+}

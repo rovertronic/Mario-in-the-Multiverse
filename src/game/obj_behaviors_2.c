@@ -48,6 +48,8 @@
 #include "puppylights.h"
 #include "rigid_body.h"
 #include "levels/k/header.h"
+#include "mario_actions_object.h"
+#include "src/game/e__shotgun_effects.h"
 
 //! TODO: remove static
 

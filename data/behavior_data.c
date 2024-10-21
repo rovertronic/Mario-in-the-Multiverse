@@ -9730,13 +9730,15 @@ const BehaviorScript bhvBcAtreus[] = {
     END_LOOP(),
 };
 
+extern void bhv_final_boss_bowser(void);
 const BehaviorScript bhvBcBowser[] = {
     BEGIN(OBJ_LIST_DEFAULT),
-    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
     LOAD_ANIMATIONS(oAnimations, bc_bowser_anims),
-    ANIMATE(0),
+    ANIMATE(2),
     DROP_TO_FLOOR(),
     BEGIN_LOOP(),
+        CALL_NATIVE(bhv_final_boss_bowser),
     END_LOOP(),
 };
 

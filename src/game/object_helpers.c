@@ -178,7 +178,10 @@ Gfx *geo_update_mverse_pipe(s32 callContext, struct GraphNode *node, UNUSED void
     return dlStart;
 }
 
+Vec3f sephisword_impact_vec;
 Gfx *geo_update_sephisword(s32 callContext, struct GraphNode *node, Mat4 mtx) {
+    struct Object *obj = gCurGraphNodeObjectNode;
+
     gMarioState->pos[1] += 50.0f;
 
     //set points
@@ -189,7 +192,7 @@ Gfx *geo_update_sephisword(s32 callContext, struct GraphNode *node, Mat4 mtx) {
     vec3f_copy(point2,&mtx[3][0]);
     Vec3f point2offset;
     vec3f_copy(point2offset,&mtx[1][0]);
-    vec3_mul_val(point2offset,420.0f); //length of sword
+    vec3_mul_val(point2offset,462.0f); //length of sword
     vec3f_sum(point2,point2,point2offset);
 
     //project mario's position to the line segment between p1 and p2
@@ -218,7 +221,10 @@ Gfx *geo_update_sephisword(s32 callContext, struct GraphNode *node, Mat4 mtx) {
     f32 dist;
     vec3f_get_dist(closestPoint,gMarioState->pos,&dist);
 
-    print_text_fmt_int(10, 56, "STROKE %d", (int)dist);
+    if (obj && dist < 100.0f) {
+        vec3f_copy(sephisword_impact_vec, closestPoint);
+        obj->oInteractStatus |= INT_STATUS_SEPHISWORD;
+    }
 
     gMarioState->pos[1] -= 50.0f;
     return NULL;

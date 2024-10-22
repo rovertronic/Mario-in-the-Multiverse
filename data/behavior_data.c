@@ -9718,15 +9718,17 @@ const BehaviorScript bhvBcSkiploom[] = {
     END_LOOP(),
 };
 
+extern void bhv_atreus_bosscontroller(void);
 const BehaviorScript bhvBcAtreus[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
     LOAD_ANIMATIONS(oAnimations, bc_atreus_anims),
     ANIMATE(0),
     SET_HOME(),
     SET_FLOAT(oDrawingDistance, 32000),
     SCALE(/*Unused*/ 0, /*Field*/ 900),
     BEGIN_LOOP(),
+        CALL_NATIVE(bhv_atreus_bosscontroller),
     END_LOOP(),
 };
 
@@ -9737,6 +9739,7 @@ const BehaviorScript bhvBcBowser[] = {
     LOAD_ANIMATIONS(oAnimations, bc_bowser_anims),
     ANIMATE(2),
     DROP_TO_FLOOR(),
+    SET_FLOAT(oGraphYOffset, 25),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_final_boss_bowser),
     END_LOOP(),

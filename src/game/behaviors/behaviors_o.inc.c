@@ -1626,6 +1626,7 @@ enum {
     FBOWSER_SWIPE,
     FBOWSER_ARC,
     FBOWSER_PARRIED,
+    FBOWSER_DESCEND,
 };
 
 extern Vec3f sephisword_impact_vec;
@@ -1633,7 +1634,13 @@ void bhv_final_boss_bowser(void) {
 
     switch(o->oAction) {
         case FBOWSER_INIT:
-            o->oAction = FBOWSER_SWIPE;
+            cur_obj_hide();
+            break;
+        case FBOWSER_DESCEND:
+            if (o->oTimer == 0) {
+                cur_obj_unhide();
+                cur_obj_init_animation_with_sound(4);
+            }
             break;
         case FBOWSER_SWIPE:
         case FBOWSER_ARC:
@@ -1693,5 +1700,62 @@ void bhv_final_boss_bowser(void) {
             }
             break;
         
+    }
+}
+
+enum {
+    ATREUS_INIT,
+    ATREUS_WAIT,
+    ATREUS_CHAT_1,
+    ATREUS_WAIT_2,
+    ATREUS_BOWSER_AMBUSH,
+    ATREUS_WATCHING_FIGHT,
+};
+
+void bhv_atreus_bosscontroller(void) {
+    switch(o->oAction) {
+        case ATREUS_INIT:
+            o->oAction = ATREUS_WAIT;
+            break;
+        case ATREUS_WAIT:
+             o->header.gfx.animInfo.animFrame = 0;
+            if (o->oDistanceToMario < 5000.0f) {
+                o->oAction = ATREUS_CHAT_1;
+                struct Object * cutscene = spawn_object(o,MODEL_NONE,bhvCutsceneManager);
+                cutscene->oBehParams2ndByte = 4;
+            }
+            break;
+        case ATREUS_CHAT_1:
+            if (o->oTimer > 2 && !cm_cutscene_on) {
+                o->oAction = ATREUS_WAIT_2;
+            }
+            break;
+        case ATREUS_WAIT_2:
+            if (o->oDistanceToMario < 4000.0f) {
+                o->oAction = ATREUS_BOWSER_AMBUSH;
+                struct Object * cutscene = spawn_object(o,MODEL_NONE,bhvCutsceneManager);
+                cutscene->oBehParams2ndByte = 5;
+
+                struct Object * obj;
+                obj = cur_obj_nearest_object_with_behavior(bhvBcBosslanding);
+                if (obj) {
+                    obj_mark_for_deletion(obj);
+                }
+                obj = cur_obj_nearest_object_with_behavior(bhvBcBowser);
+                if (obj) {
+                    obj->oAction = FBOWSER_DESCEND;
+                }
+                vec3f_copy(gMarioObject->header.gfx.pos,&obj->oPosVec);
+                gMarioObject->header.gfx.pos[2] += 80.0f;
+            }
+            break;
+        case ATREUS_BOWSER_AMBUSH:
+            if (o->oTimer > 2 && !cm_cutscene_on) {
+                o->oAction = ATREUS_WATCHING_FIGHT;
+            }
+            break;
+        case ATREUS_WATCHING_FIGHT:
+
+            break;
     }
 }

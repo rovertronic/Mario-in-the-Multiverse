@@ -1145,6 +1145,10 @@ void render_hud(void) {
                             gDPSetEnvColor(gDisplayListHead++, 255, 255, 40, (u8)cm_textbox_text_alpha);
                             print_generic_string_ascii(43, 58, "W.D. Gaster:");
                             break;
+                        case CM_SPEAKER_ATREUS:
+                            gDPSetEnvColor(gDisplayListHead++, 255, 255, 120, (u8)cm_textbox_text_alpha);
+                            print_generic_string_ascii(43, 58, "ATREUS:");
+                            break;
                     }
 
 

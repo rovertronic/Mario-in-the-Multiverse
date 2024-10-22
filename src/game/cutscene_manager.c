@@ -531,9 +531,195 @@ void cm_secretboss_intro(void) {
 }
 
 void cm_secretboss_end(void) {
-
+    switch(cm_cutscene_timer) {
+        case 0:
+            cm_camera_object = 0;
+            cm_target_camera_object = 0;
+            cm_textbox_target_speaker = CM_SPEAKER_ATREUS;
+            cm_textbox_text_target = &ascii_gaster1;
+            break;
+        case 1:
+            if (cm_press_a_or_b()) {
+                cm_textbox_target_speaker = CM_SPEAKER_YUKARI;
+                cm_textbox_text_target = &ascii_yukari1;
+            }
+            break;
+        case 2:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_yukari2;
+            }
+            break;
+        case 3:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_yukari2_1;
+            }
+            break;
+        case 4:
+            if (cm_press_a_or_b()) {
+                cm_target_camera_object = 0;
+                cm_textbox_target_speaker = CM_SPEAKER_GASTER;
+                cm_textbox_text_target = &ascii_gaster3;
+            }
+            break;
+        case 5:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = NULL;
+            }
+            break;
+        case 60:
+            set_mario_action(gMarioState,ACT_IDLE,0);
+            cm_cutscene_on = FALSE;
+            break;
+    }
 }
 
+char ascii_atreus_1[] = "IT APPEARS\nA VISITOR HAS ARRIVED.";
+char ascii_atreus_2[] = "PASS THROUGH MY EYE\nAND I WILL LEND YOU MY POWER.";
+
+char ascii_fb_bowser_1[] = "I have come all this way.";
+char ascii_fb_bowser_2[] = "And yet... not a one.";
+char ascii_fb_bowser_3[] = "Not a single universe where Peach loves me.";
+char ascii_fb_bowser_4[] = "I've been to THOUSANDS.";
+char ascii_fb_bowser_5[] = "Yet, against all odds, they're all the same.";
+char ascii_fb_bowser_6[] = "Well, that does it.";
+char ascii_fb_bowser_7[] = "If not one shred of the observable universe\nwill indulge my needs,";
+char ascii_fb_bowser_8[] = "Then I see it fit that it has no right to exist.";
+char ascii_fb_bowser_9[] = "I will vanquish you, and use ATREUS's power\nto destroy EVERYTHING.";
+char ascii_fb_bowser_10[] = "My wish will be to wipe every molecule, atom,\nand soul from this plane of existence.";
+
+char ascii_atreus_3[] = "IT APPEARS\nWE HAVE A DISPUTE.";
+char ascii_atreus_4[] = "THIS IS HOW IT WILL BE:";
+char ascii_atreus_5[] = "ONE ON ONE COMBAT\nTHE VICTOR WILL EARN AN AUDIENCE WITH I";
+char ascii_atreus_6[] = "WELL, THAT IS THAT.\nHAVE AT IT!";
+
+struct Object * fb_bowser;
+
+void cm_finalboss_1(void) {
+    switch(cm_cutscene_timer) {
+        case 0:
+            cm_camera_object = 0;
+            cm_target_camera_object = 0;
+            break;
+        case 60:
+            cm_textbox_target_speaker = CM_SPEAKER_ATREUS;
+            cm_textbox_text_target = &ascii_atreus_1;
+            break;
+        case 61:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_atreus_2;
+            }
+            break;
+        case 62:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = NULL;
+            }
+            break;
+        case 120:
+                set_mario_action(gMarioState,ACT_IDLE,0);
+                cm_cutscene_on = FALSE;
+                obj_mark_for_deletion(o);
+            break;
+    }
+}
+
+void cm_finalboss_2(void) {
+    switch(cm_cutscene_timer) {
+        case 0:
+            fb_bowser = cur_obj_nearest_object_with_behavior(bhvBcBowser);
+
+            cm_camera_object = 1;
+            cm_target_camera_object = 1;
+            break;
+        case 16:
+            play_sound(SOUND_MARIO_OOOF, gGlobalSoundSource);
+            cm_mario_anim(MARIO_ANIM_BACKWARD_KB);
+            break;
+        case 45:
+            cm_target_camera_object = 2;
+
+            cm_textbox_target_speaker = CM_SPEAKER_BOWSER;
+            cm_textbox_text_target = &ascii_fb_bowser_1;
+
+            obj_init_animation(fb_bowser,1);
+            break;
+        case 46:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_fb_bowser_2;
+            }
+            break;
+        case 47:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_fb_bowser_3;
+            }
+            break;
+        case 48:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_fb_bowser_4;
+            }
+            break;
+        case 49:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_fb_bowser_5;
+            }
+            break;
+        case 50:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_fb_bowser_6;
+                cm_target_camera_object = 3;
+            }
+            break;
+        case 51:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_fb_bowser_7;
+            }
+            break;
+        case 52:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_fb_bowser_8;
+            }
+            break;
+        case 53:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_fb_bowser_9;
+            }
+            break;
+        case 54:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_fb_bowser_10;
+            }
+            break;
+        case 55:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_atreus_3;
+                cm_textbox_target_speaker = CM_SPEAKER_ATREUS;
+                cm_target_camera_object = 0;
+            }
+            break;
+        case 56:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_atreus_4;
+            }
+            break;
+        case 57:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_atreus_5;
+            }
+            break;
+        case 58:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_atreus_6;
+            }
+            break;
+    }
+
+    if ((cm_cutscene_timer > 15)&&(cm_cutscene_timer < 35)) {
+        gMarioObject->header.gfx.pos[2] += 15.0f;
+    }
+}
+
+void cm_finalboss_3(void) {
+
+}
 
 void cm_manager_object_loop(void) {
     if (o->oAction == 0) {
@@ -555,16 +741,25 @@ void cm_manager_object_loop(void) {
     switch(o->oBehParams2ndByte) {
         case 0:
             cm_intro_cutscene();
-        break;
+            break;
         case 1:
             cm_kirby_cutscene();
-        break;
+            break;
         case 2:
             cm_secretboss_intro();
-        break;
+            break;
         case 3:
             cm_secretboss_end();
-        break;
+            break;
+        case 4:
+            cm_finalboss_1();
+            break;
+        case 5:
+            cm_finalboss_2();
+            break;
+        case 6:
+
+            break;
     }
 
     // Junky alpha transitions

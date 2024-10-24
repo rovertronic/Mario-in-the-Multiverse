@@ -1634,6 +1634,7 @@ void bhv_final_boss_bowser(void) {
 
     switch(o->oAction) {
         case FBOWSER_INIT:
+            o->oInteractStatus = 0;
             cur_obj_hide();
             break;
         case FBOWSER_DESCEND:
@@ -1752,10 +1753,17 @@ void bhv_atreus_bosscontroller(void) {
         case ATREUS_BOWSER_AMBUSH:
             if (o->oTimer > 2 && !cm_cutscene_on) {
                 o->oAction = ATREUS_WATCHING_FIGHT;
+                vec3f_copy(gMarioState->pos,gMarioObject->header.gfx.pos);
+
+                struct Object * obj = cur_obj_nearest_object_with_behavior(bhvBcBowser);
+                if (obj) {
+                    obj->oInteractStatus = 0;
+                    obj->oAction = FBOWSER_SWIPE;
+                }
             }
             break;
         case ATREUS_WATCHING_FIGHT:
-
+            o->oPosZ = approach_f32_asymptotic(o->oPosZ,o->oHomeZ-4000.0f,0.1f);
             break;
     }
 }

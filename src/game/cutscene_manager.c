@@ -710,6 +710,13 @@ void cm_finalboss_2(void) {
                 cm_textbox_text_target = &ascii_atreus_6;
             }
             break;
+        case 59:
+            if (cm_press_a_or_b()) {
+                set_mario_action(gMarioState,ACT_IDLE,0);
+                cm_cutscene_on = FALSE;
+                obj_mark_for_deletion(o);
+            }
+            break;
     }
 
     if ((cm_cutscene_timer > 15)&&(cm_cutscene_timer < 35)) {

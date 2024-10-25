@@ -45,3 +45,4 @@
 #include "levels/bowser_course/bc_bowser/anims/table.inc.c"
 #include "levels/bowser_course/bc_bosslanding/model.inc.c"
 #include "levels/bowser_course/bc_bosslanding/collision.inc.c"
+#include "levels/bowser_course/bc_bowsf2/model.inc.c"

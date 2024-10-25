@@ -30,3 +30,4 @@
 #include "levels/bowser_course/bc_atreus/geo.inc.c"
 #include "levels/bowser_course/bowsf1/geo.inc.c"
 #include "levels/bowser_course/bc_bosslanding/geo.inc.c"
+#include "levels/bowser_course/bc_bowsf2/geo.inc.c"

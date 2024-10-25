@@ -61,4 +61,6 @@ extern const LevelScript level_bowser_course_entry[];
 
 #include "levels/bowser_course/bc_bosslanding/collision_header.h"
 
+#include "levels/bowser_course/bc_bowsf2/geo_header.h"
+
 #endif

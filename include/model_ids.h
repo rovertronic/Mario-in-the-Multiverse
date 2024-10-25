@@ -953,6 +953,7 @@ enum K_MODELS {
 #define MODEL_BC_ATREUS            0x15C
 #define MODEL_BC_BOWSER_FORM_1     0x15D
 #define MODEL_BC_BOSSLANDING       0x15E
+#define MODEL_BC_BOWSER_FORM_2     0x15F
 
 //HUB
 enum {

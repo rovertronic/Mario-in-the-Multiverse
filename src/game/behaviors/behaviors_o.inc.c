@@ -1627,8 +1627,10 @@ enum {
     FBOWSER_ARC,
     FBOWSER_PARRIED,
     FBOWSER_DESCEND,
+    FBOWSER_TRANSFORM,
 };
 
+u8 fb_bowser_phase = 0;
 extern Vec3f sephisword_impact_vec;
 void bhv_final_boss_bowser(void) {
 
@@ -1636,6 +1638,7 @@ void bhv_final_boss_bowser(void) {
         case FBOWSER_INIT:
             o->oInteractStatus = 0;
             cur_obj_hide();
+            fb_bowser_phase = 0;
             break;
         case FBOWSER_DESCEND:
             if (o->oTimer == 0) {
@@ -1700,6 +1703,24 @@ void bhv_final_boss_bowser(void) {
                 o->oTimer = 0;
             }
             break;
+        case FBOWSER_TRANSFORM:
+            o->oFaceAngleYaw +=0x1000;
+
+            if (o->oTimer == 24) {
+                fb_bowser_phase++;
+                spawn_mist_particles_variable(0, 0, 100.0f);
+                switch(fb_bowser_phase) {
+                    case 1:
+                        cur_obj_init_animation_with_sound(0);
+                        o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_2];
+                        break;
+                }
+            }
+
+            if (o->oTimer == 48) {
+                //end
+            }
+            break;
         
     }
 }
@@ -1758,7 +1779,7 @@ void bhv_atreus_bosscontroller(void) {
                 struct Object * obj = cur_obj_nearest_object_with_behavior(bhvBcBowser);
                 if (obj) {
                     obj->oInteractStatus = 0;
-                    obj->oAction = FBOWSER_SWIPE;
+                    obj->oAction = FBOWSER_TRANSFORM;
                 }
             }
             break;

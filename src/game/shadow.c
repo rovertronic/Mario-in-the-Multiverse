@@ -311,7 +311,11 @@ Gfx *create_shadow_below_xyz(Vec3f pos, s16 shadowScale, u8 shadowSolidity, s8 s
     }
 
     // No shadow if the non-Mario object is too high.
-    if (!isPlayer && distToShadow > 1024.0f) {
+    u8 shadow_exception = FALSE;
+    if ((gCurrLevelNum == LEVEL_BOWSER_COURSE)&&(gCurrAreaIndex == 2)) {
+        shadow_exception = TRUE;
+    }
+    if (!isPlayer && distToShadow > 1024.0f && !shadow_exception) {
         return NULL;
     }
 

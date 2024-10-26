@@ -63,4 +63,12 @@ extern const LevelScript level_bowser_course_entry[];
 
 #include "levels/bowser_course/bc_bowsf2/geo_header.h"
 
+#include "levels/bowser_course/bc_pingas_plane/geo_header.h"
+
+#include "levels/bowser_course/bc_pingas_plane/anim_header.h"
+
+#include "levels/bowser_course/bc_pingas_ball/geo_header.h"
+
+#include "levels/bowser_course/bc_pingas_plane_dmg/geo_header.h"
+
 #endif

@@ -1,0 +1,14 @@
+extern const GeoLayout bc_pingas_ball_geo[];
+extern u8 bc_pingas_ball_eggball_colors_ci4[];
+extern u8 bc_pingas_ball_eggball_colors_pal_rgba16[];
+extern u8 bc_pingas_ball_eggball_overlay_rgba32[];
+extern Vtx bc_pingas_ball_Sphere_mesh_layer_1_vtx_0[351];
+extern Gfx bc_pingas_ball_Sphere_mesh_layer_1_tri_0[];
+extern Vtx bc_pingas_ball_Sphere_mesh_layer_6_vtx_0[351];
+extern Gfx bc_pingas_ball_Sphere_mesh_layer_6_tri_0[];
+extern Gfx mat_bc_pingas_ball_eggball_color[];
+extern Gfx mat_revert_bc_pingas_ball_eggball_color[];
+extern Gfx mat_bc_pingas_ball_eggball_lighting_overlay[];
+extern Gfx mat_revert_bc_pingas_ball_eggball_lighting_overlay[];
+extern Gfx bc_pingas_ball_Sphere_mesh_layer_1[];
+extern Gfx bc_pingas_ball_Sphere_mesh_layer_6[];

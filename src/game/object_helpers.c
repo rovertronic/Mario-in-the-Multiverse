@@ -180,53 +180,63 @@ Gfx *geo_update_mverse_pipe(s32 callContext, struct GraphNode *node, UNUSED void
 
 Vec3f sephisword_impact_vec;
 Gfx *geo_update_sephisword(s32 callContext, struct GraphNode *node, Mat4 mtx) {
-    struct Object *obj = gCurGraphNodeObjectNode;
+    if (callContext == GEO_CONTEXT_RENDER) {
+        struct Object *obj = gCurGraphNodeObjectNode;
 
-    gMarioState->pos[1] += 50.0f;
+        gMarioState->pos[1] += 50.0f;
 
-    //set points
-    Vec3f point1;
-    Vec3f point2;
+        //set points
+        Vec3f point1;
+        Vec3f point2;
 
-    vec3f_copy(point1,&mtx[3][0]);
-    vec3f_copy(point2,&mtx[3][0]);
-    Vec3f point2offset;
-    vec3f_copy(point2offset,&mtx[1][0]);
-    vec3_mul_val(point2offset,462.0f); //length of sword
-    vec3f_sum(point2,point2,point2offset);
+        vec3f_copy(point1,&mtx[3][0]);
+        vec3f_copy(point2,&mtx[3][0]);
+        Vec3f point2offset;
+        vec3f_copy(point2offset,&mtx[1][0]);
+        vec3_mul_val(point2offset,462.0f); //length of sword
+        vec3f_sum(point2,point2,point2offset);
 
-    //project mario's position to the line segment between p1 and p2
-    Vec3f AB;
-    Vec3f AP;
+        //project mario's position to the line segment between p1 and p2
+        Vec3f AB;
+        Vec3f AP;
 
-    vec3f_diff(AB,point2,point1);
-    vec3f_diff(AP,gMarioState->pos,point1);
+        vec3f_diff(AB,point2,point1);
+        vec3f_diff(AP,gMarioState->pos,point1);
 
-    f32 AB_length_squared = vec3f_dot(AB,AB);
+        f32 AB_length_squared = vec3f_dot(AB,AB);
 
-    f32 t = vec3f_dot(AP,AB) / AB_length_squared;
-    if (t > 1.0f) {
-        t = 1.0f;
+        f32 t = vec3f_dot(AP,AB) / AB_length_squared;
+        if (t > 1.0f) {
+            t = 1.0f;
+        }
+        if (t < 0.0f) {
+            t = 0.0f;
+        }
+
+        Vec3f closestPoint;
+        vec3f_copy(closestPoint,AB);
+        vec3_mul_val(closestPoint,t);
+        vec3f_sum(closestPoint,point1,closestPoint);
+
+        // calculate distance from mario to closest point on sword
+        f32 dist;
+        vec3f_get_dist(closestPoint,gMarioState->pos,&dist);
+
+        if (obj && dist < 100.0f) {
+            vec3f_copy(sephisword_impact_vec, closestPoint);
+            obj->oInteractStatus |= INT_STATUS_SEPHISWORD;
+        }
+
+        gMarioState->pos[1] -= 50.0f;
     }
-    if (t < 0.0f) {
-        t = 0.0f;
+    return NULL;
+}
+
+Vec3f robodick_pos;
+Gfx *geo_update_robodick(s32 callContext, struct GraphNode *node, Mat4 mtx) {
+    if (callContext == GEO_CONTEXT_RENDER) {
+        vec3f_copy(robodick_pos,&mtx[3][0]);
     }
-
-    Vec3f closestPoint;
-    vec3f_copy(closestPoint,AB);
-    vec3_mul_val(closestPoint,t);
-    vec3f_sum(closestPoint,point1,closestPoint);
-
-    // calculate distance from mario to closest point on sword
-    f32 dist;
-    vec3f_get_dist(closestPoint,gMarioState->pos,&dist);
-
-    if (obj && dist < 100.0f) {
-        vec3f_copy(sephisword_impact_vec, closestPoint);
-        obj->oInteractStatus |= INT_STATUS_SEPHISWORD;
-    }
-
-    gMarioState->pos[1] -= 50.0f;
     return NULL;
 }
 

@@ -9734,16 +9734,42 @@ const BehaviorScript bhvBcAtreus[] = {
 
 extern void bhv_final_boss_bowser(void);
 const BehaviorScript bhvBcBowser[] = {
-    BEGIN(OBJ_LIST_DEFAULT),
+    BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
     LOAD_ANIMATIONS(oAnimations, bc_bowser_anims),
     ANIMATE(2),
     DROP_TO_FLOOR(),
     SET_FLOAT(oGraphYOffset, 25),
+    SET_HOME(),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_final_boss_bowser),
     END_LOOP(),
 };
+
+extern void bhv_pingas_plane(void);
+const BehaviorScript bhvBcPingasPlane[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_E__SG_CUSTOM)),
+    LOAD_ANIMATIONS(oAnimations, bc_pingas_plane_anims),
+    ANIMATE(1),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_pingas_plane),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBcPingasBall[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
+    SET_INT(oIntangibleTimer, 0),
+    SET_INT(oDamageOrCoinValue, 2),
+    SET_INTERACT_TYPE(INTERACT_DAMAGE),
+    SET_HOME(),
+    SET_HITBOX_WITH_OFFSET(/*Radius*/ 250, /*Height*/ 250, /*Downwards offset*/ 125),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+    END_LOOP(),
+};
+
 
 const BehaviorScript bhvBcBosslanding[] = {
     BEGIN(OBJ_LIST_SURFACE),

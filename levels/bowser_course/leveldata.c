@@ -46,3 +46,8 @@
 #include "levels/bowser_course/bc_bosslanding/model.inc.c"
 #include "levels/bowser_course/bc_bosslanding/collision.inc.c"
 #include "levels/bowser_course/bc_bowsf2/model.inc.c"
+#include "levels/bowser_course/bc_pingas_plane/model.inc.c"
+#include "levels/bowser_course/bc_pingas_plane/anims/data.inc.c"
+#include "levels/bowser_course/bc_pingas_plane/anims/table.inc.c"
+#include "levels/bowser_course/bc_pingas_ball/model.inc.c"
+#include "levels/bowser_course/bc_pingas_plane_dmg/model.inc.c"

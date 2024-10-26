@@ -954,6 +954,9 @@ enum K_MODELS {
 #define MODEL_BC_BOWSER_FORM_1     0x15D
 #define MODEL_BC_BOSSLANDING       0x15E
 #define MODEL_BC_BOWSER_FORM_2     0x15F
+#define MODEL_BC_PINGAS_PLANE      0x160
+#define MODEL_BC_PINGAS_BALL       0x161
+#define MODEL_BC_PINGAS_PLANE_DMG  0x162
 
 //HUB
 enum {

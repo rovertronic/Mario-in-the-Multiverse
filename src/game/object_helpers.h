@@ -289,5 +289,6 @@ struct Object *obj_find_nearest_object_with_behavior_and_bparam2(const BehaviorS
 s16 cur_obj_mario_angle_to_home(void);
 void cur_obj_die_if_on_death_floor(void);
 Gfx *geo_update_sephisword(s32 callContext, struct GraphNode *node, Mat4 mtx);
+Gfx *geo_update_robodick(s32 callContext, struct GraphNode *node, Mat4 mtx);
 
 #endif // OBJECT_HELPERS_H

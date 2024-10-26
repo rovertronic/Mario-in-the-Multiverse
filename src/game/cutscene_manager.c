@@ -584,7 +584,7 @@ char ascii_fb_bowser_5[] = "Yet, against all odds, they're all the same.";
 char ascii_fb_bowser_6[] = "Well, that does it.";
 char ascii_fb_bowser_7[] = "If not one shred of the observable universe\nwill indulge my needs,";
 char ascii_fb_bowser_8[] = "Then I see it fit that it has no right to exist.";
-char ascii_fb_bowser_9[] = "I will vanquish you, and use ATREUS's power\nto destroy EVERYTHING.";
+char ascii_fb_bowser_9[] = "I will pummel you, and use ATREUS's power\nto destroy EVERYTHING.";
 char ascii_fb_bowser_10[] = "My wish will be to wipe every molecule, atom,\nand soul from this plane of existence.";
 
 char ascii_atreus_3[] = "IT APPEARS\nWE HAVE A DISPUTE.";

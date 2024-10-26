@@ -1628,7 +1628,12 @@ enum {
     FBOWSER_PARRIED,
     FBOWSER_DESCEND,
     FBOWSER_TRANSFORM,
+    FBOWSER_EGG_JUMP_IN_MOBILE,
 };
+
+f32 lerp_standard(f32 v0, f32 v1, f32 t) {
+  return v0 + t * (v1 - v0);
+}
 
 u8 fb_bowser_phase = 0;
 extern Vec3f sephisword_impact_vec;
@@ -1711,7 +1716,7 @@ void bhv_final_boss_bowser(void) {
                 spawn_mist_particles_variable(0, 0, 100.0f);
                 switch(fb_bowser_phase) {
                     case 1:
-                        cur_obj_init_animation_with_sound(0);
+                        cur_obj_init_animation_with_sound(5);
                         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_2];
                         break;
                 }
@@ -1719,9 +1724,31 @@ void bhv_final_boss_bowser(void) {
 
             if (o->oTimer == 48) {
                 //end
+                switch(fb_bowser_phase) {
+                    case 1:
+                        o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_2];
+                        o->oAction = FBOWSER_EGG_JUMP_IN_MOBILE;
+                        break;
+                }
             }
             break;
-        
+        case FBOWSER_EGG_JUMP_IN_MOBILE:
+            if (o->oTimer == 0) {
+                o->prevObj = spawn_object(o,MODEL_BC_PINGAS_PLANE,bhvBcPingasPlane);
+                o->prevObj->oPosY -= 500.0f;
+                o->prevObj->oPosX += 1200.0f;
+
+            }
+
+            if (o->oTimer > 50) {
+                vec3f_copy(&o->oPosVec,&o->prevObj->oPosVec);
+            } else {
+                o->oPosX = lerpf(o->oHomeX,o->prevObj->oPosX,o->oTimer/50.0f);
+                o->oPosY = lerpf(o->oHomeY,o->prevObj->oPosY,o->oTimer/50.0f) + sins((o->oTimer*0x8000)/50)*500.0f;
+                o->oPosZ = lerpf(o->oHomeZ,o->prevObj->oPosZ,o->oTimer/50.0f);
+            }
+            o->oFaceAngleYaw = approach_s16_asymptotic(o->oFaceAngleYaw,o->prevObj->oFaceAngleYaw-0x4000,8);
+            break;
     }
 }
 
@@ -1734,17 +1761,23 @@ enum {
     ATREUS_WATCHING_FIGHT,
 };
 
+u8 first_time_visit = TRUE;
 void bhv_atreus_bosscontroller(void) {
     switch(o->oAction) {
         case ATREUS_INIT:
             o->oAction = ATREUS_WAIT;
             break;
         case ATREUS_WAIT:
-             o->header.gfx.animInfo.animFrame = 0;
+            o->header.gfx.animInfo.animFrame = 0;
             if (o->oDistanceToMario < 5000.0f) {
-                o->oAction = ATREUS_CHAT_1;
-                struct Object * cutscene = spawn_object(o,MODEL_NONE,bhvCutsceneManager);
-                cutscene->oBehParams2ndByte = 4;
+                if (first_time_visit) {
+                    o->oAction = ATREUS_CHAT_1;
+                    struct Object * cutscene = spawn_object(o,MODEL_NONE,bhvCutsceneManager);
+                    cutscene->oBehParams2ndByte = 4;
+                    first_time_visit = FALSE;
+                } else {
+                    o->oAction = ATREUS_WATCHING_FIGHT;
+                }
             }
             break;
         case ATREUS_CHAT_1:
@@ -1769,12 +1802,15 @@ void bhv_atreus_bosscontroller(void) {
                 }
                 vec3f_copy(gMarioObject->header.gfx.pos,&obj->oPosVec);
                 gMarioObject->header.gfx.pos[2] += 80.0f;
+
+                gMarioState->pos[0] = 0.0f;
+                gMarioState->pos[1] = 0.0f;
+                gMarioState->pos[2] = -1000.0f;
             }
             break;
         case ATREUS_BOWSER_AMBUSH:
             if (o->oTimer > 2 && !cm_cutscene_on) {
                 o->oAction = ATREUS_WATCHING_FIGHT;
-                vec3f_copy(gMarioState->pos,gMarioObject->header.gfx.pos);
 
                 struct Object * obj = cur_obj_nearest_object_with_behavior(bhvBcBowser);
                 if (obj) {
@@ -1786,5 +1822,129 @@ void bhv_atreus_bosscontroller(void) {
         case ATREUS_WATCHING_FIGHT:
             o->oPosZ = approach_f32_asymptotic(o->oPosZ,o->oHomeZ-4000.0f,0.1f);
             break;
+    }
+}
+
+u8 pingas_plane_path = 0;
+Vec3f pingas_plane_target;
+
+static struct ObjectHitbox sEggHitbox = {
+    /* interactType:      */ INTERACT_BOUNCE_TOP,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 0,
+    /* health:            */ 8,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 320,
+    /* height:            */ 200,
+    /* hurtboxRadius:     */ 300,
+    /* hurtboxHeight:     */ 160,
+};
+
+extern Vec3f robodick_pos;
+void bhv_pingas_plane(void) {
+    switch(o->oAction) {
+        case 0:
+            o->header.gfx.animInfo.animFrame = 0;
+            if (o->oTimer == 0) {
+                pingas_plane_path = 0;
+                o->prevObj = spawn_object(o,MODEL_BC_PINGAS_BALL,bhvBcPingasBall);
+                vec3f_set(pingas_plane_target,0,0,0);
+                
+            }
+            o->oPosY += 15.0f;
+            if (o->oPosY > 1200.0f) {
+                o->oAction = 1;
+            }
+            break;
+        case 1:
+            //go
+            {
+                s16 dud;
+                s16 travel_angle;
+                f32 dist;
+                if (o->oTimer == 0) {
+                    obj_set_hitbox(o, &sEggHitbox);
+                }
+
+                pingas_plane_target[1] = o->oPosY;
+
+                vec3f_get_angle(&o->oPosVec,pingas_plane_target,&dud,&travel_angle);
+                vec3f_get_dist(&o->oPosVec,pingas_plane_target,&dist);
+
+                o->oPosX += sins(travel_angle)*20.0f;
+                o->oPosZ += coss(travel_angle)*20.0f;
+
+                if (dist < 40.0f) {
+                    pingas_plane_path++;
+                    if (pingas_plane_path % 2 == 0) {
+                        vec3f_set(pingas_plane_target,0,0,0);
+                    } else {
+                        pingas_plane_target[0] = sins((pingas_plane_path)*0x1999)*3000.0f;
+                        pingas_plane_target[2] = coss((pingas_plane_path)*0x1999)*3000.0f;
+                    }
+                    
+                }
+                o->oFaceAngleYaw = approach_s16_asymptotic(o->oFaceAngleYaw, o->oAngleToMario+0x4000, 16);
+
+                o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_PINGAS_PLANE];
+                if (o->oTimer > 15 && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
+                    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_PINGAS_PLANE_DMG];
+                    o->oTimer = 1;
+                    o->oHealth --;
+                }
+
+                o->oInteractStatus = 0;
+
+                if (o->oHealth < 1) {
+                    o->oAction = 2;
+                    vec3f_set(pingas_plane_target,0,0,0);
+                    mark_obj_for_deletion(o->prevObj);
+                    o->prevObj = NULL;
+                }
+            }
+            break;
+        case 2: //die
+            {
+                s16 dud;
+                s16 travel_angle;
+                f32 dist;
+
+                struct Object * bam = spawn_object(o,MODEL_EXPLOSION,bhvExplosionVisual);
+                bam->oPosX += (random_float() * 400.0f)-200.0f;
+                bam->oPosY += (random_float() * 400.0f)-200.0f;
+                bam->oPosZ += (random_float() * 400.0f)-200.0f;
+
+                vec3f_get_angle(&o->oPosVec,pingas_plane_target,&dud,&travel_angle);
+
+                vec3f_get_lateral_dist(&o->oPosVec,pingas_plane_target,&dist);
+
+                if (dist > 40.0f) {
+                    o->oPosX += sins(travel_angle)*20.0f;
+                    o->oPosZ += coss(travel_angle)*20.0f;
+                }
+                o->oPosY -= 15.0f;
+                if (o->oPosY <= 0.0f) {
+                    o->oPosY = 0.0f;
+                }
+
+                vec3f_get_dist(&o->oPosVec,pingas_plane_target,&dist);
+
+                if (dist < 40.0f) {
+                    mark_obj_for_deletion(o);
+                    return;
+                }
+            }
+            break;
+    }
+
+    if (o->prevObj != NULL) {
+        vec3f_copy(&o->prevObj->oPosVec,robodick_pos);
+        o->prevObj->oInteractStatus = 0;
+    }
+
+    if (o->oShotByShotgun > 0) {
+        // The pingas plane is too strong to be beat by the shotgun ツ
+        cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
+        o->oShotByShotgun = 0;
     }
 }

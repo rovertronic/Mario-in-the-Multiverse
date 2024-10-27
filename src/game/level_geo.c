@@ -34,7 +34,7 @@ Gfx *geo_envfx_main(s32 callContext, struct GraphNode *node, Mat4 mtxf) {
             s32 snowMode = GET_LOW_U16_OF_32(*params);
 
             vec3f_to_vec3s(camTo, gCurGraphNodeCamera->focus);
-            vec3f_to_vec3s(camFrom, gCurGraphNodeCamera->pos);
+            vec3f_to_vec3s(camFrom, gCurGraphNodeCamera->posLerp);
             vec3f_to_vec3s(marioPos, gPlayerCameraState->pos);
             particleList = envfx_update_particles(snowMode, marioPos, camTo, camFrom);
             if (particleList != NULL) {
@@ -141,7 +141,7 @@ Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *
                 }
             }
 
-            guTranslate(cool_matrix, gCurGraphNodeCamera->pos[0], gCurGraphNodeCamera->pos[1], gCurGraphNodeCamera->pos[2]);
+            guTranslate(cool_matrix, gCurGraphNodeCamera->posLerp[0], gCurGraphNodeCamera->posLerp[1], gCurGraphNodeCamera->posLerp[2]);
 
             gSPMatrix(&cool_display_list[0], cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
             gSPDisplayList(&cool_display_list[1], segmented_to_virtual(o_spooky_sky_Sphere_001_mesh));
@@ -207,7 +207,7 @@ Gfx *geo_update_h_sky(s32 callContext, struct GraphNode *node, UNUSED void *cont
         Gfx * cool_display_list = alloc_display_list(sizeof(Gfx)*10);
         Mtx * cool_matrix = alloc_display_list(sizeof(Mtx));
 
-        guTranslate(cool_matrix, gCurGraphNodeCamera->pos[0], gCurGraphNodeCamera->pos[1], gCurGraphNodeCamera->pos[2]);
+        guTranslate(cool_matrix, gCurGraphNodeCamera->posLerp[0], gCurGraphNodeCamera->posLerp[1], gCurGraphNodeCamera->posLerp[2]);
 
         gSPMatrix(&cool_display_list[0], cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
         gSPDisplayList(&cool_display_list[1], segmented_to_virtual(hsky_Sphere_mesh));
@@ -264,12 +264,12 @@ Gfx *geo_update_f_sky(s32 callContext, struct GraphNode *node, UNUSED void *cont
         Mtx * cool_matrix = alloc_display_list(sizeof(Mtx));
         Mtx * cool_matrix_2 = alloc_display_list(sizeof(Mtx));
 
-        guTranslate(cool_matrix, gCurGraphNodeCamera->pos[0], gCurGraphNodeCamera->pos[1], gCurGraphNodeCamera->pos[2]);
+        guTranslate(cool_matrix, gCurGraphNodeCamera->posLerp[0], gCurGraphNodeCamera->posLerp[1], gCurGraphNodeCamera->posLerp[2]);
         gSPMatrix(&cool_display_list[0], cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
         gSPDisplayList(&cool_display_list[1], segmented_to_virtual(fsky2_fsky2_mesh));
         gSPPopMatrix(&cool_display_list[2], G_MTX_MODELVIEW);
 
-        guTranslate(cool_matrix_2, gCurGraphNodeCamera->pos[0]*.75f, gCurGraphNodeCamera->pos[1]*.75f, gCurGraphNodeCamera->pos[2]*.75f);
+        guTranslate(cool_matrix_2, gCurGraphNodeCamera->posLerp[0]*.75f, gCurGraphNodeCamera->posLerp[1]*.75f, gCurGraphNodeCamera->posLerp[2]*.75f);
         gSPMatrix(&cool_display_list[3], cool_matrix_2, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
         gSPDisplayList(&cool_display_list[4], segmented_to_virtual(fsky_sky_mesh));
         gSPPopMatrix(&cool_display_list[5], G_MTX_MODELVIEW);
@@ -315,7 +315,7 @@ Gfx *geo_update_f_sky2(s32 callContext, struct GraphNode *node, UNUSED void *con
         Gfx * cool_display_list = alloc_display_list(sizeof(Gfx)*10);
         Mtx * cool_matrix = alloc_display_list(sizeof(Mtx));
 
-        guTranslate(cool_matrix, gCurGraphNodeCamera->pos[0], gCurGraphNodeCamera->pos[1], gCurGraphNodeCamera->pos[2]);
+        guTranslate(cool_matrix, gCurGraphNodeCamera->posLerp[0], gCurGraphNodeCamera->posLerp[1], gCurGraphNodeCamera->posLerp[2]);
 
         gSPMatrix(&cool_display_list[0], cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
         gSPDisplayList(&cool_display_list[1], segmented_to_virtual(fsky2_fsky2_mesh));
@@ -340,7 +340,7 @@ Gfx *geo_update_hub_sky(s32 callContext, struct GraphNode *node, UNUSED void *co
         Gfx * cool_display_list = alloc_display_list(sizeof(Gfx)*10);
         Mtx * cool_matrix = alloc_display_list(sizeof(Mtx));
 
-        guTranslate(cool_matrix, gCurGraphNodeCamera->pos[0], gCurGraphNodeCamera->pos[1], gCurGraphNodeCamera->pos[2]);
+        guTranslate(cool_matrix, gCurGraphNodeCamera->posLerp[0], gCurGraphNodeCamera->posLerp[1], gCurGraphNodeCamera->posLerp[2]);
 
         gSPMatrix(&cool_display_list[0], cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
         gSPDisplayList(&cool_display_list[1], segmented_to_virtual(hubsky_1Solar_Winds_mesh));
@@ -365,7 +365,7 @@ Gfx *geo_update_l_sky(s32 callContext, struct GraphNode *node, UNUSED void *cont
         Gfx * cool_display_list = alloc_display_list(sizeof(Gfx)*10);
         Mtx * cool_matrix = alloc_display_list(sizeof(Mtx));
 
-        guTranslate(cool_matrix, gCurGraphNodeCamera->pos[0]-(gMarioState->pos[0]/10.0f), gCurGraphNodeCamera->pos[1]-(gMarioState->pos[1]/10.0f), gCurGraphNodeCamera->pos[2]);
+        guTranslate(cool_matrix, gCurGraphNodeCamera->posLerp[0]-(gMarioState->pos[0]/10.0f), gCurGraphNodeCamera->posLerp[1]-(gMarioState->pos[1]/10.0f), gCurGraphNodeCamera->posLerp[2]);
 
         gSPMatrix(&cool_display_list[0], cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
         gSPDisplayList(&cool_display_list[1], segmented_to_virtual(ptbg_Plane_mesh));
@@ -428,7 +428,7 @@ Gfx *geo_update_bowser_course_sky(s32 callContext, struct GraphNode *node, UNUSE
         Gfx * cool_display_list = alloc_display_list(sizeof(Gfx)*10);
         Mtx * cool_matrix = alloc_display_list(sizeof(Mtx));
 
-        guTranslate(cool_matrix, gCurGraphNodeCamera->pos[0], gCurGraphNodeCamera->pos[1], gCurGraphNodeCamera->pos[2]);
+        guTranslate(cool_matrix, gCurGraphNodeCamera->posLerp[0], gCurGraphNodeCamera->posLerp[1], gCurGraphNodeCamera->posLerp[2]);
 
         gSPMatrix(&cool_display_list[0], cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
         gSPDisplayList(&cool_display_list[1], segmented_to_virtual(mverses_sky_Sphere_mesh));
@@ -448,7 +448,7 @@ Gfx *geo_update_k_sky(s32 callContext, struct GraphNode *node, UNUSED void *cont
         Gfx * cool_display_list = alloc_display_list(sizeof(Gfx)*10);
         Mtx * cool_matrix = alloc_display_list(sizeof(Mtx));
 
-        guTranslate(cool_matrix, gCurGraphNodeCamera->pos[0], gCurGraphNodeCamera->pos[1], gCurGraphNodeCamera->pos[2]);
+        guTranslate(cool_matrix, gCurGraphNodeCamera->posLerp[0], gCurGraphNodeCamera->posLerp[1], gCurGraphNodeCamera->posLerp[2]);
 
         gSPMatrix(&cool_display_list[0], cool_matrix, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
         gSPDisplayList(&cool_display_list[1], segmented_to_virtual(ksky_ksky_mesh));
@@ -596,7 +596,7 @@ Gfx *geo_update_sb_sky(s32 callContext, struct GraphNode *node, UNUSED void *con
         vec3f_normalize(&sb_sky_rotation[2][0]);
 
         mtxf_copy(sb_sky_matrix,sb_sky_rotation);
-        vec3f_copy(&sb_sky_matrix[3][0],gCurGraphNodeCamera->pos);
+        vec3f_copy(&sb_sky_matrix[3][0],gCurGraphNodeCamera->posLerp);
 
         mtxf_to_mtx_old(cool_matrix,sb_sky_matrix);
 

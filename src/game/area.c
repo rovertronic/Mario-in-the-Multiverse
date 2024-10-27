@@ -433,6 +433,7 @@ void render_game(void) {
 
         gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, 0, gBorderHeight, SCREEN_WIDTH,
                       SCREEN_HEIGHT - gBorderHeight);
+
         render_hud();
         if (cam_submerged == TRUE && gCurrLevelNum == LEVEL_B){
             shade_screen_blue();

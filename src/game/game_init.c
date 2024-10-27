@@ -32,6 +32,7 @@
 #include "profiling.h"
 #include "fb_effects.h"
 #include "emutest.h"
+#include "level_update.h"
 
 // Gfx handlers
 struct SPTask *gGfxSPTask;
@@ -96,6 +97,10 @@ struct Controller* const gPlayer4Controller = &gControllers[3];
 struct DemoInput *gCurrDemoInput = NULL;
 u16 gDemoInputListID = 0;
 struct DemoInput gRecordedDemoInput = { 0 };
+
+//60 fps variables
+extern u8 _60fps_on = TRUE;
+extern u8 _60fps_midframe = FALSE;
 
 // Display
 // ----------------------------------------------------------------------------------------------------
@@ -439,13 +444,16 @@ void display_and_vsync(void) {
         gGoddardVblankCallback = NULL;
     }
     exec_display_list(&gGfxPool->spTask);
-#ifndef UNLOCK_FPS
-    osRecvMesg(&gGameVblankQueue, &gMainReceivedMesg, OS_MESG_BLOCK);
-#endif
+
+    if (!_60fps_on || sCurrPlayMode != PLAY_MODE_NORMAL) {
+        osRecvMesg(&gGameVblankQueue, &gMainReceivedMesg, OS_MESG_BLOCK);
+    }
+
     osViSwapBuffer((void *) PHYSICAL_TO_VIRTUAL(gPhysicalFramebuffers[sRenderedFramebuffer]));
-#ifndef UNLOCK_FPS
-    osRecvMesg(&gGameVblankQueue, &gMainReceivedMesg, OS_MESG_BLOCK);
-#endif
+
+    //if (0) {
+        osRecvMesg(&gGameVblankQueue, &gMainReceivedMesg, OS_MESG_BLOCK);
+    //}
     // Skip swapping buffers on inaccurate emulators other than VC so that they display immediately as the Gfx task finishes
     if (gEmulator & INSTANT_INPUT_BLACKLIST) {
         if (++sRenderedFramebuffer == 3) {
@@ -462,7 +470,9 @@ void display_and_vsync(void) {
             sRenderingFramebuffer = 0;
         }
     }
-    gGlobalTimer++;
+    if (!_60fps_midframe || sCurrPlayMode != PLAY_MODE_NORMAL) {
+        gGlobalTimer++;
+    }
 }
 
 #if !defined(DISABLE_DEMO) && defined(KEEP_MARIO_HEAD)
@@ -803,7 +813,9 @@ void thread5_game_loop(UNUSED void *arg) {
 
         audio_game_loop_tick();
         select_gfx_pool();
-        read_controller_inputs(THREAD_5_GAME_LOOP);
+        if (!_60fps_midframe || sCurrPlayMode != PLAY_MODE_NORMAL) {
+            read_controller_inputs(THREAD_5_GAME_LOOP);
+        }
         profiler_update(PROFILER_TIME_CONTROLLERS, 0);
         profiler_collision_reset();
         addr = level_script_execute(addr);

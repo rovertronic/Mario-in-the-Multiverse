@@ -97,4 +97,7 @@ void render_init(void);
 void select_gfx_pool(void);
 void display_and_vsync(void);
 
+extern u8 _60fps_on;
+extern u8 _60fps_midframe;
+
 #endif // GAME_INIT_H

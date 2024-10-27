@@ -213,6 +213,9 @@ struct GraphNodeCamera {
     /*0x34*/ Mat4 *matrixPtr; // pointer to look-at matrix of this camera as a Mat4
     /*0x38*/ s16 roll; // roll in look at matrix. Doesn't account for light direction unlike rollScreen.
     /*0x3A*/ s16 rollScreen; // rolls screen while keeping the light direction consistent
+
+            Vec3f posLerp;
+            Vec3f focusLerp;
 };
 
 /** GraphNode that translates and rotates its children.

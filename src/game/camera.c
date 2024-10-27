@@ -3904,6 +3904,10 @@ void create_camera(struct GraphNodeCamera *gc, struct AllocOnlyPool *pool) {
  */
 void update_graph_node_camera(struct GraphNodeCamera *gc) {
     gc->rollScreen = gLakituState.roll;
+
+    vec3f_copy(gc->posLerp, gc->pos);
+    vec3f_copy(gc->focusLerp, gc->focus);
+
     vec3f_copy(gc->pos, gLakituState.pos);
     vec3f_copy(gc->focus, gLakituState.focus);
     zoom_out_if_paused_and_outside(gc);

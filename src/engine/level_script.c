@@ -31,6 +31,7 @@
 #include "game/puppylights.h"
 #include "game/emutest.h"
 #include "game/cutscene_manager.h"
+#include "game/level_update.h"
 
 #include "config.h"
 
@@ -1003,14 +1004,22 @@ struct LevelCommand *level_script_execute(struct LevelCommand *cmd) {
     sScriptStatus = SCRIPT_RUNNING;
     sCurrentCmd = cmd;
 
-    while (sScriptStatus == SCRIPT_RUNNING) {
-        LevelScriptJumpTable[sCurrentCmd->type]();
-    }
-
     init_rcp(CLEAR_ZBUFFER);
     render_game();
     end_master_display_list();
     alloc_display_list(0);
+
+    if (!_60fps_midframe || sCurrPlayMode != PLAY_MODE_NORMAL) {
+        while (sScriptStatus == SCRIPT_RUNNING) {
+            LevelScriptJumpTable[sCurrentCmd->type]();
+        }
+    }
+
+    if (_60fps_on || sCurrPlayMode != PLAY_MODE_NORMAL) {
+        _60fps_midframe = !_60fps_midframe;
+    } else {
+        _60fps_midframe = FALSE;
+    }
 
     return sCurrentCmd;
 }

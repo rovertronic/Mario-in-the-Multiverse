@@ -234,6 +234,8 @@ struct AnimInfo {
     /*0x0A 0x42*/ u16 animTimer;
     /*0x0C 0x44*/ s32 animFrameAccelAssist;
     /*0x10 0x48*/ s32 animAccel;
+    Vec3s animRotStack[48];
+    u8 animPosStackNum;
 };
 
 struct GraphNodeObject {
@@ -248,6 +250,11 @@ struct GraphNodeObject {
     /*0x4C*/ struct SpawnInfo *spawnInfo;
     /*0x50*/ Mat4 *throwMatrix; // matrix ptr
     /*0x54*/ Vec3f cameraToObject;
+
+    Vec3f posLerp;
+    Vec3f scaleLerp;
+    Vec3s angleLerp;
+
 #ifdef OBJECTS_REJ
     u16 ucode;
 #endif

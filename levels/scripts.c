@@ -155,6 +155,7 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_CARDBOARD_STAR,          cardboard_star_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SPIDERTRON_LIMB_1,       spidertron_arm1_geo),
     LOAD_MODEL_FROM_GEO(MODEL_NITRO_BOOM,              nitroboom_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SAWAXE_MARIO,            sawaxe_mario_geo),
     FREE_LEVEL_POOL(),
     POP_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),

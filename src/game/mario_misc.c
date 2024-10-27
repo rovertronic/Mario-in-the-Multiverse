@@ -472,6 +472,9 @@ Gfx *geo_switch_mario_hand(s32 callContext, struct GraphNode *node, UNUSED Mat4 
                     (bodyState->handState < 2) ? bodyState->handState : MARIO_HAND_FISTS;
             }
         }
+        if (using_ability(ABILITY_ESTEEMED_MORTAL) && gMarioState->action == ACT_ABILITY_AXE_JUMP) {
+            switchCase->selectedCase = MARIO_HAND_HOLDING_CAP;
+        }
     }
     return NULL;
 }
@@ -529,6 +532,10 @@ Gfx *geo_switch_mario_cap_effect(s32 callContext, struct GraphNode *node, UNUSED
         }
         else {
             switchCase->selectedCase = 4;
+        }
+
+        if (using_ability(ABILITY_ESTEEMED_MORTAL) && gMarioState->action == ACT_ABILITY_AXE_JUMP) {
+            switchCase->selectedCase = 1;
         }
     }
     return NULL;

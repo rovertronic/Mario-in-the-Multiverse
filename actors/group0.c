@@ -37,7 +37,6 @@
 #include "dpad/model.inc.c"
 #include "ability/model.inc.c"
 #include "default_hand/model.inc.c"
-#include "saw_hand/model.inc.c"
 #include "main_menu/model.inc.c"
 #include "selector/model.inc.c"
 #include "ability_unlock/model.inc.c"
@@ -150,3 +149,4 @@
 #include "nitroboom/model.inc.c"
 #include "cardboard_star/model.inc.c"
 #include "extended_hudbar/model.inc.c"
+#include "sawaxe_mario/model.inc.c"

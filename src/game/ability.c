@@ -175,7 +175,7 @@ struct ability ability_struct[] = {
     /*F*/      {&hand_f_hand_mesh         , &hat_f_hat_mesh    ,MODEL_MARIO       ,&abstr_f  },
     /*J*/      {&pokeball_hand_hand_mesh  , NULL               ,MODEL_MARIO       ,&abstr_j  },
     /*D*/      {&mario_right_hand_closed  , ability_d_mask_hat_mesh ,MODEL_MARIO       ,&abstr_d  },
-    /*O*/      {&saw_hand_skinned_016_mesh, NULL               ,MODEL_MARIO       ,&abstr_o  },
+    /*O*/      {&mario_right_hand_closed  , NULL               ,MODEL_SAWAXE_MARIO,&abstr_o  },
     /*N*/      {&mario_right_hand_closed  , NULL               ,MODEL_MARIO       ,&abstr_n  },
     /*M*/      {&hand_m_hand_mesh         , NULL               ,MODEL_MARIO       ,&abstr_m  },
 

@@ -343,8 +343,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "default_hand/header.h"
 
-#include "saw_hand/header.h"
-
 #include "main_menu/header.h"
 
 #include "selector/header.h"
@@ -536,5 +534,7 @@ extern const Gfx white_particle_small_unused_dl[];
 #include "cardboard_star/geo_header.h"
 
 #include "extended_hudbar/header.h"
+
+#include "sawaxe_mario/geo_header.h"
 
 #endif

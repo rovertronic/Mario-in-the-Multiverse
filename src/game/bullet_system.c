@@ -183,6 +183,10 @@ Gfx *dobj_bullets(s32 callContext) {
 							  (b->velY),
 							  (coss(b->yaw) * b->velF) };
 
+				if (_60fps_on) {
+					vec3_mul_val(vel,0.5f);
+				}
+
 				vec3f_add(b->pos, vel);
 
 				//collision

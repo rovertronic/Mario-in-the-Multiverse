@@ -51,6 +51,7 @@ void warp_node(struct Object *node) {
     vec3f_copy(node->header.gfx.posLerp, node->header.gfx.pos);
     vec3s_copy(node->header.gfx.angleLerp, node->header.gfx.angle);
     vec3f_copy(node->header.gfx.scaleLerp, node->header.gfx.scale);
+    node->header.gfx.bothMats++;
 }
 
 void interpolate_node(struct Object *node) {

@@ -932,6 +932,81 @@ void geo_process_background(struct GraphNodeBackground *node) {
  * Render an animated part. The current animation state is not part of the node
  * but set in global variables. If an animated part is skipped, everything afterwards desyncs.
  */
+void geo_process_animated_part(struct GraphNodeAnimatedPart *node) {
+    Vec3s rotation = { 0, 0, 0 };
+    Vec3f translation = { node->translation[0], node->translation[1], node->translation[2] };
+
+    if (gCurrAnimType == ANIM_TYPE_TRANSLATION) {
+        translation[0] += gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)]
+                          * gCurrAnimTranslationMultiplier;
+        translation[1] += gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)]
+                          * gCurrAnimTranslationMultiplier;
+        translation[2] += gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)]
+                          * gCurrAnimTranslationMultiplier;
+
+        if (!_60fps_midframe) {
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0 + 0] = translation[0];
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0 + 1] = translation[1];
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0 + 2] = translation[2];
+        } else {
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0 + 0] = approach_pos_lerp(gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0 + 0], translation[0]);
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0 + 1] = approach_pos_lerp(gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0 + 1], translation[1]);
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0 + 2] = approach_pos_lerp(gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0 + 2], translation[2]);
+            vec3f_set(translation, gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0], gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][1], gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][2]);
+        }
+        gCurrAnimPos++;
+
+        gCurrAnimType = ANIM_TYPE_ROTATION;
+    } else {
+        if (gCurrAnimType == ANIM_TYPE_LATERAL_TRANSLATION) {
+            translation[0] +=
+                gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)]
+                * gCurrAnimTranslationMultiplier;
+            gCurrAnimAttribute += 2;
+            translation[2] +=
+                gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)]
+                * gCurrAnimTranslationMultiplier;
+            gCurrAnimType = ANIM_TYPE_ROTATION;
+        } else {
+            if (gCurrAnimType == ANIM_TYPE_VERTICAL_TRANSLATION) {
+                gCurrAnimAttribute += 2;
+                translation[1] +=
+                    gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)]
+                    * gCurrAnimTranslationMultiplier;
+                gCurrAnimAttribute += 2;
+                gCurrAnimType = ANIM_TYPE_ROTATION;
+            } else if (gCurrAnimType == ANIM_TYPE_NO_TRANSLATION) {
+                gCurrAnimAttribute += 6;
+                gCurrAnimType = ANIM_TYPE_ROTATION;
+            }
+        }
+    }
+
+    if (gCurrAnimType == ANIM_TYPE_ROTATION) {
+        rotation[0] = gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)];
+        rotation[1] = gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)];
+        rotation[2] = gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)];
+
+        if (!_60fps_midframe) {
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0] = rotation[0];
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][1] = rotation[1];
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][2] = rotation[2];
+        } else {
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0] = approach_angle_lerp(gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0], rotation[0]);
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][1] = approach_angle_lerp(gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][1], rotation[1]);
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][2] = approach_angle_lerp(gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][2], rotation[2]);
+            vec3s_copy(rotation, gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos]);
+        }
+    }
+
+    mtxf_rotate_xyz_and_translate_and_mul(rotation, translation, gMatStack[gMatStackIndex + 1], gMatStack[gMatStackIndex]);
+    gCurrAnimPos++;
+
+    inc_mat_stack();
+    append_dl_and_return(((struct GraphNodeDisplayList *)node));
+}
+
+/*
 void geo_process_animated_part(const struct GraphNodeAnimatedPart *node) {
     Vec3f translation;
     Vec3s rotation;
@@ -988,9 +1063,13 @@ void geo_process_animated_part(const struct GraphNodeAnimatedPart *node) {
     }
     mtxf_rotate_xyz_and_translate_and_mul(rotation, translation, gMatStack[gMatStackIndex + 1], gMatStack[gMatStackIndex]);
     gCurrAnimPos++;
+    if (gCurrAnimPos > 47) {
+        gCurrAnimPos = 47;
+    }
     inc_mat_stack();
     append_dl_and_return((struct GraphNodeDisplayList *) node);
 }
+*/
 
 /**
  * Initialize the animation-related global variables for the currently drawn
@@ -1230,12 +1309,6 @@ void visualise_object_hitbox(struct Object *node) {
  */
 void geo_process_object(struct Object *node) {
 
-    if (_60fps_midframe) {
-        interpolate_node(node);
-    } else {
-        warp_node(node);
-    }
-
     if (node->header.gfx.areaIndex == gCurGraphNodeRoot->areaIndex) {
         s32 isInvisible = (node->header.gfx.node.flags & GRAPH_RENDER_INVISIBLE);
         s32 noThrowMatrix = (node->header.gfx.throwMatrix == NULL);
@@ -1245,22 +1318,42 @@ void geo_process_object(struct Object *node) {
         if (object_mirror_mode) {
             oldThrowMatrix = node->header.gfx.throwMatrix;
         }
-        if (_60fps_on && !_60fps_midframe) {
-            oldThrowMatrix = node->header.gfx.throwMatrix;
+
+        if (noThrowMatrix) {
+            if (_60fps_midframe && node->header.gfx.bothMats >= 2) {
+                interpolate_node(node);
+            } else {
+                warp_node(node);
+            }
         }
 
         // If the throw matrix is null and the object is invisible, there is no need
         // to update billboarding, scale, rotation, etc. 
         // This still updates translation since it is needed for sound.
         if (isInvisible && noThrowMatrix) {
-            mtxf_translate(gMatStack[gMatStackIndex + 1], node->header.gfx.pos);
+            mtxf_translate(gMatStack[gMatStackIndex + 1], node->header.gfx.posLerp);
         }
         else{
             if (!noThrowMatrix) {
-                mtxf_scale_vec3f(gMatStack[gMatStackIndex + 1], *node->header.gfx.throwMatrix, node->header.gfx.scale);
+                mtxf_scale_vec3f(gMatStack[gMatStackIndex + 1], gMatStack[gMatStackIndex + 1], node->header.gfx.scaleLerp);
+                
+                if (_60fps_on) {
+                    if (!_60fps_midframe) {
+                        for (int i = 0; i < 3; i++) {
+                            node->header.gfx.posLerp[i] = gMatStack[gMatStackIndex + 1][3][i];
+                        }
+                    } else {
+                        oldThrowMatrix = node->header.gfx.throwMatrix;
+                    }
+
+                    for (int i = 0; i < 3; i++) {
+                        gMatStack[gMatStackIndex + 1][3][i] = approach_pos_lerp(node->header.gfx.posLerp[i],gMatStack[gMatStackIndex + 1][3][i]);
+                    }
+                }
+
             } else if (node->header.gfx.node.flags & GRAPH_RENDER_BILLBOARD) {
                 mtxf_billboard(gMatStack[gMatStackIndex + 1], gMatStack[gMatStackIndex],
-                            node->header.gfx.pos, node->header.gfx.scale, gCurGraphNodeCamera->roll);
+                            node->header.gfx.posLerp, node->header.gfx.scaleLerp, gCurGraphNodeCamera->roll);
             } else {
                 mtxf_rotate_zxy_and_translate(gMatStack[gMatStackIndex + 1], node->header.gfx.posLerp, node->header.gfx.angleLerp);
                 mtxf_scale_vec3f(gMatStack[gMatStackIndex + 1], gMatStack[gMatStackIndex + 1], node->header.gfx.scaleLerp);
@@ -1508,6 +1601,18 @@ void geo_process_e__mario_common(struct GraphNodeAnimatedPart *node) {
         rotation[0] = gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)];
         rotation[1] = gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)];
         rotation[2] = gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)];
+
+        if (!_60fps_midframe) {
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0] = rotation[0];
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][1] = rotation[1];
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][2] = rotation[2];
+        } else {
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0] = approach_angle_lerp(gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0], rotation[0]);
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][1] = approach_angle_lerp(gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][1], rotation[1]);
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][2] = approach_angle_lerp(gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][2], rotation[2]);
+            vec3s_copy(rotation, gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos]);
+        }
+        gCurrAnimPos++;
     }
 
     //sloppy, make a better method later
@@ -1587,6 +1692,18 @@ void geo_process_e__mario_upper(struct GraphNodeAnimatedPart *node) {
         rotation[0] = gE_UpperAnimData[retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute)];
         rotation[1] = gE_UpperAnimData[retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute)];
         rotation[2] = gE_UpperAnimData[retrieve_animation_index(gE_UpperAnimFrame, &gE_UpperAnimAttribute)];
+
+        if (!_60fps_midframe) {
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0] = rotation[0];
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][1] = rotation[1];
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][2] = rotation[2];
+        } else {
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0] = approach_angle_lerp(gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0], rotation[0]);
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][1] = approach_angle_lerp(gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][1], rotation[1]);
+            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][2] = approach_angle_lerp(gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][2], rotation[2]);
+            vec3s_copy(rotation, gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos]);
+        }
+        gCurrAnimPos++;
     }
 
     mtxf_rotate_xyz_and_translate_and_mul(rotation, translation, gMatStack[gMatStackIndex + 1], gMatStack[gMatStackIndex]);

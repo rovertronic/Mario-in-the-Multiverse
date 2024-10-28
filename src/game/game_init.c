@@ -99,8 +99,8 @@ u16 gDemoInputListID = 0;
 struct DemoInput gRecordedDemoInput = { 0 };
 
 //60 fps variables
-extern u8 _60fps_on = TRUE;
-extern u8 _60fps_midframe = FALSE;
+u8 _60fps_on = TRUE;
+u8 _60fps_midframe = FALSE;
 
 // Display
 // ----------------------------------------------------------------------------------------------------
@@ -451,9 +451,8 @@ void display_and_vsync(void) {
 
     osViSwapBuffer((void *) PHYSICAL_TO_VIRTUAL(gPhysicalFramebuffers[sRenderedFramebuffer]));
 
-    //if (0) {
-        osRecvMesg(&gGameVblankQueue, &gMainReceivedMesg, OS_MESG_BLOCK);
-    //}
+    osRecvMesg(&gGameVblankQueue, &gMainReceivedMesg, OS_MESG_BLOCK);
+
     // Skip swapping buffers on inaccurate emulators other than VC so that they display immediately as the Gfx task finishes
     if (gEmulator & INSTANT_INPUT_BLACKLIST) {
         if (++sRenderedFramebuffer == 3) {

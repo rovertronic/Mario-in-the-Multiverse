@@ -315,6 +315,7 @@ struct GraphNodeObject *init_graph_node_object(struct AllocOnlyPool *pool,
         graphNode->animInfo.animAccel = 0x10000;
         graphNode->animInfo.animTimer = 0;
         graphNode->node.flags |= GRAPH_RENDER_HAS_ANIMATION;
+        graphNode->bothMats = 0;
     }
 
     return graphNode;
@@ -705,6 +706,7 @@ void geo_obj_init(struct GraphNodeObject *graphNode, void *sharedChild, Vec3f po
     graphNode->spawnInfo = 0;
     graphNode->throwMatrix = NULL;
     graphNode->animInfo.curAnim = NULL;
+    graphNode->bothMats = 0;
 
     graphNode->node.flags |=  GRAPH_RENDER_ACTIVE;
     graphNode->node.flags &= ~GRAPH_RENDER_INVISIBLE;
@@ -727,6 +729,7 @@ void geo_obj_init_spawninfo(struct GraphNodeObject *graphNode, struct SpawnInfo 
     graphNode->spawnInfo = spawn;
     graphNode->throwMatrix = NULL;
     graphNode->animInfo.curAnim = 0;
+    graphNode->bothMats = 0;
 
     graphNode->node.flags |= GRAPH_RENDER_ACTIVE;
     graphNode->node.flags &= ~GRAPH_RENDER_INVISIBLE;

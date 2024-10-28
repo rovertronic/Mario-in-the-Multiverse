@@ -176,6 +176,10 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
         Gfx *dlH = dlS;
 		if (dlS == NULL) { return NULL; }
 
+		f32 delta = 1.0f;
+		if (_60fps_on) {
+			delta = 0.5f;
+		}
 
 		//piece | Note: reordered to be first to avoid mat bleeds (less commands in this function)
 		gSPDisplayList(dlH++, mat_e_sg_piece_mat_f3d_layer1);
@@ -184,7 +188,7 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
 		while (length--) {
 			if (piece->scale) {
 			  if (update) {
-				piece->scale -= 0.02f;
+				piece->scale -= 0.02f*delta;
 				if (piece->scale <= 0.f) {
 					//deactivate
 					piece->scale = 0.f;
@@ -192,18 +196,26 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
 					piece++;
 					continue;
 				}
-				piece->rX += DEGREES(7);
-				piece->rY += DEGREES(3);
-				if (piece->vel[1] > -40.f) {
+				piece->rX += DEGREES(7)*delta;
+				piece->rY += DEGREES(3)*delta;
+				if (piece->vel[1] > -40.f && !_60fps_midframe) {
 					piece->vel[1] -= 4.f; }
 				f32 fh = find_floor_height(piece->pos[0], piece->pos[1], piece->pos[2]);
 				if (piece->pos[1] < fh) {
 					piece->pos[1] = fh;
-					piece->vel[0] *= 0.6f;
-					piece->vel[1] *= -0.6f;
-					piece->vel[2] *= 0.6f;
+					if (!_60fps_midframe) {
+						piece->vel[0] *= 0.6f;
+						piece->vel[1] *= -0.6f;
+						piece->vel[2] *= 0.6f;
+					}
 				}
-				vec3f_add(piece->pos, piece->vel);
+				if (!_60fps_on) {
+					vec3f_add(piece->pos, piece->vel);
+				} else {
+					piece->pos[0] += piece->vel[0] * delta;
+					piece->pos[1] += piece->vel[1] * delta;
+					piece->pos[2] += piece->vel[2] * delta;
+				}
 			  }
 				Mat4 mtxf;
 				Vec3f scale = { piece->scale, piece->scale, piece->scale };
@@ -225,6 +237,10 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
 			  if (update) {
 				if (--wallDamage->opacity == 0) {
 					//deactivate
+					if (_60fps_midframe) {
+						wallDamage->opacity++;
+					}
+
 					wallDamage->opacity = 0;
 					sSGEffectCurrCounts[SG_EFFECT_TYPE_WALL_DAMAGE]--;
 					wallDamage++;
@@ -270,7 +286,7 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
 					smoke++;
 					continue;
 				}
-				smoke->pos[1] += 10.f;
+				smoke->pos[1] += 10.f*delta;
 			  }
 				Mat4 mtxf;
 				Vec3f scale = { smoke->scale, smoke->scale, smoke->scale };
@@ -289,7 +305,7 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
 		while (length--) {
 			if (spark->scale) {
 			  if (update) {
-				if ((spark->scale -= 0.1f) <= 0.f) {
+				if ((spark->scale -= 0.1f*delta) <= 0.f) {
 					//deactivate
 					spark->scale = 0.f;
 					sSGEffectCurrCounts[SG_EFFECT_TYPE_SPARK]--;
@@ -297,7 +313,7 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
 					continue;
 				}
 				if (spark->scale < 2.f) {
-					spark->pos[1] -= ((2.f - spark->scale) * 15.f); }
+					spark->pos[1] -= ((2.f - spark->scale) * 15.f)*delta; }
 			  }
 				Mat4 mtxf;
 				Vec3f scale = { spark->scale, spark->scale, spark->scale };

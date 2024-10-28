@@ -376,7 +376,9 @@ void render_mitm_hub_hud(void) {
         gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
     }
 
-    hub_level_index = -1;
+    if (!_60fps_midframe) {
+        hub_level_index = -1;
+    }
 }
 
 void render_mitm_return_to_hub_hud(void) {

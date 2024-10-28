@@ -599,6 +599,7 @@ void transform_object_vertices(TerrainData **data, TerrainData *vertexData) {
     if (o->header.gfx.throwMatrix == NULL) {
         o->header.gfx.throwMatrix = objectTransform;
         obj_build_transform_from_pos_and_angle(o, O_POS_INDEX, O_FACE_ANGLE_INDEX);
+        o->header.gfx.throwMatrix = NULL;
     }
 
     Mat4 transform;

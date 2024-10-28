@@ -254,6 +254,7 @@ struct GraphNodeObject {
     Vec3f posLerp;
     Vec3f scaleLerp;
     Vec3s angleLerp;
+    u8 bothMats;
 
 #ifdef OBJECTS_REJ
     u16 ucode;

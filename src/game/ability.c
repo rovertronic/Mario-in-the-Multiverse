@@ -297,8 +297,10 @@ void render_ability_dpad(s16 x, s16 y, u8 alpha) {
 
     for (i=0;i<4;i++){
         if (ability_y_offset[i] > 0) {
-            ability_y_offset[i] += ability_gravity[i];
-            ability_gravity[i] -= 1;
+            if (!_60fps_midframe) {
+                ability_y_offset[i] += ability_gravity[i];
+                ability_gravity[i] -= 1;
+            }
         }
         //Not an else to prevent sinking into the ground
         if (ability_y_offset[i] <= 0) {

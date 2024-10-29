@@ -37,9 +37,12 @@ s32 approach_angle_lerp(s32 current, s32 target) {
     }
 }
 
+u8 lerp_overshot_flag = FALSE;
 f32 approach_pos_lerp(f32 current, f32 target) {
-    if (ABS(target - current) >= LERP_THRESHOLD)
+    if (ABS(target - current) >= LERP_THRESHOLD) {
+        lerp_overshot_flag = TRUE;
         return target;
+    }
     if (_60fps_midframe) {
         return current + ((target - current) * 0.5f);
     } else {
@@ -56,7 +59,7 @@ void warp_node(struct Object *node) {
 
 void interpolate_node(struct Object *node) {
     for (u32  i = 0; i < 3; i++) {
-        node->header.gfx.posLerp[i] = approach_pos_lerp(node->header.gfx.pos[i], node->header.gfx.posLerp[i]);
+        node->header.gfx.posLerp[i] = approach_pos_lerp(node->header.gfx.posLerp[i],node->header.gfx.pos[i]);
         node->header.gfx.scaleLerp[i] = approach_pos_lerp(node->header.gfx.scaleLerp[i], node->header.gfx.scale[i]);
         node->header.gfx.angleLerp[i] = approach_angle_lerp(node->header.gfx.angleLerp[i], node->header.gfx.angle[i]);
     }

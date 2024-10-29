@@ -107,9 +107,9 @@ void apply_platform_displacement(struct PlatformDisplacementInfo *displaceInfo, 
     s16 yawDifference = *yaw - displaceInfo->prevYaw;
 
     // Avoid a crash if the platform unloaded its collision while stood on
-    if (platform->header.gfx.throwMatrix == NULL) return;
+    if (platform->transform == NULL) return;
 
-    vec3f_copy(platformPos, (*platform->header.gfx.throwMatrix)[3]);
+    vec3f_copy(platformPos, (platform->transform)[3]);
 
     // Determine how far Mario moved on his own since last frame
     vec3f_copy(posDifference, pos);
@@ -118,13 +118,13 @@ void apply_platform_displacement(struct PlatformDisplacementInfo *displaceInfo, 
     if ((platform == displaceInfo->prevPlatform) && (gGlobalTimer == displaceInfo->prevTimer + 1)) {
         // Transform from relative positions to world positions
         scale_vec3f(scaledPos, displaceInfo->prevTransformedPos, platform->header.gfx.scale, FALSE);
-        linear_mtxf_mul_vec3f(*platform->header.gfx.throwMatrix, pos, scaledPos);
+        linear_mtxf_mul_vec3f(platform->transform, pos, scaledPos);
 
         // Add on how much Mario moved in the previous frame
         vec3f_add(pos, posDifference);
 
         // Calculate new yaw
-        linear_mtxf_mul_vec3f(*platform->header.gfx.throwMatrix, yawVec, displaceInfo->prevTransformedYawVec);
+        linear_mtxf_mul_vec3f(platform->transform, yawVec, displaceInfo->prevTransformedYawVec);
         *yaw = atan2s(yawVec[2], yawVec[0]) + yawDifference;
     } else {
         // First frame of standing on the platform, don't calculate a new position
@@ -139,7 +139,7 @@ void apply_platform_displacement(struct PlatformDisplacementInfo *displaceInfo, 
     }
 
     // Transform from world positions to relative positions for use next frame
-    linear_mtxf_transpose_mul_vec3f(*platform->header.gfx.throwMatrix, scaledPos, pos);
+    linear_mtxf_transpose_mul_vec3f(platform->transform, scaledPos, pos);
     scale_vec3f(displaceInfo->prevTransformedPos, scaledPos, platform->header.gfx.scale, TRUE);
     vec3f_add(pos, platformPos);
 
@@ -161,7 +161,7 @@ void apply_platform_displacement(struct PlatformDisplacementInfo *displaceInfo, 
 
     // Set yaw info
     vec3f_set(yawVec, sins(*yaw), 0, coss(*yaw));
-    linear_mtxf_transpose_mul_vec3f(*platform->header.gfx.throwMatrix, displaceInfo->prevTransformedYawVec, yawVec);
+    linear_mtxf_transpose_mul_vec3f(platform->transform, displaceInfo->prevTransformedYawVec, yawVec);
     displaceInfo->prevYaw = *yaw;
 
     // Update platform and timer

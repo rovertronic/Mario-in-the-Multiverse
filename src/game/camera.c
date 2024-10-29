@@ -3586,8 +3586,6 @@ void update_camera(struct Camera *c) {
     if (cm_cutscene_on) {
         vec3f_copy(gLakituState.pos,cm_camera_pos);
         vec3f_copy(gLakituState.focus,cm_camera_foc);
-        sFOVState.fov = cm_fov;
-        sFOVState.fovOffset = 0.0f;
     }
 
     if (is_2d_area()&&(gCamera->cutscene == 0)) {

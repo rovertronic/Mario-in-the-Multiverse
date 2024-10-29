@@ -21,6 +21,7 @@
 #include "emutest.h"
 #include "object_list_processor.h"
 #include "lerp.h"
+#include "cutscene_manager.h"
 
 #include "config.h"
 #include "config/config_world.h"
@@ -573,6 +574,11 @@ void geo_process_perspective(struct GraphNodePerspective *node) {
         sAspectRatio = 4.0f / 3.0f; // 1.33333f
 #endif
 
+        f32 oldfov = node->fov;
+        if (cm_cutscene_on) {
+            node->fov = cm_fov;
+        }
+
         f32 vHalfFov = ( ((node->fov * 4096.f) + 8192.f) ) / 45.f;
 
         // We need to account for aspect ratio changes by multiplying by the widescreen horizontal stretch 
@@ -594,6 +600,8 @@ void geo_process_perspective(struct GraphNodePerspective *node) {
         gCurGraphNodeCamFrustum = node;
         geo_process_node_and_siblings(node->fnNode.node.children);
         gCurGraphNodeCamFrustum = NULL;
+
+        node->fov = oldfov;
     }
 }
 
@@ -688,19 +696,22 @@ void geo_process_camera(struct GraphNodeCamera *node) {
     Vec3f goalpos;
     Vec3f goalfoc;
     if (!_60fps_midframe) {
-        node->posLerp[0] = node->pos[0];
-        node->posLerp[1] = node->pos[1];
-        node->posLerp[2] = node->pos[2];
-        node->focusLerp[0] = node->focus[0];
-        node->focusLerp[1] = node->focus[1];
-        node->focusLerp[2] = node->focus[2];
+        vec3f_copy(node->posLerp,node->pos);
+        vec3f_copy(node->focusLerp,node->focus);
     } else {
+        lerp_overshot_flag = FALSE;
+        
         node->posLerp[0] = approach_pos_lerp(node->posLerp[0], node->pos[0]);
         node->posLerp[1] = approach_pos_lerp(node->posLerp[1], node->pos[1]);
         node->posLerp[2] = approach_pos_lerp(node->posLerp[2], node->pos[2]);
         node->focusLerp[0] = approach_pos_lerp(node->focusLerp[0], node->focus[0]);
         node->focusLerp[1] = approach_pos_lerp(node->focusLerp[1], node->focus[1]);
         node->focusLerp[2] = approach_pos_lerp(node->focusLerp[2], node->focus[2]);
+    }
+
+    if (lerp_overshot_flag) {
+        vec3f_copy(node->posLerp,node->pos);
+        vec3f_copy(node->focusLerp,node->focus);
     }
 
     mtxf_lookat(gCameraTransform, node->posLerp, node->focusLerp, node->roll);

@@ -6,4 +6,6 @@ extern f32 approach_pos_lerp(f32 current, f32 target);
 extern void warp_node(struct Object *node);
 extern void interpolate_node(struct Object *node);
 
+extern u8 lerp_overshot_flag;
+
 #endif // LERP_H

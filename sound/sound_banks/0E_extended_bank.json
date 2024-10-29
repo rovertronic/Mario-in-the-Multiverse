@@ -290,8 +290,10 @@
         },
         "Pan Flute": {
             "release_rate": 43,
+            "normal_range_hi": 50,
             "envelope": "envelope6",
-            "sound": "41_pan_flute"
+            "sound": "41_pan_flute",
+            "sound_hi": "4A_pan_flute_lq"
         },
         "Strings": {
             "release_rate": 15,

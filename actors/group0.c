@@ -150,3 +150,7 @@
 #include "cardboard_star/model.inc.c"
 #include "extended_hudbar/model.inc.c"
 #include "sawaxe_mario/model.inc.c"
+#include "bd_shimmer/model.inc.c"
+#include "bd_shine/model.inc.c"
+#include "bd_star/model.inc.c"
+#include "bd_wave/model.inc.c"

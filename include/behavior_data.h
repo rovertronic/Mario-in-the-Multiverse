@@ -921,10 +921,12 @@ extern const BehaviorScript bhvBcSkiploom[];
 extern const BehaviorScript bhvCreditsSlab[];
 extern const BehaviorScript bhvDreamCatalyst[];
 extern const BehaviorScript bhvCarboardStarBody[];
+extern const BehaviorScript bhvBdStar[];
 extern const BehaviorScript bhvBcAtreus[];
 extern const BehaviorScript bhvBcBowser[];
 extern const BehaviorScript bhvBcBosslanding[];
 extern const BehaviorScript bhvBcPingasPlane[];
 extern const BehaviorScript bhvBcPingasBall[];
+extern const BehaviorScript bhvBdWave[];
 
 #endif // BEHAVIOR_DATA_H

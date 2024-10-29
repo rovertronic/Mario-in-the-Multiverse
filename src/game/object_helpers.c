@@ -178,6 +178,35 @@ Gfx *geo_update_mverse_pipe(s32 callContext, struct GraphNode *node, UNUSED void
     return dlStart;
 }
 
+Gfx *geo_update_defeat_star(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    Gfx *dlStart = NULL;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        struct Object *objectGraphNode = (struct Object *) gCurGraphNodeObject; // TODO: change this to object pointer?
+        struct GraphNodeGenerated *currentGraphNode = (struct GraphNodeGenerated *) node;
+        s32 parameter = currentGraphNode->parameter;
+
+        if (gCurGraphNodeHeldObject != NULL) {
+            objectGraphNode = gCurGraphNodeHeldObject->objNode;
+        }
+
+        s32 timer = objectGraphNode->oTimer + objectGraphNode->oBehParams2ndByte;
+        dlStart = alloc_display_list(sizeof(Gfx) * 3);
+
+        Gfx *dlHead = dlStart;
+
+        SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_TRANSPARENT);
+
+        s32 r = 125 + sins(timer*0x300 + 0x0000)*125.0f;
+        s32 g = 125 + sins(timer*0x300 + 0x5555)*125.0f;
+        s32 b = 125 + sins(timer*0x300 + 0xAAAA)*125.0f;
+        gDPSetEnvColor(dlHead++, r, g, b, objectGraphNode->oOpacity);
+        gSPEndDisplayList(dlHead);
+    }
+
+    return dlStart;
+}
+
 Vec3f sephisword_impact_vec;
 Gfx *geo_update_sephisword(s32 callContext, struct GraphNode *node, Mat4 mtx) {
     if (callContext == GEO_CONTEXT_RENDER) {
@@ -2712,4 +2741,90 @@ void cur_obj_die_if_on_death_floor(void) {
     if (floor && fheight+120.0f > o->oPosY && floor->type == SURFACE_DEATH_PLANE) {
         obj_mark_for_deletion(o);
     }
+}
+
+
+u16 shimmer_death_timer = 0;
+Vec3f shimmer_pos_lock;
+f32 shimmer_base_scale = 0.0f;
+struct Object * shimmer_obj[4];
+void cur_obj_boss_shimmer_reset(void) {
+    shimmer_death_timer = 0;
+}
+
+s32 cur_obj_boss_shimmer_death(f32 yoff, f32 scale) {
+    o->oTimer --;
+    o->header.gfx.animInfo.animFrame--;
+    o->oForwardVel = 0.0f;
+    o->oVelY = 0.0f;
+
+    cur_obj_become_intangible();
+
+    if (shimmer_death_timer == 0) {
+        //gTimeStopState |= TIME_STOP_ENABLED;
+        vec3f_copy(shimmer_pos_lock,&o->oPosVec);
+
+        o->oPosY += yoff;
+        shimmer_obj[0] = spawn_object(o,MODEL_BD_SHINE,bhvStaticObject);
+        shimmer_obj[0]->header.gfx.node.flags |= GRAPH_RENDER_BILLBOARD;
+
+        for (int i = 1; i < 4; i++) {
+            shimmer_obj[i] = spawn_object(o,MODEL_BD_SHIMMER,bhvStaticObject);
+            shimmer_obj[i]->oFaceAngleYaw = random_u16();
+            shimmer_obj[i]->oFaceAnglePitch = random_u16();
+            shimmer_obj[i]->oOpacity = 0;
+            obj_scale(shimmer_obj[i],scale+(i*.2f));
+        }
+        o->oPosY -= yoff;
+
+        shimmer_base_scale = o->header.gfx.scale[0];
+    }
+
+    if (shimmer_death_timer < 90) {
+        shimmer_obj[0]->oOpacity = approach_f32_asymptotic(shimmer_obj[1]->oOpacity, 255.0f, 0.2f);
+        if (shimmer_death_timer > 5) {
+            shimmer_obj[1]->oOpacity = approach_f32_asymptotic(shimmer_obj[1]->oOpacity, 255.0f, 0.2f);
+        }
+        if (shimmer_death_timer > 20) {
+            shimmer_obj[2]->oOpacity = approach_f32_asymptotic(shimmer_obj[2]->oOpacity, 255.0f, 0.2f);
+        }
+        if (shimmer_death_timer > 40) {
+            shimmer_obj[3]->oOpacity = approach_f32_asymptotic(shimmer_obj[3]->oOpacity, 255.0f, 0.2f);
+        }
+    } else if (shimmer_death_timer < 180) {
+        for (int i = 1; i < 4; i++) {
+            shimmer_obj[i]->oOpacity = approach_f32_asymptotic(shimmer_obj[i]->oOpacity, 0.0f, 0.2f);
+        }
+
+        for (int i = 0; i < 3; i++) {
+            o->header.gfx.scale[i] = approach_f32_asymptotic(o->header.gfx.scale[i], shimmer_base_scale + (sins((gGlobalTimer*0x900) + i*0x5555))*scale*.3f,.2f);
+        }
+
+        o->oPosY += yoff;
+        for (int i = 0; i < 2; i++) {
+            spawn_object(o,MODEL_BD_STAR,bhvBdStar);
+        }
+        if (shimmer_death_timer % 15 == 0) {
+            spawn_object(o,MODEL_BD_WAVE,bhvBdWave);
+        }
+        o->oPosY -= yoff;
+
+    } else {
+        shimmer_obj[0]->oOpacity *= .9f;
+        for (int i = 0; i < 3; i++) {
+            o->header.gfx.scale[i] *= .9f;
+        }
+        if (o->header.gfx.scale[0] < .05f) {
+            return TRUE;
+        }
+    }
+
+    for (int i = 1; i < 4; i++) {
+        obj_scale(shimmer_obj[i], scale+(i*.2f)+(sins(gGlobalTimer*0x600 + i*0x5555)*.2f*scale));
+    }
+
+    vec3f_copy(&o->oPosVec,shimmer_pos_lock);
+
+    shimmer_death_timer++;
+    return FALSE;
 }

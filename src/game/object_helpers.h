@@ -63,6 +63,7 @@ Gfx *geo_update_projectile_pos_from_parent(s32 callContext, UNUSED struct GraphN
 Gfx *geo_update_layer_transparency(s32 callContext, struct GraphNode *node, UNUSED void *context);
 Gfx *geo_update_layer_redness(s32 callContext, struct GraphNode *node, UNUSED void *context);
 Gfx *geo_update_mverse_pipe(s32 callContext, struct GraphNode *node, UNUSED void *context);
+Gfx *geo_update_defeat_star(s32 callContext, struct GraphNode *node, UNUSED void *context);
 Gfx *geo_switch_anim_state(s32 callContext, struct GraphNode *node, UNUSED void *context);
 Gfx *geo_switch_area(s32 callContext, struct GraphNode *node, UNUSED void *context);
 void obj_update_pos_from_parent_transformation(Mat4 mtx, struct Object *obj);
@@ -290,5 +291,8 @@ s16 cur_obj_mario_angle_to_home(void);
 void cur_obj_die_if_on_death_floor(void);
 Gfx *geo_update_sephisword(s32 callContext, struct GraphNode *node, Mat4 mtx);
 Gfx *geo_update_robodick(s32 callContext, struct GraphNode *node, Mat4 mtx);
+
+void cur_obj_boss_shimmer_reset(void);
+s32 cur_obj_boss_shimmer_death(f32 yoff, f32 scale);
 
 #endif // OBJECT_HELPERS_H

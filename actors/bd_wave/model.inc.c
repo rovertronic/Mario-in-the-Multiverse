@@ -1,0 +1,82 @@
+Vtx bd_wave_Circle_002_mesh_layer_5_vtx_0[24] = {
+	{{ {-26, 0, -36}, 0, {-16, 1008}, {255, 255, 255, 84} }},
+	{{ {0, 0, -44}, 0, {-16, 1008}, {255, 255, 255, 0} }},
+	{{ {0, 0, -50}, 0, {-16, 1008}, {255, 255, 255, 147} }},
+	{{ {29, 0, -40}, 0, {-16, 1008}, {255, 255, 255, 147} }},
+	{{ {26, 0, -36}, 0, {-16, 1008}, {255, 255, 255, 43} }},
+	{{ {48, 0, -15}, 0, {-16, 1008}, {255, 255, 255, 147} }},
+	{{ {42, 0, -14}, 0, {-16, 1008}, {255, 255, 255, 40} }},
+	{{ {48, 0, 15}, 0, {-16, 1008}, {255, 255, 255, 147} }},
+	{{ {42, 0, 14}, 0, {-16, 1008}, {255, 255, 255, 31} }},
+	{{ {29, 0, 40}, 0, {-16, 1008}, {255, 255, 255, 147} }},
+	{{ {26, 0, 36}, 0, {-16, 1008}, {255, 255, 255, 87} }},
+	{{ {0, 0, 50}, 0, {-16, 1008}, {255, 255, 255, 147} }},
+	{{ {0, 0, 44}, 0, {-16, 1008}, {255, 255, 255, 8} }},
+	{{ {-29, 0, 40}, 0, {-16, 1008}, {255, 255, 255, 147} }},
+	{{ {-26, 0, 36}, 0, {-16, 1008}, {255, 255, 255, 16} }},
+	{{ {-48, 0, 15}, 0, {-16, 1008}, {255, 255, 255, 147} }},
+	{{ {-26, 0, 36}, 0, {-16, 1008}, {255, 255, 255, 16} }},
+	{{ {-42, 0, 14}, 0, {-16, 1008}, {255, 255, 255, 50} }},
+	{{ {-48, 0, 15}, 0, {-16, 1008}, {255, 255, 255, 147} }},
+	{{ {-48, 0, -15}, 0, {-16, 1008}, {255, 255, 255, 147} }},
+	{{ {-42, 0, -14}, 0, {-16, 1008}, {255, 255, 255, 0} }},
+	{{ {-29, 0, -40}, 0, {-16, 1008}, {255, 255, 255, 147} }},
+	{{ {-26, 0, -36}, 0, {-16, 1008}, {255, 255, 255, 84} }},
+	{{ {0, 0, -50}, 0, {-16, 1008}, {255, 255, 255, 147} }},
+};
+
+Gfx bd_wave_Circle_002_mesh_layer_5_tri_0[] = {
+	gsSPVertex(bd_wave_Circle_002_mesh_layer_5_vtx_0 + 0, 16, 0),
+	gsSP1Triangle(0, 1, 2, 0),
+	gsSP1Triangle(1, 3, 2, 0),
+	gsSP1Triangle(1, 4, 3, 0),
+	gsSP1Triangle(4, 5, 3, 0),
+	gsSP1Triangle(4, 6, 5, 0),
+	gsSP1Triangle(6, 7, 5, 0),
+	gsSP1Triangle(6, 8, 7, 0),
+	gsSP1Triangle(8, 9, 7, 0),
+	gsSP1Triangle(8, 10, 9, 0),
+	gsSP1Triangle(10, 11, 9, 0),
+	gsSP1Triangle(10, 12, 11, 0),
+	gsSP1Triangle(12, 13, 11, 0),
+	gsSP1Triangle(12, 14, 13, 0),
+	gsSP1Triangle(14, 15, 13, 0),
+	gsSPVertex(bd_wave_Circle_002_mesh_layer_5_vtx_0 + 16, 8, 0),
+	gsSP1Triangle(0, 1, 2, 0),
+	gsSP1Triangle(1, 3, 2, 0),
+	gsSP1Triangle(1, 4, 3, 0),
+	gsSP1Triangle(4, 5, 3, 0),
+	gsSP1Triangle(4, 6, 5, 0),
+	gsSP1Triangle(6, 7, 5, 0),
+	gsSPEndDisplayList(),
+};
+
+
+Gfx mat_bd_wave_shimmer[] = {
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(0, 0, 0, SHADE, ENVIRONMENT, 0, SHADE, 0, 0, 0, 0, SHADE, ENVIRONMENT, 0, SHADE, 0),
+	gsSPClearGeometryMode(G_ZBUFFER | G_LIGHTING),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_bd_wave_shimmer[] = {
+	gsDPPipeSync(),
+	gsSPSetGeometryMode(G_ZBUFFER | G_LIGHTING),
+	gsSPEndDisplayList(),
+};
+
+Gfx bd_wave_Circle_002_mesh_layer_5[] = {
+	gsSPDisplayList(mat_bd_wave_shimmer),
+	gsSPDisplayList(bd_wave_Circle_002_mesh_layer_5_tri_0),
+	gsSPDisplayList(mat_revert_bd_wave_shimmer),
+	gsDPPipeSync(),
+	gsSPSetGeometryMode(G_LIGHTING),
+	gsSPClearGeometryMode(G_TEXTURE_GEN),
+	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsSPTexture(65535, 65535, 0, 0, 0),
+	gsDPSetEnvColor(255, 255, 255, 255),
+	gsDPSetAlphaCompare(G_AC_NONE),
+	gsSPEndDisplayList(),
+};
+

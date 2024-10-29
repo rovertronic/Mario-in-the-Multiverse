@@ -237,6 +237,7 @@ enum {
     PM_ACT_STUNNED,
     PM_ACT_PUNCHED,
     PM_ACT_FEAR,
+    PM_ACT_DYING,
 };
 
 void bhv_boss_pepperman_loop(void) {
@@ -402,6 +403,13 @@ void bhv_boss_pepperman_loop(void) {
                 }
             }
             if ((o->oInteractStatus & INT_STATUS_WAS_ATTACKED)||(o->oShotByShotgun > 0)) {
+                o->oAction = PM_ACT_DYING;
+                cur_obj_boss_shimmer_reset();
+            }
+            break;
+        case PM_ACT_DYING:
+            cur_obj_init_animation(2);
+            if (cur_obj_boss_shimmer_death(40.0f,1.0f)) {
                 spawn_default_star(o->oHomeX,o->oHomeY+400.0f,o->oHomeZ);
                 spawn_mist_particles_variable(0, 0, 200.0f);
                 mark_obj_for_deletion(o);

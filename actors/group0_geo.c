@@ -65,3 +65,7 @@
 #include "nitroboom/geo.inc.c"
 #include "cardboard_star/geo.inc.c"
 #include "sawaxe_mario/geo.inc.c"
+#include "bd_shimmer/geo.inc.c"
+#include "bd_shine/geo.inc.c"
+#include "bd_star/geo.inc.c"
+#include "bd_wave/geo.inc.c"

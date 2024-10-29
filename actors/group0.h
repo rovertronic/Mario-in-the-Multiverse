@@ -537,4 +537,12 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "sawaxe_mario/geo_header.h"
 
+#include "bd_shimmer/geo_header.h"
+
+#include "bd_shine/geo_header.h"
+
+#include "bd_star/geo_header.h"
+
+#include "bd_wave/geo_header.h"
+
 #endif

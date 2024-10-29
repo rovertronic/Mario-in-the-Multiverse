@@ -9875,3 +9875,21 @@ const BehaviorScript bhvCarboardStarBody[] = {
     END_LOOP(),
 };
 
+extern void bhv_boss_defeat_star(void);
+const BehaviorScript bhvBdStar[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BILLBOARD(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_boss_defeat_star),
+    END_LOOP(),
+};
+
+extern void bhv_boss_defeat_wave(void);
+const BehaviorScript bhvBdWave[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_boss_defeat_wave),
+    END_LOOP(),
+};

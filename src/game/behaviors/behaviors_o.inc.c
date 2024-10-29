@@ -1948,3 +1948,44 @@ void bhv_pingas_plane(void) {
         o->oShotByShotgun = 0;
     }
 }
+
+void bhv_boss_defeat_star() {
+    if (o->oTimer == 0) {
+        o->oOpacity = 255;
+        o->oBehParams2ndByte = random_u16();
+        o->oVelY = 0.0f;
+
+        o->oHomeX = random_float()-.5f;
+        o->oHomeY = random_float()-.5f;
+        o->oHomeZ = random_float()-.5f;
+        vec3f_normalize(&o->oHomeVec);
+
+        //stupid
+        o->oHomeX *= 30.0f;
+        o->oHomeY *= 30.0f;
+        o->oHomeZ *= 30.0f;
+    }
+
+    vec3f_sum(&o->oPosVec, &o->oPosVec, &o->oHomeVec);
+
+    o->oPosY += o->oVelY;
+    o->oVelY -= 1.0f;
+
+    if (o->oTimer > 25) {
+        o->oOpacity *= .8f;
+    }
+    if (o->oTimer > 30) {
+        mark_obj_for_deletion(o);
+    }
+}
+
+void bhv_boss_defeat_wave(void) {
+    cur_obj_scale(o->oTimer/2.0f);
+    if (o->oTimer == 0) {
+        o->oOpacity = 255;
+    }
+    o->oOpacity -= 5;
+    if (o->oOpacity < 10) {
+        mark_obj_for_deletion(o);
+    }
+}

@@ -32,6 +32,7 @@
 #include "game/emutest.h"
 #include "game/cutscene_manager.h"
 #include "game/level_update.h"
+#include "buffers/buffers.h"
 
 #include "config.h"
 
@@ -1008,6 +1009,11 @@ struct LevelCommand *level_script_execute(struct LevelCommand *cmd) {
     render_game();
     end_master_display_list();
     alloc_display_list(0);
+
+    _60fps_on = TRUE;
+    if (gSaveBuffer.menuData.config[SETTINGS_FPS] == 1) {
+        _60fps_on = FALSE;
+    }
 
     if (!_60fps_midframe || sCurrPlayMode != PLAY_MODE_NORMAL) {
         while (sScriptStatus == SCRIPT_RUNNING) {

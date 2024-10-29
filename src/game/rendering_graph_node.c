@@ -1345,20 +1345,22 @@ void geo_process_object(struct Object *node) {
                     }
                 }
 
-
                 mtxf_scale_vec3f(gMatStack[gMatStackIndex + 1], *node->header.gfx.throwMatrix, node->header.gfx.scaleLerp);
-                
+
+                if (!_60fps_midframe) {
+                    for (int i = 0; i < 3; i++) {
+                        node->header.gfx.posLerp[i] = gMatStack[gMatStackIndex + 1][3][i];
+                    }
+                }
+
                 if (_60fps_on) {
-                    if (!_60fps_midframe) {
-                        for (int i = 0; i < 3; i++) {
-                            node->header.gfx.posLerp[i] = gMatStack[gMatStackIndex + 1][3][i];
-                        }
-                    } else {
+                    if (_60fps_midframe) {
                         oldThrowMatrix = node->header.gfx.throwMatrix;
                     }
 
                     for (int i = 0; i < 3; i++) {
                         gMatStack[gMatStackIndex + 1][3][i] = approach_pos_lerp(node->header.gfx.posLerp[i],gMatStack[gMatStackIndex + 1][3][i]);
+                        node->header.gfx.posLerp[i] = gMatStack[gMatStackIndex + 1][3][i];
                     }
                 }
 

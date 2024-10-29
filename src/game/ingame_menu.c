@@ -1858,6 +1858,7 @@ struct setting {
     s8 config_count;
 };
 
+char *fps_configs[] = {"60","30"};
 char *blood_particles_configs[] = {"Enabled", "Disabled"};
 char *rocket_controls_configs[] = {"Invert Y", "Invert Y & X", "No Invert"};
 char *aim_camera_configs[] = {"Shotgun Only", "Always Available"};
@@ -1869,6 +1870,7 @@ char *wk_configs[] = {"5 (Standard)","10 (Easier)"};
 struct setting settings[] = {
     {"Music Volume", music_level_configs, &gSaveBuffer.menuData.config[SETTINGS_MUSIC_VOLUME] , 5},
     {"Camera Volume", sound_level_configs, &gSaveBuffer.menuData.config[SETTINGS_CAMERA_VOLUME], 3},
+    {"Framerate", fps_configs, &gSaveBuffer.menuData.config[SETTINGS_FPS],2},
     {"Aim Camera", aim_camera_configs, &gSaveBuffer.menuData.config[SETTINGS_AIM_CAMERA], 2},
     {"Aim Controls", aim_controls_configs, &gSaveBuffer.menuData.config[SETTINGS_AIM_CONTROLS], 3},
     {"Rocket Controls", rocket_controls_configs, &gSaveBuffer.menuData.config[SETTINGS_ROCKET_CONTROLS], 3},

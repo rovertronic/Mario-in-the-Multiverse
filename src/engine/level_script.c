@@ -1005,6 +1005,10 @@ struct LevelCommand *level_script_execute(struct LevelCommand *cmd) {
     sScriptStatus = SCRIPT_RUNNING;
     sCurrentCmd = cmd;
 
+    if (_60fps_midframe) {
+        gPlayer1Controller->buttonPressed  = 0x0000;
+    }
+
     init_rcp(CLEAR_ZBUFFER);
     render_game();
     end_master_display_list();
@@ -1015,13 +1019,13 @@ struct LevelCommand *level_script_execute(struct LevelCommand *cmd) {
         _60fps_on = FALSE;
     }
 
-    if (!_60fps_midframe || sCurrPlayMode != PLAY_MODE_NORMAL) {
+    if (!_60fps_midframe) {
         while (sScriptStatus == SCRIPT_RUNNING) {
             LevelScriptJumpTable[sCurrentCmd->type]();
         }
     }
 
-    if (_60fps_on || sCurrPlayMode != PLAY_MODE_NORMAL) {
+    if (_60fps_on) {
         _60fps_midframe = !_60fps_midframe;
     } else {
         _60fps_midframe = FALSE;

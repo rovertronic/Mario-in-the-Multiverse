@@ -445,7 +445,7 @@ void display_and_vsync(void) {
     }
     exec_display_list(&gGfxPool->spTask);
 
-    if (!_60fps_on || sCurrPlayMode != PLAY_MODE_NORMAL) {
+    if (!_60fps_on) {
         osRecvMesg(&gGameVblankQueue, &gMainReceivedMesg, OS_MESG_BLOCK);
     }
 
@@ -469,7 +469,7 @@ void display_and_vsync(void) {
             sRenderingFramebuffer = 0;
         }
     }
-    if (!_60fps_midframe || sCurrPlayMode != PLAY_MODE_NORMAL) {
+    if (!_60fps_midframe) {
         gGlobalTimer++;
     }
 }
@@ -812,7 +812,7 @@ void thread5_game_loop(UNUSED void *arg) {
 
         audio_game_loop_tick();
         select_gfx_pool();
-        if (!_60fps_midframe || sCurrPlayMode != PLAY_MODE_NORMAL) {
+        if (!_60fps_midframe) {
             read_controller_inputs(THREAD_5_GAME_LOOP);
         }
         profiler_update(PROFILER_TIME_CONTROLLERS, 0);

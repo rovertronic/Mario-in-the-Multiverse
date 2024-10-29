@@ -1961,14 +1961,14 @@ void bhv_boss_defeat_star() {
         vec3f_normalize(&o->oHomeVec);
 
         //stupid
-        o->oHomeX *= 30.0f;
-        o->oHomeY *= 30.0f;
-        o->oHomeZ *= 30.0f;
+        o->oHomeX *= 30.0f*o->header.gfx.scale[0];
+        o->oHomeY *= 30.0f*o->header.gfx.scale[0];
+        o->oHomeZ *= 30.0f*o->header.gfx.scale[0];
     }
 
     vec3f_sum(&o->oPosVec, &o->oPosVec, &o->oHomeVec);
 
-    o->oPosY += o->oVelY;
+    o->oPosY += o->oVelY*o->header.gfx.scale[0];
     o->oVelY -= 1.0f;
 
     if (o->oTimer > 25) {

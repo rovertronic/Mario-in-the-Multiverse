@@ -2797,12 +2797,13 @@ s32 cur_obj_boss_shimmer_death(f32 yoff, f32 scale) {
         }
 
         for (int i = 0; i < 3; i++) {
-            o->header.gfx.scale[i] = approach_f32_asymptotic(o->header.gfx.scale[i], shimmer_base_scale + (sins((gGlobalTimer*0x900) + i*0x5555))*scale*.3f,.2f);
+            o->header.gfx.scale[i] = approach_f32_asymptotic(o->header.gfx.scale[i], shimmer_base_scale + (sins((gGlobalTimer*0x900) + i*0x5555))*shimmer_base_scale*scale*.3f,.2f);
         }
 
         o->oPosY += yoff;
         for (int i = 0; i < 2; i++) {
-            spawn_object(o,MODEL_BD_STAR,bhvBdStar);
+            struct Object * star = spawn_object(o,MODEL_BD_STAR,bhvBdStar);
+            obj_scale(star,scale);
         }
         if (shimmer_death_timer % 15 == 0) {
             spawn_object(o,MODEL_BD_WAVE,bhvBdWave);

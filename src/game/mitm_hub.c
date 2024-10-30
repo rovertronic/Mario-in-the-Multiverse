@@ -1166,6 +1166,7 @@ struct music_data music_list[] = {
     {SEQ_CUSTOM_PEANUT_PLAINS,"Peanut Plains","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
     {SEQ_CUSTOM_CRYSTAL_FIELD,"Crystal Field","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
     {SEQ_CUSTOM_TREES_IN_THE_DEPTHS,"Trees in the Depths of the Earth","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+    {SEQ_MINECART_RIDING,"Mine Cart Riding","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
     {SEQ_CUSTOM_MARX,"V.S. Marx","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
 
     {SEQ_JELLYFISH_FIELDS,"Jellyfish Fields","From: Battle for Bikini Bottom\nPorted by: JoshTheBosh"},

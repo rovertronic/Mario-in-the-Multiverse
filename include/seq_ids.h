@@ -97,6 +97,10 @@ enum SeqId {
     SEQ_MUTECITY,
     SEQ_BIGBLUE,
     SEQ_O_STH,  // 0x56
+<<<<<<< HEAD
+=======
+    SEQ_MINECART_RIDING,
+>>>>>>> branch_g
     SEQ_COUNT,
 };
 

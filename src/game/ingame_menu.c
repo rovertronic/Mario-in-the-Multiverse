@@ -30,6 +30,7 @@
 #include "ability.h"
 #include "actors/group0.h"
 #include "buffers/buffers.h"
+#include "lerp.h"
 
 #ifdef VERSION_EU
 #undef LANGUAGE_FUNCTION
@@ -892,9 +893,10 @@ void render_dialog_box_type(struct DialogEntry *dialog, s8 linesPerBox) {
         case DIALOG_TYPE_ROTATE: // Renders a dialog black box with zoom and rotation
             if ((gDialogBoxState == DIALOG_STATE_OPENING)
              || (gDialogBoxState == DIALOG_STATE_CLOSING)) {
-                create_dl_scale_matrix(MENU_MTX_NOPUSH, (1.0f / gDialogBoxScale), (1.0f / gDialogBoxScale), 1.0f);
+                f32 lerpscale = lerp_menu(gDialogBoxScale,LMENU_DIALOG_SCALE);
+                create_dl_scale_matrix(MENU_MTX_NOPUSH, (1.0f / lerpscale), (1.0f / lerpscale), 1.0f);
                 // convert the speed into angle
-                create_dl_rotation_matrix(MENU_MTX_NOPUSH, (gDialogBoxOpenTimer * 4.0f), 0, 0, 1.0f);
+                create_dl_rotation_matrix(MENU_MTX_NOPUSH, lerp_menu((gDialogBoxOpenTimer * 4.0f),LMENU_DIALOG_OPEN), 0, 0, 1.0f);
             }
             gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, 150);
             break;
@@ -1035,7 +1037,7 @@ void handle_dialog_text_and_pages(s8 colorMode, struct DialogEntry *dialog, s8 l
     strIdx = gDialogTextPos;
 
     if (gDialogBoxState == DIALOG_STATE_HORIZONTAL) {
-        create_dl_translation_matrix(MENU_MTX_NOPUSH, 0, (f32) gDialogScrollOffsetY, 0);
+        create_dl_translation_matrix(MENU_MTX_NOPUSH, 0, gDialogScrollOffsetY, 0);
     }
 
     create_dl_translation_matrix(MENU_MTX_PUSH, X_VAL3, 2 - lineNum * Y_VAL3, 0);
@@ -1290,18 +1292,21 @@ void render_dialog_entries(void) {
                 play_sound(SOUND_MENU_MESSAGE_APPEAR, gGlobalSoundSource);
             }
 
-            if (gDialogBoxType == DIALOG_TYPE_ROTATE) {
-                gDialogBoxOpenTimer -= 7.5f;
-                gDialogBoxScale -= 1.5f;
-            } else {
-                gDialogBoxOpenTimer -= 10.0f;
-                gDialogBoxScale -= 2.0f;
+            if (!_60fps_midframe) {
+                if (gDialogBoxType == DIALOG_TYPE_ROTATE) {
+                    gDialogBoxOpenTimer -= 7.5f;
+                    gDialogBoxScale -= 1.5f;
+                } else {
+                    gDialogBoxOpenTimer -= 10.0f;
+                    gDialogBoxScale -= 2.0f;
+                }
+
+                if (gDialogBoxOpenTimer == 0.0f) {
+                    gDialogBoxState = DIALOG_STATE_VERTICAL;
+                    gDialogLineNum = 1;
+                }
             }
 
-            if (gDialogBoxOpenTimer == 0.0f) {
-                gDialogBoxState = DIALOG_STATE_VERTICAL;
-                gDialogLineNum = 1;
-            }
             lowerBound = 1;
             break;
 
@@ -1320,13 +1325,18 @@ void render_dialog_entries(void) {
             lowerBound = 1;
             break;
         case DIALOG_STATE_HORIZONTAL: // scrolling
-            gDialogScrollOffsetY += (dialog->linesPerBox * 2);
+            if (_60fps_on) {
+                gDialogScrollOffsetY += (dialog->linesPerBox);
+            } else {
+                gDialogScrollOffsetY += (dialog->linesPerBox * 2);
+            }
 
             if (gDialogScrollOffsetY >= dialog->linesPerBox * DIAG_VAL1) {
                 gDialogTextPos = gLastDialogPageStrPos;
                 gDialogBoxState = DIALOG_STATE_VERTICAL;
                 gDialogScrollOffsetY = 0;
             }
+
             lowerBound = (gDialogScrollOffsetY / DIAG_VAL1) + 1;
             break;
 
@@ -1338,8 +1348,10 @@ void render_dialog_entries(void) {
                 gDialogResponse = gDialogLineNum;
             }
 
-            gDialogBoxOpenTimer = gDialogBoxOpenTimer + 10.0f;
-            gDialogBoxScale = gDialogBoxScale + 2.0f;
+            if (!_60fps_midframe) {
+                gDialogBoxOpenTimer = gDialogBoxOpenTimer + 10.0f;
+                gDialogBoxScale = gDialogBoxScale + 2.0f;
+            }
 
             if (gDialogBoxOpenTimer == DEFAULT_DIALOG_BOX_ANGLE) {
                 gDialogBoxState = DIALOG_STATE_OPENING;
@@ -2212,28 +2224,33 @@ s32 render_pause_courses_and_castle(void) {
             gSPDisplayList(gDisplayListHead++, main_menu_roundbox_001_mesh);
             gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 
+            lerp_ability_icons = FALSE;
             render_ability_dpad(233,165,gDialogTextAlpha);
 
             for (i=0;i<19;i++) {
-                if (menu_ability_y_offset[i] > 0) {
-                    menu_ability_y_offset[i] += menu_ability_gravity[i];
-                    menu_ability_gravity[i] -= 1;
-                }
-                //Not an else to prevent sinking into the ground
-                if (menu_ability_y_offset[i] <= 0) {
-                    menu_ability_gravity[i] = 0;
-                    menu_ability_y_offset[i] = 0;
-                }
-
                 u8 img = ABILITY_LOCK_IMAGE_INDEX;
                 if (save_file_check_ability_unlocked(i) || (i==0)) {
                     img = i;
                 }
+                
+                lerp_ability_icons = TRUE;
                 if (i < 16) {
                     render_ability_icon(55+(i%4)*33, menu_ability_y_offset[i] + 195-((i/4)*33), gDialogTextAlpha, img);
                 } else {
                     // utility icons have special case
                     render_ability_icon(200+(i%4)*33, menu_ability_y_offset[i] + 95, gDialogTextAlpha, img);
+                }
+
+                if (menu_ability_y_offset[i] > 0) {
+                    if (!_60fps_midframe) {
+                        menu_ability_y_offset[i] += menu_ability_gravity[i];
+                        menu_ability_gravity[i] -= 1;
+                    }
+                }
+                //Not an else to prevent sinking into the ground
+                if (menu_ability_y_offset[i] <= 0) {
+                    menu_ability_gravity[i] = 0;
+                    menu_ability_y_offset[i] = 0;
                 }
             }
 
@@ -2319,7 +2336,9 @@ s32 render_pause_courses_and_castle(void) {
         //render_widescreen_setting();
 #endif
     if (gDialogTextAlpha < 250) {
-        gDialogTextAlpha += 25;
+        if (!_60fps_midframe) {
+            gDialogTextAlpha += 25;
+        }
     }
 #ifdef PUPPYCAM
     } else {
@@ -2560,7 +2579,9 @@ s32 render_course_complete_screen(void) {
     }
 
     if (gDialogTextAlpha < 250) {
-        gDialogTextAlpha += 25;
+        if (!_60fps_midframe) {
+            gDialogTextAlpha += 25;
+        }
     }
 
     gCourseDoneMenuTimer++;

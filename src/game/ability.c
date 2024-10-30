@@ -49,6 +49,7 @@
 #include "rumble_init.h"
 #include "puppylights.h"
 #include "actors/group0.h"
+#include "lerp.h"
 
 #include "text_strings.h"
 
@@ -186,6 +187,7 @@ struct ability ability_struct[] = {
 
 u16 ability_cooldown_flags = 0; //Flags that determine if their ability icon is "greyed out" or not; 0 = normal, 1 = cooling down
 
+u8 lerp_ability_icons = FALSE;
 void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index) {
     if (index == ABILITY_NONE) return;
     if (index == ABILITY_UTIL_MILK && milk_drunk) {index = 21;}
@@ -194,7 +196,12 @@ void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index) {
     }
 
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, alpha);
-    create_dl_translation_matrix(MENU_MTX_PUSH, x, y, 0);
+    f32 new_y = y;
+    if (lerp_ability_icons) {
+        new_y = lerp_menu_lotolerance(y,LMENU_ABILITY_HUD+index);
+    }
+
+    create_dl_translation_matrix(MENU_MTX_PUSH, x, new_y, 0);
 
 	gDPPipeSync(gDisplayListHead++);
     gDPSetTextureFilter(gDisplayListHead++,G_TF_POINT);

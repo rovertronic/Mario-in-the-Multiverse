@@ -54,6 +54,7 @@
 #include "ability.h"
 #include "hints.h"
 #include "dream_comet.h"
+#include "lerp.h"
 
 u8 pipe_string_not_enough[] = {TEXT_PIPE_NOT_ENOUGH};
 u8 pipe_string_enter[] = {TEXT_PIPE_ENTER};
@@ -298,11 +299,14 @@ void render_mitm_hub_hud(void) {
 
     char sprintf_buffer[50];
 
-    if (hub_level_index > -1) {
-        hub_titlecard_alpha = approach_f32_asymptotic(hub_titlecard_alpha,255.0f,0.1f);
-    } else {
-        hub_titlecard_alpha = approach_f32_asymptotic(hub_titlecard_alpha,0.0f,0.15f);
+    if (!_60fps_midframe) {
+        if (hub_level_index > -1) {
+            hub_titlecard_alpha = approach_f32_asymptotic(hub_titlecard_alpha,255.0f,0.1f);
+        } else {
+            hub_titlecard_alpha = approach_f32_asymptotic(hub_titlecard_alpha,0.0f,0.15f);
+        }
     }
+    hub_titlecard_alpha = lerp_menu(hub_titlecard_alpha,LMENU_TITLE_CARD);
 
     if ((hub_level_index != hub_dma_index)&&(hub_level_index > -1)) {
         hub_dma_index = hub_level_index;
@@ -682,6 +686,7 @@ void render_hint_ui(u8 hud_alpha) {
         u32 hint_ability_flags = hintlist[hint_level][hint_index].dependancies;
         u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(hint_level+1));
 
+        lerp_ability_icons = FALSE;
         for (s32 i = 0; i < 19; i++) {
             if (hint_ability_flags & (1 << i)) {
                 render_ability_icon(59+ability_x_offset, 95, 255, i);

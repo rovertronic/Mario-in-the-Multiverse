@@ -3,6 +3,7 @@
 #include "game_init.h"
 #include "engine/math_util.h"
 #include "camera.h"
+#include "lerp.h"
 
 #define LERP_THRESHOLD 400.0f
 #define LERP_THRESHOLD_ANGLE 0x3000
@@ -50,6 +51,18 @@ f32 approach_pos_lerp(f32 current, f32 target) {
     }
 }
 
+f32 approach_pos_lerp_lo(f32 current, f32 target) {
+    if (ABS(target - current) >= 10.0f) {
+        lerp_overshot_flag = TRUE;
+        return target;
+    }
+    if (_60fps_midframe) {
+        return current + ((target - current) * 0.5f);
+    } else {
+        return current - ((target - current) * 0.5f);
+    }
+}
+
 void warp_node(struct Object *node) {
     vec3f_copy(node->header.gfx.posLerp, node->header.gfx.pos);
     vec3s_copy(node->header.gfx.angleLerp, node->header.gfx.angle);
@@ -63,4 +76,24 @@ void interpolate_node(struct Object *node) {
         node->header.gfx.scaleLerp[i] = approach_pos_lerp(node->header.gfx.scaleLerp[i], node->header.gfx.scale[i]);
         node->header.gfx.angleLerp[i] = approach_angle_lerp(node->header.gfx.angleLerp[i], node->header.gfx.angle[i]);
     }
+}
+
+
+f32 lerp_menu_stack[LMENU_COUNT];
+f32 lerp_menu(f32 value,int stack_index) {
+    if (!_60fps_midframe) {
+        lerp_menu_stack[stack_index] = value;
+    } else {
+        lerp_menu_stack[stack_index] = approach_pos_lerp(lerp_menu_stack[stack_index],value);
+    }
+    return lerp_menu_stack[stack_index];
+}
+
+f32 lerp_menu_lotolerance(f32 value,int stack_index) {
+    if (!_60fps_midframe) {
+        lerp_menu_stack[stack_index] = value;
+    } else {
+        lerp_menu_stack[stack_index] = approach_pos_lerp_lo(lerp_menu_stack[stack_index],value);
+    }
+    return lerp_menu_stack[stack_index];
 }

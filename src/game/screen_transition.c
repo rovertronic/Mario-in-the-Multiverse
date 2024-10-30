@@ -12,6 +12,7 @@
 #include "screen_transition.h"
 #include "segment2.h"
 #include "sm64.h"
+#include "lerp.h"
 
 u8 sTransitionFadeTimer = 0;
 u16 sTransitionTextureAngle = 0;
@@ -24,6 +25,7 @@ void *sTextureTransitionID[] = {
 };
 
 
+extern f32 lerp_menu_stack[];
 s32 set_and_reset_transition_fade_timer(u8 transTime) {
     if (!_60fps_midframe) {
         sTransitionFadeTimer++;
@@ -32,6 +34,7 @@ s32 set_and_reset_transition_fade_timer(u8 transTime) {
     if (sTransitionFadeTimer >= transTime) {
         sTransitionFadeTimer = 0;
         sTransitionTextureAngle = 0;
+        lerp_menu_stack[LMENU_TRANSITION] = 0.0f;
         return TRUE;
     }
 
@@ -85,6 +88,7 @@ void make_tex_transition_vertices(Vtx *verts, f32 centerTransX, f32 centerTransY
 
 f32 calc_tex_transition_radius(s8 transTime, struct WarpTransitionData *transData) {
     f32 amount = (f32) sTransitionFadeTimer / (f32) (transTime - 1);
+    amount = lerp_menu(amount,LMENU_TRANSITION);
 
 #ifdef EASE_IN_OUT_TRANSITIONS
     return smoothstep(transData->startTexRadius, transData->endTexRadius, amount);
@@ -115,6 +119,7 @@ f32 calc_tex_transition_pos_distance(s8 transTime, struct WarpTransitionData *tr
     f32 distance = sqrtf(sqr(startX - endX) + sqr(startY - endY));
 
     f32 amount = (f32) sTransitionFadeTimer / (f32)(transTime - 1);
+    amount = lerp_menu(amount,LMENU_TRANSITION);
 
     return distance * amount;
 }
@@ -217,6 +222,7 @@ s32 dl_transition_color(u8 transTime, struct WarpTransitionData *transData, u8 a
 u8 set_transition_color_fade_alpha(s8 fadeType, u8 transTime) {
     u8 time = 0;
     f32 amount = (f32) sTransitionFadeTimer / (f32) (transTime - 1);
+    amount = lerp_menu(amount,LMENU_TRANSITION);
     switch (fadeType) {
         case COLOR_TRANS_FADE_INTO_COLOR:
             time = lerpf(0.f, 255.0f, amount);

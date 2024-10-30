@@ -26,6 +26,7 @@
 
 #include "config.h"
 #include "ability.h"
+#include "lerp.h"
 
 /* @file hud.c
  * This file implements HUD rendering and power meter animations.
@@ -939,11 +940,14 @@ void render_hud(void) {
         //--**
         create_dl_scale_matrix(MENU_MTX_PUSH, 0.75f, 0.75f, 0);
 
-        if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )) {
-            hud_alpha = approach_f32_asymptotic(hud_alpha,0.0f,0.2f);
-        } else {
-            hud_alpha = approach_f32_asymptotic(hud_alpha,255.0f,0.2f);
+        if (!_60fps_midframe) {
+            if (sCurrPlayMode == PLAY_MODE_PAUSED || (gMarioState->action == ACT_ENTER_HUB_PIPE )) {
+                hud_alpha = approach_f32_asymptotic(hud_alpha,0.0f,0.2f);
+            } else {
+                hud_alpha = approach_f32_asymptotic(hud_alpha,255.0f,0.2f);
+            }
         }
+        hud_alpha = lerp_menu(hud_alpha,LMENU_HUD_ALPHA);
 
         if (hud_display_coins == 0) {
             hud_display_coins = gMarioState->numGlobalCoins;
@@ -955,6 +959,7 @@ void render_hud(void) {
             hud_display_coins ++;
         }
 
+        lerp_ability_icons = TRUE;
         render_ability_dpad(60,265,(u8)hud_alpha);
         gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 
@@ -1192,6 +1197,10 @@ void render_hud(void) {
         }
 
 
+        lerp_ability_icons = TRUE;
+        if (sCurrPlayMode == PLAY_MODE_PAUSED) {
+            lerp_ability_icons = FALSE;
+        }
         create_dl_scale_matrix(MENU_MTX_PUSH, 0.75f, 0.75f, 0);
         render_ability_dpad(60,265,(u8)hud_alpha);
         gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);

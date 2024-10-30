@@ -94,6 +94,7 @@ extern u16 phasewalk_timer;
 extern u16 chronos_timer;
 extern u8 chronos_expended;
 extern u8 milk_drunk;
+extern u8 lerp_ability_icons;
 //
 
 extern struct ability ability_struct[];

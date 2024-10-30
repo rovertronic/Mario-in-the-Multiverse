@@ -5,6 +5,8 @@ void master_kaag_act_inactive(void) { // act 0
     o->oForwardVel = 0.0f;
     o->oVelY = 0.0f;
 
+    cur_obj_boss_shimmer_reset();
+
     cur_obj_become_intangible();
     gSecondCameraFocus = o;
     cur_obj_init_animation_with_sound(1);
@@ -91,21 +93,22 @@ void master_kaag_act_death(void) { // act 7
 
     o->oForwardVel = 0.0f;
     if(cur_obj_init_animation_and_check_if_near_end(2)){
-        create_sound_spawner(SOUND_GENERAL2_BOBOMB_EXPLOSION);
+        //create_sound_spawner(SOUND_GENERAL2_BOBOMB_EXPLOSION);
 
-        cur_obj_hide();
-        cur_obj_become_intangible();
+        //cur_obj_hide();
+        //cur_obj_become_intangible();
 
-        obj_mark_for_deletion(o->oObjF4);
+        //spawn_mist_particles_variable(0, 0, 200.0f);
+        //spawn_triangle_break_particles(15, MODEL_DIRT_ANIMATION, 8.0f, TINY_DIRT_PARTICLE_ANIM_STATE_YELLOW);
+        //cur_obj_shake_screen(SHAKE_POS_SMALL);
 
-        spawn_mist_particles_variable(0, 0, 200.0f);
-        spawn_triangle_break_particles(15, MODEL_DIRT_ANIMATION, 8.0f, TINY_DIRT_PARTICLE_ANIM_STATE_YELLOW);
-        cur_obj_shake_screen(SHAKE_POS_SMALL);
-
-        stop_background_music(SEQUENCE_ARGS(4, SEQ_MASTER_KAAG_BOSS));
-        SET_BPARAM1(o->oBehParams, 7);
-        cur_obj_spawn_star_at_y_offset(0, 300.0f, 0, 200.0f);
-        obj_mark_for_deletion(o);  
+        if (cur_obj_boss_shimmer_death(WEAKPOINT_OFFSET+70.0f,1.0f)) {
+            obj_mark_for_deletion(o->oObjF4);
+            stop_background_music(SEQUENCE_ARGS(4, SEQ_MASTER_KAAG_BOSS));
+            SET_BPARAM1(o->oBehParams, 7);
+            cur_obj_spawn_star_at_y_offset(0, 300.0f, 0, 200.0f);
+            obj_mark_for_deletion(o);
+        }
     }
     
 }

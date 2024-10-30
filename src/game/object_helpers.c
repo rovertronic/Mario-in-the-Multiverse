@@ -28,6 +28,7 @@
 #include "spawn_sound.h"
 #include "puppylights.h"
 #include "ability.h"
+#include "audio/external.h"
 
 static s32 clear_move_flag(u32 *bitSet, s32 flag);
 
@@ -2761,12 +2762,20 @@ s32 cur_obj_boss_shimmer_death(f32 yoff, f32 scale) {
     cur_obj_become_intangible();
 
     if (shimmer_death_timer == 0) {
-        //gTimeStopState |= TIME_STOP_ENABLED;
+
+
+        set_time_stop_flags(TIME_STOP_ENABLED | TIME_STOP_MARIO_AND_DOORS);
+        o->activeFlags |= ACTIVE_FLAG_INITIATED_TIME_STOP;
+
+        seq_player_lower_volume(SEQ_PLAYER_LEVEL, 60, 40);
+        cur_obj_play_sound_2(SOUND_MITM_LEVEL_BOSS_DEFEAT);
         vec3f_copy(shimmer_pos_lock,&o->oPosVec);
 
         o->oPosY += yoff;
         shimmer_obj[0] = spawn_object(o,MODEL_BD_SHINE,bhvStaticObject);
         shimmer_obj[0]->header.gfx.node.flags |= GRAPH_RENDER_BILLBOARD;
+
+        cutscene_object(CUTSCENE_STAR_SPAWN, shimmer_obj[0]);
 
         for (int i = 1; i < 4; i++) {
             shimmer_obj[i] = spawn_object(o,MODEL_BD_SHIMMER,bhvStaticObject);
@@ -2780,7 +2789,7 @@ s32 cur_obj_boss_shimmer_death(f32 yoff, f32 scale) {
         shimmer_base_scale = o->header.gfx.scale[0];
     }
 
-    if (shimmer_death_timer < 90) {
+    if (shimmer_death_timer < 105) {
         shimmer_obj[0]->oOpacity = approach_f32_asymptotic(shimmer_obj[1]->oOpacity, 255.0f, 0.2f);
         if (shimmer_death_timer > 5) {
             shimmer_obj[1]->oOpacity = approach_f32_asymptotic(shimmer_obj[1]->oOpacity, 255.0f, 0.2f);
@@ -2791,7 +2800,12 @@ s32 cur_obj_boss_shimmer_death(f32 yoff, f32 scale) {
         if (shimmer_death_timer > 40) {
             shimmer_obj[3]->oOpacity = approach_f32_asymptotic(shimmer_obj[3]->oOpacity, 255.0f, 0.2f);
         }
-    } else if (shimmer_death_timer < 180) {
+    } else if (shimmer_death_timer < 220) {
+        if (gCurrLevelNum == LEVEL_G && shimmer_death_timer == 105) { //hardcoded check for marx
+            cur_obj_play_sound_1(SOUND_MITM_LEVEL_G_MARX_SCREAM);
+            cur_obj_play_sound_2(SOUND_MITM_G_MARX_EXPLODE);
+        }
+
         for (int i = 1; i < 4; i++) {
             shimmer_obj[i]->oOpacity = approach_f32_asymptotic(shimmer_obj[i]->oOpacity, 0.0f, 0.2f);
         }
@@ -2811,11 +2825,19 @@ s32 cur_obj_boss_shimmer_death(f32 yoff, f32 scale) {
         o->oPosY -= yoff;
 
     } else {
+
+        if (!gObjCutsceneDone) {
+            gObjCutsceneDone = TRUE;
+            clear_time_stop_flags(TIME_STOP_ENABLED | TIME_STOP_MARIO_AND_DOORS);
+            o->activeFlags &= ~ACTIVE_FLAG_INITIATED_TIME_STOP;
+        }
+
         shimmer_obj[0]->oOpacity *= .9f;
         for (int i = 0; i < 3; i++) {
             o->header.gfx.scale[i] *= .9f;
         }
         if (o->header.gfx.scale[0] < .05f) {
+            seq_player_unlower_volume(SEQ_PLAYER_LEVEL, 60);
             return TRUE;
         }
     }

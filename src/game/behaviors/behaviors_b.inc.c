@@ -1331,6 +1331,7 @@ void bhv_boss_daddy_init(void){
     o->oHealth = 3;
     o->oInteractType = INTERACT_TEXT;
     o->oInteractionSubtype = INT_SUBTYPE_NPC;
+    cur_obj_boss_shimmer_reset();
 }
 
 // for use with o->oF4
@@ -1902,12 +1903,16 @@ void bhv_boss_daddy(void){
                 }
             break;
         case STATE_SPAWN_STAR:
-            stop_background_music(SEQUENCE_ARGS(4, SEQ_EVENT_BOSS));
-            spawn_object_relative(0, 0, 100, 0, o, MODEL_EXPLOSION, bhvSafeExplosion);
-            struct Object * star = spawn_object(o, MODEL_STAR, bhvStar);
-            star->oPosY += 100.0f;
-            star->oBehParams = 0x07000007;
-            mark_obj_for_deletion(o);
+            if (cur_obj_boss_shimmer_death(200.0f,1.0f)) {
+                stop_background_music(SEQUENCE_ARGS(4, SEQ_EVENT_BOSS));
+                //spawn_object_relative(0, 0, 100, 0, o, MODEL_EXPLOSION, bhvSafeExplosion);
+                //struct Object * star = spawn_object(o, MODEL_STAR, bhvStar);
+                //star->oPosY += 100.0f;
+                //star->oBehParams = 0x07000007;
+                o->oBehParams = 0x07000007;
+                spawn_default_star(o->oHomeX,o->oHomeY+300.f,o->oHomeZ);
+                mark_obj_for_deletion(o);
+            }
             break;
         case STATE_RESTART:
             cur_obj_init_animation(12);

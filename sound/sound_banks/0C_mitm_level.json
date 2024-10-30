@@ -309,6 +309,11 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "level_sb_blaster"
+        },
+        "inst_level_boss_defeat": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "level_boss_defeat"
         }
 		
     },
@@ -382,6 +387,8 @@
 
         "inst_level_sb_train",
         "inst_level_sb_bullet",
-        "inst_level_sb_blaster"
+        "inst_level_sb_blaster",
+
+        "inst_level_boss_defeat"
     ]
 }

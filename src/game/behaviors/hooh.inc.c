@@ -8,6 +8,7 @@
 #define HOOH_ACT_PHASE2_ATTACK_3 7
 #define HOOH_ACT_PHASE2_HIT 8
 #define HOOH_ACT_PHASE2_RISE 9
+#define HOOH_ACT_DEATH_EXPLOSION 10
 
 static struct ObjectHitbox sHoohHitbox = {
     /* interactType:      */ INTERACT_DAMAGE,
@@ -63,6 +64,7 @@ void bhv_hooh_init(void){
             break;
 
         case 1:
+            cur_obj_boss_shimmer_reset();
             o->oPosY = 10150.0f;
             o->oPosZ = 950.0f;
             o->oMoveAngleYaw = 0;
@@ -228,8 +230,7 @@ void bhv_hooh_loop(void){
                     o->oHealth--;
                     cur_obj_init_animation(3);
                     if (o->oHealth <= 0){
-                        cur_obj_play_sound_2(SOUND_MITM_LEVEL_J_HOOH);
-                        spawn_no_exit_star(0.0f, 10300.0f, 657.0f);
+                        o->oAction = HOOH_ACT_DEATH_EXPLOSION;
                     }
                     o->oVelY = 20;
                 }
@@ -238,6 +239,16 @@ void bhv_hooh_loop(void){
 
                 break;
             
+            case HOOH_ACT_DEATH_EXPLOSION:
+                if (cur_obj_boss_shimmer_death(300.0f,2.0f)) {
+                    cur_obj_play_sound_2(SOUND_MITM_LEVEL_J_HOOH);
+                    spawn_no_exit_star(0.0f, 10300.0f, 657.0f);
+                    o->oVelY = 20;
+                    o->oAction = HOOH_ACT_PHASE2_HIT;
+                    cur_obj_hide();
+                }
+                break;
+
             case HOOH_ACT_PHASE2_HIT:
                 targetY = 5000.0f;
                 o->oVelY -= 4.0f;

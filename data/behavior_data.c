@@ -9877,7 +9877,7 @@ const BehaviorScript bhvCarboardStarBody[] = {
 
 extern void bhv_boss_defeat_star(void);
 const BehaviorScript bhvBdStar[] = {
-    BEGIN(OBJ_LIST_GENACTOR),
+    BEGIN(OBJ_LIST_UNIMPORTANT),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     BILLBOARD(),
     BEGIN_LOOP(),
@@ -9887,7 +9887,7 @@ const BehaviorScript bhvBdStar[] = {
 
 extern void bhv_boss_defeat_wave(void);
 const BehaviorScript bhvBdWave[] = {
-    BEGIN(OBJ_LIST_GENACTOR),
+    BEGIN(OBJ_LIST_UNIMPORTANT),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_boss_defeat_wave),

@@ -63,6 +63,9 @@ static struct ObjectHitbox sMarxArrowHitbox = {
 };
 
 void marx_act_cutscene(void) {
+    if (o->oTimer == 0) {
+        cur_obj_boss_shimmer_reset();
+    }
     if (o->oTimer == 120) {
         cur_obj_play_sound_2(SOUND_MITM_LEVEL_G_MARX_TELEPORT);
         o->oAction = MARX_ACT_IDLE_FLIGHT;
@@ -589,6 +592,7 @@ void marx_act_dead(void) {
             }
         break;
         case 1:
+            /*
             if (o->oTimer % 3 == 0) {
                 spawn_object_relative(0, (random_u16() % 400 - 200), (random_u16() % 400 - 200), (random_u16() % 400 - 200), o, MODEL_EXPLOSION, bhvExplosionVisual);
             }
@@ -602,9 +606,15 @@ void marx_act_dead(void) {
                 o->oTimer = 0;
                 o->oSubAction++;
             }
+            */
+            if (cur_obj_boss_shimmer_death(0.0f,1.0f)) {
+                cur_obj_hide();
+                o->oTimer = 0;
+                o->oSubAction++;
+            }
         break;
         case 2:
-            if (o->oTimer == 90) {
+            if (o->oTimer == 20) {
                 SET_BPARAM1(o->oBehParams, 7);
                 spawn_default_star(0, 700, 0);
                 obj_mark_for_deletion(o);

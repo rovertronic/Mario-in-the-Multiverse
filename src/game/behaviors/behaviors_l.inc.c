@@ -209,7 +209,7 @@ struct ObjectHitbox sPeppermanHitbox = {
     /* interactType:      */ INTERACT_DAMAGE,
     /* downOffset:        */ 0,
     /* damageOrCoinValue: */ 1,
-    /* health:            */ 7,
+    /* health:            */ 1,//7,
     /* numLootCoins:      */ 0,
     /* radius:            */ 100,
     /* height:            */ 200,

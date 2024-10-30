@@ -8296,6 +8296,7 @@ sound_ref .sound_level_c_bell
 sound_ref .sound_level_sb_train
 sound_ref .sound_level_sb_bullet
 sound_ref .sound_level_sb_blaster
+sound_ref .sound_level_boss_defeat
 
 .sound_level_x_0:
 chan_setbank 12
@@ -8905,6 +8906,16 @@ layer_end
 layer_note1 39, 0x60, 127
 layer_end
 //-----END LEVEL SB-----//
+
+.sound_level_boss_defeat:
+chan_setbank 12
+chan_setinstr 60
+chan_setlayer 0, .layer_bd
+chan_end
+
+.layer_bd:
+layer_note1 39, 0x2bc, 127
+layer_end
 
 .channel_test_bank:
 chan_largenoteson

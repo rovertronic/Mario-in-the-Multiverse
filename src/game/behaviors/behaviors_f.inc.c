@@ -867,13 +867,15 @@ void bhv_f_heli(void) {
 
         case 5: // Defeated P2
             if (o->oTimer == 60) {
-                gCamera->cutscene = 0;
+                //gCamera->cutscene = 0;
+                cur_obj_boss_shimmer_reset();
             }
-            if (o->oTimer > 60) {
-                spawn_mist_particles_variable(0, 0, 100.0f);
-                spawn_triangle_break_particles(20, MODEL_DIRT_ANIMATION, 3.0f, 4);
-                cur_obj_shake_screen(SHAKE_POS_SMALL);
-                create_sound_spawner(SOUND_GENERAL2_PYRAMID_TOP_EXPLOSION);
+            if (o->oTimer > 60 && cur_obj_boss_shimmer_death(200.0f,2.0f)) {
+                //spawn_mist_particles_variable(0, 0, 100.0f);
+                //spawn_triangle_break_particles(20, MODEL_DIRT_ANIMATION, 3.0f, 4);
+                //cur_obj_shake_screen(SHAKE_POS_SMALL);
+                //create_sound_spawner(SOUND_GENERAL2_PYRAMID_TOP_EXPLOSION);
+                gCamera->cutscene = 0;
                 spawn_default_star(o->oHomeX,o->oHomeY-1300.0f,o->oHomeZ);
                 mark_obj_for_deletion(o->prevObj);
                 mark_obj_for_deletion(o);

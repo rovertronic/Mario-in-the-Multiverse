@@ -23,24 +23,4 @@ extern const LevelScript level_sb_entry[];
 
 #include "levels/sb/sb_humanoid/anim_header.h"
 
-#include "levels/sb/sb_train/geo_header.h"
-
-#include "levels/sb/sb_train/collision_header.h"
-
-#include "levels/sb/sb_gap/geo_header.h"
-
-#include "levels/sb/sbdm/header.h"
-
-#include "levels/sb/sbdms/header.h"
-
-#include "levels/sb/sbdmk/header.h"
-
-#include "levels/sb/sb_blaster/geo_header.h"
-
-#include "levels/sb/sb_blaster/anim_header.h"
-
-#include "levels/sb/sb_blast/geo_header.h"
-
-#include "levels/sb/sbdmd/header.h"
-
 #endif

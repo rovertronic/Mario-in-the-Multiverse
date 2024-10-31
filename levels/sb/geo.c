@@ -21,7 +21,3 @@
 #include "levels/sb/sb_torch_2/geo.inc.c"
 #include "levels/sb/sb_gaster/geo.inc.c"
 #include "levels/sb/sb_yukari/geo.inc.c"
-#include "levels/sb/sb_train/geo.inc.c"
-#include "levels/sb/sb_gap/geo.inc.c"
-#include "levels/sb/sb_blaster/geo.inc.c"
-#include "levels/sb/sb_blast/geo.inc.c"

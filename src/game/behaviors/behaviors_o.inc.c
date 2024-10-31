@@ -1381,16 +1381,6 @@ void bhv_sb_manager(void) {
                     create_danmaku(&yukariObj->oPosVec,danmaku_vec,0);
                 }
             }
-            if (o->oTimer % 71 == 0) {
-                gRandomSeed16 = o->oTimer;
-                for (int i = 0; i < 2; i++) {
-                    struct Object * blaster = spawn_object(gMarioObject,MODEL_SB_BLASTER,bhvSbBlaster);
-                    s16 random_angle = random_u16();
-                    blaster->oPosX = gMarioState->pos[0] + sins(random_angle)*2500.0f;
-                    blaster->oPosZ = gMarioState->pos[2] + coss(random_angle)*2500.0f;
-                    blaster->oMoveAngleYaw = random_angle+0x8000;
-                }
-            }
             break;
     }
     if (o->oAction >= SB_ACT_BATTLE_MAIN) {
@@ -1629,6 +1619,7 @@ enum {
     FBOWSER_DESCEND,
     FBOWSER_TRANSFORM,
     FBOWSER_EGG_JUMP_IN_MOBILE,
+    FBOWSER_GASTER
 };
 
 f32 lerp_standard(f32 v0, f32 v1, f32 t) {
@@ -1636,14 +1627,32 @@ f32 lerp_standard(f32 v0, f32 v1, f32 t) {
 }
 
 u8 fb_bowser_phase = 0;
+u8 fb_bowser_path_index = 0;
+Vec3f fb_bowser_path;
 extern Vec3f sephisword_impact_vec;
+
+static struct ObjectHitbox sFbBowserHitbox = {
+    /* interactType:      */ INTERACT_BOUNCE_TOP,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 1,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 100,
+    /* height:            */ 250,
+    /* hurtboxRadius:     */ 180,
+    /* hurtboxHeight:     */ 200,
+};
+
 void bhv_final_boss_bowser(void) {
 
     switch(o->oAction) {
         case FBOWSER_INIT:
             o->oInteractStatus = 0;
             cur_obj_hide();
+            obj_set_hitbox(o,&sFbBowserHitbox);
+            cur_obj_become_intangible();
             fb_bowser_phase = 0;
+            fb_bowser_path_index = 0;
             break;
         case FBOWSER_DESCEND:
             if (o->oTimer == 0) {
@@ -1729,6 +1738,12 @@ void bhv_final_boss_bowser(void) {
                         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_2];
                         o->oAction = FBOWSER_EGG_JUMP_IN_MOBILE;
                         break;
+                    case 2:
+                        o->oAction = FBOWSER_GASTER;
+                        o->oHealth = 8;
+                        o->oFlags |= OBJ_FLAG_E__SG_CUSTOM;
+                        cur_obj_become_tangible();
+                        break;
                 }
             }
             break;
@@ -1748,6 +1763,67 @@ void bhv_final_boss_bowser(void) {
                 o->oPosZ = lerpf(o->oHomeZ,o->prevObj->oPosZ,o->oTimer/50.0f);
             }
             o->oFaceAngleYaw = approach_s16_asymptotic(o->oFaceAngleYaw,o->prevObj->oFaceAngleYaw-0x4000,8);
+            break;
+        case FBOWSER_GASTER:
+            cur_obj_unhide();
+            o->oFaceAngleYaw = approach_s16_asymptotic(o->oFaceAngleYaw,o->oAngleToMario,4);
+            if (o->oSubAction == 0) {
+                if (o->oTimer == 15) {
+                    //gRandomSeed16 = o->oTimer;
+                    for (int i = 0; i < 2; i++) {
+                        struct Object * blaster = spawn_object(gMarioObject,MODEL_SB_BLASTER,bhvSbBlaster);
+                        s16 random_angle = random_u16();
+                        blaster->oPosX = o->oPosX + sins(o->oAngleToMario + 0x4000 + (i*0x8000))*500.0f;
+                        blaster->oPosZ = o->oPosZ + coss(o->oAngleToMario + 0x4000 + (i*0x8000))*500.0f;
+                        blaster->oMoveAngleYaw = o->oAngleToMario - 0x1000 +(random_u16()%0x2000);
+                    }
+                }
+                if (o->oTimer == 30) {
+                    vec3f_copy(&o->oHomeVec,&o->oPosVec);
+                    fb_bowser_path[0] = sins((fb_bowser_path_index*2+1)*0x1999)*3000.0f;
+                    fb_bowser_path[2] = coss((fb_bowser_path_index*2+1)*0x1999)*3000.0f;
+                    fb_bowser_path[1] = 0.0f;
+                    fb_bowser_path_index++;
+                    o->oSubAction = 1;
+                    o->oTimer = 0;
+                }
+            } else {
+                if (o->oTimer <= 45) {
+                    o->oPosX = lerpf(o->oHomeX,fb_bowser_path[0],o->oTimer/45.0f);
+                    o->oPosY = lerpf(o->oHomeY,fb_bowser_path[1],o->oTimer/45.0f) + sins((o->oTimer*0x8000)/45)*1000.0f;
+                    o->oPosZ = lerpf(o->oHomeZ,fb_bowser_path[2],o->oTimer/45.0f);
+
+                    if ((o->oTimer == 22)&&(fb_bowser_path_index != 1)) {
+                        Vec3f danmaku_vec;
+                        for (int i = 0; i<5; i++) {
+                            gMarioState->pos[1] -= 200.0f;
+                            vec3f_diff(danmaku_vec,gMarioState->pos,&o->oPosVec);
+                            gMarioState->pos[1] += 200.0f;
+                            vec3f_normalize(danmaku_vec);
+                            f32 spd = 30.0f+(i*10.f);
+                            vec3f_scale(danmaku_vec,danmaku_vec,spd);
+                            create_danmaku(&o->oPosVec,danmaku_vec,1);
+                        }
+                    }
+
+                } else {
+                    o->oSubAction = 0;
+                    o->oTimer = 0;
+
+                    if (o->oHealth < 1) {
+                        o->oAction = FBOWSER_TRANSFORM;
+                    }
+                }
+            }
+
+            if ((o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || (o->oShotByShotgun > 0)) {
+                o->oHealth --;
+                cur_obj_hide();
+            }
+
+
+            o->oInteractStatus = 0;
+            o->oShotByShotgun = 0;
             break;
     }
 }
@@ -1930,6 +2006,7 @@ void bhv_pingas_plane(void) {
                 vec3f_get_dist(&o->oPosVec,pingas_plane_target,&dist);
 
                 if (dist < 40.0f) {
+                    o->parentObj->oAction = FBOWSER_TRANSFORM;
                     mark_obj_for_deletion(o);
                     return;
                 }

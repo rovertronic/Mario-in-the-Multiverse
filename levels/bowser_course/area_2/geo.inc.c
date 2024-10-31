@@ -4,6 +4,7 @@ const GeoLayout bowser_course_area_2_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_ASM(0, geo_update_bowser_course_sky),
+		GEO_ASM(0, geo_danmaku),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, bowser_course_dl_Circle_mesh_layer_1),
 		GEO_ASM(0, e__shotgun_effects),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 0, -4000, 0),

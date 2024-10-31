@@ -24,6 +24,7 @@ extern Gfx bowser_f_bullet_Cube_mesh[];
 #include "levels/B/turret_bullet/geo_header.h"
 
 #include "levels/k/header.h"
+#include "levels/bowser_course/header.h"
 
 //--MISC
 extern u32 sForwardKnockbackActions[][3];

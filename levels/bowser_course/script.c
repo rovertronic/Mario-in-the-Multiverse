@@ -43,10 +43,14 @@ const LevelScript level_bowser_course_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_BC_ATREUS, bc_atreus_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BC_BOWSER_FORM_1, bowsf1_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BC_BOSSLANDING, bc_bosslanding_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_BC_BOWSER_FORM_2, bc_bowsf2_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_BC_PINGAS_PLANE, bc_pingas_plane_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_BC_PINGAS_BALL, bc_pingas_ball_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_BC_PINGAS_PLANE_DMG, bc_pingas_plane_dmg_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_BC_BOWSER_FORM_2, bc_bowsf2_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BC_PINGAS_PLANE, bc_pingas_plane_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BC_PINGAS_BALL, bc_pingas_ball_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BC_PINGAS_PLANE_DMG, bc_pingas_plane_dmg_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_SB_TRAIN, sb_train_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_SB_GAP, sb_gap_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_SB_BLASTER, sb_blaster_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_SB_BLAST, sb_blast_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */

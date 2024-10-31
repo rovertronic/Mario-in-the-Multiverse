@@ -34,3 +34,8 @@
 #include "levels/bowser_course/bc_pingas_plane/geo.inc.c"
 #include "levels/bowser_course/bc_pingas_ball/geo.inc.c"
 #include "levels/bowser_course/bc_pingas_plane_dmg/geo.inc.c"
+
+#include "levels/bowser_course/sb_train/geo.inc.c"
+#include "levels/bowser_course/sb_gap/geo.inc.c"
+#include "levels/bowser_course/sb_blaster/geo.inc.c"
+#include "levels/bowser_course/sb_blast/geo.inc.c"

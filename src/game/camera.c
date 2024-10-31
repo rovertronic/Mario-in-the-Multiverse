@@ -29,6 +29,7 @@
 #include "puppyprint.h"
 #include "profiling.h"
 #include "ability.h"
+#include "lerp.h"
 #include "cutscene_manager.h"
 #include "buffers/buffers.h"
 #include "levels/B/header.h"
@@ -11686,7 +11687,9 @@ Gfx *geo_camera_fov(s32 callContext, struct GraphNode *g, UNUSED void *context) 
         }
     }
 
-    perspective->fov = sFOVState.fov;
+    if (!_60fps_midframe) {
+        perspective->fov = sFOVState.fov;
+    }
     shake_camera_fov(perspective);
     return NULL;
 }

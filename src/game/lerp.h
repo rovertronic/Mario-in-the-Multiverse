@@ -18,6 +18,7 @@ enum {
     LMENU_DIALOG_SCALE,
     LMENU_TRANSITION,
     LMENU_PAUSE,
+    LERPM_FOV,
     LMENU_COUNT,
 };
 

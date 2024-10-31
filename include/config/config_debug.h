@@ -74,7 +74,7 @@ MITM EXCLUSIVE: Have all abilities accessible regardless of save status. Also un
  * Same as above, but also reads all save file flags as complete.
  * This will not overwrite existing save file data unless you save over it.
  */
- #define COMPLETE_SAVE_FILE
+//#define COMPLETE_SAVE_FILE
 
 /**
  * Removes the limit on FPS.

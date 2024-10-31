@@ -209,7 +209,7 @@ struct ObjectHitbox sPeppermanHitbox = {
     /* interactType:      */ INTERACT_DAMAGE,
     /* downOffset:        */ 0,
     /* damageOrCoinValue: */ 1,
-    /* health:            */ 1,//7,
+    /* health:            */ 7,
     /* numLootCoins:      */ 0,
     /* radius:            */ 100,
     /* height:            */ 200,
@@ -409,6 +409,7 @@ void bhv_boss_pepperman_loop(void) {
             break;
         case PM_ACT_DYING:
             cur_obj_init_animation(2);
+            o->header.gfx.animInfo.animFrame = 1;
             if (cur_obj_boss_shimmer_death(40.0f,1.0f)) {
                 spawn_default_star(o->oHomeX,o->oHomeY+400.0f,o->oHomeZ);
                 spawn_mist_particles_variable(0, 0, 200.0f);

@@ -9307,7 +9307,7 @@ const BehaviorScript bhvCutterBlast[] = {
 };
 
 const BehaviorScript bhvSlashParticle[] = {
-    BEGIN(OBJ_LIST_GENACTOR),
+    BEGIN(OBJ_LIST_UNIMPORTANT),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_slash_particle_loop),

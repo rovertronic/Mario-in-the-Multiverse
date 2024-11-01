@@ -404,7 +404,7 @@ Gfx *geo_danmaku(s32 callContext, struct GraphNode *node, UNUSED void *context) 
 		gSPDisplayList(dlH++, mat_sbdm_danmaku_layer1);
 
 		f32 hitradius = 100.0f;
-		for (int t = 0; t < 2; t++) {
+		for (int t = 0; t < 3; t++) {
 			Gfx * dmdl = sbdmk_kunai_mesh_tri_0;
 			switch(t) {
 				case 0:
@@ -413,6 +413,9 @@ Gfx *geo_danmaku(s32 callContext, struct GraphNode *node, UNUSED void *context) 
 				case 1:
 					gDPSetEnvColor(dlH++,0,0,0,255);
 					dmdl = sbdmd_diamond_mesh_tri_0;
+					break;
+				case 2:
+					gDPSetEnvColor(dlH++,40,0,40,255);
 					break;
 			}
 
@@ -427,11 +430,18 @@ Gfx *geo_danmaku(s32 callContext, struct GraphNode *node, UNUSED void *context) 
 					RENDER_GE(dmdl, 2.f)
 
 					if (update) {
-						vec3f_add(d->pos,d->vel);
+						Vec3f vel;
+						vec3f_copy(vel,d->vel);
+						if (_60fps_on) {
+							vec3_mul_val(vel,0.5f);
+						}
+						vec3f_add(d->pos,vel);
 						if (d->pos[1] < SB_Y+50.0f) {
 							d->pos[1] = SB_Y+50.0f;
 						}
-						d->timer += absf(d->vel[0]) + absf(d->vel[2]); //count taxicab moves
+						if (!_60fps_midframe) {
+							d->timer += absf(d->vel[0]) + absf(d->vel[2]); //count taxicab moves
+						}
 						if (d->timer > 10000) {
 							d->flags = 0;
 							d->timer = 0;

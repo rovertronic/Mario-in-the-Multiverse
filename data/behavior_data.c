@@ -9739,7 +9739,6 @@ const BehaviorScript bhvBcBowser[] = {
     LOAD_ANIMATIONS(oAnimations, bc_bowser_anims),
     ANIMATE(2),
     DROP_TO_FLOOR(),
-    SET_FLOAT(oGraphYOffset, 25),
     SET_HOME(),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_final_boss_bowser),

@@ -93,4 +93,6 @@ extern const LevelScript level_bowser_course_entry[];
 
 #include "levels/bowser_course/bform_3/geo_header.h"
 
+#include "levels/bowser_course/bform4/geo_header.h"
+
 #endif

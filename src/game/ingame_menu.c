@@ -637,6 +637,7 @@ void print_credits_string(s16 x, s16 y, const u8 *str) {
 }
 
 void handle_menu_scrolling(s8 scrollDirection, s8 *currentIndex, s8 minIndex, s8 maxIndex) {
+    if (_60fps_midframe) {return;}
     u8 index = 0;
 
     if (scrollDirection == MENU_SCROLL_VERTICAL) {
@@ -678,6 +679,8 @@ void handle_menu_scrolling(s8 scrollDirection, s8 *currentIndex, s8 minIndex, s8
 }
 
 void handle_menu_scrolling_2way(s8 *currentIndex2, s8 *currentIndex, s8 minIndex, s8 maxIndex, s8 maxIndex2) {
+    if (_60fps_midframe) {return;}
+
     u8 index = 0;
     u8 index2 = 0;
 

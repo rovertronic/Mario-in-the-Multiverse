@@ -51,7 +51,8 @@ const LevelScript level_bowser_course_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_SB_GAP, sb_gap_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_SB_BLASTER, sb_blaster_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_SB_BLAST, sb_blast_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_BC_BOWSER_FORM_3, bform_3_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_BC_BOWSER_FORM_3, bform_3_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BC_BOWSER_FORM_4, bform4_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -210,15 +211,15 @@ const LevelScript level_bowser_course_entry[] = {
 
 	AREA(2, bowser_course_area_2),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		OBJECT(MODEL_BC_ATREUS, 0, 1165, -5989, 0, -90, 0, 0x00000000, bhvBcAtreus),
-		OBJECT(MODEL_BC_BOSSLANDING, -3, 36, 6243, 0, 0, 0, 0x00000000, bhvBcBosslanding),
-		OBJECT(MODEL_BC_BOWSER_FORM_1, 0, 36, -2058, 0, 0, 0, 0x00000000, bhvBcBowser),
-		OBJECT(MODEL_NONE, 1784, 2274, 1827, 25, -162, 0, (0 << 16), bhvCutsceneCamera),
-		OBJECT(MODEL_NONE, 0, 48, -1398, -18, -180, 0, (1 << 16), bhvCutsceneCamera),
-		OBJECT(MODEL_NONE, 0, 250, -1607, 0, -180, 0, (2 << 16), bhvCutsceneCamera),
-		OBJECT(MODEL_NONE, 279, 250, -1683, 0, -136, 0, (3 << 16), bhvCutsceneCamera),
-		MARIO_POS(0x02, 0, 0, 36, 5853),
-		OBJECT(MODEL_NONE, -3, 419, 6243, 0, 0, 0, (0x0A << 16), bhvFadingWarp),
+		OBJECT(MODEL_BC_ATREUS, 0, 2165, -5989, 0, -90, 0, 0x00000000, bhvBcAtreus),
+		OBJECT(MODEL_BC_BOSSLANDING, -3, 1036, 6243, 0, 0, 0, 0x00000000, bhvBcBosslanding),
+		OBJECT(MODEL_BC_BOWSER_FORM_1, 0, 1036, -2058, 0, 0, 0, 0x00000000, bhvBcBowser),
+		OBJECT(MODEL_NONE, 1784, 3274, 1827, 25, -162, 0, (0 << 16), bhvCutsceneCamera),
+		OBJECT(MODEL_NONE, 0, 1048, -1398, -18, -180, 0, (1 << 16), bhvCutsceneCamera),
+		OBJECT(MODEL_NONE, 0, 1250, -1607, 0, -180, 0, (2 << 16), bhvCutsceneCamera),
+		OBJECT(MODEL_NONE, 279, 1250, -1683, 0, -136, 0, (3 << 16), bhvCutsceneCamera),
+		MARIO_POS(0x02, 0, 0, 1036, 5853),
+		OBJECT(MODEL_NONE, -3, 1419, 6243, 0, 0, 0, (0x0A << 16), bhvFadingWarp),
 		TERRAIN(bowser_course_area_2_collision),
 		MACRO_OBJECTS(bowser_course_area_2_macro_objs),
 		STOP_MUSIC(0),
@@ -228,7 +229,7 @@ const LevelScript level_bowser_course_entry[] = {
 	END_AREA(),
 
 	FREE_LEVEL_POOL(),
-	MARIO_POS(0x02, 0, 0, 36, 5853),
+	MARIO_POS(0x02, 0, 0, 1036, 5853),
 	CALL(0, lvl_init_or_update),
 	CALL_LOOP(1, lvl_init_or_update),
 	CLEAR_LEVEL(),

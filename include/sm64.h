@@ -15,7 +15,7 @@
 #include "macros.h"
 #include "segments.h"
 
-#define SB_Y 36.0f
+#define SB_Y 1036.0f
 
 // Crash handler enhancement
 #ifdef CRASH_SCREEN_INCLUDED

@@ -63,3 +63,4 @@
 #include "levels/bowser_course/sb_blast/model.inc.c"
 #include "levels/bowser_course/sbdmd/model.inc.c"
 #include "levels/bowser_course/bform_3/model.inc.c"
+#include "levels/bowser_course/bform4/model.inc.c"

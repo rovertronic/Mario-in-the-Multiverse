@@ -1602,7 +1602,7 @@ void bhv_sb_blast(void) {
         if (point_inside_xz_tri(gMarioState->pos, pointA, pointB, pointC) || point_inside_xz_tri(gMarioState->pos, pointA, pointC, pointD)) {
             if (absf(o->oPosY - gMarioState->pos[1]) < 280 && gMarioState->action != ACT_BACKWARD_AIR_KB) {
                 gMarioState->action = ACT_BACKWARD_AIR_KB;
-                o->oDamageOrCoinValue = 4;
+                o->oDamageOrCoinValue = 2;
                 take_damage_and_knock_back(gMarioState, o);
                 gMarioState->vel[1] = 5;
                 gMarioState->forwardVel = 0.0f;
@@ -1720,6 +1720,10 @@ void bhv_final_boss_bowser(void) {
         case FBOWSER_TRANSFORM:
             o->oFaceAngleYaw +=0x1000;
 
+            if (o->header.gfx.animInfo.animFrame > 0) {
+                o->header.gfx.animInfo.animFrame --;
+            }
+
             if (o->oTimer == 24) {
                 fb_bowser_phase++;
                 spawn_mist_particles_variable(0, 0, 100.0f);
@@ -1727,6 +1731,10 @@ void bhv_final_boss_bowser(void) {
                     case 1:
                         cur_obj_init_animation_with_sound(5);
                         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_2];
+                        break;
+                    case 2:
+                        cur_obj_init_animation_with_sound(6);
+                        o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_3];
                         break;
                 }
             }
@@ -1765,7 +1773,7 @@ void bhv_final_boss_bowser(void) {
             o->oFaceAngleYaw = approach_s16_asymptotic(o->oFaceAngleYaw,o->prevObj->oFaceAngleYaw-0x4000,8);
             break;
         case FBOWSER_GASTER:
-            cur_obj_unhide();
+            o->oAnimState = 0;
             o->oFaceAngleYaw = approach_s16_asymptotic(o->oFaceAngleYaw,o->oAngleToMario,4);
             if (o->oSubAction == 0) {
                 if (o->oTimer == 15) {
@@ -1803,22 +1811,28 @@ void bhv_final_boss_bowser(void) {
                             f32 spd = 30.0f+(i*10.f);
                             vec3f_scale(danmaku_vec,danmaku_vec,spd);
                             create_danmaku(&o->oPosVec,danmaku_vec,1);
+                            cur_obj_play_sound_2(SOUND_OBJ_MRI_SHOOT);
                         }
                     }
 
                 } else {
                     o->oSubAction = 0;
                     o->oTimer = 0;
+                    cur_obj_play_sound_2(SOUND_OBJ_BOWSER_WALK);
+                    o->header.gfx.animInfo.animFrame = 0;
 
                     if (o->oHealth < 1) {
                         o->oAction = FBOWSER_TRANSFORM;
+                        cur_obj_play_sound_2(SOUND_OBJ_BOWSER_DEFEATED);
                     }
                 }
             }
 
             if ((o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || (o->oShotByShotgun > 0)) {
                 o->oHealth --;
-                cur_obj_hide();
+                o->oAnimState = 1;
+                o->oIntangibleTimer = 2;
+                cur_obj_play_sound_2(SOUND_OBJ_BOWSER_TAIL_PICKUP);
             }
 
 
@@ -1973,6 +1987,7 @@ void bhv_pingas_plane(void) {
 
                 if (o->oHealth < 1) {
                     o->oAction = 2;
+                    cur_obj_play_sound_2(SOUND_OBJ_BOWSER_DEFEATED);
                     vec3f_set(pingas_plane_target,0,0,0);
                     mark_obj_for_deletion(o->prevObj);
                     o->prevObj = NULL;

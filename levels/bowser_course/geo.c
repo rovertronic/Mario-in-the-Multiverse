@@ -39,3 +39,4 @@
 #include "levels/bowser_course/sb_gap/geo.inc.c"
 #include "levels/bowser_course/sb_blaster/geo.inc.c"
 #include "levels/bowser_course/sb_blast/geo.inc.c"
+#include "levels/bowser_course/bform_3/geo.inc.c"

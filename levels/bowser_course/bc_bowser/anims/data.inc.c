@@ -4,3 +4,4 @@
 #include "anim_swordarc.inc.c"
 #include "anim_descend.inc.c"
 #include "anim_eggbowser_idle.inc.c"
+#include "anim_gasterfuckery.inc.c"

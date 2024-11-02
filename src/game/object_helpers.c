@@ -2811,7 +2811,7 @@ s32 cur_obj_boss_shimmer_death(f32 yoff, f32 scale) {
         }
 
         for (int i = 0; i < 3; i++) {
-            o->header.gfx.scale[i] = approach_f32_asymptotic(o->header.gfx.scale[i], shimmer_base_scale + (sins((gGlobalTimer*0x900) + i*0x5555))*shimmer_base_scale*scale*.3f,.2f);
+            o->header.gfx.scale[i] = approach_f32_asymptotic(o->header.gfx.scale[i], shimmer_base_scale + (sins((gGlobalTimer*0x1000) + i*0x5555))*shimmer_base_scale*1.2f,.25f);
         }
 
         o->oPosY += yoff;
@@ -2832,9 +2832,9 @@ s32 cur_obj_boss_shimmer_death(f32 yoff, f32 scale) {
             o->activeFlags &= ~ACTIVE_FLAG_INITIATED_TIME_STOP;
         }
 
-        shimmer_obj[0]->oOpacity *= .9f;
+        shimmer_obj[0]->oOpacity *= .8f;
         for (int i = 0; i < 3; i++) {
-            o->header.gfx.scale[i] *= .9f;
+            o->header.gfx.scale[i] *= .8f;
         }
         if (o->header.gfx.scale[0] < .05f) {
             seq_player_unlower_volume(SEQ_PLAYER_LEVEL, 60);

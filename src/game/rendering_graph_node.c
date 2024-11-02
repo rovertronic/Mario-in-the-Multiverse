@@ -1330,7 +1330,7 @@ void geo_process_object(struct Object *node) {
             oldThrowMatrix = node->header.gfx.throwMatrix;
         }
 
-        if (noThrowMatrix) {
+        if (noThrowMatrix && !object_mirror_mode) {
             if (_60fps_midframe && node->header.gfx.bothMats >= 2) {
                 interpolate_node(node);
             } else {

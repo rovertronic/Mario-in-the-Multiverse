@@ -1628,6 +1628,8 @@ f32 lerp_standard(f32 v0, f32 v1, f32 t) {
   return v0 + t * (v1 - v0);
 }
 
+u8 first_time_visit = TRUE;
+
 u8 fb_bowser_phase = 0;
 u8 fb_bowser_path_index = 0;
 Vec3f fb_bowser_path;
@@ -1660,6 +1662,9 @@ void bhv_final_boss_bowser(void) {
             if (o->oTimer == 0) {
                 cur_obj_unhide();
                 cur_obj_init_animation_with_sound(4);
+            }
+            if (o->oTimer == 44 && !first_time_visit) {
+                o->oAction = FBOWSER_TRANSFORM;
             }
             break;
         case FBOWSER_SWIPE:
@@ -1926,7 +1931,6 @@ enum {
     ATREUS_WATCHING_FIGHT,
 };
 
-u8 first_time_visit = TRUE;
 void bhv_atreus_bosscontroller(void) {
     switch(o->oAction) {
         case ATREUS_INIT:
@@ -1939,9 +1943,14 @@ void bhv_atreus_bosscontroller(void) {
                     o->oAction = ATREUS_CHAT_1;
                     struct Object * cutscene = spawn_object(o,MODEL_NONE,bhvCutsceneManager);
                     cutscene->oBehParams2ndByte = 4;
-                    first_time_visit = FALSE;
                 } else {
                     o->oAction = ATREUS_WATCHING_FIGHT;
+
+                    struct Object * obj;
+                    obj = cur_obj_nearest_object_with_behavior(bhvBcBowser);
+                    if (obj) {
+                        obj->oAction = FBOWSER_DESCEND;
+                    }
                 }
             }
             break;
@@ -1981,6 +1990,7 @@ void bhv_atreus_bosscontroller(void) {
                 if (obj) {
                     obj->oInteractStatus = 0;
                     obj->oAction = FBOWSER_TRANSFORM;
+                    first_time_visit = FALSE;
                 }
             }
             break;

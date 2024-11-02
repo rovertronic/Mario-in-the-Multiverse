@@ -1655,7 +1655,7 @@ void bhv_final_boss_bowser(void) {
             cur_obj_hide();
             obj_set_hitbox(o,&sFbBowserHitbox);
             cur_obj_become_intangible();
-            fb_bowser_phase = 2;
+            fb_bowser_phase = 0;
             fb_bowser_path_index = 0;
             break;
         case FBOWSER_DESCEND:
@@ -1744,7 +1744,7 @@ void bhv_final_boss_bowser(void) {
                         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_3];
                         break;
                     case 3:
-                        cur_obj_init_animation_with_sound(5);
+                        cur_obj_init_animation_with_sound(8);
                         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_4];
                         break;
                 }
@@ -1780,9 +1780,13 @@ void bhv_final_boss_bowser(void) {
                 o->prevObj = spawn_object(o,MODEL_BC_PINGAS_PLANE,bhvBcPingasPlane);
                 o->prevObj->oPosY -= 500.0f;
                 o->prevObj->oPosX += 1200.0f;
-
+                cur_obj_init_animation_with_sound(7);
             }
 
+
+            if (o->oTimer == 50) {
+                cur_obj_init_animation_with_sound(5);
+            }
             if (o->oTimer > 50) {
                 vec3f_copy(&o->oPosVec,&o->prevObj->oPosVec);
             } else {

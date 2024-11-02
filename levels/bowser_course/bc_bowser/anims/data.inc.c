@@ -5,3 +5,5 @@
 #include "anim_descend.inc.c"
 #include "anim_eggbowser_idle.inc.c"
 #include "anim_gasterfuckery.inc.c"
+#include "anim_hop.inc.c"
+#include "anim_yukarifly.inc.c"

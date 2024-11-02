@@ -922,7 +922,7 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
             starGrabAction = ACT_STAR_DANCE_WATER;
         }
 
-        if (m->action & ACT_FLAG_AIR) {
+        if ((m->action & ACT_FLAG_AIR)||(using_ability(ABILITY_CHRONOS))) {
             starGrabAction = ACT_FALL_AFTER_STAR_GRAB;
         }
 

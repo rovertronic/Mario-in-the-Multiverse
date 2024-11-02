@@ -66,6 +66,7 @@ const LevelScript level_bowser_course_entry[] = {
 		WARP_NODE(4/*fin2*/, LEVEL_BOWSER_COURSE, 0x01, 0x05, WARP_NO_CHECKPOINT),
 		WARP_NODE(5/*fout2*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(6/*fboss*/, LEVEL_BOWSER_COURSE, 0x02, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(7/*bossdeath*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_ABILITY_SIGN, 9695, 1580, 7543, 0, -32, 0, (ABILITY_KNIGHT << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, 4106, 2004, -915, 0, 150, 0, (ABILITY_BUBBLE_HAT << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, -6519, -362, 4030, 0, 50, 0, (ABILITY_AKU << 16), bhvStaticObject),
@@ -88,6 +89,7 @@ const LevelScript level_bowser_course_entry[] = {
 		OBJECT(MODEL_BC_FIRESPINNER, -8103, 1283, -6338, 0, 0, 0, 0x00000000, bhvBcFspinner),
 		OBJECT(MODEL_BC_FIRESPINNER, -11012, 1283, -6338, 0, 0, 0, 0x00000000, bhvBcFspinner),
 		OBJECT(MODEL_BC_FIRESPINNER, -3578, 6125, -8685, 0, 0, 0, 0x00000000, bhvBcFspinner),
+		OBJECT(MODEL_NONE, 3408, 17896, 9248, 0, 0, 0, (7 << 16), bhvDeathWarp),
 		OBJECT(MODEL_ROCKET_BUTTON_OFF, -9557, 1376, -4533, 90, 0, 0, (140 << 16), bhvRocketButton),
 		OBJECT(MODEL_CHECKPOINT_FLAG, 8857, -782, -6570, 0, -180, 0, 0x00000000, bhvCheckpointFlag),
 		OBJECT(MODEL_CHECKPOINT_FLAG, -5233, -362, 4213, 0, 90, 0, (1 << 16), bhvCheckpointFlag),
@@ -211,6 +213,7 @@ const LevelScript level_bowser_course_entry[] = {
 
 	AREA(2, bowser_course_area_2),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(241/*death*/, LEVEL_BOWSER_COURSE, 0x01, 7, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_BC_ATREUS, 0, 2165, -5989, 0, -90, 0, 0x00000000, bhvBcAtreus),
 		OBJECT(MODEL_BC_BOSSLANDING, -3, 1036, 6243, 0, 0, 0, 0x00000000, bhvBcBosslanding),
 		OBJECT(MODEL_BC_BOWSER_FORM_1, 0, 1036, -2058, 0, 0, 0, 0x00000000, bhvBcBowser),

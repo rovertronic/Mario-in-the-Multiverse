@@ -53,6 +53,11 @@ const LevelScript level_bowser_course_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_SB_BLAST, sb_blast_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BC_BOWSER_FORM_3, bform_3_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BC_BOWSER_FORM_4, bform4_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BC_BOWSER_FORM_5, bform5_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_BC_CRYSTAL, bc_crystal_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_BC_CRYSTALP, bc_crystalp_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_BC_CRYSTALG, bc_crystalg_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_BC_CRYSTALGP, bc_crystalgp_geo),
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */

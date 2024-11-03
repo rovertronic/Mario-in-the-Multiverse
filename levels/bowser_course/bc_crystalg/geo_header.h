@@ -1,0 +1,11 @@
+extern const GeoLayout bc_crystalg_geo[];
+extern u8 bc_crystalg_bluecrystal_ci8[];
+extern u8 bc_crystalg_bluecrystal_pal_rgba16[];
+extern Vtx bc_crystalg_Cylinder_001_mesh_layer_1_vtx_0[168];
+extern Gfx bc_crystalg_Cylinder_001_mesh_layer_1_tri_0[];
+extern Vtx bc_crystalg_Cylinder_001_mesh_layer_1_vtx_1[48];
+extern Gfx bc_crystalg_Cylinder_001_mesh_layer_1_tri_1[];
+extern Gfx mat_bc_crystalg_bluecrytsal[];
+extern Gfx mat_revert_bc_crystalg_bluecrytsal[];
+extern Gfx mat_bc_crystalg_black[];
+extern Gfx bc_crystalg_Cylinder_001_mesh_layer_1[];

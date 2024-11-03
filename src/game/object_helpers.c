@@ -270,6 +270,31 @@ Gfx *geo_update_robodick(s32 callContext, struct GraphNode *node, Mat4 mtx) {
     return NULL;
 }
 
+Mat4 golem_part_transform[6];
+Gfx *geo_update_golem_part(s32 callContext, struct GraphNode *node, Mat4 mtx) {
+    if (callContext == GEO_CONTEXT_RENDER && !_60fps_midframe) {
+        struct GraphNodeGenerated *currentGraphNode = (struct GraphNodeGenerated *) node;
+        s32 parameter = currentGraphNode->parameter;
+
+        mtxf_copy(golem_part_transform[parameter],mtx);
+        vec3f_normalize(&golem_part_transform[parameter][0]);
+        vec3f_normalize(&golem_part_transform[parameter][1]);
+        vec3f_normalize(&golem_part_transform[parameter][2]);
+    }
+    return NULL;
+}
+
+Vec3f golem_point[9];
+Gfx *geo_update_golem_point(s32 callContext, struct GraphNode *node, Mat4 mtx) {
+    if (callContext == GEO_CONTEXT_RENDER && !_60fps_midframe) {
+        struct GraphNodeGenerated *currentGraphNode = (struct GraphNodeGenerated *) node;
+        s32 parameter = currentGraphNode->parameter;
+
+        vec3f_copy(golem_point[parameter],&mtx[3]);
+    }
+    return NULL;
+}
+
 Gfx *geo_switch_anim_state(s32 callContext, struct GraphNode *node, UNUSED void *context) {
     if (callContext == GEO_CONTEXT_RENDER) {
         struct Object *obj = gCurGraphNodeObjectNode;

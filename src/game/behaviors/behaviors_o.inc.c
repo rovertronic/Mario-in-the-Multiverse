@@ -1621,19 +1621,22 @@ enum {
     FBOWSER_TRANSFORM,
     FBOWSER_EGG_JUMP_IN_MOBILE,
     FBOWSER_GASTER,
-    FBOWSER_YUKARI
+    FBOWSER_YUKARI,
+    //hector is the name of the golem from b&s
+    FBOWSER_HECTOR_INTRO
 };
 
 f32 lerp_standard(f32 v0, f32 v1, f32 t) {
   return v0 + t * (v1 - v0);
 }
 
-u8 first_time_visit = TRUE;
+u8 first_time_visit = FALSE;
 
 u8 fb_bowser_phase = 0;
 u8 fb_bowser_path_index = 0;
 Vec3f fb_bowser_path;
 extern Vec3f sephisword_impact_vec;
+extern struct Object * golem_part[4];
 
 static struct ObjectHitbox sFbBowserHitbox = {
     /* interactType:      */ INTERACT_BOUNCE_TOP,
@@ -1647,6 +1650,8 @@ static struct ObjectHitbox sFbBowserHitbox = {
     /* hurtboxHeight:     */ 200,
 };
 
+u8 golem_crystals_destroyed = 0;
+u8 golem_crystalps_destroyed = 0;
 void bhv_final_boss_bowser(void) {
 
     switch(o->oAction) {
@@ -1655,8 +1660,10 @@ void bhv_final_boss_bowser(void) {
             cur_obj_hide();
             obj_set_hitbox(o,&sFbBowserHitbox);
             cur_obj_become_intangible();
-            fb_bowser_phase = 0;
+            fb_bowser_phase = 3;
             fb_bowser_path_index = 0;
+            golem_crystals_destroyed = 0;
+            golem_crystalps_destroyed = 0;
             break;
         case FBOWSER_DESCEND:
             if (o->oTimer == 0) {
@@ -1747,6 +1754,10 @@ void bhv_final_boss_bowser(void) {
                         cur_obj_init_animation_with_sound(8);
                         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_4];
                         break;
+                    case 4:
+                        cur_obj_init_animation_with_sound(9);
+                        o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_5];
+                        break;
                 }
             }
 
@@ -1771,6 +1782,34 @@ void bhv_final_boss_bowser(void) {
                         cur_obj_become_tangible();
                         o->hitboxRadius = 400.0f;
                         o->hitboxHeight = 600.0f;
+                        break;
+                    case 4:
+                        cur_obj_become_intangible();
+                        o->oAction = FBOWSER_HECTOR_INTRO;
+
+                        struct Object * part = spawn_object(o,MODEL_NONE,bhvBcGolemBody);
+                        part = spawn_object(o,MODEL_NONE,bhvBcGolemLimb);
+                        part->oBehParams2ndByte = 1;
+                        part = spawn_object(o,MODEL_NONE,bhvBcGolemLimb);
+                        part->oBehParams2ndByte = 2;
+                        part = spawn_object(o,MODEL_NONE,bhvBcGolemHead);
+                        part->oBehParams2ndByte = 3;
+                        part = spawn_object(o,MODEL_NONE,bhvBcGolemLimb);
+                        part->oBehParams2ndByte = 4;
+                        part = spawn_object(o,MODEL_NONE,bhvBcGolemLimb);
+                        part->oBehParams2ndByte = 5;
+
+                        for (int i=1; i<8; i++) {
+                            part = spawn_object(o,MODEL_BC_CRYSTAL,bhvBcGolemCrystal);
+                            part->oBehParams2ndByte = i;
+                        }
+                        for (int i=0; i<5; i++) {
+                            part = spawn_object(o,MODEL_BC_CRYSTALG,bhvBcGolemCrystalp);
+                            part->oPosX = sins((i*2+1)*0x1999)*3000.0f;
+                            part->oPosY =SB_Y;
+                            part->oPosZ = coss((i*2+1)*0x1999)*3000.0f;
+                            part->oBehParams2ndByte = i;
+                        }
                         break;
                 }
             }
@@ -1921,6 +1960,26 @@ void bhv_final_boss_bowser(void) {
 
                 o->oInteractStatus = 0;
                 o->oShotByShotgun = 0;
+            }
+            break;
+        case FBOWSER_HECTOR_INTRO:
+            if (o->header.gfx.scale[0] < 4.0f) {
+                if (o->header.gfx.animInfo.animFrame > 0) {
+                    o->header.gfx.animInfo.animFrame --;
+                }
+                o->header.gfx.scale[0] += .04f;
+                cur_obj_scale(o->header.gfx.scale[0]);
+            } else {
+                switch(o->header.gfx.animInfo.animFrame) {
+                    case 26:
+                    case 57:
+                    case 149:
+                        cur_obj_play_sound_2(SOUND_OBJ_BOWSER_WALK);
+                        break;
+                }
+                if (o->header.gfx.animInfo.animFrame == 94) {
+                    cur_obj_play_sound_2(SOUND_MENU_BOWSER_LAUGH);
+                }
             }
             break;
     }
@@ -2169,4 +2228,93 @@ void bhv_boss_defeat_wave(void) {
     if (o->oOpacity < 10) {
         mark_obj_for_deletion(o);
     }
+}
+
+extern Mat4 golem_part_transform[];
+extern Vec3f golem_point[];
+
+void bhv_golem_limb(void) {
+    cur_obj_scale(4.0f);
+    o->header.gfx.throwMatrix = golem_part_transform[o->oBehParams2ndByte];
+    mtxf_copy(o->transform,golem_part_transform[o->oBehParams2ndByte]);
+}
+
+static struct ObjectHitbox sGolemCrystalHitbox = {
+    /* interactType:      */ INTERACT_BREAKABLE,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 0,
+    /* health:            */ 8,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 50,
+    /* height:            */ 100,
+    /* hurtboxRadius:     */ 0,
+    /* hurtboxHeight:     */ 0,
+};
+
+static struct ObjectHitbox sGolemCrystalpHitbox = {
+    /* interactType:      */ INTERACT_BREAKABLE,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 0,
+    /* health:            */ 8,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 100,
+    /* height:            */ 150,
+    /* hurtboxRadius:     */ 0,
+    /* hurtboxHeight:     */ 0,
+};
+
+
+static struct SpawnParticlesInfo sGolemBlood = {
+    /* behParam:        */ 0,
+    /* count:           */ 10,
+    /* model:           */ MODEL_BC_CRYSTAL,
+    /* offsetY:         */ 90,
+    /* forwardVelBase:  */ 4,
+    /* forwardVelRange: */ 4,
+    /* velYBase:        */ 10,
+    /* velYRange:       */ 15,
+    /* gravity:         */ -4,
+    /* dragStrength:    */ 0,
+    /* sizeBase:        */ 2,
+    /* sizeRange:       */ 2,
+};
+
+void bhv_golem_crystal(void) {
+    vec3f_copy(&o->oPosVec,golem_point[o->oBehParams2ndByte]);
+    obj_set_hitbox(o, &sGolemCrystalHitbox);
+
+    if (golem_crystalps_destroyed+2 < o->oBehParams2ndByte) {
+        o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_CRYSTALP];
+    } else {
+        o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_CRYSTAL];
+        if ((o->oInteractStatus & INT_STATUS_INTERACTED)||(o->oShotByShotgun > 1)) {
+            cur_obj_spawn_particles(&sGolemBlood);
+            mark_obj_for_deletion(o);
+            golem_crystals_destroyed++;
+        }
+    }
+
+    o->oShotByShotgun = 0;
+    o->oInteractStatus = 0;
+}
+
+void bhv_golem_crystalp(void) {
+    obj_set_hitbox(o, &sGolemCrystalpHitbox);
+
+    if (golem_crystals_destroyed <= o->oBehParams2ndByte) {
+        o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_CRYSTALGP];
+        if ((o->oInteractStatus & INT_STATUS_INTERACTED)||(o->oShotByShotgun > 1)) {
+
+        }
+    } else {
+        o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_CRYSTALG];
+        if ((o->oInteractStatus & INT_STATUS_INTERACTED)||(o->oShotByShotgun > 1)) {
+            cur_obj_spawn_particles(&sGolemBlood);
+            mark_obj_for_deletion(o);
+            golem_crystalps_destroyed++;
+        }
+    }
+
+    o->oShotByShotgun = 0;
+    o->oInteractStatus = 0;
 }

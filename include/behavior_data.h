@@ -928,5 +928,10 @@ extern const BehaviorScript bhvBcBosslanding[];
 extern const BehaviorScript bhvBcPingasPlane[];
 extern const BehaviorScript bhvBcPingasBall[];
 extern const BehaviorScript bhvBdWave[];
+extern const BehaviorScript bhvBcGolemBody[];
+extern const BehaviorScript bhvBcGolemLimb[];
+extern const BehaviorScript bhvBcGolemHead[];
+extern const BehaviorScript bhvBcGolemCrystal[];
+extern const BehaviorScript bhvBcGolemCrystalp[];
 
 #endif // BEHAVIOR_DATA_H

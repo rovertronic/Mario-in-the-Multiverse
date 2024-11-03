@@ -41,3 +41,8 @@
 #include "levels/bowser_course/sb_blast/geo.inc.c"
 #include "levels/bowser_course/bform_3/geo.inc.c"
 #include "levels/bowser_course/bform4/geo.inc.c"
+#include "levels/bowser_course/bform5/geo.inc.c"
+#include "levels/bowser_course/bc_crystal/geo.inc.c"
+#include "levels/bowser_course/bc_crystalp/geo.inc.c"
+#include "levels/bowser_course/bc_crystalg/geo.inc.c"
+#include "levels/bowser_course/bc_crystalgp/geo.inc.c"

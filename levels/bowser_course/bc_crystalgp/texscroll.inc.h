@@ -1,0 +1,2 @@
+extern void scroll_bc_crystalgp_Cylinder_002_mesh_layer_5_vtx_0();
+extern void scroll_bowser_course_level_geo_bc_crystalgp();

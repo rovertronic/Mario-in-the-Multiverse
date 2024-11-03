@@ -1,0 +1,15 @@
+extern const GeoLayout bc_crystalp_geo[];
+extern u8 bc_crystalp_crystal_ci8[];
+extern u8 bc_crystalp_crystal_pal_rgba16[];
+extern u8 bc_crystalp_crystalshield_ci4[];
+extern u8 bc_crystalp_crystalshield_pal_rgba16[];
+extern Vtx bc_crystalp_Icosphere_001_mesh_layer_1_vtx_0[60];
+extern Gfx bc_crystalp_Icosphere_001_mesh_layer_1_tri_0[];
+extern Vtx bc_crystalp_Icosphere_001_mesh_layer_5_vtx_0[60];
+extern Gfx bc_crystalp_Icosphere_001_mesh_layer_5_tri_0[];
+extern Gfx mat_bc_crystalp_crystal[];
+extern Gfx mat_revert_bc_crystalp_crystal[];
+extern Gfx mat_bc_crystalp_crystalshield[];
+extern Gfx mat_revert_bc_crystalp_crystalshield[];
+extern Gfx bc_crystalp_Icosphere_001_mesh_layer_1[];
+extern Gfx bc_crystalp_Icosphere_001_mesh_layer_5[];

@@ -107,7 +107,8 @@ void apply_platform_displacement(struct PlatformDisplacementInfo *displaceInfo, 
     s16 yawDifference = *yaw - displaceInfo->prevYaw;
 
     // Avoid a crash if the platform unloaded its collision while stood on
-    if (platform->transform == NULL) return;
+    //if (platform->transform == NULL) return;
+    //commented this out because... transforms aren't pointers to mtx. hopefully nothing breaks here : D
 
     vec3f_copy(platformPos, (platform->transform)[3]);
 

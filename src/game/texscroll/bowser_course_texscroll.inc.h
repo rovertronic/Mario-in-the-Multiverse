@@ -1,3 +1,5 @@
+#include "levels/bowser_course/bc_crystalgp/texscroll.inc.h"
+#include "levels/bowser_course/bc_crystalp/texscroll.inc.h"
 #include "levels/bowser_course/bc_bosslanding/texscroll.inc.h"
 #include "levels/bowser_course/bc_atreus/texscroll.inc.h"
 #include "levels/bowser_course/mverses_sky/texscroll.inc.h"

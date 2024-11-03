@@ -8,6 +8,8 @@
 #include "levels/bowser_course/bc_bosslanding/texscroll.inc.c"
 #include "levels/bowser_course/sb_gap/texscroll.inc.c"
 #include "levels/bowser_course/sb_train/texscroll.inc.c"
+#include "levels/bowser_course/bc_crystalp/texscroll.inc.c"
+#include "levels/bowser_course/bc_crystalgp/texscroll.inc.c"
 void scroll_textures_bowser_course() {
 	scroll_bowser_course_level_geo_matplatform();
 	scroll_bowser_course();
@@ -18,4 +20,6 @@ void scroll_textures_bowser_course() {
 	scroll_bowser_course_level_geo_bc_bosslanding();
 	scroll_sb_level_geo_sb_gap();
 	scroll_sb_level_geo_sb_train();
+	scroll_bowser_course_level_geo_bc_crystalp();
+	scroll_bowser_course_level_geo_bc_crystalgp();
 }

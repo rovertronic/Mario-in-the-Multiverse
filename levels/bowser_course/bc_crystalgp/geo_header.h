@@ -1,0 +1,18 @@
+extern const GeoLayout bc_crystalgp_geo[];
+extern u8 bc_crystalgp_bluecrystal_ci8[];
+extern u8 bc_crystalgp_bluecrystal_pal_rgba16[];
+extern u8 bc_crystalgp_crystalshield_ci4[];
+extern u8 bc_crystalgp_crystalshield_pal_rgba16[];
+extern Vtx bc_crystalgp_Cylinder_002_mesh_layer_1_vtx_0[168];
+extern Gfx bc_crystalgp_Cylinder_002_mesh_layer_1_tri_0[];
+extern Vtx bc_crystalgp_Cylinder_002_mesh_layer_1_vtx_1[48];
+extern Gfx bc_crystalgp_Cylinder_002_mesh_layer_1_tri_1[];
+extern Vtx bc_crystalgp_Cylinder_002_mesh_layer_5_vtx_0[60];
+extern Gfx bc_crystalgp_Cylinder_002_mesh_layer_5_tri_0[];
+extern Gfx mat_bc_crystalgp_bluecrytsal[];
+extern Gfx mat_revert_bc_crystalgp_bluecrytsal[];
+extern Gfx mat_bc_crystalgp_black[];
+extern Gfx mat_bc_crystalgp_crystalshield[];
+extern Gfx mat_revert_bc_crystalgp_crystalshield[];
+extern Gfx bc_crystalgp_Cylinder_002_mesh_layer_1[];
+extern Gfx bc_crystalgp_Cylinder_002_mesh_layer_5[];

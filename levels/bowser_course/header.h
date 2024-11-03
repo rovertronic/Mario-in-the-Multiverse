@@ -95,4 +95,20 @@ extern const LevelScript level_bowser_course_entry[];
 
 #include "levels/bowser_course/bform4/geo_header.h"
 
+#include "levels/bowser_course/bform5/geo_header.h"
+
+#include "levels/bowser_course/bc_golem_body/collision_header.h"
+
+#include "levels/bowser_course/bc_golem_limb/collision_header.h"
+
+#include "levels/bowser_course/bc_golem_head/collision_header.h"
+
+#include "levels/bowser_course/bc_crystal/geo_header.h"
+
+#include "levels/bowser_course/bc_crystalp/geo_header.h"
+
+#include "levels/bowser_course/bc_crystalg/geo_header.h"
+
+#include "levels/bowser_course/bc_crystalgp/geo_header.h"
+
 #endif

@@ -9769,7 +9769,6 @@ const BehaviorScript bhvBcPingasBall[] = {
     END_LOOP(),
 };
 
-
 const BehaviorScript bhvBcBosslanding[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_PERSISTENT_RESPAWN)),
@@ -9779,6 +9778,58 @@ const BehaviorScript bhvBcBosslanding[] = {
     BEGIN_LOOP(),
         //CALL_NATIVE(bhv_seesaw_platform_update),
         CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void bhv_golem_limb(void);
+const BehaviorScript bhvBcGolemBody[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(bc_golem_body_collision),
+    OR_LONG(oFlags, (OBJ_FLAG_DONT_CALC_COLL_DIST)),
+    SET_FLOAT(oCollisionDistance, 32000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_golem_limb),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBcGolemLimb[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(bc_golem_limb_collision),
+    OR_LONG(oFlags, (OBJ_FLAG_DONT_CALC_COLL_DIST)),
+    SET_FLOAT(oCollisionDistance, 32000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_golem_limb),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBcGolemHead[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(bc_golem_head_collision),
+    OR_LONG(oFlags, (OBJ_FLAG_DONT_CALC_COLL_DIST)),
+    SET_FLOAT(oCollisionDistance, 32000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_golem_limb),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void bhv_golem_crystal(void);
+const BehaviorScript bhvBcGolemCrystal[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_golem_crystal),
+    END_LOOP(),
+};
+
+extern void bhv_golem_crystalp(void);
+const BehaviorScript bhvBcGolemCrystalp[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_golem_crystalp),
     END_LOOP(),
 };
 

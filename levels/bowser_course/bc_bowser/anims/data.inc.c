@@ -7,3 +7,4 @@
 #include "anim_gasterfuckery.inc.c"
 #include "anim_hop.inc.c"
 #include "anim_yukarifly.inc.c"
+#include "anim_bgolem_awak.inc.c"

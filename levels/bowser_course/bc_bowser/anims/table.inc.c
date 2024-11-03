@@ -8,5 +8,6 @@ const struct Animation *const bc_bowser_anims[] = {
 	&bc_bowser_anim_gasterfuckery,
 	&bc_bowser_anim_hop,
 	&bc_bowser_anim_yukarifly,
+	&bc_bowser_anim_bgolem_awak,
 	NULL,
 };

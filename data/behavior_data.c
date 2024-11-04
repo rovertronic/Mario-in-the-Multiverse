@@ -9833,6 +9833,15 @@ const BehaviorScript bhvBcGolemCrystalp[] = {
     END_LOOP(),
 };
 
+extern void bhv_golem_foot(void);
+const BehaviorScript bhvBcGolemFoot[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_golem_foot),
+    END_LOOP(),
+};
+
 extern void bhv_npc_egadd_loop(void);
 const BehaviorScript bhvEgaddNPC[] = {
     BEGIN(OBJ_LIST_GENACTOR),

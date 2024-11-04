@@ -1623,7 +1623,12 @@ enum {
     FBOWSER_GASTER,
     FBOWSER_YUKARI,
     //hector is the name of the golem from b&s
-    FBOWSER_HECTOR_INTRO
+    FBOWSER_HECTOR_INTRO,
+    FBOWSER_HECTOR_SWIPE,
+    FBOWSER_HECTOR_GETOFFHEAD,
+    FBOWSER_HECTOR_WEAK,
+    FBOWSER_HECTOR_DIE,
+    FBOWSER_HECTOR_WALK,
 };
 
 f32 lerp_standard(f32 v0, f32 v1, f32 t) {
@@ -1652,6 +1657,57 @@ static struct ObjectHitbox sFbBowserHitbox = {
 
 u8 golem_crystals_destroyed = 0;
 u8 golem_crystalps_destroyed = 0;
+u8 golem_crystal_do_weaken = FALSE;
+
+void hector_general(void) {
+    if (cur_obj_check_if_near_animation_end()) {
+        u8 desired_next_action = FBOWSER_HECTOR_WALK;
+
+        if (o->oAction == FBOWSER_HECTOR_WEAK) {
+            golem_crystal_do_weaken = FALSE;
+        }
+
+        if (gMarioObject->platform && obj_has_behavior(gMarioObject->platform,bhvBcGolemBody) ) {
+            desired_next_action = FBOWSER_HECTOR_SWIPE;
+        }
+        if (gMarioObject->platform && obj_has_behavior(gMarioObject->platform,bhvBcGolemHead) ) {
+            desired_next_action = FBOWSER_HECTOR_GETOFFHEAD;
+        }
+        if (golem_crystal_do_weaken) {
+            desired_next_action = FBOWSER_HECTOR_WEAK;
+        }
+        if (golem_crystals_destroyed >= 7) {
+            desired_next_action = FBOWSER_HECTOR_DIE;
+        }
+
+        o->oAction = desired_next_action;
+        o->header.gfx.animInfo.animFrame = 0;
+        o->oTimer = 0;
+        switch(desired_next_action) {
+            case FBOWSER_HECTOR_SWIPE:
+                cur_obj_init_animation_with_sound(10);
+                break;
+            case FBOWSER_HECTOR_GETOFFHEAD:
+                cur_obj_init_animation_with_sound(11);
+                break;
+            case FBOWSER_HECTOR_WEAK:
+                cur_obj_init_animation_with_sound(12);
+                break;
+            case FBOWSER_HECTOR_DIE:
+                cur_obj_init_animation_with_sound(13);
+                break;
+            case FBOWSER_HECTOR_WALK:
+                cur_obj_init_animation_with_sound(14);
+                break;
+        }
+    }
+    if (o->oInteractStatus & INT_STATUS_SEPHISWORD) {
+        cur_obj_play_sound_2(SOUND_OBJ_BOWSER_WALK);
+    }
+    o->oInteractStatus = 0;
+}
+
+Vec3f fb_bowser_home = {0.0f,SB_Y,0.0f};
 void bhv_final_boss_bowser(void) {
 
     switch(o->oAction) {
@@ -1664,6 +1720,7 @@ void bhv_final_boss_bowser(void) {
             fb_bowser_path_index = 0;
             golem_crystals_destroyed = 0;
             golem_crystalps_destroyed = 0;
+            golem_crystal_do_weaken = FALSE;
             break;
         case FBOWSER_DESCEND:
             if (o->oTimer == 0) {
@@ -1810,6 +1867,11 @@ void bhv_final_boss_bowser(void) {
                             part->oPosZ = coss((i*2+1)*0x1999)*3000.0f;
                             part->oBehParams2ndByte = i;
                         }
+
+                        part = spawn_object(o,MODEL_NONE,bhvBcGolemFoot);
+                        part->oBehParams2ndByte = 8;
+                        part = spawn_object(o,MODEL_NONE,bhvBcGolemFoot);
+                        part->oBehParams2ndByte = 9;
                         break;
                 }
             }
@@ -1973,7 +2035,7 @@ void bhv_final_boss_bowser(void) {
                 switch(o->header.gfx.animInfo.animFrame) {
                     case 26:
                     case 57:
-                    case 149:
+                    case 148:
                         cur_obj_play_sound_2(SOUND_OBJ_BOWSER_WALK);
                         break;
                 }
@@ -1981,7 +2043,112 @@ void bhv_final_boss_bowser(void) {
                     cur_obj_play_sound_2(SOUND_MENU_BOWSER_LAUGH);
                 }
             }
+            hector_general();
             break;
+        case FBOWSER_HECTOR_SWIPE:
+            switch(o->header.gfx.animInfo.animFrame) {
+                case 70:
+                case 112:
+                    cur_obj_play_sound_2(SOUND_OBJ_BOWSER_WALK);
+                    break;
+            }
+            if (o->header.gfx.animInfo.animFrame == 50) {
+                cur_obj_play_sound_2(SOUND_OBJ_KING_BOBOMB_JUMP);
+            }
+            hector_general();
+            break;
+        case FBOWSER_HECTOR_GETOFFHEAD:
+            switch(o->header.gfx.animInfo.animFrame) {
+                case 26:
+                case 61:
+                    cur_obj_play_sound_2(SOUND_OBJ_BOWSER_WALK);
+                    break;
+            }
+            if (o->header.gfx.animInfo.animFrame == 21) {
+                cur_obj_play_sound_2(SOUND_OBJ_KING_BOBOMB_JUMP);
+            }
+            hector_general();
+            break;
+        case FBOWSER_HECTOR_WEAK:
+            if (o->oTimer == 10) {
+                cur_obj_play_sound_2(SOUND_OBJ_BOWSER_DEFEATED);
+            }
+            switch(o->header.gfx.animInfo.animFrame) {
+                case 36:
+                case 51:
+                    cur_obj_play_sound_2(SOUND_OBJ_BOWSER_WALK);
+                    break;
+            }
+            if (o->oTimer > 160) {
+                cur_obj_play_sound_1(SOUND_ENV_BOWLING_BALL_ROLL);
+            }
+            hector_general();
+            break;
+        case FBOWSER_HECTOR_DIE:
+            if (o->oTimer == 10) {
+                cur_obj_play_sound_2(SOUND_OBJ_BOWSER_DEFEATED);
+            }
+            switch(o->header.gfx.animInfo.animFrame) {
+                case 1:
+                case 40:
+                    cur_obj_play_sound_2(SOUND_OBJ_KING_BOBOMB_JUMP);
+                    break;
+            }
+            if (o->oTimer > 80) {
+                //clean up spawned parts
+                struct Object * deleteit;
+                deleteit = cur_obj_nearest_object_with_behavior(bhvBcGolemBody);
+                if (deleteit) {
+                    obj_mark_for_deletion(deleteit);
+                }
+                deleteit = cur_obj_nearest_object_with_behavior(bhvBcGolemHead);
+                if (deleteit) {
+                    obj_mark_for_deletion(deleteit);
+                }
+                deleteit = cur_obj_nearest_object_with_behavior(bhvBcGolemLimb);
+                while (deleteit) {
+                    obj_mark_for_deletion(deleteit);
+                    deleteit = cur_obj_nearest_object_with_behavior(bhvBcGolemLimb);
+                }
+                deleteit = cur_obj_nearest_object_with_behavior(bhvBcGolemFoot);
+                while (deleteit) {
+                    obj_mark_for_deletion(deleteit);
+                    deleteit = cur_obj_nearest_object_with_behavior(bhvBcGolemFoot);
+                }
+
+                if (cur_obj_boss_shimmer_death(700.0f,2.5f)) {
+                    obj_mark_for_deletion(o);
+                }
+            }
+            break;
+        case FBOWSER_HECTOR_WALK:
+            switch(o->header.gfx.animInfo.animFrame) {
+                case 20:
+                case 30:
+                case 50:
+                case 58:
+                    cur_obj_play_sound_2(SOUND_OBJ_BOWSER_WALK);
+                    break;
+            }
+
+            o->oForwardVel = 6.0f;
+            if ((o->oTimer < 20)||(o->oTimer > 30 && o->oTimer < 50)) {
+                o->oPosX += sins(o->oFaceAngleYaw)*o->oForwardVel;
+                o->oPosZ += coss(o->oFaceAngleYaw)*o->oForwardVel;
+
+                f32 dist;
+                s16 yaw;
+                vec3f_get_dist_and_yaw(fb_bowser_home,&o->oPosVec,&dist,&yaw);
+                if (dist < 800.0f) {
+                    o->oFaceAngleYaw = approach_s16_symmetric(o->oFaceAngleYaw, o->oAngleToMario, 0x80);
+                } else {
+                    o->oFaceAngleYaw = approach_s16_symmetric(o->oFaceAngleYaw, yaw+0x8000, 0x100);
+                }
+            }
+
+            hector_general();
+            break;
+
     }
 }
 
@@ -2312,9 +2479,28 @@ void bhv_golem_crystalp(void) {
             cur_obj_spawn_particles(&sGolemBlood);
             mark_obj_for_deletion(o);
             golem_crystalps_destroyed++;
+            golem_crystal_do_weaken = TRUE;
         }
     }
 
     o->oShotByShotgun = 0;
+    o->oInteractStatus = 0;
+}
+
+static struct ObjectHitbox sGolemFootHitbox = {
+    /* interactType:      */ INTERACT_DAMAGE,
+    /* downOffset:        */ 50,
+    /* damageOrCoinValue: */ 2,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 200,
+    /* height:            */ 150,
+    /* hurtboxRadius:     */ 0,
+    /* hurtboxHeight:     */ 0,
+};
+
+void bhv_golem_foot(void) {
+    vec3f_copy(&o->oPosVec,golem_point[o->oBehParams2ndByte]);
+    obj_set_hitbox(o, &sGolemFootHitbox);
     o->oInteractStatus = 0;
 }

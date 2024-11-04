@@ -9,5 +9,10 @@ const struct Animation *const bc_bowser_anims[] = {
 	&bc_bowser_anim_hop,
 	&bc_bowser_anim_yukarifly,
 	&bc_bowser_anim_bgolem_awak,
+	&bc_bowser_anim_bgolem_swat,
+	&bc_bowser_anim_bgolem_headgetoff,
+	&bc_bowser_anim_bgolem_weak,
+	&bc_bowser_anim_bgolem_die,
+	&bc_bowser_anim_bgolem_walk,
 	NULL,
 };

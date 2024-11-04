@@ -212,6 +212,15 @@ Vec3f sephisword_impact_vec;
 Gfx *geo_update_sephisword(s32 callContext, struct GraphNode *node, Mat4 mtx) {
     if (callContext == GEO_CONTEXT_RENDER) {
         struct Object *obj = gCurGraphNodeObjectNode;
+        struct GraphNodeGenerated *currentGraphNode = (struct GraphNodeGenerated *) node;
+        s32 parameter = currentGraphNode->parameter;
+
+        f32 collision_radius = 100.0f; //radius 1 + radius 2
+        f32 stick_lenght = 462.0f;
+        if (parameter == 1) {
+            collision_radius = 200.0f;
+            stick_lenght = 200.0f;
+        }
 
         gMarioState->pos[1] += 50.0f;
 
@@ -223,7 +232,7 @@ Gfx *geo_update_sephisword(s32 callContext, struct GraphNode *node, Mat4 mtx) {
         vec3f_copy(point2,&mtx[3][0]);
         Vec3f point2offset;
         vec3f_copy(point2offset,&mtx[1][0]);
-        vec3_mul_val(point2offset,462.0f); //length of sword
+        vec3_mul_val(point2offset,stick_lenght); //length of sword
         vec3f_sum(point2,point2,point2offset);
 
         //project mario's position to the line segment between p1 and p2
@@ -252,7 +261,7 @@ Gfx *geo_update_sephisword(s32 callContext, struct GraphNode *node, Mat4 mtx) {
         f32 dist;
         vec3f_get_dist(closestPoint,gMarioState->pos,&dist);
 
-        if (obj && dist < 100.0f) {
+        if (obj && dist < collision_radius) {
             vec3f_copy(sephisword_impact_vec, closestPoint);
             obj->oInteractStatus |= INT_STATUS_SEPHISWORD;
         }
@@ -284,7 +293,10 @@ Gfx *geo_update_golem_part(s32 callContext, struct GraphNode *node, Mat4 mtx) {
     return NULL;
 }
 
-Vec3f golem_point[9];
+Vec3f golem_point[10];
+//0 : eye
+//1-7 : crystal
+//8-9 : feet
 Gfx *geo_update_golem_point(s32 callContext, struct GraphNode *node, Mat4 mtx) {
     if (callContext == GEO_CONTEXT_RENDER && !_60fps_midframe) {
         struct GraphNodeGenerated *currentGraphNode = (struct GraphNodeGenerated *) node;

@@ -8,3 +8,8 @@
 #include "anim_hop.inc.c"
 #include "anim_yukarifly.inc.c"
 #include "anim_bgolem_awak.inc.c"
+#include "anim_bgolem_swat.inc.c"
+#include "anim_bgolem_headgetoff.inc.c"
+#include "anim_bgolem_weak.inc.c"
+#include "anim_bgolem_die.inc.c"
+#include "anim_bgolem_walk.inc.c"

@@ -501,13 +501,13 @@ void rigid_body_check_surf_collisions(struct RigidBody *body) {
     for (s32 cellZ = minCellZ; cellZ <= maxCellZ; cellZ++) {
         for (s32 cellX = minCellX; cellX <= maxCellX; cellX++) {
             for (u32 i = 0; i < 3; i++) {
-                struct SurfaceNode *node = gStaticSurfacePartition[cellZ][cellX][i].next;
+                struct SurfaceNode *node = gStaticSurfacePartition[cellZ][cellX][i];
                 while (node != NULL) {
                     body_vs_surface_collision(body, node->surface, col);
                     node = node->next;
                 }
 
-                node = gDynamicSurfacePartition[cellZ][cellX][i].next;
+                node = gDynamicSurfacePartition[cellZ][cellX][i];
                 while (node != NULL) {
                     body_vs_surface_collision(body, node->surface, col);
                     node = node->next;

@@ -356,7 +356,7 @@ void reset_bullet_system(void) {
 }
 
 #define DANMAKU_MAX 300
-struct Danmaku danmaku_array[DANMAKU_MAX];
+struct Danmaku * danmaku_array;//[DANMAKU_MAX];
 
 void create_danmaku(Vec3f pos, Vec3f vel, u8 type) {
 	for (int i = 0; i < DANMAKU_MAX; i++) {
@@ -374,6 +374,7 @@ void create_danmaku(Vec3f pos, Vec3f vel, u8 type) {
 Gfx *geo_danmaku(s32 callContext, struct GraphNode *node, UNUSED void *context) {
 	switch (callContext) {
 	case GEO_CONTEXT_AREA_LOAD:
+		danmaku_array = main_pool_alloc(DANMAKU_MAX*(sizeof(struct Danmaku)), MEMORY_POOL_LEFT);
 		bzero(danmaku_array,DANMAKU_MAX*(sizeof(struct Danmaku)));
 		break;
 	case GEO_CONTEXT_RENDER:

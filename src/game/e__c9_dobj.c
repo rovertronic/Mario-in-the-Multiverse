@@ -256,6 +256,10 @@ Gfx *e__c9_dobj(s32 callContext, struct GraphNode *node, UNUSED Mat4 unused) {
 							  (b->velY),
 							  (coss(b->yaw) * b->velF) };
 
+				if (_60fps_on) {
+					vec3_mul_val(vel,0.5f);
+				}
+
 				if (c9dobj_check_collision(b, vel, 2)) {			
 					struct SGSmoke *smoke = e__sg_smoke(b->pos);
 					if (smoke != NULL) {
@@ -326,6 +330,10 @@ Gfx *e__c9_dobj(s32 callContext, struct GraphNode *node, UNUSED Mat4 unused) {
 				Vec3f vel = { (sins(b->yaw) * b->velF),
 							  (b->velY),
 							  (coss(b->yaw) * b->velF) };
+
+				if (_60fps_on) {
+					vec3_mul_val(vel,0.5f);
+				}
 
 				if (c9dobj_check_collision(b, vel, 28)) {
         			play_sound(SOUND_MITM_LEVEL_E_MISSILE_EXPLODE, o->header.gfx.cameraToObject);
@@ -438,7 +446,7 @@ Gfx *e__c9_sky(s32 callContext, struct GraphNode *node, Mat4 mtxf) {
 		Gfx *dlE = alloc_display_list(4 * sizeof(Gfx));
 		Gfx *dlS = dlE;
 		Mtx *mtx = alloc_display_list(sizeof(Mtx));
-		guTranslate(mtx, (s32)(gLakituState.curPos[0]), (s32)(gLakituState.curPos[1]), (s32)(gLakituState.curPos[2]));
+		guTranslate(mtx, (s32)(gCurGraphNodeCamera->posLerp[0]), (s32)(gCurGraphNodeCamera->posLerp[1]), (s32)(gCurGraphNodeCamera->posLerp[2]));
 		gSPMatrix(dlE++, mtx, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
 		gSPDisplayList(dlE++, e_sky_main_mesh);
 		gSPEndDisplayList(dlE);

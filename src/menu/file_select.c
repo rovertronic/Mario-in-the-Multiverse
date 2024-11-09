@@ -23,6 +23,7 @@
 #include "text_strings.h"
 #include "game/ability.h"
 #include "game/dream_comet.h"
+#include "game/lerp.h"
 
 #include "eu_translation.h"
 #if MULTILANG
@@ -2213,14 +2214,18 @@ s32 mitm_file_select() {
             txt = file_action_delete_text;
             cursor_y_off -= 17;
         }
-        print_generic_string(130+file_x[3], 210 - (file_text_card_index * 75), txt);
+        f32 lerped_file_x = lerp_menu(file_x[3],LMENU_FILE_BACKCARD);
+
+        print_generic_string(130+ lerped_file_x, 210 - (file_text_card_index * 75), txt);
         gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 
-        create_dl_translation_matrix(MENU_MTX_PUSH, 118+file_x[3], cursor_y_off - (file_text_card_index * 75) - (file_action_index*17), -10.0f);
+        create_dl_translation_matrix(MENU_MTX_PUSH, 118+ lerped_file_x, cursor_y_off - (file_text_card_index * 75) - (file_action_index*17), -10.0f);
         gSPDisplayList(gDisplayListHead++, dl_draw_triangle);
         gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
     }
-    file_x[3] = approach_f32_asymptotic(file_x[3],file_target_x[3],0.2f);
+    if (!_60fps_midframe) {
+        file_x[3] = approach_f32_asymptotic(file_x[3],file_target_x[3],0.2f);
+    }
 
     //RENDER 3 FILES
     for (u8 i = 0; i<3; i++) {
@@ -2293,8 +2298,10 @@ s32 mitm_file_select() {
             } else {
                 gDPSetEnvColor(gDisplayListHead++, 120, 120, 120, 255);
             }
-            print_hud_lut_string(HUD_LUT_DIFF, 98+file_x[i], 15+(75*i), starText);
-            print_hud_lut_string(HUD_LUT_DIFF, 98+file_x[i], 32+(75*i), coinText);
+            f32 lerped_file_x = lerp_menu(file_x[i],LMENU_FILE_1+i);
+
+            print_hud_lut_string(HUD_LUT_DIFF, 98+lerped_file_x, 15+(75*i), starText);
+            print_hud_lut_string(HUD_LUT_DIFF, 98+lerped_file_x, 32+(75*i), coinText);
             gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
 
             // display playtime
@@ -2315,11 +2322,13 @@ s32 mitm_file_select() {
                 gDPSetEnvColor(gDisplayListHead++, 120, 120, 120, 255);
             }
 
-            print_generic_string_ascii(98+file_x[i],172-(75*i),strbuf);
+            print_generic_string_ascii(98+lerped_file_x,172-(75*i),strbuf);
             gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
         }
 
-        file_x[i] = approach_f32_asymptotic(file_x[i],file_target_x[i],0.2f);
+        if (!_60fps_midframe) {
+            file_x[i] = approach_f32_asymptotic(file_x[i],file_target_x[i],0.2f);
+        }
     }
 }
 

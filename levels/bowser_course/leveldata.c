@@ -72,3 +72,6 @@
 #include "levels/bowser_course/bc_crystalp/model.inc.c"
 #include "levels/bowser_course/bc_crystalg/model.inc.c"
 #include "levels/bowser_course/bc_crystalgp/model.inc.c"
+#include "levels/bowser_course/bc_laser/model.inc.c"
+#include "levels/bowser_course/bc_laseremit/model.inc.c"
+#include "levels/bowser_course/bc_rock/model.inc.c"

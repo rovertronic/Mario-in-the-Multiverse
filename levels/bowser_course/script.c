@@ -58,7 +58,9 @@ const LevelScript level_bowser_course_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_BC_CRYSTALP, bc_crystalp_geo),
 	LOAD_MODEL_FROM_GEO(MODEL_BC_CRYSTALG, bc_crystalg_geo),
 	LOAD_MODEL_FROM_GEO(MODEL_BC_CRYSTALGP, bc_crystalgp_geo),
-
+	LOAD_MODEL_FROM_GEO(MODEL_BC_LASER, bc_laser_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_BC_LASEREMIT, bc_laseremit_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_BC_ROCK, bc_rock_geo),
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 

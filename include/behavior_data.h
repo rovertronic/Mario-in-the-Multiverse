@@ -934,5 +934,6 @@ extern const BehaviorScript bhvBcGolemHead[];
 extern const BehaviorScript bhvBcGolemCrystal[];
 extern const BehaviorScript bhvBcGolemCrystalp[];
 extern const BehaviorScript bhvBcGolemFoot[];
+extern const BehaviorScript bhvBcGolemLaser[];
 
 #endif // BEHAVIOR_DATA_H

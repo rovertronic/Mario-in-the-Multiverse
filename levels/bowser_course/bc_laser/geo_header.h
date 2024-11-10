@@ -1,0 +1,12 @@
+extern const GeoLayout bc_laser_geo[];
+extern u8 bc_laser_golem_lightning_ci8[];
+extern u8 bc_laser_golem_lightning_pal_rgba16[];
+extern Vtx bc_laser_Plane_mesh_layer_5_vtx_0[22];
+extern Gfx bc_laser_Plane_mesh_layer_5_tri_0[];
+extern Vtx bc_laser_Plane_mesh_layer_5_vtx_1[16];
+extern Gfx bc_laser_Plane_mesh_layer_5_tri_1[];
+extern Gfx mat_bc_laser_laser[];
+extern Gfx mat_revert_bc_laser_laser[];
+extern Gfx mat_bc_laser_lightning[];
+extern Gfx mat_revert_bc_laser_lightning[];
+extern Gfx bc_laser_Plane_mesh_layer_5[];

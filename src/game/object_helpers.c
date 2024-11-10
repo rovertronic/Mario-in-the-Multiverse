@@ -218,8 +218,8 @@ Gfx *geo_update_sephisword(s32 callContext, struct GraphNode *node, Mat4 mtx) {
         f32 collision_radius = 100.0f; //radius 1 + radius 2
         f32 stick_lenght = 462.0f;
         if (parameter == 1) {
-            collision_radius = 200.0f;
-            stick_lenght = 200.0f;
+            collision_radius = 220.0f;
+            stick_lenght = 150.0f;
         }
 
         gMarioState->pos[1] += 50.0f;
@@ -2884,6 +2884,109 @@ s32 cur_obj_boss_shimmer_death(f32 yoff, f32 scale) {
     }
 
     vec3f_copy(&o->oPosVec,shimmer_pos_lock);
+
+    shimmer_death_timer++;
+    return FALSE;
+}
+
+s32 cur_obj_final_boss_shimmer_death(f32 yoff, f32 scale) {
+    o->oTimer --;
+    o->header.gfx.animInfo.animFrame--;
+    o->oForwardVel = 0.0f;
+    o->oVelY = 0.0f;
+
+    cur_obj_become_intangible();
+
+    if (shimmer_death_timer == 0) {
+
+
+        set_time_stop_flags(TIME_STOP_ENABLED | TIME_STOP_MARIO_AND_DOORS);
+        o->activeFlags |= ACTIVE_FLAG_INITIATED_TIME_STOP;
+
+        seq_player_lower_volume(SEQ_PLAYER_LEVEL, 60, 40);
+        cur_obj_play_sound_2(SOUND_MITM_LEVEL_BOSS_DEFEAT);
+        vec3f_copy(shimmer_pos_lock,&o->oPosVec);
+
+        o->oPosY += yoff;
+        shimmer_obj[0] = spawn_object(o,MODEL_BD_SHINE,bhvStaticObject);
+        shimmer_obj[0]->header.gfx.node.flags |= GRAPH_RENDER_BILLBOARD;
+
+        cutscene_object(CUTSCENE_STAR_SPAWN, shimmer_obj[0]);
+
+        for (int i = 1; i < 4; i++) {
+            shimmer_obj[i] = spawn_object(o,MODEL_BD_SHIMMER,bhvStaticObject);
+            shimmer_obj[i]->oFaceAngleYaw = random_u16();
+            shimmer_obj[i]->oFaceAnglePitch = random_u16();
+            shimmer_obj[i]->oOpacity = 0;
+            obj_scale(shimmer_obj[i],scale+(i*.2f));
+        }
+        o->oPosY -= yoff;
+
+        shimmer_base_scale = o->header.gfx.scale[0];
+    }
+
+    if (shimmer_death_timer < 105) {
+        shimmer_obj[0]->oOpacity = approach_f32_asymptotic(shimmer_obj[1]->oOpacity, 255.0f, 0.2f);
+        if (shimmer_death_timer > 5) {
+            shimmer_obj[1]->oOpacity = approach_f32_asymptotic(shimmer_obj[1]->oOpacity, 255.0f, 0.2f);
+        }
+        if (shimmer_death_timer > 20) {
+            shimmer_obj[2]->oOpacity = approach_f32_asymptotic(shimmer_obj[2]->oOpacity, 255.0f, 0.2f);
+        }
+        if (shimmer_death_timer > 40) {
+            shimmer_obj[3]->oOpacity = approach_f32_asymptotic(shimmer_obj[3]->oOpacity, 255.0f, 0.2f);
+        }
+    } else if (shimmer_death_timer < 220) {
+        for (int i = 1; i < 4; i++) {
+            shimmer_obj[i]->oOpacity = approach_f32_asymptotic(shimmer_obj[i]->oOpacity, 0.0f, 0.2f);
+        }
+        shimmer_obj[0]->oOpacity *= .8f;
+
+        if (shimmer_death_timer % 2 == 0) {
+            o->oPosX += 20.0f;
+            o->oPosZ += 20.0f;
+        } else {
+            o->oPosX -= 20.0f;
+            o->oPosZ -= 20.0f;
+        }
+
+        if (shimmer_death_timer % 10 == 0) {
+            cur_obj_play_sound_2(SOUND_GENERAL_GRINDEL_ROLL);
+        }
+
+        o->oPosY -= 12.0f;
+
+        o->oPosY += yoff;
+        for (int i = -1; i < 2; i++) {
+            struct Object * rock = spawn_object(o,MODEL_BC_ROCK,bhvBdStar);
+            rock->oPosY += i*400.0f;
+        }
+        if (shimmer_death_timer % 15 == 0) {
+            spawn_object(o,MODEL_BD_WAVE,bhvBdWave);
+        }
+        o->oPosY -= yoff;
+
+    } else {
+
+        o->oPosY -= 20.0f;
+
+        if (!gObjCutsceneDone) {
+            gObjCutsceneDone = TRUE;
+            clear_time_stop_flags(TIME_STOP_ENABLED | TIME_STOP_MARIO_AND_DOORS);
+            o->activeFlags &= ~ACTIVE_FLAG_INITIATED_TIME_STOP;
+        }
+
+        if (shimmer_death_timer > 260) {
+            seq_player_unlower_volume(SEQ_PLAYER_LEVEL, 60);
+            return TRUE;
+        }
+    }
+
+    for (int i = 1; i < 4; i++) {
+        obj_scale(shimmer_obj[i], scale+(i*.2f)+(sins(gGlobalTimer*0x600 + i*0x5555)*.2f*scale));
+    }
+
+    vec3f_copy(o->header.gfx.pos,&o->oPosVec);
 
     shimmer_death_timer++;
     return FALSE;

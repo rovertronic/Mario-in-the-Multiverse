@@ -10,6 +10,8 @@
 #include "levels/bowser_course/sb_train/texscroll.inc.c"
 #include "levels/bowser_course/bc_crystalp/texscroll.inc.c"
 #include "levels/bowser_course/bc_crystalgp/texscroll.inc.c"
+#include "levels/bowser_course/bc_laser/texscroll.inc.c"
+#include "levels/bowser_course/bc_laseremit/texscroll.inc.c"
 void scroll_textures_bowser_course() {
 	scroll_bowser_course_level_geo_matplatform();
 	scroll_bowser_course();
@@ -22,4 +24,6 @@ void scroll_textures_bowser_course() {
 	scroll_sb_level_geo_sb_train();
 	scroll_bowser_course_level_geo_bc_crystalp();
 	scroll_bowser_course_level_geo_bc_crystalgp();
+	scroll_bowser_course_level_geo_bc_laser();
+	scroll_bowser_course_level_geo_bc_laseremit();
 }

@@ -1629,6 +1629,7 @@ enum {
     FBOWSER_HECTOR_WEAK,
     FBOWSER_HECTOR_DIE,
     FBOWSER_HECTOR_WALK,
+    FBOWSER_HECTOR_LASER,
 };
 
 f32 lerp_standard(f32 v0, f32 v1, f32 t) {
@@ -1659,12 +1660,27 @@ u8 golem_crystals_destroyed = 0;
 u8 golem_crystalps_destroyed = 0;
 u8 golem_crystal_do_weaken = FALSE;
 
+u8 golem_footsteps = 0;
+
+struct Object * laser_point_1;
+struct Object * laser_point_2;
+
+extern Mat4 golem_part_transform[];
+extern Vec3f golem_point[];
+
 void hector_general(void) {
     if (cur_obj_check_if_near_animation_end()) {
         u8 desired_next_action = FBOWSER_HECTOR_WALK;
 
         if (o->oAction == FBOWSER_HECTOR_WEAK) {
             golem_crystal_do_weaken = FALSE;
+        }
+
+        if (golem_footsteps > 1) {
+            golem_footsteps = 0;
+            if (lateral_dist_between_objects(o,gMarioObject) > 2000.0f) {
+                desired_next_action = FBOWSER_HECTOR_LASER;
+            }
         }
 
         if (gMarioObject->platform && obj_has_behavior(gMarioObject->platform,bhvBcGolemBody) ) {
@@ -1697,17 +1713,24 @@ void hector_general(void) {
                 cur_obj_init_animation_with_sound(13);
                 break;
             case FBOWSER_HECTOR_WALK:
+                golem_footsteps++;
                 cur_obj_init_animation_with_sound(14);
+                break;
+            case FBOWSER_HECTOR_LASER:
+                cur_obj_init_animation_with_sound(15);
                 break;
         }
     }
-    if (o->oInteractStatus & INT_STATUS_SEPHISWORD) {
-        cur_obj_play_sound_2(SOUND_OBJ_BOWSER_WALK);
+    if ((o->oInteractStatus & INT_STATUS_SEPHISWORD) && (gMarioState->action != ACT_HARD_BACKWARD_AIR_KB) && (gMarioState->action != ACT_HARD_BACKWARD_GROUND_KB) && (gMarioState->invincTimer == 0)) {
+        gMarioState->hurtCounter += 8;
+        drop_and_set_mario_action(gMarioState, ACT_HARD_BACKWARD_AIR_KB, 3);
+        create_sound_spawner(SOUND_GENERAL2_PYRAMID_TOP_EXPLOSION);
     }
     o->oInteractStatus = 0;
 }
 
 Vec3f fb_bowser_home = {0.0f,SB_Y,0.0f};
+
 void bhv_final_boss_bowser(void) {
 
     switch(o->oAction) {
@@ -2116,7 +2139,7 @@ void bhv_final_boss_bowser(void) {
                     deleteit = cur_obj_nearest_object_with_behavior(bhvBcGolemFoot);
                 }
 
-                if (cur_obj_boss_shimmer_death(700.0f,2.5f)) {
+                if (cur_obj_final_boss_shimmer_death(700.0f,2.5f)) {
                     obj_mark_for_deletion(o);
                 }
             }
@@ -2144,6 +2167,28 @@ void bhv_final_boss_bowser(void) {
                 } else {
                     o->oFaceAngleYaw = approach_s16_symmetric(o->oFaceAngleYaw, yaw+0x8000, 0x100);
                 }
+            }
+
+            hector_general();
+            break;
+        case FBOWSER_HECTOR_LASER:
+
+            o->oFaceAngleYaw = approach_s16_symmetric(o->oFaceAngleYaw, o->oAngleToMario, 0x80); 
+
+            if (o->oTimer == 20) {
+                struct Object * laser = spawn_object(o,MODEL_BC_LASER,bhvBcGolemLaser);
+                vec3f_copy(&laser->oPosVec,golem_point[0]);
+                vec3f_copy(&laser->oHomeVec,golem_point[0]);
+                laser->oHomeY = SB_Y;
+
+                laser_point_1 = spawn_object(o,MODEL_BC_LASEREMIT,bhvStaticObject);
+                obj_set_billboard(laser_point_1);
+                vec3f_copy(&laser_point_1->oPosVec,golem_point[0]);
+
+                laser_point_2 = spawn_object(o,MODEL_BC_LASEREMIT,bhvStaticObject);
+                obj_set_billboard(laser_point_2);
+                vec3f_copy(&laser_point_2->oPosVec,golem_point[0]);
+                laser_point_2->oPosZ = SB_Y;
             }
 
             hector_general();
@@ -2397,9 +2442,6 @@ void bhv_boss_defeat_wave(void) {
     }
 }
 
-extern Mat4 golem_part_transform[];
-extern Vec3f golem_point[];
-
 void bhv_golem_limb(void) {
     cur_obj_scale(4.0f);
     o->header.gfx.throwMatrix = golem_part_transform[o->oBehParams2ndByte];
@@ -2455,6 +2497,7 @@ void bhv_golem_crystal(void) {
     } else {
         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_CRYSTAL];
         if ((o->oInteractStatus & INT_STATUS_INTERACTED)||(o->oShotByShotgun > 1)) {
+            cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
             cur_obj_spawn_particles(&sGolemBlood);
             mark_obj_for_deletion(o);
             golem_crystals_destroyed++;
@@ -2470,12 +2513,13 @@ void bhv_golem_crystalp(void) {
 
     if (golem_crystals_destroyed <= o->oBehParams2ndByte) {
         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_CRYSTALGP];
-        if ((o->oInteractStatus & INT_STATUS_INTERACTED)||(o->oShotByShotgun > 1)) {
+        if ((o->oInteractStatus & INT_STATUS_INTERACTED)) {
 
         }
     } else {
         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_CRYSTALG];
-        if ((o->oInteractStatus & INT_STATUS_INTERACTED)||(o->oShotByShotgun > 1)) {
+        if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+            cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
             cur_obj_spawn_particles(&sGolemBlood);
             mark_obj_for_deletion(o);
             golem_crystalps_destroyed++;
@@ -2503,4 +2547,105 @@ void bhv_golem_foot(void) {
     vec3f_copy(&o->oPosVec,golem_point[o->oBehParams2ndByte]);
     obj_set_hitbox(o, &sGolemFootHitbox);
     o->oInteractStatus = 0;
+}
+
+void bhv_golem_laser(void) {
+    if (o->oTimer < 1) {
+        cur_obj_hide();
+        return;
+    }
+    cur_obj_unhide();
+
+    cur_obj_play_sound_1(SOUND_GENERAL_FLAME_OUT);
+
+    //visuals pointing
+    Vec3f origin;
+    Vec3f dir;
+    Vec3f hitpos;
+    f32 a, b;
+
+    vec3f_copy(&o->oHomeVec,golem_point[0]);
+    vec3f_copy(hitpos, &o->oPosVec); // Source
+    vec3f_copy(origin,&o->oHomeVec); // Target
+
+    vec3f_copy(&laser_point_1->oPosVec,origin);
+    vec3f_copy(&laser_point_2->oPosVec,hitpos);
+
+    dir[0] = hitpos[0] - origin[0];
+    dir[1] = hitpos[1] - origin[1];
+    dir[2] = hitpos[2] - origin[2];
+
+    o->header.gfx.scale[2] = -(sqrtf(dir[0]*dir[0] + dir[1]*dir[1] + dir[2]*dir[2])/100.0f);
+
+    a=hitpos[0] - origin[0];
+    b=hitpos[2] - origin[2];
+
+    o->oFaceAngleYaw = atan2s(b,a);
+    o->oFaceAnglePitch = atan2s( sqrtf((a*a) + (b*b)) ,origin[1]-hitpos[1]);
+
+    //move
+    f32 base_speed = 50.0f;
+    f32 speed = base_speed;
+    if (lateral_dist_between_objects(gMarioObject,o) < 200.0f) {
+        speed = (lateral_dist_between_objects(gMarioObject,o)/200.0f)*base_speed;
+    }
+    Vec3f govec;
+    vec3f_diff(govec,&gMarioState->pos,&o->oPosVec);
+    vec3f_normalize(govec);
+    vec3_mul_val(govec,speed);
+    vec3f_sum(&o->oPosVec,&o->oPosVec,govec);
+
+    o->oPosY = SB_Y;
+
+    if (o->oTimer > 120) {
+        mark_obj_for_deletion(laser_point_1);
+        mark_obj_for_deletion(laser_point_2);
+        mark_obj_for_deletion(o);
+    }
+
+
+    //COLLISION (copied from sephisword)
+    gMarioState->pos[1] += 50.0f;
+
+    //set points
+    Vec3f point1;
+    Vec3f point2;
+
+    vec3f_copy(point1,origin);
+    vec3f_copy(point2,hitpos);
+
+    //project mario's position to the line segment between p1 and p2
+    Vec3f AB;
+    Vec3f AP;
+
+    vec3f_diff(AB,point2,point1);
+    vec3f_diff(AP,gMarioState->pos,point1);
+
+    f32 AB_length_squared = vec3f_dot(AB,AB);
+
+    f32 t = vec3f_dot(AP,AB) / AB_length_squared;
+    if (t > 1.0f) {
+        t = 1.0f;
+    }
+    if (t < 0.0f) {
+        t = 0.0f;
+    }
+
+    Vec3f closestPoint;
+    vec3f_copy(closestPoint,AB);
+    vec3_mul_val(closestPoint,t);
+    vec3f_sum(closestPoint,point1,closestPoint);
+
+    // calculate distance from mario to closest point on sword
+    f32 dist;
+    vec3f_get_dist(closestPoint,gMarioState->pos,&dist);
+
+    if (dist < 100.0f) {
+        if ((gMarioState->action != ACT_SHOCKED) && (gMarioState->action != ACT_ELECTROCUTION) && (gMarioState->invincTimer == 0)) {
+                gMarioState->hurtCounter += 8;
+                drop_and_set_mario_action(gMarioState, ACT_SHOCKED, 3);
+        }
+    }
+
+    gMarioState->pos[1] -= 50.0f;
 }

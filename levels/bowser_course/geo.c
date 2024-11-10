@@ -46,3 +46,6 @@
 #include "levels/bowser_course/bc_crystalp/geo.inc.c"
 #include "levels/bowser_course/bc_crystalg/geo.inc.c"
 #include "levels/bowser_course/bc_crystalgp/geo.inc.c"
+#include "levels/bowser_course/bc_laser/geo.inc.c"
+#include "levels/bowser_course/bc_laseremit/geo.inc.c"
+#include "levels/bowser_course/bc_rock/geo.inc.c"

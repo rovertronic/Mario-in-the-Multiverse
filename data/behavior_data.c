@@ -9842,6 +9842,15 @@ const BehaviorScript bhvBcGolemFoot[] = {
     END_LOOP(),
 };
 
+extern void bhv_golem_laser(void);
+const BehaviorScript bhvBcGolemLaser[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_golem_laser),
+    END_LOOP(),
+};
+
 extern void bhv_npc_egadd_loop(void);
 const BehaviorScript bhvEgaddNPC[] = {
     BEGIN(OBJ_LIST_GENACTOR),

@@ -1,0 +1,12 @@
+extern const GeoLayout bc_laseremit_geo[];
+extern u8 bc_laseremit_golem_lightning_ci8[];
+extern u8 bc_laseremit_golem_lightning_pal_rgba16[];
+extern Vtx bc_laseremit_Circle_mesh_layer_5_vtx_0[28];
+extern Gfx bc_laseremit_Circle_mesh_layer_5_tri_0[];
+extern Vtx bc_laseremit_Circle_mesh_layer_5_vtx_1[9];
+extern Gfx bc_laseremit_Circle_mesh_layer_5_tri_1[];
+extern Gfx mat_bc_laseremit_lightning[];
+extern Gfx mat_revert_bc_laseremit_lightning[];
+extern Gfx mat_bc_laseremit_anycolortrans[];
+extern Gfx mat_revert_bc_laseremit_anycolortrans[];
+extern Gfx bc_laseremit_Circle_mesh_layer_5[];

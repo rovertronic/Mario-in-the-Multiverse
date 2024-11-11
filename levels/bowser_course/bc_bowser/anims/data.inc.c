@@ -14,3 +14,4 @@
 #include "anim_bgolem_die.inc.c"
 #include "anim_bgolem_walk.inc.c"
 #include "anim_bgolem_laser.inc.c"
+#include "anim_swordcharge.inc.c"

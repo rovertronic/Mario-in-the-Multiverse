@@ -15,5 +15,6 @@ const struct Animation *const bc_bowser_anims[] = {
 	&bc_bowser_anim_bgolem_die,
 	&bc_bowser_anim_bgolem_walk,
 	&bc_bowser_anim_bgolem_laser,
+	&bc_bowser_anim_swordcharge,
 	NULL,
 };

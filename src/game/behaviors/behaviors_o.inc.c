@@ -1613,15 +1613,22 @@ void bhv_sb_blast(void) {
 }
 
 enum {
+    //main & transitional states
     FBOWSER_INIT,
-    FBOWSER_SWIPE,
-    FBOWSER_ARC,
-    FBOWSER_PARRIED,
     FBOWSER_DESCEND,
     FBOWSER_TRANSFORM,
+
+    //monogomous fight states
     FBOWSER_EGG_JUMP_IN_MOBILE,
     FBOWSER_GASTER,
     FBOWSER_YUKARI,
+
+    //sephiroth
+    FBOWSER_SEPH_CHARGE,
+    FBOWSER_SEPH_PARRIED,
+    FBOWSER_SEPH_SWIPE,
+    FBOWSER_SEPH_ARC,
+
     //hector is the name of the golem from b&s
     FBOWSER_HECTOR_INTRO,
     FBOWSER_HECTOR_SWIPE,
@@ -1667,6 +1674,10 @@ struct Object * laser_point_2;
 
 extern Mat4 golem_part_transform[];
 extern Vec3f golem_point[];
+
+s32 hit_by_bowsers_weapon(void) {
+    return ((o->oInteractStatus & INT_STATUS_SEPHISWORD) && (gMarioState->action != ACT_HARD_BACKWARD_AIR_KB) && (gMarioState->action != ACT_HARD_BACKWARD_GROUND_KB) && (gMarioState->invincTimer == 0));
+}
 
 void hector_general(void) {
     if (cur_obj_check_if_near_animation_end()) {
@@ -1721,7 +1732,7 @@ void hector_general(void) {
                 break;
         }
     }
-    if ((o->oInteractStatus & INT_STATUS_SEPHISWORD) && (gMarioState->action != ACT_HARD_BACKWARD_AIR_KB) && (gMarioState->action != ACT_HARD_BACKWARD_GROUND_KB) && (gMarioState->invincTimer == 0)) {
+    if (hit_by_bowsers_weapon()) {
         gMarioState->hurtCounter += 8;
         drop_and_set_mario_action(gMarioState, ACT_HARD_BACKWARD_AIR_KB, 3);
         create_sound_spawner(SOUND_GENERAL2_PYRAMID_TOP_EXPLOSION);
@@ -1754,29 +1765,27 @@ void bhv_final_boss_bowser(void) {
                 o->oAction = FBOWSER_TRANSFORM;
             }
             break;
-        case FBOWSER_SWIPE:
-        case FBOWSER_ARC:
+        case FBOWSER_SEPH_SWIPE:
+        case FBOWSER_SEPH_ARC:
 
             if (o->oTimer == 0) {
                 switch(o->oAction) {
-                    case FBOWSER_SWIPE:
+                    case FBOWSER_SEPH_SWIPE:
                         cur_obj_init_animation_with_sound(2);
                     break;
-                    case FBOWSER_ARC:
+                    case FBOWSER_SEPH_ARC:
                         cur_obj_init_animation_with_sound(3);
                     break;
                 }
             }
 
             switch(o->oAction) {
-                case FBOWSER_SWIPE:
+                case FBOWSER_SEPH_SWIPE:
                     o->oFaceAngleYaw = approach_s16_asymptotic(o->oFaceAngleYaw,o->oAngleToMario,10);
                     break;
             }
 
-            if (o->oInteractStatus & INT_STATUS_SEPHISWORD) {
-                o->oInteractStatus = 0;
-
+            if (hit_by_bowsers_weapon()) {
                 s16 dud;
                 s16 parry_angle;
                 Vec3f mario_offset_vel = {gMarioState->pos[0]-sins(gMarioState->faceAngle[1])*gMarioState->forwardVel,gMarioState->pos[1],gMarioState->pos[2]-coss(gMarioState->faceAngle[1])*gMarioState->forwardVel};
@@ -1787,28 +1796,74 @@ void bhv_final_boss_bowser(void) {
                 if (((gMarioState->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH) ||
                 (gMarioState->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR)) && (parry_offset < 0x3000)) {
                     cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
-                    o->oAction = FBOWSER_PARRIED;
+                    o->oAction = FBOWSER_SEPH_PARRIED;
                     //e__sg_spark(sephisword_impact_vec, (0.5f + (random_float() * 3.f)));
                     struct Object * spark = spawn_object(o,MODEL_SPARKLES,bhvCoinSparkles);
                     vec3f_copy(&spark->oPosVec,sephisword_impact_vec);
                 } else {
-                    drop_and_set_mario_action(gMarioState, ACT_HARD_BACKWARD_GROUND_KB, 2);
+                    gMarioState->hurtCounter += 8;
+                    drop_and_set_mario_action(gMarioState, ACT_HARD_BACKWARD_AIR_KB, 3);
+                }
+            }
+            o->oInteractStatus = 0;
+
+            if (cur_obj_check_if_at_animation_end()) {
+                o->oAction = FBOWSER_SEPH_SWIPE+(random_u16()%2);
+                o->oTimer = 0;
+
+                if (lateral_dist_between_objects(gMarioObject,o) > 500.0f) {
+                    o->oAction = FBOWSER_SEPH_CHARGE;
+                    cur_obj_init_animation_with_sound(16);
                 }
             }
 
-            if (cur_obj_check_if_at_animation_end()) {
-                o->oAction = FBOWSER_SWIPE+(random_u16()%2);
-                o->oTimer = 0;
-            }
-
             break;
-        case FBOWSER_PARRIED:
+        case FBOWSER_SEPH_PARRIED:
             o->header.gfx.animInfo.animFrame-=3;
             if (o->header.gfx.animInfo.animFrame < 0) {
                 o->header.gfx.animInfo.animFrame=0;
-                o->oAction = FBOWSER_SWIPE+(random_u16()%2);
+                o->oAction = FBOWSER_SEPH_SWIPE+(random_u16()%2);
                 o->oInteractStatus = 0;
                 o->oTimer = 0;
+            }
+            break;
+        case FBOWSER_SEPH_CHARGE:
+            //chase mario if he's too away
+            //move
+            {
+                o->oFaceAngleYaw = approach_s16_asymptotic(o->oFaceAngleYaw,o->oAngleToMario,8);
+
+                f32 base_speed = 50.0f;
+                f32 speed = base_speed;
+                if (lateral_dist_between_objects(gMarioObject,o)-400.0f < 150.0f) {
+                    speed = ((lateral_dist_between_objects(gMarioObject,o)-400.0f)/150.0f)*base_speed;
+                }
+
+                struct Surface floorcheck;
+                find_floor(o->oPosX,o->oPosY,o->oPosZ,&floorcheck);
+
+                if (speed < 10.0f && floorcheck) { //TODO: add floor check so he doesnt float
+                    o->header.gfx.animInfo.animFrame-=2;
+                    if (o->header.gfx.animInfo.animFrame < 0) {
+                        o->header.gfx.animInfo.animFrame=0;
+                        o->oAction = FBOWSER_SEPH_SWIPE+(random_u16()%2);
+                    }
+                }
+
+                Vec3f govec;
+                vec3f_diff(govec,&gMarioState->pos,&o->oPosVec);
+                vec3f_normalize(govec);
+                vec3_mul_val(govec,speed);
+                govec[1] = 0.0f;
+                vec3f_sum(&o->oPosVec,&o->oPosVec,govec);
+
+                o->oPosY = approach_f32_asymptotic(o->oPosY,SB_Y,.9f);
+
+                if (hit_by_bowsers_weapon()) {
+                    gMarioState->hurtCounter += 8;
+                    drop_and_set_mario_action(gMarioState, ACT_HARD_BACKWARD_AIR_KB, 3);
+                }
+                o->oInteractStatus = 0;
             }
             break;
         case FBOWSER_TRANSFORM:
@@ -1835,6 +1890,10 @@ void bhv_final_boss_bowser(void) {
                         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_4];
                         break;
                     case 4:
+                        cur_obj_init_animation_with_sound(16);
+                        o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_1];
+                        break;
+                    case 5:
                         cur_obj_init_animation_with_sound(9);
                         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_5];
                         break;
@@ -1864,6 +1923,9 @@ void bhv_final_boss_bowser(void) {
                         o->hitboxHeight = 600.0f;
                         break;
                     case 4:
+                        o->oAction = FBOWSER_SEPH_CHARGE;
+                        break;
+                    case 5:
                         cur_obj_become_intangible();
                         o->oAction = FBOWSER_HECTOR_INTRO;
 
@@ -2550,12 +2612,6 @@ void bhv_golem_foot(void) {
 }
 
 void bhv_golem_laser(void) {
-    if (o->oTimer < 1) {
-        cur_obj_hide();
-        return;
-    }
-    cur_obj_unhide();
-
     cur_obj_play_sound_1(SOUND_GENERAL_FLAME_OUT);
 
     //visuals pointing
@@ -2603,6 +2659,9 @@ void bhv_golem_laser(void) {
         mark_obj_for_deletion(o);
     }
 
+    if (o->oTimer < 1) {
+        return;
+    }
 
     //COLLISION (copied from sephisword)
     gMarioState->pos[1] += 50.0f;

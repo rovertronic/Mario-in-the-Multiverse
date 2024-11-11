@@ -1945,6 +1945,9 @@ void bhv_final_boss_bowser(void) {
                         o->hitboxHeight = 600.0f;
                         break;
                     case 4:
+                        o->hitboxRadius = 100.0f;
+                        o->hitboxHeight = 250.0f;
+
                         o->oHealth = 8;
                         cur_obj_become_tangible();
                         o->oAction = FBOWSER_SEPH_CHARGE;

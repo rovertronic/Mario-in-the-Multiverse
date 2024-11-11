@@ -9760,7 +9760,7 @@ const BehaviorScript bhvBcPingasBall[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
     SET_INT(oIntangibleTimer, 0),
-    SET_INT(oDamageOrCoinValue, 2),
+    SET_INT(oDamageOrCoinValue, 1),
     SET_INTERACT_TYPE(INTERACT_DAMAGE),
     SET_HOME(),
     SET_HITBOX_WITH_OFFSET(/*Radius*/ 250, /*Height*/ 250, /*Downwards offset*/ 145),

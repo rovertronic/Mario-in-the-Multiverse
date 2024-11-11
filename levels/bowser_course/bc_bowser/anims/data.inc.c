@@ -15,3 +15,4 @@
 #include "anim_bgolem_walk.inc.c"
 #include "anim_bgolem_laser.inc.c"
 #include "anim_swordcharge.inc.c"
+#include "anim_swordstun.inc.c"

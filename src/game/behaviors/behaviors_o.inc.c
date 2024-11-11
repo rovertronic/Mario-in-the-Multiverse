@@ -1497,7 +1497,7 @@ void bhv_sb_gap(void) {
 static struct ObjectHitbox sTrainHitbox = {
     /* interactType:      */ INTERACT_DAMAGE,
     /* downOffset:        */ 0,
-    /* damageOrCoinValue: */ 3,
+    /* damageOrCoinValue: */ 2,
     /* health:            */ 0,
     /* numLootCoins:      */ 0,
     /* radius:            */ 240,
@@ -1603,7 +1603,7 @@ void bhv_sb_blast(void) {
         if (point_inside_xz_tri(gMarioState->pos, pointA, pointB, pointC) || point_inside_xz_tri(gMarioState->pos, pointA, pointC, pointD)) {
             if (absf(o->oPosY - gMarioState->pos[1]) < 280 && gMarioState->action != ACT_BACKWARD_AIR_KB) {
                 gMarioState->action = ACT_BACKWARD_AIR_KB;
-                o->oDamageOrCoinValue = 2;
+                o->oDamageOrCoinValue = 1;
                 take_damage_and_knock_back(gMarioState, o);
                 gMarioState->vel[1] = 5;
                 gMarioState->forwardVel = 0.0f;
@@ -1626,6 +1626,7 @@ enum {
     //sephiroth
     FBOWSER_SEPH_CHARGE,
     FBOWSER_SEPH_PARRIED,
+    FBOWSER_SEPH_STAGGER,
     FBOWSER_SEPH_SWIPE,
     FBOWSER_SEPH_ARC,
 
@@ -1674,9 +1675,10 @@ struct Object * laser_point_2;
 
 extern Mat4 golem_part_transform[];
 extern Vec3f golem_point[];
+extern u8 sephisword_did_hit;
 
 s32 hit_by_bowsers_weapon(void) {
-    return ((o->oInteractStatus & INT_STATUS_SEPHISWORD) && (gMarioState->action != ACT_HARD_BACKWARD_AIR_KB) && (gMarioState->action != ACT_HARD_BACKWARD_GROUND_KB) && (gMarioState->invincTimer == 0));
+    return ((sephisword_did_hit) && (gMarioState->action != ACT_HARD_BACKWARD_AIR_KB) && (gMarioState->action != ACT_HARD_BACKWARD_GROUND_KB) && (gMarioState->action != ACT_SQUID) && (gMarioState->invincTimer == 0) && (aku_invincibility == 0) && ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE));
 }
 
 void hector_general(void) {
@@ -1733,15 +1735,49 @@ void hector_general(void) {
         }
     }
     if (hit_by_bowsers_weapon()) {
-        gMarioState->hurtCounter += 8;
+        gMarioState->hurtCounter += 4;
         drop_and_set_mario_action(gMarioState, ACT_HARD_BACKWARD_AIR_KB, 3);
         create_sound_spawner(SOUND_GENERAL2_PYRAMID_TOP_EXPLOSION);
     }
     o->oInteractStatus = 0;
 }
 
-Vec3f fb_bowser_home = {0.0f,SB_Y,0.0f};
+void sephiser_general_attack_handler(void) {
+    if (hit_by_bowsers_weapon()) {
+        s16 dud;
+        s16 parry_angle;
+        Vec3f mario_offset_vel = {gMarioState->pos[0]-sins(gMarioState->faceAngle[1])*gMarioState->forwardVel,gMarioState->pos[1],gMarioState->pos[2]-coss(gMarioState->faceAngle[1])*gMarioState->forwardVel};
+        vec3f_get_angle(mario_offset_vel,sephisword_impact_vec,&dud,&parry_angle);
 
+        s16 parry_offset = abs_angle_diff(gMarioState->faceAngle[1],parry_angle);
+
+        if ((((gMarioState->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH) ||
+        (gMarioState->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR)) && (parry_offset < 0x3000)) ||
+        (gMarioState->action == ACT_ABILITY_AXE_JUMP)) {
+            cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
+            o->oAction = FBOWSER_SEPH_PARRIED;
+            //e__sg_spark(sephisword_impact_vec, (0.5f + (random_float() * 3.f)));
+            struct Object * spark = spawn_object(o,MODEL_SPARKLES,bhvCoinSparkles);
+            vec3f_copy(&spark->oPosVec,sephisword_impact_vec);
+        } else {
+            gMarioState->hurtCounter += 4;
+            drop_and_set_mario_action(gMarioState, ACT_HARD_BACKWARD_AIR_KB, 3);
+        }
+    }
+    o->oInteractStatus = 0;
+
+    if (cur_obj_check_if_at_animation_end()) {
+        o->oAction = FBOWSER_SEPH_SWIPE+(random_u16()%2);
+        o->oTimer = 0;
+
+        if (lateral_dist_between_objects(gMarioObject,o) > 500.0f) {
+            o->oAction = FBOWSER_SEPH_CHARGE;
+            cur_obj_init_animation_with_sound(16);
+        }
+    }
+}
+
+Vec3f fb_bowser_home = {0.0f,SB_Y,0.0f};
 void bhv_final_boss_bowser(void) {
 
     switch(o->oAction) {
@@ -1750,7 +1786,7 @@ void bhv_final_boss_bowser(void) {
             cur_obj_hide();
             obj_set_hitbox(o,&sFbBowserHitbox);
             cur_obj_become_intangible();
-            fb_bowser_phase = 3;
+            fb_bowser_phase = 0;
             fb_bowser_path_index = 0;
             golem_crystals_destroyed = 0;
             golem_crystalps_destroyed = 0;
@@ -1766,57 +1802,17 @@ void bhv_final_boss_bowser(void) {
             }
             break;
         case FBOWSER_SEPH_SWIPE:
-        case FBOWSER_SEPH_ARC:
-
             if (o->oTimer == 0) {
-                switch(o->oAction) {
-                    case FBOWSER_SEPH_SWIPE:
-                        cur_obj_init_animation_with_sound(2);
-                    break;
-                    case FBOWSER_SEPH_ARC:
-                        cur_obj_init_animation_with_sound(3);
-                    break;
-                }
+                cur_obj_init_animation_with_sound(2);
             }
-
-            switch(o->oAction) {
-                case FBOWSER_SEPH_SWIPE:
-                    o->oFaceAngleYaw = approach_s16_asymptotic(o->oFaceAngleYaw,o->oAngleToMario,10);
-                    break;
+            o->oFaceAngleYaw = approach_s16_asymptotic(o->oFaceAngleYaw,o->oAngleToMario,10);
+            sephiser_general_attack_handler();
+            break;
+        case FBOWSER_SEPH_ARC:
+            if (o->oTimer == 0) {
+                cur_obj_init_animation_with_sound(3);
             }
-
-            if (hit_by_bowsers_weapon()) {
-                s16 dud;
-                s16 parry_angle;
-                Vec3f mario_offset_vel = {gMarioState->pos[0]-sins(gMarioState->faceAngle[1])*gMarioState->forwardVel,gMarioState->pos[1],gMarioState->pos[2]-coss(gMarioState->faceAngle[1])*gMarioState->forwardVel};
-                vec3f_get_angle(mario_offset_vel,sephisword_impact_vec,&dud,&parry_angle);
-
-                s16 parry_offset = abs_angle_diff(gMarioState->faceAngle[1],parry_angle);
-
-                if (((gMarioState->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH) ||
-                (gMarioState->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR)) && (parry_offset < 0x3000)) {
-                    cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
-                    o->oAction = FBOWSER_SEPH_PARRIED;
-                    //e__sg_spark(sephisword_impact_vec, (0.5f + (random_float() * 3.f)));
-                    struct Object * spark = spawn_object(o,MODEL_SPARKLES,bhvCoinSparkles);
-                    vec3f_copy(&spark->oPosVec,sephisword_impact_vec);
-                } else {
-                    gMarioState->hurtCounter += 8;
-                    drop_and_set_mario_action(gMarioState, ACT_HARD_BACKWARD_AIR_KB, 3);
-                }
-            }
-            o->oInteractStatus = 0;
-
-            if (cur_obj_check_if_at_animation_end()) {
-                o->oAction = FBOWSER_SEPH_SWIPE+(random_u16()%2);
-                o->oTimer = 0;
-
-                if (lateral_dist_between_objects(gMarioObject,o) > 500.0f) {
-                    o->oAction = FBOWSER_SEPH_CHARGE;
-                    cur_obj_init_animation_with_sound(16);
-                }
-            }
-
+            sephiser_general_attack_handler();
             break;
         case FBOWSER_SEPH_PARRIED:
             o->header.gfx.animInfo.animFrame-=3;
@@ -1825,6 +1821,29 @@ void bhv_final_boss_bowser(void) {
                 o->oAction = FBOWSER_SEPH_SWIPE+(random_u16()%2);
                 o->oInteractStatus = 0;
                 o->oTimer = 0;
+                o->oHealth--;
+
+                if (o->oHealth < 1) {
+                    o->oAction = FBOWSER_SEPH_STAGGER;
+                    cur_obj_init_animation_with_sound(17);
+                }
+            }
+            break;
+        case FBOWSER_SEPH_STAGGER:
+            if (o->oTimer == 0) {
+                o->oForwardVel = -30.0f;
+            }
+
+            struct Surface * floorcheck;
+            find_floor(o->oPosX,o->oPosY,o->oPosZ,&floorcheck);
+            if (floorcheck && floorcheck->type != SURFACE_DEATH_PLANE) { 
+                o->oPosX += sins(o->oFaceAngleYaw)*o->oForwardVel;
+                o->oPosZ += coss(o->oFaceAngleYaw)*o->oForwardVel;
+                o->oForwardVel *= .9f;
+            }
+
+            if (o->oTimer > 60) {
+                o->oAction = FBOWSER_TRANSFORM;
             }
             break;
         case FBOWSER_SEPH_CHARGE:
@@ -1839,14 +1858,15 @@ void bhv_final_boss_bowser(void) {
                     speed = ((lateral_dist_between_objects(gMarioObject,o)-400.0f)/150.0f)*base_speed;
                 }
 
-                struct Surface floorcheck;
+                struct Surface * floorcheck;
                 find_floor(o->oPosX,o->oPosY,o->oPosZ,&floorcheck);
 
-                if (speed < 10.0f && floorcheck) { //TODO: add floor check so he doesnt float
+                if (speed < 10.0f && floorcheck && floorcheck->type != SURFACE_DEATH_PLANE) { //TODO: add floor check so he doesnt float
                     o->header.gfx.animInfo.animFrame-=2;
                     if (o->header.gfx.animInfo.animFrame < 0) {
                         o->header.gfx.animInfo.animFrame=0;
                         o->oAction = FBOWSER_SEPH_SWIPE+(random_u16()%2);
+                        o->oPosY = SB_Y+32.f;
                     }
                 }
 
@@ -1857,16 +1877,17 @@ void bhv_final_boss_bowser(void) {
                 govec[1] = 0.0f;
                 vec3f_sum(&o->oPosVec,&o->oPosVec,govec);
 
-                o->oPosY = approach_f32_asymptotic(o->oPosY,SB_Y,.9f);
+                o->oPosY = approach_f32_asymptotic(o->oPosY,SB_Y+32.f,.9f);
 
                 if (hit_by_bowsers_weapon()) {
-                    gMarioState->hurtCounter += 8;
+                    gMarioState->hurtCounter += 4;
                     drop_and_set_mario_action(gMarioState, ACT_HARD_BACKWARD_AIR_KB, 3);
                 }
                 o->oInteractStatus = 0;
             }
             break;
         case FBOWSER_TRANSFORM:
+            o->oAnimState = 0;
             o->oFaceAngleYaw +=0x1000;
 
             if (o->header.gfx.animInfo.animFrame > 0) {
@@ -1896,6 +1917,7 @@ void bhv_final_boss_bowser(void) {
                     case 5:
                         cur_obj_init_animation_with_sound(9);
                         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_5];
+                        o->oPosY = SB_Y;
                         break;
                 }
             }
@@ -1923,6 +1945,8 @@ void bhv_final_boss_bowser(void) {
                         o->hitboxHeight = 600.0f;
                         break;
                     case 4:
+                        o->oHealth = 8;
+                        cur_obj_become_tangible();
                         o->oAction = FBOWSER_SEPH_CHARGE;
                         break;
                     case 5:
@@ -2107,6 +2131,10 @@ void bhv_final_boss_bowser(void) {
 
                 o->oInteractStatus = 0;
                 o->oShotByShotgun = 0;
+
+                if (o->oHealth < 1) {
+                    o->oAction = FBOWSER_TRANSFORM;
+                }
             }
             break;
         case FBOWSER_HECTOR_INTRO:
@@ -2255,8 +2283,10 @@ void bhv_final_boss_bowser(void) {
 
             hector_general();
             break;
-
     }
+    o->oInteractStatus = 0;
+    o->oShotByShotgun = 0;
+    sephisword_did_hit = FALSE;
 }
 
 enum {
@@ -2596,7 +2626,7 @@ void bhv_golem_crystalp(void) {
 static struct ObjectHitbox sGolemFootHitbox = {
     /* interactType:      */ INTERACT_DAMAGE,
     /* downOffset:        */ 50,
-    /* damageOrCoinValue: */ 2,
+    /* damageOrCoinValue: */ 1,
     /* health:            */ 0,
     /* numLootCoins:      */ 0,
     /* radius:            */ 200,
@@ -2701,7 +2731,7 @@ void bhv_golem_laser(void) {
 
     if (dist < 100.0f) {
         if ((gMarioState->action != ACT_SHOCKED) && (gMarioState->action != ACT_ELECTROCUTION) && (gMarioState->invincTimer == 0)) {
-                gMarioState->hurtCounter += 8;
+                gMarioState->hurtCounter += 4;
                 drop_and_set_mario_action(gMarioState, ACT_SHOCKED, 3);
         }
     }

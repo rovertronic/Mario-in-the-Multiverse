@@ -204,8 +204,12 @@ Gfx *dobj_bullets(s32 callContext) {
 				vec3f_get_dist(b->pos, mPos, &dist);
 
 				if (dist < b->hitSphereSize) {
-					if ((m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH)
-						|| (m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR)) {
+					if (
+						((m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH)
+						|| (m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR))
+						||
+						(gMarioState->action == ACT_ABILITY_AXE_JUMP)
+					 ) {
 						//deflect
 						if (!(b->flags & BULLET_FLAG_DEFLECTED)) {
 							play_sound(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL, m->marioObj->header.gfx.cameraToObject);

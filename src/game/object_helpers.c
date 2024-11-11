@@ -209,6 +209,7 @@ Gfx *geo_update_defeat_star(s32 callContext, struct GraphNode *node, UNUSED void
 }
 
 Vec3f sephisword_impact_vec;
+u8 sephisword_did_hit = FALSE;
 Gfx *geo_update_sephisword(s32 callContext, struct GraphNode *node, Mat4 mtx) {
     if (callContext == GEO_CONTEXT_RENDER) {
         struct Object *obj = gCurGraphNodeObjectNode;
@@ -263,7 +264,7 @@ Gfx *geo_update_sephisword(s32 callContext, struct GraphNode *node, Mat4 mtx) {
 
         if (obj && dist < collision_radius) {
             vec3f_copy(sephisword_impact_vec, closestPoint);
-            obj->oInteractStatus |= INT_STATUS_SEPHISWORD;
+            sephisword_did_hit = TRUE;
         }
 
         gMarioState->pos[1] -= 50.0f;

@@ -104,8 +104,12 @@ static s32 c9dobj_check_collision(struct E_C9Dobj *b, Vec3f vel, s32 damage) {
 	vec3f_get_dist(b->pos, mPos, &dist);
 
 	if (dist < (b->hitSphereSize + 80.f)) {
-		if ((m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH)
-			|| (m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR)) {
+		if (
+			((m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH)
+			|| (m->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR))
+			||
+			(gMarioState->action == ACT_ABILITY_AXE_JUMP)
+		 ) {
 			//
 			if (!(b->state & BIT(1))) {
 				play_sound(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL, m->marioObj->header.gfx.cameraToObject);

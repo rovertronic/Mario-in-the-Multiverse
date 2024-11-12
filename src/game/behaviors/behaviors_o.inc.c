@@ -1877,7 +1877,7 @@ void bhv_final_boss_bowser(void) {
                 govec[1] = 0.0f;
                 vec3f_sum(&o->oPosVec,&o->oPosVec,govec);
 
-                o->oPosY = approach_f32_asymptotic(o->oPosY,SB_Y+32.f,.9f);
+                o->oPosY = approach_f32_asymptotic(o->oPosY,SB_Y+32.f,.1f);
 
                 if (hit_by_bowsers_weapon()) {
                     gMarioState->hurtCounter += 4;
@@ -2325,6 +2325,10 @@ void bhv_atreus_bosscontroller(void) {
                     obj = cur_obj_nearest_object_with_behavior(bhvBcBowser);
                     if (obj) {
                         obj->oAction = FBOWSER_DESCEND;
+                    }
+                    obj = cur_obj_nearest_object_with_behavior(bhvBcBosslanding);
+                    if (obj) {
+                        obj_mark_for_deletion(obj);
                     }
                 }
             }

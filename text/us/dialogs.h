@@ -639,6 +639,103 @@ You ROM hack players\n\
 usually take everything\n\
 at face value..."))
 
+DEFINE_DIALOG(DIALOG_FB_HINT_1, 1, 3, 95, 200, _("\
+\n\
+- Phase 1: Eggman -\n\
+\n\
+To defeat this phase, you\n\
+need to jump on the\n\
+eggmobile 8 times.\n\
+Utilizing HM Fly is your\n\
+best option for this\n\
+phase.\n\
+The metal of the eggmobile\n\
+is invulnerable to shotgun\n\
+pellets."))
+
+DEFINE_DIALOG(DIALOG_FB_HINT_2, 1, 3, 95, 200, _("\
+\n\
+- Phase 2: W.D. Gaster -\n\
+\n\
+To defeat this phase, you\n\
+need to damage bowser 8\n\
+times.\n\
+The shotgun is the safest\n\
+option, but the cutter is\n\
+the fastest.\n\
+Pay attention to the\n\
+direction of the gaster\n\
+blasters when they are\n\
+summoned, as that will\n\
+determine where you\n\
+should move mario.\n\
+Dodging the small burst\n\
+of diamonds is trivial,\n\
+just move a little."))
+
+DEFINE_DIALOG(DIALOG_FB_HINT_3, 1, 3, 95, 200, _("\
+\n\
+- Phase 3: Yukari Yakumo -\n\
+\n\
+To defeat this phase, you\n\
+need to damage bowser 8\n\
+times.\n\
+The shotgun is the safest\n\
+option, but the cutter is\n\
+the fastest.\n\
+Focusing on dodging the\n\
+danmaku should be your\n\
+primary goal.\n\
+Only pay attention to\n\
+the danmaku that comes\n\
+close to you.\n\
+If you're about to\n\
+get run over by a train,\n\
+a shotgun jump can help.\n\
+If you're overwhelmed,\n\
+drinking milk can\n\
+help you preservere."))
+
+DEFINE_DIALOG(DIALOG_FB_HINT_4, 1, 3, 95, 200, _("\
+\n\
+- Phase 4: Sephiroth -\n\
+\n\
+To defeat this phase, you\n\
+need to parry Bowser's\n\
+sword strikes 8 times.\n\
+Use the Katana that comes\n\
+with chronos to deflect\n\
+the blows.\n\
+Make sure to deflect the\n\
+sword in the direction that\n\
+it comes toward you.\n\
+You can also use\n\
+the Katana dash to\n\
+dodge Bowser's swings."))
+
+DEFINE_DIALOG(DIALOG_FB_HINT_5, 1, 3, 95, 200, _("\
+\n\
+- Phase 5: Hector -\n\
+\n\
+To defeat this phase, you\n\
+must destroy the 7 pink\n\
+crystals on his body.\n\
+The pink crystals are\n\
+guarded by the cyan\n\
+crystals.\n\
+The cyan crystals\n\
+are also guarded by\n\
+the pink ones.\n\
+You'll have to move\n\
+back and forth until\n\
+you destroy them all.\n\
+There are no specific\n\
+abilities required for\n\
+this phase.\n\
+Use whatever you feel\n\
+works best to get the\n\
+job done."))
+
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 200, _("\
 Wow! You're smack in the\n\
 middle of the battlefield.\n\

@@ -935,5 +935,6 @@ extern const BehaviorScript bhvBcGolemCrystal[];
 extern const BehaviorScript bhvBcGolemCrystalp[];
 extern const BehaviorScript bhvBcGolemFoot[];
 extern const BehaviorScript bhvBcGolemLaser[];
+extern const BehaviorScript bhvBcFinalBossHintSign[];
 
 #endif // BEHAVIOR_DATA_H

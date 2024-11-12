@@ -53,14 +53,15 @@ const LevelScript level_bowser_course_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_SB_BLAST, sb_blast_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BC_BOWSER_FORM_3, bform_3_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BC_BOWSER_FORM_4, bform4_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_BC_BOWSER_FORM_5, bform5_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_BC_CRYSTAL, bc_crystal_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_BC_CRYSTALP, bc_crystalp_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_BC_CRYSTALG, bc_crystalg_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_BC_CRYSTALGP, bc_crystalgp_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_BC_LASER, bc_laser_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_BC_LASEREMIT, bc_laseremit_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_BC_ROCK, bc_rock_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_BC_BOWSER_FORM_5, bform5_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BC_CRYSTAL, bc_crystal_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BC_CRYSTALP, bc_crystalp_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BC_CRYSTALG, bc_crystalg_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BC_CRYSTALGP, bc_crystalgp_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BC_LASER, bc_laser_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BC_LASEREMIT, bc_laseremit_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BC_ROCK, bc_rock_geo), 
+
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
@@ -120,6 +121,7 @@ const LevelScript level_bowser_course_entry[] = {
 		OBJECT(MODEL_NONE, 5268, 2176, -10578, 0, 90, 0, 0x00000000, bhvFlamethrower),
 		OBJECT(MODEL_NONE, -5400, 4339, -9933, 0, -180, 0, 0x00000000, bhvFlamethrower),
 		OBJECT(MODEL_NONE, -4790, 4357, -11209, 0, 0, 0, 0x00000000, bhvFlamethrower),
+		OBJECT(MODEL_NONE, 3408, 17607, 9804, 0, -180, 0, 0x00000000, bhvBcFinalBossHintSign),
 		OBJECT(MODEL_BC_HOODMONGER, 3511, 2006, -3222, 0, 132, 0, 0x00000000, bhvBcHoodmonger),
 		OBJECT(MODEL_BC_HOODMONGER, 3663, 2188, -2383, 0, 132, 0, 0x00000000, bhvBcHoodmonger),
 		OBJECT(MODEL_BC_HOODMONGER, 5035, 2054, -2728, 0, -147, 0, 0x00000000, bhvBcHoodmonger),

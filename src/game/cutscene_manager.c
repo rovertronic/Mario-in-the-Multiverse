@@ -589,10 +589,15 @@ char ascii_fb_bowser_10[] = "My wish will be to wipe every molecule, atom,\nand 
 
 char ascii_atreus_3[] = "IT APPEARS\nWE HAVE A DISPUTE.";
 char ascii_atreus_4[] = "THIS IS HOW IT WILL BE:";
-char ascii_atreus_5[] = "ONE ON ONE COMBAT\nTHE VICTOR WILL EARN AN AUDIENCE WITH I";
-char ascii_atreus_6[] = "WELL, THAT IS THAT.\nHAVE AT IT!";
+char ascii_atreus_5[] = "ONE ON ONE COMBAT\nTHE VICTOR WILL EARN AN AUDIENCE WITH ME";
+char ascii_atreus_6[] = "WELL, SO BE IT.";
+
+char ascii_atreus_7[] = "IT APPEARS MARIO HAS EMERGED VICTORIOUS.";
+char ascii_atreus_8[] = "YOU NOW HAVE THE EYES AND THE HANDS OVER\nTHE ENTIRE MULTIVERSE.";
+char ascii_atreus_9[] = "DO WHAT THY WILL.";
 
 struct Object * fb_bowser;
+struct OBject * fb_atreus;
 
 void cm_finalboss_1(void) {
     switch(cm_cutscene_timer) {
@@ -725,7 +730,36 @@ void cm_finalboss_2(void) {
 }
 
 void cm_finalboss_3(void) {
-
+    switch(cm_cutscene_timer) {
+        case 0:
+            cm_camera_object = 0;
+            cm_target_camera_object = 0;
+            break;
+        case 60:
+            cm_textbox_target_speaker = CM_SPEAKER_ATREUS;
+            cm_textbox_text_target = &ascii_atreus_7;
+            break;
+        case 61:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_atreus_8;
+            }
+            break;
+        case 62:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_atreus_9;
+            }      
+            break;
+        case 63:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = NULL;
+            }
+            break;
+        case 120:
+            set_mario_action(gMarioState,ACT_IDLE,0);
+            cm_cutscene_on = FALSE;
+            obj_mark_for_deletion(o);
+            break;
+    }
 }
 
 void cm_manager_object_loop(void) {
@@ -765,7 +799,7 @@ void cm_manager_object_loop(void) {
             cm_finalboss_2();
             break;
         case 6:
-
+            cm_finalboss_3();
             break;
     }
 

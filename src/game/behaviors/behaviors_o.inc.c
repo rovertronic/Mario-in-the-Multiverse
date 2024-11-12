@@ -2233,6 +2233,9 @@ void bhv_final_boss_bowser(void) {
                 }
 
                 if (cur_obj_final_boss_shimmer_death(700.0f,2.5f)) {
+                    struct Object * cutscene = spawn_object(o,MODEL_NONE,bhvCutsceneManager);
+                    cutscene->oBehParams2ndByte = 6;
+
                     obj_mark_for_deletion(o);
                 }
             }
@@ -2299,6 +2302,8 @@ enum {
     ATREUS_WAIT_2,
     ATREUS_BOWSER_AMBUSH,
     ATREUS_WATCHING_FIGHT,
+    ATREUS_POST_FIGHT,
+    ATREUS_ENTERED,
 };
 
 void bhv_atreus_bosscontroller(void) {
@@ -2366,6 +2371,24 @@ void bhv_atreus_bosscontroller(void) {
             break;
         case ATREUS_WATCHING_FIGHT:
             o->oPosZ = approach_f32_asymptotic(o->oPosZ,o->oHomeZ-4000.0f,0.1f);
+
+            if (!cur_obj_nearest_object_with_behavior(bhvBcBowser)) {
+                o->oAction = ATREUS_POST_FIGHT;
+            }
+            break;
+        case ATREUS_POST_FIGHT:
+            o->oPosZ = approach_f32_asymptotic(o->oPosZ,o->oHomeZ,0.1f);
+
+            if (o->oDistanceToMario < 2000.0f) {
+                o->oAction = ATREUS_ENTERED;
+                play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 0x10, 0xFF, 0xFF, 0xFF);
+                set_mario_action(gMarioState,ACT_CM_CUTSCENE,0);
+            }
+            break;
+        case ATREUS_ENTERED:
+            if (o->oTimer == 90) {
+                initiate_warp(LEVEL_G, 1, 0x0A, WARP_FLAGS_NONE);
+            }
             break;
     }
 }
@@ -2740,4 +2763,11 @@ void bhv_golem_laser(void) {
     }
 
     gMarioState->pos[1] -= 50.0f;
+}
+
+void bhv_final_boss_hint_sign(void) {
+    if (fb_bowser_phase > 0) {
+        struct Object * sign = spawn_object(o,MODEL_WOODEN_SIGNPOST,bhvMessagePanel);
+        sign->oBehParams2ndByte = DIALOG_FB_HINT_1+(fb_bowser_phase-1);
+    }
 }

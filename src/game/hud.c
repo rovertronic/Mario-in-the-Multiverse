@@ -933,6 +933,8 @@ extern Gfx cbmeter_Plane_004_mesh[];
 extern Gfx cbg_Plane_005_mesh[];
 u8 combo_meter_visual = 201;
 
+char hud_information_string[50] = {'\0'};
+
 void render_hud(void) {
     //--E
     if ((gCurrLevelNum == LEVEL_E)&&(gHudDisplay.flags != HUD_DISPLAY_NONE)&&(!level_in_dream_comet_mode())) {
@@ -1357,6 +1359,20 @@ void render_hud(void) {
             gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 
             render_hud_timer();
+        }
+
+        if (hud_information_string[0] != '\0') {
+            prepare_blank_box();
+            render_blank_box(10,230,20+get_string_width_ascii(hud_information_string),205,  0,0,0,  150);
+            finish_blank_box();
+
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+            print_generic_string_ascii(15, 15, hud_information_string);
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+
+            if (!_60fps_midframe) {
+                hud_information_string[0] = '\0';
+            }
         }
 
 #ifdef VANILLA_STYLE_CUSTOM_DEBUG

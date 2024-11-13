@@ -410,7 +410,7 @@ void bhv_f_key(void) {
             }
         break;
         case 1:
-            print_text_fmt_int(10, 10, "BOAT KEY OBTAINED", 0);
+            sprintf(&hud_information_string,"BOAT KEY OBTAINED");
             o->oAngleVelYaw += 0x70;
             o->oFaceAngleYaw += o->oAngleVelYaw;
             cur_obj_scale(o->oHomeY);
@@ -630,7 +630,7 @@ void bhv_f_boat(void) {
 
     if (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags & (1<<LEVEL_F_FLAG_KEY))) {
         if (lateral_dist_between_objects(gMarioObject,o) < 400.0f) {
-            print_text_fmt_int(10, 10, "NEED BOAT KEY", 0);
+            sprintf(&hud_information_string,"NEED BOAT KEY");
         }
         load_object_collision_model();
         return;

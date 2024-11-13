@@ -53,6 +53,8 @@
 
 //! TODO: remove static
 
+extern char hud_information_string[50];
+
 enum ObjPositionOperation {
     POS_OP_SAVE_POSITION,
     POS_OP_COMPUTE_VELOCITY,

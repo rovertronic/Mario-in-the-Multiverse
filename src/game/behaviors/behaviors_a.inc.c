@@ -205,7 +205,7 @@ void taxi_stop_text(void) {
         time = 0;
     }
     print_set_envcolour(red, green, blue * sins(time * 0x100), 255);
-    print_small_text_buffered(SCREEN_CENTER_X, 200, "Press L To Travel", PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, FONT_VANILLA);
+    sprintf(&hud_information_string, "Press L To Travel");
 }
 
 void taxistop_loop(void) {
@@ -1294,14 +1294,14 @@ void beat_em_up_object(void) {
         case 1:
             robotsKilled = 0;
             robotCount = 0;
-            print_text_centered(SCREEN_CENTER_X, SCREEN_CENTER_Y, robotText[0]);
+            sprintf(&hud_information_string,robotText[0]);
             set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
             if (o->oTimer == 90) {
                 o->oAction = 2;
             }
             break;
         case 2:
-            print_text_fmt_int(20, 20, "%d OUT OF 10", robotsKilled);
+            sprintf(&hud_information_string,"%d OUT OF 10",robotsKilled);
             if (o->oTimer == 1) {
                 set_mario_action(gMarioState, ACT_IDLE, 0);
                 sound_init();
@@ -1321,13 +1321,13 @@ void beat_em_up_object(void) {
         case 3:
             robotsKilled = 0;
             robotCount = 0;
-            print_text_centered(SCREEN_CENTER_X, SCREEN_CENTER_Y, robotText[1]);
+            sprintf(&hud_information_string,robotText[1]);
             if (o->oTimer == 130) {
                 o->oAction = 4;
             }
             break;
         case 4:
-            print_text_fmt_int(20, 20, "%d OUT OF 15", robotsKilled);
+            sprintf(&hud_information_string,"%d OUT OF 15",robotsKilled);
             if (o->oTimer == 2) {
                 play_sound(SOUND_GENERAL_RACE_GUN_SHOT, gMarioState->marioObj->header.gfx.cameraToObject);
             }
@@ -1346,13 +1346,13 @@ void beat_em_up_object(void) {
         case 5:
             robotsKilled = 0;
             robotCount = 0;
-            print_text_centered(SCREEN_CENTER_X, SCREEN_CENTER_Y, robotText[2]);
+            sprintf(&hud_information_string,robotText[2]);
             if (o->oTimer == 130) {
                 o->oAction = 6;
             }
             break;
         case 6:
-            print_text_fmt_int(20, 20, "%d OUT OF 20", robotsKilled);
+            sprintf(&hud_information_string,"%d OUT OF 20",robotsKilled);
             if (o->oTimer == 2) {
                 play_sound(SOUND_GENERAL_RACE_GUN_SHOT, gMarioState->marioObj->header.gfx.cameraToObject);
             }

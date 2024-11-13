@@ -250,7 +250,7 @@ void bhv_paint_gun_loop(void) {
                     break;
                 case 2: //wait to be controlled
                     if(o->oDistanceToMario < 400) {
-                        print_text_fmt_int(10, 10, "B", 0);
+                        sprintf(&hud_information_string,"Press B to use");
                         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
                             o->oSubAction++;
                             obj_set_model(gMarioObject, MODEL_NONE);

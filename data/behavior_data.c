@@ -9763,9 +9763,10 @@ const BehaviorScript bhvBcPingasBall[] = {
     SET_INT(oDamageOrCoinValue, 1),
     SET_INTERACT_TYPE(INTERACT_DAMAGE),
     SET_HOME(),
-    SET_HITBOX_WITH_OFFSET(/*Radius*/ 250, /*Height*/ 250, /*Downwards offset*/ 145),
+    SET_HITBOX_WITH_OFFSET(/*Radius*/ 250, /*Height*/ 400, /*Downwards offset*/ 145),
     BEGIN_LOOP(),
         SET_INT(oIntangibleTimer, 0),
+        SET_INT(oInteractStatus, 0),
     END_LOOP(),
 };
 

@@ -196,6 +196,7 @@ void fcp_loop(void)
 
 u16 time;
 
+/*
 void taxi_stop_text(void) {
     Color red = 255;
     Color green = 255;
@@ -207,23 +208,30 @@ void taxi_stop_text(void) {
     print_set_envcolour(red, green, blue * sins(time * 0x100), 255);
     sprintf(&hud_information_string, "Press L To Travel");
 }
+*/
 
 void taxistop_loop(void) {
     s16 transitionTimer = 52;
     u8 behparams = GET_BPARAM1(o->oBehParams);
     u8 behparams2 = o->oBehParams2ndByte;
-    if ((gMarioObject->platform == o) && (gPlayer1Controller->buttonPressed == L_TRIG)) {
-        o->oAction = 1;
-    }
+
+    /*
     if (gMarioObject->platform == o) {
         taxi_stop_text();
     }
+    */
     switch (o->oAction) {
         case 0:
+            if (gMarioObject->platform != o) {
+                o->oTimer = 0;
+            }
+            if (o->oTimer > 10) {
+                o->oAction = 1;
+                set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
+            }
             break;
         case 1:
             if (o->oTimer == 1) {
-                set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
                 struct Object * boat = spawn_object(o, MODEL_TSBOAT, bhvtsBoat);
                 if (behparams == 4) {
                     boat->oPosZ -= 500;

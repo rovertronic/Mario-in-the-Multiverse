@@ -19,4 +19,8 @@ extern const LevelScript level_birthday_entry[];
 
 #include "levels/birthday/gmachine/geo_header.h"
 
+#include "levels/birthday/endser/anim_header.h"
+
+#include "levels/birthday/endser/geo_header.h"
+
 #endif

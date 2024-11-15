@@ -20,3 +20,4 @@
 #include "levels/birthday/intro_cloth/geo.inc.c"
 #include "levels/birthday/intro_rock/geo.inc.c"
 #include "levels/birthday/gmachine/geo.inc.c"
+#include "levels/birthday/endser/geo.inc.c"

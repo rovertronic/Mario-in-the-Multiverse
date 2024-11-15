@@ -71,6 +71,7 @@
 #include "levels/bowser_course/header.h"
 #include "levels/c/header.h"
 #include "levels/sb/header.h"
+#include "levels/birthday/header.h"
 
 #include "make_const_nonconst.h"
 #include "behavior_data.h"
@@ -6819,6 +6820,15 @@ const BehaviorScript bhvIntroBowser[] = {
     LOAD_ANIMATIONS(oAnimations, wedser_anims),
     ANIMATE(1),
     DROP_TO_FLOOR(),
+    BEGIN_LOOP(),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvEndBowser[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_ANIMATIONS(oAnimations, endser_anims),
+    ANIMATE(0),
     BEGIN_LOOP(),
     END_LOOP(),
 };

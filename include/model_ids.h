@@ -638,6 +638,7 @@ enum GLOBAL_MODELS {
 #define MODEL_INTRO_CLOTH                         0x152
 #define MODEL_INTRO_ROCK                          0x153
 #define MODEL_INTRO_GMACHINE                      0x154 //not actually the intro, just named this way for consitency's sake
+#define MODEL_INTRO_ENDSER                        0x155
 /* LEVEL INTRO END */
 
 /* LEVEL A START */

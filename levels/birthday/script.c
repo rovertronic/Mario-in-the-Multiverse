@@ -40,6 +40,7 @@ const LevelScript level_birthday_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_INTRO_CLOTH, intro_cloth_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_INTRO_ROCK, intro_rock_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_INTRO_GMACHINE, gmachine_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_INTRO_ENDSER, endser_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -60,10 +61,11 @@ const LevelScript level_birthday_entry[] = {
 		OBJECT(MODEL_NONE, -957, 81, -610, 0, -94, 0, (8 << 16), bhvCutsceneCamera),
 		OBJECT(MODEL_NONE, 4038, 383, 2859, 0, -90, 0, (10 << 16), bhvCutsceneCamera),
 		OBJECT(MODEL_NONE, 347, -297, 1272, -4, -150, 0, (9 << 16), bhvCutsceneCamera),
-		OBJECT(MODEL_NONE, 3198, 612, 2458, 14, -50, 0, (11 << 16), bhvCutsceneCamera),
-		OBJECT(MODEL_NONE, 2757, 479, 2601, 14, 20, 0, (12 << 16), bhvCutsceneCamera),
+		OBJECT(MODEL_NONE, 3377, 538, 2497, 14, -50, 0, (11 << 16), bhvCutsceneCamera),
+		OBJECT(MODEL_NONE, 2995, 459, 2586, 14, 8, 0, (12 << 16), bhvCutsceneCamera),
 		OBJECT(MODEL_NONE, 4038, 383, 2859, 0, -90, 0, (13 << 16), bhvCutsceneCamera),
 		OBJECT(MODEL_EGADD, -1687, -150, -207, 0, 90, 0, 0x00000000, bhvIntroEgadd),
+		OBJECT(MODEL_INTRO_ENDSER, 2923, 236, 2859, 0, 90, 0, 0x00000000, bhvEndBowser),
 		OBJECT(MODEL_NONE, -20, -383, 805, 0, 0, 0, (2 << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_RED_FLAME, 2561, 518, 3284, 0, 0, 0, 0x00000000, bhvFlame),
 		OBJECT(MODEL_RED_FLAME, 2561, 518, 2435, 0, 0, 0, 0x00000000, bhvFlame),

@@ -18,3 +18,6 @@
 #include "levels/birthday/intro_rock/model.inc.c"
 #include "levels/birthday/crackglass/model.inc.c"
 #include "levels/birthday/gmachine/model.inc.c"
+#include "levels/birthday/endser/anims/data.inc.c"
+#include "levels/birthday/endser/anims/table.inc.c"
+#include "levels/birthday/endser/model.inc.c"

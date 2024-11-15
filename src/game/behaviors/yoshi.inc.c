@@ -98,7 +98,7 @@ void yoshi_talk_loop(void) {
 
                 if (!bankrolled_mario) {
                     bankrolled_mario = TRUE;
-                    gMarioState->numGlobalCoins += 300;
+                    gMarioState->numGlobalCoins += 400;
                     if (gMarioState->numGlobalCoins > 999) {gMarioState->numGlobalCoins = 999;} //CLAMP
                 }
 

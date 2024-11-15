@@ -865,8 +865,8 @@ void bc_stair_loop(void) {
 }
 
 void bhv_machine_door(void) {
-    u8 have_enough_stars = TRUE;
-    u8 have_artifact = TRUE;
+    u8 have_enough_stars = (gMarioState->numStars >= 70);
+    u8 have_artifact = ((save_file_get_flags() & SAVE_FLAG_ARTREUS_ARTIFACT)!= 0);
 
     if ((have_enough_stars)&&(have_artifact)) {
         o->oFaceAngleYaw = -0x7000;
@@ -877,7 +877,7 @@ void bhv_machine_door(void) {
 }
 
 void bhv_artreus_artifact_on_machine(void) {
-    u8 have_artifact = TRUE;
+    u8 have_artifact = ((save_file_get_flags() & SAVE_FLAG_ARTREUS_ARTIFACT)!= 0);
 
     if (have_artifact) {
         cur_obj_unhide();
@@ -889,8 +889,8 @@ void bhv_artreus_artifact_on_machine(void) {
 
 void bhv_npc_egadd_loop(void) {
     s32 dialogResponse;
-    u8 have_enough_stars = FALSE;
-    u8 have_artifact = FALSE;
+    u8 have_enough_stars = (gMarioState->numStars >= 70);
+    u8 have_artifact = ((save_file_get_flags() & SAVE_FLAG_ARTREUS_ARTIFACT)!= 0);
 
     s32 egadd_advice_dialog = DIALOG_EGADD_1;
     if ((have_enough_stars)&&(!have_artifact)) {

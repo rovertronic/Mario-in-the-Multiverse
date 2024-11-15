@@ -1079,6 +1079,7 @@ s32 in_vanilla_painting_world(void) {
 }
 
 u8 redd_painting_show_ui = FALSE;
+u8 redd_painting_state = 0;
 s8 redd_painting_ix = 0;
 s8 redd_painting_iy = 0;
 void bhv_redd_paintings_loop(void) {
@@ -1095,7 +1096,13 @@ void bhv_redd_paintings_loop(void) {
                 redd_painting_ix = 0;
                 redd_painting_iy = 0;
                 shop_cant_afford = 0;
-                o->oAction = 1;
+                if (save_file_get_flags() & SAVE_FLAG_BOUGHT_PAINTINGS) {
+                    redd_painting_state = 0;
+                    o->oAction = 1;
+                } else {
+                    redd_painting_state = 1;
+                    o->oAction = 2;
+                }
                 gCamera->cutscene = 1;
 
                 vec3f_copy(&gLakituState.goalFocus, &o->oPosVec);
@@ -1128,6 +1135,26 @@ void bhv_redd_paintings_loop(void) {
                 o->oAction = 0;
             }
         break;
+        case 2: //mario buy paintings
+            if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
+                if (gMarioState->numGlobalCoins >= 200) {
+                    save_file_set_flags(SAVE_FLAG_BOUGHT_PAINTINGS);
+                    gMarioState->numGlobalCoins -= 200.0f;
+                    redd_painting_state = 0;
+                    o->oAction = 1;
+                    save_file_set_coins();
+                    save_file_do_save(gCurrSaveFileNum - 1);
+                } else {
+                    shop_cant_afford = TRUE;
+                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                }
+            } else if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
+                set_mario_action(gMarioState, ACT_IDLE, 0);
+                gCamera->cutscene = 0;
+                redd_painting_show_ui = FALSE;
+                o->oAction = 0;
+            }
+            break;
     }
 }
 
@@ -1141,15 +1168,34 @@ void render_painting_ui(f32 alpha) {
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 
     u8 redd_painting_index = (redd_painting_iy *4)+(redd_painting_ix%4);
-    create_dl_translation_matrix(MENU_MTX_PUSH, 57+redd_painting_ix*32, 195-redd_painting_iy*32, 0);
-    gSPDisplayList(gDisplayListHead++, selector_selector_mesh);
-    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+    if (redd_painting_state == 0) {
+        create_dl_translation_matrix(MENU_MTX_PUSH, 57+redd_painting_ix*32, 195-redd_painting_iy*32, 0);
+        gSPDisplayList(gDisplayListHead++, selector_selector_mesh);
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+    }
 
-    sprintf(stringBuf,"Enter: %s\nThese are sandbox levels intended for play,\nso there are no power stars to collect.",painting_world_list[redd_painting_index].name);
-    gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
-    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
-    print_generic_string_ascii(43, 58, stringBuf);
-    gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+    if (redd_painting_state == 0) {
+        sprintf(stringBuf,"Enter: %s\nThese are sandbox levels intended for play,\nso there are no power stars to collect.",painting_world_list[redd_painting_index].name);
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
+        print_generic_string_ascii(43, 58, stringBuf);
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+    } else {
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
+        print_generic_string_ascii(43, 58, "You can have access to my entire painting\ncollection for 200 coins! Press A to buy.");
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+
+        gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
+        int_to_str_000(hud_display_coins, &hudbar_coin[2]);
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
+        if (shop_cant_afford) {
+            gDPSetEnvColor(gDisplayListHead++, 255, 126.0f+sins(gGlobalTimer*0x1000)*126.0f, 126.0f+sins(gGlobalTimer*0x1000)*126.0f, 255.0f-alpha);
+            play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
+        }
+        print_hud_lut_string(HUD_LUT_GLOBAL, 185, 143, hudbar_coin);
+        gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
+    }
 }
 
 struct music_data music_list[] = {
@@ -1217,8 +1263,8 @@ struct music_data music_list[] = {
     {SEQ_CUSTOM_ESA_AMMOINEN,"Submerged","From: Environmental Station Alpha\nPorted by: Teraok"},
     {SEQ_CUSTOM_ESA_MECHA,"Swift Mecha","From: Environmental Station Alpha\nPorted by: Teraok"},
 
-    {SEQ_BIGBLUE,"Big Blue","From: F-ZERO\nPorted by: Asbeth"},
-    {SEQ_MUTECITY,"Mute City","From: F-ZERO\nPorted by: Asbeth"},
+    //{SEQ_BIGBLUE,"Big Blue","From: F-ZERO\nPorted by: Asbeth"},
+    //{SEQ_MUTECITY,"Mute City","From: F-ZERO\nPorted by: Asbeth"},
 
     {SEQ_MITM_BOWSER_COURSE,"Centrum Omnium","Original composition by: SpK"},
     {SEQ_COUNT,NULL,NULL},

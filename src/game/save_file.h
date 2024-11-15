@@ -39,12 +39,12 @@ struct SaveBlockSignature {
 
 struct SaveFile {
     u32 abilities;
-    u32 flags;
     u16 levels_unlocked;
     u16 coins;
     u32 elapsed_playtime;
     u8 ability_dpad[4];
     u8 level_f_flags;
+    u32 flags;
     u8 courseStars[COURSE_COUNT];
     u8 dreamCatalysts[HUBLEVEL_COUNT];
     u8 courseCoinScores[COURSE_STAGES_COUNT];
@@ -148,6 +148,8 @@ enum SaveProgressFlags {
     SAVE_FLAG_COLLECTED_MIPS_STAR_1  = (1 << 27), /* 0x08000000 */
     SAVE_FLAG_COLLECTED_MIPS_STAR_2  = (1 << 28), /* 0x10000000 */
 };
+
+#define SAVE_FLAG_BOUGHT_PAINTINGS (1 <<  4)
 
 enum StarFlags {
     STAR_FLAGS_NONE         = (0 << 0), // 0x00

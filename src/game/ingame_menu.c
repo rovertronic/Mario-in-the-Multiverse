@@ -890,7 +890,10 @@ void reset_dialog_render_state(void) {
 }
 
 void render_dialog_box_type(struct DialogEntry *dialog, s8 linesPerBox) {
+    dialog->leftOffset = 95;
+    dialog->width = 200;
     create_dl_translation_matrix(MENU_MTX_NOPUSH, dialog->leftOffset, dialog->width, 0);
+    //create_dl_translation_matrix(MENU_MTX_NOPUSH, 95, 200, 0);
 
     switch (gDialogBoxType) {
         case DIALOG_TYPE_ROTATE: // Renders a dialog black box with zoom and rotation

@@ -11,6 +11,7 @@ void bhv_yoshi_init(void) {
     o->oBuoyancy = 1.3f;
     o->oInteractionSubtype = INT_SUBTYPE_NPC;
 
+/*
 #if !defined(ENABLE_VANILLA_LEVEL_SPECIFIC_CHECKS) || defined(UNLOCK_ALL)
     if (sYoshiDead == TRUE) {
 #else
@@ -19,6 +20,7 @@ void bhv_yoshi_init(void) {
 #endif
         o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
     }
+*/
 }
 
 void yoshi_walk_loop(void) {
@@ -80,6 +82,7 @@ void yoshi_idle_loop(void) {
     }
 }
 
+u8 bankrolled_mario = FALSE;
 void yoshi_talk_loop(void) {
     if ((s16) o->oMoveAngleYaw == (s16) o->oAngleToMario) {
         cur_obj_init_animation(0);
@@ -91,7 +94,15 @@ void yoshi_talk_loop(void) {
                 o->oHomeX = sYoshiHomeLocations[2];
                 o->oHomeZ = sYoshiHomeLocations[3];
                 o->oYoshiTargetYaw = atan2s(o->oHomeZ - o->oPosZ, o->oHomeX - o->oPosX);
-                o->oAction = YOSHI_ACT_GIVE_PRESENT;
+                o->oAction = YOSHI_ACT_IDLE;
+
+                if (!bankrolled_mario) {
+                    bankrolled_mario = TRUE;
+                    gMarioState->numGlobalCoins += 300;
+                    if (gMarioState->numGlobalCoins > 999) {gMarioState->numGlobalCoins = 999;} //CLAMP
+                }
+
+                set_mario_npc_dialog(MARIO_DIALOG_STOP);
             }
         }
     } else {

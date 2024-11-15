@@ -553,21 +553,86 @@ Start the P challenge?\n\
 //Go!////Don't Go"))
 
 DEFINE_DIALOG(DIALOG_EGADD_1, 2, 4, 95, 200, _("\
-i need 70 stars and\n\
-the artifact pls"))
+Hello Mario! Blimey,\n\
+am I elated to see you!\n\
+\n\
+\n\
+We ought to get this\n\
+hullabaloo sorted out\n\
+as soon as possible,\n\
+and I have a plan.\n\
+I've got the Multiverse\n\
+Machine mostly back into\n\
+mint condition, but\n\
+there's a catch...\n\
+For one, the critical\n\
+componenet of this\n\
+machine is being scalped by\n\
+the wretched shopkeeper.\n\
+And two, all the power\n\
+stars used to fuel this\n\
+machine were completely\n\
+burnt up.\n\
+So, fetch thsee items\n\
+and we'll be able to\n\
+repair this machine\n\
+in no time.\n\
+From what I've read from\n\
+the historical tablets,\n\
+there is a deity that we\n\
+need to visit to fix this.\n\
+I'll take you there with\n\
+the machine once it's\n\
+ready.\n\
+\n\
+By the way, the machine\n\
+will need @ffff00ff70 total power\n\
+stars@-------- in order to get\n\
+there."))
 
-DEFINE_DIALOG(DIALOG_EGADD_2, 2, 4, 95, 200, _("\
-thanks for 70 stars\n\
-but i still need\n\
-artifact"))
+DEFINE_DIALOG(DIALOG_EGADD_2, 2, 3, 95, 200, _("\
+Mario! Fancy seeing you\n\
+again. Looks like you've\n\
+got all the stars needed.\n\
+All you need to now is\n\
+to wrangle that artifact\n\
+back from the salesman."))
 
-DEFINE_DIALOG(DIALOG_EGADD_3, 2, 4, 95, 200, _("\
-thanks for artifact\n\
-but i still need\n\
-70 stars"))
+DEFINE_DIALOG(DIALOG_EGADD_3, 2, 3, 95, 200, _("\
+Mario! Fancy seeing you\n\
+again. Looks like you've\n\
+got my artifact back.\n\
+I still need the power\n\
+stars, otherwise we\n\
+aren't getting anywhere."))
 
-DEFINE_DIALOG(DIALOG_EGADD_4, 2, 4, 95, 200, _("\
-machine is ready!"))
+DEFINE_DIALOG(DIALOG_EGADD_4, 2, 6, 95, 200, _("\
+Eureka! You've got\n\
+my machine back up and\n\
+running.\n\
+\n\
+\n\
+\n\
+Now, I've done some more\n\
+reading. You need to\n\
+pass through the eye\n\
+of the deity, and it\n\
+will grant any wish of\n\
+your choosing.\n\
+It... quite shockingly,\n\
+is that simple. Like,\n\
+I was astounded how\n\
+trivial it is.\n\
+Should be no trouble\n\
+for you.\n\
+Pass through that eye,\n\
+and we'll get this\n\
+issue squared away.\n\
+\n\
+\n\
+\n\
+Best of luck to you,\n\
+Mario!"))
 
 DEFINE_DIALOG(DIALOG_K_TV_START, 1, 6, 95, 190, _("\
 Hello.\n\
@@ -2701,30 +2766,33 @@ We hope that you like it!\n\
 Enjoy!!!"
 #endif
 
-DEFINE_DIALOG(DIALOG_161, 1, 4, 30, 190, _("\
+DEFINE_DIALOG(DIALOG_161, 1, 5, 30, 190, _("\
 Mario!!!\n\
-It that really you???\n\
-It has been so long since\n\
-our last adventure!\n\
-They told me that I might\n\
-see you if I waited here,\n\
-but I'd just about given\n\
-up hope!\n\
-Is it true? Have you\n\
-really beaten Bowser? And\n\
-restored the Stars to the\n\
-castle?\n\
-And saved the Princess?\n\
-I knew you could do it!\n\
-Now I have a very special\n\
-message for you.\n\
-『Thanks for playing Super\n\
-Mario 64! This is the\n\
-end of the game, but not\n\
-the end of the fun." \
-KEEP_ON_PLAYING "』\n\
+Is that really you???\n\
+How did you manage to\n\
+find your way back to\n\
+the Castle?!\n\
+Somehow I was the only\n\
+one who didn't get lost\n\
+in the multiverse mix-up.\n\
+I'm glad to see you ok.\n\
 \n\
-The Super Mario 64 Team"))
+Good luck on the rest\n\
+of your journey trying\n\
+to figure out how to\n\
+fix this mess.\n\
+\n\
+Oh, and since noone's\n\
+around... I may or may\n\
+not have snooped around\n\
+a bit in the castle\n\
+treasury...\n\
+I will help bankroll\n\
+your initiative to\n\
+save the multiverse!\n\
+\n\
+\n\
+Don't tell anyone!"))
 
 DEFINE_DIALOG(DIALOG_162, 1, 4, 30, 190, _("\
 No, no, no! Not you\n\

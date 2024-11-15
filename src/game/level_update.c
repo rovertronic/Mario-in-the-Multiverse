@@ -302,7 +302,7 @@ void set_mario_initial_action(struct MarioState *m, u32 spawnType, u32 actionArg
     }
 #endif
 
-    set_mario_initial_cap_powerup(m);
+    //set_mario_initial_cap_powerup(m);
 }
 
 void init_mario_after_warp(void) {

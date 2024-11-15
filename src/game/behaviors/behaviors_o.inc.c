@@ -1644,7 +1644,7 @@ f32 lerp_standard(f32 v0, f32 v1, f32 t) {
   return v0 + t * (v1 - v0);
 }
 
-u8 first_time_visit = FALSE;
+u8 first_time_visit = TRUE;
 
 u8 fb_bowser_phase = 0;
 u8 fb_bowser_path_index = 0;
@@ -1786,9 +1786,9 @@ void bhv_final_boss_bowser(void) {
             cur_obj_hide();
             obj_set_hitbox(o,&sFbBowserHitbox);
             cur_obj_become_intangible();
-            fb_bowser_phase = 4;
+            fb_bowser_phase = 0;
             fb_bowser_path_index = 0;
-            golem_crystals_destroyed = 6;
+            golem_crystals_destroyed = 0;
             golem_crystalps_destroyed = 0;
             golem_crystal_do_weaken = FALSE;
             break;
@@ -2580,7 +2580,7 @@ static struct ObjectHitbox sGolemCrystalHitbox = {
     /* health:            */ 8,
     /* numLootCoins:      */ 0,
     /* radius:            */ 50,
-    /* height:            */ 100,
+    /* height:            */ 130,
     /* hurtboxRadius:     */ 0,
     /* hurtboxHeight:     */ 0,
 };

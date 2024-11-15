@@ -804,7 +804,6 @@ void save_file_unlock_song(u8 seq_id) {
 }
 
 u8 save_file_check_song_unlocked(u8 music_list_index) {
-    return TRUE;
     int byte = music_list_index/8;
     int bit = music_list_index%8;
 

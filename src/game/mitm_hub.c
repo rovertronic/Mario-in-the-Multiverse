@@ -185,10 +185,14 @@ void level_pipe_init(void) {
     queued_pipe_cutscene = FALSE;
     o->oUnk94 = random_u16();
 
-    o->oOpacity = 0;
     if (gCurrLevelNum != LEVEL_CASTLE) {
         o->oOpacity = 250;
         return;
+    }
+
+    o->oOpacity = 0;
+    if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked & (1 << o->oBehParams2ndByte)) {
+        o->oOpacity = 250.0f;
     }
 }
 
@@ -225,7 +229,6 @@ void level_pipe_loop(void) {
 
     switch(o->oAction) {
         case 0:
-            o->oOpacity = 250;
             if ((lateral_dist_between_objects(o, gMarioObject) < 120.0f)&&(gMarioState->pos[1] < o->oPosY+500.0f)&&(gMarioState->pos[1] > o->oPosY)) {
                 hub_level_index = o->oBehParams2ndByte;
                 gMarioState->interactObj = o;

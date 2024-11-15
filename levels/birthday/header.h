@@ -17,4 +17,6 @@ extern const LevelScript level_birthday_entry[];
 
 #include "levels/birthday/crackglass/header.h"
 
+#include "levels/birthday/gmachine/geo_header.h"
+
 #endif

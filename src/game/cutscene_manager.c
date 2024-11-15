@@ -14,6 +14,7 @@
 #include "audio/external.h"
 #include "seq_ids.h"
 #include "main.h"
+#include "ability.h"
 
 // Quick, dirty, and simple cutscene system. Not the most sophisticated solution, but it gets the job done for what this project actually needs.
 
@@ -28,6 +29,7 @@ u8 cm_textbox_speaker = CM_SPEAKER_NEUTRAL;
 u8 cm_textbox_target_speaker = CM_SPEAKER_NEUTRAL;
 u8 cm_textbox_a_signal = FALSE;
 u8 cm_crack_signal = FALSE;
+u8 cm_end_of_game_signal = FALSE;
 s16 cm_roll = 0;
 f32 cm_textbox_alpha = 0.0f;
 f32 cm_textbox_text_alpha = 0.0f;
@@ -107,6 +109,57 @@ can find an alternate universe where you will!"};
 char ascii_bowser5[] = {
 "Outta my way! I need to use that machine!"
 };
+
+/* END CUTSCENE ALTERNATE DIALOUGE*/
+char ascii_alt_egadd_mm[] = {
+"The Gravity Machine!"
+};
+char ascii_alt_egadd2[] = {
+"Ho, this device has the capability to invert\n\
+an object's gravitational pull at will!"};
+
+char ascii_alt_egadd3[] = {
+"Yes, you heard correctly, we're talking about\n\
+bending the very rules of physics itself!"};
+
+char ascii_alt_egadd4[] = {
+"By the power of physics, we shall defy gravity\n\
+and explore new heights."};
+
+char ascii_alt_egadd5[] = {
+"We will unlock a new frontier in science\n\
+one gravitational flip at a time!"};
+
+char ascii_alt_peach[] = {
+"Well, Mario, what are you waiting for?\n\
+Let's get going!"};
+
+char ascii_ending_bowser_1[] = {
+"Y'know..."};
+
+char ascii_ending_bowser_2[] = {
+"I could obsess over Peach until\n\
+my last dying breath..."};
+
+char ascii_ending_bowser_3[] = {
+"Or I could cut my losses and let go\n\
+of this obsession of mine."};
+
+char ascii_ending_bowser_4[] = {
+"After all, they say there's plenty of fish\n\
+in the sea."};
+
+char ascii_ending_bowser_5[] = {
+"In any case..."};
+
+char ascii_ending_bowser_6[] = {
+"I'm glad I was given... er, forced.. to\n\
+have a second chance."};
+
+
+
+
+
 struct Object * intro_breakdoor;
 struct Object * intro_cloth;
 struct Object * intro_peach;
@@ -453,6 +506,225 @@ void cm_intro_cutscene(void) {
     }
 }
 
+void cm_ending_cutscene(void) {
+    struct Object * normal_o;
+
+    switch(cm_cutscene_timer) {
+        case 0:
+            change_ability(ABILITY_DEFAULT);
+
+            intro_breakdoor = cur_obj_nearest_object_with_behavior(bhvIntroBreakdoor);
+            intro_cloth = cur_obj_nearest_object_with_behavior(bhvIntroCloth);
+            intro_peach = cur_obj_nearest_object_with_behavior(bhvIntroPeach);
+            intro_egadd = cur_obj_nearest_object_with_behavior(bhvIntroEgadd);
+            intro_machine = cur_obj_nearest_object_with_behavior(bhvIntroMachine);
+
+            intro_machine->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_INTRO_GMACHINE];
+            intro_cloth->header.gfx.scale[1] *= 1.1f;
+
+            play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_PEACHS_BIRTHDAY), 0);
+            cm_fov = 64.0f;
+            gMarioObject->header.gfx.angle[1] += 0x8000;
+
+            gMarioObject->header.gfx.pos[1] += 600.0f;
+
+            cm_mario_anim(MARIO_ANIM_AIRBORNE_ON_STOMACH);
+            break;
+        case 30:
+            play_sound(SOUND_MARIO_OOOF, gGlobalSoundSource);
+            cm_mario_anim(MARIO_ANIM_LAND_ON_STOMACH);
+            break;
+        case 60:
+            cm_mario_anim(MARIO_ANIM_FIRST_PERSON);
+            break;
+        case 80:
+            cm_camera_object = 1;
+            cm_target_camera_object = 1;
+            cm_textbox_target_speaker = CM_SPEAKER_PEACH;
+            cm_textbox_text_target = &ascii_peach1;
+            break;
+        case 81:
+            cm_fov = 45.0f;
+            break;
+        case 90:
+            if (cm_press_a_or_b()) {
+                cm_target_camera_object = 2;
+                cm_textbox_text_target = &ascii_peach2;
+            }
+            break;
+        case 91:
+            cm_mario_anim(MARIO_ANIM_MISSING_CAP);
+            break;
+        case 139:
+            cm_mario_anim(MARIO_ANIM_CREDITS_WAVING);
+            play_sound(SOUND_MARIO_HELLO, gGlobalSoundSource);
+            break;
+        case 140:
+            if (cm_press_a_or_b()) {
+                cm_target_camera_object = 1;
+                cm_textbox_text_target = &ascii_peach3;
+            }
+            break;
+        case 141:
+            if (cm_wait_for_transition()) {
+                obj_init_animation(intro_peach,PEACH_ANIM_0);
+            }
+        break;
+        case 150:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_peach4;
+            }
+            break;
+        case 160:
+            if (cm_press_a_or_b()) {
+                cm_textbox_target_speaker = CM_SPEAKER_EGADD;
+                cm_textbox_text_target = &ascii_egadd1;
+                cm_target_camera_object = 3;
+            }
+            break;
+        case 170:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_alt_egadd_mm;
+            }
+            break;
+        case 190:
+            if (cm_wait_for_transition()) {
+                //reveal thingy
+                play_sound(SOUND_GENERAL_WING_FLAP, gGlobalSoundSource);
+            }
+            break;
+        case 200:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_alt_egadd2;
+            }
+            break;
+        case 210:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_alt_egadd3;
+            }
+            break;
+        case 220:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_alt_egadd4;
+            }
+            break;
+        case 230:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_alt_egadd5;
+            }
+            break;
+        case 240:
+            if (cm_press_a_or_b()) {
+                cm_target_camera_object = 1;
+                cm_textbox_target_speaker = CM_SPEAKER_PEACH;
+                cm_textbox_text_target = &ascii_peach5;
+            }
+            break;
+        case 250:
+            if (cm_press_a_or_b()) {
+                cm_target_camera_object = 9;
+                cm_textbox_text_target = NULL;
+            }
+            break;
+        case 251:
+            if (cm_wait_for_transition()) {
+                cm_camera_object = 9;
+                cm_mario_anim(MARIO_ANIM_FIRST_PERSON);
+                //cm_roll = 0x500; // dutch angle
+                //cur_obj_play_sound_2(SOUND_GENERAL2_PYRAMID_TOP_SPIN);
+                //cm_mario_anim(MARIO_ANIM_MISSING_CAP);
+                //stop_background_music(SEQUENCE_ARGS(4, SEQ_PEACHS_BIRTHDAY));
+            }
+            break;
+        case 300:
+                //cm_target_camera_object = 4;
+                //cm_textbox_target_speaker = CM_SPEAKER_BOWSER;
+                cm_textbox_text_target = &ascii_alt_peach;
+            break;
+        case 301:
+            if (cm_press_a_or_b()) {
+                set_mario_anim_with_accel(gMarioState, MARIO_ANIM_TIPTOE, 0x00028000);
+                cm_textbox_text_target = NULL;
+                //cm_roll = 0;
+                //play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_BOWSER_TIME), 0);
+            }
+            break;
+        case 340:
+            play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 0x10, 0x00, 0x00, 0x00);
+            fadeout_music(190);
+            break;
+        case 390:
+            play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 0x10, 0x00, 0x00, 0x00);
+            cm_target_camera_object = 10;
+            cm_camera_object = 10;
+            break;
+        case 500:
+            cm_textbox_target_speaker = CM_SPEAKER_BOWSER;
+            cm_textbox_text_target = &ascii_ending_bowser_1;
+            cm_target_camera_object = 11;
+            break;
+        case 501:
+            if (cm_press_a_or_b()) {
+                cm_target_camera_object = 12;
+                cm_textbox_text_target = &ascii_ending_bowser_2;
+            }
+            break;
+        case 502:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_ending_bowser_3;
+            }
+            break;
+        case 503:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_ending_bowser_4;
+            }
+            break;
+        case 504:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_ending_bowser_5;
+                cm_target_camera_object = 11;
+            }
+            break;
+        case 505:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_ending_bowser_6;
+            }
+            break;
+        case 506:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = NULL;
+            }
+            break;
+        case 550:
+            cm_target_camera_object = 13;
+            cm_camera_object = 13;
+            break;
+        case 700:
+            level_trigger_warp(gMarioState, WARP_OP_CREDITS_START);
+            gMarioState->actionState = ACT_STATE_END_PEACH_CUTSCENE_FADE_OUT_END;
+            break;
+    }
+
+    if (cm_cutscene_timer < 30) {
+        gMarioObject->header.gfx.pos[1] -= 20.0f;
+    }
+
+    if (cm_cutscene_timer > 301) {
+        gMarioObject->header.gfx.pos[2] -= 4.0f;
+    }
+    if ((cm_cutscene_timer > 170)&&(cm_cutscene_timer < 250)) {
+        obj_turn_toward_object(intro_egadd, intro_cloth, O_FACE_ANGLE_YAW_INDEX, 0x800);
+    }
+    if (cm_cutscene_timer > 190) {
+        intro_cloth->header.gfx.scale[1] = approach_f32_asymptotic(intro_cloth->header.gfx.scale[1],0.05f,0.1f);
+        intro_cloth->header.gfx.scale[0] = approach_f32_asymptotic(intro_cloth->header.gfx.scale[0],1.2f,0.1f);
+        intro_cloth->header.gfx.scale[2] = approach_f32_asymptotic(intro_cloth->header.gfx.scale[2],1.2f,0.1f);
+    }
+    if (cm_cutscene_timer > 251) {
+        obj_turn_toward_object(intro_egadd, gMarioObject, O_FACE_ANGLE_YAW_INDEX, 0x800);
+    }
+}
+
 void cm_kirby_cutscene(void) {
     switch(cm_cutscene_timer) {
         case 0:
@@ -781,7 +1053,11 @@ void cm_manager_object_loop(void) {
     }
     switch(o->oBehParams2ndByte) {
         case 0:
-            cm_intro_cutscene();
+            if (!cm_end_of_game_signal) {
+                cm_intro_cutscene(); //intro
+            } else {
+                cm_ending_cutscene();
+            }
             break;
         case 1:
             cm_kirby_cutscene();
@@ -841,20 +1117,27 @@ void cm_manager_object_loop(void) {
 void cm_camera_object_loop(void) {
     //print_text_fmt_int(210, 72, "CAM %d", cm_camera_object);
     //print_text_fmt_int(210, 92, "TIME %d", cm_cutscene_timer);
-
-    if ((o->oBehParams2ndByte==7)&&(cm_cutscene_timer > 251)&&(cm_cutscene_timer<300)) {
-        o->oPosX = o->oHomeX + random_float()*20.0f;
-        o->oPosY = o->oHomeY + random_float()*20.0f;
-        o->oPosZ = o->oHomeZ + random_float()*20.0f;
-    }
-
-    if (o->oBehParams2ndByte==8 &&(cm_cutscene_timer > 450)&&(cm_cutscene_timer < 460)) {
-        // dolly zoom
-        o->oPosX-=2.0f;
-        cm_fov +=0.3f;
-    }
-
     if (o->oBehParams2ndByte == cm_camera_object) {
+
+        if ((o->oBehParams2ndByte==7)&&(cm_cutscene_timer > 251)&&(cm_cutscene_timer<300)) {
+            o->oPosX = o->oHomeX + random_float()*20.0f;
+            o->oPosY = o->oHomeY + random_float()*20.0f;
+            o->oPosZ = o->oHomeZ + random_float()*20.0f;
+        }
+
+        if (o->oBehParams2ndByte==8 &&(cm_cutscene_timer > 450)&&(cm_cutscene_timer < 460)) {
+            // dolly zoom
+            o->oPosX-=2.0f;
+            cm_fov +=0.3f;
+        }
+
+        if (o->oBehParams2ndByte==10) {
+            o->oPosX -= 1.0f;
+        }
+        if (o->oBehParams2ndByte==13) {
+            o->oPosX += 1.0f;
+        }
+
         vec3f_copy(cm_camera_pos,&o->oPosVec);
         cm_camera_foc[0] = o->oPosX + sins(o->oFaceAngleYaw) * coss(o->oFaceAnglePitch) * 5.0f;
         cm_camera_foc[1] = o->oPosY + sins(o->oFaceAnglePitch) * -5.0f;

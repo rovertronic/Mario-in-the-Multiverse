@@ -17,3 +17,4 @@
 #include "levels/birthday/intro_cloth/model.inc.c"
 #include "levels/birthday/intro_rock/model.inc.c"
 #include "levels/birthday/crackglass/model.inc.c"
+#include "levels/birthday/gmachine/model.inc.c"

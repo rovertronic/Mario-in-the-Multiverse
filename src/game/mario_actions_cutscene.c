@@ -157,7 +157,10 @@ void print_displaying_credits_entry(void) {
         }
 
         dl_rgba16_stop_cutscene_msg_fade();
-        sDispCreditsEntry = NULL;
+
+        if (!_60fps_midframe) {
+            sDispCreditsEntry = NULL;
+        }
     }
 }
 

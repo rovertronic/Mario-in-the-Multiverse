@@ -35,6 +35,7 @@
 #include "src/game/texscroll/sb_texscroll.inc.c"
 #include "src/game/texscroll/mc_texscroll.inc.c"
 #include "src/game/texscroll/bb_texscroll.inc.c"
+#include "src/game/texscroll/birthday_texscroll.inc.c"
 void scroll_textures() {
 	if(SCROLL_CONDITION(sSegmentROMTable[0x4] == (uintptr_t)_group0_yay0SegmentRomStart)) {
 		scroll_textures_group0();
@@ -115,6 +116,10 @@ void scroll_textures() {
 
 	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_bb_segment_7SegmentRomStart)) {
 		scroll_textures_bb();
+	}
+
+	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_birthday_segment_7SegmentRomStart)) {
+		scroll_textures_birthday();
 	}
 
 }

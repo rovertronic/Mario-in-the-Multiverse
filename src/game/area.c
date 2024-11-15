@@ -502,7 +502,9 @@ void render_game(void) {
         }
     }
 
-    gViewportOverride = NULL;
+    if (!_60fps_midframe) {
+        gViewportOverride = NULL;
+    }
     gViewportClip     = NULL;
 
     profiler_update(PROFILER_TIME_GFX, profiler_get_delta(PROFILER_DELTA_COLLISION) - first);

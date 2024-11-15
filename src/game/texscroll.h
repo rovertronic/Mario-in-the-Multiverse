@@ -22,6 +22,7 @@
 #include "src/game/texscroll/sb_texscroll.inc.h"
 #include "src/game/texscroll/mc_texscroll.inc.h"
 #include "src/game/texscroll/bb_texscroll.inc.h"
+#include "src/game/texscroll/birthday_texscroll.inc.h"
 extern void scroll_textures();
 
 #endif

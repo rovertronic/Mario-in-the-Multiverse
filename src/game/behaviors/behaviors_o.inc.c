@@ -1786,9 +1786,9 @@ void bhv_final_boss_bowser(void) {
             cur_obj_hide();
             obj_set_hitbox(o,&sFbBowserHitbox);
             cur_obj_become_intangible();
-            fb_bowser_phase = 0;
+            fb_bowser_phase = 4;
             fb_bowser_path_index = 0;
-            golem_crystals_destroyed = 0;
+            golem_crystals_destroyed = 6;
             golem_crystalps_destroyed = 0;
             golem_crystal_do_weaken = FALSE;
             break;
@@ -2306,6 +2306,8 @@ enum {
     ATREUS_ENTERED,
 };
 
+
+extern u8 cm_end_of_game_signal;
 void bhv_atreus_bosscontroller(void) {
     switch(o->oAction) {
         case ATREUS_INIT:
@@ -2391,7 +2393,8 @@ void bhv_atreus_bosscontroller(void) {
             break;
         case ATREUS_ENTERED:
             if (o->oTimer == 90) {
-                initiate_warp(LEVEL_G, 1, 0x0A, WARP_FLAGS_NONE);
+                initiate_warp(LEVEL_BIRTHDAY, 1, 0x02, WARP_FLAGS_NONE);
+                cm_end_of_game_signal = TRUE;
             }
             break;
     }

@@ -1938,12 +1938,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
     gSaveBuffer.files[gCurrSaveFileNum - 1][0].elapsed_playtime ++;
-
-    //debug activate credits
-    //if (gPlayer1Controller->buttonPressed & D_JPAD) {
-    //    level_trigger_warp(gMarioState, WARP_OP_CREDITS_START);
-    //    gMarioState->actionState = ACT_STATE_END_PEACH_CUTSCENE_FADE_OUT_END;
-    //}
     
     // Updates once per frame:
     vec3f_get_dist_and_lateral_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->lateralSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);

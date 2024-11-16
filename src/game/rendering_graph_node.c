@@ -939,6 +939,9 @@ void geo_process_background(struct GraphNodeBackground *node) {
     }
 }
 
+Vec3s held_obj_rotstack[48];
+u32 held_obj_anim_pos = 0;
+u8 is_held_object;
 /**
  * Render an animated part. The current animation state is not part of the node
  * but set in global variables. If an animated part is skipped, everything afterwards desyncs.
@@ -998,20 +1001,28 @@ void geo_process_animated_part(struct GraphNodeAnimatedPart *node) {
         rotation[1] = gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)];
         rotation[2] = gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)];
 
+        Vec3s * rotstack_ptr = gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack;
+        u32 anim_pos = gCurrAnimPos;
+        if (is_held_object) {
+            rotstack_ptr = &held_obj_rotstack;
+            anim_pos = held_obj_anim_pos;
+        }
+
         if (!_60fps_midframe) {
-            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0] = rotation[0];
-            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][1] = rotation[1];
-            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][2] = rotation[2];
+            rotstack_ptr[anim_pos][0] = rotation[0];
+            rotstack_ptr[anim_pos][1] = rotation[1];
+            rotstack_ptr[anim_pos][2] = rotation[2];
         } else {
-            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0] = approach_angle_lerp(gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0], rotation[0]);
-            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][1] = approach_angle_lerp(gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][1], rotation[1]);
-            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][2] = approach_angle_lerp(gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][2], rotation[2]);
-            vec3s_copy(rotation, gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos]);
+            rotstack_ptr[anim_pos][0] = approach_angle_lerp(rotstack_ptr[anim_pos][0], rotation[0]);
+            rotstack_ptr[anim_pos][1] = approach_angle_lerp(rotstack_ptr[anim_pos][1], rotation[1]);
+            rotstack_ptr[anim_pos][2] = approach_angle_lerp(rotstack_ptr[anim_pos][2], rotation[2]);
+            vec3s_copy(rotation, rotstack_ptr[anim_pos]);
         }
     }
 
     mtxf_rotate_xyz_and_translate_and_mul(rotation, translation, gMatStack[gMatStackIndex + 1], gMatStack[gMatStackIndex]);
     gCurrAnimPos++;
+    held_obj_anim_pos++;
 
     inc_mat_stack();
     append_dl_and_return(((struct GraphNodeDisplayList *)node));
@@ -1114,7 +1125,11 @@ void geo_set_animation_globals(struct AnimInfo *node, s32 hasAnimation, s32 abil
     gCurrAnimEnabled = (anim->flags & ANIM_FLAG_DISABLED) == 0;
     gCurrAnimAttribute = segmented_to_virtual((void *) anim->index);
     gCurrAnimData = segmented_to_virtual((void *) anim->values);
-    gCurrAnimPos = 0;
+    if (!is_held_object) {
+        gCurrAnimPos = 0;
+    } else {
+        held_obj_anim_pos = 0;
+    }
 
     if (anim->animYTransDivisor == 0) {
         gCurrAnimTranslationMultiplier = 1.0f;
@@ -1397,7 +1412,7 @@ void geo_process_object(struct Object *node) {
 
         // FIXME: correct types
         if (node->header.gfx.animInfo.curAnim != NULL) {
-            
+            is_held_object = FALSE;
             geo_set_animation_globals(
                 &node->header.gfx.animInfo, 
                 (node->header.gfx.node.flags & GRAPH_RENDER_HAS_ANIMATION) != 0, 
@@ -1548,6 +1563,7 @@ void geo_process_held_object(struct GraphNodeHeldObject *node) {
         gCurrAnimType = ANIM_TYPE_NONE;
         gCurGraphNodeHeldObject = (void *) node;
         if (node->objNode->header.gfx.animInfo.curAnim != NULL) {
+            is_held_object = TRUE;
             geo_set_animation_globals(
                 &node->objNode->header.gfx.animInfo, 
                 (node->objNode->header.gfx.node.flags & GRAPH_RENDER_HAS_ANIMATION) != 0,
@@ -1583,7 +1599,6 @@ void geo_try_process_children(struct GraphNode *node) {
 
 
 //--E | regular & upper (6 or 8)
-
 void geo_process_e__mario_common(struct GraphNodeAnimatedPart *node) {
     Vec3s rotation = { 0, 0, 0 };
     Vec3f translation = { node->translation[0], node->translation[1], node->translation[2] };

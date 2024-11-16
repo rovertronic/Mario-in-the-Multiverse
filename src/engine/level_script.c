@@ -1001,6 +1001,7 @@ static void (*LevelScriptJumpTable[])(void) = {
     /*LEVEL_CMD_FILESELECT_CONDITION        */ level_cmd_fileselect_condition,
 };
 
+u8 ran_game_logic_once_before_rendering = FALSE;
 struct LevelCommand *level_script_execute(struct LevelCommand *cmd) {
     sScriptStatus = SCRIPT_RUNNING;
     sCurrentCmd = cmd;
@@ -1010,7 +1011,9 @@ struct LevelCommand *level_script_execute(struct LevelCommand *cmd) {
     }
 
     init_rcp(CLEAR_ZBUFFER);
-    render_game();
+    if (ran_game_logic_once_before_rendering) {
+        render_game();
+    }
     end_master_display_list();
     alloc_display_list(0);
 
@@ -1018,10 +1021,14 @@ struct LevelCommand *level_script_execute(struct LevelCommand *cmd) {
     if (gSaveBuffer.menuData.config[SETTINGS_FPS] == 1) {
         _60fps_on = FALSE;
     }
+    if (gEmulator & (EMU_CONSOLE | EMU_ARES)) {
+        _60fps_on = FALSE;
+    }
 
     if (!_60fps_midframe) {
         while (sScriptStatus == SCRIPT_RUNNING) {
             LevelScriptJumpTable[sCurrentCmd->type]();
+            ran_game_logic_once_before_rendering = TRUE;
         }
     }
 

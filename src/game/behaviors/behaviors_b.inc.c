@@ -437,9 +437,7 @@ void bhv_little_sister_loop(void) {
     f32 distRespawn;
     struct Object *respawner = cur_obj_find_nearest_object_with_behavior(bhvCheckpointFlag, &distRespawn);
     if (distRespawn < 100.0f){
-        o->oHomeX = respawner->oPosX;
-        o->oHomeY = respawner->oPosY;
-        o->oHomeZ = respawner->oPosZ;
+        vec3f_copy(&o->oHomeVec,gMarioState->vecCheckpointFlag);
     }
     f32 dist;
     struct Object *crusher = cur_obj_find_nearest_object_with_behavior(bhvCrusher, &dist);
@@ -450,7 +448,7 @@ void bhv_little_sister_loop(void) {
         sisterTimer = 0;
         o->oAction = LS_CRUSHED;
     } if (o->oAction == LS_CRUSHED){
-        if (sisterTimer > 10){
+    if (sisterTimer > 10){
             spawn_mist_particles_with_sound(SOUND_ACTION_TELEPORT);
             o->oPosX = o->oHomeX;
             o->oPosY = o->oHomeY;
@@ -590,7 +588,7 @@ void bhv_little_sister_loop(void) {
             break;
     }
 
-    if (o->oAction == LS_IDLE) {
+    if (o->oAction != LS_NPC_END) {
         o->oInteractStatus = 0;
     }
 }

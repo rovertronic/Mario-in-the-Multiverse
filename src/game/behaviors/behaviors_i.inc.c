@@ -851,10 +851,11 @@ void bhv_barrier_attached_to_rope_loop(void) {
         break;
     case 1:
         //fall
-        o->oFaceAngleYaw = o->oF4;
-        if(object_step() == OBJ_COL_FLAG_GROUNDED){
+        if(object_step_without_floor_orient() == OBJ_COL_FLAG_GROUNDED){
             cur_obj_play_sound_2(SOUND_GENERAL_SMALL_BOX_LANDING);
         }
+        o->oFaceAngleYaw = o->oF4;
+        o->oMoveAngleYaw = o->oF4;
         break;
     }
 }

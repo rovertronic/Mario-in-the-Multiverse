@@ -306,6 +306,9 @@ struct GraphNodeObject *init_graph_node_object(struct AllocOnlyPool *pool,
         vec3f_copy(graphNode->pos, pos);
         vec3f_copy(graphNode->scale, scale);
         vec3s_copy(graphNode->angle, angle);
+        vec3f_copy(graphNode->posLerp, pos);
+        vec3f_copy(graphNode->scaleLerp, scale);
+        vec3s_copy(graphNode->angleLerp, angle);
         graphNode->sharedChild = sharedChild;
         graphNode->throwMatrix = NULL;
         graphNode->animInfo.animID = 0;
@@ -702,6 +705,10 @@ void geo_obj_init(struct GraphNodeObject *graphNode, void *sharedChild, Vec3f po
     vec3f_copy(graphNode->pos, pos);
     vec3s_copy(graphNode->angle, angle);
 
+    vec3_same(graphNode->scaleLerp, 1.0f);
+    vec3f_copy(graphNode->posLerp, pos);
+    vec3s_copy(graphNode->angleLerp, angle);
+
     graphNode->sharedChild = sharedChild;
     graphNode->spawnInfo = 0;
     graphNode->throwMatrix = NULL;
@@ -722,6 +729,9 @@ void geo_obj_init_spawninfo(struct GraphNodeObject *graphNode, struct SpawnInfo 
     vec3s_copy(graphNode->angle, spawn->startAngle);
 
     vec3s_to_vec3f(graphNode->pos, spawn->startPos);
+
+    vec3s_copy(graphNode->angleLerp, spawn->startAngle);
+    vec3s_to_vec3f(graphNode->posLerp, spawn->startPos);
 
     graphNode->areaIndex = spawn->areaIndex;
     graphNode->activeAreaIndex = spawn->activeAreaIndex;

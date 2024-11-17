@@ -454,11 +454,11 @@ Gfx *geo_danmaku(s32 callContext, struct GraphNode *node, UNUSED void *context) 
 						}
 						f32 distsq;
 						vec3f_get_dist_squared(d->pos,gMarioState->pos,&distsq);
-						if (distsq < hitradius*hitradius) {
+						if ((distsq < hitradius*hitradius)&&(gMarioState->invincTimer == 0)) {
 							d->flags = 0;
 							d->timer = 0;
 							gMarioState->hurtCounter += 4;
-							gMarioState->invincTimer = 5;
+							gMarioState->invincTimer = 30;
 							play_sound(SOUND_MARIO_UH, gMarioState->marioObj->header.gfx.cameraToObject);
 						}
 					}

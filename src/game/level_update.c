@@ -82,7 +82,7 @@ struct CreditsEntry sCreditsSequence[] = {
     { LEVEL_O, 1, 2, 99, {2231,-2250,229}, credits13, ABILITY_ESTEEMED_MORTAL},
     { LEVEL_N, 2, 51, 57, {-29,617,294}, credits14, ABILITY_DEFAULT},
     { LEVEL_M, 1, 17, -72, { -7163, 2100, -12648 }, credits15, ABILITY_DASH_BOOSTER},
-    { LEVEL_CASTLE_GROUNDS, 1, 1, -128, { 0, 906, -1200 }, NULL, ABILITY_DEFAULT},
+    { LEVEL_ENDING, 0, 1, 0, { 0, 0, 0 }, NULL, ABILITY_DEFAULT},
     { LEVEL_NONE, 0, 1, 0, { 0, 0, 0 }, NULL, ABILITY_DEFAULT},
 };
 
@@ -731,6 +731,7 @@ void initiate_painting_warp(void) {
  * based on the warp operation and sometimes Mario's used object.
  * Return the time left until the delayed warp is initiated.
  */
+extern u8 course_6_boss_reset;
 s16 level_trigger_warp(struct MarioState *m, s32 warpOp) {
     s32 fadeMusic = TRUE;
 
@@ -785,6 +786,8 @@ s16 level_trigger_warp(struct MarioState *m, s32 warpOp) {
                 } else {
                     sSourceWarpNodeId = WARP_NODE_WARP_FLOOR;
                     if (area_get_warp_node(sSourceWarpNodeId) == NULL) {
+                        milk_drunk = FALSE;
+                        course_6_boss_reset = TRUE;
 #ifdef ENABLE_LIVES
                         if (m->numLives == 0) {
                             sDelayedWarpOp = WARP_OP_GAME_OVER;
@@ -916,17 +919,19 @@ void initiate_delayed_warp(void) {
 
                     gCurrCreditsEntry++;
                     gCurrActNum = gCurrCreditsEntry->actNum & 0x07;
-                    if ((gCurrCreditsEntry + 1)->levelNum == LEVEL_NONE) {
-                        destWarpNode = WARP_NODE_CREDITS_END;
-                    } else {
-                        destWarpNode = WARP_NODE_CREDITS_NEXT;
-                    }
+                    //if ((gCurrCreditsEntry + 1)->levelNum == LEVEL_NONE) {
+                    //    destWarpNode = WARP_NODE_CREDITS_END;
+                    //} else {
+                    //    destWarpNode = WARP_NODE_CREDITS_NEXT;
+                    //}
+                    destWarpNode = WARP_NODE_CREDITS_NEXT;
 
                     initiate_warp(gCurrCreditsEntry->levelNum, gCurrCreditsEntry->areaIndex, destWarpNode, WARP_FLAGS_NONE);
                     change_ability(gCurrCreditsEntry->abilityid);
                     break;
 
                 case WARP_OP_DEATH:
+                    course_6_boss_reset = TRUE;
                     milk_drunk = FALSE;
                     p_rank_challenge_enabled = FALSE;
                     pizza_time = FALSE;
@@ -1466,6 +1471,6 @@ s32 lvl_set_current_level(UNUSED s16 initOrUpdate, s32 levelNum) {
  * Play the "thank you so much for to playing my game" sound.
  */
 s32 lvl_play_the_end_screen_sound(UNUSED s16 initOrUpdate, UNUSED s32 levelNum) {
-    play_sound(SOUND_MENU_THANK_YOU_PLAYING_MY_GAME, gGlobalSoundSource);
+    //play_sound(SOUND_MENU_THANK_YOU_PLAYING_MY_GAME, gGlobalSoundSource);
     return TRUE;
 }

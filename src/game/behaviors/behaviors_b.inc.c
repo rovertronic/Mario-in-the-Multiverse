@@ -1355,6 +1355,7 @@ enum bigDaddyBossStates{
 };
 // o->oF8 is what quadrant mario was last in
     s32 TruncForwardVel;
+u8 course_6_boss_reset = FALSE;
 void bhv_boss_daddy(void){
     //if (cur_obj_is_mario_in_room() == MARIO_OUTSIDE_ROOM || gMarioState->action == ACT_DEATH_EXIT_LAND){
     //    print_text(20, 80, "Mario pls come back");
@@ -1382,6 +1383,11 @@ void bhv_boss_daddy(void){
         //o->oAction = 1;
         //o->oTimer = 0;
     //}
+    if (course_6_boss_reset) {
+        course_6_boss_reset = FALSE;
+        o->oF4 = STATE_RESTART;
+    }
+
     switch (o->oF4) {
         case STATE_KNOCKED_BACK:
             o->oInteractType = INTERACT_NONE;

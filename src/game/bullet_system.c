@@ -223,7 +223,8 @@ Gfx *dobj_bullets(s32 callContext) {
 						if ((!((m->action & ACT_FLAG_INVULNERABLE) || (m->invincTimer != 0)))
 							&& !(m->flags & MARIO_VANISH_CAP)
 							&& (aku_invincibility == 0)
-							&& (!using_ability(ABILITY_KNIGHT))) {
+							&& (!using_ability(ABILITY_KNIGHT)
+							&& (m->action != ACT_STAR_DANCE_NO_EXIT) )) {
 
 							m->hurtCounter += (4 * b->damage);
 #if ENABLE_RUMBLE

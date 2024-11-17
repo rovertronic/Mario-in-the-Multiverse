@@ -145,7 +145,7 @@ void jelly_loop(void) {
     }
 
 
-    cur_obj_set_model(MODEL_JELLY);
+    //cur_obj_set_model(MODEL_JELLY);
     /*
     switch (o->oBehParams2ndByte)
     {
@@ -242,7 +242,7 @@ void taxistop_loop(void) {
                 }
             }
             if (o->oTimer == 14) {
-                gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_NONE];
+                set_mario_action(gMarioState, ACT_DISAPPEARED, 1);
             }
             if (o->oTimer == 30) {
                 play_transition(WARP_TRANSITION_FADE_INTO_STAR, transitionTimer - 29, 0, 0, 0);

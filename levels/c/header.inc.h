@@ -76,7 +76,7 @@ extern Vtx c_dl_level_c_mesh_layer_5_vtx_1[16];
 extern Gfx c_dl_level_c_mesh_layer_5_tri_1[];
 extern Vtx c_dl_level_c_mesh_layer_5_vtx_2[4];
 extern Gfx c_dl_level_c_mesh_layer_5_tri_2[];
-extern Vtx c_dl_level_c_mesh_layer_1_vtx_0[695];
+extern Vtx c_dl_level_c_mesh_layer_1_vtx_0[687];
 extern Gfx c_dl_level_c_mesh_layer_1_tri_0[];
 extern Vtx c_dl_level_c_mesh_layer_1_vtx_1[123];
 extern Gfx c_dl_level_c_mesh_layer_1_tri_1[];

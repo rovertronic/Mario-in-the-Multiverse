@@ -9980,3 +9980,11 @@ const BehaviorScript bhvBcFinalBossHintSign[] = {
     BEGIN_LOOP(),
     END_LOOP(),
 };
+
+extern void bhv_floor_switch_teleporter(void);
+const BehaviorScript bhvFloorSwitchTeleporter[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_floor_switch_teleporter),
+    END_LOOP(),
+};

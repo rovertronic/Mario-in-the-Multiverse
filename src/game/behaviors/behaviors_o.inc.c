@@ -1791,9 +1791,11 @@ void bhv_final_boss_bowser(void) {
             golem_crystals_destroyed = 0;
             golem_crystalps_destroyed = 0;
             golem_crystal_do_weaken = FALSE;
+            cur_obj_boss_shimmer_reset();
             break;
         case FBOWSER_DESCEND:
             if (o->oTimer == 0) {
+                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_LEVEL_BOSS_KOOPA), 0);
                 cur_obj_unhide();
                 cur_obj_init_animation_with_sound(4);
             }

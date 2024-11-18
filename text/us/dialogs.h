@@ -253,7 +253,7 @@ of them spots you he'll\n\
 alert the others!\n\
 Their weapons are loaded\n\
 and can hurt quite a bit.\n\
-don't try to attack them\n\
+Don't try to attack them\n\
 hand-to-hand, they know\n\
 how to defend themselves!\n\
 Their cloth bodies are\n\
@@ -349,7 +349,7 @@ This strange stone portal\n\
 looks like magic, I feel\n\
 like it can transport you\n\
 somewhere else. I'll let\n\
-you go ahead of Mario."))
+you go ahead, Mario."))
 
 DEFINE_DIALOG(DIALOG_C_JELLY_GIBBERISH, 1, 6, 95, 190, _("\
 Nishentop Splatosag\n\
@@ -566,14 +566,14 @@ Machine mostly back into\n\
 mint condition, but\n\
 there's a catch...\n\
 For one, the critical\n\
-componenet of this\n\
+component of this\n\
 machine is being scalped by\n\
 the wretched shopkeeper.\n\
 And two, all the power\n\
 stars used to fuel this\n\
 machine were completely\n\
 burnt up.\n\
-So, fetch thsee items\n\
+So, fetch these items\n\
 and we'll be able to\n\
 repair this machine\n\
 in no time.\n\

@@ -849,7 +849,7 @@ char ascii_atreus_1[] = "IT APPEARS\nA VISITOR HAS ARRIVED.";
 char ascii_atreus_2[] = "PASS THROUGH MY EYE\nAND I WILL LEND YOU MY POWER.";
 
 char ascii_fb_bowser_1[] = "I have come all this way.";
-char ascii_fb_bowser_2[] = "And yet... not a one.";
+char ascii_fb_bowser_2[] = "And yet... not one.";
 char ascii_fb_bowser_3[] = "Not a single universe where Peach loves me.";
 char ascii_fb_bowser_4[] = "I've been to THOUSANDS.";
 char ascii_fb_bowser_5[] = "Yet, against all odds, they're all the same.";

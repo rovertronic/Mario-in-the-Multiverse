@@ -49,3 +49,4 @@
 #include "levels/bowser_course/bc_laser/geo.inc.c"
 #include "levels/bowser_course/bc_laseremit/geo.inc.c"
 #include "levels/bowser_course/bc_rock/geo.inc.c"
+#include "levels/bowser_course/bc_coinpile/geo.inc.c"

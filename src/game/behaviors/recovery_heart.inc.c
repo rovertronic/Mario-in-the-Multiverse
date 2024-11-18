@@ -59,7 +59,7 @@ void bhv_ability_heart_loop(void) {
         if (o->oSpinningHeartPlayedSound == 0) {
             cur_obj_play_sound_2(SOUND_GENERAL_HEART_SPIN);
             ability_ready(gMarioState->abilityId);
-            aku_recharge = 0;
+            aku_recharge = 300;
             chronos_timer = 360;
             if (phasewalk_timer > 140) {
                 phasewalk_timer = 240;
@@ -70,7 +70,7 @@ void bhv_ability_heart_loop(void) {
             }
 
             if (aku_invincibility > 0) {
-                aku_invincibility = 360;
+                aku_invincibility = 300;
             }
 
             gMarioState->remainingDashes = 3;

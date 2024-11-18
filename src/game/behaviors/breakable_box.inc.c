@@ -40,6 +40,7 @@ void breakable_box_init(void) {
 void hidden_breakable_box_actions(void) {
     struct Object *switchObj;
     if (gCurrLevelNum == LEVEL_C) {
+        o->oDrawingDistance = 32000;
         obj_set_collision_data(o, target_box_collision);
         cur_obj_set_model(MODEL_TARGET_BOX);
         obj_set_hitbox(o, &sTargetBoxHitbox);

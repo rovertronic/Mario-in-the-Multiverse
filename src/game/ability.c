@@ -197,7 +197,7 @@ void render_ability_icon(u16 x, u16 y, u8 alpha, u8 index) {
 
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, alpha);
     f32 new_y = y;
-    if (lerp_ability_icons) {
+    if (lerp_ability_icons && index != ABILITY_LOCK_IMAGE_INDEX) {
         new_y = lerp_menu_lotolerance(y,LMENU_ABILITY_HUD+index);
     }
 

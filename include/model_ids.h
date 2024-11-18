@@ -948,6 +948,7 @@ enum K_MODELS {
 
 /* Bowser Level */
 enum {
+    //bowserlevle
     MODEL_MATPLATFORM=0x150,
     MODEL_BC_TILTING,
     MODEL_BC_WADDLE_DEE,
@@ -959,6 +960,9 @@ enum {
     MODEL_BC_STAIR_2,
     MODEL_BC_SHOOTER,
     MODEL_BC_SKIPLOOM,
+    MODEL_BC_COINPILE,
+
+    //bossfight
     MODEL_BC_ATREUS,
     MODEL_BC_BOWSER_FORM_1,
     MODEL_BC_BOWSER_FORM_2,

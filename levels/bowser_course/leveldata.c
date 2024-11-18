@@ -75,3 +75,4 @@
 #include "levels/bowser_course/bc_laser/model.inc.c"
 #include "levels/bowser_course/bc_laseremit/model.inc.c"
 #include "levels/bowser_course/bc_rock/model.inc.c"
+#include "levels/bowser_course/bc_coinpile/model.inc.c"

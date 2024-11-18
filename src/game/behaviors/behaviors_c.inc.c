@@ -540,3 +540,15 @@ void bhv_jelly_fish_loop(void) {
 
     o->oInteractStatus = INT_STATUS_NONE;
 }
+
+void bhv_floor_switch_teleporter(void) {
+    // this convoluted setup calculates the nearest floor switch to mario and teleports it to it
+    struct Object * old_o = o;
+    o = gMarioObject;
+    struct Object * closest_switch_location = cur_obj_nearest_object_with_behavior(bhvFloorSwitchTeleporter);
+    o = old_o;
+
+    struct Object * switcho = cur_obj_nearest_object_with_behavior(bhvFloorSwitchHiddenObjects);
+
+    vec3f_copy(&switcho->oPosVec,&closest_switch_location->oPosVec);
+}

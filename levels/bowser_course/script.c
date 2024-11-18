@@ -61,6 +61,7 @@ const LevelScript level_bowser_course_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_BC_LASER, bc_laser_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BC_LASEREMIT, bc_laseremit_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BC_ROCK, bc_rock_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BC_COINPILE, bc_coinpile_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -104,6 +105,7 @@ const LevelScript level_bowser_course_entry[] = {
 		OBJECT(MODEL_CHECKPOINT_FLAG, -9557, 1592, -8374, 0, 0, 0, (2 << 16), bhvCheckpointFlag),
 		OBJECT(MODEL_CHECKPOINT_FLAG, -1595, 10782, -9401, 0, -90, 0, (3 << 16), bhvCheckpointFlag),
 		OBJECT(MODEL_CHECKPOINT_FLAG, 4608, 16266, -5221, 0, -180, 0, (4 << 16), bhvCheckpointFlag),
+		OBJECT(MODEL_BC_COINPILE, 3044, 17607, 10126, 0, 0, 0, 0x00000000, bhvCoinPile),
 		OBJECT(MODEL_NONE, 9416, 1401, 12516, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_EXCLAMATION_BOX, 9416, 451, -6219, 0, 0, 0, (5 << 16), bhvExclamationBox),
 		OBJECT(MODEL_EXCLAMATION_BOX, 731, 11082, -8252, 0, 0, 0, (5 << 16), bhvExclamationBox),
@@ -121,6 +123,7 @@ const LevelScript level_bowser_course_entry[] = {
 		OBJECT(MODEL_NONE, 5268, 2176, -10578, 0, 90, 0, 0x00000000, bhvFlamethrower),
 		OBJECT(MODEL_NONE, -5400, 4339, -9933, 0, -180, 0, 0x00000000, bhvFlamethrower),
 		OBJECT(MODEL_NONE, -4790, 4357, -11209, 0, 0, 0, 0x00000000, bhvFlamethrower),
+		OBJECT(MODEL_HEART, 3408, 17495, 8722, 0, 0, 0, 0x00000000, bhvRecoveryHeart),
 		OBJECT(MODEL_NONE, 3408, 17607, 9804, 0, -180, 0, 0x00000000, bhvBcFinalBossHintSign),
 		OBJECT(MODEL_BC_HOODMONGER, 3511, 2006, -3222, 0, 132, 0, 0x00000000, bhvBcHoodmonger),
 		OBJECT(MODEL_BC_HOODMONGER, 3663, 2188, -2383, 0, 132, 0, 0x00000000, bhvBcHoodmonger),

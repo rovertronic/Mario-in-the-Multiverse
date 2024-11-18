@@ -99,7 +99,7 @@ struct mitm_level_data mitm_levels[] = {
             LEVEL_B,  COURSE_HMC,   10,      1,         25,         8,     &mitmdd_b },
     /*L*/ {"BEYOND THE CURSED PIZZA", "luigiman0640", "luigiman0640",
             LEVEL_L,  COURSE_LLL,   15,      6,         26,         8,     &mitmdd_l },
-    /*K*/ {"KATANA MARIO NEW MECCA", "KeyBlader & axollyon", "KeyBlader & Co.",
+    /*K*/ {"KATANA MARIO NEW MECCA", "KeyBlader, Ability by: axollyon", "KeyBlader & Co.",
             LEVEL_K,  COURSE_SSL,   15,      2,         27,         8,     &mitmdd_k },
     /*E*/ {"DOOM", "Dorrieal", "Dorrieal",
             LEVEL_E,  COURSE_DDD,   20,      1,         28,         8,     &mitmdd_e },
@@ -663,7 +663,7 @@ void render_hint_ui(u8 hud_alpha) {
         }
 
         for (s32 i = 0; i < 15; i++) {
-            u8 unlocked = (gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked & (1<<i));
+            u16 unlocked = (gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked & (1<<i));
             u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(mitm_levels[i].course));
             sprintf(stringBuf,"C%02d",i+1);
 
@@ -895,13 +895,16 @@ struct mitm_credits_entry mitm_credits[] = {
     {"extra on top of initial obligations.",0},
     {"",0},
     {"Drahnokks:",2},
-    {"An entire level, Morshu, Mumbo & Redd",0},
+    {"Two Levels",0},
+    {"Morshu, Mumbo & Redd Model",0},
     {"",0},
     {"Aeza:",2},
-    {"Hub & Birthday Castle Models",0},
+    {"Hub Model",0},
+    {"Castle Model",0},
     {"",0},
     {"CowQuack:",2},
     {"Rope system",0},
+    {"Ability Heart",0},
     {"",0},
     {"furyiousfight:",2},
     {"Title model artwork",0},

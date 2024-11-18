@@ -9980,3 +9980,22 @@ const BehaviorScript bhvBcFinalBossHintSign[] = {
     BEGIN_LOOP(),
     END_LOOP(),
 };
+
+extern void bhv_floor_switch_teleporter(void);
+const BehaviorScript bhvFloorSwitchTeleporter[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_floor_switch_teleporter),
+    END_LOOP(),
+};
+
+extern void bhv_coin_pile_init(void);
+const BehaviorScript bhvCoinPile[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    // Yellow coin - common:
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_PERSISTENT_RESPAWN)),
+    CALL_NATIVE(bhv_coin_pile_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_yellow_coin_loop),
+    END_LOOP(),
+};

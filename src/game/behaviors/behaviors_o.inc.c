@@ -1678,7 +1678,7 @@ extern Vec3f golem_point[];
 extern u8 sephisword_did_hit;
 
 s32 hit_by_bowsers_weapon(void) {
-    return ((sephisword_did_hit) && (gMarioState->action != ACT_HARD_BACKWARD_AIR_KB) && (gMarioState->action != ACT_HARD_BACKWARD_GROUND_KB) && (gMarioState->action != ACT_SQUID) && (gMarioState->invincTimer == 0) && (aku_invincibility == 0) && ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE));
+    return ((sephisword_did_hit > 0) && (gMarioState->action != ACT_HARD_BACKWARD_AIR_KB) && (gMarioState->action != ACT_HARD_BACKWARD_GROUND_KB) && (gMarioState->action != ACT_SQUID) && (gMarioState->invincTimer == 0) && (aku_invincibility == 0) && ((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE));
 }
 
 void hector_general(void) {
@@ -1740,20 +1740,13 @@ void hector_general(void) {
         create_sound_spawner(SOUND_GENERAL2_PYRAMID_TOP_EXPLOSION);
     }
     o->oInteractStatus = 0;
+
 }
 
 void sephiser_general_attack_handler(void) {
     if (hit_by_bowsers_weapon()) {
-        s16 dud;
-        s16 parry_angle;
-        Vec3f mario_offset_vel = {gMarioState->pos[0]-sins(gMarioState->faceAngle[1])*gMarioState->forwardVel,gMarioState->pos[1],gMarioState->pos[2]-coss(gMarioState->faceAngle[1])*gMarioState->forwardVel};
-        vec3f_get_angle(mario_offset_vel,sephisword_impact_vec,&dud,&parry_angle);
 
-        s16 parry_offset = abs_angle_diff(gMarioState->faceAngle[1],parry_angle);
-
-        if ((((gMarioState->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH) ||
-        (gMarioState->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR)) && (parry_offset < 0x3000)) ||
-        (gMarioState->action == ACT_ABILITY_AXE_JUMP)) {
+        if (sephisword_did_hit == 2) {
             cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
             o->oAction = FBOWSER_SEPH_PARRIED;
             //e__sg_spark(sephisword_impact_vec, (0.5f + (random_float() * 3.f)));
@@ -1791,9 +1784,11 @@ void bhv_final_boss_bowser(void) {
             golem_crystals_destroyed = 0;
             golem_crystalps_destroyed = 0;
             golem_crystal_do_weaken = FALSE;
+            cur_obj_boss_shimmer_reset();
             break;
         case FBOWSER_DESCEND:
             if (o->oTimer == 0) {
+                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_LEVEL_BOSS_KOOPA), 0);
                 cur_obj_unhide();
                 cur_obj_init_animation_with_sound(4);
             }
@@ -2292,7 +2287,7 @@ void bhv_final_boss_bowser(void) {
     }
     o->oInteractStatus = 0;
     o->oShotByShotgun = 0;
-    sephisword_did_hit = FALSE;
+    sephisword_did_hit = 0;
 }
 
 enum {
@@ -2579,8 +2574,8 @@ static struct ObjectHitbox sGolemCrystalHitbox = {
     /* damageOrCoinValue: */ 0,
     /* health:            */ 8,
     /* numLootCoins:      */ 0,
-    /* radius:            */ 50,
-    /* height:            */ 130,
+    /* radius:            */ 100,
+    /* height:            */ 200,
     /* hurtboxRadius:     */ 0,
     /* hurtboxHeight:     */ 0,
 };
@@ -2672,6 +2667,12 @@ void bhv_golem_foot(void) {
     vec3f_copy(&o->oPosVec,golem_point[o->oBehParams2ndByte]);
     obj_set_hitbox(o, &sGolemFootHitbox);
     o->oInteractStatus = 0;
+
+    if (o->parentObj->oAction == FBOWSER_HECTOR_WEAK) {
+        cur_obj_become_intangible();
+    } else {
+        cur_obj_become_tangible();
+    }
 }
 
 void bhv_golem_laser(void) {

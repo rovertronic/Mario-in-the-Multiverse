@@ -437,9 +437,7 @@ void bhv_little_sister_loop(void) {
     f32 distRespawn;
     struct Object *respawner = cur_obj_find_nearest_object_with_behavior(bhvCheckpointFlag, &distRespawn);
     if (distRespawn < 100.0f){
-        o->oHomeX = respawner->oPosX;
-        o->oHomeY = respawner->oPosY;
-        o->oHomeZ = respawner->oPosZ;
+        vec3f_copy(&o->oHomeVec,gMarioState->vecCheckpointFlag);
     }
     f32 dist;
     struct Object *crusher = cur_obj_find_nearest_object_with_behavior(bhvCrusher, &dist);
@@ -450,7 +448,7 @@ void bhv_little_sister_loop(void) {
         sisterTimer = 0;
         o->oAction = LS_CRUSHED;
     } if (o->oAction == LS_CRUSHED){
-        if (sisterTimer > 10){
+    if (sisterTimer > 10){
             spawn_mist_particles_with_sound(SOUND_ACTION_TELEPORT);
             o->oPosX = o->oHomeX;
             o->oPosY = o->oHomeY;
@@ -590,7 +588,7 @@ void bhv_little_sister_loop(void) {
             break;
     }
 
-    if (o->oAction == LS_IDLE) {
+    if (o->oAction != LS_NPC_END) {
         o->oInteractStatus = 0;
     }
 }
@@ -1357,6 +1355,7 @@ enum bigDaddyBossStates{
 };
 // o->oF8 is what quadrant mario was last in
     s32 TruncForwardVel;
+u8 course_6_boss_reset = FALSE;
 void bhv_boss_daddy(void){
     //if (cur_obj_is_mario_in_room() == MARIO_OUTSIDE_ROOM || gMarioState->action == ACT_DEATH_EXIT_LAND){
     //    print_text(20, 80, "Mario pls come back");
@@ -1384,6 +1383,11 @@ void bhv_boss_daddy(void){
         //o->oAction = 1;
         //o->oTimer = 0;
     //}
+    if (course_6_boss_reset) {
+        course_6_boss_reset = FALSE;
+        o->oF4 = STATE_RESTART;
+    }
+
     switch (o->oF4) {
         case STATE_KNOCKED_BACK:
             o->oInteractType = INTERACT_NONE;

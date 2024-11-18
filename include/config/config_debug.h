@@ -31,7 +31,7 @@ MITM EXCLUSIVE: Have all abilities accessible regardless of save status. Also un
  * This allows you to quickly test the level you're working on.
  * If you want the game to boot normally, just comment out the define again.
  */
-//#define TEST_LEVEL LEVEL_BOWSER_COURSE
+//#define TEST_LEVEL LEVEL_C
 
 /**
  * Enables debug level select. Hold L while the game boots to turn it on.
@@ -46,7 +46,7 @@ MITM EXCLUSIVE: Have all abilities accessible regardless of save status. Also un
 /**
  * Enables a custom, enhanced performance profiler. (Enables PUPPYPRINT by default in config_safeguards).
  */
- //#define PUPPYPRINT_DEBUG
+//#define PUPPYPRINT_DEBUG
 
 /**
  * Uses cycles instead of microseconds in Puppyprint debug output.

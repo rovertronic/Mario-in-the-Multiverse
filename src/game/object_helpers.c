@@ -29,6 +29,7 @@
 #include "puppylights.h"
 #include "ability.h"
 #include "audio/external.h"
+#include "mario_actions_object.h"
 
 static s32 clear_move_flag(u32 *bitSet, s32 flag);
 
@@ -209,13 +210,15 @@ Gfx *geo_update_defeat_star(s32 callContext, struct GraphNode *node, UNUSED void
 }
 
 Vec3f sephisword_impact_vec;
-u8 sephisword_did_hit = FALSE;
+u8 sephisword_did_hit = 0;
+u8 sephisword_deflect_buffer = 0;
 Gfx *geo_update_sephisword(s32 callContext, struct GraphNode *node, Mat4 mtx) {
     if (callContext == GEO_CONTEXT_RENDER) {
         struct Object *obj = gCurGraphNodeObjectNode;
         struct GraphNodeGenerated *currentGraphNode = (struct GraphNodeGenerated *) node;
         s32 parameter = currentGraphNode->parameter;
 
+        u8 deflected = 0;
         f32 collision_radius = 100.0f; //radius 1 + radius 2
         f32 stick_lenght = 462.0f;
         if (parameter == 1) {
@@ -261,10 +264,28 @@ Gfx *geo_update_sephisword(s32 callContext, struct GraphNode *node, Mat4 mtx) {
         // calculate distance from mario to closest point on sword
         f32 dist;
         vec3f_get_dist(closestPoint,gMarioState->pos,&dist);
+        vec3f_copy(sephisword_impact_vec, closestPoint);
 
-        if (obj && dist < collision_radius) {
-            vec3f_copy(sephisword_impact_vec, closestPoint);
-            sephisword_did_hit = TRUE;
+        //calculate if mario is facing the parry point close enough
+        s16 dud;
+        s16 parry_angle;
+        Vec3f mario_offset_vel = {gMarioState->pos[0]-sins(gMarioState->faceAngle[1])*gMarioState->forwardVel,gMarioState->pos[1],gMarioState->pos[2]-coss(gMarioState->faceAngle[1])*gMarioState->forwardVel};
+        vec3f_get_angle(mario_offset_vel,sephisword_impact_vec,&dud,&parry_angle);
+        s16 parry_offset = abs_angle_diff(gMarioState->faceAngle[1],parry_angle);
+
+        if (!_60fps_midframe && sephisword_deflect_buffer > 0) {
+            sephisword_deflect_buffer --;
+        }
+        if ((gMarioState->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH) || (gMarioState->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR)) {
+            sephisword_deflect_buffer = 20;
+        }
+        if ( ((sephisword_deflect_buffer > 0) && (parry_offset < 0x3000)) || (gMarioState->action == ACT_ABILITY_AXE_JUMP) ) {
+            collision_radius *= 2.0f; //enfatten hitbox when deflecting only
+            deflected = 1;
+        }
+
+        if (obj && dist < collision_radius && sephisword_did_hit == 0) {
+            sephisword_did_hit = 1+deflected;
         }
 
         gMarioState->pos[1] -= 50.0f;

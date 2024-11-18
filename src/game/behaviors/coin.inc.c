@@ -12,6 +12,18 @@ struct ObjectHitbox sYellowCoinHitbox = {
     /* hurtboxHeight:     */ 0,
 };
 
+struct ObjectHitbox sCoinPileHitbox = {
+    /* interactType:      */ INTERACT_COIN,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 20,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 100,
+    /* height:            */ 150,
+    /* hurtboxRadius:     */ 0,
+    /* hurtboxHeight:     */ 0,
+};
+
 /**
  *     3
  *   4   6
@@ -65,6 +77,15 @@ void bhv_yellow_coin_init(void) {
     }
 
     if (o->oFloorHeight < FLOOR_LOWER_LIMIT_MISC) {
+        obj_mark_for_deletion(o);
+    }
+}
+
+void bhv_coin_pile_init(void) {
+    obj_set_hitbox(o, &sCoinPileHitbox);
+    cur_obj_update_floor_height();
+
+    if (gMarioState->numGlobalCoins >= 20) {
         obj_mark_for_deletion(o);
     }
 }

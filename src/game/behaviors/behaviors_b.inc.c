@@ -137,7 +137,7 @@ enum {
     AIRLOCK_STATE_CLOSED_FINISHED,
 };
 
-u8 airlockState;
+u8 airlockState = 0;
 Bool8 isWet = TRUE;
 Bool8 waterMoving = FALSE;
 Bool8 activeGauge[15];
@@ -1294,10 +1294,18 @@ void bhv_cork(void){
     }
 }
 
+void bhv_watertemple_init(void){
+    waterTempleState = 0;
+    airlockState = AIRLOCK_STATE_WET;
+}
+
 void bhv_watertemple(void){
     //cur_obj_update_floor_and_walls();
     //print_text_fmt_int(20, 20, "waterTempleState: %d", waterTempleState);
     switch (waterTempleState) {
+        case 0:
+            o->oHomeY = 152;
+            break;
         case 1:
             o->oHomeY = -641; //placeholder
             break;

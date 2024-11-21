@@ -34,8 +34,8 @@ void bhv_k_fan(void) {
         o->collisionData = segmented_to_virtual(k_fan_2_collision);
     }
 
-    if (o->oDistanceToMario < 2000.0f) {
-        //cur_obj_play_sound_1(SOUND_AIR_BLOW_FIRE);
+    if (o->oDistanceToMario < 4000.0f) {
+        cur_obj_play_sound_1(SOUND_MITM_LEVEL_SPINNING_BLADE);
     }
 
     if (gMarioState->wall && gMarioState->wall->object && obj_has_behavior(gMarioState->wall->object,bhvKfan)) {

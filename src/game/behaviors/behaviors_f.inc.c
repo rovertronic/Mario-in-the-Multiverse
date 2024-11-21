@@ -758,6 +758,8 @@ void bhv_f_heli(void) {
             }
             break;
         case 1: //Drop in cutscene.
+            cur_obj_play_sound_1(SOUND_MITM_LEVEL_SPINNING_BLADE);
+            
             cur_obj_become_tangible();
             o->oPosY = approach_f32_asymptotic(o->oPosY,o->oHomeY-800.0f,0.02f);
             vec3f_copy(&gLakituState.goalFocus,&o->oPosVec);
@@ -771,6 +773,8 @@ void bhv_f_heli(void) {
             break;
 
         case 2: //Patrol and fire
+            cur_obj_play_sound_1(SOUND_MITM_LEVEL_SPINNING_BLADE);
+
             switch(o->oSubAction) {
                 case 0: //patrol forward
                     if (o->oVelX > -45.0f) {
@@ -826,6 +830,8 @@ void bhv_f_heli(void) {
             break;
 
         case 3: // Damaged
+            cur_obj_play_sound_1(SOUND_MITM_LEVEL_SPINNING_BLADE);
+
             vec3f_copy(&gLakituState.goalFocus,&o->oPosVec);
             vec3f_copy(&gLakituState.goalPos,&o->oPosVec);
             gLakituState.goalPos[0] -= 3000.0f;

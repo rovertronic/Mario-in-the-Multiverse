@@ -8297,6 +8297,7 @@ sound_ref .sound_level_sb_train
 sound_ref .sound_level_sb_bullet
 sound_ref .sound_level_sb_blaster
 sound_ref .sound_level_boss_defeat
+sound_ref .sound_spinning_blade
 
 .sound_level_x_0:
 chan_setbank 12
@@ -8915,6 +8916,21 @@ chan_end
 
 .layer_bd:
 layer_note1 39, 0x2bc, 127
+layer_end
+
+.sound_spinning_blade:
+chan_setbank 12
+chan_setinstr 61
+chan_setenvelope .envelope_32E4
+chan_setdecayrelease 30
+chan_setlayer 0, .layer_spinning_blade
+chan_end
+
+.layer_spinning_blade:
+layer_somethingon
+.layer_spinning_blade_2:
+layer_note1 39, 0xAF, 127
+layer_jump .layer_spinning_blade_2
 layer_end
 
 .channel_test_bank:

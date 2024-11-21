@@ -38,3 +38,5 @@
 #include "levels/k/k_shieldo/model.inc.c"
 #include "levels/k/kbul/model.inc.c"
 #include "levels/k/k_josh/model.inc.c"
+#include "levels/k/kdancer/anims/data.inc.c"
+#include "levels/k/kdancer/anims/table.inc.c"

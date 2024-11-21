@@ -846,3 +846,19 @@ void bhv_k_pounder(void) {
         break;
     }
 }
+
+#define PERSONAL_SPACE_DIST 300.0f
+void bhv_dancer(void) {
+    if (o->oTimer == 0) {
+        cur_obj_init_animation_with_sound(random_u16()%2);
+        o->oFaceAngleYaw = random_u16();
+    }
+    o->oMoveAngleYaw = approach_s16_asymptotic(o->oAngleToMario + 0x8000,o->oAngleVelYaw,64);
+
+    f32 backawayamount = 0.0f;
+    if (o->oDistanceToMario <= PERSONAL_SPACE_DIST) {
+        backawayamount = (PERSONAL_SPACE_DIST-o->oDistanceToMario)/PERSONAL_SPACE_DIST;
+    }
+    o->oPosX = o->oHomeX + sins(o->oMoveAngleYaw)*PERSONAL_SPACE_DIST*backawayamount;
+    o->oPosZ = o->oHomeZ + coss(o->oMoveAngleYaw)*PERSONAL_SPACE_DIST*backawayamount;
+}

@@ -826,7 +826,7 @@ extern const BehaviorScript bhvMagikarp[];
 /* GROUP K START */
 extern const BehaviorScript bhvKfan[];
 extern const BehaviorScript bhvKblood[];
-extern const BehaviorScript bhvKaguya[];
+extern const BehaviorScript bhvKdancer[];
 extern const BehaviorScript bhvKDisco[];
 extern const BehaviorScript bhvKbartender[];
 extern const BehaviorScript bhvStrongTerry[];

@@ -1020,7 +1020,7 @@ s32 act_twirling(struct MarioState *m) {
     }
 
     m->angleVel[1] = approach_s32_symmetric(m->angleVel[1], yawVelTarget, 0x200);
-    m->twirlYaw += m->angleVel[1];
+    m->twirlYaw += m->angleVel[1] * ability_chronos_current_slow_factor();
 
     set_mario_animation(m, m->actionArg == 0 ? MARIO_ANIM_START_TWIRL : MARIO_ANIM_TWIRL);
     if (is_anim_past_end(m)) {

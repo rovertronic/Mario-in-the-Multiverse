@@ -898,6 +898,7 @@ enum K_MODELS {
     MODEL_K_LITE,
     MODEL_K_POUNDER,
     MODEL_K_SLIGHT,
+    MODEL_K_RAQUNA,
 };
 /* LEVEL K END */
 

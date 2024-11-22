@@ -59,4 +59,6 @@ extern const LevelScript level_k_entry[];
 
 #include "levels/k/kdancer/anim_header.h"
 
+#include "levels/k/raquna/geo_header.h"
+
 #endif

@@ -47,6 +47,7 @@ const LevelScript level_k_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_K_POUNDER, k_pounder_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_K_SLIGHT, k_slight_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_K_JOSH, k_josh_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_K_RAQUNA, raquna_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -211,6 +212,7 @@ const LevelScript level_k_entry[] = {
 		OBJECT(MODEL_NONE, -697, 1495, -7019, 0, 0, 0, (5 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -6, 0, 650, 0, 0, 0, (42 << 24) | (2 << 16), bhvWarp),
 		OBJECT(MODEL_K_KAGUYA, -156, 0, -2974, 0, 41, 0, 0x00000000, bhvKdancer),
+		OBJECT(MODEL_K_RAQUNA, 549, 0, -3847, 0, 41, 0, (20 << 16), bhvKdancer),
 		OBJECT(MODEL_K_ELECTROHEAD, 569, 2017, -6376, 0, -134, 0, (6 << 24), bhvElectrohead),
 		OBJECT(MODEL_NONE, -1241, -406, -7666, 0, -180, 0, (3 << 24), bhvStar),
 		OBJECT(MODEL_NONE, -1866, 0, -8027, 0, -180, 0, (6 << 24), bhvStar),

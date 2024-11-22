@@ -1931,6 +1931,8 @@ s32 is_2d_area(void) {
     return ((gCurrLevelNum == LEVEL_L)&&(gCurrAreaIndex < 6));
 }
 
+extern u8 gE_C9MarioHealth;
+
 /**
  * Main function for executing Mario's behavior. Returns particleFlags.
  */
@@ -2298,6 +2300,10 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         // Drink Milk Code
         if ((!milk_drunk)&&(using_ability(ABILITY_UTIL_MILK))&&(gPlayer1Controller->buttonPressed & L_TRIG)&&((gMarioState->action & ACT_GROUP_MASK) != ACT_GROUP_CUTSCENE)) {
             milk_drunk = TRUE;
+            gE_C9MarioHealth += 50;
+            if (gE_C9MarioHealth > 100) {
+                gE_C9MarioHealth = 100;
+            }
             gMarioState->healCounter += 20;
             gMarioState->bloodAlcoholConcentration = 0.0f; // my alchoholism is cured
             play_sound(SOUND_GENERAL_HEART_SPIN, gGlobalSoundSource);

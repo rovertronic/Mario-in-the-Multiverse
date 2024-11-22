@@ -1361,16 +1361,13 @@ void geo_process_object(struct Object *node) {
         }
         else{
             if (!noThrowMatrix) {
-                if (_60fps_on) {
-                    if (!_60fps_midframe) {
-                        vec3f_copy(node->header.gfx.scaleLerp, node->header.gfx.scale);
-                    } else {
-                        for (u32  i = 0; i < 3; i++) {
-                            node->header.gfx.scaleLerp[i] = approach_pos_lerp(node->header.gfx.scaleLerp[i], node->header.gfx.scale[i]);
-                        }
+                if (!_60fps_midframe) {
+                    vec3f_copy(node->header.gfx.scaleLerp, node->header.gfx.scale);
+                } else {
+                    for (u32  i = 0; i < 3; i++) {
+                        node->header.gfx.scaleLerp[i] = approach_pos_lerp(node->header.gfx.scaleLerp[i], node->header.gfx.scale[i]);
                     }
                 }
-
                 mtxf_scale_vec3f(gMatStack[gMatStackIndex + 1], *node->header.gfx.throwMatrix, node->header.gfx.scaleLerp);
 
                 if (!_60fps_midframe) {
@@ -1379,15 +1376,13 @@ void geo_process_object(struct Object *node) {
                     }
                 }
 
-                if (_60fps_on) {
-                    if (_60fps_midframe) {
-                        oldThrowMatrix = node->header.gfx.throwMatrix;
-                    }
+                if (_60fps_midframe) {
+                    oldThrowMatrix = node->header.gfx.throwMatrix;
+                }
 
-                    for (int i = 0; i < 3; i++) {
-                        gMatStack[gMatStackIndex + 1][3][i] = approach_pos_lerp(node->header.gfx.posLerp[i],gMatStack[gMatStackIndex + 1][3][i]);
-                        node->header.gfx.posLerp[i] = gMatStack[gMatStackIndex + 1][3][i];
-                    }
+                for (int i = 0; i < 3; i++) {
+                    gMatStack[gMatStackIndex + 1][3][i] = approach_pos_lerp(node->header.gfx.posLerp[i],gMatStack[gMatStackIndex + 1][3][i]);
+                    node->header.gfx.posLerp[i] = gMatStack[gMatStackIndex + 1][3][i];
                 }
 
             } else if (node->header.gfx.node.flags & GRAPH_RENDER_BILLBOARD) {

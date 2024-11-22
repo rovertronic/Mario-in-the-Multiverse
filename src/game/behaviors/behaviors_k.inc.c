@@ -852,6 +852,7 @@ void bhv_dancer(void) {
     if (o->oTimer == 0) {
         cur_obj_init_animation_with_sound(random_u16()%2);
         o->oFaceAngleYaw = random_u16();
+        o->oGraphYOffset += o->oBehParams2ndByte * 2.0f;
     }
     o->oMoveAngleYaw = approach_s16_asymptotic(o->oAngleToMario + 0x8000,o->oAngleVelYaw,64);
 

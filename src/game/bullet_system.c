@@ -360,7 +360,7 @@ void reset_bullet_system(void) {
     }
 }
 
-#define DANMAKU_MAX 300
+#define DANMAKU_MAX 350
 struct Danmaku * danmaku_array;//[DANMAKU_MAX];
 
 void create_danmaku(Vec3f pos, Vec3f vel, u8 type) {

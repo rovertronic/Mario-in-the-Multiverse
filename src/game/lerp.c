@@ -81,7 +81,7 @@ void interpolate_node(struct Object *node) {
 }
 
 
-f32 lerp_menu_stack[LMENU_COUNT];
+f32 lerp_menu_stack[LMENU_COUNT] = {0};
 f32 lerp_menu(f32 value,int stack_index) {
     if (!_60fps_midframe) {
         lerp_menu_stack[stack_index] = value;

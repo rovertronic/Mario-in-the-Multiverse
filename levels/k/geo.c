@@ -35,3 +35,4 @@
 #include "levels/k/k_shieldo/geo.inc.c"
 #include "levels/k/k_josh/geo.inc.c"
 #include "levels/k/raquna/geo.inc.c"
+#include "levels/k/earlyexit/geo.inc.c"

@@ -48,6 +48,7 @@ const LevelScript level_k_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_K_SLIGHT, k_slight_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_K_JOSH, k_josh_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_K_RAQUNA, raquna_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_K_EARLYEXIT, earlyexit_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -210,6 +211,13 @@ const LevelScript level_k_entry[] = {
 		OBJECT(MODEL_K_DISCO, -92, 709, -3547, 0, 0, 0, 0x00000000, bhvKDisco),
 		OBJECT(MODEL_NONE, -1833, 3954, -3743, 0, 0, 0, (6 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -697, 1495, -7019, 0, 0, 0, (5 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_K_EARLYEXIT, 974, 0, -2487, 0, 41, 0, (20 << 16), bhvKdancer),
+		OBJECT(MODEL_K_EARLYEXIT, 1299, 0, -3331, 0, 41, 0, (20 << 16), bhvKdancer),
+		OBJECT(MODEL_K_EARLYEXIT, 1343, 0, -4569, 0, 41, 0, (20 << 16), bhvKdancer),
+		OBJECT(MODEL_K_EARLYEXIT, -65, 0, -4214, 0, 41, 0, (20 << 16), bhvKdancer),
+		OBJECT(MODEL_K_EARLYEXIT, -767, 0, -3573, 0, 41, 0, (20 << 16), bhvKdancer),
+		OBJECT(MODEL_K_EARLYEXIT, -1384, 0, -4374, 0, 41, 0, (20 << 16), bhvKdancer),
+		OBJECT(MODEL_K_EARLYEXIT, -1247, 0, -2737, 0, 41, 0, (20 << 16), bhvKdancer),
 		OBJECT(MODEL_NONE, -6, 0, 650, 0, 0, 0, (42 << 24) | (2 << 16), bhvWarp),
 		OBJECT(MODEL_K_KAGUYA, -156, 0, -2974, 0, 41, 0, 0x00000000, bhvKdancer),
 		OBJECT(MODEL_K_RAQUNA, 549, 0, -3847, 0, 41, 0, (20 << 16), bhvKdancer),
@@ -219,7 +227,7 @@ const LevelScript level_k_entry[] = {
 		OBJECT(MODEL_NONE, -4, 0, -638, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		TERRAIN(k_area_3_collision),
 		MACRO_OBJECTS(k_area_3_macro_objs),
-		STOP_MUSIC(0),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_ROCKSOLID),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

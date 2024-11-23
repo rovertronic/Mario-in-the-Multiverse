@@ -52,6 +52,7 @@
  */
 
 u8 object_mirror_mode = FALSE;
+u8 interpolation_complete = FALSE;
 
 s16 gMatStackIndex = 0;
 ALIGNED16 Mat4 gMatStack[32];
@@ -1008,14 +1009,18 @@ void geo_process_animated_part(struct GraphNodeAnimatedPart *node) {
             anim_pos = held_obj_anim_pos;
         }
 
-        if (!_60fps_midframe) {
-            rotstack_ptr[anim_pos][0] = rotation[0];
-            rotstack_ptr[anim_pos][1] = rotation[1];
-            rotstack_ptr[anim_pos][2] = rotation[2];
+        if (!interpolation_complete) {
+            if (!_60fps_midframe) {
+                rotstack_ptr[anim_pos][0] = rotation[0];
+                rotstack_ptr[anim_pos][1] = rotation[1];
+                rotstack_ptr[anim_pos][2] = rotation[2];
+            } else {
+                rotstack_ptr[anim_pos][0] = approach_angle_lerp(rotstack_ptr[anim_pos][0], rotation[0]);
+                rotstack_ptr[anim_pos][1] = approach_angle_lerp(rotstack_ptr[anim_pos][1], rotation[1]);
+                rotstack_ptr[anim_pos][2] = approach_angle_lerp(rotstack_ptr[anim_pos][2], rotation[2]);
+                vec3s_copy(rotation, rotstack_ptr[anim_pos]);
+            }
         } else {
-            rotstack_ptr[anim_pos][0] = approach_angle_lerp(rotstack_ptr[anim_pos][0], rotation[0]);
-            rotstack_ptr[anim_pos][1] = approach_angle_lerp(rotstack_ptr[anim_pos][1], rotation[1]);
-            rotstack_ptr[anim_pos][2] = approach_angle_lerp(rotstack_ptr[anim_pos][2], rotation[2]);
             vec3s_copy(rotation, rotstack_ptr[anim_pos]);
         }
     }
@@ -1345,7 +1350,7 @@ void geo_process_object(struct Object *node) {
             oldThrowMatrix = node->header.gfx.throwMatrix;
         }
 
-        if (noThrowMatrix && !object_mirror_mode) {
+        if (noThrowMatrix && !interpolation_complete) {
             if (_60fps_midframe && node->header.gfx.bothMats >= 2) {
                 interpolate_node(node);
             } else {
@@ -1361,11 +1366,13 @@ void geo_process_object(struct Object *node) {
         }
         else{
             if (!noThrowMatrix) {
-                if (!_60fps_midframe) {
-                    vec3f_copy(node->header.gfx.scaleLerp, node->header.gfx.scale);
-                } else {
-                    for (u32  i = 0; i < 3; i++) {
-                        node->header.gfx.scaleLerp[i] = approach_pos_lerp(node->header.gfx.scaleLerp[i], node->header.gfx.scale[i]);
+                if (!interpolation_complete) {
+                    if (!_60fps_midframe) {
+                        vec3f_copy(node->header.gfx.scaleLerp, node->header.gfx.scale);
+                    } else {
+                        for (u32  i = 0; i < 3; i++) {
+                            node->header.gfx.scaleLerp[i] = approach_pos_lerp(node->header.gfx.scaleLerp[i], node->header.gfx.scale[i]);
+                        }
                     }
                 }
                 mtxf_scale_vec3f(gMatStack[gMatStackIndex + 1], *node->header.gfx.throwMatrix, node->header.gfx.scaleLerp);
@@ -1380,9 +1387,13 @@ void geo_process_object(struct Object *node) {
                     oldThrowMatrix = node->header.gfx.throwMatrix;
                 }
 
-                for (int i = 0; i < 3; i++) {
-                    gMatStack[gMatStackIndex + 1][3][i] = approach_pos_lerp(node->header.gfx.posLerp[i],gMatStack[gMatStackIndex + 1][3][i]);
-                    node->header.gfx.posLerp[i] = gMatStack[gMatStackIndex + 1][3][i];
+                if (!interpolation_complete) {
+                    for (int i = 0; i < 3; i++) {
+                        gMatStack[gMatStackIndex + 1][3][i] = approach_pos_lerp(node->header.gfx.posLerp[i],gMatStack[gMatStackIndex + 1][3][i]);
+                        node->header.gfx.posLerp[i] = gMatStack[gMatStackIndex + 1][3][i];
+                    }
+                } else {
+                    vec3f_copy(gMatStack[gMatStackIndex + 1][3],node->header.gfx.posLerp);
                 }
 
             } else if (node->header.gfx.node.flags & GRAPH_RENDER_BILLBOARD) {
@@ -1502,15 +1513,19 @@ void geo_process_object_parent(struct GraphNodeObjectParent *node) {
     if (node->sharedChild != NULL) {
         node->sharedChild->parent = (struct GraphNode *) node;
 
+        interpolation_complete = FALSE;
+
         if (gCurrLevelNum == LEVEL_K && gCurrAreaIndex == 3) {
             object_mirror_mode = TRUE;
             set_mirror_backface_culling(TRUE);
             geo_process_node_and_siblings(node->sharedChild);
+            interpolation_complete = TRUE;
         }
 
         object_mirror_mode = FALSE;
         set_mirror_backface_culling(FALSE);
         geo_process_node_and_siblings(node->sharedChild);
+        interpolation_complete = TRUE;
 
         node->sharedChild->parent = NULL;
     }

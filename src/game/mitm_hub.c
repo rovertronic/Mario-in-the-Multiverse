@@ -1155,6 +1155,7 @@ void bhv_redd_paintings_loop(void) {
                     o->oAction = 1;
                     save_file_set_coins();
                     save_file_do_save(gCurrSaveFileNum - 1);
+                    play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
                 } else {
                     shop_cant_afford = TRUE;
                     play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
@@ -1202,7 +1203,6 @@ void render_painting_ui(f32 alpha) {
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
         if (shop_cant_afford) {
             gDPSetEnvColor(gDisplayListHead++, 255, 126.0f+sins(gGlobalTimer*0x1000)*126.0f, 126.0f+sins(gGlobalTimer*0x1000)*126.0f, 255.0f-alpha);
-            play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
         }
         print_hud_lut_string(HUD_LUT_GLOBAL, 185, 143, hudbar_coin);
         gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
@@ -1248,6 +1248,7 @@ struct music_data music_list[] = {
     {SEQ_PEPPERMAN_STRIKES,"Pepperman Strikes!","From: Pizza Tower\nPorted by: sm64pie"},
 
     {SEQ_K_CHINATOWN,"Chinatown","From: Katana Zero\nPorted by: Teraok"},
+    {SEQ_ROCKSOLID,"Rock Solid","From: Conker's Bad Fur Day"},
 
     {SEQ_C9,"Hangar","From: DOOM PSX"},
 

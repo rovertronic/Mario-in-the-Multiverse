@@ -61,4 +61,6 @@ extern const LevelScript level_k_entry[];
 
 #include "levels/k/raquna/geo_header.h"
 
+#include "levels/k/earlyexit/geo_header.h"
+
 #endif

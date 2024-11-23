@@ -132,6 +132,34 @@ s16 set_custom_mario_animation(struct MarioState *m, s32 targetAnimID) {
     return o->header.gfx.animInfo.animFrame;
 }
 
+#include "levels/k/header.h"
+s16 set_custom_mario_animation_from_object_anim(struct MarioState *m, s32 targetAnimID, struct Animation * location) {
+    struct Object *o = m->marioObj;
+
+    if (o->header.gfx.animInfo.animID != targetAnimID) {
+        struct Animation **animPtrAddr = &kdancer_anims[targetAnimID];
+        struct Animation **animSegmented = segmented_to_virtual(animPtrAddr);
+        struct Animation *targetAnim = segmented_to_virtual(*animSegmented);
+
+        o->header.gfx.animInfo.animID = targetAnimID;
+        o->header.gfx.animInfo.curAnim = targetAnim;
+        o->header.gfx.animInfo.animAccel = 0;
+        o->header.gfx.animInfo.animYTrans = m->animYTrans;
+
+        if (targetAnim->flags & ANIM_FLAG_NO_ACCEL) {
+            o->header.gfx.animInfo.animFrame = targetAnim->startFrame;
+        } else {
+            if (targetAnim->flags & ANIM_FLAG_FORWARD) {
+                o->header.gfx.animInfo.animFrame = targetAnim->startFrame + 1;
+            } else {
+                o->header.gfx.animInfo.animFrame = targetAnim->startFrame - 1;
+            }
+        }
+    }
+
+    return o->header.gfx.animInfo.animFrame;
+}
+
 s16 set_custom_mario_animation_with_accel(struct MarioState *m, s32 targetAnimID, s32 accel) {
     struct Object *o = m->marioObj;
 

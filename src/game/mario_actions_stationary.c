@@ -21,6 +21,7 @@
 #include "actors/group0.h"
 #include "object_list_processor.h"
 #include "game_init.h"
+#include "levels/k/header.h"
 
 s32 check_common_idle_cancels(struct MarioState *m) {
     mario_drop_held_object(m);
@@ -201,7 +202,9 @@ s32 act_idle(struct MarioState *m) {
 #endif
     }
 
-    if ((m->actionArg & 1)||(gMarioState->bloodAlcoholConcentration > 0.0f)) {
+    if (m->floor->type == SURFACE_DANCE) {
+        set_custom_mario_animation_from_object_anim(m,2,kdancer_anims);
+    } else if ((m->actionArg & 1)||(gMarioState->bloodAlcoholConcentration > 0.0f)) {
         set_mario_animation(m, MARIO_ANIM_STAND_AGAINST_WALL);
     } else {
         switch (m->actionState) {

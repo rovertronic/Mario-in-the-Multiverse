@@ -284,5 +284,8 @@
     ],
     "57_minecart_riding": [
         "0E_extended_bank"
+    ],
+    "58_rocksolid": [
+        "rocksolid"
     ]
 }

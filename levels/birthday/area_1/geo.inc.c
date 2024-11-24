@@ -28,7 +28,6 @@ const GeoLayout birthday_area_1_geo[] = {
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, birthday_dl_Map_mesh_layer_5),
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, birthday_dl_Map_mesh_layer_6),
-			GEO_DISPLAY_LIST(LAYER_ALPHA, birthday_dl_Map_mesh_layer_4),
 		GEO_CLOSE_NODE(),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),

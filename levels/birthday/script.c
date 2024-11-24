@@ -11,10 +11,6 @@
 
 #include "levels/scripts.h"
 
-
-/* Fast64 begin persistent block [includes] */
-/* Fast64 end persistent block [includes] */
-
 #include "make_const_nonconst.h"
 #include "levels/birthday/header.h"
 
@@ -41,15 +37,12 @@ const LevelScript level_birthday_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_INTRO_ROCK, intro_rock_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_INTRO_GMACHINE, gmachine_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_INTRO_ENDSER, endser_geo), 
-
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, birthday_area_1),
 		WARP_NODE(0x01, LEVEL_CASTLE, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x02/*ending spawn*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		OBJECT(MODEL_INTRO_CLOTH, -1669, -150, -631, 0, 0, 0, 0x00000000, bhvIntroCloth),
-		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, (0 << 16), bhvCutsceneManager),
 		OBJECT(MODEL_NONE, -17, 291, 1572, 26, -180, 0, (0 << 16), bhvCutsceneCamera),
 		OBJECT(MODEL_NONE, 440, 399, 31, 12, -159, 0, (1 << 16), bhvCutsceneCamera),
 		OBJECT(MODEL_NONE, -17, -271, 462, 4, 0, 0, (2 << 16), bhvCutsceneCamera),
@@ -62,16 +55,18 @@ const LevelScript level_birthday_entry[] = {
 		OBJECT(MODEL_NONE, 4038, 383, 2859, 0, -90, 0, (10 << 16), bhvCutsceneCamera),
 		OBJECT(MODEL_NONE, 347, -297, 1272, -4, -150, 0, (9 << 16), bhvCutsceneCamera),
 		OBJECT(MODEL_NONE, 3377, 538, 2497, 14, -50, 0, (11 << 16), bhvCutsceneCamera),
-		OBJECT(MODEL_NONE, 2995, 459, 2586, 14, 8, 0, (12 << 16), bhvCutsceneCamera),
+		OBJECT(MODEL_NONE, 2995, 496, 2586, 14, 8, 0, (12 << 16), bhvCutsceneCamera),
 		OBJECT(MODEL_NONE, 4038, 383, 2859, 0, -90, 0, (13 << 16), bhvCutsceneCamera),
+		MARIO_POS(0x01, 0, -20, -383, 805),
+		OBJECT(MODEL_INTRO_CLOTH, -1669, -150, -631, 0, 0, 0, 0x00000000, bhvIntroCloth),
+		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, (0 << 16), bhvCutsceneManager),
 		OBJECT(MODEL_EGADD, -1687, -150, -207, 0, 90, 0, 0x00000000, bhvIntroEgadd),
-		OBJECT(MODEL_INTRO_ENDSER, 2923, 236, 2859, 0, 90, 0, 0x00000000, bhvEndBowser),
+		OBJECT(MODEL_INTRO_ENDSER, 2923, 272, 2859, 0, 90, 0, 0x00000000, bhvEndBowser),
 		OBJECT(MODEL_NONE, -20, -383, 805, 0, 0, 0, (2 << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_RED_FLAME, 2561, 518, 3284, 0, 0, 0, 0x00000000, bhvFlame),
 		OBJECT(MODEL_RED_FLAME, 2561, 518, 2435, 0, 0, 0, 0x00000000, bhvFlame),
 		OBJECT(MODEL_INTRO_BREAKDOOR, 1477, 339, -1162, 0, 0, 0, 0x00000000, bhvIntroBreakdoor),
 		OBJECT(MODEL_MACHINE, -1669, -150, -631, 0, 0, 0, 0x00000000, bhvIntroMachine),
-		MARIO_POS(0x01, 0, -20, -383, 805),
 		OBJECT(MODEL_PEACH, 251, 129, -540, 0, 14, 0, 0x00000000, bhvIntroPeach),
 		OBJECT(MODEL_TOAD, -362, -337, 364, 0, 37, 0, 0x00000000, bhvIntroToad),
 		OBJECT(MODEL_TOAD, 521, -337, 346, 0, -35, 0, 0x00000000, bhvIntroToad),
@@ -86,7 +81,6 @@ const LevelScript level_birthday_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	FREE_LEVEL_POOL(),
 	MARIO_POS(0x01, 0, -20, -383, 805),
 	CALL(0, lvl_init_or_update),

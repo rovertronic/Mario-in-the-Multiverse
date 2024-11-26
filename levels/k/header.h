@@ -63,4 +63,10 @@ extern const LevelScript level_k_entry[];
 
 #include "levels/k/earlyexit/geo_header.h"
 
+#include "levels/k/mara/geo_header.h"
+
+#include "levels/k/isaac/geo_header.h"
+
+#include "levels/k/ksteve/geo_header.h"
+
 #endif

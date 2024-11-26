@@ -849,10 +849,16 @@ void bhv_k_pounder(void) {
 
 #define PERSONAL_SPACE_DIST 300.0f
 void bhv_dancer(void) {
+    int anim = GET_BPARAM1(o->oBehParams);
     if (o->oTimer == 0) {
-        cur_obj_init_animation_with_sound(random_u16()%2);
         o->oFaceAngleYaw = random_u16();
         o->oGraphYOffset += o->oBehParams2ndByte * 2.0f;
+
+        if (anim != 0) {
+            cur_obj_init_animation_with_sound(anim);
+        } else {
+            cur_obj_init_animation_with_sound(random_u16()%2);
+        }
     }
     o->oMoveAngleYaw = approach_s16_asymptotic(o->oAngleToMario + 0x8000,o->oAngleVelYaw,64);
 
@@ -862,4 +868,12 @@ void bhv_dancer(void) {
     }
     o->oPosX = o->oHomeX + sins(o->oMoveAngleYaw)*PERSONAL_SPACE_DIST*backawayamount;
     o->oPosZ = o->oHomeZ + coss(o->oMoveAngleYaw)*PERSONAL_SPACE_DIST*backawayamount;
+
+    if (anim == 4) {
+        cur_obj_scale(0.5f);
+        o->oFaceAngleYaw += 0x400;
+        if (o->header.gfx.animInfo.animFrame > 80) {
+            o->oFaceAngleYaw += 0x400;
+        }
+    }
 }

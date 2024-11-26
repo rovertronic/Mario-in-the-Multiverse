@@ -896,18 +896,23 @@ struct mitm_credits_entry mitm_credits[] = {
     {"",0},
     {"Drahnokks:",2},
     {"Two Levels",0},
-    {"Morshu, Mumbo & Redd Model",0},
+    {"Morshu Model",0},
+    {"Mumbo Model",0},
+    {"Redd Model",0},
+    {"Layton Model",0},
     {"",0},
     {"Aeza:",2},
     {"Hub Model",0},
     {"Castle Model",0},
     {"",0},
     {"CowQuack:",2},
-    {"Rope system",0},
-    {"Ability Heart",0},
+    {"Rope System",0},
+    {"Ability Heart Object",0},
     {"",0},
     {"furyiousfight:",2},
-    {"Title model artwork",0},
+    {"Bowser Model",0},
+    {"Title Screen Model",0},
+    {"MitM Concept",0},
     {"",0},
     {"Dorrieal:",2},
     {"Bullet System",0},
@@ -943,14 +948,14 @@ struct mitm_credits_entry mitm_credits[] = {
     {"JakeDower",2},
     {"lincrash",2},
     {"Mel",2},
-    {"BroDute",2},
+    //{"BroDute",2},
     {"",0},
 
     {"Music",1},
     {"Teraok",2},
     {"SpK",2},
     {"sm64pie",2},
-    {"Asbeth",2},
+    //{"Asbeth",2},
     {"Leonitz",2},
     {"",0},
 
@@ -958,16 +963,6 @@ struct mitm_credits_entry mitm_credits[] = {
     {"Leonitz",2},
     {"Erableto",2},
     {"Biobak",2},
-    {"",0},
-
-    {"Club Multiverse Models",1},
-    {"",0},
-    {"Rovertronic",2},
-    {"Kaguya",0},
-    {"Ford Early Exit",0},
-    {"",0},
-    {"CowQuack",2},
-    {"Raquna",0},
     {"",0},
 
     {"Additional Help",1},
@@ -978,6 +973,9 @@ struct mitm_credits_entry mitm_credits[] = {
     {"",0},
     {"MrComit:",2},
     {"MP64 Star Switch Model",0},
+    {"",0},
+    {"MrComit & Cheezepin:",2},
+    {"E.Gadd Model & Animations",0},
     {"",0},
     {"theCozies:",2},
     {"Screen Shaders",0},
@@ -1004,6 +1002,26 @@ struct mitm_credits_entry mitm_credits[] = {
     {"",0},
     {"HackerN64 Team:",2},
     {"HackerSM64",0},
+
+    {"",0},
+    {"Club Multiverse Models",1},
+    {"",0},
+    {"Rovertronic",2},
+    {"Kaguya (Angels & Demons)",0},
+    {"Ford Early Exit (BONEWORKS)",0},
+    {"",0},
+    {"CowQuack",2},
+    {"Raquna (Etrian Odyssey)",0},
+    {"Steve (Minecraft)",0},
+    {"",0},
+    {"Drahnokks",2},
+    {"Mara (Crow Country)",0},
+    {"",0},
+    {"Biobak",2},
+    {"Isaac (The Binding of Isaac)",0},
+    {"",0},
+    {"Thank you for playing!",1},
+    {"-The MitM Team",2},
 };
 
 f32 clamp2(f32 x) {
@@ -1047,7 +1065,11 @@ void print_mitm_credits(u8 hud_alpha) {
 
     shade_screen();
 
-    credits_y_offset -= (gPlayer1Controller->rawStickY/10.0f);
+    if (_60fps_on) {
+        credits_y_offset -= (gPlayer1Controller->rawStickY/20.0f);
+    } else {
+        credits_y_offset -= (gPlayer1Controller->rawStickY/10.0f);
+    }
     if (credits_y_offset <= 0) {
         credits_y_offset = 0;
     }

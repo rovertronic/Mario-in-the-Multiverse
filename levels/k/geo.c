@@ -36,3 +36,6 @@
 #include "levels/k/k_josh/geo.inc.c"
 #include "levels/k/raquna/geo.inc.c"
 #include "levels/k/earlyexit/geo.inc.c"
+#include "levels/k/mara/geo.inc.c"
+#include "levels/k/isaac/geo.inc.c"
+#include "levels/k/ksteve/geo.inc.c"

@@ -42,3 +42,6 @@
 #include "levels/k/kdancer/anims/table.inc.c"
 #include "levels/k/raquna/model.inc.c"
 #include "levels/k/earlyexit/model.inc.c"
+#include "levels/k/mara/model.inc.c"
+#include "levels/k/isaac/model.inc.c"
+#include "levels/k/ksteve/model.inc.c"

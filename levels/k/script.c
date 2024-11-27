@@ -52,6 +52,7 @@ const LevelScript level_k_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_K_MARA, mara_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_K_ISAAC, isaac_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_K_STEVE, ksteve_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_K_YICK, kyick_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -216,7 +217,6 @@ const LevelScript level_k_entry[] = {
 		OBJECT(MODEL_NONE, -697, 1495, -7019, 0, 0, 0, (5 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_K_EARLYEXIT, 974, 0, -2487, 0, 41, 0, (0 << 16), bhvKdancer),
 		OBJECT(MODEL_K_EARLYEXIT, 1343, 0, -4569, 0, 41, 0, (20 << 16), bhvKdancer),
-		OBJECT(MODEL_K_EARLYEXIT, -65, 0, -4214, 0, 41, 0, (20 << 16), bhvKdancer),
 		OBJECT(MODEL_K_EARLYEXIT, -1384, 0, -4374, 0, 41, 0, (20 << 16), bhvKdancer),
 		OBJECT(MODEL_NONE, -6, 0, 650, 0, 0, 0, (42 << 24) | (2 << 16), bhvWarp),
 		OBJECT(MODEL_K_ISAAC, -767, 0, -3573, 0, 41, 0, (4 << 24) | (12 << 16), bhvKdancer),
@@ -227,6 +227,7 @@ const LevelScript level_k_entry[] = {
 		OBJECT(MODEL_NONE, -1241, -406, -7666, 0, -180, 0, (3 << 24), bhvStar),
 		OBJECT(MODEL_NONE, -1866, 0, -8027, 0, -180, 0, (6 << 24), bhvStar),
 		OBJECT(MODEL_K_STEVE, 1299, 0, -3331, 0, 41, 0, (19 << 16), bhvKdancer),
+		OBJECT(MODEL_K_YICK, -65, 0, -4214, 0, 41, 0, (20 << 16), bhvKdancer),
 		OBJECT(MODEL_NONE, -4, 0, -638, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		TERRAIN(k_area_3_collision),
 		MACRO_OBJECTS(k_area_3_macro_objs),

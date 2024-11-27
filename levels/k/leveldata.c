@@ -45,3 +45,4 @@
 #include "levels/k/mara/model.inc.c"
 #include "levels/k/isaac/model.inc.c"
 #include "levels/k/ksteve/model.inc.c"
+#include "levels/k/kyick/model.inc.c"

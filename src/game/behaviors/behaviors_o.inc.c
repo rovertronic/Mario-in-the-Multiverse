@@ -1629,6 +1629,7 @@ enum {
     FBOWSER_SEPH_STAGGER,
     FBOWSER_SEPH_SWIPE,
     FBOWSER_SEPH_ARC,
+    FBOWSER_SEPH_DEFLECT,
 
     //hector is the name of the golem from b&s
     FBOWSER_HECTOR_INTRO,
@@ -1757,7 +1758,6 @@ void sephiser_general_attack_handler(void) {
             drop_and_set_mario_action(gMarioState, ACT_HARD_BACKWARD_AIR_KB, 3);
         }
     }
-    o->oInteractStatus = 0;
 
     if (cur_obj_check_if_at_animation_end()) {
         o->oAction = FBOWSER_SEPH_SWIPE+(random_u16()%2);
@@ -1767,6 +1767,11 @@ void sephiser_general_attack_handler(void) {
             o->oAction = FBOWSER_SEPH_CHARGE;
             cur_obj_init_animation_with_sound(16);
         }
+    }
+
+    if ((o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || (o->oShotByShotgun > 0)) {
+        o->oAction = FBOWSER_SEPH_DEFLECT;
+        cur_obj_init_animation_with_sound(18);
     }
 }
 
@@ -1874,11 +1879,24 @@ void bhv_final_boss_bowser(void) {
 
                 o->oPosY = approach_f32_asymptotic(o->oPosY,SB_Y+32.f,.1f);
 
+                if ((o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || (o->oShotByShotgun > 0)) {
+                    o->oAction = FBOWSER_SEPH_DEFLECT;
+                    cur_obj_init_animation_with_sound(18);
+                }
                 if (hit_by_bowsers_weapon()) {
                     gMarioState->hurtCounter += 4;
                     drop_and_set_mario_action(gMarioState, ACT_HARD_BACKWARD_AIR_KB, 3);
                 }
                 o->oInteractStatus = 0;
+            }
+            break;
+        case FBOWSER_SEPH_DEFLECT:
+            if (o->oTimer == 0) {
+                o->oFaceAngleYaw = o->oAngleToMario;
+                cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
+            }
+            if (o->oTimer > 15) {
+                o->oAction = FBOWSER_SEPH_SWIPE+(random_u16()%2);
             }
             break;
         case FBOWSER_TRANSFORM:

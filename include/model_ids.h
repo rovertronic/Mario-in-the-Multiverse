@@ -903,6 +903,7 @@ enum K_MODELS {
     MODEL_K_MARA,
     MODEL_K_ISAAC,
     MODEL_K_STEVE,
+    MODEL_K_YICK,
 };
 /* LEVEL K END */
 

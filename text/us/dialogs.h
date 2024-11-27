@@ -824,6 +824,12 @@ receive an audience and\n\
 be able to change the core\n\
 tenets of the multiverse."))
 
+DEFINE_DIALOG(DIALOG_COIN_REWARD, 1, 4, 95, 200, _("\
+Congratulations on\n\
+collecting every ability!\n\
+As a reward, every coin's\n\
+value has been tripled."))
+
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 200, _("\
 Wow! You're smack in the\n\
 middle of the battlefield.\n\

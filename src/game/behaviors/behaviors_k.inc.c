@@ -133,6 +133,7 @@ enum {
     K_ENEMY_PATROL_IDLE,
     K_ENEMY_CHASE,
     K_ENEMY_STAGGER,
+    K_ENEMY_SHIELD_STAGGER,
     K_ENEMY_MELEE,
     K_ENEMY_SHOOT,
     K_ENEMY_BLOCKUP,
@@ -265,10 +266,12 @@ void k_enemy_shielded(void) {
     o->oDamageOrCoinValue = 0;
     if (o->oShotByShotgun > 0) {
         cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
+        o->oAction = K_ENEMY_SHIELD_STAGGER;
     }
     if (o->oInteractStatus & INT_STATUS_INTERACTED) {
         if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
             cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
+            o->oAction = K_ENEMY_SHIELD_STAGGER;
 
             if (using_ability(ABILITY_MARBLE)) {
                 k_kill_enemy();
@@ -396,13 +399,24 @@ void k_generic_enemy_handler(void) {
                 o->oForwardVel = -60.0f;
             }
             o->oForwardVel *= .9f;
-            if (o->oTimer >= 35) {
+            if (o->oTimer >= 50) {
                 o->oAction = K_ENEMY_PATROL_IDLE;
                 cur_obj_become_tangible();
             }
-            if (o->oTimer > 25) {
+            if (o->oTimer > 12) {
                 cur_obj_become_tangible();
                 k_enemy_stagger_vulnerable();
+            }
+            break;
+        case K_ENEMY_SHIELD_STAGGER:
+            cur_obj_become_intangible();
+            if (o->oTimer == 0) {
+                o->oForwardVel = -60.0f;
+            }
+            o->oForwardVel *= .85f;
+            if (o->oTimer >= 35) {
+                o->oAction = K_ENEMY_PATROL_IDLE;
+                cur_obj_become_tangible();
             }
             break;
     }
@@ -570,6 +584,11 @@ void bhv_k_shieldo(void) {
             k_enemy_shielded();
             break;
         case K_ENEMY_STAGGER:
+            if (o->oTimer == 0) {
+                cur_obj_init_animation_with_sound(HUMANOID_ANIM_STAGGER);
+            }
+            break;
+        case K_ENEMY_SHIELD_STAGGER:
             if (o->oTimer == 0) {
                 cur_obj_init_animation_with_sound(HUMANOID_ANIM_SHIELDBLOCK);
             }

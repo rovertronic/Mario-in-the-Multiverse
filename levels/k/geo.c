@@ -39,3 +39,4 @@
 #include "levels/k/mara/geo.inc.c"
 #include "levels/k/isaac/geo.inc.c"
 #include "levels/k/ksteve/geo.inc.c"
+#include "levels/k/kyick/geo.inc.c"

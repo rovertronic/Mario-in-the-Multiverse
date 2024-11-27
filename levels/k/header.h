@@ -69,4 +69,6 @@ extern const LevelScript level_k_entry[];
 
 #include "levels/k/ksteve/geo_header.h"
 
+#include "levels/k/kyick/geo_header.h"
+
 #endif

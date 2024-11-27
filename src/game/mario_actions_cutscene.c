@@ -686,7 +686,9 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
                     got_an_ability = TRUE;
                 }
 
-                disable_background_sound();
+                if (!using_ability(ABILITY_E_SHOTGUN)) {
+                    disable_background_sound();
+                }
                 //! TODO: Is this check necessary? Both seem to do the exact same thing.
                 if (m->actionArg & 1) {
                     // No exit

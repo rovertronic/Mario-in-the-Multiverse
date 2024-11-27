@@ -33,9 +33,9 @@ const LevelScript level_m_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_M_CLASSC, m_classc_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_M_GATE, m_gate_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_M_JELLY, m_jelly_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_M_ELEVATOR, m_elevator_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_M_JELLYLASER, m_jellylaser_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_M_JELLYLASER_2, m_jellylaser2_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_M_ELEVATOR, m_elevator_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_M_JELLYLASER, m_jellylaser_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_M_JELLYLASER_2, m_jellylaser2_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -117,6 +117,7 @@ const LevelScript level_m_entry[] = {
 		OBJECT(MODEL_NONE, 2200, 501, -13300, 0, 0, 0, (1 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, 9100, -2172, -13700, 0, 0, 0, (2 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -3100, 5133, -10500, 0, 0, 0, (3 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, -6886, 9200, -9000, 0, -90, 0, (DIALOG_LORE_TAB << 16), bhvSignOnWall),
 		TERRAIN(m_area_2_collision),
 		ROOMS(m_area_2_collision_rooms),
 		MACRO_OBJECTS(m_area_2_macro_objs),

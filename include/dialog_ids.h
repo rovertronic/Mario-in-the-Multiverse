@@ -56,6 +56,7 @@ enum DialogId {
     DIALOG_FB_HINT_3,
     DIALOG_FB_HINT_4,
     DIALOG_FB_HINT_5,
+    DIALOG_LORE_TAB,
     DIALOG_000,
     DIALOG_001,
     DIALOG_002,

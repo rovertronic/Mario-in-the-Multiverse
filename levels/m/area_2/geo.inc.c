@@ -250,6 +250,7 @@ const GeoLayout m_dl_A2_room_G_geo[] = {
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 300, 2325, -9000, m_dl_A2_water_B3_mesh_layer_5),
 		GEO_ASM(0, e__shotgun_effects),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -85441, 7882, 7974),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -6860, 9200, -9000, 0, 90, 0, m_dl_Stone_Slabs_001_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

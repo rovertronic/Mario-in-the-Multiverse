@@ -499,15 +499,12 @@ DEFINE_DIALOG(DIALOG_C9_4, 2, 3, 95, 200, _("\
 \n\
 Well done, tutorial's over!\n\
 \n\
-Remember to use aim mode,\n\
-/and that jump boost!\n\
-You'll need those a lot."))
-
-/*
 Check options in the pause\n\
 menu if you'd like to\n\
 invert Aim Mode controls.\n\
-*/
+Remember to use aim mode,\n\
+/and that jump boost!\n\
+You'll need those a lot."))
 
 DEFINE_DIALOG(DIALOG_L_PEPPERMAN_1, 2, 4, 95, 200, _("\
 \n\
@@ -800,6 +797,32 @@ this phase.\n\
 Use whatever you feel\n\
 works best to get the\n\
 job done."))
+
+DEFINE_DIALOG(DIALOG_LORE_TAB, 1, 8, 95, 200, _("\
+Atreus is a deity who\n\
+governs the multiverse and\n\
+resides in Centrum Omnium.\n\
+The body of Atreus contains\n\
+all of the matter which\n\
+will create yet unborn\n\
+universes.\n\
+\n\
+When a new universe is to\n\
+be born, Atreus is said to\n\
+cry a tear made of all the\n\
+elements. Over a trillion\n\
+years, Atreus will have\n\
+used up its mass having\n\
+given birth to every\n\
+possible universe.\n\
+Then, Atreus will keep\n\
+watch over the universe\n\
+until the end of time.\n\
+Anybody who manages to\n\
+enter the eye will\n\
+receive an audience and\n\
+be able to change the core\n\
+tenets of the multiverse."))
 
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 200, _("\
 Wow! You're smack in the\n\

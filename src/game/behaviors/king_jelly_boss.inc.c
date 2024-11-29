@@ -740,6 +740,7 @@ void goliath_jelly_boss_loop(void) {
 
     switch(o->oAction) {
         case KING_JELLY_ACT_INIT:
+            cur_obj_boss_shimmer_reset();
             o->oPosY += 300.0f;
             if (o->prevObj == NULL) {
                 o->prevObj = spawn_object(o, MODEL_ZAP, bhvKingJellyZap);
@@ -906,13 +907,8 @@ void goliath_jelly_boss_loop(void) {
             break;
             
         case KING_JELLY_ACT_DIE:
-            if (o->oTimer==0) {
+            if (cur_obj_boss_shimmer_death(200.0f,1.5f)) {
                 stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_MECHA));
-                cur_obj_play_sound_2(SOUND_OBJ_ENEMY_DEFEAT_SHRINK);
-            }
-            cur_obj_scale(4.0 * ((30.0f-o->oTimer)/30.0f));
-
-            if (o->oTimer > 30) {
                 esa_mhp = -1;
                 obj_mark_for_deletion(o->prevObj);
                 obj_mark_for_deletion(o);

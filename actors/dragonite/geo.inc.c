@@ -170,9 +170,6 @@ const GeoLayout dragonite_geo[] = {
 			GEO_CLOSE_NODE(),
 			GEO_BRANCH(1, dragonite_switchcase_opt1),
 		GEO_CLOSE_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, dragonite_material_revert_render_settings),
-		GEO_DISPLAY_LIST(LAYER_ALPHA, dragonite_material_revert_render_settings),
-		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, dragonite_material_revert_render_settings),
 	GEO_CLOSE_NODE(),
 	GEO_END(),
 };

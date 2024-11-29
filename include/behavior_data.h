@@ -939,5 +939,6 @@ extern const BehaviorScript bhvBcFinalBossHintSign[];
 extern const BehaviorScript bhvEndBowser[];
 extern const BehaviorScript bhvFloorSwitchTeleporter[];
 extern const BehaviorScript bhvCoinPile[];
+extern const BehaviorScript bhvCollectablePainting[];
 
 #endif // BEHAVIOR_DATA_H

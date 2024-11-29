@@ -610,3 +610,11 @@ Gfx *geo_update_sb_sky(s32 callContext, struct GraphNode *node, UNUSED void *con
     }
     return NULL;
 }
+
+Gfx *geo_update_g_marxscroll(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+
+    }
+    return NULL;
+}

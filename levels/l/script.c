@@ -473,6 +473,7 @@ const LevelScript level_l_entry[] = {
 		OBJECT(MODEL_L_JOHNBLOCK, -2550, 100, 0, 0, 0, 0, (0 << 16), bhvJohnBlock),
 		OBJECT(MODEL_L_JOHN, 13688, -1150, 0, 0, 0, 0, 0x00000000, bhvL_JohnPillar),
 		OBJECT(MODEL_NONE, 12800, -750, 0, 0, -90, 0, (4 << 16), bhvSpinAirborneWarp),
+		OBJECT(MODEL_NONE, 7619, 1122, 0, 0, 0, 0, (6 << 16), bhvCollectablePainting),
 		OBJECT(MODEL_THWOMP, 11050, 1650, 0, 0, -180, 0, 0x00000000, bhvThwomp),
 		TERRAIN(l_area_5_collision),
 		MACRO_OBJECTS(l_area_5_macro_objs),

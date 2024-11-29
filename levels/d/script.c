@@ -127,6 +127,7 @@ const LevelScript level_d_entry[] = {
 		OBJECT(MODEL_NITRO_BOX, -4010, 4020, 8061, 0, 0, 0, 0x00000000, bhvNitroBox),
 		OBJECT(MODEL_NITRO_BOX, -5305, 3856, 6268, 0, 0, 0, 0x00000000, bhvNitroBox),
 		OBJECT(MODEL_NITRO_BOX, -5305, 3856, 8061, 0, 0, 0, 0x00000000, bhvNitroBox),
+		OBJECT(MODEL_NONE, -1874, 5930, -5176, 0, 0, 0, (11 << 16), bhvCollectablePainting),
 		OBJECT(MODEL_BOBOMB_BUDDY, 3527, 2142, -1300, 0, 0, 0, (DIALOG_D_INTROBOMB << 16), bhvBobombBuddy),
 		OBJECT(MODEL_PURPLE_SWITCH, -8728, 3927, 7120, 0, 0, 0, 0x00000000, bhvFloorSwitchGrills),
 		OBJECT(MODEL_PURPLE_SWITCH, 8751, 3672, 647, 0, 0, 0, 0x00000000, bhvFloorSwitchHiddenObjects),

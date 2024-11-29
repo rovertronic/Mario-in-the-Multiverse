@@ -277,6 +277,7 @@ const LevelScript level_J_entry[] = {
 		OBJECT(MODEL_NONE, -6587, 0, -91, 0, 90, 0, (0x18 << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_J_OLD_MAN, -3518, 0, -2601, 0, 0, 0, (DIALOG_OLD_MAN_1 << 16), bhvOldMan),
 		OBJECT(MODEL_J_OLD_MAN, 898, 0, -547, 0, 0, 0, (DIALOG_OLD_MAN_2 << 16), bhvOldMan),
+		OBJECT(MODEL_NONE, 2520, 5115, -5534, 0, 0, 0, (10 << 16), bhvCollectablePainting),
 		OBJECT(MODEL_WOODEN_SIGNPOST, -560, 0, 1394, 0, 0, 0, (DIALOG_ECRUTEAK_SIGN << 16), bhvMessagePanel),
 		OBJECT(MODEL_WOODEN_SIGNPOST, -2479, 0, -2469, 0, 0, 0, (DIALOG_BURNED_TOWER << 16), bhvMessagePanel),
 		OBJECT(MODEL_J_SNORLAX, 193, -181, 4573, 0, 0, 0, 0x00000000, bhvSnorlax),

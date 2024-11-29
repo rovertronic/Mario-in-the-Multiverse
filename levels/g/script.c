@@ -133,6 +133,8 @@
 #include "actors/common1.h"
 #include "actors/common1.h"
 #include "actors/common1.h"
+#include "actors/common1.h"
+#include "actors/common1.h"
 
 /* Fast64 begin persistent block [includes] */
 #include "actors/common1.h"
@@ -309,6 +311,7 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_NONE, 520, -1861, 13853, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 530, -2205, 14095, 0, -180, 0, (0x09 << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_NONE, 909, 1411, -343, 0, -180, 0, (0x0A << 16), bhvSpinAirborneWarp),
+		OBJECT(MODEL_NONE, -1683, 3610, 2210, 0, 0, 0, (0 << 16), bhvCollectablePainting),
 		OBJECT(MODEL_NONE, 3080, 2034, -8289, 0, -49, 0, (12 << 16), bhvWarpPipe),
 		OBJECT(MODEL_RED_COIN, -1240, 1092, -969, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_NONE, -1332, 1530, -2249, 0, 14, 0, (1 << 24), bhvHiddenRedCoinStar),

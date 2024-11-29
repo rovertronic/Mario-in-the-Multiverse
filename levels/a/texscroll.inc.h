@@ -6,4 +6,5 @@ extern void scroll_a_dl_Vert_005_mesh_layer_5_vtx_0();
 extern void scroll_a_dl_Vert_006_mesh_layer_5_vtx_0();
 extern void scroll_a_dl_Plane_036_mesh_layer_5_vtx_0();
 extern void scroll_a_dl_Circle_019_mesh_layer_5_vtx_0();
+extern void scroll_a_dl_Plane_047_mesh_layer_5_vtx_0();
 extern void scroll_a();

@@ -62,6 +62,7 @@ void bhv_m_classc(void) {
     switch(o->oAction) {
         case 0: // Wait for Mario to come
             if (lateral_dist_between_objects(gMarioObject,o) < 1300.0f) {
+                cur_obj_boss_shimmer_reset();
                 o->prevObj = spawn_object(o, MODEL_ZAP, bhvKingJellyZap);
                 obj_scale(o->prevObj,4.0f);
                 o->oAction = 1;
@@ -125,13 +126,7 @@ void bhv_m_classc(void) {
         case 2: // Die
             o->oIntangibleTimer = 0;
             o->oInteractType = INTERACT_NONE;
-            if (o->oTimer % 2 == 0) {
-                struct Object * bam = spawn_object(o,MODEL_EXPLOSION,bhvExplosionVisual);
-                bam->oPosX += (random_float() * 400.0f)-200.0f;
-                bam->oPosY += (random_float() * 400.0f)-200.0f;
-                bam->oPosZ += (random_float() * 400.0f)-200.0f;
-            }
-            if (o->oTimer == 60) {
+            if (cur_obj_boss_shimmer_death(200.f,.75f)) {
                 struct Object * abilityspawn = spawn_object(o,MODEL_ABILITY,bhvAbilityUnlock);
                 vec3f_set(&abilityspawn->oPosVec,-1900, 1700, -13700);
                 abilityspawn->oBehParams2ndByte = ABILITY_DASH_BOOSTER;

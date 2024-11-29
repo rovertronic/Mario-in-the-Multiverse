@@ -204,6 +204,7 @@ const LevelScript level_i_entry[] = {
 		OBJECT(MODEL_NOTEBLOCK, 609, 1469, 17729, 0, -135, 0, 0x00000000, bhvNoteblock),
 		OBJECT(MODEL_NOTEBLOCK, 608, -524, 17729, 0, -135, 0, 0x00000000, bhvNoteblock),
 		OBJECT(MODEL_OPENING_WALL, -11155, -28, -3803, 0, -135, 0, 0x00000000, bhvOpeningWall),
+		OBJECT(MODEL_NONE, 567, -505, 11346, 0, 0, 0, (3 << 16), bhvCollectablePainting),
 		OBJECT(MODEL_PIGPOT, -1324, -71, 7027, 0, -11, 0, 0x00000000, bhvPigpot),
 		OBJECT(MODEL_PIGPOT, 3343, 440, -1513, 0, 165, 0, 0x00000000, bhvPigpot),
 		OBJECT(MODEL_PIGPOT, 3706, 711, -1233, 0, -149, 0, 0x00000000, bhvPigpot),

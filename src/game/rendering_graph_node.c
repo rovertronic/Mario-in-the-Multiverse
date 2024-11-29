@@ -468,18 +468,18 @@ void geo_append_display_list(void *displayList, s32 layer) {
         ucode = gCurGraphNodeObject->ucode;
  #endif
  #if SILHOUETTE
-        if (gCurGraphNodeObject->node.flags & GRAPH_RENDER_SILHOUETTE) {
-            switch (layer) {
-                case LAYER_OPAQUE: layer = LAYER_SILHOUETTE_OPAQUE; break;
-                case LAYER_ALPHA:  layer = LAYER_SILHOUETTE_ALPHA;  break;
-            }
-        }
-        if (gCurGraphNodeObject->node.flags & GRAPH_RENDER_OCCLUDE_SILHOUETTE) {
-            switch (layer) {
-                case LAYER_OPAQUE: layer = LAYER_OCCLUDE_SILHOUETTE_OPAQUE; break;
-                case LAYER_ALPHA:  layer = LAYER_OCCLUDE_SILHOUETTE_ALPHA;  break;
-            }
-        }
+        //if (gCurGraphNodeObject->node.flags & GRAPH_RENDER_SILHOUETTE) {
+        //    switch (layer) {
+        //        case LAYER_OPAQUE: layer = LAYER_SILHOUETTE_OPAQUE; break;
+        //        case LAYER_ALPHA:  layer = LAYER_SILHOUETTE_ALPHA;  break;
+        //    }
+        //}
+        //if (gCurGraphNodeObject->node.flags & GRAPH_RENDER_OCCLUDE_SILHOUETTE) {
+        //    switch (layer) {
+        //        case LAYER_OPAQUE: layer = LAYER_OCCLUDE_SILHOUETTE_OPAQUE; break;
+        //        case LAYER_ALPHA:  layer = LAYER_OCCLUDE_SILHOUETTE_ALPHA;  break;
+        //    }
+        //}
  #endif // SILHOUETTE
     }
 #endif // F3DEX_GBI_2 || SILHOUETTE
@@ -1377,23 +1377,39 @@ void geo_process_object(struct Object *node) {
                 }
                 mtxf_scale_vec3f(gMatStack[gMatStackIndex + 1], *node->header.gfx.throwMatrix, node->header.gfx.scaleLerp);
 
+                if (_60fps_midframe) {
+                    oldThrowMatrix = node->header.gfx.throwMatrix;
+                }
+
                 if (!_60fps_midframe) {
                     for (int i = 0; i < 3; i++) {
                         node->header.gfx.posLerp[i] = gMatStack[gMatStackIndex + 1][3][i];
+                        for (int j = 0; j < 3; j++) {
+                            node->header.gfx.matLerp[j][i] = gMatStack[gMatStackIndex + 1][j][i];
+                        }
                     }
-                }
-
-                if (_60fps_midframe) {
-                    oldThrowMatrix = node->header.gfx.throwMatrix;
                 }
 
                 if (!interpolation_complete) {
                     for (int i = 0; i < 3; i++) {
                         gMatStack[gMatStackIndex + 1][3][i] = approach_pos_lerp(node->header.gfx.posLerp[i],gMatStack[gMatStackIndex + 1][3][i]);
                         node->header.gfx.posLerp[i] = gMatStack[gMatStackIndex + 1][3][i];
+                        for (int j = 0; j < 3; j++) {
+                            gMatStack[gMatStackIndex + 1][j][i] = approach_pos_lerp(node->header.gfx.matLerp[j][i],gMatStack[gMatStackIndex + 1][j][i]);
+                            node->header.gfx.matLerp[j][i] = gMatStack[gMatStackIndex + 1][j][i];
+                        }
+                    }
+                    if (!(node->header.gfx.node.flags & GRAPH_RENDER_DONT_NORMALIZE_TRANS_LERP)) {
+                        for (int i = 0; i < 3; i++) {
+                            //normalize sticks to prevent ball shrinkage and screen flickergooning
+                            vec3f_normalize(&gMatStack[gMatStackIndex + 1][i]);
+                        }
                     }
                 } else {
                     vec3f_copy(gMatStack[gMatStackIndex + 1][3],node->header.gfx.posLerp);
+                    for (int i = 0; i < 3; i++) {
+                        vec3f_copy(gMatStack[gMatStackIndex + 1][i],node->header.gfx.matLerp[i]);
+                    }
                 }
 
             } else if (node->header.gfx.node.flags & GRAPH_RENDER_BILLBOARD) {

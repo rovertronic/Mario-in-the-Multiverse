@@ -9941,6 +9941,14 @@ const BehaviorScript bhvDreamCatalyst[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvCollectablePainting[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    BEGIN_LOOP(),
+        //CALL_NATIVE(bhv_dream_catalyst),
+    END_LOOP(),
+};
+
 extern void bhv_cardstar_init(void);
 extern void bhv_cardstar(void);
 const BehaviorScript bhvCarboardStarBody[] = {

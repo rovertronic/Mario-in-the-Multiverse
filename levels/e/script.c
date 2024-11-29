@@ -257,6 +257,7 @@ const LevelScript level_e_entry[] = {
 		OBJECT(MODEL_ID_1A, -8020, 3981, -16900, 0, 0, 0, 0x00000000, bhvE_Medkit),
 		OBJECT(MODEL_ID_1A, -5120, 4563, -12370, 0, 0, 0, 0x00000000, bhvE_Medkit),
 		OBJECT(MODEL_ID_1A, -5120, 4563, -14100, 0, 0, 0, 0x00000000, bhvE_Medkit),
+		OBJECT(MODEL_NONE, -10311, 6815, -9025, 0, 0, 0, (8 << 16), bhvCollectablePainting),
 		OBJECT(MODEL_ID_16, -12600, 4171, -1000, 0, 135, 0, 0x00000000, bhvE_PistolGuy),
 		OBJECT(MODEL_ID_16, -8700, 4553, -3400, 0, 0, 0, 0x00000000, bhvE_PistolGuy),
 		OBJECT(MODEL_ID_16, -8100, 4553, -6700, 0, 0, 0, 0x00000000, bhvE_PistolGuy),

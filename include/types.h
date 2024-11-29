@@ -253,6 +253,7 @@ struct GraphNodeObject {
 
     Vec3f posLerp;
     Vec3f scaleLerp;
+    Vec3f matLerp[3];
     Vec3s angleLerp;
     u8 bothMats;
 

@@ -808,6 +808,8 @@ void bc_stair_loop(void) {
     struct Object *rocketbutton = cur_obj_nearest_object_with_behavior(bhvRocketButton);
     Mat4 *transform = &o->transform;
     Mat4 *transform2 = NULL;
+
+    o->header.gfx.node.flags |= GRAPH_RENDER_DONT_NORMALIZE_TRANS_LERP;
     if (o->prevObj) {
         transform2 = &o->prevObj->transform;
     }
@@ -815,6 +817,7 @@ void bc_stair_loop(void) {
     switch(o->oAction) {
         case 0:
             o->prevObj = spawn_object(o,MODEL_BC_STAIR_2,bhvStaticObject);
+            o->prevObj->header.gfx.node.flags |= GRAPH_RENDER_DONT_NORMALIZE_TRANS_LERP;
             o->prevObj->oPosX -= 330.0f;
             o->prevObj->oPosY -= 330.0f;
             transform2 = &o->prevObj->transform;

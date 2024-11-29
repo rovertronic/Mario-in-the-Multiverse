@@ -182,6 +182,7 @@ const LevelScript level_n_entry[] = {
 		OBJECT(MODEL_NONE, -5749, 3365, 1394, 0, 0, 0, (4 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -2749, 10684, 3344, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, -2749, 10684, 3344, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_NONE, -5748, 3073, 944, 0, 0, 0, (13 << 16), bhvCollectablePainting),
 		OBJECT(MODEL_NONE, -3949, 515, -12068, 0, 0, 0, (4 << 24), bhvStar),
 		TERRAIN(n_area_6_collision),
 		MACRO_OBJECTS(n_area_6_macro_objs),

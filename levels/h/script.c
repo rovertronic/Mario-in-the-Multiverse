@@ -89,6 +89,7 @@ const LevelScript level_h_entry[] = {
 		OBJECT(MODEL_NONE, 2115, -886, 10467, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 2115, -1410, 10467, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		MARIO_POS(0x01, 0, 2115, -1410, 10467),
+		OBJECT(MODEL_NONE, 5637, 8342, -5667, 0, 7, 0, (4 << 16), bhvCollectablePainting),
 		OBJECT(MODEL_RED_COIN, 11021, -2218, 3532, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_RED_COIN, 13595, -2218, -535, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_RED_COIN, 13898, -3385, -6129, 0, 0, 0, 0x00000000, bhvRedCoin),

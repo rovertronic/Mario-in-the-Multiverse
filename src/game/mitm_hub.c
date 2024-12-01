@@ -1023,6 +1023,9 @@ struct mitm_credits_entry mitm_credits[] = {
     {"Biobak",2},
     {"Isaac (The Binding of Isaac)",0},
     {"",0},
+    {"JakeDower:",2},
+    {"Ratchet (Ratchet & Clank)",0},
+    {"",0},
     {"RationaLess:",2},
     {"Alex (YIIK: A Post-Modern RPG)",0},
     {"",0},
@@ -1249,76 +1252,83 @@ void render_painting_ui(f32 alpha) {
 }
 
 struct music_data music_list[] = {
-    {SEQ_MITM_FILE_SELECT,"File Select","Original composition by: SpK"},
-    {SEQ_MITM_HUB,"Fracture","Original composition by: SpK"},
+    {SEQ_MITM_FILE_SELECT,0,"File Select","Original composition by: SpK"},
+    {SEQ_MITM_HUB,0,"Fracture","Original composition by: SpK"},
     
-    {SEQ_PEACHS_BIRTHDAY,"Peach's Birthday Cake","From: Mario Party\nPorted by: Teraok"},
-    {SEQ_BOWSER_TIME,"Bowser Time!","From: Mario Party DS\nPorted by: Teraok"},
+    {SEQ_PEACHS_BIRTHDAY,0,"Peach's Birthday Cake","From: Mario Party\nPorted by: Teraok"},
+    {SEQ_BOWSER_TIME,0,"Bowser Time!","From: Mario Party DS\nPorted by: Teraok"},
 
-    {SEQ_MITM_GET_ABILITY,"Get Ability","Original composition by: Leonitz\nPorted by: sm64pie"},
+    {SEQ_MITM_GET_ABILITY,0,"Get Ability","Original composition by: Leonitz\nPorted by: sm64pie"},
 
-    {SEQ_CUSTOM_SAVE_HUT,"Save Hut","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
-    {SEQ_CUSTOM_KIRBY_BOSS,"Boss Battle","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
-    {SEQ_CUSTOM_PEANUT_PLAINS,"Peanut Plains","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
-    {SEQ_CUSTOM_CRYSTAL_FIELD,"Crystal Field","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
-    {SEQ_CUSTOM_TREES_IN_THE_DEPTHS,"Trees in the Depths of the Earth","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
-    {SEQ_MINECART_RIDING,"Mine Cart Riding","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
-    {SEQ_CUSTOM_MARX,"V.S. Marx","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+    {SEQ_CUSTOM_SAVE_HUT,0,"Save Hut","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+    {SEQ_CUSTOM_KIRBY_BOSS,0,"Boss Battle","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+    {SEQ_CUSTOM_PEANUT_PLAINS,0,"Peanut Plains","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+    {SEQ_CUSTOM_CRYSTAL_FIELD,0,"Crystal Field","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+    {SEQ_CUSTOM_TREES_IN_THE_DEPTHS,0,"Trees in the Depths of the Earth","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+    {SEQ_MINECART_RIDING,0,"Mine Cart Riding","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+    {SEQ_CUSTOM_MARX,0,"V.S. Marx","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
 
-    {SEQ_JELLYFISH_FIELDS,"Jellyfish Fields","From: Battle for Bikini Bottom\nPorted by: JoshTheBosh"},
-    {SEQ_JELLYFISH_SECRET,"Jellyfish Secret","From: Battle for Bikini Bottom\nPorted by: JoshTheBosh"},
-    {SEQ_DOWNTOWN_BB,"Downtown Bikini Bottom","From: Battle for Bikini Bottom\nPorted by: JoshTheBosh"},
-    {SEQ_JELLYFISH_BOSS,"Jellyfish Jam","From: Battle for Bikini Bottom\nPorted by: sm64pie"},
+    {SEQ_JELLYFISH_FIELDS,0,"Jellyfish Fields","From: Battle for Bikini Bottom\nPorted by: JoshTheBosh"},
+    {SEQ_JELLYFISH_SECRET,0,"Jellyfish Secret","From: Battle for Bikini Bottom\nPorted by: JoshTheBosh"},
+    {SEQ_DOWNTOWN_BB,0,"Downtown Bikini Bottom","From: Battle for Bikini Bottom\nPorted by: JoshTheBosh"},
+    {SEQ_JELLYFISH_BOSS,0,"Jellyfish Jam","From: Battle for Bikini Bottom\nPorted by: sm64pie"},
 
-    {SEQ_C_SEA_ME_NOW,"Sea Me Now","From: Splatoon 3\nPorted by: Teraok"},
+    {SEQ_C_SEA_ME_NOW,0,"Sea Me Now","From: Splatoon 3\nPorted by: Teraok"},
 
-    {SEQ_LEVEL_I_INSIDE,"Cave Dungeon Rayman Remix","Original composition by: Teraok"},
-    {SEQ_CLEARLEAF_FOREST,"Clearleaf Forest","From: Rayman 3\nPorted by: Teraok"},
-    {SEQ_LEVEL_I_AMBUSH,"Hoodlum Ambush","From: Rayman 3\nPorted by: Teraok"},
-    {SEQ_LEVEL_I_CARRYING_THE_PLUM,"Carrying the Plum","From: Rayman 3\nPorted by: Teraok"},
-    {SEQ_FUNKY_SHELL,"Funky Board","From: Rayman 3\nPorted by: Teraok"},
-    {SEQ_MASTER_KAAG_BOSS,"Master Kaag","From: Rayman 3\nPorted by: Teraok"},
+    {SEQ_LEVEL_I_INSIDE,0,"Cave Dungeon Rayman Remix","Original composition by: Teraok"},
+    {SEQ_CLEARLEAF_FOREST,0,"Clearleaf Forest","From: Rayman 3\nPorted by: Teraok"},
+    {SEQ_LEVEL_I_AMBUSH,0,"Hoodlum Ambush","From: Rayman 3\nPorted by: Teraok"},
+    {SEQ_LEVEL_I_CARRYING_THE_PLUM,0,"Carrying the Plum","From: Rayman 3\nPorted by: Teraok"},
+    {SEQ_FUNKY_SHELL,0,"Funky Board","From: Rayman 3\nPorted by: Teraok"},
+    {SEQ_MASTER_KAAG_BOSS,0,"Master Kaag","From: Rayman 3\nPorted by: Teraok"},
     
-    {SEQ_H_GEOTHERMAL,"Geothermal","From: Cave Story\nPorted by: Teraok"},
+    {SEQ_H_GEOTHERMAL,0,"Geothermal","From: Cave Story\nPorted by: Teraok"},
 
-    {SEQ_L_MONDAYS,"Mondays","From: Pizza Tower\nPorted by: sm64pie"},
-    {SEQ_L_HOT_SPAGHETTI,"Hot Spaghetti","From: Pizza Tower\nPorted by: sm64pie"},
-    {SEQ_L_PIZZA_TIME,"Pizza Time","From: Pizza Tower\nPorted by: Teraok"},
-    {SEQ_PEPPERMAN_STRIKES,"Pepperman Strikes!","From: Pizza Tower\nPorted by: sm64pie"},
+    {SEQ_L_MONDAYS,0,"Mondays","From: Pizza Tower\nPorted by: sm64pie"},
+    {SEQ_L_HOT_SPAGHETTI,0,"Hot Spaghetti","From: Pizza Tower\nPorted by: sm64pie"},
+    {SEQ_L_PIZZA_TIME,0,"Pizza Time","From: Pizza Tower\nPorted by: Teraok"},
+    {SEQ_PEPPERMAN_STRIKES,0,"Pepperman Strikes!","From: Pizza Tower\nPorted by: sm64pie"},
 
-    {SEQ_K_CHINATOWN,"Chinatown","From: Katana Zero\nPorted by: Teraok"},
-    {SEQ_ROCKSOLID,"Rock Solid","From: Conker's Bad Fur Day"},
+    {SEQ_K_CHINATOWN,0,"Chinatown","From: Katana Zero\nPorted by: Teraok"},
+    {SEQ_ROCKSOLID,0,"Rock Solid","From: Conker's Bad Fur Day"},
 
-    {SEQ_C9,"Hangar","From: DOOM PSX"},
+    {SEQ_C9,0,"Hangar","From: DOOM PSX"},
 
-    {SEQ_F_FRWL,"From Russia with Love","From: From Russia with Love\nPorted by: Teraok"},
-    {SEQ_F_BOND,"James Bond Theme Song","From: 007 Series\nPorted by: Teraok"},
+    {SEQ_F_FRWL,0,"From Russia with Love","From: From Russia with Love\nPorted by: Teraok"},
+    {SEQ_F_BOND,0,"James Bond Theme Song","From: 007 Series\nPorted by: Teraok"},
 
-    {SEQ_CUSTOM_ECRUTEAK,"Ecruteak City","From: Pokemon\nPorted by: SpK"},
-    {SEQ_CUSTOM_AZALEA,"Azalea","From: Pokemon\nPorted by: SpK"},
-    {SEQ_CUSTOM_DARK_CAVE,"Dark Cave","From: Pokemon\nPorted by: SpK"},
-    {SEQ_CUSTOM_GYM,"Gym","From: Pokemon\nPorted by: SpK"},
-    {SEQ_CUSTOM_VS_HOOH,"V.S. Hooh","From: Pokemon"},
+    {SEQ_CUSTOM_ECRUTEAK,0,"Ecruteak City","From: Pokemon\nPorted by: SpK"},
+    {SEQ_CUSTOM_AZALEA,0,"Azalea","From: Pokemon\nPorted by: SpK"},
+    {SEQ_CUSTOM_DARK_CAVE,0,"Dark Cave","From: Pokemon\nPorted by: SpK"},
+    {SEQ_CUSTOM_GYM,0,"Gym","From: Pokemon\nPorted by: SpK"},
+    {SEQ_CUSTOM_VS_HOOH,0,"V.S. Hooh","From: Pokemon"},
 
-    {SEQ_D_OVER,"N. Sanity Island","From: Crash Twinsanity\nPorted by: Teraok"},
-    {SEQ_D_UNDER,"Underwater","From: Crash Bandicoot 3: Warped\nPorted by: Teraok"},
+    {SEQ_D_OVER,0,"N. Sanity Island","From: Crash Twinsanity\nPorted by: Teraok"},
+    {SEQ_D_UNDER,0,"Underwater","From: Crash Bandicoot 3: Warped\nPorted by: Teraok"},
 
-    {SEQ_O_MAINTRACK,"Via Corolla","From: The Walking Dead: Saints & Sinners"},
-    {SEQ_O_EASYSTREET,"Easy Street","From: The Walking Dead"},
-    {SEQ_O_STH,"Stir The Herd","From: The Walking Dead: Saints & Sinners"},
+    {SEQ_O_MAINTRACK,0,"Via Corolla","From: The Walking Dead: Saints & Sinners"},
+    {SEQ_O_EASYSTREET,0,"Easy Street","From: The Walking Dead"},
+    {SEQ_O_STH,0,"Stir The Herd","From: The Walking Dead: Saints & Sinners"},
 
-    {SEQ_HAMSTERBALL,"Beginner Race","From: Hamsterball\nPorted by: sm64pie"},
+    {SEQ_HAMSTERBALL,0,"Beginner Race","From: Hamsterball\nPorted by: sm64pie"},
 
-    {SEQ_CUSTOM_ESA_VALIANT,"Valiant","From: Environmental Station Alpha\nPorted by: Teraok"},
-    {SEQ_CUSTOM_ESA_SUBMERGED,"Submerged","From: Environmental Station Alpha\nPorted by: Teraok"},
-    {SEQ_CUSTOM_ESA_AMMOINEN,"Ammoinen","From: Environmental Station Alpha\nPorted by: Teraok"},
-    {SEQ_CUSTOM_ESA_MECHA,"Swift Mecha","From: Environmental Station Alpha\nPorted by: Teraok"},
+    {SEQ_CUSTOM_ESA_VALIANT,0,"Valiant","From: Environmental Station Alpha\nPorted by: Teraok"},
+    {SEQ_CUSTOM_ESA_SUBMERGED,0,"Submerged","From: Environmental Station Alpha\nPorted by: Teraok"},
+    {SEQ_CUSTOM_ESA_AMMOINEN,0,"Ammoinen","From: Environmental Station Alpha\nPorted by: Teraok"},
+    {SEQ_CUSTOM_ESA_MECHA,0,"Swift Mecha","From: Environmental Station Alpha\nPorted by: Teraok"},
 
     //{SEQ_BIGBLUE,"Big Blue","From: F-ZERO\nPorted by: Asbeth"},
     //{SEQ_MUTECITY,"Mute City","From: F-ZERO\nPorted by: Asbeth"},
 
-    {SEQ_MITM_BOWSER_COURSE,"Centrum Omnium","Original composition by: SpK"},
-    {SEQ_COUNT,NULL,NULL},
+    {SEQ_MITM_BOWSER_COURSE,0,"Centrum Omnium","Original composition by: SpK"},
+
+    {SEQ_FINAL_BOSS,2,"Final Bowser Phase 1 - Eggman","Original composition by: SpK\nBased on: Boss (Sonic the Hedgehog 2)"},
+    {SEQ_FINAL_BOSS,3,"Final Bowser Phase 2 - Gaster","Original composition by: SpK\nBased on: CORE (Undertale)"},
+    {SEQ_FINAL_BOSS,4,"Final Bowser Phase 3 - Yukari","Original composition by: SpK\nBased on: Necrofantasia (Touhou 7)"},
+    {SEQ_FINAL_BOSS,5,"Final Bowser Phase 4 - Sephiroth","Original composition by: SpK\nBased on: One Winged Angel (Final Fantasy 7)"},
+    {SEQ_FINAL_BOSS,6,"Final Bowser Phase 5 - Hector","Original composition by: SpK\nBased on: Hekalis (Blade and Sorcery)"},
+
+    {SEQ_COUNT,0,NULL,NULL},
 };
 
 u8 music_menu_show_ui = FALSE;
@@ -1365,8 +1375,9 @@ void bhv_music_menu_loop(void) {
                         stop_background_music(SEQUENCE_ARGS(4, music_list[music_menu_index].seq ));
                         music_menu_isplaying = -1;
                     } else {
-                        stop_background_music(SEQUENCE_ARGS(4, music_list[music_menu_index].seq ));
+                        stop_background_music(SEQUENCE_ARGS(4, music_list[music_menu_isplaying].seq ));
                         set_background_music(0, music_list[music_menu_index].seq, 0);
+                        gDynamicPhase = music_list[music_menu_index].dynPhase;
                         music_menu_isplaying = music_menu_index;
                     }
                 } else {
@@ -1425,7 +1436,7 @@ void render_music_menu_ui(f32 alpha) {
     char stringBuf[10];
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
     sprintf( stringBuf, "(%d/%d)", page, (ARRAY_COUNT(music_list)-1)/MUSIC_MENU_PAGE_LENGTH );
-    print_generic_string_ascii(200, 78, stringBuf);
+    print_generic_string_ascii(240, 78, stringBuf);
     if (save_file_check_song_unlocked(music_menu_index)) {
         print_generic_string_ascii(43, 58, music_list[music_menu_index].desc);
     }

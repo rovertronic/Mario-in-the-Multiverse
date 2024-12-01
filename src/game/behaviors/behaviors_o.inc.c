@@ -1780,7 +1780,6 @@ void sephiser_general_attack_handler(void) {
 
 Vec3f fb_bowser_home = {0.0f,SB_Y,0.0f};
 void bhv_final_boss_bowser(void) {
-
     switch(o->oAction) {
         case FBOWSER_INIT:
             o->oInteractStatus = 0;
@@ -1796,7 +1795,8 @@ void bhv_final_boss_bowser(void) {
             break;
         case FBOWSER_DESCEND:
             if (o->oTimer == 0) {
-                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_LEVEL_BOSS_KOOPA), 0);
+                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_FINAL_BOSS), 0);
+                gDynamicPhase = 1;
                 cur_obj_unhide();
                 cur_obj_init_animation_with_sound(4);
             }
@@ -1909,7 +1909,10 @@ void bhv_final_boss_bowser(void) {
             if (o->header.gfx.animInfo.animFrame > 0) {
                 o->header.gfx.animInfo.animFrame --;
             }
-
+            if (o->oTimer == 0) {
+                gDynamicPhase = 1;
+                gMarioState->healCounter += 8;
+            }
             if (o->oTimer == 24) {
                 fb_bowser_phase++;
                 spawn_mist_particles_variable(0, 0, 100.0f);
@@ -1917,20 +1920,25 @@ void bhv_final_boss_bowser(void) {
                     case 1:
                         cur_obj_init_animation_with_sound(5);
                         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_2];
+                        gDynamicPhase = 2;
                         break;
                     case 2:
                         cur_obj_init_animation_with_sound(6);
                         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_3];
+                        gDynamicPhase = 3;
                         break;
                     case 3:
                         cur_obj_init_animation_with_sound(8);
                         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_4];
+                        gDynamicPhase = 4;
                         break;
                     case 4:
+                        gDynamicPhase = 5;
                         cur_obj_init_animation_with_sound(16);
                         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_1];
                         break;
                     case 5:
+                        gDynamicPhase = 6;
                         cur_obj_init_animation_with_sound(9);
                         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_BOWSER_FORM_5];
                         o->oPosY = SB_Y;
@@ -2396,6 +2404,7 @@ void bhv_atreus_bosscontroller(void) {
 
             if (!cur_obj_nearest_object_with_behavior(bhvBcBowser)) {
                 o->oAction = ATREUS_POST_FIGHT;
+                stop_background_music(SEQUENCE_ARGS(4, SEQ_FINAL_BOSS));
             }
             break;
         case ATREUS_POST_FIGHT:

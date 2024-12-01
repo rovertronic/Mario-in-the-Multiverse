@@ -2017,6 +2017,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             (gMarioState->controller->buttonDown & U_JPAD) &&
             !(gMarioState->controller->buttonDown & L_TRIG)
         ) {
+            //level_trigger_warp(gMarioState, WARP_OP_CREDITS_START);
+            //gMarioState->actionState = ACT_STATE_END_PEACH_CUTSCENE_FADE_OUT_END;
             set_camera_mode(gMarioState->area->camera, CAMERA_MODE_8_DIRECTIONS, 1);
             set_mario_action(gMarioState, ACT_DEBUG_FREE_MOVE, 0);
         }

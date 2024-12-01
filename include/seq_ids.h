@@ -99,6 +99,7 @@ enum SeqId {
     SEQ_O_STH,  // 0x56
     SEQ_MINECART_RIDING,
     SEQ_ROCKSOLID,  // 0x58
+    SEQ_FINAL_BOSS,
     SEQ_COUNT,
 };
 

@@ -39,6 +39,9 @@ extern u32 gAudioRandom;
 
 extern s8 sLevelAreaReverbs[LEVEL_COUNT][3];
 
+extern u16 manual_music_dynamics;
+extern u8 gDynamicPhase;
+
 struct SPTask *create_next_audio_frame_task(void);
 void play_sound(s32 soundBits, f32 *pos);
 void audio_signal_game_loop_tick(void);

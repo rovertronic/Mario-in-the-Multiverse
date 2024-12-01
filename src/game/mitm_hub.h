@@ -43,6 +43,7 @@ struct painting_world {
 
 struct music_data {
     u8 seq;
+    u8 dynPhase;
     char * name;
     char * desc;
 };

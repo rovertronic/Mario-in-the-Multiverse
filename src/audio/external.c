@@ -74,6 +74,12 @@ s32 sGameLoopTicked = 0;
 u8 sNumProcessedSoundRequests = 0;
 u8 sSoundRequestCount = 0;
 
+u32 gSeqTimer = 0; //used for hardcoded dynamics (evil)
+u8  gDynamicSection = 0;
+u8  gDynamicPhase = 0;
+u8  gDynamicInitiateChange;
+u8  oldDynamicPhase = 0;
+
 // Music dynamic tables. A dynamic describes which volumes to apply to which
 // channels of a sequence (I think?), and different parts of a level can have
 // different dynamics. Each table below specifies first the sequence to apply
@@ -1626,9 +1632,135 @@ static void func_8031F96C(u8 player) {
     }
 }
 
+u16 manual_music_dynamics = 0;
+
+void mmd_en_chan(u8 chan) {
+    manual_music_dynamics |= (1<<(chan-1));
+}
+void final_boss_seq_dyn_reset(void) {
+    manual_music_dynamics = 0;
+    mmd_en_chan(2);
+    mmd_en_chan(3);
+    mmd_en_chan(4);
+}
+
+void final_boss_seq_dyn_eggman_b(void) {
+    manual_music_dynamics = 0;
+    mmd_en_chan(2);
+    mmd_en_chan(3);
+    mmd_en_chan(5);
+    mmd_en_chan(6);
+    mmd_en_chan(7);
+}
+
+void final_boss_seq_dyn_gaster_b(void) {
+    manual_music_dynamics = 0;
+    mmd_en_chan(1);
+    mmd_en_chan(2);
+    mmd_en_chan(3);
+    mmd_en_chan(5);
+    mmd_en_chan(8);
+    mmd_en_chan(9);
+}
+
+void final_boss_seq_dyn_yukari_b(void) {
+    manual_music_dynamics = 0;
+    mmd_en_chan(2);
+    mmd_en_chan(3);
+    mmd_en_chan(4);
+    mmd_en_chan(5);
+    mmd_en_chan(10);
+    mmd_en_chan(11);
+    mmd_en_chan(12);
+}
+
+void final_boss_seq_dyn_sephiroth_b(void) {
+    manual_music_dynamics = 0;
+    mmd_en_chan(2);
+    mmd_en_chan(3);
+    mmd_en_chan(5);
+    mmd_en_chan(13);
+    mmd_en_chan(14);
+}
+
+void final_boss_seq_dyn_hector_b(void) {
+    manual_music_dynamics = 0;
+    mmd_en_chan(2);
+    mmd_en_chan(3);
+    mmd_en_chan(5);
+    mmd_en_chan(15);
+    mmd_en_chan(16);
+}
+
+void final_boss_seq_dyn_eggman_a(void) {
+    manual_music_dynamics = 0;
+    mmd_en_chan(1);
+    mmd_en_chan(2);
+    mmd_en_chan(3);
+    mmd_en_chan(4);
+    mmd_en_chan(5);
+    mmd_en_chan(6);
+}
+
+void final_boss_seq_dyn_gaster_a(void) {
+    manual_music_dynamics = 0;
+    mmd_en_chan(1);
+    mmd_en_chan(2);
+    mmd_en_chan(3);
+    mmd_en_chan(4);
+    mmd_en_chan(5);
+    mmd_en_chan(6);
+    mmd_en_chan(7);
+    mmd_en_chan(8);
+    mmd_en_chan(9);
+}
+
+void final_boss_seq_dyn_yukari_a(void) {
+    manual_music_dynamics = 0;
+    mmd_en_chan(1);
+    mmd_en_chan(2);
+    mmd_en_chan(3);
+    mmd_en_chan(4);
+    mmd_en_chan(5);
+    mmd_en_chan(9);
+    mmd_en_chan(10);
+    mmd_en_chan(11);
+}
+
+void final_boss_seq_dyn_sephiroth_a(void) {
+    manual_music_dynamics = 0;
+    mmd_en_chan(1);
+    mmd_en_chan(2);
+    mmd_en_chan(3);
+    mmd_en_chan(4);
+    mmd_en_chan(5);
+    mmd_en_chan(9);
+    mmd_en_chan(10);
+    mmd_en_chan(11);
+    mmd_en_chan(13);
+}
+
+void final_boss_seq_dyn_hector_a(void) {
+    manual_music_dynamics = 0;
+    mmd_en_chan(1);
+    mmd_en_chan(2);
+    mmd_en_chan(3);
+    mmd_en_chan(4);
+    mmd_en_chan(5);
+    mmd_en_chan(9);
+    mmd_en_chan(10);
+    mmd_en_chan(11);
+    mmd_en_chan(13);
+    mmd_en_chan(14);
+    mmd_en_chan(15);
+}
+
+
+
 /**
  * Called from threads: thread4_sound, thread5_game_loop (EU only)
  */
+u8 transition_speed = 5;
 void process_level_music_dynamics(void) {
     u16 tempBits;
     u8 condIndex;
@@ -1646,6 +1778,76 @@ void process_level_music_dynamics(void) {
     } else {
         sBackgroundMusicForDynamics = sCurrentBackgroundMusicSeqId;
     }
+
+    gSeqTimer+=4;
+
+    if (gSeqTimer >= 5945) {//27.77 seconds
+        gDynamicInitiateChange = TRUE;
+        gSeqTimer=0;
+        gDynamicSection = !gDynamicSection;
+        transition_speed = 5;
+    }
+    if (gDynamicPhase != oldDynamicPhase) {
+        oldDynamicPhase = gDynamicPhase;
+        gDynamicInitiateChange = TRUE;
+        transition_speed = 40;
+    }
+
+    if (gDynamicInitiateChange) {
+        gDynamicInitiateChange = FALSE;
+        switch(gDynamicPhase) {
+            case 1:
+                final_boss_seq_dyn_reset();
+                break;
+            case 2:
+                if (gDynamicSection == 0) {
+                    final_boss_seq_dyn_eggman_a();
+                } else {
+                    final_boss_seq_dyn_eggman_b();
+                }
+                break;
+            case 3:
+                if (gDynamicSection == 0) {
+                    final_boss_seq_dyn_gaster_a();
+                } else {
+                    final_boss_seq_dyn_gaster_b();
+                }
+                break;
+            case 4:
+                if (gDynamicSection == 0) {
+                    final_boss_seq_dyn_yukari_a();
+                } else {
+                    final_boss_seq_dyn_yukari_b();
+                }
+                break;
+            case 5:
+                if (gDynamicSection == 0) {
+                    final_boss_seq_dyn_sephiroth_a();
+                } else {
+                    final_boss_seq_dyn_sephiroth_b();
+                }
+                break;
+            case 6:
+                if (gDynamicSection == 0) {
+                    final_boss_seq_dyn_hector_a();
+                } else {
+                    final_boss_seq_dyn_hector_b();
+                }
+                break;
+        }
+    }
+
+    if (manual_music_dynamics != 0) {
+        for (i = 0; i < CHANNELS_MAX; i++) {
+            u8 vol = 0;
+            if (manual_music_dynamics & (1<<i)) {
+                vol = 127;
+            }
+            fade_channel_volume_scale(SEQ_PLAYER_LEVEL, i, vol, transition_speed);
+        }
+        return;
+    }
+
 
     if (sBackgroundMusicForDynamics != sLevelDynamics[gCurrLevelNum][0]) {
         return;
@@ -1749,11 +1951,11 @@ void process_level_music_dynamics(void) {
             tempBits = 0;
             if (sMusicDynamics[musicDynIndex].bits1 & conditionBits) {
                 fade_channel_volume_scale(SEQ_PLAYER_LEVEL, i, sMusicDynamics[musicDynIndex].volScale1,
-                                          dur1);
+                                        dur1);
             }
             if (sMusicDynamics[musicDynIndex].bits2 & conditionBits) {
                 fade_channel_volume_scale(SEQ_PLAYER_LEVEL, i, sMusicDynamics[musicDynIndex].volScale2,
-                                          dur2);
+                                        dur2);
             }
             tempBits = conditionBits << 1;
         }
@@ -2116,6 +2318,13 @@ void play_music(u8 player, u16 seqArgs, u16 fadeTimer) {
     u8 i;
     u8 foundIndex = 0;
 
+    gSeqTimer = 0;
+    gDynamicSection = 0;
+    gDynamicPhase = 0;
+    oldDynamicPhase = 0;
+    gDynamicInitiateChange = FALSE;
+
+    manual_music_dynamics = 0;
     save_file_unlock_song( seqId );
 
     // Except for the background music player, we don't support queued
@@ -2177,10 +2386,13 @@ void play_music(u8 player, u16 seqArgs, u16 fadeTimer) {
 /**
  * Called from threads: thread5_game_loop
  */
+extern u16 sCurrentMusic;
 void stop_background_music(u16 seqId) {
     if (sBackgroundMusicQueueSize == 0) {
         return;
     }
+
+    sCurrentMusic = 0xFFFF;
 
     // If sequence is not found, remove an empty queue item (the next empty
     // queue slot).

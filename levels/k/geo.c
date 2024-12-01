@@ -41,3 +41,4 @@
 #include "levels/k/ksteve/geo.inc.c"
 #include "levels/k/kyick/geo.inc.c"
 #include "levels/k/kratchet/geo.inc.c"
+#include "levels/k/kvin/geo.inc.c"

@@ -47,3 +47,4 @@
 #include "levels/k/ksteve/model.inc.c"
 #include "levels/k/kyick/model.inc.c"
 #include "levels/k/kratchet/model.inc.c"
+#include "levels/k/kvin/model.inc.c"

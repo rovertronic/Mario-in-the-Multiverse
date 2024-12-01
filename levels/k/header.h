@@ -73,4 +73,6 @@ extern const LevelScript level_k_entry[];
 
 #include "levels/k/kratchet/geo_header.h"
 
+#include "levels/k/kvin/geo_header.h"
+
 #endif

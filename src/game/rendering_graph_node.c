@@ -1377,6 +1377,15 @@ void geo_process_object(struct Object *node) {
                 }
                 mtxf_scale_vec3f(gMatStack[gMatStackIndex + 1], *node->header.gfx.throwMatrix, node->header.gfx.scaleLerp);
 
+                //jank way to initialize matrix lerping
+                if (node->header.gfx.matLerp[0][0] == 0.0f &&
+                    node->header.gfx.matLerp[0][2] == 0.0f &&
+                    node->header.gfx.matLerp[0][3] == 0.0f) {
+                    for (int i = 0; i < 3; i++) {
+                        vec3f_copy(node->header.gfx.matLerp[i], gMatStack[gMatStackIndex + 1][i]);
+                    }
+                }
+
                 if (_60fps_midframe) {
                     oldThrowMatrix = node->header.gfx.throwMatrix;
                 }

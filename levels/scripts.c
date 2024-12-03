@@ -151,11 +151,12 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_MACHINE,                 machine_geo),
     LOAD_MODEL_FROM_GEO(MODEL_RED_ARROW,               redarrow_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SHOPITEM_3,              shopitem3_geo),
-    LOAD_MODEL_FROM_GEO(MODEL_DREAM_STAR,              dream_catalyst_geo),
+    //LOAD_MODEL_FROM_GEO(MODEL_DREAM_STAR,              dream_catalyst_geo),
     LOAD_MODEL_FROM_GEO(MODEL_CARDBOARD_STAR,          cardboard_star_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SPIDERTRON_LIMB_1,       spidertron_arm1_geo),
     LOAD_MODEL_FROM_GEO(MODEL_NITRO_BOOM,              nitroboom_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SAWAXE_MARIO,            sawaxe_mario_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_PAINTING,                collectable_painting_geo),
 
     LOAD_MODEL_FROM_GEO(MODEL_BD_SHIMMER,              bd_shimmer_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BD_SHINE,                bd_shine_geo),

@@ -2809,3 +2809,46 @@ void bhv_final_boss_hint_sign(void) {
         sign->oBehParams2ndByte = DIALOG_FB_HINT_1+(fb_bowser_phase-1);
     }
 }
+
+static struct ObjectHitbox sCollectablePaintingHitbox = {
+    /* interactType:      */ INTERACT_STAR_OR_KEY,
+    /* downOffset:        */ 0,
+    /* damageOrCoinValue: */ 0,
+    /* health:            */ 0,
+    /* numLootCoins:      */ 0,
+    /* radius:            */ 80,
+    /* height:            */ 50,
+    /* hurtboxRadius:     */ 0,
+    /* hurtboxHeight:     */ 0,
+};
+
+extern const u8 painting_data[];
+extern u8 collectable_painting_painting_rgba16[];
+void bhv_collectable_painting(void) {
+    switch(o->oAction) {
+        case 0: //decide if i should become active
+            if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].paintings_unlocked & (1<<o->oBehParams2ndByte)) {
+                mark_obj_for_deletion(o);
+            } else {
+                o->oAction = 1;
+            }
+            break;
+        case 1: //init
+            ;void * texture = segmented_to_virtual(&collectable_painting_painting_rgba16);
+            void * rom_location = ((uintptr_t)painting_data)+(o->oBehParams2ndByte*2048);
+            dma_read(texture,rom_location,rom_location+2048);
+            o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_PAINTING];
+            obj_set_hitbox(o, &sCollectablePaintingHitbox);
+            o->oAction = 2;
+            break;
+        case 2: //loop
+            o->oFaceAngleYaw += 0x800;
+            if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+                cur_obj_become_intangible();
+                cur_obj_hide();
+                o->oInteractStatus = INT_STATUS_NONE;
+                o->oAction = 3;
+            }
+            break;
+    }
+}

@@ -3210,6 +3210,12 @@ const BehaviorScript bhvStaticObject[] = {
     BREAK(),
 };
 
+const BehaviorScript bhvPepperArt[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BREAK(),
+};
+
 const BehaviorScript bhvCastleFloorTrap[] = {
     BEGIN(OBJ_LIST_DEFAULT),
     DISABLE_RENDERING(),
@@ -9941,11 +9947,12 @@ const BehaviorScript bhvDreamCatalyst[] = {
     END_LOOP(),
 };
 
+extern void bhv_collectable_painting(void);
 const BehaviorScript bhvCollectablePainting[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
     BEGIN_LOOP(),
-        //CALL_NATIVE(bhv_dream_catalyst),
+        CALL_NATIVE(bhv_collectable_painting),
     END_LOOP(),
 };
 

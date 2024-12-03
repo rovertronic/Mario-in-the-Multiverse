@@ -60,7 +60,7 @@
 #include "machine/geo.inc.c"
 #include "redarrow/geo.inc.c"
 #include "shopitem3/geo.inc.c"
-#include "dream_catalyst/geo.inc.c"
+//#include "dream_catalyst/geo.inc.c"
 #include "spidertron_arm1/geo.inc.c"
 #include "nitroboom/geo.inc.c"
 #include "cardboard_star/geo.inc.c"
@@ -69,3 +69,4 @@
 #include "bd_shine/geo.inc.c"
 #include "bd_star/geo.inc.c"
 #include "bd_wave/geo.inc.c"
+#include "collectable_painting/geo.inc.c"

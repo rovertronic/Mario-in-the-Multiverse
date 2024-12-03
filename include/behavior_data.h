@@ -851,6 +851,7 @@ extern const BehaviorScript bhvLclock[];
 extern const BehaviorScript bhvL_PizzaPortal[];
 extern const BehaviorScript bhvL_PeppermanBoss[];
 extern const BehaviorScript bhvL_PeppermanStatue[];
+extern const BehaviorScript bhvPepperArt[];
 /* GROUP L END */
 
 /* GROUP M START */

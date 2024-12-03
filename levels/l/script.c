@@ -46,6 +46,7 @@ const LevelScript level_l_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_L_PSTATUE_2, pstatue2_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_L_PSTATUE_3, pstatue3_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_L_DEMON, l_demon_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_L_PEPPERART,l_pepperart_geo),
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -498,6 +499,7 @@ const LevelScript level_l_entry[] = {
 		OBJECT(MODEL_NONE, -790, 0, 0, 0, 90, 0, (1 << 16), bhvSpinAirborneWarp),
 		OBJECT(MODEL_NONE, 812, 0, 0, 0, -90, 0, (2 << 16), bhvSpinAirborneWarp),
 		OBJECT(MODEL_LEVEL_PIPE, 0, 0, -1275, 0, 0, 0, 0x00000000, bhvLevelPipe),
+		OBJECT(MODEL_NONE, 0, 704, 2406, 0, 0, 0, 0x00000000, bhvPepperArt),
 		OBJECT(MODEL_L_PEPPERMAN, 0, 0, 1267, 0, -180, 0, (7 << 24), bhvL_PeppermanNPC),
 		TERRAIN(l_area_6_collision),
 		MACRO_OBJECTS(l_area_6_macro_objs),

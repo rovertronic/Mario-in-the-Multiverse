@@ -33,3 +33,7 @@ ALIGNED8 const u8 title_card_data[] = {
     ,
     #include "actors/title_cards/custom_titlecard_M.rgba16.inc.c"
 };
+
+ALIGNED8 const u8 painting_data[] = {
+    #include "actors/title_cards/custom_painting_strip.rgba16.inc.c"
+};

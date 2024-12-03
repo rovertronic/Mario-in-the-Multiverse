@@ -45,4 +45,6 @@ extern const LevelScript level_l_entry[];
 
 #include "levels/l/l_demon/geo_header.h"
 
+#include "levels/l/l_pepperart/geo_header.h"
+
 #endif

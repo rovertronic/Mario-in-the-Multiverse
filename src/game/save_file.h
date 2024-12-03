@@ -39,6 +39,7 @@ struct SaveBlockSignature {
 
 struct SaveFile {
     u32 abilities;
+    u16 paintings_unlocked;
     u16 levels_unlocked;
     u16 coins;
     u32 elapsed_playtime;

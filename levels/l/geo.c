@@ -26,3 +26,4 @@
 #include "levels/l/pstatue2/geo.inc.c"
 #include "levels/l/pstatue3/geo.inc.c"
 #include "levels/l/l_demon/geo.inc.c"
+#include "levels/l/l_pepperart/geo.inc.c"

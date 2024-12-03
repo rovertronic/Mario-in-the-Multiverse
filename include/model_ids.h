@@ -616,6 +616,7 @@ enum GLOBAL_MODELS {
     MODEL_SHOPITEM_3, // accident
     MODEL_DREAM_STAR,
     MODEL_CARDBOARD_STAR,
+    MODEL_PAINTING,
     MODEL_SPIDERTRON_LIMB_1,
 
     MODEL_BD_SHIMMER,
@@ -922,6 +923,7 @@ enum K_MODELS {
 #define MODEL_L_PSTATUE_2                       0x157
 #define MODEL_L_PSTATUE_3                       0x158
 #define MODEL_L_DEMON                           0x159
+#define MODEL_L_PEPPERART                       0x15A
 /* LEVEL L END */
 
 /* LEVEL M START */

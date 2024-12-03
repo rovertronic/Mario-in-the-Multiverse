@@ -295,6 +295,7 @@ void level_pipe_loop(void) {
     }
 }
 
+extern const u8 title_card_data[];
 void render_mitm_hub_hud(void) {
     u8 *texture = segmented_to_virtual(&title_card_placeholder_title_card_rgba16);
     u8 star_flags = 0;
@@ -313,7 +314,10 @@ void render_mitm_hub_hud(void) {
 
     if ((hub_level_index != hub_dma_index)&&(hub_level_index > -1)) {
         hub_dma_index = hub_level_index;
-        dma_read(texture,(hub_dma_index*65536)+_title_cardSegmentRomStart,(hub_dma_index*65536)+_title_cardSegmentRomStart+65536);
+
+        void * rom_location = (hub_dma_index*65536) + ((uintptr_t)title_card_data) ;
+
+        dma_read(texture,rom_location,rom_location+65536);
         }
 
     if (hub_dma_index > -1) {
@@ -1152,13 +1156,10 @@ void bhv_redd_paintings_loop(void) {
                 redd_painting_ix = 0;
                 redd_painting_iy = 0;
                 shop_cant_afford = 0;
-                if (save_file_get_flags() & SAVE_FLAG_BOUGHT_PAINTINGS) {
-                    redd_painting_state = 0;
-                    o->oAction = 1;
-                } else {
-                    redd_painting_state = 1;
-                    o->oAction = 2;
-                }
+
+                redd_painting_state = 0;
+                o->oAction = 1;
+
                 gCamera->cutscene = 1;
 
                 vec3f_copy(&gLakituState.goalFocus, &o->oPosVec);
@@ -1178,12 +1179,16 @@ void bhv_redd_paintings_loop(void) {
             handle_menu_scrolling_2way(&redd_painting_ix, &redd_painting_iy, 0, 3, 3);
             u8 redd_painting_index = (redd_painting_iy *4)+(redd_painting_ix%4);
             if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
-                redd_painting_show_ui = FALSE;
-                gCurrActNum = 1;
-                hub_level_current_index = HUBLEVEL_PWORLD;
-                initiate_warp(painting_world_list[redd_painting_index].level, 1, 0x0A, WARP_FLAGS_NONE);
-                fade_into_special_warp(WARP_SPECIAL_NONE, 0);
-                gSavedCourseNum = COURSE_NONE;
+                if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].paintings_unlocked & (1<<redd_painting_index)) {
+                    redd_painting_show_ui = FALSE;
+                    gCurrActNum = 1;
+                    hub_level_current_index = HUBLEVEL_PWORLD;
+                    initiate_warp(painting_world_list[redd_painting_index].level, 1, 0x0A, WARP_FLAGS_NONE);
+                    fade_into_special_warp(WARP_SPECIAL_NONE, 0);
+                    gSavedCourseNum = COURSE_NONE;
+                } else {
+                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                }
             } else if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
                 set_mario_action(gMarioState, ACT_IDLE, 0);
                 gCamera->cutscene = 0;
@@ -1224,6 +1229,18 @@ void render_painting_ui(f32 alpha) {
     gSPDisplayList(gDisplayListHead++, painting_menu_roundbox_003_mesh);
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f);
+    for (int i = 0; i<16; i++) {
+        int x = i%4;
+        int y = i/4;
+        if (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].paintings_unlocked & (1<<i))) {
+            create_dl_translation_matrix(MENU_MTX_PUSH, 57+x*32, 194-y*32, 0);
+            gSPDisplayList(gDisplayListHead++, painting_mystery_mysp_mesh);
+            gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+        }
+    }
+
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
     u8 redd_painting_index = (redd_painting_iy *4)+(redd_painting_ix%4);
     if (redd_painting_state == 0) {
         create_dl_translation_matrix(MENU_MTX_PUSH, 57+redd_painting_ix*32, 195-redd_painting_iy*32, 0);
@@ -1231,27 +1248,20 @@ void render_painting_ui(f32 alpha) {
         gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
     }
 
-    if (redd_painting_state == 0) {
+    if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].paintings_unlocked & (1<<redd_painting_index)) {
         sprintf(stringBuf,"Enter: %s\nThese are sandbox levels intended for play,\nso there are no power stars to collect.",painting_world_list[redd_painting_index].name);
-        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
-        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
-        print_generic_string_ascii(43, 58, stringBuf);
-        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
     } else {
-        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
-        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
-        print_generic_string_ascii(43, 58, "You can have access to my entire painting\ncollection for 200 coins! Press A to buy.");
-        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
-
-        gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
-        int_to_str_000(hud_display_coins, &hudbar_coin[2]);
-        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
-        if (shop_cant_afford) {
-            gDPSetEnvColor(gDisplayListHead++, 255, 126.0f+sins(gGlobalTimer*0x1000)*126.0f, 126.0f+sins(gGlobalTimer*0x1000)*126.0f, 255.0f-alpha);
+        if (mitm_levels[redd_painting_index].star_requirement <= gMarioState->numStars) {
+            sprintf(stringBuf,"Enter: ???\nFind this painting in %s.",mitm_levels[redd_painting_index].name);
+        } else {
+            sprintf(stringBuf,"Enter: ???\nFind this painting in ???.");
         }
-        print_hud_lut_string(HUD_LUT_GLOBAL, 185, 143, hudbar_coin);
-        gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
     }
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
+    print_generic_string_ascii(43, 58, stringBuf);
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+
 }
 
 struct music_data music_list[] = {

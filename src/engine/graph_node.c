@@ -309,6 +309,7 @@ struct GraphNodeObject *init_graph_node_object(struct AllocOnlyPool *pool,
         vec3f_copy(graphNode->posLerp, pos);
         vec3f_copy(graphNode->scaleLerp, scale);
         vec3s_copy(graphNode->angleLerp, angle);
+
         graphNode->sharedChild = sharedChild;
         graphNode->throwMatrix = NULL;
         graphNode->animInfo.animID = 0;

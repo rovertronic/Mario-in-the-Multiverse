@@ -679,11 +679,18 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
 #endif
 
                 u8 got_an_ability = FALSE;
+                u8 got_an_painting = FALSE;
                 if (obj_has_behavior(m->usedObj,bhvAbilityUnlock)) {
                     obj_set_model(celebStar, MODEL_ABILITY);
                     obj_set_billboard(celebStar);
                     celebStar->oBehParams2ndByte = m->usedObj->oBehParams2ndByte;
                     got_an_ability = TRUE;
+                }
+
+                if (obj_has_behavior(m->usedObj,bhvCollectablePainting)) {
+                    obj_set_model(celebStar, MODEL_PAINTING);
+                    celebStar->oBehParams2ndByte = m->usedObj->oBehParams2ndByte;
+                    got_an_painting = TRUE;
                 }
 
                 if (!using_ability(ABILITY_E_SHOTGUN)) {
@@ -693,7 +700,7 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
                 if (m->actionArg & 1) {
                     // No exit
                     s32 arg = obj_has_model(celebStar, MODEL_BOWSER_KEY);
-                    if (got_an_ability) {
+                    if (got_an_ability || got_an_painting) {
                         arg = 2;
                     }
                     play_course_clear(arg);

@@ -273,6 +273,7 @@ void bhv_airlock_button_loop(){
             //print_text(20, 40, "Button Pressed");
             o->oInteractStatus = INT_STATUS_NONE;
             airlockState = AIRLOCK_STATE_CLOSED;
+            cur_obj_play_sound_2(SOUND_GENERAL_WATER_LEVEL_TRIG);
         }
     }
 }

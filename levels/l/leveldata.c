@@ -35,3 +35,4 @@
 #include "levels/l/pstatue2/model.inc.c"
 #include "levels/l/pstatue3/model.inc.c"
 #include "levels/l/l_demon/model.inc.c"
+#include "levels/l/l_pepperart/model.inc.c"

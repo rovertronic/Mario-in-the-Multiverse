@@ -28,6 +28,7 @@
 #include "rigid_body.h"
 #include "mitm_hub.h"
 #include "dream_comet.h"
+#include "buffers/buffers.h"
 
 u8  sDelayInvincTimer;
 s16 sInvulnerable;
@@ -958,7 +959,11 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
                 m->actionArg = 2;
             }
             ability_get_confirm = FALSE;
-        } else {
+            } else if (obj_has_behavior(obj,bhvCollectablePainting)) {
+                //starGrabAction = ACT_STAR_DANCE_WATER;
+                gSaveBuffer.files[gCurrSaveFileNum - 1][0].paintings_unlocked |= (1<<obj->oBehParams2ndByte);
+                gSaveFileModified = TRUE;
+            } else {
             if (!level_in_dream_comet_mode()) {
                 //power star
                 p_rank_stars ++;

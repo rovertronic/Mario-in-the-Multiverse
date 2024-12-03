@@ -519,7 +519,7 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "shopitem3/geo_header.h"
 
-#include "dream_catalyst/geo_header.h"
+//#include "dream_catalyst/geo_header.h"
 
 #include "star_radar/header.h"
 
@@ -544,5 +544,7 @@ extern const Gfx white_particle_small_unused_dl[];
 #include "bd_star/geo_header.h"
 
 #include "bd_wave/geo_header.h"
+
+#include "collectable_painting/geo_header.h"
 
 #endif

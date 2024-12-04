@@ -202,7 +202,7 @@ const LevelScript level_B_entry[] = {
 		TERRAIN(B_area_1_collision),
 		ROOMS(B_area_1_collision_rooms),
 		MACRO_OBJECTS(B_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_UNDERGROUND),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_C6),
 		TERRAIN_TYPE(TERRAIN_WATER),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

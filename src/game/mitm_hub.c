@@ -1121,7 +1121,7 @@ struct painting_world painting_world_list[] = {
     {"Jolly Roger Bay", LEVEL_JRB},
     {"Cool Cool Mountain", LEVEL_CCM},
     {"Big Boo's Haunt", LEVEL_BBH},
-    {"Haze Maze Cave", LEVEL_HMC},
+    {"Hazy Maze Cave", LEVEL_HMC},
     {"Lethal Lava Land", LEVEL_LLL},
     {"Shifting Sand Land", LEVEL_SSL},
     {"Dire Dire Docks", LEVEL_DDD},
@@ -1296,6 +1296,7 @@ struct music_data music_list[] = {
     {SEQ_MASTER_KAAG_BOSS,0,"Master Kaag","From: Rayman 3\nPorted by: Teraok"},
     
     {SEQ_H_GEOTHERMAL,0,"Geothermal","From: Cave Story\nPorted by: Teraok"},
+    {SEQ_C6,0,"Step Into My Gardens","From: Bioshock"},
 
     {SEQ_L_MONDAYS,0,"Mondays","From: Pizza Tower\nPorted by: sm64pie"},
     {SEQ_L_HOT_SPAGHETTI,0,"Hot Spaghetti","From: Pizza Tower\nPorted by: sm64pie"},

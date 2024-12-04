@@ -1923,7 +1923,7 @@ void bhv_boss_daddy(void){
                 //star->oPosY += 100.0f;
                 //star->oBehParams = 0x07000007;
                 o->oBehParams = 0x07000007;
-                spawn_default_star(o->oHomeX,o->oHomeY+300.f,o->oHomeZ);
+                spawn_default_star(o->oPosX,o->oPosY+100.f,o->oPosZ);
                 mark_obj_for_deletion(o);
             }
             break;

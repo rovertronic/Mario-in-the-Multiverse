@@ -3,3 +3,4 @@
 #include "anim_mariokdance.inc.c"
 #include "anim_birddance.inc.c"
 #include "anim_ArmatureAction_001.inc.c"
+#include "anim_guitarAnimation.inc.c"

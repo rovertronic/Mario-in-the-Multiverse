@@ -4,5 +4,6 @@ const struct Animation *const kdancer_anims[] = {
 	&kdancer_anim_mariokdance,
 	&kdancer_anim_birddance,
 	&kdancer_anim_ArmatureAction_001,
+	&kdancer_anim_guitarAnimation,
 	NULL,
 };

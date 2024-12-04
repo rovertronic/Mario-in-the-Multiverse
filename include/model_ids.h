@@ -907,6 +907,7 @@ enum K_MODELS {
     MODEL_K_YICK,
     MODEL_K_RATCHET,
     MODEL_K_VIN,
+    MODEL_K_DIXIE,
 };
 /* LEVEL K END */
 

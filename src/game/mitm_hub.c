@@ -1023,6 +1023,7 @@ struct mitm_credits_entry mitm_credits[] = {
     {"",0},
     {"Drahnokks",2},
     {"Mara (Crow Country)",0},
+    {"Dixie Kong (Donkey Kong)",0},
     {"",0},
     {"Biobak",2},
     {"Isaac (The Binding of Isaac)",0},

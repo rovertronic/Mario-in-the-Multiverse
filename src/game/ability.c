@@ -348,6 +348,12 @@ void change_ability(s8 picked_ability) {
         case ABILITY_KNIGHT:
             play_sound(SOUND_ABILITY_KNIGHT_EQUIP, gGlobalSoundSource);
         break;
+        case ABILITY_E_SHOTGUN:
+            play_sound(SOUND_MITM_ABILITY_E_SHOTGUN_RACK, gGlobalSoundSource);
+        break;
+        default:
+            play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+        break;
     }
 }
 

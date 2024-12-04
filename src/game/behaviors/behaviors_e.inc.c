@@ -1261,6 +1261,7 @@ void bhv_e__flattened_obj(void) {
         vec3f_copy(o->transform[3], &o->oPosX);
         MTXF_END(o->transform);
         o->header.gfx.throwMatrix = o->transform;
+        o->header.gfx.node.flags |= GRAPH_RENDER_DONT_NORMALIZE_TRANS_LERP;
     }
 
     o->oUnk94 += 7000;

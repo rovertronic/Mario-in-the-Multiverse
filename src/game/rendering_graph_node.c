@@ -683,6 +683,7 @@ void setup_global_light() {
 /**
  * Process a camera node.
  */
+struct GraphNodeCamera * last_camera_node = NULL;
 void geo_process_camera(struct GraphNodeCamera *node) {
     Mtx *rollMtx = alloc_display_list(sizeof(*rollMtx));
     Mtx *viewMtx = alloc_display_list(sizeof(Mtx));
@@ -769,6 +770,7 @@ void geo_process_camera(struct GraphNodeCamera *node) {
 
     if (node->fnNode.node.children != 0) {
         gCurGraphNodeCamera = node;
+        last_camera_node = node;
         node->matrixPtr = &gCameraTransform;
         geo_process_node_and_siblings(node->fnNode.node.children);
         gCurGraphNodeCamera = NULL;
@@ -1367,6 +1369,15 @@ void geo_process_object(struct Object *node) {
         else{
             if (!noThrowMatrix) {
                 if (!interpolation_complete) {
+                    //jank way to initialize matrix lerping
+                    if (node->header.gfx.matLerp[0][0] == 0.0f &&
+                        node->header.gfx.matLerp[0][1] == 0.0f &&
+                        node->header.gfx.matLerp[0][2] == 0.0f) {
+                        for (int i = 0; i < 3; i++) {
+                            vec3f_copy(node->header.gfx.matLerp[i], *node->header.gfx.throwMatrix[i]);
+                        }
+                    }
+
                     if (!_60fps_midframe) {
                         vec3f_copy(node->header.gfx.scaleLerp, node->header.gfx.scale);
                     } else {
@@ -1376,15 +1387,6 @@ void geo_process_object(struct Object *node) {
                     }
                 }
                 mtxf_scale_vec3f(gMatStack[gMatStackIndex + 1], *node->header.gfx.throwMatrix, node->header.gfx.scaleLerp);
-
-                //jank way to initialize matrix lerping
-                if (node->header.gfx.matLerp[0][0] == 0.0f &&
-                    node->header.gfx.matLerp[0][2] == 0.0f &&
-                    node->header.gfx.matLerp[0][3] == 0.0f) {
-                    for (int i = 0; i < 3; i++) {
-                        vec3f_copy(node->header.gfx.matLerp[i], gMatStack[gMatStackIndex + 1][i]);
-                    }
-                }
 
                 if (_60fps_midframe) {
                     oldThrowMatrix = node->header.gfx.throwMatrix;
@@ -1412,6 +1414,9 @@ void geo_process_object(struct Object *node) {
                         for (int i = 0; i < 3; i++) {
                             //normalize sticks to prevent ball shrinkage and screen flickergooning
                             vec3f_normalize(&gMatStack[gMatStackIndex + 1][i]);
+                            gMatStack[gMatStackIndex + 1][i][0] *= node->header.gfx.scaleLerp[0];
+                            gMatStack[gMatStackIndex + 1][i][1] *= node->header.gfx.scaleLerp[1];
+                            gMatStack[gMatStackIndex + 1][i][2] *= node->header.gfx.scaleLerp[2];
                         }
                     }
                 } else {
@@ -1425,6 +1430,10 @@ void geo_process_object(struct Object *node) {
                 mtxf_billboard(gMatStack[gMatStackIndex + 1], gMatStack[gMatStackIndex],
                             node->header.gfx.posLerp, node->header.gfx.scaleLerp, gCurGraphNodeCamera->roll);
             } else {
+                node->header.gfx.matLerp[0][0] = 0.0f;
+                node->header.gfx.matLerp[0][1] = 0.0f;
+                node->header.gfx.matLerp[0][2] = 0.0f;
+
                 mtxf_rotate_zxy_and_translate(gMatStack[gMatStackIndex + 1], node->header.gfx.posLerp, node->header.gfx.angleLerp);
                 mtxf_scale_vec3f(gMatStack[gMatStackIndex + 1], gMatStack[gMatStackIndex + 1], node->header.gfx.scaleLerp);
             }

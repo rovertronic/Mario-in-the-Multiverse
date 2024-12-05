@@ -40,9 +40,8 @@ const LevelScript level_o_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_O_SPEAKER_1, o_speaker_1_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_O_SPEAKER_2, o_speaker_2_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_O_SPEAKER_3, o_speaker_3_geo), 
-	//LOAD_MODEL_FROM_GEO(MODEL_O_FLAME, o_flame_geo), //hope this isn't illegal
-	//update: it is
-	LOAD_MODEL_FROM_GEO(MODEL_O_FLAME,o_flame_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_O_FLAME, o_flame_geo), //hope this isn't illegal
+	LOAD_MODEL_FROM_GEO(MODEL_O_FLAME, o_flame_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_O_GERIK, o_gerik_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
@@ -157,6 +156,7 @@ const LevelScript level_o_entry[] = {
 		OBJECT(MODEL_NONE, 1520, -2191, 23248, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 1520, -2494, 23248, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		MARIO_POS(0x01, 0, 1365, -2494, 23065),
+		OBJECT(MODEL_NONE, 4888, 755, 7911, 0, 0, 0, (12 << 16), bhvCollectablePainting),
 		OBJECT(MODEL_PT_METAL_BOX, -20347, -1669, -10934, 0, 0, 0, (2 << 16), bhvPtMetalBox),
 		OBJECT(MODEL_NONE, 10432, 764, 7101, 0, 90, 0, (3 << 16), bhvFadingWarp),
 		OBJECT(MODEL_NONE, 678, 1527, -29618, 0, -59, 0, (5 << 16), bhvFadingWarp),

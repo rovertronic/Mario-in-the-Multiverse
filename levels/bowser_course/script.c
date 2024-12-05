@@ -168,6 +168,7 @@ const LevelScript level_bowser_course_entry[] = {
 		OBJECT(MODEL_NITRO_BOX, -9557, 1211, 2852, 0, 0, 0, 0x00000000, bhvNitroBox),
 		OBJECT(MODEL_NITRO_BOX, -9557, 1361, 2852, 0, 0, 0, 0x00000000, bhvNitroBox),
 		OBJECT(MODEL_NOTEBLOCK, 8077, 477, -9724, 0, 0, 0, 0x00000000, bhvNoteblock),
+		OBJECT(MODEL_NONE, -9877, 2342, 2592, 0, 0, 0, (15 << 16), bhvCollectablePainting),
 		OBJECT(MODEL_PT_METAL_BOX, 9416, -782, -3723, 0, 0, 0, 0x00000000, bhvPtMetalBox),
 		OBJECT(MODEL_PT_METAL_BOX, 9416, -782, -3523, 0, 0, 0, 0x00000000, bhvPtMetalBox),
 		OBJECT(MODEL_PT_METAL_BOX, 9416, -782, -3323, 0, 0, 0, 0x00000000, bhvPtMetalBox),

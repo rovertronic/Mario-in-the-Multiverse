@@ -7798,6 +7798,7 @@ const BehaviorScript bhvFBoat[] = {
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET)),
     LOAD_COLLISION_DATA(f_boat_collision),
     SET_FLOAT(oDrawingDistance, 32000),
+    SET_HOME(),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_f_boat),
     END_LOOP(),

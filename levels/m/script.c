@@ -197,6 +197,7 @@ const LevelScript level_m_entry[] = {
 		OBJECT(MODEL_PT_METAL_BOX, 10200, -3000, 1900, 0, 0, 0, 0x00000000, bhvPtMetalBox),
 		OBJECT(MODEL_NONE, 10000, -6300, 8000, 0, 0, 0, (7 << 24), bhvStar),
 		OBJECT(MODEL_NONE, 10000, -3082, 322, 0, 0, 0, (7 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, 10000, -3082, -500, 0, 0, 0, (14 << 16), bhvCollectablePainting),
 		TERRAIN(m_area_4_collision),
 		ROOMS(m_area_4_collision_rooms),
 		MACRO_OBJECTS(m_area_4_macro_objs),

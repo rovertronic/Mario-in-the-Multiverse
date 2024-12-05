@@ -625,6 +625,8 @@ struct ObjectHitbox sFBoatHitbox = {
     .hurtboxHeight     = 50,
 };
 
+Vec3f boat_target_pos;
+u8 boat_target_index = 0;
 void bhv_f_boat(void) {
     struct Surface *floor;
 
@@ -632,11 +634,82 @@ void bhv_f_boat(void) {
         if (lateral_dist_between_objects(gMarioObject,o) < 400.0f) {
             sprintf(&hud_information_string,"NEED BOAT KEY");
         }
-        load_object_collision_model();
+        //load_object_collision_model();
         return;
     }
 
+    Trajectory * boat_trajectory = segmented_to_virtual(f_area_1_spline_boatpath);
+    switch(o->oAction) {
+        case 0: // wait for mario
+            if (lateral_dist_between_objects(gMarioObject,o) < 300.0f && o->oTimer > 60) {
+                o->oAction = 1;
+                boat_target_index = 0;
+                boat_target_pos[0] = boat_trajectory[1];
+                boat_target_pos[1] = boat_trajectory[2];
+                boat_target_pos[2] = boat_trajectory[3];
+            }
+            break;
+        case 1: // follow path
+        case 2: // return home
+            ;f32 dist;
+            s16 yaw;
+            vec3f_get_dist(&o->oPosVec,boat_target_pos,&dist);
+            vec3f_get_yaw(&o->oPosVec,boat_target_pos,&yaw);
 
+            o->oFaceAngleYaw = approach_s16_symmetric(o->oFaceAngleYaw, yaw, 0x100);
+            o->oPosX += sins(o->oFaceAngleYaw)*o->oForwardVel;
+            o->oPosZ += coss(o->oFaceAngleYaw)*o->oForwardVel;
+
+
+            struct Object * nearest_red_coin = cur_obj_nearest_object_with_behavior(bhvRedCoin);
+            if (nearest_red_coin && dist_between_objects(o,nearest_red_coin) < 1000.0f) {
+                if (o->oForwardVel > 15.0f) {
+                    o->oForwardVel -= .4f;
+                }
+            } else if (o->oAction == 2) {
+                if (o->oForwardVel < 30.0f) {
+                    o->oForwardVel += .5f;
+                }
+            } else {
+                if (o->oForwardVel < 25.0f) {
+                    o->oForwardVel += .2f;
+                }
+            }
+
+            if (dist < 300.f) {
+                if (o->oAction == 2) {
+                    o->oAction = 0;
+                    o->oForwardVel = 0.0f;
+                } else {
+                    boat_target_index++;
+                    boat_target_pos[0] = boat_trajectory[(boat_target_index*4)+1];
+                    boat_target_pos[1] = boat_trajectory[(boat_target_index*4)+2];
+                    boat_target_pos[2] = boat_trajectory[(boat_target_index*4)+3];
+
+                    if (boat_trajectory[(boat_target_index*4)] == -1) {
+                        boat_target_pos[0] = o->oHomeX;
+                        boat_target_pos[1] = o->oHomeY;
+                        boat_target_pos[2] = o->oHomeZ;
+                        o->oAction = 2;
+                    }
+                }
+            }
+
+            if (gMarioObject->platform == o) {
+                o->oTimer = 0;
+            }
+            if (o->oTimer > 120) {
+                boat_target_pos[0] = o->oHomeX;
+                boat_target_pos[1] = o->oHomeY;
+                boat_target_pos[2] = o->oHomeZ;
+                o->oAction = 2;
+            }
+            break;
+    }
+
+
+    load_object_collision_model();
+    /*
     obj_set_hitbox(o, &sFBoatHitbox);
     cur_obj_scale(1.0f);
 
@@ -694,6 +767,7 @@ void bhv_f_boat(void) {
             }
             break;
     }
+    */
 
     o->oOpacity = o->oForwardVel*5;
     if (o->oForwardVel*5 < 0.0f) {
@@ -913,12 +987,12 @@ void bhv_f_heli(void) {
         }
     }
 
-    if ((o->oAction != 0)&&(gMarioState->pos[2] > -6288.0f)) {
+    if ((o->oAction != 0 && o->oAction != 6)&&(gMarioState->pos[2] > -6288.0f)) {
         // Keep mario in boss area
         gMarioState->pos[2] = -6288.0f;
         gMarioObject->oPosZ = gMarioState->pos[2];
     }
-    if ((o->oAction != 0)&&(gMarioState->pos[2] < -8285.0f)) {
+    if ((o->oAction != 0 && o->oAction != 6)&&(gMarioState->pos[2] < -8285.0f)) {
         // Keep mario in boss area
         gMarioState->pos[2] = -8285;
         gMarioObject->oPosZ = gMarioState->pos[2];

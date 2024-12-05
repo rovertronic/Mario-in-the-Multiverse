@@ -1367,7 +1367,7 @@ Gfx *geo_e__mario_torso_rotation(s32 callContext, struct GraphNode *node, UNUSED
 
         if (gE_ShotgunFlags & E_SGF_AIM_FIRE) {
             //first in geo
-            gE_UpperAimPitch = ((s16)((calculate_pitch(gLakituState.focus, gLakituState.pos)) - gMarioState->faceAngle[0]));
+            gE_UpperAimPitch = ((s16)(calculate_pitch(gLakituState.focus, gLakituState.pos)));
             gE_UpperAimYaw   = ((s16)((gCamera->yaw + DEGREES(180)) - gMarioState->faceAngle[1]));//approach toward middle when racking the gun
             e__mario_aim_rotation(&rotNode->rotation[0], &rotNode->rotation[1], &rotNode->rotation[2], 3, 1);
         } else {

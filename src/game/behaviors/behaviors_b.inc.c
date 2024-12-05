@@ -1903,6 +1903,7 @@ void bhv_boss_daddy(void){
                             o->oAction = 1;
                             play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_EVENT_BOSS), 0);
                             o->oF4 = STATE_JUMP_UP;
+                            o->oInteractType = INTERACT_IGLOO_BARRIER;
                         }
                     break;
             }

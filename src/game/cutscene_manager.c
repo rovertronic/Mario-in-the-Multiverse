@@ -989,6 +989,8 @@ void cm_finalboss_2(void) {
             break;
         case 59:
             if (cm_press_a_or_b()) {
+                cm_textbox_text_target = NULL;
+                cm_textbox_text = NULL;
                 set_mario_action(gMarioState,ACT_IDLE,0);
                 cm_cutscene_on = FALSE;
                 obj_mark_for_deletion(o);
@@ -1004,6 +1006,8 @@ void cm_finalboss_2(void) {
 void cm_finalboss_3(void) {
     switch(cm_cutscene_timer) {
         case 0:
+            cm_textbox_text_target = NULL;
+            cm_textbox_text = NULL;
             cm_camera_object = 0;
             cm_target_camera_object = 0;
             break;

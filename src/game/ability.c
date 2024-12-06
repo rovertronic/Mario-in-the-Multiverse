@@ -339,22 +339,6 @@ void change_ability(s8 picked_ability) {
 
     // Mario Model
     gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
-
-    // Equip Sound Effect
-    switch(gMarioState->abilityId) {
-        case ABILITY_AKU:
-            play_sound(SOUND_ABILITY_AKU_AKU, gGlobalSoundSource);
-        break;
-        case ABILITY_KNIGHT:
-            play_sound(SOUND_ABILITY_KNIGHT_EQUIP, gGlobalSoundSource);
-        break;
-        case ABILITY_E_SHOTGUN:
-            play_sound(SOUND_MITM_ABILITY_E_SHOTGUN_RACK, gGlobalSoundSource);
-        break;
-        default:
-            play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
-        break;
-    }
 }
 
 void control_ability_dpad(void) {
@@ -380,6 +364,22 @@ void control_ability_dpad(void) {
                 ability_gravity[picked_ability] = 2;
 
                 change_ability(ability_slot[picked_ability]);
+
+                // Equip Sound Effect
+                switch(gMarioState->abilityId) {
+                    case ABILITY_AKU:
+                        play_sound(SOUND_ABILITY_AKU_AKU, gGlobalSoundSource);
+                    break;
+                    case ABILITY_KNIGHT:
+                        play_sound(SOUND_ABILITY_KNIGHT_EQUIP, gGlobalSoundSource);
+                    break;
+                    case ABILITY_E_SHOTGUN:
+                        play_sound(SOUND_MITM_ABILITY_E_SHOTGUN_RACK, gGlobalSoundSource);
+                    break;
+                    default:
+                        play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+                    break;
+                }
             } else {
                 play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
             }

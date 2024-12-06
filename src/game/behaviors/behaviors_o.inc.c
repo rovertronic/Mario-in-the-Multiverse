@@ -1965,8 +1965,8 @@ void bhv_final_boss_bowser(void) {
                         o->oHealth = 8;
                         o->oFlags |= OBJ_FLAG_E__SG_CUSTOM;
                         cur_obj_become_tangible();
-                        o->hitboxRadius = 400.0f;
-                        o->hitboxHeight = 600.0f;
+                        o->hitboxRadius = 600.0f;
+                        o->hitboxHeight = 800.0f;
                         break;
                     case 4:
                         o->hitboxRadius = 100.0f;

@@ -1,0 +1,9 @@
+extern Lights1 deltarunediamond_f3dlite_material_lights;
+extern Lights1 deltarunediamond_f3dlite_material_001_lights;
+extern Vtx deltarunediamond_deltarunediamond_mesh_vtx_0[216];
+extern Gfx deltarunediamond_deltarunediamond_mesh_tri_0[];
+extern Vtx deltarunediamond_deltarunediamond_mesh_vtx_1[428];
+extern Gfx deltarunediamond_deltarunediamond_mesh_tri_1[];
+extern Gfx mat_deltarunediamond_f3dlite_material[];
+extern Gfx mat_deltarunediamond_f3dlite_material_001[];
+extern Gfx deltarunediamond_deltarunediamond_mesh[];

@@ -409,7 +409,7 @@ Gfx *geo_danmaku(s32 callContext, struct GraphNode *node, UNUSED void *context) 
 
 		gSPDisplayList(dlH++, mat_sbdm_danmaku_layer1);
 
-		f32 hitradius = 100.0f;
+		f32 hitradius = 70.0f;
 		for (int t = 0; t < 3; t++) {
 			Gfx * dmdl = sbdmk_kunai_mesh_tri_0;
 			switch(t) {
@@ -417,10 +417,11 @@ Gfx *geo_danmaku(s32 callContext, struct GraphNode *node, UNUSED void *context) 
 					gDPSetEnvColor(dlH++,100,0,100,255);
 					break;
 				case 1:
-					gDPSetEnvColor(dlH++,0,0,0,255);
-					dmdl = sbdmd_diamond_mesh_tri_0;
+					gDPSetEnvColor(dlH++,255,255,255,255);
+					dmdl = deltarunediamond_deltarunediamond_mesh;
 					break;
 				case 2:
+					gSPDisplayList(dlH++, mat_sbdm_danmaku_layer1);
 					gDPSetEnvColor(dlH++,40,0,40,255);
 					break;
 			}

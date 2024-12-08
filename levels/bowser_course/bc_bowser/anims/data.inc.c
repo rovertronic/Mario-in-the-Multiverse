@@ -17,3 +17,4 @@
 #include "anim_swordcharge.inc.c"
 #include "anim_swordstun.inc.c"
 #include "anim_swordblock.inc.c"
+#include "anim_swordswipe2.inc.c"

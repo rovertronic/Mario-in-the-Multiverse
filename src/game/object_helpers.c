@@ -280,7 +280,7 @@ Gfx *geo_update_sephisword(s32 callContext, struct GraphNode *node, Mat4 mtx) {
             sephisword_deflect_buffer = 20;
         }
         if ( ((sephisword_deflect_buffer > 0) && (parry_offset < 0x3000)) || (gMarioState->action == ACT_ABILITY_AXE_JUMP) ) {
-            collision_radius *= 2.0f; //enfatten hitbox when deflecting only
+            collision_radius *= 1.5f; //enfatten hitbox when deflecting only
             deflected = 1;
         }
 

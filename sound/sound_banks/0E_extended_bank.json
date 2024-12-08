@@ -543,10 +543,8 @@
         },
         "Synth Voice 2": {
             "release_rate": 19,
-            "normal_range_hi": 50,
             "envelope": "envelope0",
-            "sound": {"sample": "1B_organ_2", "tuning": 1.0},
-            "sound_hi": "1B_organ_2"
+            "sound": "1B_organ_2"
         },
         "Sleigh Bells 2": {
             "release_rate": 208,

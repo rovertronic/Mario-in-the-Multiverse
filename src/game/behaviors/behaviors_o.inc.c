@@ -1632,6 +1632,7 @@ enum {
     FBOWSER_SEPH_STAGGER,
     FBOWSER_SEPH_SWIPE,
     FBOWSER_SEPH_ARC,
+    FBOWSER_SEPH_RSWIPE,
     FBOWSER_SEPH_DEFLECT,
 
     //hector is the name of the golem from b&s
@@ -1748,7 +1749,7 @@ void hector_general(void) {
 }
 
 void sephiser_general_attack_handler(void) {
-    if (hit_by_bowsers_weapon()) {
+    if (hit_by_bowsers_weapon() && o->oTimer > 10) {
 
         if (sephisword_did_hit == 2) {
             cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
@@ -1763,7 +1764,7 @@ void sephiser_general_attack_handler(void) {
     }
 
     if (cur_obj_check_if_at_animation_end()) {
-        o->oAction = FBOWSER_SEPH_SWIPE+(random_u16()%2);
+        o->oAction = FBOWSER_SEPH_SWIPE+(random_u16()%3);
         o->oTimer = 0;
 
         if (lateral_dist_between_objects(gMarioObject,o) > 500.0f) {
@@ -1779,6 +1780,7 @@ void sephiser_general_attack_handler(void) {
 }
 
 Vec3f fb_bowser_home = {0.0f,SB_Y,0.0f};
+extern u8 sephisword_deflect_buffer;
 void bhv_final_boss_bowser(void) {
     switch(o->oAction) {
         case FBOWSER_INIT:
@@ -1817,16 +1819,24 @@ void bhv_final_boss_bowser(void) {
             }
             sephiser_general_attack_handler();
             break;
+        case FBOWSER_SEPH_RSWIPE:
+            if (o->oTimer == 0) {
+                cur_obj_init_animation_with_sound(19);
+            }
+            o->oFaceAngleYaw = approach_s16_asymptotic(o->oFaceAngleYaw,o->oAngleToMario,10);
+            sephiser_general_attack_handler();
+            break;
         case FBOWSER_SEPH_PARRIED:
             o->header.gfx.animInfo.animFrame-=3;
             if (o->header.gfx.animInfo.animFrame < 0) {
                 o->header.gfx.animInfo.animFrame=0;
-                o->oAction = FBOWSER_SEPH_SWIPE+(random_u16()%2);
+                o->oAction = FBOWSER_SEPH_SWIPE+(random_u16()%3);
                 o->oInteractStatus = 0;
                 o->oTimer = 0;
                 o->oHealth--;
 
                 if (o->oHealth < 1) {
+                    sephisword_deflect_buffer = 0;
                     o->oAction = FBOWSER_SEPH_STAGGER;
                     cur_obj_init_animation_with_sound(17);
                 }
@@ -1868,7 +1878,7 @@ void bhv_final_boss_bowser(void) {
                     o->header.gfx.animInfo.animFrame-=2;
                     if (o->header.gfx.animInfo.animFrame < 0) {
                         o->header.gfx.animInfo.animFrame=0;
-                        o->oAction = FBOWSER_SEPH_SWIPE+(random_u16()%2);
+                        o->oAction = FBOWSER_SEPH_SWIPE+(random_u16()%3);
                         o->oPosY = SB_Y+32.f;
                     }
                 }
@@ -1899,7 +1909,7 @@ void bhv_final_boss_bowser(void) {
                 cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
             }
             if (o->oTimer > 15) {
-                o->oAction = FBOWSER_SEPH_SWIPE+(random_u16()%2);
+                o->oAction = FBOWSER_SEPH_SWIPE+(random_u16()%3);
             }
             break;
         case FBOWSER_TRANSFORM:
@@ -1962,7 +1972,7 @@ void bhv_final_boss_bowser(void) {
                         break;
                     case 3:
                         o->oAction = FBOWSER_YUKARI;
-                        o->oHealth = 8;
+                        o->oHealth = 10;
                         o->oFlags |= OBJ_FLAG_E__SG_CUSTOM;
                         cur_obj_become_tangible();
                         o->hitboxRadius = 600.0f;
@@ -1972,7 +1982,7 @@ void bhv_final_boss_bowser(void) {
                         o->hitboxRadius = 100.0f;
                         o->hitboxHeight = 250.0f;
 
-                        o->oHealth = 8;
+                        o->oHealth = 10;
                         cur_obj_become_tangible();
                         o->oAction = FBOWSER_SEPH_CHARGE;
                         break;

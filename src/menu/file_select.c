@@ -2108,6 +2108,15 @@ s32 lvl_update_obj_and_load_file_selected(UNUSED s32 arg, UNUSED s32 unused) {
 s32 mitm_file_select() {
     create_dl_ortho_matrix();
 
+    //print version
+    prepare_blank_box();
+    render_blank_box(10,230,20+get_string_width_ascii(VERSION_STRING),205,  0,0,0,  150);
+    finish_blank_box();
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+    print_generic_string_ascii(15, 15, VERSION_STRING);
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+
+
     switch (file_menu_state) {
         case FMS_SELECT:
             handle_menu_scrolling(MENU_SCROLL_VERTICAL, &file_selected_index, 0, 2);

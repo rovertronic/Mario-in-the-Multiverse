@@ -427,7 +427,21 @@ void k_generic_enemy_handler(void) {
     o->oShotByShotgun = 0;
 }
 
+u16 funny_bonus_k_models[] = {
+    MODEL_K_RAQUNA,
+    MODEL_K_EARLYEXIT,
+    MODEL_K_STEVE,
+    MODEL_K_YICK,
+    MODEL_K_RATCHET,
+    MODEL_K_VIN,
+    MODEL_K_KAGUYA,
+};
+
+
 void bhv_k_strong_terry(void) {
+    if (o->oAction == K_ENEMY_INIT && save_file_is_game_hundred_percent()) {
+        o->header.gfx.sharedChild = gLoadedGraphNodes[funny_bonus_k_models[random_u16()%7]];
+    }
     k_generic_enemy_init();
 
     switch(o->oAction) {

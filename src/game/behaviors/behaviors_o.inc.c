@@ -2421,6 +2421,9 @@ void bhv_atreus_bosscontroller(void) {
             o->oPosZ = approach_f32_asymptotic(o->oPosZ,o->oHomeZ,0.1f);
 
             if (o->oDistanceToMario < 2000.0f) {
+                save_file_set_flags(SAVE_FLAG_BEAT_BOWSER);
+                save_file_do_save(gCurrSaveFileNum - 1);
+
                 o->oAction = ATREUS_ENTERED;
                 play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 0x10, 0xFF, 0xFF, 0xFF);
                 set_mario_action(gMarioState,ACT_CM_CUTSCENE,0);

@@ -2283,11 +2283,13 @@ s32 mitm_file_select() {
             u8 starText[6] = {GLYPH_STAR, DIALOG_CHAR_SPACE};
             u8 coinText[6] = {GLYPH_COIN, DIALOG_CHAR_SPACE};
             s16 starCount = save_file_get_total_star_count(i,COURSE_NUM_TO_INDEX(COURSE_MIN),COURSE_NUM_TO_INDEX(COURSE_MAX));
+            /*
             int dreamCount = get_dream_star_count_file_index(i);
             starCount+=dreamCount;
             if (dreamCount > 0) {
                 starText[0] = GLYPH_HDC;
             }
+            */
 
             s16 coinCount = gSaveBuffer.files[i][0].coins;
             int_to_str(starCount, &starText[2]);
@@ -2305,7 +2307,6 @@ s32 mitm_file_select() {
             gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
 
             // display playtime
-            gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
             int frames = gSaveBuffer.files[i][0].elapsed_playtime;
             int seconds = frames/30;
             int mins = seconds/60;
@@ -2313,9 +2314,30 @@ s32 mitm_file_select() {
             if (hours > 99) {
                 hours = 99;
             }
-            char strbuf[12];
+            char strbuf[16];
             sprintf(&strbuf,"%02d:%02d:%02d",hours,mins%60,seconds%60);
 
+            //fnaf stars
+            u8 fnaf_star_1 = ((gSaveBuffer.files[i][0].flags & SAVE_FLAG_BEAT_BOWSER) > 0);
+            u8 fnaf_star_2 = (starCount >= 123);
+            u8 fnaf_star_3 = ((gSaveBuffer.files[i][0].paintings_unlocked == 0xFF) && (gSaveBuffer.files[i][0].abilities == 0x7FFFF));
+            u8 fnaf_stars = fnaf_star_1 + fnaf_star_2 + fnaf_star_3;
+
+            //if (fnaf_stars > 0)
+            char fnaf_star_string[4] = "###";
+            if (fnaf_star_1) {fnaf_star_string[0] = '*';}
+            if (fnaf_star_2) {fnaf_star_string[1] = '*';}
+            if (fnaf_star_3) {fnaf_star_string[2] = '*';}
+            sprintf(&strbuf,"%s %s",&strbuf,&fnaf_star_string);
+
+            prepare_blank_box();
+            int lerped_file_x_int = lerped_file_x;
+            if (95+lerped_file_x_int > 0) {
+                render_blank_box(96+lerped_file_x_int,54+(i*75),105+lerped_file_x_int+get_string_width_ascii(strbuf),71+(i*75),           0,0,0,  150);
+            }
+            finish_blank_box();
+
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
             if (file_selected_index == i) {
                 gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
             } else {

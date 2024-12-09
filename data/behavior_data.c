@@ -3210,9 +3210,11 @@ const BehaviorScript bhvStaticObject[] = {
     BREAK(),
 };
 
+extern void bhv_pepper_art(void);
 const BehaviorScript bhvPepperArt[] = {
     BEGIN(OBJ_LIST_DEFAULT),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_pepper_art),
     BREAK(),
 };
 

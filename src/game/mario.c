@@ -1967,7 +1967,9 @@ extern u8 gE_C9MarioHealth;
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
-    gSaveBuffer.files[gCurrSaveFileNum - 1][0].elapsed_playtime ++;
+    if (gCurrCreditsEntry == NULL) {
+        gSaveBuffer.files[gCurrSaveFileNum - 1][0].elapsed_playtime ++;
+    }
     
     // Updates once per frame:
     vec3f_get_dist_and_lateral_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->lateralSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);

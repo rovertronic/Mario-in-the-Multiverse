@@ -119,6 +119,7 @@ enum CourseFlags {
 #define SAVE_FLAG_HAVE_WING_CAP 0
 #define SAVE_FLAG_HAVE_METAL_CAP 0
 #define SAVE_FLAG_HAVE_VANISH_CAP 0
+#define SAVE_FLAG_HAVE_KEY_1 0
 
 // game progress flags
 enum SaveProgressFlags {
@@ -126,7 +127,7 @@ enum SaveProgressFlags {
     SAVE_FLAG_SCREENSHOT             = (1 <<  1), /* 0x00000002 */
     SAVE_FLAG_ARTREUS_ARTIFACT       = (1 <<  2), /* 0x00000004 */
     SAVE_FLAG_SHOTGUN_TUTORIAL       = (1 <<  3), /* 0x00000008 */
-    SAVE_FLAG_HAVE_KEY_1             = (1 <<  4), /* 0x00000010 */
+    SAVE_FLAG_BEAT_BOWSER            = (1 <<  4), /* 0x00000010 */
     SAVE_FLAG_HAVE_KEY_2             = (1 <<  5), /* 0x00000020 */
     SAVE_FLAG_UNLOCKED_BASEMENT_DOOR = (1 <<  6), /* 0x00000040 */
     SAVE_FLAG_UNLOCKED_UPSTAIRS_DOOR = (1 <<  7), /* 0x00000080 */
@@ -228,6 +229,7 @@ u8 save_file_level_flags(u8 course_id);
 void save_file_unlock_song(u8 seq_id);
 u8 save_file_check_song_unlocked(u8 seq_id);
 void save_main_menu_data(void);
+s32 save_file_is_game_hundred_percent(void);
 
 #if MULTILANG
 enum EuLanguages {

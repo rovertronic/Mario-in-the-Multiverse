@@ -139,6 +139,15 @@ void bhv_l_clock(void) {
     o->oIntangibleTimer = 0;
 }
 
+void bhv_pepper_art(void) {
+    u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(COURSE_LLL));
+    if (star_flags & (1 << 6)) {
+        // if u kill pepperman show art
+        o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_L_PEPPERART];
+        return;
+    }
+}
+
 void bhv_npc_pepperman_loop(void) {
     u8 star_flags = save_file_get_star_flags(gCurrSaveFileNum-1,COURSE_NUM_TO_INDEX(COURSE_LLL));
     if (!(star_flags & (1 << 6))) {
@@ -174,7 +183,13 @@ void bhv_npc_pepperman_loop(void) {
             break;
 
         case 2:
-            dialogResponse = cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_RACE_DIALOG, DIALOG_L_PEPPERMAN_2);
+            if (save_file_is_game_hundred_percent()) {
+                dialogResponse = cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_RACE_DIALOG, DIALOG_L_PEPPERMAN_3);
+            } else {
+                dialogResponse = cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_RACE_DIALOG, DIALOG_L_PEPPERMAN_2);
+            }
+
+
             if (dialogResponse != DIALOG_RESPONSE_NONE) {
                 if (dialogResponse == DIALOG_RESPONSE_YES) {
                     o->oAction = 3;

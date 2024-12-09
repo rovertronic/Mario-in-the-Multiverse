@@ -254,6 +254,10 @@ void load_area(s32 index) {
             combo_meter = 201;
             p_rank_stars = 0;
             p_rank_lap_2 = FALSE;
+
+            if (save_file_is_game_hundred_percent()) {
+                p_rank_true = TRUE;
+            }
         }
 
         gCurrentArea = &gAreaData[index];

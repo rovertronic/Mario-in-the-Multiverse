@@ -549,6 +549,43 @@ Start the P challenge?\n\
 \n\
 //Go!////Don't Go"))
 
+DEFINE_DIALOG(DIALOG_L_PEPPERMAN_3, 1, 4, 95, 200, _("\
+Heh, it's been awhile\n\
+since you beat my ass.\n\
+\n\
+\n\
+I've conjured up a new\n\
+challenge for you, if\n\
+you're willing.\n\
+\n\
+There's no reward for\n\
+completing this, so\n\
+it's just for fun.\n\
+Introducing...\n\
+\n\
+TRUE P Rank Challenge!\n\
+\n\
+\n\
+To complete the challenge,\n\
+you must make it to the\n\
+end of the level while\n\
+following this criteria:\n\
+-Keep the combo going.\n\
+-Use the Lap 2 portal.\n\
+-Collect every star.\n\
+\n\
+The combo meter has been\n\
+sped up significantly.\n\
+Kill those enemies as\n\
+fast as possible!\n\
+That's all. Good luck,\n\
+as this challenge is mighty\n\
+brutal. I can understand\n\
+you passing on this.\n\
+Start the TPR challenge?\n\
+\n\
+//Go!////Don't Go"))
+
 DEFINE_DIALOG(DIALOG_EGADD_1, 2, 4, 95, 200, _("\
 Hello Mario! Blimey,\n\
 am I elated to see you!\n\

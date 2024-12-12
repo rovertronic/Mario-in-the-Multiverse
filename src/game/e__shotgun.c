@@ -750,7 +750,6 @@ void e__fire_shotgun_air(void) {//--**combine with e__fire_shotgun later
 
                     if (!save_file_is_game_hundred_percent()) {
                         gE_ShotgunFlags |= E_SGF_AIR_SHOT_USED;
-                    } else {
                         if (m->numGlobalCoins) {
                             m->numGlobalCoins--; }
                         else {

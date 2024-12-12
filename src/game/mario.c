@@ -2605,6 +2605,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             lastAbility = gMarioState->abilityId;
         }
 
+        dark_magic_chaingun_replacement();
+        
         return gMarioState->particleFlags;
     }
 
@@ -2708,7 +2710,6 @@ void init_mario(void) {
     e__set_upper_anim(gMarioState, 2);
 
     gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
-
 }
 
 void init_mario_from_save_file(void) {

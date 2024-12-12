@@ -529,3 +529,18 @@ s32 check_if_swap_ability_allowed(void) {
 
     return TRUE;
 }
+
+extern Gfx chaingun_chaingun_mesh[];
+extern Gfx e__mario_000_displaylist_003_mesh_layer_1[];
+u8 shotgun_replaced_with_chaingun = FALSE;
+void dark_magic_chaingun_replacement(void) {
+    if (shotgun_replaced_with_chaingun || !save_file_is_game_hundred_percent()) {
+        return;
+    }
+    shotgun_replaced_with_chaingun = TRUE;
+
+    Gfx * dark_ptr = segmented_to_virtual(e__mario_000_displaylist_004_mesh_layer_1);
+
+    gSPDisplayList(dark_ptr++, chaingun_chaingun_mesh);
+    gSPEndDisplayList(dark_ptr++);
+}

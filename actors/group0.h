@@ -547,4 +547,8 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "collectable_painting/geo_header.h"
 
+#include "chaingun/header.h"
+
+#include "chaingunh/header.h"
+
 #endif

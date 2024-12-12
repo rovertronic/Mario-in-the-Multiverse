@@ -707,12 +707,15 @@ void e__fire_shotgun(void) {
         if (gE_ShotgunTimer == 0) {
             if (gPlayer1Controller->buttonDown & L_TRIG) {
                 struct MarioState *m = gMarioState;
-                if (m->numGlobalCoins) {
-                    m->numGlobalCoins--; }
-                else {
-                    gE_ShotgunTimer = 26;
-                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
-                    return;
+
+                if (!save_file_is_game_hundred_percent()) {
+                    if (m->numGlobalCoins) {
+                        m->numGlobalCoins--; }
+                    else {
+                        gE_ShotgunTimer = 26;
+                        play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                        return;
+                    }
                 }
 
                 gE_UpperAnimInfo.animFrame = 0;
@@ -730,6 +733,9 @@ void e__fire_shotgun(void) {
                     e__shotgun_shot(shotVisualPos, shotVisualPos, 0, m->faceAngle[1]);
                 }
                 gE_ShotgunTimer = 26;
+                if (save_file_is_game_hundred_percent()) {
+                    gE_ShotgunTimer = 5;
+                }
             }
         }
     }
@@ -741,14 +747,18 @@ void e__fire_shotgun_air(void) {//--**combine with e__fire_shotgun later
         if (mario_is_in_air_action()) {
             if (gPlayer1Controller->buttonPressed & L_TRIG) {            
                 if (!(gE_ShotgunFlags & E_SGF_AIR_SHOT_USED)) {
-                    gE_ShotgunFlags |= E_SGF_AIR_SHOT_USED;
-                    if (m->numGlobalCoins) {
-                        m->numGlobalCoins--; }
-                    else {
-                        gE_ShotgunTimer = 26;
-                        play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
-                        return;
-                    }    
+
+                    if (!save_file_is_game_hundred_percent()) {
+                        gE_ShotgunFlags |= E_SGF_AIR_SHOT_USED;
+                    } else {
+                        if (m->numGlobalCoins) {
+                            m->numGlobalCoins--; }
+                        else {
+                            gE_ShotgunTimer = 26;
+                            play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                            return;
+                        }
+                    }
 
                     e__set_upper_anim(m, 2);
                     gE_UpperAnimInfo.animFrame = 0;

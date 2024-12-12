@@ -85,6 +85,7 @@ extern u8 gE_MaxObjsHitPerShot;
 
 u8 ability_chronos_frame_can_progress(void);
 f32 ability_chronos_current_slow_factor(void);
+void dark_magic_chaingun_replacement(void);
 
 // Ability specific variables
 extern u16 aku_invincibility;

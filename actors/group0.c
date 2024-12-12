@@ -155,3 +155,5 @@
 #include "bd_star/model.inc.c"
 #include "bd_wave/model.inc.c"
 #include "collectable_painting/model.inc.c"
+#include "chaingun/model.inc.c"
+#include "chaingunh/model.inc.c"

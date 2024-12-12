@@ -21,7 +21,7 @@ void scroll_B_dl_Room_1_mesh_layer_7_vtx_1() {
 
 void scroll_B_dl_Room_1_mesh_layer_7_vtx_2() {
 	int i = 0;
-	int count = 179;
+	int count = 167;
 	int height = 64 * 0x20;
 
 	static int currentY = 0;
@@ -63,7 +63,7 @@ void scroll_B_dl_Room_1_mesh_layer_5_vtx_0() {
 
 void scroll_B_dl_Room_1_mesh_layer_5_vtx_1() {
 	int i = 0;
-	int count = 208;
+	int count = 179;
 	int height = 64 * 0x20;
 
 	static int currentY = 0;
@@ -84,7 +84,7 @@ void scroll_B_dl_Room_1_mesh_layer_5_vtx_1() {
 
 void scroll_B_dl_Ocean_mesh_layer_5_vtx_0() {
 	int i = 0;
-	int count = 57;
+	int count = 49;
 	int height = 64 * 0x20;
 
 	static int currentY = 0;
@@ -105,7 +105,7 @@ void scroll_B_dl_Ocean_mesh_layer_5_vtx_0() {
 
 void scroll_B_dl_Ocean_mesh_layer_7_vtx_0() {
 	int i = 0;
-	int count = 57;
+	int count = 48;
 	int width = 128 * 0x20;
 
 	static int currentX = 0;

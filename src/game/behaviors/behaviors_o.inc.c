@@ -731,7 +731,7 @@ struct Object *mario_find_nearest_object_with_behavior_exclude_used_mission_obje
         if (obj->behavior == behaviorAddr
             && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
             // discriminate against used mission objects
-            && (!(obj_has_behavior(obj,bhvFlipswitch)&&obj->oSwitchState == TRUE))
+            && (!(obj_has_behavior(obj,bhvFlipswitch)&&(obj->oSwitchState == TRUE||tiles_star_spawned)))
         ) {
             f32 objDist = dist_between_objects(gMarioObject, obj);
             if (objDist < minDist) {
@@ -1050,7 +1050,6 @@ void gerik_patrol(void) {
     
     Vec3f hitPos;
     struct Surface * surf = NULL;
-
     Vec3f ray_start = {o->oPosX,o->oPosY+100.0f,o->oPosZ};
     Vec3f ray_vector = {gMarioState->pos[0]-o->oPosX,(gMarioState->pos[1]-o->oPosY)+100.0f,gMarioState->pos[2]-o->oPosZ};
     if (o->oDistanceToMario < 6000.0f) {
@@ -1090,12 +1089,14 @@ void bhv_o_gerik(void) {
             if ((o->oMoveFlags & (OBJ_MOVE_HIT_WALL|OBJ_MOVE_HIT_EDGE))&&(o->oMoveFlags & OBJ_MOVE_ON_GROUND)) {
                 o->oMoveAngleYaw += 0x200;
                 o->oTimer = 0;
+                /*
                 gerik_jump_desire ++;
                 if (gerik_jump_desire > 200) {
                     gerik_jump_desire = 0;
                     o->oVelY = 60.0f;
                     cur_obj_play_sound_2(SOUND_OBJ_KING_BOBOMB_JUMP);
                 }
+                */
             } else {
                 o->oMoveAngleYaw = approach_s16_asymptotic(o->oMoveAngleYaw, o->oAngleToMario, 8);
                 if (o->oTimer > 15) {
@@ -1106,6 +1107,18 @@ void bhv_o_gerik(void) {
 
             if (o->oMoveFlags & OBJ_MOVE_ON_GROUND) {
                 gerik_step_sound();
+            }
+
+            Vec3f hitPos;
+            struct Surface * surf = NULL;
+            Vec3f ray_start = {o->oPosX,o->oPosY+100.0f,o->oPosZ};
+            Vec3f ray_vector = {gMarioState->pos[0]-o->oPosX,(gMarioState->pos[1]-o->oPosY)+100.0f,gMarioState->pos[2]-o->oPosZ};
+            if (o->oDistanceToMario < 6000.0f) {
+                find_surface_on_ray(ray_start, ray_vector, &surf, hitPos, (RAYCAST_FIND_FLOOR | RAYCAST_FIND_CEIL | RAYCAST_FIND_WALL));
+            }
+            if (surf) {
+                //cant see, increase boredom faster
+                gerik_boredom += 5;
             }
 
             cur_obj_update_floor_and_walls();

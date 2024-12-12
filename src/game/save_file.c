@@ -588,9 +588,9 @@ void save_file_clear_flags(u32 flags) {
 s32 save_file_is_game_hundred_percent(void) {
     u8 fnaf_star_1 = ((gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags & SAVE_FLAG_BEAT_BOWSER) > 0);
     u8 fnaf_star_2 = (gMarioState->numStars >= 123);
-    u8 fnaf_star_3 = ((gSaveBuffer.files[gCurrSaveFileNum - 1][0].paintings_unlocked == 0xFF) && (gSaveBuffer.files[gCurrSaveFileNum - 1][0].abilities == 0x7FFFF));
+    u8 fnaf_star_3 = ((gSaveBuffer.files[gCurrSaveFileNum - 1][0].paintings_unlocked == 0xFFFF) && (gSaveBuffer.files[gCurrSaveFileNum - 1][0].abilities == 0x3FFFF));
     u8 fnaf_stars = fnaf_star_1 + fnaf_star_2 + fnaf_star_3;
-    return TRUE;
+    return fnaf_stars == 3;
 }
 
 u32 save_file_get_flags(void) {
@@ -793,10 +793,11 @@ void save_file_unlock_ability(u8 ability_id) {
 
 extern struct Object * gMarioObject;
 void save_file_unlock_song(u8 seq_id) {
+    seq_id &= ~SEQ_VARIATION;
+
     int i = 0;
     //unfortunately we have to iterate over the entire list due to songs with multiple entries
     while (music_list[i].seq != SEQ_COUNT) {
-        i++;
         if (music_list[i].seq == seq_id) {
             int byte = i/8;
             int bit = i%8;
@@ -807,6 +808,7 @@ void save_file_unlock_song(u8 seq_id) {
             }
             gSaveFileModified = TRUE;
         }
+        i++;
     }
 }
 

@@ -2489,6 +2489,8 @@ void func_80320ED8(void) {
  * Called from threads: thread5_game_loop
  */
 void play_secondary_music(u8 seqId, u8 bgMusicVolume, u8 volume, u16 fadeTimer) {
+    save_file_unlock_song( seqId );
+    
     if ((sCurrentBackgroundMusicSeqId == SEQUENCE_NONE)
      || (sCurrentBackgroundMusicSeqId == SEQ_MENU_TITLE_SCREEN)) {
         return;

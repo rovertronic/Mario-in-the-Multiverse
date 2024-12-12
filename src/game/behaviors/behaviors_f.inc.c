@@ -630,11 +630,12 @@ u8 boat_target_index = 0;
 void bhv_f_boat(void) {
     struct Surface *floor;
 
+    load_object_collision_model();
+
     if (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags & (1<<LEVEL_F_FLAG_KEY))) {
         if (lateral_dist_between_objects(gMarioObject,o) < 400.0f) {
             sprintf(&hud_information_string,"NEED BOAT KEY");
         }
-        //load_object_collision_model();
         return;
     }
 
@@ -707,8 +708,6 @@ void bhv_f_boat(void) {
             break;
     }
 
-
-    load_object_collision_model();
     /*
     obj_set_hitbox(o, &sFBoatHitbox);
     cur_obj_scale(1.0f);

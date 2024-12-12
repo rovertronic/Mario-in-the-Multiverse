@@ -187,7 +187,7 @@ void k_kill_enemy(void) {
 
 void k_enemy_melee(void) {
     o->oInteractType = INTERACT_DAMAGE;
-    o->oDamageOrCoinValue = 4;
+    o->oDamageOrCoinValue = 3;
     cur_obj_become_tangible();
 }
 
@@ -701,10 +701,10 @@ void bhv_k_tv(void) {
             break;
         case 1: // phase 1: avoid the aimer only
             if (o->oTimer>120) {
-                o->oAction = 2;
+                o->oAction = 3;
             }
             break;
-        case 2: // phase 2: dodge
+        case 2: // phase 3: dodge
             if (o->oTimer % 90 == 0&&(o->oTimer <600)) {
                 f32 ratio = 0.1f + (o->oTimer*.001f);
                 int pounder_count = 0;
@@ -726,10 +726,10 @@ void bhv_k_tv(void) {
                 gMarioState->pos[0] = -100.0f; //keep mario in crush zone
             }
             if (o->oTimer>600&&(!cur_obj_nearest_object_with_behavior(bhvKpounder))) {
-                o->oAction = 3;
+                o->oAction = 4;
             }
             break;
-        case 3: // phase 3: fight
+        case 3: // phase 2: fight
             if (o->oTimer < 600 &&(o->oTimer % 90 == 0)) {
                 k_kill_counter --;
                 struct Object * enemy;
@@ -751,7 +751,7 @@ void bhv_k_tv(void) {
             }
 
             if ((o->oTimer>610)&&(k_kill_counter == 0)) {
-                o->oAction = 4;
+                o->oAction = 2;
             }
             break;
         case 4: //end of fight

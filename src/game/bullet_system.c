@@ -72,7 +72,7 @@ static void bullet_k_params(struct Bullet *b) {
 	b->velF          = 100.f;
 	b->gravity       = 0.f;
 	b->hitSphereSize = 100.f;
-	b->damage        = 4;
+	b->damage        = 3;
 }
 
 void dobj_spawn_bullet(Vec3f pos, s16 rX, s16 rY) {

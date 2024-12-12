@@ -2329,20 +2329,21 @@ s32 mitm_file_select() {
             //fnaf stars
             u8 fnaf_star_1 = ((gSaveBuffer.files[i][0].flags & SAVE_FLAG_BEAT_BOWSER) > 0);
             u8 fnaf_star_2 = (starCount >= 123);
-            u8 fnaf_star_3 = ((gSaveBuffer.files[i][0].paintings_unlocked == 0xFF) && (gSaveBuffer.files[i][0].abilities == 0x7FFFF));
+            u8 fnaf_star_3 = ((gSaveBuffer.files[i][0].paintings_unlocked == 0xFFFF) && (gSaveBuffer.files[i][0].abilities == 0x3FFFF));
             u8 fnaf_stars = fnaf_star_1 + fnaf_star_2 + fnaf_star_3;
 
-            //if (fnaf_stars > 0)
-            char fnaf_star_string[4] = "###";
-            if (fnaf_star_1) {fnaf_star_string[0] = '*';}
-            if (fnaf_star_2) {fnaf_star_string[1] = '*';}
-            if (fnaf_star_3) {fnaf_star_string[2] = '*';}
-            sprintf(&strbuf,"%s %s",&strbuf,&fnaf_star_string);
+            if (fnaf_stars > 0) {
+                char fnaf_star_string[4] = "###";
+                if (fnaf_star_1) {fnaf_star_string[0] = '*';}
+                if (fnaf_star_2) {fnaf_star_string[1] = '*';}
+                if (fnaf_star_3) {fnaf_star_string[2] = '*';}
+                sprintf(&strbuf,"%s %s",&strbuf,&fnaf_star_string);
+            }
 
             prepare_blank_box();
             int lerped_file_x_int = lerped_file_x;
             if (95+lerped_file_x_int > 0) {
-                render_blank_box(96+lerped_file_x_int,54+(i*75),105+lerped_file_x_int+get_string_width_ascii(strbuf),71+(i*75),           0,0,0,  150);
+                render_blank_box(96+lerped_file_x_int,54+(i*75),102+lerped_file_x_int+get_string_width_ascii(strbuf),71+(i*75),           0,0,0,  150);
             }
             finish_blank_box();
 

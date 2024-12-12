@@ -78,7 +78,7 @@ const LevelScript level_n_entry[] = {
 		OBJECT(MODEL_NONE, 45, 3350, 5385, 0, 0, 0, (0 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -7455, 2234, 485, 0, 90, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, -7455, 2234, 485, 0, 90, 0, (0x0A << 16), bhvInstantActiveWarp),
-		OBJECT(MODEL_NONE, 1345, -1860, -1115, 0, 0, 0, (0 << 24), bhvStar),
+		OBJECT(MODEL_NONE, 1345, -1998, -1115, 0, 0, 0, (0 << 24), bhvStar),
 		TERRAIN(n_area_2_collision),
 		MACRO_OBJECTS(n_area_2_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_HAMSTERBALL),

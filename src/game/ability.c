@@ -366,7 +366,7 @@ void control_ability_dpad(void) {
                 change_ability(ability_slot[picked_ability]);
 
                 // Equip Sound Effect
-                switch(gMarioState->abilityId) {
+                switch(ability_slot[picked_ability]) {
                     case ABILITY_AKU:
                         play_sound(SOUND_ABILITY_AKU_AKU, gGlobalSoundSource);
                     break;
@@ -375,6 +375,8 @@ void control_ability_dpad(void) {
                     break;
                     case ABILITY_E_SHOTGUN:
                         play_sound(SOUND_MITM_ABILITY_E_SHOTGUN_RACK, gGlobalSoundSource);
+                    break;
+                    case ABILITY_NONE:
                     break;
                     default:
                         play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);

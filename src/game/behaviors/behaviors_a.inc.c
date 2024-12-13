@@ -228,6 +228,7 @@ void taxistop_loop(void) {
             if (o->oTimer > 10) {
                 o->oAction = 1;
                 set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
+                cur_obj_play_sound_2(SOUND_MITM_LEVEL_TLIM_TAXI);
             }
             break;
         case 1:

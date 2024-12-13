@@ -2629,7 +2629,11 @@ void play_star_fanfare(void) {
  * Called from threads: thread5_game_loop
  */
 void play_power_star_jingle(void) {
-    seq_player_play_sequence(SEQ_PLAYER_ENV, SEQ_EVENT_CUTSCENE_STAR_SPAWN, 0);
+    if (gCurrLevelNum != LEVEL_A) {
+        seq_player_play_sequence(SEQ_PLAYER_ENV, SEQ_EVENT_CUTSCENE_STAR_SPAWN, 0);
+    } else {
+        play_sound(SOUND_MITM_LEVEL_TLIM_STARAPP, gGlobalSoundSource);
+    }
     sBackgroundMusicMaxTargetVolume = TARGET_VOLUME_IS_PRESENT_FLAG | 20;
 #if defined(VERSION_EU) || defined(VERSION_SH)
     D_EU_80300558 = 2;

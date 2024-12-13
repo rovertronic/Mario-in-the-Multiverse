@@ -12,7 +12,7 @@ seq_setmutescale 0
   seq_setvol 127
 #endif
 seq_settempo 120
-seq_initchannels 0xfff
+seq_initchannels 0x1fff
 seq_startchannel 0, .channel0
 seq_startchannel 1, .channel1
 seq_startchannel 2, .channel2
@@ -8298,6 +8298,29 @@ sound_ref .sound_level_sb_bullet
 sound_ref .sound_level_sb_blaster
 sound_ref .sound_level_boss_defeat
 sound_ref .sound_spinning_blade
+
+sound_ref .sound_tlim_taxi
+sound_ref .sound_tlim_starapp
+
+.sound_tlim_starapp:
+chan_setbank 12
+chan_setinstr 63
+chan_setlayer 0, .layer_tlim_starapp
+chan_end
+
+.layer_tlim_starapp:
+layer_note1 39, 0x164, 127
+layer_end
+
+.sound_tlim_taxi:
+chan_setbank 12
+chan_setinstr 62
+chan_setlayer 0, .layer_tlim_taxi
+chan_end
+
+.layer_tlim_taxi:
+layer_note1 39, 0xf5, 127
+layer_end
 
 .sound_level_x_0:
 chan_setbank 12

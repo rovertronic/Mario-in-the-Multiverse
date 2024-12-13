@@ -64,6 +64,7 @@ static struct ObjectHitbox sMarxArrowHitbox = {
 
 void marx_act_cutscene(void) {
     if (o->oTimer == 0) {
+        gMarxArenaScroll = 0.0f;
         cur_obj_boss_shimmer_reset();
     }
     if (o->oTimer == 120) {
@@ -83,6 +84,10 @@ void marx_act_cutscene(void) {
         cur_obj_hide();
         cur_obj_become_intangible();
         gMarxArenaScroll = (f32)o->oTimer / 120.0f;
+    }
+
+    if (_60fps_on) {
+        gMarxArenaScroll *= .5f;
     }
 }
 
@@ -614,6 +619,7 @@ void marx_act_dead(void) {
             }
         break;
         case 2:
+            gMarxArenaScroll *= .9f;
             if (o->oTimer == 20) {
                 SET_BPARAM1(o->oBehParams, 7);
                 spawn_default_star(0, 700, 0);

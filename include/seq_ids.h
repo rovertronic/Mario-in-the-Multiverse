@@ -101,6 +101,7 @@ enum SeqId {
     SEQ_ROCKSOLID,  // 0x58
     SEQ_FINAL_BOSS,
     SEQ_C6,  // 0x5A
+    SEQ_MITM_CREDITS,
     SEQ_COUNT,
 };
 

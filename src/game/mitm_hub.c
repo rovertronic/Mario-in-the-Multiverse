@@ -1346,6 +1346,8 @@ struct music_data music_list[] = {
     {SEQ_FINAL_BOSS,5,"Final Bowser Phase 4 - Sephiroth","Original composition by: SpK\nBased on: One Winged Angel (Final Fantasy 7)"},
     {SEQ_FINAL_BOSS,6,"Final Bowser Phase 5 - Hector","Original composition by: SpK\nBased on: Hekalis (Blade and Sorcery)"},
 
+    {SEQ_MITM_CREDITS,0,"Multiversal Dream","Original composition by: Teraok"},
+
     {SEQ_COUNT,0,NULL,NULL},
 };
 
@@ -1453,7 +1455,7 @@ void render_music_menu_ui(f32 alpha) {
 
     char stringBuf[10];
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
-    sprintf( stringBuf, "(%d/%d)", page, (ARRAY_COUNT(music_list)-1)/MUSIC_MENU_PAGE_LENGTH );
+    sprintf( stringBuf, "(%d/%d)", page, 7/*(ARRAY_COUNT(music_list)-1)/MUSIC_MENU_PAGE_LENGTH*/ );
     print_generic_string_ascii(240, 78, stringBuf);
     if (save_file_check_song_unlocked(music_menu_index)) {
         print_generic_string_ascii(43, 58, music_list[music_menu_index].desc);

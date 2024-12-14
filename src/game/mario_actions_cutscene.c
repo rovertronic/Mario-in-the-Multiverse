@@ -2709,7 +2709,7 @@ static s32 act_end_peach_cutscene(struct MarioState *m) {
 
 #define TIMER_CREDITS_SHOW      61
 #define TIMER_CREDITS_PROGRESS  90
-#define TIMER_CREDITS_WARP     270
+#define TIMER_CREDITS_WARP     226
 
 static s32 act_credits_cutscene(struct MarioState *m) {
     m->statusForCamera->cameraEvent = CAM_EVENT_START_CREDITS;

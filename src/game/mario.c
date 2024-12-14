@@ -1967,6 +1967,9 @@ extern u8 gE_C9MarioHealth;
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
+    if (gCurrCreditsEntry != NULL) {
+        set_background_music(0, SEQ_MITM_CREDITS, 0);
+    }
     if (gCurrCreditsEntry == NULL) {
         gSaveBuffer.files[gCurrSaveFileNum - 1][0].elapsed_playtime ++;
     }

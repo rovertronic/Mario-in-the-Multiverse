@@ -4015,6 +4015,7 @@ s32 move_point_along_spline(Vec3f p, struct CutsceneSplinePoint spline[], s16 *s
         secondSpeed = 1.0f / spline[*splineSegment + 2].speed;
     }
     progressChange = (secondSpeed - firstSpeed) * *progress + firstSpeed;
+    progressChange*=.93f;//hacky way to slow down the credits due to slightly longer scenes
 
     if (1 <= (*progress += progressChange)) {
         (*splineSegment)++;

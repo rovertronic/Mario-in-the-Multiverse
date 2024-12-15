@@ -2350,6 +2350,7 @@ enum {
     ATREUS_BOWSER_AMBUSH,
     ATREUS_WATCHING_FIGHT,
     ATREUS_POST_FIGHT,
+    ATREUS_SUCK_MARIO,
     ATREUS_ENTERED,
 };
 
@@ -2433,13 +2434,30 @@ void bhv_atreus_bosscontroller(void) {
         case ATREUS_POST_FIGHT:
             o->oPosZ = approach_f32_asymptotic(o->oPosZ,o->oHomeZ,0.1f);
 
+            if (o->oDistanceToMario < 3000.0f) {
+                set_mario_action(gMarioState,ACT_CUTSCENE_CONTROLLED,0);
+                set_mario_animation(gMarioState,MARIO_ANIM_AIRBORNE_ON_STOMACH);
+                o->oAction = ATREUS_SUCK_MARIO;
+            }
+            break;
+        case ATREUS_SUCK_MARIO:
+            ;s16 mario_angle_to_atreus = obj_angle_to_object(gMarioObject,o);
+            gMarioState->pos[0] += sins(mario_angle_to_atreus) * 10.0f;
+            gMarioState->pos[2] += coss(mario_angle_to_atreus) * 10.0f;
+            gMarioState->faceAngle[1] += 0x200;
+
+            if (gMarioState->pos[1] < o->oPosY) {
+                gMarioState->pos[1] += 10.0f;
+            } else {
+                gMarioState->pos[1] -= 10.0f;
+            }
+
             if (o->oDistanceToMario < 2000.0f) {
                 save_file_set_flags(SAVE_FLAG_BEAT_BOWSER);
                 save_file_do_save(gCurrSaveFileNum - 1);
 
                 o->oAction = ATREUS_ENTERED;
                 play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 0x10, 0xFF, 0xFF, 0xFF);
-                set_mario_action(gMarioState,ACT_CM_CUTSCENE,0);
             }
             break;
         case ATREUS_ENTERED:

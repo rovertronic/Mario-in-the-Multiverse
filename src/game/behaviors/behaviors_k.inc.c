@@ -909,7 +909,4 @@ void bhv_dancer(void) {
             o->oFaceAngleYaw += 0x400;
         }
     }
-    if (anim == 5) {
-        cur_obj_scale(0.333f);
-    }
 }

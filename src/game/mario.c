@@ -1967,6 +1967,12 @@ extern u8 gE_C9MarioHealth;
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
+    Vec3f zeroooo = {0,0,0};
+    Vec3f zeroooo1 = {0,0,-5};
+    vec3f_copy(&gLakituState.goalFocus,&zeroooo1);
+    vec3f_copy(&gLakituState.goalPos,&zeroooo);
+    gCamera->cutscene = 1;
+
     if (gCurrCreditsEntry != NULL) {
         set_background_music(0, SEQ_MITM_CREDITS, 0);
     }

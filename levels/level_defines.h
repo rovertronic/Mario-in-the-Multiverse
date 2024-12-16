@@ -72,3 +72,4 @@ DEFINE_LEVEL("K", LEVEL_K, COURSE_SSL, k, generic, 20000, 0x00, 0x00, 0x00, _, s
 DEFINE_LEVEL("SB", LEVEL_SB, COURSE_NONE, sb, generic, 20000, 0x00, 0x00, 0x00, _, sCamSb) 
 DEFINE_LEVEL("MC", LEVEL_MC, COURSE_PSS, mc, generic, 20000, 0x00, 0x00, 0x00, _, sCamMc) 
 DEFINE_LEVEL("BB", LEVEL_BB, COURSE_WMOTR, bb, generic, 20000, 0x00, 0x00, 0x00, _, sCamBb) 
+DEFINE_LEVEL("CHRISTMAS", LEVEL_CHRISTMAS, COURSE_CHRISTMAS, christmas, generic, 20000, 0x00, 0x00, 0x00, _, sCamChristmas) 

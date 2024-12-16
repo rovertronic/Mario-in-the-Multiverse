@@ -1,4 +1,22 @@
 void bhv_nitro_box_loop(void) {
+
+    if (gPlayer1Controller->buttonPressed & L_TRIG) {
+        o->oAction=1;
+        o->oTimer = 0;
+    }
+
+    if (o->oAction == 1) {
+        o->oAngleVelRoll -= 0x10;
+        o->oFaceAnglePitch += o->oAngleVelRoll;
+
+        if (o->oTimer > 60) {
+            o->oAction ++;
+        }
+    }
+
+
+
+    return;
     o->oPosY += o->oVelY;
     o->oVelY -= 2.0f;
     if (o->oPosY < o->oHomeY) {

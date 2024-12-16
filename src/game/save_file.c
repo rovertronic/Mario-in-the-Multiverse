@@ -590,7 +590,7 @@ s32 save_file_is_game_hundred_percent(void) {
     u8 fnaf_star_2 = (gMarioState->numStars >= 123);
     u8 fnaf_star_3 = ((gSaveBuffer.files[gCurrSaveFileNum - 1][0].paintings_unlocked == 0xFFFF) && (gSaveBuffer.files[gCurrSaveFileNum - 1][0].abilities == 0x3FFFF));
     u8 fnaf_stars = fnaf_star_1 + fnaf_star_2 + fnaf_star_3;
-    return fnaf_stars == 3;
+    return FALSE;//fnaf_stars == 3;
 }
 
 u32 save_file_get_flags(void) {

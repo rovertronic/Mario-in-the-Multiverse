@@ -440,6 +440,8 @@ void bhv_ability(void) {
         break;
         case 1:
             if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+                save_file_unlock_song(SEQ_MITM_GET_ABILITY);
+
                 cur_obj_hide();
                 for (int i=0;i<4;i++) {
                     if (ability_slot[i] == ABILITY_NONE) {

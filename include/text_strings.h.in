@@ -12,7 +12,7 @@
 
 #define TEXT_ABILITY_DEFAULT    _("Mario's Cap:\nMario's basic moveset as you know it.")
 #define TEXT_ABILITY_A          _("Bubble Hat & Net: Spongebob's prized toolset.\nLets you catch jellyfish & break tiki boxes.\nPress [A] midair to do a bubble glide!")
-#define TEXT_ABILITY_B          _("Helmet & Drill: From a deceased Big Daddy.\nThe drill can break certain walls.\nWhile underwater you maintain normal movement.")
+#define TEXT_ABILITY_B          _("Helmet & Drill: From a deceased Big Daddy.\nThe drill can break cement blocks.\nWhile underwater you maintain normal movement.")
 #define TEXT_ABILITY_C          _("Inkling: You're a kid now, you're a squid now!\nPress [L] to transform to and from squid form.\nCan swim in ink puddles, but water kills you.")
 #define TEXT_ABILITY_D          _("Aku Aku: A mask with a spirit inside.\nPress [L] to spend 10 coins and activate 10\nseconds of invincibility. Can walk on lava.")
 #define TEXT_ABILITY_E          _("Doom Shotgun:  Press [L] to fire!\nOn ground, Mario will fire forward. In the air,\nhe'll fire downward. Toggle aim mode with [R].")

@@ -1967,7 +1967,7 @@ extern u8 gE_C9MarioHealth;
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
-    if (gCurrCreditsEntry != NULL) {
+    if (gCurrCreditsEntry != NULL && gCurrLevelNum == LEVEL_CASTLE) {
         set_background_music(0, SEQ_MITM_CREDITS, 0);
     }
     if (gCurrCreditsEntry == NULL) {

@@ -236,7 +236,7 @@ have a silver lining!\n\
 \n\
 \n\
 \n\
-If you begin see any\n\
+If you begin to see any\n\
 signs that you might not\n\
 have the necessary ability\n\
 to pass a trial, you're\n\
@@ -342,7 +342,7 @@ range and explosive force\n\
 to take those punks down!"))
 
 DEFINE_DIALOG(DIALOG_I_CAGEDTOAD_NEAR_FUNKY_BOARD, 1, 4, 95, 190, _("\
-If that caged had been a\n\
+If that cage had been a\n\
 little higher I might have\n\
 hurt myself, but thanks!\n\
 This strange stone portal\n\
@@ -360,7 +360,7 @@ bet kagib lewidyoh.\n\
 (incomprehensible gibberfish)"))
 
 DEFINE_DIALOG(DIALOG_C_JELLY_PAINT_GUN, 1, 3, 95, 190, _("\
-These Splattershot gun\n\
+These Splattershot guns\n\
 are quite aggresive,\n\
 but not invincible!"))
 
@@ -2999,7 +2999,7 @@ What are you waiting for?\n\
 Go find my @519cb5FFLittle Sister@--------!"))
 
 DEFINE_DIALOG(BIG_DADDY_STAR, 1, 2, 30, 200, _("\
-A deals a deal, here's\n\
+A deal's a deal, here's\n\
 your @ccb741FFPower Star@--------."))
 
 DEFINE_DIALOG(BIG_DADDY_ABILITY_TEXT, 1, 6, 30, 200, _("\

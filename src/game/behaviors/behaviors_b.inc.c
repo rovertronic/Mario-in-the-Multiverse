@@ -199,7 +199,7 @@ void bhv_gauge_init(void){
 }
 
 void bhv_gauge_loop(void){
-    if(o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED){
+    if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || (o->oShotByShotgun > 0)){
         activeGauge[GET_BPARAM1(o->oBehParams)] = TRUE;
         spawn_triangle_break_particles(20, 138, 0.3f, 3);
         create_sound_spawner(SOUND_GENERAL_WALL_EXPLOSION);

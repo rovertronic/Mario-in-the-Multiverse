@@ -72,7 +72,8 @@ void bhv_sir_kibble_loop(void) {
         break;
         case SIR_KIBBLE_ACT_THROWING:
             if (o->oTimer == 17) {
-                spawn_object_relative(0, 0, 100, 0, o, MODEL_CUTTER_BLADE, bhvCutterBlade);
+                struct Object * cutterblade = spawn_object_relative(0, 0, 100, 0, o, MODEL_CUTTER_BLADE, bhvCutterBlade);
+                cutterblade->activeFlags |= ACTIVE_FLAG_INITIATED_TIME_STOP;
             }
 
             if (cur_obj_check_if_near_animation_end()) {
@@ -95,6 +96,11 @@ void bhv_sir_kibble_loop(void) {
     else {
         obj_handle_attacks(&sSirKibbleHitbox, o->oAction, sSirKibbleAttackHandlers);
     }
+    }
+    if (o->oShotByShotgun > 0) {
+        // The pingas plane is too strong to be beat by the shotgun ツ
+        cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
+        o->oShotByShotgun = 0;
     }
 }
 

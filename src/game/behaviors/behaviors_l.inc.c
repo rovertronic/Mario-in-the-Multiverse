@@ -277,7 +277,7 @@ void bhv_boss_pepperman_loop(void) {
             o->oDamageOrCoinValue = 0;
             if (o->oTimer > 30) {
                 cur_obj_init_animation(1);
-                o->oDamageOrCoinValue = 3;
+                o->oDamageOrCoinValue = 2;
                 o->oAction = PM_ACT_CHARGE;
                 o->oAngleVelYaw = o->oAngleToMario; // Used for charge reverse dection
                 o->oForwardVel = -20.0f;

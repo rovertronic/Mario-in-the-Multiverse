@@ -620,7 +620,7 @@ the machine once it's\n\
 ready.\n\
 \n\
 By the way, the machine\n\
-will need @ffff00ff70 total power\n\
+will need @ffff00ff80 total power\n\
 stars@-------- in order to get\n\
 there."))
 

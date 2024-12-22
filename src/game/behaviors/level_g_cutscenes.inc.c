@@ -7,12 +7,20 @@ void bhv_level_g_cutscenes_init(void) {
 void bhv_level_g_cutscenes_loop(void) {
     switch (o->oBehParams2ndByte) {
         case 0:
+            set_time_stop_flags(TIME_STOP_ENABLED | TIME_STOP_MARIO_AND_DOORS);
+            o->activeFlags |= ACTIVE_FLAG_INITIATED_TIME_STOP;
+            f32 dist;
+            struct Object *sirKibble = cur_obj_find_nearest_object_with_behavior(bhvSirKibble, &dist);
+            sirKibble->activeFlags |= ACTIVE_FLAG_INITIATED_TIME_STOP;
+
+
             gCamera->cutscene = 1;
             gLakituState.goalPos[0] = 749;
             gLakituState.goalPos[1] = 800;
             gLakituState.goalPos[2] = 446;
             if (move_point_along_spline(gLakituState.goalFocus, segmented_to_virtual(g_area_2_spline_KibbleFocus), &sCutsceneSplineSegment, &sCutsceneSplineSegmentProgress)) {
                 gCamera->cutscene = 0;
+                clear_time_stop_flags(TIME_STOP_ENABLED | TIME_STOP_MARIO_AND_DOORS);
                 obj_mark_for_deletion(o);
             }
             break;

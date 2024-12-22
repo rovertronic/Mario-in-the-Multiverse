@@ -581,6 +581,12 @@ s32 act_triple_jump(struct MarioState *m) {
         if (using_ability(ABILITY_CHRONOS) && m->abilityChronosCanSlash == TRUE) {
             return set_mario_action(m, ACT_MOVE_PUNCHING, 11);
         }
+        if (m->abilityId == ABILITY_CUTTER) {
+            if (m->forwardVel > 28.0f) {
+                play_sound(SOUND_ABILITY_CUTTER_SLICE, m->marioObj->header.gfx.cameraToObject);
+            }
+            return set_mario_action(m, m->forwardVel > 28.0f ? ACT_DIVE : ACT_CUTTER_THROW_AIR, 0);
+        } 
         return set_mario_action(m, ACT_DIVE, 0);
     }
 
@@ -2453,6 +2459,13 @@ s32 act_bubble_hat_jump(struct MarioState *m) {
         m->forwardVel = 0.0f;
     }
 
+    if (m->actionTimer >= 10 && m->input & INPUT_B_PRESSED){
+        return set_mario_action(m, ACT_FREEFALL, 0);
+    }
+    if (m->actionTimer >= 10 && m->input & INPUT_A_PRESSED){
+        return set_mario_action(m, ACT_FREEFALL, 0);
+    }
+
     //set_mario_animation(m, MARIO_ANIM_MISSING_CAP);
     //m->marioObj->header.gfx.animInfo.animFrame = 25;   
     m->actionTimer++;
@@ -2632,8 +2645,13 @@ s32 act_dash_boost(struct MarioState *m) {
     }
 
     if (m->actionTimer > 10) {
-        m->forwardVel = 30.0f;
-        m->vel[1] = 0.0f;
+        if (m->actionArg == 0) {
+            m->forwardVel = 30.0f;
+            m->vel[1] = 0.0f;
+        } else {
+            m->forwardVel = 0.0f;
+            m->vel[1] = 30.0f;
+        }
         return set_mario_action(m, ACT_FREEFALL,0);
     }
     m->actionTimer++;

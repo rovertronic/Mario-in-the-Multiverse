@@ -6376,7 +6376,7 @@ const BehaviorScript bhvBioshockFloaty[] = {
 
 const BehaviorScript bhvGauge[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_BREAKABLE | OBJ_FLAG_NO_DREAM_COMET),
+    OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_NO_DREAM_COMET),
     LOAD_COLLISION_DATA(gauge_collision),
     LOAD_ANIMATIONS(oAnimations, gauge_anims),
     ANIMATE(0),
@@ -9333,7 +9333,7 @@ const BehaviorScript bhvSlashParticle[] = {
 
 const BehaviorScript bhvSirKibble[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_E__SG_CUSTOM)),
     LOAD_ANIMATIONS(oAnimations, sir_kibble_anims),
     SET_FLOAT(oDrawingDistance, 16000),
     CALL_NATIVE(bhv_sir_kibble_init),

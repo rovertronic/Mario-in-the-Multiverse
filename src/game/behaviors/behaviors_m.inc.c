@@ -55,6 +55,7 @@ struct ObjectHitbox sClassCHitbox = {
 };
 
 extern void cur_obj_move_standard_classc(void);
+extern void start_object_cutscene(u8 cutscene, struct Object * obj);
 
 void bhv_m_classc(void) {
     o->oAnimState = 0;
@@ -127,13 +128,15 @@ void bhv_m_classc(void) {
             o->oIntangibleTimer = 0;
             o->oInteractType = INTERACT_NONE;
             if (cur_obj_boss_shimmer_death(200.f,.75f)) {
-                struct Object * abilityspawn = spawn_object(o,MODEL_ABILITY,bhvAbilityUnlock);
-                vec3f_set(&abilityspawn->oPosVec,-1900, 1700, -13700);
-                abilityspawn->oBehParams2ndByte = ABILITY_DASH_BOOSTER;
                 magic_mirror_disable = FALSE;
                 esa_mhp = -1;
                 stop_background_music(SEQUENCE_ARGS(4, SEQ_CUSTOM_ESA_MECHA));
-                mark_obj_for_deletion(o);
+
+                if (0) {
+                    mark_obj_for_deletion(o);
+                } else {
+                    o->oAction = 4;
+                }
             }
             break;
         case 3:
@@ -166,6 +169,21 @@ void bhv_m_classc(void) {
 
             cur_obj_update_floor_and_walls();
             cur_obj_move_standard_classc();
+            break;
+        case 4:
+            if (o->oTimer == 1) {
+                struct Object * abilityspawn = spawn_object(o,MODEL_ABILITY,bhvAbilityUnlock);
+                vec3f_set(&abilityspawn->oPosVec,-1900, 1700, -13700);
+                abilityspawn->oBehParams2ndByte = ABILITY_DASH_BOOSTER;
+                set_time_stop_flags(TIME_STOP_ENABLED | TIME_STOP_MARIO_AND_DOORS);
+                start_object_cutscene(CUTSCENE_STAR_SPAWN, abilityspawn);
+                o->activeFlags |= ACTIVE_FLAG_INITIATED_TIME_STOP;
+            }
+            if (o->oTimer == 40) {
+                clear_time_stop_flags(TIME_STOP_ENABLED | TIME_STOP_MARIO_AND_DOORS);
+                gObjCutsceneDone = TRUE;
+                mark_obj_for_deletion(o);
+            }
             break;
     }
 

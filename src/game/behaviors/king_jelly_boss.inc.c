@@ -748,6 +748,7 @@ void goliath_jelly_boss_loop(void) {
             cur_obj_init_animation(1);
             o->oAction = KING_JELLY_ACT_WAIT;
             o->oBehParams2ndByte = 0;
+            o->oHealth = 3;
             break;
 
         case KING_JELLY_ACT_WAIT:

@@ -99,6 +99,7 @@ const LevelScript level_ccm_entry[] = {
 
     AREA(/*index*/ 2, ccm_geo_0005E8),
         OBJECT(/*model*/ MODEL_NONE, /*pos*/ -5836, 7465, -6143, /*angle*/ 0, 90, 0, /*behParam*/ 0x000A0000, /*beh*/ bhvAirborneWarp),
+        //OBJECT(/*model*/ MODEL_CCM_CABIN_DOOR, /*pos*/ -7628, -5836, -6988, /*angle*/ 0, 0, 0, /*behParam*/ 0x00140000, /*beh*/ bhvWarp),
         WARP_NODE(/*id*/ 0x14, /*destLevel*/ LEVEL_CCM, /*destArea*/ 0x01, /*destNode*/ 0x14, /*flags*/ WARP_NO_CHECKPOINT),
         WARP_NODE(/*id*/ 0x0A, /*destLevel*/ LEVEL_CCM, /*destArea*/ 0x02, /*destNode*/ 0x0A, /*flags*/ WARP_NO_CHECKPOINT),
         WARP_NODE(/*id*/ 0xF0, /*destLevel*/ LEVEL_CASTLE, /*destArea*/ 0x01, /*destNode*/ 0x33, /*flags*/ WARP_NO_CHECKPOINT),

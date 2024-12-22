@@ -1044,6 +1044,7 @@ void bhv_e__medkit(void) {
                 play_sound(SOUND_MITM_LEVEL_E_ITEM, o->header.gfx.cameraToObject);
                 spawn_object(o, MODEL_ID_1B, bhvE_KeyCollect);
                 gMarioState->numGlobalCoins += 10;
+                if (gMarioState->numGlobalCoins > 999) {gMarioState->numGlobalCoins = 999;} //CLAMP
                 o->activeFlags = 0;
             }
         }

@@ -5031,24 +5031,29 @@ void cutscene_intro_peach_play_lakitu_flying_music(void) {
 }
 
 void play_camera_buzz_if_cdown(void) {
+    if (cm_cutscene_on) {return;}
     if (gPlayer1Controller->buttonPressed & D_CBUTTONS) {
         play_sound_button_change_blocked();
     }
 }
 
 void play_camera_buzz_if_cbutton(void) {
+    if (cm_cutscene_on) {return;}
     if (gPlayer1Controller->buttonPressed & CBUTTON_MASK) {
         play_sound_button_change_blocked();
     }
 }
 
 void play_camera_buzz_if_c_sideways(void) {
+    if (cm_cutscene_on) {return;}
     if (gPlayer1Controller->buttonPressed & (L_CBUTTONS | R_CBUTTONS)) {
         play_sound_button_change_blocked();
     }
 }
 
 void play_sound_cbutton_up(void) {
+    if (cm_cutscene_on) {return;}
+
     switch(gSaveBuffer.menuData.config[SETTINGS_CAMERA_VOLUME]) {
         case 0:
             play_sound(SOUND_MENU_CAMERA_ZOOM_IN, gGlobalSoundSource);
@@ -5060,6 +5065,8 @@ void play_sound_cbutton_up(void) {
 }
 
 void play_sound_cbutton_down(void) {
+    if (cm_cutscene_on) {return;}
+
     switch(gSaveBuffer.menuData.config[SETTINGS_CAMERA_VOLUME]) {
         case 0:
             play_sound(SOUND_MENU_CAMERA_ZOOM_OUT, gGlobalSoundSource);
@@ -5071,6 +5078,8 @@ void play_sound_cbutton_down(void) {
 }
 
 void play_sound_cbutton_side(void) {
+    if (cm_cutscene_on) {return;}
+
     switch(gSaveBuffer.menuData.config[SETTINGS_CAMERA_VOLUME]) {
         case 0:
             play_sound(SOUND_MENU_CAMERA_TURN, gGlobalSoundSource);
@@ -5082,14 +5091,17 @@ void play_sound_cbutton_side(void) {
 }
 
 void play_sound_button_change_blocked(void) {
+    if (cm_cutscene_on) {return;}
     play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
 }
 
 void play_sound_rbutton_changed(void) {
+    if (cm_cutscene_on) {return;}
     play_sound(SOUND_MENU_CLICK_CHANGE_VIEW, gGlobalSoundSource);
 }
 
 void play_sound_if_cam_switched_to_lakitu_or_mario(void) {
+    if (cm_cutscene_on) {return;}
     if (sCameraSoundFlags & CAM_SOUND_MARIO_ACTIVE) {
         play_sound_rbutton_changed();
     }

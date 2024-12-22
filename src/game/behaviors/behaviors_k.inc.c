@@ -14,7 +14,7 @@ void blood_cast(Vec3f * start, Vec3f * ray) {
 
     if (surf&&!surf->object) {
         u16 model = MODEL_K_BLOOD;
-        if (surf->type == SURFACE_VANISH_FLOOR) {
+        if (surf->type == SURFACE_ELECTROHEAD) {
             model = MODEL_K_BLOOD_2;
         }
 
@@ -619,7 +619,7 @@ void bhv_k_electrohead(void) {
         case K_ENEMY_IDLE:
             k_enemy_vulnerable();
 
-            if ((o->oDistanceToMario < 1000.0f) && gMarioState->pos[1] < o->oPosY + 10.0f && gMarioState->pos[1] > o->oPosY - 10.0f && o->oHealth == 0) {
+            if ((o->oDistanceToMario < 1000.0f) && gMarioState->pos[1] < o->oPosY + 10.0f && gMarioState->pos[1] > o->oPosY - 10.0f && o->oHealth == 0 && gMarioState->floor->type == SURFACE_ELECTROHEAD) {
                 if (cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, DIALOG_K_ELECTROHEAD)) {
                     o->oHealth = 1;
                 }

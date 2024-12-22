@@ -64,6 +64,7 @@ void bhv_door_loop(void) {
 
     switch (o->oAction) {
         case DOOR_ACT_CLOSED:
+            o->oInteractStatus = 0;
             cur_obj_init_animation_with_sound(DOOR_ANIM_CLOSED);
             load_object_collision_model();
             break;
@@ -101,6 +102,7 @@ void bhv_l_door_loop(void) {
 
     switch (o->oAction) {
         case DOOR_ACT_CLOSED:
+            o->oInteractStatus = 0;
             cur_obj_init_animation_with_sound(DOOR_ANIM_CLOSED);
             break;
         case DOOR_ACT_PULLED:

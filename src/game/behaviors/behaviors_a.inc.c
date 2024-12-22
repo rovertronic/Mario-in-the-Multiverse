@@ -143,7 +143,9 @@ void jelly_loop(void) {
     if (o->oTimer >= 45) {
         o->oTimer = 0;
     }
-
+    if (gCurrLevelNum == LEVEL_A) {
+        cur_obj_set_model(MODEL_JELLY);
+    }
 
     //cur_obj_set_model(MODEL_JELLY);
     /*
@@ -1290,9 +1292,9 @@ void chum_bucket_cutscene_loop(void) {
 
 void beat_em_up_object(void) {
     char* robotText[] = {
-        "DESTROY 10 ROBOTS", 
-        "DESTROY 15 ROBOTS", 
-        "DESTROY 20 ROBOTS"
+        "DESTROY 5 ROBOTS", 
+        "DESTROY 8 ROBOTS", 
+        "DESTROY 12 ROBOTS"
     };
     switch (o->oAction) {
         case 0:
@@ -1310,7 +1312,7 @@ void beat_em_up_object(void) {
             }
             break;
         case 2:
-            sprintf(&hud_information_string,"%d OUT OF 10",robotsKilled);
+            sprintf(&hud_information_string,"%d OUT OF 5",robotsKilled);
             if (o->oTimer == 1) {
                 set_mario_action(gMarioState, ACT_IDLE, 0);
                 sound_init();
@@ -1323,7 +1325,7 @@ void beat_em_up_object(void) {
                 struct Object * spawner = spawn_object_abs_with_rot(o, 0, MODEL_A_ROBOT_LAUNCHER, bhvARobotLauncher, 1456, 258, 1660, 0, 180, 0);
                 spawner->oBehParams2ndByte = 0;
             }
-            if (robotsKilled >= 10) {
+            if (robotsKilled >= 5) {
                 o->oAction = 3;
             }
             break;
@@ -1336,7 +1338,7 @@ void beat_em_up_object(void) {
             }
             break;
         case 4:
-            sprintf(&hud_information_string,"%d OUT OF 15",robotsKilled);
+            sprintf(&hud_information_string,"%d OUT OF 8",robotsKilled);
             if (o->oTimer == 2) {
                 play_sound(SOUND_GENERAL_RACE_GUN_SHOT, gMarioState->marioObj->header.gfx.cameraToObject);
             }
@@ -1348,7 +1350,7 @@ void beat_em_up_object(void) {
                 struct Object * spawner2 = spawn_object_abs_with_rot(o, 0, MODEL_A_ROBOT_LAUNCHER, bhvARobotLauncher, 1350, 258, -516, 0, 180, 0);
                 spawner2->oBehParams2ndByte = 1;
             }
-            if (robotsKilled >= 15) {
+            if (robotsKilled >= 8) {
                 o->oAction = 5;
             }
             break;
@@ -1361,7 +1363,7 @@ void beat_em_up_object(void) {
             }
             break;
         case 6:
-            sprintf(&hud_information_string,"%d OUT OF 20",robotsKilled);
+            sprintf(&hud_information_string,"%d OUT OF 12",robotsKilled);
             if (o->oTimer == 2) {
                 play_sound(SOUND_GENERAL_RACE_GUN_SHOT, gMarioState->marioObj->header.gfx.cameraToObject);
             }
@@ -1377,7 +1379,7 @@ void beat_em_up_object(void) {
                 struct Object * spawner3 = spawn_object_abs_with_rot(o, 0, MODEL_A_ROBOT_LAUNCHER, bhvARobotLauncher, 1350, 258, 623, 0, 180, 0);
                 spawner3->oBehParams2ndByte = 2;
             }
-            if (robotsKilled >= 20) {
+            if (robotsKilled >= 12) {
                 o->oAction = 7;
             }
             break;

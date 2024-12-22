@@ -47,6 +47,7 @@ const GeoLayout k_area_3_geo[] = {
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 136, 1655, -5196, 0, -180, 0, k_dl_visual_mesh_layer_1),
 		GEO_OPEN_NODE(),
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, k_dl_visual_mesh_layer_5),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, k_dl_visual_mesh_layer_4),
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 802, 1810, -2941, k_dl_xalchohol_render_mesh_layer_5),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_TRANSPARENT, 136, 1655, -5196, 0, -180, 0, k_dl_z_mesh_layer_5),

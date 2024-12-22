@@ -1824,6 +1824,7 @@ s32 act_cutter_dash(struct MarioState *m) {
 
 struct Surface *squid_wall = NULL;
 f32 squid_x_vel, squid_y_vel, squid_z_vel;
+f32 squid_goop_timer = 0.0f;
 
 s32 act_squid(struct MarioState *m){
     struct Surface *surfie;
@@ -1864,6 +1865,8 @@ s32 act_squid(struct MarioState *m){
         case 1: //ink ground move
             squid_x_vel = approach_f32_asymptotic(squid_x_vel,sins(m->intendedYaw)*m->intendedMag,0.2f);
             squid_z_vel = approach_f32_asymptotic(squid_z_vel,coss(m->intendedYaw)*m->intendedMag,0.2f);
+
+            squid_goop_timer += (ABS(squid_x_vel)/60.0f)+(ABS(squid_z_vel)/60.0f);
 
             intend_x = m->pos[0] + squid_x_vel;
             intend_z = m->pos[2] + squid_z_vel;
@@ -1955,6 +1958,8 @@ s32 act_squid(struct MarioState *m){
                         }
                     }
                 }
+
+                squid_goop_timer += (ABS(squid_x_vel)/60.0f)+(ABS(squid_z_vel)/60.0f)+(ABS(squid_y_vel)/60.0f);
             } else {
                 //falling off wal? check infront first/.
                 wall_angle = atan2s(squid_wall->normal.z,squid_wall->normal.x);
@@ -1970,6 +1975,11 @@ s32 act_squid(struct MarioState *m){
                 } 
             }
             break;
+    }
+
+    if (squid_goop_timer > 15.0f) {
+        squid_goop_timer = 0.0f;
+        play_sound(SOUND_GENERAL_QUIET_BUBBLE2, gGlobalSoundSource);
     }
 
     if (!using_ability(ABILITY_SQUID)) {

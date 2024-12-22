@@ -511,6 +511,11 @@ void check_instant_warp(void) {
             struct InstantWarp *warp = &gCurrentArea->instantWarps[index];
 
             if (warp->id != 0) {
+
+                if (using_ability(ABILITY_MARBLE)) {
+                    change_ability(ABILITY_DEFAULT);
+                    return;
+                }
                 gMarioState->pos[0] += warp->displacement[0];
                 gMarioState->pos[1] += warp->displacement[1];
                 gMarioState->pos[2] += warp->displacement[2];

@@ -1397,6 +1397,7 @@ void bhv_boss_daddy(void){
         o->oF4 = STATE_RESTART;
     }
 
+    o->oAnimState = 0;
     switch (o->oF4) {
         case STATE_KNOCKED_BACK:
             o->oInteractType = INTERACT_NONE;
@@ -1429,7 +1430,14 @@ void bhv_boss_daddy(void){
             }
             break;
         case STATE_VULNERABLE:
-            if (o->oTimer >= 120){
+            if ((o->oTimer % 15 == 0)||(o->oTimer % 15 == 3)) {
+                o->oAnimState = 1;
+                cur_obj_play_sound_2(SOUND_GENERAL_BOWSER_KEY_LAND);
+            }
+            if ((o->oTimer % 15 == 1)||(o->oTimer % 15 == 4)) {
+                o->oAnimState = 1;
+            }
+            if (o->oTimer >= 130){
                 o->oF4 = STATE_GETUP;
             }
             sBigDaddyHitbox.radius = 250;

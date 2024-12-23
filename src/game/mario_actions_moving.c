@@ -1773,6 +1773,7 @@ s32 act_slide_kick_slide(struct MarioState *m) {
     return FALSE;
 }
 
+extern u8 fb_bowser_phase;
 s32 act_cutter_dash(struct MarioState *m) {
     if (m->input & INPUT_A_PRESSED) {
 #if ENABLE_RUMBLE
@@ -1789,8 +1790,14 @@ s32 act_cutter_dash(struct MarioState *m) {
     if (m->actionTimer == 0) {
         set_custom_mario_animation_with_accel(m, 5, 0x30000);
     }
-    if (m->forwardVel < 10.0f) {
-        return set_mario_action(m, ACT_WALKING, 0);
+    if (fb_bowser_phase != 4) {
+        if (m->forwardVel < 10.0f) {
+            return set_mario_action(m, ACT_WALKING, 0);
+        }
+    } else {
+        if (m->actionTimer > 15) {
+            return set_mario_action(m, ACT_WALKING, 0);
+        }
     }
     if (m->actionTimer < 5) {
         m->forwardVel = 20 * m->actionTimer;

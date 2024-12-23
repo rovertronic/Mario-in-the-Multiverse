@@ -279,7 +279,10 @@ Gfx *geo_update_sephisword(s32 callContext, struct GraphNode *node, Mat4 mtx) {
         if ((gMarioState->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH) || (gMarioState->actionArg == ACT_ARG_PUNCH_SEQUENCE_CHRONOS_SLASH_AIR)) {
             sephisword_deflect_buffer = 20;
         }
-        if ( ((sephisword_deflect_buffer > 0) && (parry_offset < 0x3000)) || (gMarioState->action == ACT_ABILITY_AXE_JUMP) ) {
+        if (gMarioState->action == ACT_CUTTER_DASH) {
+            sephisword_deflect_buffer = 20;
+        }
+        if ( ((sephisword_deflect_buffer > 0) && (parry_offset < 0x3000)) || (gMarioState->action == ACT_ABILITY_AXE_JUMP)) {
             collision_radius *= 1.5f; //enfatten hitbox when deflecting only
             deflected = 1;
         }

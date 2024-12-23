@@ -9,7 +9,7 @@
  * The end quote should be here:               "
  */
 #define INTERNAL_ROM_NAME "MitM Collab         "
-#define VERSION_STRING "Beta 1.1"
+#define VERSION_STRING "v1.0.0"
 
 /**
  * Force the game to delete any existing save data originating from a different hack. This requires INTERNAL_ROM_NAME to be unique to work properly.

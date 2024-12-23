@@ -49,9 +49,19 @@ static s8 is_behavior_immune_to_cutter(const BehaviorScript *behavior) {
     }
 }
 
+extern u8 fb_bowser_phase;
 s32 mario_update_punch_sequence(struct MarioState *m) {
     u32 endAction, crouchEndAction;
     s32 animFrame;
+
+    if (fb_bowser_phase == 4) {
+        if (m->abilityId == ABILITY_CUTTER) {
+            m->forwardVel = 20.0f;
+            m->actionTimer = 0;
+            play_sound(SOUND_ABILITY_CUTTER_DASH, m->marioObj->header.gfx.cameraToObject);
+            return set_mario_action(m, ACT_CUTTER_DASH, 0);
+        }
+    }
 
     if (m->abilityId == ABILITY_CUTTER) {
         if (m->actionTimer >= 2) {

@@ -195,7 +195,7 @@ extern Vtx B_dl_Room_1_mesh_layer_1_vtx_26[531];
 extern Gfx B_dl_Room_1_mesh_layer_1_tri_26[];
 extern Vtx B_dl_Room_1_mesh_layer_1_vtx_27[329];
 extern Gfx B_dl_Room_1_mesh_layer_1_tri_27[];
-extern Vtx B_dl_Room_1_mesh_layer_1_vtx_28[126];
+extern Vtx B_dl_Room_1_mesh_layer_1_vtx_28[122];
 extern Gfx B_dl_Room_1_mesh_layer_1_tri_28[];
 extern Vtx B_dl_Room_1_mesh_layer_1_vtx_29[20];
 extern Gfx B_dl_Room_1_mesh_layer_1_tri_29[];

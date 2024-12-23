@@ -409,7 +409,7 @@ void bhv_little_sister_loop(void) {
         o->oAction = LS_IDLE;
         cur_obj_init_animation(0);
     }
-    if (o->oFloorType == SURFACE_INSTANT_QUICKSAND && o->oFloorHeight == o->oPosY){
+    if (o->oFloorType == SURFACE_DEATH_PLANE && o->oFloorHeight == o->oPosY){
         sisterTimer = 0;
         o->oPosX = o->oHomeX;
         o->oPosY = o->oHomeY;

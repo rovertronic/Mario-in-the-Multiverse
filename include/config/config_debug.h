@@ -7,7 +7,7 @@
 /*
 MITM EXCLUSIVE: Have all abilities accessible regardless of save status. Also unlocks all levels.
 */
-#define UNLOCK_ABILITIES_DEBUG
+//#define UNLOCK_ABILITIES_DEBUG
 
 /**
  * Enables most debug options, including PUPPYPRINT_DEBUG.
@@ -41,12 +41,12 @@ MITM EXCLUSIVE: Have all abilities accessible regardless of save status. Also un
 /**
  * Enables debug free move (D-pad up to enter, A to exit).
  */
-#define ENABLE_DEBUG_FREE_MOVE
+//#define ENABLE_DEBUG_FREE_MOVE
 
 /**
  * Enables a custom, enhanced performance profiler. (Enables PUPPYPRINT by default in config_safeguards).
  */
-#define PUPPYPRINT_DEBUG
+//#define PUPPYPRINT_DEBUG
 
 /**
  * Uses cycles instead of microseconds in Puppyprint debug output.

@@ -1594,17 +1594,17 @@ void a_robot_launcher_loop(void) {
             }
             switch (o->oBehParams2ndByte) {
                 case 0:
-                    if (robotCount >= 10) {
+                    if (robotCount >= 5) {
                         o->oAction = 2;
                     }
                     break;
                 case 1:
-                    if (robotCount >= 15) {
+                    if (robotCount >= 8) {
                         o->oAction = 2;
                     }
                     break;
                 case 2:
-                    if (robotCount >= 20) {
+                    if (robotCount >= 12) {
                         o->oAction = 2;
                     }
                     break;

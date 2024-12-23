@@ -327,4 +327,10 @@ void bhv_circling_amp_loop(void) {
             amp_attack_cooldown_loop();
             break;
     }
+
+    if ((dist_between_objects(o,gMarioObject) < 90.0f)&&(gMarioState->action == ACT_SQUID)) {
+        cur_obj_play_sound_2(SOUND_MARIO_OOOF);
+        obj_set_model(gMarioObject, MODEL_MARIO);
+        set_mario_action(gMarioState, ACT_IDLE, 0);
+    }
 }

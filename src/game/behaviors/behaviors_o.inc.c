@@ -2447,9 +2447,9 @@ void bhv_atreus_bosscontroller(void) {
             gMarioState->faceAngle[1] += 0x200;
 
             if (gMarioState->pos[1] < o->oPosY) {
-                gMarioState->pos[1] += 10.0f;
+                gMarioState->pos[1] += 7.0f;
             } else {
-                gMarioState->pos[1] -= 10.0f;
+                gMarioState->pos[1] -= 7.0f;
             }
 
             if (o->oDistanceToMario < 2000.0f) {

@@ -41,6 +41,7 @@
 #include "dream_comet.h"
 #include "bullet_system.h"
 #include "actors/group0.h"
+#include "hints.h"
 
 s16 check_water_height = -10000;
 Bool8 have_splashed;
@@ -1959,6 +1960,31 @@ s32 is_2d_area(void) {
     return ((gCurrLevelNum == LEVEL_L)&&(gCurrAreaIndex < 6));
 }
 
+u32 hint_log[50];
+u8 hint_memcheck_init = TRUE;
+extern char hud_information_string[50];
+extern hint course_15_hints[];
+u8 memory_fuck_trip = FALSE;
+void memory_leak_detection(void) {
+    u32 * memory_to_monitor_u32 = &course_15_hints;
+    for (int i = 0; i < 30; i++) {
+        //print_text_fmt_int(10, 16*i, "%d", *memory_to_monitor_u32);
+        if (hint_log[i] != *memory_to_monitor_u32) {
+            hint_log[i] = *memory_to_monitor_u32;
+
+            if (!hint_memcheck_init) {
+                play_sound(SOUND_MITM_LEVEL_SB_TRAIN, gGlobalSoundSource);
+                memory_fuck_trip = TRUE;
+            }
+        }
+        memory_to_monitor_u32++;
+    }
+    hint_memcheck_init = FALSE;
+    if (memory_fuck_trip) {
+        sprintf(&hud_information_string,"MEMORY CORRUPTION DETECTED! DM ROVERT");
+    }
+}
+
 extern u8 gE_C9MarioHealth;
 
 /**
@@ -1967,6 +1993,7 @@ extern u8 gE_C9MarioHealth;
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
+    memory_leak_detection();
     if (gCurrCreditsEntry != NULL && gCurrLevelNum == LEVEL_CASTLE) {
         set_background_music(0, SEQ_MITM_CREDITS, 0);
     }
@@ -2100,7 +2127,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         }
 
         //--E SG
-        if (using_ability(ABILITY_E_SHOTGUN)) {
+        if (1) {
             struct MarioState *m = gMarioState;
             gE_ShotgunFlags &= ~E_SGF_AIM_FIRE;
             if (!(m->floor->normal.y < COS73)) {

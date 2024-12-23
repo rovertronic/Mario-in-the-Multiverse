@@ -722,8 +722,10 @@ void render_hint_ui(u8 hud_alpha) {
         }
 
         if (star_flags & (1<<hint_index)) {
-            hint_text = "You've got this one!";
             gSaveBuffer.files[gCurrSaveFileNum - 1][0].hints_unlocked[hint_level] |= (1<<hint_index);
+            if (hint_index == 0 && hint_level == 0) {
+                hint_text = "You've got this one!";
+            }
         }
         if (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].hints_unlocked[hint_level] & (1<<hint_index))) {
             hint_text = "Reveal Solution - 20 Coins";
@@ -972,6 +974,7 @@ struct mitm_credits_entry mitm_credits[] = {
     {"Additional Help",1},
     {"",0},
     {"axollyon",2},
+    {"Cover Artwork",0},
     {"Meter System",0},
     {"Humanoid Model & Rig",0},
     {"",0},

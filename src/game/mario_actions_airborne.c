@@ -2463,6 +2463,7 @@ s32 act_bubble_hat_jump(struct MarioState *m) {
         return set_mario_action(m, ACT_FREEFALL, 0);
     }
     if (m->actionTimer >= 10 && m->input & INPUT_A_PRESSED){
+        m->input |= INPUT_B_PRESSED;
         return set_mario_action(m, ACT_FREEFALL, 0);
     }
 

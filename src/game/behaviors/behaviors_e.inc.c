@@ -594,8 +594,8 @@ void bhv_e__door(void) {
         obj_set_collision_data(o, sE_DoorCollision[0/*o->oBehParams >> 24*/]);
         o->oEDCloseDelay = 135;
 
-        if (o->oBehParams >> 24) {
-            e__create_door_light(o); }
+        //if (o->oBehParams >> 24) {
+        //    e__create_door_light(o); }
 
         vec3f_copy(&o->oHomeX, &o->oPosX);
         o->oDrawingDistance = 20000.f;

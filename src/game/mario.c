@@ -1993,7 +1993,7 @@ extern u8 gE_C9MarioHealth;
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
-    memory_leak_detection();
+    //memory_leak_detection();
     if (gCurrCreditsEntry != NULL && gCurrLevelNum == LEVEL_CASTLE) {
         set_background_music(0, SEQ_MITM_CREDITS, 0);
     }

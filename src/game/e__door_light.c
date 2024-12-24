@@ -29,6 +29,7 @@ static struct E_DoorLight sEDoorLightList[E_DOOR_LIGHT_COUNT] = { 0 };
 //--Spawn
 
 void e__create_door_light(struct Object *door) {
+	return;
 	struct E_DoorLight *doorLight = &sEDoorLightList;
 	while (doorLight->door) {//find free foor
 		doorLight++; }

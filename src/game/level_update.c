@@ -74,7 +74,7 @@ struct CreditsEntry sCreditsSequence[] = {
     { LEVEL_H, 1, 1, 240, {-1514,-245,858}, credits05, ABILITY_PHASEWALK},
     { LEVEL_B, 1, 18, -182, { -5507, 629, 5798 }, credits06, ABILITY_BIG_DADDY},
     { LEVEL_L, 1, 17, -64, {1512,-300,0}, credits07, ABILITY_KNIGHT},
-    { LEVEL_K, 3, 18, 22, { 0,0,0 }, credits08, ABILITY_CHRONOS},
+    { LEVEL_K, 3, 18, -182, { 2263, 203, -1607 }, credits08, ABILITY_CHRONOS},
     { LEVEL_E, 1, 65, 0, {-8827,6226,-4956}, credits09, ABILITY_E_SHOTGUN},
     { LEVEL_F, 3, 50, 0, {-759,230,2346}, credits10, ABILITY_GADGET_WATCH},
     { LEVEL_J, 2, 17, 114, {-3399,3224,-538}, credits11, ABILITY_HM_FLY},

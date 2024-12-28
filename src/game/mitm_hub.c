@@ -1058,6 +1058,7 @@ struct mitm_credits_entry mitm_credits[] = {
     {"* Course 6: Turrets don't do contact damage",3},
     {"* Course 7: Escape retry softlock fixed",3},
     {"* Course 8: Added arrow sign in tutorial",3},
+    {"* Course 8: Updated Mario's credits position",3},
     {"* Course 12: Increased ship exit warp size",3},
     {"* Final boss messaging improved",3},
     {"* Cool Cool Mountain slide no longer crashes",3},

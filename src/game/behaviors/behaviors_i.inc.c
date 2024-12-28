@@ -873,7 +873,7 @@ static u8 cagedToadDialogs[] = {
 void bhv_caged_toad_loop(){
     struct Object *freeToadObj = NULL;
 
-    if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED) || o->oShotByShotgun == 2){
+    if((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED)){
         spawn_mist_particles_variable(0, 0, 46.0f);
         spawn_triangle_break_particles(30, MODEL_DIRT_ANIMATION, 3.0f, TINY_DIRT_PARTICLE_ANIM_STATE_YELLOW);
         obj_mark_for_deletion(o);
@@ -892,7 +892,13 @@ void bhv_caged_toad_loop(){
         cur_obj_play_sound_2(SOUND_MITM_LEVEL_I_TOAD_HELP);
     }
 
+    if (o->oShotByShotgun > 0) {
+        // The cage is too strong to be beat by the shotgun ツ
+        cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
+    }
+
     o->oInteractStatus = INT_STATUS_NONE;
+    o->oShotByShotgun = 0;
 }
 
 void bhv_caged_toad_star_init(void) {

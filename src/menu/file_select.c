@@ -24,6 +24,7 @@
 #include "game/ability.h"
 #include "game/dream_comet.h"
 #include "game/lerp.h"
+#include "game/emutest.h"
 
 #include "eu_translation.h"
 #if MULTILANG
@@ -2105,8 +2106,37 @@ s32 lvl_update_obj_and_load_file_selected(UNUSED s32 arg, UNUSED s32 unused) {
     return file_confirm;
 }
 
+char warning_string_buffer[350];
+u8 dismiss_warning_screen = FALSE;
 s32 mitm_file_select() {
+    char * badversion_string = NULL;
     create_dl_ortho_matrix();
+
+    //print warning screen
+    if (gEmulator & EMU_PROJECT64_ANY) {
+        badversion_string = "Project 64";
+    }
+    if (gEmulator & EMU_CONSOLE) {
+        badversion_string = "N64";
+    }
+    if (gEmulator & (EMU_MUPEN_BASED|EMU_MUPEN_OLD)) {
+        badversion_string = "Mupen";
+    }
+    if (gEmulator & EMU_SIMPLE64) {
+        badversion_string = "Simple 64";
+    }
+    if (badversion_string != NULL && !dismiss_warning_screen) {
+        shade_screen();
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+        sprintf(&warning_string_buffer,"WARNING!\nIt appears you are playing on %s.\nMario in the Multiverse was not designed to be played\nwith %s.\n\nIt will work, but there will be unexpected behavior,\nsuch as graphics bugs, behavior issues, and crashes.\n\nIt is recommended to use Parallel Launcher.\nhttps://parallel-launcher.ca/\n\nPress A to dismiss.",badversion_string,badversion_string);
+        print_generic_string_ascii(15, 200, &warning_string_buffer);
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+
+        if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
+            dismiss_warning_screen = TRUE;
+        }
+        return;
+    }
 
     //print version
     prepare_blank_box();
@@ -2115,7 +2145,6 @@ s32 mitm_file_select() {
     gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
     print_generic_string_ascii(15, 15, VERSION_STRING);
     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
-
 
     switch (file_menu_state) {
         case FMS_SELECT:

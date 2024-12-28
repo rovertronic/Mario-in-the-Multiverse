@@ -214,7 +214,7 @@ const LevelScript level_k_entry[] = {
 		WARP_NODE(/*death*/ 0xF1, LEVEL_K, /*this area*/ 0x01, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death entry*/ 0x01, LEVEL_SSL, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(2/*exit dj*/, LEVEL_K, 0x01, 5, WARP_NO_CHECKPOINT),
-		OBJECT(MODEL_K_BARTENDER, 2659, 199, -2053, 0, 0, 0, 0x00000000, bhvKbartender),
+		OBJECT(MODEL_K_BARTENDER, 2659, 212, -2053, 0, 0, 0, 0x00000000, bhvKbartender),
 		MARIO_POS(0x03, 0, 0, 0, -539),
 		OBJECT(MODEL_K_DISCO, -92, 709, -3547, 0, 0, 0, 0x00000000, bhvKDisco),
 		OBJECT(MODEL_K_DIXIE, -682, 0, -2350, 0, 41, 0, (5 << 24) | (15 << 16), bhvKdancer),

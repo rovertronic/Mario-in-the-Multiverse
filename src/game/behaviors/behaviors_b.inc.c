@@ -74,7 +74,7 @@ u16 cutsceneTimer = 0;
 };
 
     static struct ObjectHitbox sTurretHitbox = {
-    /* interactType:      */ INTERACT_SPINY_WALKING,
+    /* interactType:      */ INTERACT_IGLOO_BARRIER,
     /* downOffset:        */ 0,
     /* damageOrCoinValue: */ 1,
     /* health:            */ 0,
@@ -874,7 +874,7 @@ print_text_fmt_int(20, 220, "diff3: %d", abs_angle_diff(((u16)o->parentObj->oMov
                     if (o->oTimer == 1){
                         if (abs_angle_diff(o->oFaceAngleYaw, o->oAngleToMario) < 0x500 ){
                             dobj_spawn_bullet((&o->oPosVec), -o->oFaceAnglePitch, o->oFaceAngleYaw);
-                            play_sound(SOUND_OBJ_SNUFIT_SHOOT, gGlobalSoundSource);
+                            cur_obj_play_sound_2(SOUND_OBJ2_EYEROK_SOUND_LONG);
                         }
                     }
                     break;
@@ -882,7 +882,7 @@ print_text_fmt_int(20, 220, "diff3: %d", abs_angle_diff(((u16)o->parentObj->oMov
                 
         } else if (o->oTimer > 40 && abs_angle_diff(o->oFaceAngleYaw, o->oAngleToMario) < 0x500){
             dobj_spawn_bullet((&o->oPosVec), -o->oFaceAnglePitch, o->oFaceAngleYaw);
-            play_sound(SOUND_OBJ_SNUFIT_SHOOT, gGlobalSoundSource);
+            cur_obj_play_sound_2(SOUND_OBJ2_EYEROK_SOUND_LONG);
             o->oTimer = 0;
             
         }
@@ -1446,12 +1446,11 @@ void bhv_boss_daddy(void){
             o->oInteractType = INTERACT_BOUNCE_TOP;
             o->oDamageOrCoinValue = 0;
             cur_obj_init_animation(3);
-            if (o->oInteractStatus & INT_STATUS_TOUCHED_MARIO && (gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_AIRBORNE){
+            if ((o->oInteractStatus & INT_STATUS_INTERACTED && o->oInteractStatus & INT_STATUS_WAS_ATTACKED)||(o->oShotByShotgun > 0))  {
                 o->oF4 = STATE_SQUISHED;
                 o->oAction = 1;
-            } else if (o->oInteractStatus & INT_STATUS_INTERACTED){
-                o->oInteractStatus = 0;
             }
+            o->oInteractStatus = 0;
             break;
         case STATE_GETUP:
             o->oInteractType = INTERACT_NONE;
@@ -1968,6 +1967,7 @@ void bhv_boss_daddy(void){
             break;
 
     }
+    o->oShotByShotgun = 0;
 }
 
 void bhv_floating_platform_b_loop(void) {

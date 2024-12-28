@@ -47,6 +47,8 @@ s16 check_water_height = -10000;
 Bool8 have_splashed;
 Bool8 bd_submerged;
 
+u8 make_mario_visible_again_after_this_frame = FALSE;
+
 u8 lastAbility = ABILITY_DEFAULT;
 Bool8 toZeroMeter = FALSE;
 
@@ -1076,6 +1078,12 @@ u32 set_mario_action(struct MarioState *m, u32 action, u32 actionArg) {
         case ACT_GROUP_CUTSCENE:  action = set_mario_action_cutscene( m, action, actionArg); break;
     }
 
+    if (action != ACT_SQUID && obj_has_model(gMarioObject, MODEL_SQUID)) {
+        m->marioObj->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
+        make_mario_visible_again_after_this_frame = TRUE;
+        obj_set_model(m->marioObj, MODEL_MARIO);
+    }
+
     // Resets the sound played flags, meaning Mario can play those sound types again.
     m->flags &= ~(MARIO_ACTION_SOUND_PLAYED | MARIO_MARIO_SOUND_PLAYED);
 
@@ -1954,8 +1962,6 @@ s8 esa_hp = -1;
 s8 esa_mhp = -1;
 char * esa_str = NULL;
 
-u8 make_mario_visible_again_after_this_frame = FALSE;
-
 s32 is_2d_area(void) {
     return ((gCurrLevelNum == LEVEL_L)&&(gCurrAreaIndex < 6));
 }
@@ -2590,10 +2596,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             if (gPlayer1Controller->buttonPressed & L_TRIG){
                 cur_obj_spawn_particles(&D_8032F270);
                 if (gMarioState->action == ACT_SQUID) {
-                    obj_set_model(gMarioObject, MODEL_MARIO);
-                    set_mario_action(gMarioState, ACT_IDLE, 0);
-                    gMarioState->marioObj->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
-                    make_mario_visible_again_after_this_frame = TRUE;
+                    set_mario_action(gMarioState, ACT_FREEFALL, 0);
                 } else {
                     obj_set_model(gMarioObject, MODEL_SQUID);
                     set_mario_action(gMarioState, ACT_SQUID, 0);

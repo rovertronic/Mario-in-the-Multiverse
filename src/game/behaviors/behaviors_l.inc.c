@@ -1,4 +1,9 @@
 void bhv_pt_mb(void) {
+    if (pizza_time && gCurrLevelNum == LEVEL_L) {
+        mark_obj_for_deletion(o);
+        return;
+    }
+
     f32 scale = (o->oBehParams2ndByte+1);
 
     cur_obj_scale(scale);

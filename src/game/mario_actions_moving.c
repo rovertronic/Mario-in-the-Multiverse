@@ -1991,7 +1991,7 @@ s32 act_squid(struct MarioState *m){
 
     if (!using_ability(ABILITY_SQUID)) {
         obj_set_model(m->marioObj, MODEL_MARIO);
-        return set_mario_action(m, ACT_IDLE, 0);
+        return set_mario_action(m, ACT_FREEFALL, 0);
     }
     //stationary_ground_step(m);
 

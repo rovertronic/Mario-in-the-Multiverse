@@ -1046,6 +1046,24 @@ struct mitm_credits_entry mitm_credits[] = {
     {"",0},
     {"Thank you for playing!",1},
     {"-The MitM Team",2},
+    {"",0},
+    {"Changes in v1.1.0",1},
+    {"* Added warning screen for PJ64 and N64 users",3},
+    {"* Star piece switch timer can be reset with a ground pound",3},
+    {"* Compass detects more objects, increased range",3},
+    {"* Course 4: Toad cage is now resistant to shotgun",3},
+    {"* Course 6: Boss can now be attacked with anything,",3},
+    {"    not just a jump",3},
+    {"* Course 6: Turrets use better shooting SFX",3},
+    {"* Course 6: Turrets don't do contact damage",3},
+    {"* Course 8: Added arrow sign in tutorial",3},
+    {"* Cool Cool Mountain slide no longer crashes",3},
+    {"* Fixed softlock when retrying pizza time escape",3},
+    {"* Fixed inkling infinite jump",3},
+    {"* Fixed squid form model not changing during an",3},
+    {"    action transition",3},
+    {"* Fixed some inconsistencies in the credits text",3},
+    {"* Enhanced the bartender's model",3},
 };
 
 f32 clamp2(f32 x) {
@@ -1067,6 +1085,7 @@ u8 mitm_text_colors[][3] = {
     {255, 255, 255},
     {220, 0, 240},
     {0, 255, 255},
+    {255, 255, 255},
 };
 
 void print_string_ascii_alpha(s32 x, s32 y, char *str, s32 color, s32 alpha) {
@@ -1118,7 +1137,11 @@ void print_mitm_credits(u8 hud_alpha) {
                 alpha = ((base_alpha/255.0f)*smoothstep2(10.0f,30.0f,ypos))*255.0f;
             }
 
-            print_string_ascii_centered_alpha(160,ypos, mitm_credits[i].text, mitm_credits[i].color, alpha);
+            if (mitm_credits[i].color == 3) {
+                print_string_ascii_alpha(10,ypos, mitm_credits[i].text, mitm_credits[i].color, alpha);
+            } else {
+                print_string_ascii_centered_alpha(160,ypos, mitm_credits[i].text, mitm_credits[i].color, alpha);
+            }
         }
     }
 }

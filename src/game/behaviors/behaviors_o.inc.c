@@ -203,6 +203,11 @@ void bhv_star_piece_switch_loop(void) {
                 o->oVelY    = 16.0f;
                 o->oGravity =  0.0f;
             }
+            if ((gMarioObject->platform == o) && (gMarioStates[0].action == ACT_GROUND_POUND_LAND)) {
+                o->oAction  = BLUE_COIN_SWITCH_ACT_EXTENDING;
+                o->oVelY    = 16.0f;
+                o->oGravity =  0.0f;
+            }
             load_object_collision_model();
             break;
         case BLUE_COIN_SWITCH_ACT_EXTENDING:
@@ -211,11 +216,10 @@ void bhv_star_piece_switch_loop(void) {
                 o->oAction = BLUE_COIN_SWITCH_ACT_IDLE;
                 o->oPosY = o->oHomeY; //thy be no evil shenanigans
             } else {
-                // Have collision while extending
-                load_object_collision_model();
                 // Extend
                 cur_obj_move_using_fvel_and_gravity();
             }
+            load_object_collision_model();
             break;
     }
 }
@@ -713,11 +717,22 @@ void bhv_o_easystreet_mission_controller(void) {
 
 u32 mission_behavior_list[] = {
     bhvRedCoin,
+    bhvStarPieceSwitch,
     bhvBriefcase,
     bhvOuvstar,
     bhvHiddenStarTrigger,
     bhvCagedToad,
     bhvFlipswitch,
+    bhvHoodmonger,
+    bhvHoodboomer,
+    bhvElectrohead,
+    bhvKbillionare,
+    bhvMiltank,
+    bhvBoo,
+    bhvGengar,
+    bhvHaunter,
+    bhvSkarmory,
+    bhvOspeaker
 };
 
 struct Object *mario_find_nearest_object_with_behavior_exclude_used_mission_objects(const BehaviorScript *behavior) {
@@ -725,7 +740,7 @@ struct Object *mario_find_nearest_object_with_behavior_exclude_used_mission_obje
     struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
     struct Object *obj = (struct Object *) listHead->next;
     struct Object *closestObj = NULL;
-    f32 minDist = 0x20000;
+    f32 minDist = 30000.0f;
 
     while (obj != (struct Object *) listHead) {
         if (obj->behavior == behaviorAddr

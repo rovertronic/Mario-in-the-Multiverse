@@ -933,7 +933,7 @@ extern Gfx cbmeter_Plane_004_mesh[];
 extern Gfx cbg_Plane_005_mesh[];
 u8 combo_meter_visual = 201;
 
-char hud_information_string[50] = {'\0'};
+char hud_information_string[60] = {'\0'};
 
 void render_hud(void) {
     //--E

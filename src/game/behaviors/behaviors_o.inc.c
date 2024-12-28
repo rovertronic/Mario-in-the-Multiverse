@@ -1808,6 +1808,7 @@ void sephiser_general_attack_handler(void) {
 }
 
 Vec3f fb_bowser_home = {0.0f,SB_Y,0.0f};
+u8 fb_bowser_hint_timer = 0;
 extern u8 sephisword_deflect_buffer;
 void bhv_final_boss_bowser(void) {
     switch(o->oAction) {
@@ -1821,6 +1822,7 @@ void bhv_final_boss_bowser(void) {
             golem_crystals_destroyed = 0;
             golem_crystalps_destroyed = 0;
             golem_crystal_do_weaken = FALSE;
+            fb_bowser_hint_timer = 0;
             cur_obj_boss_shimmer_reset();
             break;
         case FBOWSER_DESCEND:
@@ -1953,6 +1955,7 @@ void bhv_final_boss_bowser(void) {
             }
             if (o->oTimer == 24) {
                 fb_bowser_phase++;
+                fb_bowser_hint_timer = 200;
                 spawn_mist_particles_variable(0, 0, 100.0f);
                 switch(fb_bowser_phase) {
                     case 1:
@@ -2352,6 +2355,28 @@ void bhv_final_boss_bowser(void) {
             hector_general();
             break;
     }
+
+    if (fb_bowser_hint_timer > 0) {
+        switch(fb_bowser_phase) {
+            case 1:
+                sprintf(&hud_information_string,"OBJECTIVE: JUMP ON EGG MOBILE");
+                break;
+            case 2:
+                sprintf(&hud_information_string,"OBJECTIVE: SHOOT & DODGE");
+                break;
+            case 3:
+                sprintf(&hud_information_string,"OBJECTIVE: SHOOT & DODGE (x2)");
+                break;
+            case 4:
+                sprintf(&hud_information_string,"OBJECTIVE: PARRY WITH KATANA OR SAWAXE");
+                break;
+            case 5:
+                sprintf(&hud_information_string,"OBJECTIVE: DESTROY UNSHIELDED CRYSTALS");
+                break;
+        }
+        fb_bowser_hint_timer --;
+    }
+
     o->oInteractStatus = 0;
     o->oShotByShotgun = 0;
     sephisword_did_hit = 0;
@@ -2864,8 +2889,14 @@ void bhv_golem_laser(void) {
 
 void bhv_final_boss_hint_sign(void) {
     if (fb_bowser_phase > 0) {
-        struct Object * sign = spawn_object(o,MODEL_WOODEN_SIGNPOST,bhvMessagePanel);
-        sign->oBehParams2ndByte = DIALOG_FB_HINT_1+(fb_bowser_phase-1);
+        if (o->oTimer == 0) {
+            struct Object * sign = spawn_object(o,MODEL_WOODEN_SIGNPOST,bhvMessagePanel);
+            sign->oBehParams2ndByte = DIALOG_FB_HINT_1+(fb_bowser_phase-1);
+        }
+        struct Object *sparkleObj = spawn_object(o, MODEL_SPARKLES, bhvCoinSparkles);
+        sparkleObj->oPosX += random_float() * 100.0f - 50.0f;
+        sparkleObj->oPosY += random_float() * 100.0f;
+        sparkleObj->oPosZ += random_float() * 100.0f - 50.0f;
     }
 }
 

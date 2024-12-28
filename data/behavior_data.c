@@ -9992,8 +9992,8 @@ const BehaviorScript bhvBdWave[] = {
 extern void bhv_final_boss_hint_sign(void);
 const BehaviorScript bhvBcFinalBossHintSign[] = {
     BEGIN(OBJ_LIST_DEFAULT),
-    CALL_NATIVE(bhv_final_boss_hint_sign),
     BEGIN_LOOP(),
+        CALL_NATIVE(bhv_final_boss_hint_sign),
     END_LOOP(),
 };
 

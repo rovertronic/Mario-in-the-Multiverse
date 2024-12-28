@@ -178,7 +178,7 @@ const LevelScript level_d_entry[] = {
 		OBJECT(MODEL_CONCRETE_BLOCK, -1135, -962, -592, 0, 0, 0, (0 << 16), bhvConcreteBlock),
 		OBJECT(MODEL_CONCRETE_BLOCK, -2149, -265, 738, 0, 0, 0, (0 << 16), bhvConcreteBlock),
 		OBJECT(MODEL_CONCRETE_BLOCK, -2832, 175, 9, 0, 0, 0, (1 << 24) | (2 << 16), bhvConcreteBlock),
-		OBJECT(MODEL_NONE, 1817, 11, 64, 0, 0, 0, (2 << 16), bhvWarp),
+		OBJECT(MODEL_NONE, 1817, 11, 64, 0, 0, 0, (30 << 24) | (2 << 16), bhvWarp),
 		OBJECT(MODEL_NONE, 1817, -1322, 64, 0, -90, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 1817, -659, 64, 0, -90, 0, (0x0A << 16), bhvSwimmingWarp),
 		OBJECT(MODEL_RED_COIN, 138, -1543, 801, 0, 0, 0, 0x00000000, bhvRedCoin),

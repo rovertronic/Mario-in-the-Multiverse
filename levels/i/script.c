@@ -12,10 +12,6 @@
 #include "levels/scripts.h"
 
 #include "actors/group15.h"
-
-/* Fast64 begin persistent block [includes] */
-/* Fast64 end persistent block [includes] */
-
 #include "make_const_nonconst.h"
 #include "levels/i/header.h"
 
@@ -24,11 +20,11 @@
 
 const LevelScript level_i_entry[] = {
 	INIT_LEVEL(),
-	LOAD_YAY0(0x7, _i_segment_7SegmentRomStart, _i_segment_7SegmentRomEnd), 
 	LOAD_YAY0(0x08, _common0_yay0SegmentRomStart, _common0_yay0SegmentRomEnd), 
 	LOAD_RAW(0x0F, _common0_geoSegmentRomStart, _common0_geoSegmentRomEnd), 
 	LOAD_YAY0(0x06, _group15_yay0SegmentRomStart, _group15_yay0SegmentRomEnd), 
 	LOAD_RAW(0x0D, _group15_geoSegmentRomStart, _group15_geoSegmentRomEnd), 
+	LOAD_MIO0(0x7, _i_segment_7SegmentRomStart, _i_segment_7SegmentRomEnd), 
 	ALLOC_LEVEL_POOL(),
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
 	JUMP_LINK(script_func_global_1), 
@@ -58,24 +54,23 @@ const LevelScript level_i_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_DOLLAR, dollar_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BLACKLUMS, blacklums_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BOSS_GATE, boss_gate_geo), 
-
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, i_area_1),
 		WARP_NODE(/*entry*/ 0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(/*death*/ 0xF1, LEVEL_I, /*this area*/ 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(/*death entry*/ 0x01, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(/*death*/ 0xF1, LEVEL_I, /*this area*/ 0x01, 0x11, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*to area 2*/0x0B, LEVEL_I, 0x02, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(/* from area 2*/ 0x0C, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(/* to area 3*/ 0x0D, LEVEL_I, 0x03, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(/* from area 2 entry */0x0E, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		OBJECT(MODEL_NONE, -8501, 2474, -3599, 0, 0, 0, 0x00000000, bhvBirdsSoundLoop),
+		WARP_NODE(0x011/*death respawn*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_NONE, -6275, 1895, -3762, 0, -180, 0, 0x00000000, bhvHoodmongerAlertManager),
-		OBJECT(MODEL_NONE, -1917, 582, -6565, 0, -115, 0, (1 << 24) | (60 << 16), bhvRocketButton),
-		OBJECT(MODEL_NONE, -3227, 950, -5413, 0, -25, 0, (2 << 24), bhvRocketButton),
+		OBJECT(MODEL_NONE, -8501, 2474, -3599, 0, 0, 0, 0x00000000, bhvBirdsSoundLoop),
 		OBJECT(MODEL_NONE, -7740, -1137, -1901, 0, -180, 0, (1 << 24), bhvRocketButtonGroup),
 		OBJECT(MODEL_NONE, -7740, -1137, -1901, 0, -180, 0, (2 << 24), bhvRocketButtonGroup),
+		OBJECT(MODEL_NONE, -1917, 582, -6565, 0, -115, 0, (1 << 24) | (60 << 16), bhvRocketButton),
+		OBJECT(MODEL_NONE, -3227, 950, -5413, 0, -25, 0, (2 << 24), bhvRocketButton),
 		OBJECT(MODEL_LEVEL_PIPE, -7163, 905, 1897, 0, -180, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_GATE, -3163, 23, -5527, 0, 155, 0, (1 << 24) | (2 << 16) | (10 << 8) | (50), bhvGrillOpenableByRocketButton),
 		OBJECT(MODEL_GATE, -1901, 23, -8296, 0, 155, 0, (1 << 24) | (2 << 16) | (10 << 8) | (50), bhvGrillOpenableByRocketButton),
@@ -84,9 +79,9 @@ const LevelScript level_i_entry[] = {
 		OBJECT(MODEL_PIGPOT, -5358, 225, -898, 0, 174, 0, 0x00000000, bhvPigpot),
 		OBJECT(MODEL_PIGPOT, -5138, 225, -1267, 0, -149, 0, 0x00000000, bhvPigpot),
 		OBJECT(MODEL_TOAD, -5936, 630, -129, 0, -12, 0, 0x00000000, bhvLevelIStartToad),
+		OBJECT(MODEL_NONE, -7061, 1125, 697, 0, -180, 0, (0x11 << 16), bhvAirborneDeathWarp),
 		OBJECT(MODEL_NONE, -6899, 360, -6949, 0, 25, 0, (14 << 16), bhvAirborneWarp),
 		OBJECT(MODEL_NONE, -3780, 1115, -7487, 0, 65, 0, (12 << 16), bhvAirborneWarp),
-		OBJECT(MODEL_NONE, -6443, 590, -1869, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, -7061, 1125, 697, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_NONE, -7088, 397, -7363, 0, -157, 0, (30 << 24) | (11 << 16), bhvWarp),
 		OBJECT(MODEL_NONE, -289, -732, -11720, 0, -180, 0, (75 << 24) | (13 << 16), bhvWarp),
@@ -98,16 +93,16 @@ const LevelScript level_i_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	AREA(2, i_area_2),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*to area 1 exit*/0x0B, LEVEL_I, 0x01, 0x0C, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0C/*to area 2 entry*/, LEVEL_I, 0x01, 0x0E, WARP_NO_CHECKPOINT),
-		WARP_NODE(/* death */0xF1, LEVEL_I, 0x02, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(/* death */0xF1, LEVEL_I, 0x02, 0x11, WARP_NO_CHECKPOINT),
+		WARP_NODE(0x11/*death respawn*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_NONE, -3128, 2592, -2085, 0, 0, 0, 0x00000000, bhvHoodmongerAlertManager),
+		OBJECT(MODEL_NONE, 3021, 460, 886, 0, 0, 0, (1 << 24), bhvRocketButtonGroup),
 		OBJECT(MODEL_NONE, 8278, 2571, 1576, -59, -90, 0, (1 << 24), bhvRocketButton),
 		OBJECT(MODEL_NONE, 2486, 2203, -2154, 0, -90, 0, (1 << 24), bhvRocketButton),
-		OBJECT(MODEL_NONE, 3021, 460, 886, 0, 0, 0, (1 << 24), bhvRocketButtonGroup),
-		OBJECT(MODEL_NONE, -3128, 2592, -2085, 0, 0, 0, 0x00000000, bhvHoodmongerAlertManager),
 		OBJECT(MODEL_NONE, -3055, 1648, -4127, 0, 0, 0, (0 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, 8178, 2729, 1574, 0, 0, 0, (1 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_GATE, 2308, 1640, 2835, 0, 0, 0, (1 << 24) | (2 << 16) | (10 << 8) | (64), bhvGrillOpenableByRocketButton),
@@ -117,6 +112,7 @@ const LevelScript level_i_entry[] = {
 		OBJECT(MODEL_HOODMONGER, -1663, -160, -1298, 0, 0, 0, (1 << 16), bhvHoodmonger),
 		OBJECT(MODEL_STAR, 2309, 1996, 3360, 0, 0, 0, (0 << 24), bhvStar),
 		OBJECT(MODEL_NONE, -6620, -1279, -2108, 0, 90, 0, (10 << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_NONE, -6620, -1145, -2108, 0, 90, 0, (0x11 << 16), bhvAirborneDeathWarp),
 		OBJECT(MODEL_NONE, -7037, -1219, -2134, 0, 0, 0, (25 << 24) | (12 << 16), bhvWarp),
 		OBJECT(MODEL_NONE, 2303, 1518, 4325, 0, 0, 0, (40 << 24) | (11 << 16), bhvWarp),
 		TERRAIN(i_area_2_collision),
@@ -126,7 +122,6 @@ const LevelScript level_i_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	AREA(3, i_area_3),
 		WARP_NODE(0x0E/*success from area 4*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0B/*to area 4*/, LEVEL_I, 0x04, 0x0A, WARP_NO_CHECKPOINT),
@@ -135,7 +130,9 @@ const LevelScript level_i_entry[] = {
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0F/*death from area5*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x10/*succes from area 5*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(0xF1, LEVEL_I, 0x03, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF1, LEVEL_I, 0x03, 0x11, WARP_NO_CHECKPOINT),
+		WARP_NODE(0x11/*death from this area*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_BLUE_COIN_SWITCH, -6436, -354, 9948, 0, 1, 1, 0x00000000, bhvBlueCoinSwitch),
 		OBJECT(MODEL_ABILITY_SIGN, -8170, -689, -7567, 0, 41, 0, (10 << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, 1521, -380, 18681, 0, 159, 0, (12 << 16), bhvStaticObject),
 		OBJECT(MODEL_NONE, 2354, 2486, 252, 0, -135, 0, 0x00000000, bhvHoodmongerAlertManager),
@@ -144,7 +141,6 @@ const LevelScript level_i_entry[] = {
 		OBJECT(MODEL_BLUE_COIN, -8679, -354, 12080, 0, -135, 0, 0x00000000, bhvHiddenBlueCoin),
 		OBJECT(MODEL_BLUE_COIN, -7126, -354, 14814, 0, -135, 0, 0x00000000, bhvHiddenBlueCoin),
 		OBJECT(MODEL_HOODMONGER, -3992, -354, 14057, 0, -135, 0, 0x00000000, bhvHoodmonger),
-		OBJECT(MODEL_BLUE_COIN_SWITCH, -6436, -354, 9948, 0, 1, 1, 0x00000000, bhvBlueCoinSwitch),
 		OBJECT(MODEL_BOSS_GATE, -8653, -354, 14111, 0, 124, 0, 0x00000000, bhvLevelIBossDoor),
 		OBJECT(MODEL_TOAD, -7305, 1215, 14827, 0, 85, 0, (1 << 24), bhvBountyHunterToad),
 		OBJECT(MODEL_NONE, -7866, -596, -514, 0, -135, 0, (3 << 24), bhvRocketButton),
@@ -155,7 +151,7 @@ const LevelScript level_i_entry[] = {
 		OBJECT(MODEL_CAGED_TOAD, -6898, 553, -8903, 0, -135, 0, (1 << 24), bhvCagedToad),
 		OBJECT(MODEL_CAGED_TOAD, -216, -26, 13536, 0, -135, 0, (2 << 24), bhvCagedToad),
 		OBJECT(MODEL_CAGED_TOAD, -8613, 1553, 12085, 0, -176, 0, (0 << 24), bhvCagedToad),
-		OBJECT(MODEL_NONE, -1586, -241, 3993, 0, -135, 0, (2 << 24), bhvHiddenCagedToadsStar),
+		OBJECT(MODEL_NONE, -1586, -158, 3993, 0, -135, 0, (2 << 24), bhvHiddenCagedToadsStar),
 		OBJECT(MODEL_NONE, -5497, 961, 14795, 0, -75, 0, (5 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, 3309, 916, 5895, 0, -135, 0, (2 << 16), bhvCoinFormation),
 		OBJECT(MODEL_CONCRETE_BLOCK, -8247, -816, -896, 0, -135, 0, (2 << 24) | (155 << 16), bhvConcreteBlock),
@@ -229,6 +225,7 @@ const LevelScript level_i_entry[] = {
 		OBJECT(MODEL_NONE, -1875, 758, 6012, 0, 179, 0, (0x0A << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_NONE, 9612, 555, 2173, 0, 68, 0, (12 << 16), bhvAirborneDeathWarp),
 		OBJECT(MODEL_NONE, -8307, -49, 13875, 0, -56, 0, (15 << 16), bhvAirborneDeathWarp),
+		OBJECT(MODEL_NONE, -1875, 758, 6012, 0, 179, 0, (0x11 << 16), bhvAirborneDeathWarp),
 		OBJECT(MODEL_NONE, -8307, -49, 13875, 0, 124, 0, (16 << 16), bhvAirborneWarp),
 		OBJECT(MODEL_NONE, 9612, 555, 2173, 0, -112, 0, (14 << 16), bhvAirborneWarp),
 		OBJECT(MODEL_NONE, 10314, 17, 2454, 0, -135, 0, (20 << 24) | (11 << 16), bhvFadingWarp),
@@ -244,7 +241,6 @@ const LevelScript level_i_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	AREA(4, i_area_4),
 		INSTANT_WARP(0x00/*instant from section 1 to 2*/, 0x04, 11189, 137, 43412),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
@@ -253,6 +249,7 @@ const LevelScript level_i_entry[] = {
 		WARP_NODE(0xF0, LEVEL_I, 0x03, 0x0E, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_NONE, -211, 360, 23121, 0, 0, 0, 0x00000000, bhvSkrinkingBlackDoorSpawner),
 		OBJECT(MODEL_NONE, 13155, 8307, 22759, 0, 0, 0, 0x00000000, bhvSkrinkingBlackDoorSpawner),
+		OBJECT(MODEL_BLUE_COIN, -11387, 1512, -9890, 0, 0, 0, (1 << 24), bhvHiddenBlueCoin),
 		OBJECT(MODEL_BLUE_COIN, -1192, -24, 9479, 0, 0, 0, (1 << 24), bhvHiddenBlueCoin),
 		OBJECT(MODEL_YELLOW_COIN, 14955, 84, -11588, 0, 0, 0, 0x00000000, bhvYellowCoin),
 		OBJECT(MODEL_NONE, -11379, -137, 15590, 0, 0, 0, (5 << 16), bhvCoinFormation),
@@ -263,7 +260,6 @@ const LevelScript level_i_entry[] = {
 		OBJECT(MODEL_NONE, -10587, 234, 741, 0, 0, 0, (5 << 16), bhvCoinFormation),
 		OBJECT(MODEL_YELLOW_COIN, -12112, 997, -7383, 0, 0, 0, 0x00000000, bhvYellowCoin),
 		OBJECT(MODEL_YELLOW_COIN, -10679, 997, -7383, 0, 0, 0, 0x00000000, bhvYellowCoin),
-		OBJECT(MODEL_BLUE_COIN, -11387, 1512, -9890, 0, 0, 0, (1 << 24), bhvHiddenBlueCoin),
 		OBJECT(MODEL_NONE, -1194, 246, -6352, 0, 0, 0, (5 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, -11388, 570, -3684, 0, 0, 0, (5 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, 818, 246, -6352, 0, 0, 0, (5 << 16), bhvCoinFormation),
@@ -281,13 +277,13 @@ const LevelScript level_i_entry[] = {
 		OBJECT(MODEL_YELLOW_COIN, 12555, 84, -11588, 0, 0, 0, 0x00000000, bhvYellowCoin),
 		OBJECT(MODEL_YELLOW_COIN, 11955, 84, -10388, 0, 0, 0, 0x00000000, bhvYellowCoin),
 		OBJECT(MODEL_YELLOW_COIN, 11355, 84, -11588, 0, 0, 0, 0x00000000, bhvYellowCoin),
+		OBJECT(MODEL_STAR, 13804, 519, -20143, 0, 0, 0, (252 << 24) | (151 << 16) | (126 << 8) | (80), bhvThreeAxisRotativeObject),
 		OBJECT(MODEL_STAR, 11789, 107, -17368, 0, 0, 0, (104 << 24) | (83 << 16) | (71 << 8) | (80), bhvThreeAxisRotativeObject),
 		OBJECT(MODEL_STAR, 14453, 44, -18342, 0, 0, 0, (155 << 24) | (227 << 16) | (204 << 8) | (80), bhvThreeAxisRotativeObject),
 		OBJECT(MODEL_STAR, 10277, 519, -18288, 0, 0, 0, (224 << 24) | (208 << 16) | (62 << 8) | (80), bhvThreeAxisRotativeObject),
 		OBJECT(MODEL_STAR, 15771, 519, -19608, 0, 0, 0, (238 << 24) | (170 << 16) | (52 << 8) | (80), bhvThreeAxisRotativeObject),
 		OBJECT(MODEL_STAR, 12102, 981, -20312, 0, 0, 0, (216 << 24) | (89 << 16) | (58 << 8) | (80), bhvThreeAxisRotativeObject),
 		OBJECT(MODEL_STAR, 15176, 1269, -21587, 0, 0, 0, (249 << 24) | (176 << 16) | (68 << 8) | (80), bhvThreeAxisRotativeObject),
-		OBJECT(MODEL_STAR, 13804, 519, -20143, 0, 0, 0, (252 << 24) | (151 << 16) | (126 << 8) | (80), bhvThreeAxisRotativeObject),
 		OBJECT(MODEL_STAR, 11936, 317, -22660, 0, 0, 0, (117 << 24) | (197 << 16) | (254 << 8) | (80), bhvThreeAxisRotativeObject),
 		OBJECT(MODEL_FUNKY_ROAD, 13589, 12, 10390, 0, 90, 0, 0x00000000, bhvMovingFunkyPlatform),
 		OBJECT(MODEL_FUNKY_ROAD, 12689, 12, 10390, 0, 90, 0, 0x00000000, bhvMovingFunkyPlatform),
@@ -326,7 +322,6 @@ const LevelScript level_i_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	AREA(5, i_area_5),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF0, LEVEL_I, 0x03, 0x10, WARP_NO_CHECKPOINT),
@@ -340,7 +335,6 @@ const LevelScript level_i_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	FREE_LEVEL_POOL(),
 	MARIO_POS(1, 0, 0, 0, 0),
 	CALL(0, lvl_init_or_update),

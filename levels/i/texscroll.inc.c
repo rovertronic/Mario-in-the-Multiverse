@@ -163,7 +163,7 @@ void scroll_i_dl_first_section_geo_mesh_layer_5_vtx_3() {
 
 void scroll_i_dl_first_section_geo_mesh_layer_5_vtx_5() {
 	int i = 0;
-	int count = 216;
+	int count = 245;
 	int height = 32 * 0x20;
 
 	static int currentY = 0;
@@ -184,7 +184,7 @@ void scroll_i_dl_first_section_geo_mesh_layer_5_vtx_5() {
 
 void scroll_i_dl_first_section_geo_mesh_layer_1_vtx_1() {
 	int i = 0;
-	int count = 469;
+	int count = 467;
 	int height = 128 * 0x20;
 
 	static int currentY = 0;

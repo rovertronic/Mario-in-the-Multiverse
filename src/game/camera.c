@@ -3334,7 +3334,9 @@ void update_camera(struct Camera *c) {
 #ifdef ENABLE_VANILLA_CAM_PROCESSING
     camera_course_processing(c);
 #else
-    if (gCurrDemoInput != NULL) camera_course_processing(c);
+    if (gCurrDemoInput != NULL || gCurrLevelNum == LEVEL_C) {
+        camera_course_processing(c);
+    }
     
 #endif
     sCButtonsPressed = find_c_buttons_pressed(sCButtonsPressed, gPlayer1Controller->buttonPressed, gPlayer1Controller->buttonDown);
@@ -5797,6 +5799,11 @@ void set_camera_mode_radial(struct Camera *c, s16 transitionTime) {
     }
 }
 
+void set_camera_mode_crane(struct Camera *c) {
+    transition_to_camera_mode(c, CAMERA_MODE_CRANE, 0);
+    update_camera_yaw(c);
+}
+
 /**
  * Start parallel tracking mode using the path `path`
  */
@@ -5858,7 +5865,9 @@ void check_blocking_area_processing(const u8 *mode) {
     }
 #else
 void check_blocking_area_processing(UNUSED const u8 *mode) {
-    sStatusFlags |= CAM_FLAG_BLOCK_AREA_PROCESSING;
+    if(gCurrLevelNum != LEVEL_C) {
+        sStatusFlags |= CAM_FLAG_BLOCK_AREA_PROCESSING;
+    }
 #endif
 }
 
@@ -6306,6 +6315,10 @@ void cam_graveler_ramp(struct Camera *c){
     set_camera_mode_fixed(c,-4168, 5810, -6300);
 }
 
+void cam_c_crane_buttons(struct Camera *c){
+    set_camera_mode_crane(c);
+}
+
 /**
  * Apply any modes that are triggered by special floor surface types
  */
@@ -6613,6 +6626,7 @@ struct CameraTrigger sCamH[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger sCamC[] = {
+    { 1, cam_c_crane_buttons, 8272, 3848, 7420, 800, 500, 610, 0 },
 	NULL_TRIGGER
 };
 struct CameraTrigger sCamBirthday[] = {
@@ -6809,6 +6823,10 @@ s16 camera_course_processing(struct Camera *c) {
                     if (!(sStatusFlags & CAM_FLAG_BLOCK_AREA_PROCESSING)) {
                         sCameraTriggers[level][b].event(c);
                         insideBounds = TRUE;
+                    }
+                } else {
+                    if(c->mode != FORCED_CAMERA_MODE) {
+                        set_camera_mode(c, FORCED_CAMERA_MODE, 0);
                     }
                 }
             }

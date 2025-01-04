@@ -86,7 +86,6 @@ void bhv_crane_arrow_loop(void) {
                 cur_obj_play_sound_2(SOUND_GENERAL2_PURPLE_SWITCH);
                 o->oAction = PURPLE_SWITCH_ACT_TICKING;
                 cur_obj_shake_screen(SHAKE_POS_SMALL);
-                gLakituState.mode = CAMERA_MODE_CRANE;
 #if ENABLE_RUMBLE
                 queue_rumble_data(5, 80);
 #endif
@@ -112,7 +111,6 @@ void bhv_crane_arrow_loop(void) {
             cur_obj_scale_over_time(SCALE_AXIS_Y, 3, 0.2f, 2.0f);
             if (o->oTimer == 3) {
                 o->oAction = PURPLE_SWITCH_ACT_IDLE;
-                gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
             }
             break;
     }

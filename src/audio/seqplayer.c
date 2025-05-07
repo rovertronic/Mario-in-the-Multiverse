@@ -7,6 +7,8 @@
 #include "load.h"
 #include "seqplayer.h"
 
+u8 loop_poop_flag = FALSE;
+
 #ifdef VERSION_SH
 void seq_channel_layer_process_script_part1(struct SequenceChannelLayer *layer);
 s32 seq_channel_layer_process_script_part2(struct SequenceChannelLayer *layer);
@@ -2307,6 +2309,7 @@ void sequence_player_process_sequence(struct SequencePlayer *seqPlayer) {
         for (;;) {
             cmd = m64_read_u8(state);
             if (cmd == 0xff) { // seq_end
+                loop_poop_flag = TRUE;
                 if (state->depth == 0) {
                     sequence_player_disable(seqPlayer);
                     break;
@@ -2359,6 +2362,7 @@ void sequence_player_process_sequence(struct SequencePlayer *seqPlayer) {
                         break;
 
                     case 0xf7: // seq_loopend
+                    loop_poop_flag = TRUE;
                         state->remLoopIters[state->depth - 1]--;
                         if (state->remLoopIters[state->depth - 1] != 0) {
                             state->pc = state->stack[state->depth - 1];
@@ -2371,6 +2375,7 @@ void sequence_player_process_sequence(struct SequencePlayer *seqPlayer) {
                     case 0xfa: // seq_beqz; jump if == 0
                     case 0xf9: // seq_bltz; jump if < 0
                     case 0xf5: // seq_bgez; jump if >= 0
+                    loop_poop_flag = TRUE;
                         u16v = m64_read_s16(state);
                         if (cmd == 0xfa && value != 0) {
                             break;

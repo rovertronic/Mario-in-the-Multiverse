@@ -1299,148 +1299,166 @@ void render_painting_ui(f32 alpha) {
 }
 
 struct music_data music_list[] = {
-    {SEQ_MITM_FILE_SELECT,0,"File Select","Original composition by: SpK"},
-    {SEQ_MITM_HUB,0,"Fracture","Original composition by: SpK"},
+    {SEQ_MITM_FILE_SELECT,0,"File Select","Original composition by: SpK",ABILITY_NONE},
+    {SEQ_MITM_HUB,0,"Fracture","Original composition by: SpK",ABILITY_NONE},
     
-    {SEQ_PEACHS_BIRTHDAY,0,"Peach's Birthday Cake","From: Mario Party\nPorted by: Teraok"},
-    {SEQ_BOWSER_TIME,0,"Bowser Time!","From: Mario Party DS\nPorted by: Teraok"},
+    {SEQ_PEACHS_BIRTHDAY,0,"Peach's Birthday Cake","From: Mario Party\nPorted by: Teraok",ABILITY_NONE},
+    {SEQ_BOWSER_TIME,0,"Bowser Time!","From: Mario Party DS\nPorted by: Teraok",ABILITY_NONE},
 
-    {SEQ_MITM_GET_ABILITY,0,"Get Ability","Original composition by: Leonitz\nPorted by: sm64pie"},
+    {SEQ_MITM_GET_ABILITY,0,"Get Ability","Original composition by: Leonitz\nPorted by: sm64pie",ABILITY_CUTTER},
 
-    {SEQ_CUSTOM_SAVE_HUT,0,"Save Hut","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
-    {SEQ_CUSTOM_KIRBY_BOSS,0,"Boss Battle","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
-    {SEQ_CUSTOM_PEANUT_PLAINS,0,"Peanut Plains","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
-    {SEQ_CUSTOM_CRYSTAL_FIELD,0,"Crystal Field","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
-    {SEQ_CUSTOM_TREES_IN_THE_DEPTHS,0,"Trees in the Depths of the Earth","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
-    {SEQ_MINECART_RIDING,0,"Mine Cart Riding","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
-    {SEQ_CUSTOM_MARX,0,"V.S. Marx","From: Kirby Super Star Ultra\nPorted by: CowQuack"},
+    {SEQ_CUSTOM_SAVE_HUT,0,"Save Hut","From: Kirby Super Star Ultra\nPorted by: CowQuack",ABILITY_CUTTER},
+    {SEQ_CUSTOM_KIRBY_BOSS,0,"Boss Battle","From: Kirby Super Star Ultra\nPorted by: CowQuack",ABILITY_CUTTER},
+    {SEQ_CUSTOM_PEANUT_PLAINS,0,"Peanut Plains","From: Kirby Super Star Ultra\nPorted by: CowQuack",ABILITY_CUTTER},
+    {SEQ_CUSTOM_CRYSTAL_FIELD,0,"Crystal Field","From: Kirby Super Star Ultra\nPorted by: CowQuack",ABILITY_CUTTER},
+    {SEQ_CUSTOM_TREES_IN_THE_DEPTHS,0,"Trees in the Depths of the Earth","From: Kirby Super Star Ultra\nPorted by: CowQuack",ABILITY_CUTTER},
+    {SEQ_MINECART_RIDING,0,"Mine Cart Riding","From: Kirby Super Star Ultra\nPorted by: CowQuack",ABILITY_CUTTER},
+    {SEQ_CUSTOM_MARX,0,"V.S. Marx","From: Kirby Super Star Ultra\nPorted by: CowQuack",ABILITY_CUTTER},
 
-    {SEQ_JELLYFISH_FIELDS,0,"Jellyfish Fields","From: Battle for Bikini Bottom\nPorted by: JoshTheBosh"},
-    {SEQ_JELLYFISH_SECRET,0,"Jellyfish Secret","From: Battle for Bikini Bottom\nPorted by: JoshTheBosh"},
-    {SEQ_DOWNTOWN_BB,0,"Downtown Bikini Bottom","From: Battle for Bikini Bottom\nPorted by: JoshTheBosh"},
-    {SEQ_JELLYFISH_BOSS,0,"Jellyfish Jam","From: Battle for Bikini Bottom\nPorted by: sm64pie"},
+    {SEQ_JELLYFISH_FIELDS,0,"Jellyfish Fields","From: Battle for Bikini Bottom\nPorted by: JoshTheBosh",ABILITY_BUBBLE_HAT},
+    {SEQ_JELLYFISH_SECRET,0,"Jellyfish Secret","From: Battle for Bikini Bottom\nOriginal composition by: JoshTheBosh",ABILITY_BUBBLE_HAT},
+    {SEQ_DOWNTOWN_BB,0,"Downtown Bikini Bottom","From: Battle for Bikini Bottom\nPorted by: JoshTheBosh",ABILITY_BUBBLE_HAT},
+    {SEQ_JELLYFISH_BOSS,0,"Jellyfish Jam","From: Battle for Bikini Bottom\nPorted by: sm64pie",ABILITY_BUBBLE_HAT},
 
-    {SEQ_C_SEA_ME_NOW,0,"Sea Me Now","From: Splatoon 3\nPorted by: Teraok"},
+    {SEQ_C_SEA_ME_NOW,0,"Sea Me Now","From: Splatoon 3\nPorted by: Teraok",ABILITY_SQUID},
 
-    {SEQ_LEVEL_I_INSIDE,0,"Cave Dungeon Rayman Remix","Original composition by: Teraok"},
-    {SEQ_CLEARLEAF_FOREST,0,"Clearleaf Forest","From: Rayman 3\nPorted by: Teraok"},
-    {SEQ_LEVEL_I_AMBUSH,0,"Hoodlum Ambush","From: Rayman 3\nPorted by: Teraok"},
-    {SEQ_LEVEL_I_CARRYING_THE_PLUM,0,"Carrying the Plum","From: Rayman 3\nPorted by: Teraok"},
-    {SEQ_FUNKY_SHELL,0,"Funky Board","From: Rayman 3\nPorted by: Teraok"},
-    {SEQ_MASTER_KAAG_BOSS,0,"Master Kaag","From: Rayman 3\nPorted by: Teraok"},
+    {SEQ_LEVEL_I_INSIDE,0,"Cave Dungeon Rayman Remix","Original composition by: Teraok",ABILITY_SHOCK_ROCKET},
+    {SEQ_CLEARLEAF_FOREST,0,"Clearleaf Forest","From: Rayman 3\nPorted by: Teraok",ABILITY_SHOCK_ROCKET},
+    {SEQ_LEVEL_I_AMBUSH,0,"Hoodlum Ambush","From: Rayman 3\nPorted by: Teraok",ABILITY_SHOCK_ROCKET},
+    {SEQ_LEVEL_I_CARRYING_THE_PLUM,0,"Carrying the Plum","From: Rayman 3\nPorted by: Teraok",ABILITY_SHOCK_ROCKET},
+    {SEQ_FUNKY_SHELL,0,"Funky Board","From: Rayman 3\nPorted by: Teraok",ABILITY_SHOCK_ROCKET},
+    {SEQ_MASTER_KAAG_BOSS,0,"Master Kaag","From: Rayman 3\nPorted by: Teraok",ABILITY_SHOCK_ROCKET},
     
-    {SEQ_H_GEOTHERMAL,0,"Geothermal","From: Cave Story\nPorted by: Teraok"},
-    {SEQ_C6,0,"Step Into My Gardens","From: Bioshock"},
+    {SEQ_H_GEOTHERMAL,0,"Geothermal","From: Cave Story\nPorted by: Teraok",ABILITY_PHASEWALK},
+    {SEQ_C6,0,"Step Into My Gardens","From: Bioshock",ABILITY_BIG_DADDY},
 
-    {SEQ_L_MONDAYS,0,"Mondays","From: Pizza Tower\nPorted by: sm64pie"},
-    {SEQ_L_HOT_SPAGHETTI,0,"Hot Spaghetti","From: Pizza Tower\nPorted by: sm64pie"},
-    {SEQ_L_PIZZA_TIME,0,"Pizza Time","From: Pizza Tower\nPorted by: Teraok"},
-    {SEQ_PEPPERMAN_STRIKES,0,"Pepperman Strikes!","From: Pizza Tower\nPorted by: sm64pie"},
+    {SEQ_L_MONDAYS,0,"Mondays","From: Pizza Tower\nPorted by: sm64pie",ABILITY_KNIGHT},
+    {SEQ_L_HOT_SPAGHETTI,0,"Hot Spaghetti","From: Pizza Tower\nPorted by: sm64pie",ABILITY_KNIGHT},
+    {SEQ_L_PIZZA_TIME,0,"Pizza Time","From: Pizza Tower\nPorted by: Teraok",ABILITY_KNIGHT},
+    {SEQ_PEPPERMAN_STRIKES,0,"Pepperman Strikes!","From: Pizza Tower\nPorted by: sm64pie",ABILITY_KNIGHT},
 
-    {SEQ_K_CHINATOWN,0,"Chinatown","From: Katana Zero\nPorted by: Teraok"},
-    {SEQ_ROCKSOLID,0,"Rock Solid","From: Conker's Bad Fur Day"},
+    {SEQ_K_CHINATOWN,0,"Chinatown","From: Katana Zero\nPorted by: Teraok",ABILITY_CHRONOS},
+    {SEQ_ROCKSOLID,0,"Rock Solid","From: Conker's Bad Fur Day",ABILITY_CHRONOS},
 
-    {SEQ_C9,0,"Hangar","From: DOOM PSX"},
+    {SEQ_C9,0,"Hangar","From: DOOM PSX",ABILITY_E_SHOTGUN},
 
-    {SEQ_F_FRWL,0,"From Russia with Love","From: From Russia with Love\nPorted by: Teraok"},
-    {SEQ_F_BOND,0,"James Bond Theme Song","From: 007 Series\nPorted by: Teraok"},
+    {SEQ_F_FRWL,0,"From Russia with Love","From: From Russia with Love\nPorted by: Teraok",ABILITY_GADGET_WATCH},
+    {SEQ_F_BOND,0,"James Bond Theme Song","From: 007 Series\nPorted by: Teraok",ABILITY_GADGET_WATCH},
 
-    {SEQ_CUSTOM_ECRUTEAK,0,"Ecruteak City","From: Pokemon\nPorted by: SpK"},
-    {SEQ_CUSTOM_AZALEA,0,"Azalea","From: Pokemon\nPorted by: SpK"},
-    {SEQ_CUSTOM_DARK_CAVE,0,"Dark Cave","From: Pokemon\nPorted by: SpK"},
-    {SEQ_CUSTOM_GYM,0,"Gym","From: Pokemon\nPorted by: SpK"},
-    {SEQ_CUSTOM_VS_HOOH,0,"V.S. Hooh","From: Pokemon"},
+    {SEQ_CUSTOM_ECRUTEAK,0,"Ecruteak City","From: Pokemon\nPorted by: SpK",ABILITY_HM_FLY},
+    {SEQ_CUSTOM_AZALEA,0,"Azalea","From: Pokemon\nPorted by: SpK",ABILITY_HM_FLY},
+    {SEQ_CUSTOM_DARK_CAVE,0,"Dark Cave","From: Pokemon\nPorted by: SpK",ABILITY_HM_FLY},
+    {SEQ_CUSTOM_GYM,0,"Gym","From: Pokemon\nPorted by: SpK",ABILITY_HM_FLY},
+    {SEQ_CUSTOM_VS_HOOH,0,"V.S. Hooh","From: Pokemon",ABILITY_HM_FLY},
 
-    {SEQ_D_OVER,0,"N. Sanity Island","From: Crash Twinsanity\nPorted by: Teraok"},
-    {SEQ_D_UNDER,0,"Underwater","From: Crash Bandicoot 3: Warped\nPorted by: Teraok"},
+    {SEQ_D_OVER,0,"N. Sanity Island","From: Crash Twinsanity\nPorted by: Teraok",ABILITY_AKU},
+    {SEQ_D_UNDER,0,"Underwater","From: Crash Bandicoot 3: Warped\nPorted by: Teraok",ABILITY_AKU},
 
-    {SEQ_O_MAINTRACK,0,"Via Corolla","From: The Walking Dead: Saints & Sinners"},
-    {SEQ_O_EASYSTREET,0,"Easy Street","From: The Walking Dead"},
-    {SEQ_O_STH,0,"Stir The Herd","From: The Walking Dead: Saints & Sinners"},
+    {SEQ_O_MAINTRACK,0,"Via Corolla","From: The Walking Dead: Saints & Sinners",ABILITY_ESTEEMED_MORTAL},
+    //{SEQ_O_EASYSTREET,0,"Easy Street","From: The Walking Dead",ABILITY_ESTEEMED_MORTAL},
+    {SEQ_O_STH,0,"Stir The Herd","From: The Walking Dead: Saints & Sinners",ABILITY_ESTEEMED_MORTAL},
 
-    {SEQ_HAMSTERBALL,0,"Beginner Race","From: Hamsterball\nPorted by: sm64pie"},
+    {SEQ_HAMSTERBALL,0,"Beginner Race","From: Hamsterball\nPorted by: sm64pie",ABILITY_DEFAULT},
 
-    {SEQ_CUSTOM_ESA_VALIANT,0,"Valiant","From: Environmental Station Alpha\nPorted by: Teraok"},
-    {SEQ_CUSTOM_ESA_SUBMERGED,0,"Submerged","From: Environmental Station Alpha\nPorted by: Teraok"},
-    {SEQ_CUSTOM_ESA_AMMOINEN,0,"Ammoinen","From: Environmental Station Alpha\nPorted by: Teraok"},
-    {SEQ_CUSTOM_ESA_MECHA,0,"Swift Mecha","From: Environmental Station Alpha\nPorted by: Teraok"},
+    {SEQ_CUSTOM_ESA_VALIANT,0,"Valiant","From: Environmental Station Alpha\nPorted by: Teraok",ABILITY_DASH_BOOSTER},
+    {SEQ_CUSTOM_ESA_SUBMERGED,0,"Submerged","From: Environmental Station Alpha\nPorted by: Teraok",ABILITY_DASH_BOOSTER},
+    {SEQ_CUSTOM_ESA_AMMOINEN,0,"Ammoinen","From: Environmental Station Alpha\nPorted by: Teraok",ABILITY_DASH_BOOSTER},
+    {SEQ_CUSTOM_ESA_MECHA,0,"Swift Mecha","From: Environmental Station Alpha\nPorted by: Teraok",ABILITY_DASH_BOOSTER},
 
     //{SEQ_BIGBLUE,"Big Blue","From: F-ZERO\nPorted by: Asbeth"},
     //{SEQ_MUTECITY,"Mute City","From: F-ZERO\nPorted by: Asbeth"},
 
-    {SEQ_MITM_BOWSER_COURSE,0,"Centrum Omnium","Original composition by: SpK"},
+    {SEQ_MITM_BOWSER_COURSE,0,"Centrum Omnium","Original composition by: SpK",ABILITY_DEFAULT},
 
-    {SEQ_FINAL_BOSS,2,"Final Bowser Phase 1 - Eggman","Original composition by: SpK\nBased on: Boss (Sonic the Hedgehog 2)"},
-    {SEQ_FINAL_BOSS,3,"Final Bowser Phase 2 - Gaster","Original composition by: SpK\nBased on: CORE (Undertale)"},
-    {SEQ_FINAL_BOSS,4,"Final Bowser Phase 3 - Yukari","Original composition by: SpK\nBased on: Necrofantasia (Touhou 7)"},
-    {SEQ_FINAL_BOSS,5,"Final Bowser Phase 4 - Sephiroth","Original composition by: SpK\nBased on: One Winged Angel (Final Fantasy 7)"},
-    {SEQ_FINAL_BOSS,6,"Final Bowser Phase 5 - Hector","Original composition by: SpK\nBased on: Hekalis (Blade and Sorcery)"},
+    {SEQ_FINAL_BOSS,2,"Final Bowser Phase 1 - Eggman","Original composition by: SpK\nBased on: Boss (Sonic the Hedgehog 2)",ABILITY_DEFAULT},
+    {SEQ_FINAL_BOSS,3,"Final Bowser Phase 2 - Gaster","Original composition by: SpK\nBased on: CORE (Undertale)",ABILITY_DEFAULT},
+    {SEQ_FINAL_BOSS,4,"Final Bowser Phase 3 - Yukari","Original composition by: SpK\nBased on: Necrofantasia (Touhou 7)",ABILITY_DEFAULT},
+    {SEQ_FINAL_BOSS,5,"Final Bowser Phase 4 - Sephiroth","Original composition by: SpK\nBased on: One Winged Angel (Final Fantasy 7)",ABILITY_DEFAULT},
+    {SEQ_FINAL_BOSS,6,"Final Bowser Phase 5 - Hector","Original composition by: SpK\nBased on: Hekalis (Blade and Sorcery)",ABILITY_DEFAULT},
 
-    {SEQ_MITM_CREDITS,0,"Multiversal Dream","Original composition by: Teraok"},
+    {SEQ_MITM_CREDITS,0,"Multiversal Dream","Original composition by: Teraok",ABILITY_DEFAULT},
 
     {SEQ_COUNT,0,NULL,NULL},
 };
 
-u8 music_menu_show_ui = FALSE;
+u8 music_menu_show_ui = TRUE;
 s8 music_menu_index = 0;
 s8 music_menu_isplaying = -1;
+u8 musicAction = 0;
+struct SpawnParticlesInfo D_8032F270 = { 2, 20, MODEL_MIST, 0, 40, 5, 30, 20, 252, 30, 10.0f, 10.0f };
+u8 old_ability = ABILITY_NONE;
+u8 musicAutoTimer = 0;
+extern char * hud_information_string;
+extern void seq_player_fade_to_target_volume(s32 player, s32 fadeDuration, u8 targetVolume);
+extern u8 loop_poop_flag;
+u32 timerdontexitearly = 0;
 
 void bhv_music_menu_loop(void) {
     s8 old_hint_index;
 
-    o->oAnimState = 0;
-    if (o->oTimer%90 < 4) {
-        o->oAnimState = 1;
+    //sprintf(&hud_information_string,"%d",musicAutoTimer);
+
+
+    //if (music_list[music_menu_isplaying].seq == SEQ_CUSTOM_AZALEA) {
+    //    if ((gPlayer1Controller->buttonPressed & (L_TRIG))) {
+    //        musicAutoTimer = 200;
+    //        seq_player_fade_to_target_volume(SEQ_PLAYER_LEVEL,600,0);
+    //        loop_poop_flag = FALSE;
+    //        return;
+    //    }
+    //}
+
+    if (timerdontexitearly < 15) {
+        loop_poop_flag = FALSE;
     }
-    switch(o->oAction) {
-        case 0: //init
-            o->oAction = 1;
-            music_menu_isplaying = -1;
-            break;
-        case 1: // wait
-            if (o->oInteractStatus == INT_STATUS_INTERACTED) {
-                music_menu_show_ui = TRUE;
-                music_menu_index = 0;
-                o->oAction = 2;
-                gCamera->cutscene = 1;
+    timerdontexitearly++;
 
-                vec3f_copy(&gLakituState.goalFocus, &o->oPosVec);
-                vec3f_copy(&gLakituState.goalPos, &o->oPosVec);
-                gLakituState.goalPos[0] += sins(o->oMoveAngleYaw)*800.0f + sins(o->oMoveAngleYaw - 0x4000)*150.0f;
-                gLakituState.goalPos[2] += coss(o->oMoveAngleYaw)*800.0f + coss(o->oMoveAngleYaw - 0x4000)*150.0f;
-
-                gLakituState.goalFocus[0] += sins(o->oMoveAngleYaw - 0x4000)*150.0f;
-                gLakituState.goalFocus[2] += coss(o->oMoveAngleYaw - 0x4000)*150.0f;
-
-                gLakituState.goalFocus[1] += 140.0f;
-                gLakituState.goalPos[1] += 190.0f;
-            }
-            o->oInteractStatus = 0;
-        break;
-        case 2: // select course
-            handle_menu_scrolling(MENU_SCROLL_VERTICAL, &music_menu_index, 0, ARRAY_COUNT(music_list)-2);
-            if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
-                if (save_file_check_song_unlocked(music_menu_index)) {
-                    if (music_menu_isplaying == music_menu_index) {
-                        stop_background_music(SEQUENCE_ARGS(4, music_list[music_menu_index].seq ));
-                        music_menu_isplaying = -1;
-                    } else {
-                        stop_background_music(SEQUENCE_ARGS(4, music_list[music_menu_isplaying].seq ));
-                        set_background_music(0, music_list[music_menu_index].seq, 0);
-                        gDynamicPhase = music_list[music_menu_index].dynPhase;
-                        music_menu_isplaying = music_menu_index;
-                    }
-                } else {
-                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
-                }
-            } else if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
-                set_mario_action(gMarioState, ACT_IDLE, 0);
-                gCamera->cutscene = 0;
-                music_menu_show_ui = FALSE;
-                o->oAction = 1;
-            }
-        break;
+    if (loop_poop_flag) {
+        musicAutoTimer = 200;
+        seq_player_fade_to_target_volume(SEQ_PLAYER_LEVEL,600,0);
+        loop_poop_flag = FALSE;
     }
+
+    //handle_menu_scrolling(MENU_SCROLL_VERTICAL, &music_menu_index, 0, ARRAY_COUNT(music_list)-2);
+    if ((gPlayer1Controller->buttonPressed & (L_TRIG)) || (musicAutoTimer==1)) {
+        timerdontexitearly = 0;
+        //if (musicAutoTimer==1) {
+            music_menu_index ++;
+            old_ability = gMarioState->abilityId;
+            change_ability(music_list[music_menu_index].ability_id);
+            if (old_ability != gMarioState->abilityId) {
+                struct Object * oldObject = gCurrentObject;
+                gCurrentObject = gMarioObject;
+                cur_obj_spawn_particles(&D_8032F270);
+                gCurrentObject = oldObject;
+            }
+        //}
+        if (1) {
+            if (music_menu_isplaying == music_menu_index) {
+                stop_background_music(SEQUENCE_ARGS(4, music_list[music_menu_index].seq ));
+                music_menu_isplaying = -1;
+            } else {
+                stop_background_music(SEQUENCE_ARGS(4, music_list[music_menu_isplaying].seq ));
+                set_background_music(0, music_list[music_menu_index].seq, 0);
+                gDynamicPhase = music_list[music_menu_index].dynPhase;
+                music_menu_isplaying = music_menu_index;
+                loop_poop_flag = FALSE;
+
+            }
+        } else {
+            play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+        }
+    } else if (gPlayer1Controller->buttonPressed & (B_BUTTON)) {
+        set_mario_action(gMarioState, ACT_IDLE, 0);
+        gCamera->cutscene = 0;
+        music_menu_show_ui = FALSE;
+        o->oAction = 1;
+    }
+
+    if (musicAutoTimer>0) {
+        musicAutoTimer--;
+    }
+        //break;
 }
 
 #define MUSIC_MENU_PAGE_LENGTH 7
@@ -1451,16 +1469,17 @@ void render_music_menu_ui(f32 alpha) {
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
     create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
     gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
-    gSPDisplayList(gDisplayListHead++, bigtext_menu_roundbox_004_mesh);
+    gSPDisplayList(gDisplayListHead++, desconly_onlybox_mesh);
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 
     // Selection Triangle
-    create_dl_translation_matrix(MENU_MTX_PUSH, 43, 190-(page_index*16), 0);
-    gSPDisplayList(gDisplayListHead++, dl_draw_triangle);
-    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+    //create_dl_translation_matrix(MENU_MTX_PUSH, 43, 190-(page_index*16), 0);
+    //gSPDisplayList(gDisplayListHead++, dl_draw_triangle);
+    //gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 
     gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
 
+    /*
     for (int i = 0; i < MUSIC_MENU_PAGE_LENGTH; i++) {
         int trueindex = (page*MUSIC_MENU_PAGE_LENGTH)+i;
         if (trueindex >= ARRAY_COUNT(music_list)-1) {
@@ -1482,13 +1501,15 @@ void render_music_menu_ui(f32 alpha) {
             print_generic_string_ascii(55, 190-(i*16), "???");
         }
     }
+    */
 
-    char stringBuf[10];
+    //char stringBuf[10];
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-alpha);
-    sprintf( stringBuf, "(%d/%d)", page, 7/*(ARRAY_COUNT(music_list)-1)/MUSIC_MENU_PAGE_LENGTH*/ );
-    print_generic_string_ascii(240, 78, stringBuf);
-    if (save_file_check_song_unlocked(music_menu_index)) {
-        print_generic_string_ascii(43, 58, music_list[music_menu_index].desc);
-    }
+    //sprintf( stringBuf, "(%d/%d)", page, 7/*(ARRAY_COUNT(music_list)-1)/MUSIC_MENU_PAGE_LENGTH*/ );
+    //print_generic_string_ascii(240, 78, stringBuf);
+    //if (save_file_check_song_unlocked(music_menu_index)) {
+        print_generic_string_ascii(43, 58, music_list[music_menu_index].name);
+        print_generic_string_ascii(43, 58-16, music_list[music_menu_index].desc);
+    //}
     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 }

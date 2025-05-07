@@ -909,4 +909,8 @@ void bhv_dancer(void) {
             o->oFaceAngleYaw += 0x400;
         }
     }
+
+    if (anim != 4) {
+        o->oFaceAngleYaw = gMarioState->faceAngle[1];
+    }
 }

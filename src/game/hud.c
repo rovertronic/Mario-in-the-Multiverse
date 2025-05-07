@@ -935,8 +935,11 @@ u8 combo_meter_visual = 201;
 
 char hud_information_string[60] = {'\0'};
 
+extern void bhv_music_menu_loop(void);
+
 void render_hud(void) {
     //--E
+    hud_alpha = 0.f;
     if ((gCurrLevelNum == LEVEL_E)&&(gHudDisplay.flags != HUD_DISPLAY_NONE)&&(!level_in_dream_comet_mode())) {
         create_dl_ortho_matrix();
         //--**
@@ -1320,9 +1323,10 @@ void render_hud(void) {
         if (redd_painting_show_ui) {
             render_painting_ui(hud_alpha);
         }
-        if (music_menu_show_ui) {
-            render_music_menu_ui(hud_alpha);
-        }
+        //if (music_menu_show_ui) {
+            bhv_music_menu_loop();
+            render_music_menu_ui(0.f);
+        //}
 
         //revert (prolly not needed)
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);

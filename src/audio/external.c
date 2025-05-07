@@ -482,7 +482,7 @@ static void seq_player_fade_to_normal_volume(s32 player, FadeT fadeDuration) {
 /**
  * Called from threads: thread3_main, thread4_sound, thread5_game_loop
  */
-static void seq_player_fade_to_target_volume(s32 player, FadeT fadeDuration, u8 targetVolume) {
+void seq_player_fade_to_target_volume(s32 player, FadeT fadeDuration, u8 targetVolume) {
     struct SequencePlayer *seqPlayer = &gSequencePlayers[player];
 
 #if defined(VERSION_JP) || defined(VERSION_US)

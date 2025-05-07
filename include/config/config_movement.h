@@ -36,7 +36,7 @@
 /**
  * Prevents Mario from falling asleep while idle.
  */
-// #define NO_SLEEP
+#define NO_SLEEP
 
 /**
  * Disables fall damage.

@@ -46,6 +46,7 @@ struct music_data {
     u8 dynPhase;
     char * name;
     char * desc;
+    u8 ability_id;
 };
 
 enum mitm_hub_level_ids {

@@ -177,7 +177,7 @@ const LevelScript level_k_entry[] = {
 		OBJECT(MODEL_NONE, -5346, -5088, -2562, 0, 0, 0, (10 << 24) | (8 << 16), bhvWarp),
 		TERRAIN(k_area_1_collision),
 		MACRO_OBJECTS(k_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_K_CHINATOWN),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_SOUND_PLAYER),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
@@ -203,7 +203,7 @@ const LevelScript level_k_entry[] = {
 		OBJECT(MODEL_K_STRONG_TERRY, 4098, -7908, -3192, 0, 14, 0, 0x00000000, bhvStrongTerry),
 		TERRAIN(k_area_2_collision),
 		MACRO_OBJECTS(k_area_2_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_K_CHINATOWN),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_SOUND_PLAYER),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
@@ -235,7 +235,7 @@ const LevelScript level_k_entry[] = {
 		OBJECT(MODEL_NONE, -4, 0, -638, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		TERRAIN(k_area_3_collision),
 		MACRO_OBJECTS(k_area_3_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_ROCKSOLID),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_SOUND_PLAYER),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
@@ -253,7 +253,7 @@ const LevelScript level_k_entry[] = {
 		OBJECT(MODEL_K_JOSH, 1728, -3324, -1270, 0, 139, 0, (3 << 24), bhvKbillionare),
 		TERRAIN(k_area_4_collision),
 		MACRO_OBJECTS(k_area_4_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_K_CHINATOWN),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_SOUND_PLAYER),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
@@ -272,7 +272,7 @@ const LevelScript level_k_entry[] = {
 		OBJECT(MODEL_K_TV_1, -2133, 650, 0, 0, 0, 0, (7 << 24), bhvKtv),
 		TERRAIN(k_area_5_collision),
 		MACRO_OBJECTS(k_area_5_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_K_CHINATOWN),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_SOUND_PLAYER),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

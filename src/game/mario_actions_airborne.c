@@ -612,6 +612,7 @@ s32 act_triple_jump(struct MarioState *m) {
     return FALSE;
 }
 
+extern s32 snap_to_45_degrees(s16 angle);
 s32 act_axe_jump(struct MarioState *m) {
     if (!using_ability(ABILITY_ESTEEMED_MORTAL)) {
         return set_mario_action(m, ACT_FREEFALL,0);
@@ -641,7 +642,7 @@ s32 act_axe_jump(struct MarioState *m) {
         m->particleFlags |= PARTICLE_HORIZONTAL_STAR;
 
         if ((m->input & INPUT_B_DOWN)&&(using_ability(ABILITY_ESTEEMED_MORTAL))) {
-            m->faceAngle[1] = m->intendedYaw;
+            m->faceAngle[1] = snap_to_45_degrees(m->intendedYaw);
             if (steepness > 0.3f) {
                 m->faceAngle[1] = floorDYaw;
             }

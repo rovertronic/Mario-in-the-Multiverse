@@ -74,7 +74,7 @@ s32 sGameLoopTicked = 0;
 u8 sNumProcessedSoundRequests = 0;
 u8 sSoundRequestCount = 0;
 
-u32 gSeqTimer = 0; //used for hardcoded dynamics (evil)
+f32 gSeqTimer = 0; //used for hardcoded dynamics (evil)
 u8  gDynamicSection = 0;
 u8  gDynamicPhase = 0;
 u8  gDynamicInitiateChange;
@@ -1779,11 +1779,15 @@ void process_level_music_dynamics(void) {
         sBackgroundMusicForDynamics = sCurrentBackgroundMusicSeqId;
     }
 
-    gSeqTimer+=4;
+    if (gMarioState->abilityChronosTimeSlowActive) {
+        gSeqTimer+= 1.0f+(1.0f/3.0f);
+    } else {
+        gSeqTimer+=4.0f;
+    }
 
-    if (gSeqTimer >= 5945) {//27.77 seconds
+    if (gSeqTimer >= 5945.0f) {//27.77 seconds
         gDynamicInitiateChange = TRUE;
-        gSeqTimer=0;
+        gSeqTimer=0.0f;
         gDynamicSection = !gDynamicSection;
         transition_speed = 5;
     }
@@ -2318,7 +2322,7 @@ void play_music(u8 player, u16 seqArgs, u16 fadeTimer) {
     u8 i;
     u8 foundIndex = 0;
 
-    gSeqTimer = 0;
+    gSeqTimer = 0.0f;
     gDynamicSection = 0;
     gDynamicPhase = 0;
     oldDynamicPhase = 0;

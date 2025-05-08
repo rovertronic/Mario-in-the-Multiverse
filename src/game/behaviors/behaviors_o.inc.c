@@ -2730,7 +2730,7 @@ void bhv_golem_crystal(void) {
         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_CRYSTALP];
     } else {
         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_CRYSTAL];
-        if ((o->oInteractStatus & INT_STATUS_INTERACTED)||(o->oShotByShotgun > 1)) {
+        if ((o->oInteractStatus & INT_STATUS_INTERACTED)||(o->oShotByShotgun > 0)) {
             cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
             cur_obj_spawn_particles(&sGolemBlood);
             mark_obj_for_deletion(o);
@@ -2747,12 +2747,9 @@ void bhv_golem_crystalp(void) {
 
     if (golem_crystals_destroyed <= o->oBehParams2ndByte) {
         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_CRYSTALGP];
-        if ((o->oInteractStatus & INT_STATUS_INTERACTED)) {
-
-        }
     } else {
         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BC_CRYSTALG];
-        if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+        if ((o->oInteractStatus & INT_STATUS_INTERACTED)||(o->oShotByShotgun > 0)) {
             cur_obj_play_sound_2(SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL);
             cur_obj_spawn_particles(&sGolemBlood);
             mark_obj_for_deletion(o);

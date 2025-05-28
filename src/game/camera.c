@@ -6815,18 +6815,20 @@ s16 camera_course_processing(struct Camera *c) {
                                   sCameraTriggers[level][b].boundsY,
                                   sCameraTriggers[level][b].boundsZ);
 
-                // Check if Mario is inside the bounds
-                if (is_pos_in_bounds(sMarioCamState->pos, center, bounds,
-                                                   sCameraTriggers[level][b].boundsYaw) == TRUE) {
-                    //! This should be checked before calling is_pos_in_bounds. (It doesn't belong
-                    //! outside the while loop because some events disable area processing)
-                    if (!(sStatusFlags & CAM_FLAG_BLOCK_AREA_PROCESSING)) {
-                        sCameraTriggers[level][b].event(c);
-                        insideBounds = TRUE;
-                    }
-                } else {
-                    if(c->mode != FORCED_CAMERA_MODE) {
-                        set_camera_mode(c, FORCED_CAMERA_MODE, 0);
+                if (gCamera->mode != CAMERA_MODE_SHOCK_ROCKET && !(gE_ShotgunFlags & E_SGF_AIM_MODE) && gCamera->mode != CAMERA_MODE_PAINT_GUN){
+                    // Check if Mario is inside the bounds
+                    if (is_pos_in_bounds(sMarioCamState->pos, center, bounds,
+                                                    sCameraTriggers[level][b].boundsYaw) == TRUE) {
+                        //! This should be checked before calling is_pos_in_bounds. (It doesn't belong
+                        //! outside the while loop because some events disable area processing)
+                        if (!(sStatusFlags & CAM_FLAG_BLOCK_AREA_PROCESSING)) {
+                            sCameraTriggers[level][b].event(c);
+                            insideBounds = TRUE;
+                        }
+                    } else {
+                        if(c->mode != FORCED_CAMERA_MODE) {
+                            set_camera_mode(c, FORCED_CAMERA_MODE, 0);
+                        }
                     }
                 }
             }

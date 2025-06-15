@@ -71,11 +71,11 @@ void bhv_crane_arrow_controller_loop(void) {
 void bhv_crane_arrow_loop(void) {
     switch (o->oAction) {
         case PURPLE_SWITCH_ACT_IDLE:
-            if ((
+            if (
                 gMarioObject->platform == o
                 && !(gMarioStates[0].action & MARIO_NO_PURPLE_SWITCH)
                 && lateral_dist_between_objects(o, gMarioObject) < 150.5f
-            ) || (o->oShotByShotgun == 2)) {//--E
+            ) {
                 o->oAction = PURPLE_SWITCH_ACT_PRESSED;
             }
             break;
@@ -114,7 +114,6 @@ void bhv_crane_arrow_loop(void) {
             }
             break;
     }
-    o->oShotByShotgun = 0; //--E
 }
 
 void bhv_crane_init(void) {
@@ -382,6 +381,7 @@ void bhv_target_loop(void) {
             }
             break;
     }
+    o->oShotByShotgun = 0;
 }
 
 void bhv_target_box_init(void) {

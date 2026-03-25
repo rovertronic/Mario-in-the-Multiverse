@@ -236,9 +236,9 @@ void level_pipe_loop(void) {
                 if (gMarioState->action != ACT_ENTER_HUB_PIPE) {
                     set_mario_action(gMarioState,ACT_ENTER_HUB_PIPE,0);
                     o->oAction = 1;
-                    #ifdef UNLOCK_ABILITIES_DEBUG
+                    //#ifdef UNLOCK_ABILITIES_DEBUG
                         mitm_levels[o->oBehParams2ndByte].star_requirement = 0;
-                    #endif
+                    //#endif
                     if (gMarioState->numStars >= mitm_levels[o->oBehParams2ndByte].star_requirement) {
                         o->oAction = 3;
                     }

@@ -53,10 +53,10 @@ https://github.com/aglab2/sm64asm/blob/master/dl/src/star_radar.cpp
 
 extern struct SaveBuffer gSaveBuffer;
 
-u8 dream_comet_enabled = FALSE;
+u8 dream_comet_enabled = TRUE;
 
 s32 dream_comet_unlocked(void) {
-    return FALSE;
+    return TRUE;
 }
 
 s32 level_in_dream_comet_mode(void) {

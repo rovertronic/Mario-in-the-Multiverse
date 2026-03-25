@@ -2914,11 +2914,7 @@ extern u8 collectable_painting_painting_rgba16[];
 void bhv_collectable_painting(void) {
     switch(o->oAction) {
         case 0: //decide if i should become active
-            if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].paintings_unlocked & (1<<o->oBehParams2ndByte)) {
-                mark_obj_for_deletion(o);
-            } else {
-                o->oAction = 1;
-            }
+            mark_obj_for_deletion(o);
             break;
         case 1: //init
             ;void * texture = segmented_to_virtual(&collectable_painting_painting_rgba16);

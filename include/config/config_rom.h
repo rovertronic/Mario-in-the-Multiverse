@@ -8,8 +8,8 @@
  * Internal ROM name. NEEDS TO BE **EXACTLY** 20 CHARACTERS. Can't be 19 characters, can't be 21 characters. You can fill it with spaces.
  * The end quote should be here:               "
  */
-#define INTERNAL_ROM_NAME "MitM Collab         "
-#define VERSION_STRING "v1.1.2"
+#define INTERNAL_ROM_NAME "MitM Dream Comet    "
+#define VERSION_STRING "Dream Comet v1.1"
 
 /**
  * Force the game to delete any existing save data originating from a different hack. This requires INTERNAL_ROM_NAME to be unique to work properly.

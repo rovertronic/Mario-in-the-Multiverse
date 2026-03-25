@@ -140,7 +140,7 @@
 #include "mirror_hand/model.inc.c"
 #include "milk_hand/model.inc.c"
 #include "shopitem3/model.inc.c"
-//#include "dream_catalyst/model.inc.c"
+#include "dream_catalyst/model.inc.c"
 #include "star_radar/model.inc.c"
 #include "cometbar/model.inc.c"
 #include "spidertron_arm1/model.inc.c"

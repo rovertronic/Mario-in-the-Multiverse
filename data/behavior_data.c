@@ -6297,10 +6297,8 @@ const BehaviorScript bhvCheckpointFlag[] = {
 const BehaviorScript bhvFlipswitch[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_LONG(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET),
-    LOAD_COLLISION_DATA(flipswitch_collision),
     SET_FLOAT(oDrawingDistance, 20000),
     BEGIN_LOOP(),
-        CALL_NATIVE(bhv_flipswitch),
     END_LOOP(),
 };
 

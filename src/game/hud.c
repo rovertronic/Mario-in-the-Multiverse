@@ -1257,16 +1257,12 @@ void render_hud(void) {
             }
 
             s16 x_offset = 0;
-            if (dream_comet_unlocked()) {
-                x_offset -= 70;
-                print_hud_lut_string(HUD_LUT_GLOBAL, 240, 14, hudbar_dc);
-            }
 
             if (displayCoinCount) {
                 print_hud_lut_string(HUD_LUT_GLOBAL, 170+x_offset, 14, hudbar_coin);
             }
 
-            print_hud_lut_string(HUD_LUT_GLOBAL, 240+x_offset, 14, hudbar_star);
+            print_hud_lut_string(HUD_LUT_GLOBAL, 240+x_offset, 14, hudbar_dc);
 
         gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
 

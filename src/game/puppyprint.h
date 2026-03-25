@@ -155,3 +155,5 @@ extern void print_small_text_buffered_light(s32 x, s32 y, const char *str, u8 al
 void puppyprint_profiler_process(void);
 s32 text_iterate_command(const char *str, s32 i, s32 runCMD);
 void get_char_from_byte(s32 *textX, s32 *textPos, u8 letter, u8 *wideX, u8 *spaceX, s8 *offsetY, u8 font);
+void draw_sprite(Gfx **dl, const void *texture, s32 dlImgFormat, s32 dlImgSize, s32 bilerp,
+        u32 textureWidth, u32 textureHeight, f32 x, f32 y, f32 displayWidth, f32 displayHeight);

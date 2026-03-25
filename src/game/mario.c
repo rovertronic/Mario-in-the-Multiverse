@@ -1999,12 +1999,6 @@ extern u8 gE_C9MarioHealth;
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
-    if (gHintArtTexture) {
-        sprintf(&hud_information_string,"Allocated hint art");
-    } else {
-        sprintf(&hud_information_string,"hint art allocation failed");
-    }
-
     //memory_leak_detection();
     if (gCurrCreditsEntry != NULL && gCurrLevelNum == LEVEL_CASTLE) {
         set_background_music(0, SEQ_MITM_CREDITS, 0);
@@ -2751,7 +2745,7 @@ void init_mario(void) {
     gMarioObject->header.gfx.sharedChild = gLoadedGraphNodes[ability_struct[gMarioState->abilityId].model_id];
 
     if (gHintArtTexture == NULL) {
-        gHintArtTexture = main_pool_alloc(256*128*2,MEMORY_POOL_LEFT);
+        gHintArtTexture = main_pool_alloc(256*128*2,MEMORY_POOL_RIGHT);
     }
 }
 

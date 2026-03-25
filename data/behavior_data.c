@@ -9052,7 +9052,7 @@ const BehaviorScript bhvM_Jelly[] = {
 extern void bhv_m_elevator(void);
 const BehaviorScript bhvMelevator[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_COLLISION_DATA(m_elevator_collision),
     SET_FLOAT(oCollisionDistance, 4000),
     SET_FLOAT(oDrawingDistance, 32000),

@@ -1950,7 +1950,7 @@ void render_pause_course_options(s16 x, s16 y, s8 *index, s16 yIndex) {
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
 
     print_generic_string_ascii(x + 10, y - 2, "CONTINUE");
-    print_generic_string_ascii(x + 10, y - 17, "CHANGE ABILITIES");
+    print_generic_string_ascii(x + 10, y - 17, "VIEW HINT ART");
     print_generic_string_ascii(x + 10, y - 33, "SETTINGS");
     if (show_exit_course) {
         print_generic_string_ascii(x + 10, y - 49, "EXIT COURSE");
@@ -2164,6 +2164,11 @@ void close_pause_menu(void) {
     gDialogBoxState = DIALOG_STATE_OPENING;
 }
 
+s8 sHintArtIndex = 0;
+s8 sOldHintArtIndex = 0;
+
+extern const u8 hint_art_data[];
+
 s32 render_pause_courses_and_castle(void) {
     u8 question_str[] = {TEXT_QUESTION};
     s16 index;
@@ -2203,7 +2208,9 @@ s32 render_pause_courses_and_castle(void) {
                         close_pause_menu();
                         return MENU_OPT_DEFAULT;
                         break;
-                    case 2: // Change Abilities
+                    case 2:; // Change Abilities
+                        void * rom_location = (sHintArtIndex*65536) + ((uintptr_t)hint_art_data) ;
+                        dma_read(gHintArtTexture,rom_location,rom_location+65536);
                         gDialogBoxState = PAUSE_MENU_ABILITIES;
                         return MENU_OPT_NONE;
                         break;
@@ -2223,6 +2230,60 @@ s32 render_pause_courses_and_castle(void) {
             break;
 
         case PAUSE_MENU_ABILITIES:
+            // Render BG
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
+            create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
+            gDPSetRenderMode(gDisplayListHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+            gSPDisplayList(gDisplayListHead++, generic_pause_gp_mesh);
+            gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+            handle_menu_scrolling(MENU_SCROLL_HORIZONTAL, &sHintArtIndex, 0, 14);
+            if (sHintArtIndex != sOldHintArtIndex) {
+                void * rom_location = (sHintArtIndex*65536) + ((uintptr_t)hint_art_data) ;
+                dma_read(gHintArtTexture,rom_location,rom_location+65536);
+            }
+            sOldHintArtIndex = sHintArtIndex;
+
+            // Render Hint Art
+            if (gHintArtTexture) {
+                u8 textUnfilledStar[] = { TEXT_UNFILLED_STAR };
+                char hintArtStr[50];
+
+                gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
+
+                sprintf(hintArtStr,"Hint Art %d",sHintArtIndex+1);
+                print_generic_string_ascii(128, 50, hintArtStr);
+                print_generic_string(108, 50, textUnfilledStar);
+
+                gDPPipeSync        (gDisplayListHead++);
+                gDPSetTexturePersp (gDisplayListHead++, G_TP_NONE);
+                gDPSetCombineMode  (gDisplayListHead++, G_CC_FADEA, G_CC_FADEA);
+                gDPSetTextureFilter(gDisplayListHead++, G_TF_POINT);
+                gDPSetCycleType    (gDisplayListHead++, G_CYC_1CYCLE);
+                gDPSetRenderMode   (gDisplayListHead++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+                gDPSetEnvColor     (gDisplayListHead++, 255, 255, 255, 255);
+
+                draw_sprite(&gDisplayListHead, gHintArtTexture, G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, TRUE,
+                256, 128, 32, 40, 256, 128);
+            } else {
+                gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
+
+                print_generic_string_ascii(128, 120, "Not enough RAM to render\nHint Art in this level\n:(");
+            }
+
+            if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+                gDialogBoxState = PAUSE_MENU_MAIN;
+                return MENU_OPT_NONE;
+            }
+            if (gPlayer1Controller->buttonPressed & START_BUTTON) {
+                close_pause_menu();
+                return MENU_OPT_DEFAULT;
+            }
+
+            break;
+            /*
             //HUB PAUSE / ABILITY SWITCHING
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
             create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);
@@ -2321,6 +2382,7 @@ s32 render_pause_courses_and_castle(void) {
                 return MENU_OPT_DEFAULT;
             }
             break;
+        */
         case PAUSE_MENU_SETTINGS:
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
             create_dl_translation_matrix(MENU_MTX_PUSH, 160, 120, 0);

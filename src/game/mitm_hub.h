@@ -1,6 +1,8 @@
 #ifndef MITM_HUB_H
 #define MITM_HUB_H
 
+extern u8 * gHintArtTexture;
+
 void level_pipe_loop(void);
 void level_pipe_init(void);
 void hub_reset_variables(void);

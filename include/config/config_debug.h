@@ -12,7 +12,7 @@ MITM EXCLUSIVE: Have all abilities accessible regardless of save status. Also un
 /**
  * Enables most debug options, including PUPPYPRINT_DEBUG.
  */
- //#define DEBUG_ALL
+ #define DEBUG_ALL
 
 /**
  * Disables all debug options (except PUPPYPRINT).
@@ -46,7 +46,7 @@ MITM EXCLUSIVE: Have all abilities accessible regardless of save status. Also un
 /**
  * Enables a custom, enhanced performance profiler. (Enables PUPPYPRINT by default in config_safeguards).
  */
-//#define PUPPYPRINT_DEBUG
+#define PUPPYPRINT_DEBUG
 
 /**
  * Uses cycles instead of microseconds in Puppyprint debug output.

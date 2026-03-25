@@ -20,7 +20,7 @@
 
 const LevelScript level_i_entry[] = {
 	INIT_LEVEL(),
-	LOAD_YAY0(0x7, _i_segment_7SegmentRomStart, _i_segment_7SegmentRomEnd), 
+	LOAD_YAY0(0x07, _i_segment_7SegmentRomStart, _i_segment_7SegmentRomEnd), 
 	LOAD_YAY0(0x08, _common0_yay0SegmentRomStart, _common0_yay0SegmentRomEnd), 
 	LOAD_RAW(0x0F, _common0_geoSegmentRomStart, _common0_geoSegmentRomEnd), 
 	LOAD_YAY0(0x06, _group15_yay0SegmentRomStart, _group15_yay0SegmentRomEnd), 
@@ -133,6 +133,7 @@ const LevelScript level_i_entry[] = {
 		WARP_NODE(0xF1, LEVEL_I, 0x03, 0x11, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x11/*death from this area*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_BLUE_COIN_SWITCH, -6436, -354, 9948, 0, 1, 1, 0x00000000, bhvBlueCoinSwitch),
+		OBJECT(MODEL_NONE, 3313, 1243, 5893, 0, 0, 0, 0x00000000, bhvHintArtStar),
 		OBJECT(MODEL_ABILITY_SIGN, -8170, -689, -7567, 0, 41, 0, (10 << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, 1521, -380, 18681, 0, 159, 0, (12 << 16), bhvStaticObject),
 		OBJECT(MODEL_NONE, 2354, 2486, 252, 0, -135, 0, 0x00000000, bhvHoodmongerAlertManager),

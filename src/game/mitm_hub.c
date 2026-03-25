@@ -56,6 +56,8 @@
 #include "dream_comet.h"
 #include "lerp.h"
 
+u8 * gHintArtTexture;
+
 u8 pipe_string_not_enough[] = {TEXT_PIPE_NOT_ENOUGH};
 u8 pipe_string_enter[] = {TEXT_PIPE_ENTER};
 u8 pipe_string_a[] = {TEXT_PIPE_A};
@@ -660,7 +662,7 @@ void render_hint_ui(u8 hud_alpha) {
 
         gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
-        print_generic_string_ascii(45, 95, "Need help finding a\npower star?");
+        print_generic_string_ascii(45, 95, "Find stars with my\nhint art! Wah ha ha!");
 
         if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked & (1<<hint_index)) {
             print_generic_string_ascii(45, 56, mitm_levels[hint_index].name);
@@ -1377,8 +1379,8 @@ struct music_data music_list[] = {
     {SEQ_CUSTOM_ESA_AMMOINEN,0,"Ammoinen","From: Environmental Station Alpha\nPorted by: Teraok"},
     {SEQ_CUSTOM_ESA_MECHA,0,"Swift Mecha","From: Environmental Station Alpha\nPorted by: Teraok"},
 
-    //{SEQ_BIGBLUE,"Big Blue","From: F-ZERO\nPorted by: Asbeth"},
-    //{SEQ_MUTECITY,"Mute City","From: F-ZERO\nPorted by: Asbeth"},
+    {SEQ_BIGBLUE,0,"Big Blue","From: F-ZERO\nPorted by: Asbeth"},
+    {SEQ_MUTECITY,0,"Mute City","From: F-ZERO\nPorted by: Asbeth"},
 
     {SEQ_MITM_BOWSER_COURSE,0,"Centrum Omnium","Original composition by: SpK"},
 

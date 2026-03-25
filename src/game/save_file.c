@@ -778,6 +778,7 @@ void save_file_get_ability_dpad(void) {
 
 //-1 is because ABILITY_DEFAULT should not count
 s32 save_file_check_ability_unlocked(u8 ability_id) {
+    return 1;
     #ifndef UNLOCK_ABILITIES_DEBUG
     return gSaveBuffer.files[gCurrSaveFileNum - 1][0].abilities & (1 << (ability_id-1));
     #else
@@ -813,6 +814,7 @@ void save_file_unlock_song(u8 seq_id) {
 }
 
 u8 save_file_check_song_unlocked(u8 music_list_index) {
+    return TRUE;
     int byte = music_list_index/8;
     int bit = music_list_index%8;
 

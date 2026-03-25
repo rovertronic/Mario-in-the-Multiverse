@@ -9,7 +9,7 @@
  * The end quote should be here:               "
  */
 #define INTERNAL_ROM_NAME "MitM Dream Comet    "
-#define VERSION_STRING "Dream Comet v1.1"
+#define VERSION_STRING "Dream Comet v1.0"
 
 /**
  * Force the game to delete any existing save data originating from a different hack. This requires INTERNAL_ROM_NAME to be unique to work properly.

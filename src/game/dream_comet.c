@@ -63,10 +63,7 @@ s32 level_in_dream_comet_mode(void) {
     if (gCurrLevelNum == LEVEL_CASTLE) {
         return FALSE;
     }
-    if (dream_comet_enabled) {
-        return TRUE;
-    }
-    return FALSE;
+    return TRUE;
 }
 
 u8 get_dream_star_flags(int mitm_level_index) {

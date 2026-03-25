@@ -12,10 +12,6 @@
 #include "levels/scripts.h"
 
 #include "actors/common1.h"
-
-/* Fast64 begin persistent block [includes] */
-/* Fast64 end persistent block [includes] */
-
 #include "make_const_nonconst.h"
 #include "levels/d/header.h"
 
@@ -24,8 +20,8 @@
 
 const LevelScript level_d_entry[] = {
 	INIT_LEVEL(),
-	LOAD_YAY0(0x7, _d_segment_7SegmentRomStart, _d_segment_7SegmentRomEnd), 
-	LOAD_YAY0(0xa, _water_skybox_yay0SegmentRomStart, _water_skybox_yay0SegmentRomEnd), 
+	LOAD_MIO0(0x07, _d_segment_7SegmentRomStart, _d_segment_7SegmentRomEnd), 
+	LOAD_MIO0(0x0A, _water_skybox_mio0SegmentRomStart, _water_skybox_mio0SegmentRomEnd), 
 	LOAD_YAY0(0x05, _group2_yay0SegmentRomStart, _group2_yay0SegmentRomEnd), 
 	LOAD_RAW(0x0C, _group2_geoSegmentRomStart, _group2_geoSegmentRomEnd), 
 	LOAD_YAY0(0x06, _group17_yay0SegmentRomStart, _group17_yay0SegmentRomEnd), 
@@ -45,7 +41,6 @@ const LevelScript level_d_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_D_BRIDGE, d_bridge_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_D_GATE, d_gate_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_D_PLATFORM, d_plat_geo), 
-
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
@@ -92,10 +87,10 @@ const LevelScript level_d_entry[] = {
 		OBJECT(MODEL_NONE, 3178, 3456, -16229, 0, 98, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_NONE, 2674, 342, -8900, 0, 88, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_NONE, -771, -4530, -12960, 0, 178, 0, 0x00000000, bhvCoinFormation),
+		OBJECT(MODEL_NONE, -1872, 2380, -4175, 0, 0, 0, (2 << 16), bhvOpenableGrill),
 		OBJECT(MODEL_NONE, 8751, 3605, -1742, 0, 0, 0, (0 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -1160, -2269, -14666, 0, 0, 0, (1 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -6908, 4930, -17028, 0, 0, 0, (2 << 16), bhvDreamCatalyst),
-		OBJECT(MODEL_NONE, -1872, 2380, -4175, 0, 0, 0, (2 << 16), bhvOpenableGrill),
 		OBJECT(MODEL_EXCLAMATION_BOX, -4779, 3960, -1233, 0, 0, 0, (EXCLAMATION_BOX_BP_COINS_10 << 16), bhvExclamationBox),
 		OBJECT(MODEL_LEVEL_PIPE, 3373, 2364, 1169, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_NONE, -8736, 3967, 7953, 0, 0, 0, (5 << 16), bhvFadingWarp),
@@ -113,6 +108,7 @@ const LevelScript level_d_entry[] = {
 		OBJECT(MODEL_D_PLATFORM, 8747, 3519, 2799, 0, 0, 0, 0x00000000, bhvHiddenObject),
 		OBJECT(MODEL_D_PLATFORM, 8747, 3519, 1499, 0, 90, 0, 0x00000000, bhvHiddenObject),
 		OBJECT(MODEL_D_PLATFORM, 8747, 3519, 4099, 0, 90, 0, 0x00000000, bhvHiddenObject),
+		OBJECT(MODEL_NONE, 8344, 3696, 5221, 0, 0, 0, 0x00000000, bhvHintArtStar),
 		OBJECT(MODEL_NONE, -4483, 3385, -17926, 0, 0, 0, (0x03 << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_NONE, 3373, 2668, 874, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 3373, 2668, 874, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
@@ -167,7 +163,6 @@ const LevelScript level_d_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	AREA(2, d_area_2),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x01/*death entry*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
@@ -197,7 +192,6 @@ const LevelScript level_d_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	AREA(3, d_area_3),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x01/*death entry*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
@@ -264,7 +258,6 @@ const LevelScript level_d_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	FREE_LEVEL_POOL(),
 	MARIO_POS(1, 0, 0, 0, 0),
 	CALL(0, lvl_init_or_update),

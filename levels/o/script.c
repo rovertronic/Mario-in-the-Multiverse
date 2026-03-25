@@ -11,10 +11,6 @@
 
 #include "levels/scripts.h"
 
-
-/* Fast64 begin persistent block [includes] */
-/* Fast64 end persistent block [includes] */
-
 #include "make_const_nonconst.h"
 #include "levels/o/header.h"
 
@@ -23,7 +19,7 @@
 
 const LevelScript level_o_entry[] = {
 	INIT_LEVEL(),
-	LOAD_YAY0(0x7, _o_segment_7SegmentRomStart, _o_segment_7SegmentRomEnd), 
+	LOAD_MIO0(0x07, _o_segment_7SegmentRomStart, _o_segment_7SegmentRomEnd), 
 	LOAD_YAY0(0x08, _common0_yay0SegmentRomStart, _common0_yay0SegmentRomEnd), 
 	LOAD_RAW(0x0F, _common0_geoSegmentRomStart, _common0_geoSegmentRomEnd), 
 	ALLOC_LEVEL_POOL(),
@@ -43,7 +39,6 @@ const LevelScript level_o_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_O_FLAME, o_flame_geo), //hope this isn't illegal
 	LOAD_MODEL_FROM_GEO(MODEL_O_FLAME, o_flame_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_O_GERIK, o_gerik_geo), 
-
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
@@ -55,6 +50,9 @@ const LevelScript level_o_entry[] = {
 		WARP_NODE(0x03/*sewer exit out*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x04/*reserve exit in*/, LEVEL_O, 0x01, 0x05, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x05/*reserve exit out*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_BLUE_COIN_SWITCH, -17160, -558, -638, 0, 0, 0, 0x00000000, bhvBlueCoinSwitch),
+		OBJECT(MODEL_BLUE_COIN_SWITCH, -17488, -558, -10232, 0, 0, 0, 0x00000000, bhvBlueCoinSwitch),
+		MARIO_POS(0x01, 0, 1365, -2494, 23065),
 		OBJECT(MODEL_ABILITY_HEART, 22109, 6802, -1276, 0, 0, 0, 0x00000000, bhvAbilityRecoveryHeart),
 		OBJECT(MODEL_ABILITY, -19452, -1747, -4742, 0, 0, 0, (ABILITY_ESTEEMED_MORTAL << 16), bhvAbilityUnlock),
 		OBJECT(MODEL_ABILITY_SIGN, -20249, -2494, 924, 0, 45, 0, (ABILITY_MARBLE << 16), bhvStaticObject),
@@ -64,8 +62,6 @@ const LevelScript level_o_entry[] = {
 		OBJECT(MODEL_ABILITY_SIGN, 19511, 8772, -3338, 0, 90, 0, (ABILITY_SQUID << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, 10488, 246, 7522, 0, 124, 0, (ABILITY_BIG_DADDY << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, -561, -2494, 21117, 0, 90, 0, (ABILITY_GADGET_WATCH << 16), bhvStaticObject),
-		OBJECT(MODEL_BLUE_COIN_SWITCH, -17160, -558, -638, 0, 0, 0, 0x00000000, bhvBlueCoinSwitch),
-		OBJECT(MODEL_BLUE_COIN_SWITCH, -17488, -558, -10232, 0, 0, 0, 0x00000000, bhvBlueCoinSwitch),
 		OBJECT(MODEL_CONCRETE_BLOCK, 19839, -4001, 7101, 0, 0, 0, (1 << 24) | (0 << 16), bhvConcreteBlock),
 		OBJECT(MODEL_CONCRETE_BLOCK, 21724, -4001, -1675, 0, 0, 0, (2 << 24) | (100 << 16), bhvConcreteBlock),
 		OBJECT(MODEL_BLUE_COIN, -17160, -443, 669, 0, 0, 0, 0x00000000, bhvHiddenBlueCoin),
@@ -115,7 +111,7 @@ const LevelScript level_o_entry[] = {
 		OBJECT(MODEL_NONE, -12531, -4702, 8888, 0, -80, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_NONE, 19145, 11839, 10, 0, 0, 0, 0x00000000, bhvCoinFormation),
 		OBJECT(MODEL_NONE, 4888, 755, 7911, 0, 0, 0, (0 << 16), bhvDreamCatalyst),
-		OBJECT(MODEL_NONE, -11201, -142, 7776, 0, 0, 0, (1 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, 3549, -2146, -25186, 0, 0, 0, (1 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -14958, 799, -10309, 0, 0, 0, (2 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, 249, 5346, -26238, 0, 0, 0, (3 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, 16243, -2577, 7110, 0, 0, 0, (4 << 16), bhvDreamCatalyst),
@@ -152,21 +148,21 @@ const LevelScript level_o_entry[] = {
 		OBJECT(MODEL_O_GARAGE, -17088, -1493, -2698, 0, 0, 0, (0xF0 << 8), bhvOgarage),
 		OBJECT(MODEL_O_GARAGE, -17088, -1493, -8399, 0, 0, 0, (0xF0 << 8), bhvOgarage),
 		OBJECT(MODEL_O_GERIK, -5872, -1355, -14073, 0, 0, 0, 0x00000000, bhvO_Gerik),
+		OBJECT(MODEL_NONE, -11160, -272, 7770, 0, 0, 0, 0x00000000, bhvHintArtStar),
 		OBJECT(MODEL_O_LIFT, 21835, 8772, -3338, 0, 0, 0, 0x00000000, bhvOlift),
 		OBJECT(MODEL_NONE, 1520, -2191, 23248, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 1520, -2494, 23248, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
-		MARIO_POS(0x01, 0, 1365, -2494, 23065),
 		OBJECT(MODEL_NONE, 4888, 755, 7911, 0, 0, 0, (12 << 16), bhvCollectablePainting),
 		OBJECT(MODEL_PT_METAL_BOX, -20347, -1669, -10934, 0, 0, 0, (2 << 16), bhvPtMetalBox),
 		OBJECT(MODEL_NONE, 10432, 764, 7101, 0, 90, 0, (3 << 16), bhvFadingWarp),
 		OBJECT(MODEL_NONE, 678, 1527, -29618, 0, -59, 0, (5 << 16), bhvFadingWarp),
-		OBJECT(MODEL_O_SPEAKER_1, -17235, -3753, 9527, 19, 31, 3, 0x00000000, bhvOspeaker),
-		OBJECT(MODEL_O_SPEAKER_1, -12940, -3932, 8116, 17, -5, 2, 0x00000000, bhvOspeaker),
-		OBJECT(MODEL_O_SPEAKER_1, -12094, -4126, 14033, 4, -109, -4, 0x00000000, bhvOspeaker),
-		OBJECT(MODEL_O_SPEAKER_1, -16820, -3675, 16942, 14, 148, 1, 0x00000000, bhvOspeaker),
-		OBJECT(MODEL_O_SPEAKER_1, -19002, -4000, 12781, 0, 76, 6, 0x00000000, bhvOspeaker),
-		OBJECT(MODEL_O_SPEAKER_1, -13501, -3942, 11060, 24, -39, 0, 0x00000000, bhvOspeaker),
-		OBJECT(MODEL_O_SPEAKER_1, -10084, -3012, 10582, 22, -138, -6, 0x00000000, bhvOspeaker),
+		OBJECT(MODEL_O_SPEAKER_1, -17235, -3753, 9527, 18, 31, 3, 0x00000000, bhvOspeaker),
+		OBJECT(MODEL_O_SPEAKER_1, -12940, -3932, 8116, 18, -5, 3, 0x00000000, bhvOspeaker),
+		OBJECT(MODEL_O_SPEAKER_1, -12094, -4126, 14033, 0, -109, 1, 0x00000000, bhvOspeaker),
+		OBJECT(MODEL_O_SPEAKER_1, -16820, -3675, 16942, 14, 148, -1, 0x00000000, bhvOspeaker),
+		OBJECT(MODEL_O_SPEAKER_1, -19002, -4000, 12781, -6, 76, 1, 0x00000000, bhvOspeaker),
+		OBJECT(MODEL_O_SPEAKER_1, -13501, -3942, 11060, 23, -39, 0, 0x00000000, bhvOspeaker),
+		OBJECT(MODEL_O_SPEAKER_1, -10084, -3012, 10582, 18, -137, 4, 0x00000000, bhvOspeaker),
 		OBJECT(MODEL_NONE, -19663, -1571, -5240, 0, 0, 0, (0 << 24), bhvStar),
 		OBJECT(MODEL_NONE, -8246, -1713, -14692, 0, 0, 0, (2 << 24), bhvStar),
 		OBJECT(MODEL_NONE, 250, -2220, 10, 0, 0, 0, (3 << 24), bhvHiddenStar),
@@ -368,7 +364,6 @@ const LevelScript level_o_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	FREE_LEVEL_POOL(),
 	MARIO_POS(0x01, 0, 1365, -2494, 23065),
 	CALL(0, lvl_init_or_update),

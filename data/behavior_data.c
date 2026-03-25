@@ -8099,7 +8099,7 @@ const BehaviorScript bhvWoodenLever[] = {
 
 const BehaviorScript bhvPlum[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-    OR_LONG(oFlags, (OBJ_FLAG_HOLDABLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_LONG(oFlags, (OBJ_FLAG_HOLDABLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_DREAM_COMET)),
     SET_INT(oInteractType, INTERACT_GRABBABLE),
     SET_HITBOX(/*Radius*/ 80, /*Height*/ 100),
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ 100, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 0, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
@@ -9103,7 +9103,7 @@ const BehaviorScript bhvRedArrow[] = {
 extern void bhv_o_walker_update(void);
 const BehaviorScript bhvOZombie[] = {
     BEGIN(OBJ_LIST_PUSHABLE),
-    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM)),
+    OR_LONG(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_E__SG_CUSTOM | OBJ_FLAG_NO_DREAM_COMET)),
     DROP_TO_FLOOR(),
     LOAD_ANIMATIONS(oAnimations, o_zombie_anims),
     ANIMATE(0),
@@ -10011,5 +10011,14 @@ const BehaviorScript bhvCoinPile[] = {
     CALL_NATIVE(bhv_coin_pile_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_yellow_coin_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvHintArtStar[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    // Yellow coin - common:
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        //CALL_NATIVE(bhv_yellow_coin_loop),
     END_LOOP(),
 };

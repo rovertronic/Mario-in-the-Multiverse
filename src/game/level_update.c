@@ -1274,6 +1274,9 @@ s32 init_level(void) {
     sTransitionTimer = 0;
     sSpecialWarpDest = WARP_SPECIAL_NONE;
 
+    ability_dpad_unlock();
+    gHintArtTexture = NULL;
+
     g100CoinStarSpawned = FALSE;
 
 

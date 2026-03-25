@@ -135,11 +135,7 @@
 #include "actors/common1.h"
 #include "actors/common1.h"
 #include "actors/common1.h"
-
-/* Fast64 begin persistent block [includes] */
 #include "actors/common1.h"
-/* Fast64 end persistent block [includes] */
-
 #include "make_const_nonconst.h"
 #include "levels/g/header.h"
 
@@ -148,8 +144,8 @@
 
 const LevelScript level_g_entry[] = {
 	INIT_LEVEL(),
-	LOAD_YAY0(0x7, _g_segment_7SegmentRomStart, _g_segment_7SegmentRomEnd), 
-	LOAD_YAY0(0xa, _bits_skybox_yay0SegmentRomStart, _bits_skybox_yay0SegmentRomEnd), 
+	LOAD_MIO0(0x07, _g_segment_7SegmentRomStart, _g_segment_7SegmentRomEnd), 
+	LOAD_MIO0(0x0A, _bits_skybox_mio0SegmentRomStart, _bits_skybox_mio0SegmentRomEnd), 
 	LOAD_YAY0(0x08, _common0_yay0SegmentRomStart, _common0_yay0SegmentRomEnd), 
 	LOAD_RAW(0x0F, _common0_geoSegmentRomStart, _common0_geoSegmentRomEnd), 
 	ALLOC_LEVEL_POOL(),
@@ -184,7 +180,6 @@ const LevelScript level_g_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_G_WADDLE_DEE, g_waddle_dee_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_G_WARP_PIPE, warp_pipe_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_G_BANANA_DEE, g_banana_dee_geo), 
-
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
@@ -194,12 +189,12 @@ const LevelScript level_g_entry[] = {
 		WARP_NODE(0xF1, LEVEL_G, 0x01, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0B, LEVEL_G, 0x02, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x01 /*death entry*/, LEVEL_G, 0x02, 0x0A, WARP_NO_CHECKPOINT),
+		MARIO_POS(0x01, -180, -1155, 304, -605),
 		OBJECT(MODEL_CHECKPOINT_FLAG, -10084, 3308, -12948, 0, 0, 0, (0 << 16), bhvCheckpointFlag),
 		OBJECT(MODEL_NONE, -523, 1906, -2769, 32, -14, 0, (0 << 16), bhvCutsceneCamera),
 		OBJECT(MODEL_G_WADDLE_DEE, -3059, 1788, -9944, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_G_WADDLE_DEE, -10203, 1732, -10329, 0, 0, 0, 0x00000000, bhvGWaddleDee),
 		OBJECT(MODEL_NONE, -1353, 329, -1757, 0, 0, 0, (1 << 16), bhvCutsceneManager),
-		MARIO_POS(0x01, -180, -1155, 304, -605),
 		OBJECT(MODEL_NONE, -1155, 573, -775, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, -1155, 346, -775, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_G_STAR_BLOCK, -1630, 3325, -12477, 0, 0, 0, 0x00000000, bhvStarProjectile),
@@ -214,7 +209,6 @@ const LevelScript level_g_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	AREA(2, g_area_2),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF0, LEVEL_G, 0x01, 0x01, WARP_NO_CHECKPOINT),
@@ -243,7 +237,6 @@ const LevelScript level_g_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	AREA(3, g_area_3),
 		WARP_NODE(0x09, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
@@ -251,6 +244,8 @@ const LevelScript level_g_entry[] = {
 		WARP_NODE(0x0B, LEVEL_G, 0x04, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0C, LEVEL_G, 0x04, 0x0D, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_NONE, 2212, -1780, -10226, 0, 0, 0, (90 << 24) | (11 << 16), bhvWarp),
+		OBJECT(MODEL_NONE, -4582, 1240, -605, 0, 0, 0, 0x00000000, bhvHintArtStar),
 		OBJECT(MODEL_G_BANANA_DEE, 2871, 503, -8725, 0, 27, 0, (DIALOG_G_BANANADEE << 16), bhvGBananaDee),
 		OBJECT(MODEL_G_BRONTO_BURT, 4962, 4226, -1141, 0, -165, 0, 0x00000000, bhvGBrontoBurt),
 		OBJECT(MODEL_G_BRONTO_BURT, 1980, 3056, -6224, 0, -122, 0, 0x00000000, bhvGBrontoBurt),
@@ -299,7 +294,6 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_NONE, -1683, 3576, 2210, 0, 0, 0, (1 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -3301, 4231, -9958, 0, 0, 0, (2 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -2626, 6097, -8212, 0, 0, 0, (3 << 16), bhvDreamCatalyst),
-		OBJECT(MODEL_NONE, 2212, -1780, -10226, 0, 0, 0, (90 << 24) | (11 << 16), bhvWarp),
 		OBJECT(MODEL_LEVEL_PIPE, 909, 981, 219, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_GOOMBA, -496, -2108, 11816, 0, 0, 0, 0x00000000, bhvGoomba),
 		OBJECT(MODEL_GOOMBA, -1072, -1653, 8393, 0, 0, 0, 0x00000000, bhvGoomba),
@@ -343,7 +337,6 @@ const LevelScript level_g_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	AREA(4, g_area_4),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF0, LEVEL_G, 0x01, 0x0A, WARP_NO_CHECKPOINT),
@@ -352,6 +345,11 @@ const LevelScript level_g_entry[] = {
 		WARP_NODE(0x0C, LEVEL_G, 0x05, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0D, LEVEL_G, 0x03, 0x0C, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x01/*death receive*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_ABILITY_SIGN, 7235, 808, 15721, 0, -49, 0, (5 << 16), bhvStaticObject),
+		OBJECT(MODEL_ABILITY_SIGN, -13876, 237, 8376, 0, -40, 0, (4 << 16), bhvStaticObject),
+		OBJECT(MODEL_NONE, 3852, 3467, -2928, 0, -180, 0, (11 << 16), bhvAirborneDeathWarp),
+		OBJECT(MODEL_ABILITY_SIGN, 4373, 3099, -2687, 0, -124, 0, (10 << 16), bhvStaticObject),
+		OBJECT(MODEL_G_MARX_DOOR, 3751, 3761, -2503, 0, 0, 0, 0x00000000, bhvGMarxDoor),
 		OBJECT(MODEL_ABILITY_HEART, 9624, 2752, 10003, 0, -49, 0, 0x00000000, bhvAbilityRecoveryHeart),
 		OBJECT(MODEL_ABILITY_HEART, -767, 3804, 9681, 0, -49, 0, 0x00000000, bhvAbilityRecoveryHeart),
 		OBJECT(MODEL_ABILITY_HEART, -4490, 4767, 9773, 0, -49, 0, 0x00000000, bhvAbilityRecoveryHeart),
@@ -381,11 +379,6 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_NONE, 8177, 1845, 14212, 0, 0, 0, (4 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -9058, 1940, 16332, 0, 0, 0, (5 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -5350, -803, 13558, 0, 0, 0, (6 << 16), bhvDreamCatalyst),
-		OBJECT(MODEL_ABILITY_SIGN, 7235, 808, 15721, 0, -49, 0, (5 << 16), bhvStaticObject),
-		OBJECT(MODEL_ABILITY_SIGN, -13876, 237, 8376, 0, -40, 0, (4 << 16), bhvStaticObject),
-		OBJECT(MODEL_NONE, 3852, 3467, -2928, 0, -180, 0, (11 << 16), bhvAirborneDeathWarp),
-		OBJECT(MODEL_ABILITY_SIGN, 4373, 3099, -2687, 0, -124, 0, (10 << 16), bhvStaticObject),
-		OBJECT(MODEL_G_MARX_DOOR, 3751, 3761, -2503, 0, 0, 0, 0x00000000, bhvGMarxDoor),
 		OBJECT(MODEL_NONE, -14374, 535, 1562, 0, 21, 0, (6 << 24), bhvGCOStar),
 		OBJECT(MODEL_G_SIR_KIBBLE, 1776, -178, 8353, 0, 0, 0, 0x00000000, bhvSirKibble),
 		OBJECT(MODEL_G_SIR_KIBBLE, -3547, 3511, 21660, 0, 0, 0, 0x00000000, bhvSirKibble),
@@ -422,7 +415,6 @@ const LevelScript level_g_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	AREA(5, g_area_5),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF0, LEVEL_G, 0x04, 0x0A, WARP_NO_CHECKPOINT),
@@ -437,7 +429,6 @@ const LevelScript level_g_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	FREE_LEVEL_POOL(),
 	MARIO_POS(0x01, -180, -1155, 304, -605),
 	CALL(0, lvl_init_or_update),

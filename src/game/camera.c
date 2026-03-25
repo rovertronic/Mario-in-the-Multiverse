@@ -6626,7 +6626,6 @@ struct CameraTrigger sCamH[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger sCamC[] = {
-    { 1, cam_c_crane_buttons, 8272, 3848, 7420, 800, 500, 610, 0 },
 	NULL_TRIGGER
 };
 struct CameraTrigger sCamBirthday[] = {

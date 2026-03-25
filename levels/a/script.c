@@ -11,10 +11,6 @@
 
 #include "levels/scripts.h"
 
-
-/* Fast64 begin persistent block [includes] */
-/* Fast64 end persistent block [includes] */
-
 #include "make_const_nonconst.h"
 #include "levels/a/header.h"
 
@@ -23,7 +19,7 @@
 
 const LevelScript level_a_entry[] = {
 	INIT_LEVEL(),
-	LOAD_YAY0(0x7, _a_segment_7SegmentRomStart, _a_segment_7SegmentRomEnd), 
+	LOAD_YAY0(0x07, _a_segment_7SegmentRomStart, _a_segment_7SegmentRomEnd), 
 	LOAD_YAY0(0x08, _common0_yay0SegmentRomStart, _common0_yay0SegmentRomEnd), 
 	LOAD_RAW(0x0F, _common0_geoSegmentRomStart, _common0_geoSegmentRomEnd), 
 	ALLOC_LEVEL_POOL(),
@@ -55,7 +51,6 @@ const LevelScript level_a_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_A_DOG_ROBOT, dog_robot_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_A_GAS_CLOUD, gas_cloud_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_A_CHAINED_CAGE, chained_cage_geo), 
-
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
@@ -66,14 +61,6 @@ const LevelScript level_a_entry[] = {
 		WARP_NODE(0x03, LEVEL_A, 0x02, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x04, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x05/*area4 exit*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		OBJECT(MODEL_A_CAGE, 346, 1083, -3635, 0, 0, 0, (0xF0 << 8), bhvAcage),
-		OBJECT(MODEL_ABILITY, 346, 883, -3635, 0, 0, 0, (ABILITY_BUBBLE_HAT << 16), bhvAbilityUnlock),
-		OBJECT(MODEL_ABILITY_SIGN, 1292, -163, -3964, 0, -117, 0, (ABILITY_BUBBLE_HAT << 16), bhvStaticObject),
-		OBJECT(MODEL_NONE, 5137, -163, -7700, 0, -180, 0, (0x05 << 16), bhvInstantActiveWarp),
-		OBJECT(MODEL_CHECKPOINT_FLAG, -1392, -163, -3906, 0, 90, 0, (0 << 16), bhvCheckpointFlag),
-		OBJECT(MODEL_CHECKPOINT_FLAG, -46, -24, -13435, 0, 0, 0, (1 << 16), bhvCheckpointFlag),
-		OBJECT(MODEL_NONE, 7810, 971, 2994, 0, 0, 0, (2 << 16), bhvCoinFormation),
-		OBJECT(MODEL_NONE, -5459, 1050, 5492, 0, 0, 0, (0 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_JELLY, -2805, -153, 5461, 0, 0, 0, 0x00000000, bhvJelly),
 		OBJECT(MODEL_JELLY, -3766, -198, 4509, 0, 0, 0, 0x00000000, bhvJelly),
 		OBJECT(MODEL_JELLY, -4191, -83, 62, 0, 0, 0, 0x00000000, bhvJelly),
@@ -94,8 +81,17 @@ const LevelScript level_a_entry[] = {
 		OBJECT(MODEL_TAXISTOP, 5180, -163, -7061, 0, -90, 0, (4 << 24) | (0x0A << 16), bhvTaxiStop),
 		OBJECT(MODEL_NONE, -6360, -222, 4723, 0, 0, 0, (50 << 24) | (0x03 << 16), bhvWarp),
 		OBJECT(MODEL_NONE, -4853, -336, 4680, 0, 90, 0, (0x04 << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_NONE, -6248, 133, -10506, 0, 0, 0, 0x00000000, bhvHintArtStar),
 		OBJECT(MODEL_NONE, -5684, -336, 4365, 0, 0, 0, (0x0 << 16), bhvTikiBox),
 		OBJECT(MODEL_NONE, -5684, -81, 4365, 0, 0, 0, (0x0 << 16), bhvTikiBox),
+		OBJECT(MODEL_A_CAGE, 346, 1083, -3635, 0, 0, 0, (0xF0 << 8), bhvAcage),
+		OBJECT(MODEL_ABILITY, 346, 883, -3635, 0, 0, 0, (ABILITY_BUBBLE_HAT << 16), bhvAbilityUnlock),
+		OBJECT(MODEL_ABILITY_SIGN, 1292, -163, -3964, 0, -117, 0, (ABILITY_BUBBLE_HAT << 16), bhvStaticObject),
+		OBJECT(MODEL_NONE, 5137, -163, -7700, 0, -180, 0, (0x05 << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_CHECKPOINT_FLAG, -1392, -163, -3906, 0, 90, 0, (0 << 16), bhvCheckpointFlag),
+		OBJECT(MODEL_CHECKPOINT_FLAG, -46, -24, -13435, 0, 0, 0, (1 << 16), bhvCheckpointFlag),
+		OBJECT(MODEL_NONE, 7810, 971, 2994, 0, 0, 0, (2 << 16), bhvCoinFormation),
+		OBJECT(MODEL_NONE, -5459, 1050, 5492, 0, 0, 0, (0 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_LEVEL_PIPE, 1591, -163, 4557, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_FLOATING_CHECKER_PLATFORM, -154, 496, -4932, 0, 0, 0, (2 << 16), bhvFloatingCheckerPlatform),
 		OBJECT(MODEL_FLOATING_CHECKER_PLATFORM, -500, 263, -5109, 0, 0, 0, (1 << 16), bhvFloatingCheckerPlatform),
@@ -117,7 +113,6 @@ const LevelScript level_a_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	AREA(2, a_area_2),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x05, LEVEL_A, 0x01, 0x04, WARP_NO_CHECKPOINT),
@@ -148,16 +143,15 @@ const LevelScript level_a_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	AREA(3, a_area_3),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x09, LEVEL_A, 0x04, 0x11, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0F1/*death*/, LEVEL_A, 0x04, 0x10, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x01/*death entry*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF0, LEVEL_A, 0x04, 0x11, WARP_NO_CHECKPOINT),
-		OBJECT(MODEL_NONE, -940, 897, 2323, 0, 0, 0, (4 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_TAXISTOP, 3625, -2815, -2842, 0, -90, 0, (4 << 24) | (0x11 << 16), bhvTaxiStop),
 		OBJECT(MODEL_NONE, 3769, -2813, -2241, 0, 20, 0, (0x0A << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_NONE, -940, 897, 2323, 0, 0, 0, (4 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_KING_JELLY, -116, 0, -58, 0, 0, 0, (7 << 24), bhvKingJelly),
 		OBJECT(MODEL_NONE, 3750, -2596, -2204, 0, 15, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 3201, -2820, -254, 0, 0, 0, 0x00000000, bhvTikiBox),
@@ -171,7 +165,6 @@ const LevelScript level_a_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	AREA(4, a_area_4),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
@@ -190,11 +183,8 @@ const LevelScript level_a_entry[] = {
 		WARP_NODE(0x21, LEVEL_A, 0x07, 0xF0, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x22, LEVEL_A, 0x07, 0xF1, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x11, LEVEL_A, 0x03, 0xF0, WARP_NO_CHECKPOINT),
-		OBJECT(MODEL_ABILITY_SIGN, -5032, -215, 8292, 0, 134, 0, (ABILITY_PHASEWALK << 16), bhvStaticObject),
 		OBJECT(MODEL_NONE, -4782, 251, 10027, 0, 0, 0, (0x22 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, -4782, 252, 10027, 0, 0, 0, (0x21 << 16), bhvSpinAirborneWarp),
-		OBJECT(MODEL_NONE, -3609, 1131, 11283, 0, 0, 0, (1 << 16), bhvDreamCatalyst),
-		OBJECT(MODEL_NONE, 4408, 172, -10552, 0, 0, 0, (2 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -2490, -1017, -9425, 0, 90, 0, (0x0F << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_NONE, -4778, 192, 8903, 0, 0, 0, (0x19 << 16), bhvWarp),
 		OBJECT(MODEL_FLOATING_CHECKER_PLATFORM, -1634, -234, 929, 0, 0, 0, (2 << 16), bhvFloatingCheckerPlatform),
@@ -217,6 +207,9 @@ const LevelScript level_a_entry[] = {
 		OBJECT(MODEL_A_PLANK, -76, -1070, -6251, 0, 0, 0, 0x00000000, bhvRPlank),
 		OBJECT(MODEL_BUBBLENET_RED_BUTTON, 802, -1070, -4175, 0, -90, 0, (1 << 16), bhvBhButton2),
 		OBJECT(MODEL_TAXISTOP, 10473, 118, 1823, 0, 0, 0, (3 << 24) | (10 << 16), bhvTaxiStop),
+		OBJECT(MODEL_ABILITY_SIGN, -5032, -215, 8292, 0, 134, 0, (ABILITY_PHASEWALK << 16), bhvStaticObject),
+		OBJECT(MODEL_NONE, -3609, 1131, 11283, 0, 0, 0, (1 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, 4408, 172, -10552, 0, 0, 0, (2 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -5872, 433, 950, 0, 85, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 9963, 274, 1818, 0, 85, 0, (0x10 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, -11136, 316, -5001, 0, 90, 0, (0x0A << 16), bhvInstantActiveWarp),
@@ -231,7 +224,6 @@ const LevelScript level_a_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	AREA(5, a_area_5),
 		WARP_NODE(0x0E, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x08, LEVEL_A, 0x04, 0x15, WARP_NO_CHECKPOINT),
@@ -266,7 +258,6 @@ const LevelScript level_a_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	AREA(6, a_area_6),
 		WARP_NODE(0x08, LEVEL_A, 0x04, 0x0F, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
@@ -336,7 +327,6 @@ const LevelScript level_a_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	AREA(7, a_area_7),
 		WARP_NODE(0x18, LEVEL_A, 0x04, 0x19, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
@@ -353,7 +343,6 @@ const LevelScript level_a_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	FREE_LEVEL_POOL(),
 	MARIO_POS(1, 0, 0, 0, 0),
 	CALL(0, lvl_init_or_update),

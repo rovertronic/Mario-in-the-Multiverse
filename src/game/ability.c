@@ -261,7 +261,6 @@ u8 ability_slot_reserve[4] = {ABILITY_NONE, ABILITY_NONE, ABILITY_NONE, ABILITY_
 
 u8 ability_dpad_locked = FALSE;
 void ability_dpad_lock(u8 ab1, u8 ab2, u8 ab3, u8 ab4) {
-    return;
     if (ability_dpad_locked) {
         return;
     }
@@ -276,12 +275,11 @@ void ability_dpad_lock(u8 ab1, u8 ab2, u8 ab3, u8 ab4) {
 }
 
 void ability_dpad_unlock(void) {
-    return;
     if (!ability_dpad_locked) {
         return;
     }
     for (int i = 0; i < 4; i++) {
-        ability_slot[i] = ability_slot_reserve[i];
+        ability_slot[i] = ABILITY_NONE;
     }
     ability_dpad_locked = FALSE;
 }

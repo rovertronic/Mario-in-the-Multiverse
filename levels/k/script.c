@@ -246,6 +246,7 @@ const LevelScript level_k_entry[] = {
 		WARP_NODE(/*death*/ 0xF1, LEVEL_K, /*this area*/ 0x01, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death entry*/ 0x01, LEVEL_SSL, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(1/*jfkexit*/, LEVEL_K, 0x01, 9, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_NONE, 3236, -3323, 810, 0, 0, 0, 0, bhvHintArtStar),
 		OBJECT(MODEL_NONE, 3236, -3323, 1183, 0, 0, 0, (10 << 24) | (1 << 16), bhvWarp),
 		OBJECT(MODEL_NONE, 3236, -3323, 810, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_NONE, -83, -3224, 466, 0, 0, 0, (7 << 16), bhvCollectablePainting),

@@ -2244,18 +2244,28 @@ s32 render_pause_courses_and_castle(void) {
             }
             sOldHintArtIndex = sHintArtIndex;
 
+            // Star display
+            u8 textUnfilledStar[] = { TEXT_UNFILLED_STAR };
+            u8 textFilledStar[] = { TEXT_STAR };
+            char hintArtStr[50];
+
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
+
+            sprintf(hintArtStr,"Hint Art %d",sHintArtIndex+1);
+            print_generic_string_ascii(128, 50, hintArtStr);
+
+            int newindex = sHintArtIndex%8;
+            int newarray = HUBLEVEL_HUB + sHintArtIndex/8;
+        
+            if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].dreamCatalysts[newarray] & (1 << newindex)) {
+                print_generic_string(108, 50, textFilledStar);
+            } else {
+                print_generic_string(108, 50, textUnfilledStar);
+            }
+
             // Render Hint Art
             if (gHintArtTexture) {
-                u8 textUnfilledStar[] = { TEXT_UNFILLED_STAR };
-                char hintArtStr[50];
-
-                gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
-                gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
-
-                sprintf(hintArtStr,"Hint Art %d",sHintArtIndex+1);
-                print_generic_string_ascii(128, 50, hintArtStr);
-                print_generic_string(108, 50, textUnfilledStar);
-
                 gDPPipeSync        (gDisplayListHead++);
                 gDPSetTexturePersp (gDisplayListHead++, G_TP_NONE);
                 gDPSetCombineMode  (gDisplayListHead++, G_CC_FADEA, G_CC_FADEA);

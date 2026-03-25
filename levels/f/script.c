@@ -240,6 +240,7 @@ const LevelScript level_f_entry[] = {
 		WARP_NODE(0x02, LEVEL_F, 0x02, 0x04, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x03, LEVEL_F, 0x02, 0x05, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x06/*ventleave*/, LEVEL_F, 0x02, 0x07, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_NONE, 90, 230, -358, 0, 0, 0, 0, bhvHintArtStar),
 		OBJECT(MODEL_ABILITY, -1832, 254, 2022, 0, -180, 0, (ABILITY_GADGET_WATCH << 16), bhvAbilityUnlock),
 		OBJECT(MODEL_BLASTWALL_1, -266, 341, -241, 0, 0, 0, 0x00000000, bhvFblastwall),
 		OBJECT(MODEL_NONE, -328, 805, 346, 0, 0, 0, (5 << 16), bhvDreamCatalyst),

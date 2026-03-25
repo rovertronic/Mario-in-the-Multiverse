@@ -820,3 +820,17 @@ UNUSED s32 debug_sequence_tracker(s16 debugInputSequence[]) {
 #include "behaviors/mips.inc.c"
 #include "behaviors/yoshi.inc.c"
 #include "behaviors/octoball.inc.c"
+
+void bhv_hint_art_star(void) {
+    switch(o->oAction) {
+        case 0:
+            if (o->oDistanceToMario < 200.0f && gMarioStates[0].action == ACT_GROUND_POUND_LAND) {
+                cur_obj_play_sound_2(SOUND_ACTION_UNSTUCK_FROM_GROUND);
+                o->oAction++;
+                struct Object * hintArtStar = spawn_object(o,MODEL_DREAM_STAR,bhvDreamCatalyst);
+                SET_BPARAM2(hintArtStar->oBehParams,8);
+                hintArtStar->oBehParams2ndByte = 8;
+            }
+            break;
+    }
+}

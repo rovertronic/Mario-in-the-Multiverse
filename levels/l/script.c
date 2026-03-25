@@ -528,6 +528,7 @@ const LevelScript level_l_entry[] = {
 		OBJECT(MODEL_YELLOW_COIN, 1078, 108, -1078, 0, 0, 0, 0x00000000, bhvOneCoin),
 		OBJECT(MODEL_L_PEPPERMAN, 0, 108, -870, 0, 0, 0, (6 << 24), bhvL_PeppermanBoss),
 		OBJECT(MODEL_NONE, 0, 424, 930, 0, -180, 0, (0x0A << 16), bhvSpinAirborneWarp),
+		OBJECT(MODEL_NONE, 642, 108, -223, 0, 0, 0, 0, bhvHintArtStar),
 		TERRAIN(l_area_7_collision),
 		MACRO_OBJECTS(l_area_7_macro_objs),
 		STOP_MUSIC(0),

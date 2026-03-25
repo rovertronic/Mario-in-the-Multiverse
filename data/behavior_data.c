@@ -10014,11 +10014,13 @@ const BehaviorScript bhvCoinPile[] = {
     END_LOOP(),
 };
 
+
+extern void bhv_hint_art_star(void);
 const BehaviorScript bhvHintArtStar[] = {
     BEGIN(OBJ_LIST_LEVEL),
     // Yellow coin - common:
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     BEGIN_LOOP(),
-        //CALL_NATIVE(bhv_yellow_coin_loop),
+        CALL_NATIVE(bhv_hint_art_star),
     END_LOOP(),
 };

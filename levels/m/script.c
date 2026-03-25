@@ -50,6 +50,7 @@ const LevelScript level_m_entry[] = {
 		OBJECT(MODEL_NONE, -4600, 2600, 7500, 0, 0, 0, 0x00F10000, bhvDeathWarp),
 		OBJECT(MODEL_NONE, 2000, -1000, -9500, 0, 0, 0, 0x80200000, bhvWarp),
 		MARIO_POS(0x01, 0, -4600, 2600, 7500),
+		OBJECT(MODEL_NONE, -1132, 2353, -12046, 0, 0, 0, 0, bhvHintArtStar),
 		OBJECT(MODEL_CHECKPOINT_FLAG, -4600, 1550, -1800, 0, 0, 0, 0x00040000, bhvCheckpointFlag),
 		OBJECT(MODEL_M_BOSSELEVATOR, 2000, 2181, -9558, 0, 0, 0, (0 << 16), bhvM_BossElevator),
 		OBJECT(MODEL_NONE, -4465, 2700, 5966, 0, 0, 0, (0 << 16), bhvCoinFormation),

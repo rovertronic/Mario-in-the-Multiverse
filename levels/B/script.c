@@ -64,6 +64,7 @@ const LevelScript level_B_entry[] = {
 		WARP_NODE(/*death*/ 0xF1, LEVEL_B, /*this area*/ 0x01, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death entry*/ 0x01, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		INSTANT_WARP(0x00, 0x02, 0, 0, 0),
+		OBJECT(MODEL_NONE, -5929, 560, 4670, 0, 0, 0, 0, bhvHintArtStar),
 		OBJECT(MODEL_NONE, -1104, 806, -3188, 0, 0, 0, (0 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, 750, -818, -9718, 0, 0, 0, (1 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -8, 2658, 9951, 0, 0, 0, (2 << 16), bhvDreamCatalyst),

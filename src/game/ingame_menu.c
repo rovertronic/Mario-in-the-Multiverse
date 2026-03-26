@@ -2265,6 +2265,7 @@ s32 render_pause_courses_and_castle(void) {
                 sprintf(hintArtStr,"Hint Art %d",sHintArtIndex+1);
             }
             print_generic_string_ascii(128, 50, hintArtStr);
+            print_generic_string_ascii(128, 30, "(Use analog stick to scroll)");
 
             int newindex = sHintArtIndex%8;
             int newarray = HUBLEVEL_BOWSER + sHintArtIndex/8;

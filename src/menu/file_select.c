@@ -2318,7 +2318,7 @@ s32 mitm_file_select() {
 
         if (save_file_exists(i)) {
             //display stars and coins
-            u8 starText[6] = {GLYPH_STAR, DIALOG_CHAR_SPACE};
+            u8 starText[6] = {GLYPH_DC, DIALOG_CHAR_SPACE};
             u8 coinText[6] = {GLYPH_COIN, DIALOG_CHAR_SPACE};
             s16 starCount = save_file_get_total_star_count(i,COURSE_NUM_TO_INDEX(COURSE_MIN),COURSE_NUM_TO_INDEX(COURSE_MAX));
             /*

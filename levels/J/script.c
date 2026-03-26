@@ -149,6 +149,7 @@ const LevelScript level_J_entry[] = {
 		OBJECT(MODEL_J_TILTY_HEXAGON, 13103, 7270, -6309, 0, 0, 0, 0x00000000, bhvTiltyHexagon),
 		OBJECT(MODEL_J_TILTY_HEXAGON, 13977, 6363, -3777, 0, 0, 0, 0x00000000, bhvTiltyHexagon),
 		OBJECT(MODEL_J_YOUNGSTER, -8653, 2624, 727, 0, 0, 0, (DIALOG_YOUNGSTER << 16), bhvYoungster),
+		OBJECT(MODEL_NONE, 18266, 3524, 3673, 0, 0, 0, 0x00000001, bhvHintArtStar),
 		TERRAIN(J_area_2_collision),
 		MACRO_OBJECTS(J_area_2_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_CUSTOM_AZALEA),

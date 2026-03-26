@@ -43,6 +43,7 @@ const LevelScript level_h_entry[] = {
 		WARP_NODE(/*death*/ 0xF1, LEVEL_H, /*this area*/ 0x01, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death entry*/ 0x01, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_NONE, -4391, 3225, -3740, 0, 0, 0, 0, bhvHintArtStar),
+		OBJECT(MODEL_NONE, 2427, -1759, -5213, 0, 0, 0, 0x00000001, bhvHintArtStar),
 		OBJECT(MODEL_ABILITY, -5630, -1410, -581, 0, 0, 0, (ABILITY_PHASEWALK << 16), bhvAbilityUnlock),
 		OBJECT(MODEL_ABILITY_SIGN, -7588, -1410, -1171, 0, 90, 0, (ABILITY_PHASEWALK << 16), bhvStaticObject),
 		OBJECT(MODEL_ABILITY_SIGN, 8936, -318, 13217, 0, 25, 0, (ABILITY_HM_FLY << 16), bhvStaticObject),

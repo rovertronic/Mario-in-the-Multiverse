@@ -85,6 +85,7 @@ const LevelScript level_i_entry[] = {
 		OBJECT(MODEL_NONE, -7061, 1125, 697, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_NONE, -7088, 397, -7363, 0, -157, 0, (30 << 24) | (11 << 16), bhvWarp),
 		OBJECT(MODEL_NONE, -289, -732, -11720, 0, -180, 0, (75 << 24) | (13 << 16), bhvWarp),
+		OBJECT(MODEL_NONE, -1421, 23, -8230, 0, 0, 0, 0x00000001, bhvHintArtStar),
 		TERRAIN(i_area_1_collision),
 		ROOMS(i_area_1_collision_rooms),
 		MACRO_OBJECTS(i_area_1_macro_objs),

@@ -64,6 +64,36 @@ ALIGNED8 const u8 hint_art_data[] = {
     #include "actors/title_cards/hint_art_14.rgba16.inc.c"
     ,
     #include "actors/title_cards/hint_art_15.rgba16.inc.c"
+    ,
+    #include "actors/title_cards/geoguessr_1.rgba16.inc.c"
+    ,
+    #include "actors/title_cards/geoguessr_2.rgba16.inc.c"
+    ,
+    #include "actors/title_cards/geoguessr_3.rgba16.inc.c"
+    ,
+    #include "actors/title_cards/geoguessr_4.rgba16.inc.c"
+    ,
+    #include "actors/title_cards/geoguessr_5.rgba16.inc.c"
+    ,
+    #include "actors/title_cards/geoguessr_6.rgba16.inc.c"
+    ,
+    #include "actors/title_cards/geoguessr_7.rgba16.inc.c"
+    ,
+    #include "actors/title_cards/geoguessr_8.rgba16.inc.c"
+    ,
+    #include "actors/title_cards/geoguessr_9.rgba16.inc.c"
+    ,
+    #include "actors/title_cards/geoguessr_10.rgba16.inc.c"
+    ,
+    #include "actors/title_cards/geoguessr_11.rgba16.inc.c"
+    ,
+    #include "actors/title_cards/geoguessr_12.rgba16.inc.c"
+    ,
+    #include "actors/title_cards/geoguessr_13.rgba16.inc.c"
+    ,
+    #include "actors/title_cards/geoguessr_14.rgba16.inc.c"
+    ,
+    #include "actors/title_cards/geoguessr_15.rgba16.inc.c"
 };
 
 ALIGNED8 const u8 painting_data[] = {

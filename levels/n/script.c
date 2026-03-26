@@ -44,6 +44,7 @@ const LevelScript level_n_entry[] = {
 		WARP_NODE(0x07, LEVEL_N, 0x07, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x08, LEVEL_N, 0x00, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_NONE, 1106, 163, -1309, 0, 0, 0, 0, bhvHintArtStar),
+		OBJECT(MODEL_NONE, -4823, 195,-2126, 0, 0, 0, 0x00000001, bhvHintArtStar),
 		OBJECT(MODEL_ABILITY, 1001, 0, 0, 0, 0, 0, (ABILITY_MARBLE << 16), bhvAbilityUnlock),
 		//OBJECT(MODEL_N_BALL, -949, 2238, 0, 0, 90, 0, (7 << 24), bhvNball),
 		OBJECT(MODEL_LEVEL_PIPE, 0, 0, 0, 0, 0, 0, 0x00000000, bhvLevelPipe),

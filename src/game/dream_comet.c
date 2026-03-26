@@ -73,7 +73,13 @@ u8 get_dream_star_flags(int mitm_level_index) {
 void set_dream_star(int index) {
     if (index == 8) {
         int newindex = hub_level_current_index%8;
-        int newarray = HUBLEVEL_HUB + hub_level_current_index/8;
+        int newarray = HUBLEVEL_BOWSER + hub_level_current_index/8;
+        gSaveBuffer.files[gCurrSaveFileNum - 1][0].dreamCatalysts[newarray] |= (1 << newindex);
+        return;
+    }
+    if (index == 9) { // geoguessr
+        int newindex = (hub_level_current_index+15)%8;
+        int newarray = HUBLEVEL_BOWSER + ((hub_level_current_index+15)/8);
         gSaveBuffer.files[gCurrSaveFileNum - 1][0].dreamCatalysts[newarray] |= (1 << newindex);
         return;
     }

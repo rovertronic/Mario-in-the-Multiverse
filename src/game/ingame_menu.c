@@ -1950,7 +1950,7 @@ void render_pause_course_options(s16 x, s16 y, s8 *index, s16 yIndex) {
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
 
     print_generic_string_ascii(x + 10, y - 2, "CONTINUE");
-    print_generic_string_ascii(x + 10, y - 17, "VIEW HINT ART");
+    print_generic_string_ascii(x + 10, y - 17, "VIEW HINT ARTS");
     print_generic_string_ascii(x + 10, y - 33, "SETTINGS");
     if (show_exit_course) {
         print_generic_string_ascii(x + 10, y - 49, "EXIT COURSE");
@@ -2237,7 +2237,14 @@ s32 render_pause_courses_and_castle(void) {
             gSPDisplayList(gDisplayListHead++, generic_pause_gp_mesh);
             gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 
-            handle_menu_scrolling(MENU_SCROLL_HORIZONTAL, &sHintArtIndex, 0, 14);
+            handle_menu_scrolling(MENU_SCROLL_HORIZONTAL, &sHintArtIndex, 0, 29);
+            if (gPlayer1Controller->rawStickY < -60 && sHintArtIndex < 15){
+                sHintArtIndex+=15;
+            }
+            if (gPlayer1Controller->rawStickY > 60 && sHintArtIndex >= 15){
+                sHintArtIndex-=15;
+            }
+
             if (sHintArtIndex != sOldHintArtIndex) {
                 void * rom_location = (sHintArtIndex*65536) + ((uintptr_t)hint_art_data) ;
                 dma_read(gHintArtTexture,rom_location,rom_location+65536);
@@ -2252,11 +2259,15 @@ s32 render_pause_courses_and_castle(void) {
             gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
 
-            sprintf(hintArtStr,"Hint Art %d",sHintArtIndex+1);
+            if (sHintArtIndex > 14) {
+                sprintf(hintArtStr,"Geoguessr %d",sHintArtIndex-14);
+            } else {
+                sprintf(hintArtStr,"Hint Art %d",sHintArtIndex+1);
+            }
             print_generic_string_ascii(128, 50, hintArtStr);
 
             int newindex = sHintArtIndex%8;
-            int newarray = HUBLEVEL_HUB + sHintArtIndex/8;
+            int newarray = HUBLEVEL_BOWSER + sHintArtIndex/8;
         
             if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].dreamCatalysts[newarray] & (1 << newindex)) {
                 print_generic_string(108, 50, textFilledStar);

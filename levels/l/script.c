@@ -370,6 +370,7 @@ const LevelScript level_l_entry[] = {
 		OBJECT(MODEL_NONE, -2400, -1661, 100, 0, 0, 0, (1 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, 2500, -2637, 0, 0, 0, 0, (1 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, 204, 4570, 0, 0, 0, 0, (1 << 16), bhvCoinFormation),
+		OBJECT(MODEL_NONE, 3139, 2800, 0, 0, 0, 0, 0x00000001, bhvHintArtStar),
 		TERRAIN(l_area_4_collision),
 		MACRO_OBJECTS(l_area_4_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_L_HOT_SPAGHETTI),

@@ -119,6 +119,7 @@ const LevelScript level_m_entry[] = {
 		OBJECT(MODEL_NONE, 9100, -2172, -13700, 0, 0, 0, (2 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -3100, 5133, -10500, 0, 0, 0, (3 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -6886, 9200, -9000, 0, -90, 0, (DIALOG_LORE_TAB << 16), bhvSignOnWall),
+		OBJECT(MODEL_NONE, 8096, -3600, -7599, 0, 0, 0, 0x00000001, bhvHintArtStar),
 		TERRAIN(m_area_2_collision),
 		ROOMS(m_area_2_collision_rooms),
 		MACRO_OBJECTS(m_area_2_macro_objs),

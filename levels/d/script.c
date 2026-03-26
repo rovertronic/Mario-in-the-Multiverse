@@ -109,6 +109,7 @@ const LevelScript level_d_entry[] = {
 		OBJECT(MODEL_D_PLATFORM, 8747, 3519, 1499, 0, 90, 0, 0x00000000, bhvHiddenObject),
 		OBJECT(MODEL_D_PLATFORM, 8747, 3519, 4099, 0, 90, 0, 0x00000000, bhvHiddenObject),
 		OBJECT(MODEL_NONE, 8344, 3696, 5221, 0, 0, 0, 0x00000000, bhvHintArtStar),
+		OBJECT(MODEL_NONE, 3339, 3171, 1174, 0, 0, 0, 0x00000001, bhvHintArtStar),
 		OBJECT(MODEL_NONE, -4483, 3385, -17926, 0, 0, 0, (0x03 << 16), bhvInstantActiveWarp),
 		OBJECT(MODEL_NONE, 3373, 2668, 874, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 3373, 2668, 874, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),

@@ -72,6 +72,7 @@ const LevelScript level_e_entry[] = {
 		WARP_NODE(/*death*/ 0xF1, LEVEL_E, /*this area*/ 0x01, 0x01, WARP_NO_CHECKPOINT),
 		WARP_NODE(/*death entry*/ 0x01, LEVEL_E, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_NONE, -9082, 5607, -4337, 0, 0, 0, 0, bhvHintArtStar),
+		OBJECT(MODEL_NONE, -3376, 4168, 1510, 0, 0, 0, 0x00000001, bhvHintArtStar),
 		OBJECT(MODEL_ABILITY, 10700, 4557, 8991, 0, 0, 0, (ABILITY_E_SHOTGUN << 16), bhvAbilityUnlock),
 		OBJECT(MODEL_ID_03, -14300, 5900, -12400, 0, 90, 0, 0x00000000, bhvE_Caco),
 		OBJECT(MODEL_ID_03, -16700, 5500, -11900, 0, 90, 0, 0x00000000, bhvE_Caco),

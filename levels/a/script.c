@@ -183,6 +183,7 @@ const LevelScript level_a_entry[] = {
 		WARP_NODE(0x21, LEVEL_A, 0x07, 0xF0, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x22, LEVEL_A, 0x07, 0xF1, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x11, LEVEL_A, 0x03, 0xF0, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_NONE, -5350, 118, -1816, 0, 0, 0, 0x00000001, bhvHintArtStar),
 		OBJECT(MODEL_NONE, -4782, 251, 10027, 0, 0, 0, (0x22 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, -4782, 252, 10027, 0, 0, 0, (0x21 << 16), bhvSpinAirborneWarp),
 		OBJECT(MODEL_NONE, -2490, -1017, -9425, 0, 90, 0, (0x0F << 16), bhvInstantActiveWarp),

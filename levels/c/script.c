@@ -119,6 +119,7 @@ const LevelScript level_c_entry[] = {
 		OBJECT(MODEL_PAINT_GUN, -1050, 2308, -460, 0, 0, 0, 0x00000000, bhvPaintGun),
 		OBJECT(MODEL_PAINT_GUN, -10404, 737, -2678, 0, 0, 0, 0x00000000, bhvPaintGun),
 		OBJECT(MODEL_NONE, -10419, 547, -2688, 0, 0, 0, 0x00000000, bhvHintArtStar),
+		OBJECT(MODEL_NONE, -4763, 695, 2152, 0, 0, 0, 0x00000001, bhvHintArtStar),
 		OBJECT(MODEL_NONE, -2942, 5108, -7716, 0, 0, 0, (2 << 16), bhvCollectablePainting),
 		OBJECT(MODEL_FLIPSWITCH_1, -1265, 2529, 2230, 0, 0, 0, (1 << 24), bhvFlipswitch),
 		OBJECT(MODEL_FLIPSWITCH_1, -4868, 695, 2175, 0, 0, 0, (1 << 24), bhvFlipswitch),

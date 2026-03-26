@@ -149,6 +149,7 @@ const LevelScript level_o_entry[] = {
 		OBJECT(MODEL_O_GARAGE, -17088, -1493, -8399, 0, 0, 0, (0xF0 << 8), bhvOgarage),
 		OBJECT(MODEL_O_GERIK, -5872, -1355, -14073, 0, 0, 0, 0x00000000, bhvO_Gerik),
 		OBJECT(MODEL_NONE, -11160, -272, 7770, 0, 0, 0, 0x00000000, bhvHintArtStar),
+		OBJECT(MODEL_NONE, 16072, 246, 12303, 0, 0, 0, 0x00000001, bhvHintArtStar),
 		OBJECT(MODEL_O_LIFT, 21835, 8772, -3338, 0, 0, 0, 0x00000000, bhvOlift),
 		OBJECT(MODEL_NONE, 1520, -2191, 23248, 0, -180, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_NONE, 1520, -2494, 23248, 0, -180, 0, (0x0A << 16), bhvInstantActiveWarp),

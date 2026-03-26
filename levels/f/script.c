@@ -224,6 +224,7 @@ const LevelScript level_f_entry[] = {
 		OBJECT(MODEL_NONE, 4215, -704, -3752, 0, 0, 0, (20 << 24) | (3 << 16), bhvWarp),
 		OBJECT(MODEL_NONE, -1363, -1399, 5, 0, 0, 0, (10 << 24) | (6 << 16), bhvWarp),
 		OBJECT(MODEL_NONE, 4215, -704, 4152, 0, 0, 0, (20 << 24) | (2 << 16), bhvWarp),
+		OBJECT(MODEL_NONE, -1804, 567, -3613, 0, 0, 0, 0x00000001, bhvHintArtStar),
 		TERRAIN(f_area_2_collision),
 		ROOMS(f_area_2_collision_rooms),
 		MACRO_OBJECTS(f_area_2_macro_objs),

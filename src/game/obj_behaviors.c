@@ -830,6 +830,10 @@ void bhv_hint_art_star(void) {
                 struct Object * hintArtStar = spawn_object(o,MODEL_DREAM_STAR,bhvDreamCatalyst);
                 SET_BPARAM2(hintArtStar->oBehParams,8);
                 hintArtStar->oBehParams2ndByte = 8;
+                if (GET_BPARAM4(o->oBehParams)) {
+                    SET_BPARAM2(hintArtStar->oBehParams,9);
+                    hintArtStar->oBehParams2ndByte = 9;
+                }
             }
             break;
     }

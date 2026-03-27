@@ -41,7 +41,7 @@ const LevelScript level_mc_entry[] = {
 		OBJECT(MODEL_NOTEBLOCK, 6739, 1182, 5344, 0, 0, 0, (7 << 16), bhvNoteblock),
 		OBJECT(MODEL_NOTEBLOCK, 6739, 1182, 5144, 0, 0, 0, (7 << 16), bhvNoteblock),
 		OBJECT(MODEL_NOTEBLOCK, 6739, 1182, 5544, 0, 0, 0, (7 << 16), bhvNoteblock),
-		OBJECT(MODEL_STAR, -11162, -3524, -4440, 0, 0, 0, (0 << 24), bhvStar),
+		OBJECT(MODEL_STAR, -11162, -3524, -4440, 0, 0, 0, (0 << 24), bhvDreamCatalyst),
 		TERRAIN(mc_area_1_collision),
 		MACRO_OBJECTS(mc_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_MUTECITY),

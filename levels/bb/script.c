@@ -47,7 +47,7 @@ const LevelScript level_bb_entry[] = {
 		OBJECT(MODEL_NOTEBLOCK, -6833, -1988, 7355, 0, 0, 0, (6 << 16), bhvNoteblock),
 		OBJECT(MODEL_NOTEBLOCK, -7233, -1988, 7355, 0, 0, 0, (6 << 16), bhvNoteblock),
 		OBJECT(MODEL_NONE, 0, 8000, -9000, 0, 90, 0, (0x0A << 16), bhvAirborneWarp),
-		OBJECT(MODEL_STAR, -7753, -4151, -5565, 0, 0, 0, (0 << 24), bhvStar),
+		OBJECT(MODEL_STAR, -7753, -4151, -5565, 0, 0, 0, (0 << 24), bhvDreamCatalyst),
 		TERRAIN(bb_area_1_collision),
 		MACRO_OBJECTS(bb_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_BIGBLUE),

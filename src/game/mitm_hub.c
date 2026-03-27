@@ -82,6 +82,8 @@ mitm_dream_data mitmdd_m = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_PHASEWA
 mitm_dream_data mitmdd_n = {{ABILITY_DEFAULT,ABILITY_E_SHOTGUN,ABILITY_BUBBLE_HAT,ABILITY_NONE},7};
 mitm_dream_data mitmdd_o = {{ABILITY_DEFAULT,ABILITY_UTIL_MIRROR,ABILITY_HM_FLY,ABILITY_GADGET_WATCH},8};
 
+mitm_dream_data mitmdd_brodute_slide = {{ABILITY_DEFAULT,ABILITY_NONE,ABILITY_NONE,ABILITY_NONE},1};
+
 //In course order, not alphabetical!
 //Only mess with /* Level */ entry, everything else is pre-configured
 struct mitm_level_data mitm_levels[] = {
@@ -126,9 +128,9 @@ struct mitm_level_data mitm_levels[] = {
     /*SB*/{"GAPS AND HANDS", NULL, NULL,
             NULL,     COURSE_NONE,  0,       0,         36,         0,     NULL},
     /*MC*/{"Mute City", "BroDute", "BroDute",
-            NULL,     COURSE_PSS,  0,        0,         36,         1,     NULL},
+            NULL,     COURSE_PSS,  0,        0,         36,         1,     &mitmdd_brodute_slide},
     /*BB*/{"Big Blue", "BroDute", "BroDute",
-            NULL,     COURSE_WMOTR,  0,        0,       36,         1,     NULL},
+            NULL,     COURSE_WMOTR,  0,        0,       36,         1,     &mitmdd_brodute_slide},
 };
 
 s8 hub_level_index = -1;

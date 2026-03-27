@@ -45,15 +45,18 @@ void bhv_rotating_exclamation_mark_loop(void) {
 void exclamation_box_act_init(void) {
     if (o->oBehParams2ndByte < EXCLAMATION_BOX_BP_KOOPA_SHELL) {
         // no cap boxes should spawn in mitm
-        obj_mark_for_deletion(o);
-        return;
+        if (gCurrLevelNum != LEVEL_CASTLE) {
+            obj_mark_for_deletion(o);
+            return;
+        }
         o->oAnimState = o->oBehParams2ndByte;
 #ifdef UNLOCK_ALL
-        const u8 tangible = TRUE;
+        u8 tangible = TRUE;
 #else
-        const u8 tangible = ((save_file_get_flags() & sCapSaveFlags[o->oBehParams2ndByte])
+        u8 tangible = ((save_file_get_flags() & sCapSaveFlags[o->oBehParams2ndByte])
                           || (GET_BPARAM1(o->oBehParams) != EXCLAMATION_BOX_BP1_NEEDS_SWITCH));
 #endif
+        tangible = TRUE;
         o->oAction = tangible ? EXCLAMATION_BOX_ACT_ACTIVE : EXCLAMATION_BOX_ACT_OUTLINE;
     } else {
         o->oAnimState = EXCLAMATION_BOX_ANIM_STATE_YELLOW;
@@ -121,6 +124,15 @@ void exclamation_box_act_scaling(void) {
 
 void exclamation_box_spawn_contents(struct ExclamationBoxContents *contentsList, u8 boxType) {
     struct Object *contentsObj = NULL;
+    if (o->oBehParams2ndByte == 0) {
+        int lid = LEVEL_BB;
+        if (GET_BPARAM1(o->oBehParams) == 1) {
+            lid = LEVEL_MC;
+        }
+        initiate_warp(lid, 0x01, 0x0A, WARP_FLAGS_NONE);
+        fade_into_special_warp(WARP_SPECIAL_NONE, 0);
+        return;
+    }
 
     if (boxType < ARRAY_COUNT(sExclamationBoxContents)) {
         struct ExclamationBoxContents *contents = &contentsList[boxType];

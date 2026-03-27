@@ -926,7 +926,7 @@ void level_cmd_fileselect_condition(void) {
     if (save_file_exists(gCurrSaveFileNum - 1)) {
         sRegister = LEVEL_CASTLE;
     } else {
-        sRegister = LEVEL_BIRTHDAY;
+        sRegister = LEVEL_SLEEP;
     }
     sCurrentCmd = CMD_NEXT;
 }

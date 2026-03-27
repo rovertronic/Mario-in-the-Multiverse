@@ -205,6 +205,7 @@ void level_pipe_loop(void) {
         return;
     }
 
+    /*
     if ((gMarioState->numStars >= mitm_levels[o->oBehParams2ndByte].star_requirement)&&(!queued_pipe_cutscene)&&
         !(gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked & (1 << o->oBehParams2ndByte))) {
         if (o->oTimer > 30) {
@@ -228,6 +229,9 @@ void level_pipe_loop(void) {
         }
         return;
     }
+    */
+
+    o->oOpacity = 240;
 
     switch(o->oAction) {
         case 0:
@@ -890,9 +894,18 @@ struct mitm_credits_entry {
 };
 
 struct mitm_credits_entry mitm_credits[] = {
+    {"Mario in the Multiverse: The Dream Comet",1},
+    {"(& Hint Arts & GeoGuessr (& F-Zero Slides))",1},
+    {"",0},
+    {"Decades Later Star Radar:",1},
+    {"Aglab2",2},
+    {"",0},
+    {"Sleep Cutscene Level:",1},
+    {"BroDute",2},
+    {"",0},
+    {"",0},
     {"Mario in the Multiverse",1},
     {"",0},
-
     {"Collaboration Host",1},
     {"Rovertronic",2},
     {"",0},
@@ -956,14 +969,14 @@ struct mitm_credits_entry mitm_credits[] = {
     {"JakeDower",2},
     {"lincrash",2},
     {"Mel",2},
-    //{"BroDute",2},
+    {"BroDute",2},
     {"",0},
 
     {"Music",1},
     {"Teraok",2},
     {"SpK",2},
     {"sm64pie",2},
-    //{"Asbeth",2},
+    {"Asbeth",2},
     {"Leonitz",2},
     {"",0},
 
@@ -1048,39 +1061,6 @@ struct mitm_credits_entry mitm_credits[] = {
     {"",0},
     {"Thank you for playing!",1},
     {"-The MitM Team",2},
-    {"",0},
-    {"Changes in v1.1.2",1},
-    {"* Course 3: Fixed broken paint gun camera from v1.1.1",3},
-    {"* Course 3: Fixed bug with orange targets not breaking",3},
-    {"",0},
-    {"Changes in v1.1.1",1},
-    {"* Course 4: Minor polish",3},
-    {"* Course 4: Undo Toad cage being invincible to shotgun",3},
-    {"* Course 3: Crane camera improvements",3},
-    {"* Esteemed Mortal now snaps to 45 degree angles",3},
-    {"* Final boss phase 5 hitboxes improved",3},
-    {"* Final boss music desync fixed",3},
-    {"",0},
-    {"Changes in v1.1.0",1},
-    {"* Added warning screen for PJ64 and N64 users",3},
-    {"* Star piece switch timer can be reset with a ground pound",3},
-    {"* Compass detects more objects, increased range",3},
-    {"* Course 4: Toad cage is now resistant to shotgun",3},
-    {"* Course 6: Boss can now be attacked with anything,",3},
-    {"    not just a jump",3},
-    {"* Course 6: Turrets use better shooting SFX",3},
-    {"* Course 6: Turrets don't do contact damage",3},
-    {"* Course 7: Escape retry softlock fixed",3},
-    {"* Course 8: Added arrow sign in tutorial",3},
-    {"* Course 8: Updated Mario's credits position",3},
-    {"* Course 12: Increased ship exit warp size",3},
-    {"* Final boss messaging improved",3},
-    {"* Cool Cool Mountain slide no longer crashes",3},
-    {"* Fixed inkling infinite jump",3},
-    {"* Fixed squid form model not changing during an",3},
-    {"    action transition",3},
-    {"* Fixed some inconsistencies in the credits text",3},
-    {"* Enhanced the bartender's model",3},
 };
 
 f32 clamp2(f32 x) {

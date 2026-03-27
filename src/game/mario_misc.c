@@ -26,6 +26,7 @@
 #include "sound_init.h"
 #include "puppycam2.h"
 #include "ability.h"
+#include "cutscene_manager.h"
 #include "actors/group0.h"
 
 #include "config.h"
@@ -389,6 +390,9 @@ Gfx *geo_switch_mario_eyes(s32 callContext, struct GraphNode *node, UNUSED Mat4 
         }
         if ((gMarioState->bloodAlcoholConcentration > 0.0f)&&(switchCase->selectedCase == 0)) {
             switchCase->selectedCase = 1;
+        }
+        if (cm_eyestate > -1) {
+            switchCase->selectedCase = cm_eyestate;
         }
     }
     return NULL;

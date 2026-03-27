@@ -35,6 +35,7 @@ f32 cm_textbox_alpha = 0.0f;
 f32 cm_textbox_text_alpha = 0.0f;
 char * cm_textbox_text = NULL;
 char * cm_textbox_text_target = NULL;
+s32 cm_eyestate = -1;
 
 s32 cm_wait_for_transition(void) {
     if (cm_textbox_text == cm_textbox_text_target) {
@@ -1038,6 +1039,56 @@ void cm_finalboss_3(void) {
     }
 }
 
+char ascii_sleep_1[] = "After a long journey through the Multiverse\nand saving reality as we know it,";
+char ascii_sleep_2[] = "Mario decides to take a very well deserved nap.";
+char ascii_sleep_3[] = "Unfortunately for the poor man...\nHe just can't stop dreaming about his journey.";
+char ascii_sleep_4[] = "The events were so intense, his mind\ncannot let go.";
+char ascii_sleep_5[] = "Mario has been trapped in an eternal dream.";
+
+void cm_sleep(void) {
+    switch(cm_cutscene_timer) {
+        case 0:
+            set_mario_animation(gMarioState,MARIO_ANIM_SLEEP_LYING);
+            cm_eyestate = 2;
+            break;
+        case 59:
+            cm_textbox_text_target = &ascii_sleep_1;
+            break;
+        case 60:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_sleep_2;
+            }
+            break;
+        case 61:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = NULL;
+            }
+            break;
+        case 130:
+            cm_textbox_text_target = &ascii_sleep_3;
+            cm_eyestate = 7;
+            play_sound(SOUND_MARIO_WAAAOOOW, gGlobalSoundSource);
+            break;
+        case 131:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_sleep_4;
+            }
+            break;
+        case 132:
+            if (cm_press_a_or_b()) {
+                cm_textbox_text_target = &ascii_sleep_5;
+            }
+            break;
+        case 133:
+            if (cm_press_a_or_b()) {
+                cm_eyestate = -1;
+                initiate_warp(LEVEL_CASTLE, 0x01, 0x0A, WARP_FLAGS_NONE);
+                fade_into_special_warp(WARP_SPECIAL_NONE, 0);
+            }
+            break;
+    }
+}
+
 void cm_manager_object_loop(void) {
     if (o->oAction == 0) {
         //init a cutscene
@@ -1080,6 +1131,9 @@ void cm_manager_object_loop(void) {
             break;
         case 6:
             cm_finalboss_3();
+            break;
+        case 7:
+            cm_sleep();
             break;
     }
 

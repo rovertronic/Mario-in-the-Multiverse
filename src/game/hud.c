@@ -1160,7 +1160,7 @@ void render_hud(void) {
 
 
                     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)cm_textbox_text_alpha);
-                    print_generic_string_ascii(43, 44, cm_textbox_text);
+                    print_generic_string_ascii(43, 54, cm_textbox_text);
 
                     if ((cm_textbox_a_signal)&&(cm_textbox_text_alpha >= 254.0f)) {
                         gDPSetEnvColor(gDisplayListHead++, 50, 50, 255, colorFade);

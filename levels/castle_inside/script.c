@@ -69,6 +69,7 @@ const LevelScript level_castle_inside_entry[] = {
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, castle_inside_area_1),
+		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(20 /*exits 20-34*/, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(21, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(22, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
@@ -105,6 +106,7 @@ const LevelScript level_castle_inside_entry[] = {
 		OBJECT(MODEL_HUBPLATFORM, 6553, 2131, -484, 0, 0, 0, 0x00000000, bhvHubPlatform),
 		OBJECT(MODEL_HUBPLATFORM, 6596, 2410, 248, 0, 0, 0, 0x00000000, bhvHubPlatform),
 		//OBJECT(MODEL_LAYTON, -1021, 1612, 2276, 0, 154, 0, 0x00000000, bhvLayton),
+		OBJECT(MODEL_NONE, -2062, 1612, -979, 0, 0, 0, (10 << 16), bhvSpinAirborneWarp),
 		OBJECT(MODEL_NONE, -5118, 2394, -1653, 0, 0, 0, (20 << 16), bhvSpinAirborneWarp),
 		OBJECT(MODEL_NONE, -2212, 2394, -5474, 0, -161, 0, (21 << 16), bhvSpinAirborneWarp),
 		OBJECT(MODEL_NONE, 2116, 2335, -5289, 0, 168, 0, (23 << 16), bhvSpinAirborneWarp),
@@ -152,7 +154,7 @@ const LevelScript level_castle_inside_entry[] = {
 		//OBJECT(MODEL_RED_COIN, 8550, 3997, 106, 0, 0, 0, 0x00000000, bhvRedCoin),
 		//OBJECT(MODEL_RED_COIN, 5291, 3263, 5862, 0, 0, 0, 0x00000000, bhvRedCoin),
 		//OBJECT(MODEL_REDD, 1963, 1612, -921, 0, -67, 0, 0x00000000, bhvRedd),
-		OBJECT(MODEL_NONE, 0, 2994, 0, 0, 0, 0, 0x00000000, bhvShopController),
+		//OBJECT(MODEL_NONE, 0, 2994, 0, 0, 0, 0, 0x00000000, bhvShopController),
 		OBJECT(MODEL_STAR, -230, 3486, -191, 0, 0, 0, (2 << 16), bhvShopItem),
 		OBJECT(MODEL_STAR, -265, 3315, 36, 0, 0, 0, (0 << 16), bhvShopItem),
 		OBJECT(MODEL_STAR, 260, 3360, 63, 0, 0, 0, (1 << 16), bhvShopItem),

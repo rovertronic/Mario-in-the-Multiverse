@@ -1081,7 +1081,6 @@ void cm_sleep(void) {
             break;
         case 133:
             if (cm_press_a_or_b()) {
-                cm_eyestate = -1;
                 initiate_warp(LEVEL_CASTLE, 0x01, 0x0A, WARP_FLAGS_NONE);
                 fade_into_special_warp(WARP_SPECIAL_NONE, 0);
             }

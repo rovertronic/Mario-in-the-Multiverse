@@ -827,7 +827,7 @@ void bhv_hint_art_star(void) {
             if (o->oDistanceToMario < 200.0f && gMarioStates[0].action == ACT_GROUND_POUND_LAND) {
                 cur_obj_play_sound_2(SOUND_ACTION_UNSTUCK_FROM_GROUND);
                 o->oAction++;
-                struct Object * hintArtStar = spawn_object(o,MODEL_DREAM_STAR,bhvDreamCatalyst);
+                struct Object * hintArtStar = spawn_object(gMarioObject,MODEL_DREAM_STAR,bhvDreamCatalyst);
                 SET_BPARAM2(hintArtStar->oBehParams,8);
                 hintArtStar->oBehParams2ndByte = 8;
                 if (GET_BPARAM4(o->oBehParams)) {

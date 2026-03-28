@@ -5,7 +5,7 @@ include util.mk
 # Default target
 default: all
 
-TARGET_STRING := mitm
+TARGET_STRING := af26
 
 # Preprocessor definitions
 DEFINES :=

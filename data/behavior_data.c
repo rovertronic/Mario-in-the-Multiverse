@@ -10024,3 +10024,18 @@ const BehaviorScript bhvHintArtStar[] = {
         CALL_NATIVE(bhv_hint_art_star),
     END_LOOP(),
 };
+
+extern void bhv_npc_dreamer_loop(void);
+const BehaviorScript bhvDreamer[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_INTERACT_TYPE(INTERACT_TEXT),
+    DROP_TO_FLOOR(),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 60),
+    SET_HOME(),
+    CALL_NATIVE(bhv_npc_init),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_npc_dreamer_loop),
+    END_LOOP(),
+};

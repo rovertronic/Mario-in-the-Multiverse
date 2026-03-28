@@ -1941,7 +1941,7 @@ void render_settings(void) {
 void render_pause_course_options(s16 x, s16 y, s8 *index, s16 yIndex) {
 
     // Determine if exit course should be shown
-    u8 show_exit_course = ((gMarioState->numStars > 0)&&(gCurrLevelNum!=LEVEL_CASTLE));
+    u8 show_exit_course = (1);
     u8 scrollct = show_exit_course ? 4 : 3;
     handle_menu_scrolling(MENU_SCROLL_VERTICAL, index, 1, scrollct);
 

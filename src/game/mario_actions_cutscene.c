@@ -658,10 +658,20 @@ s32 act_debug_free_move(struct MarioState *m) {
     return FALSE;
 }
 
+extern u8 magic_mirror_timer;
 extern u8 ability_get_confirm;
+extern Vec3f gSafepos;
 void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
     struct Object *celebStar = NULL;
     int celebStarModel = MODEL_STAR;
+
+    int danger = FALSE;
+    struct Surface * floor;
+    find_floor(gMarioState->pos[0], gMarioState->pos[1], gMarioState->pos[2], &floor);
+
+    if (floor && (floor->type == SURFACE_INSTANT_QUICKSAND || floor->type == SURFACE_BURNING || floor->type == SURFACE_DEATH_PLANE)) {
+        danger = TRUE;
+    }
 
     if (m->actionState == ACT_STATE_STAR_DANCE_CUTSCENE) {
         switch (update_mario_action_timer_pre(m)) {
@@ -742,6 +752,7 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
                 else {
                     enable_time_stop();
                     m->actionState = ACT_STATE_STAR_DANCE_DO_SAVE;
+
                 }
                 break;
         }
@@ -758,6 +769,14 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
         disable_time_stop();
         enable_background_sound();
         set_mario_action(m, isInWater ? ACT_WATER_IDLE : ACT_IDLE, 0);
+
+        if (danger) {
+            vec3f_copy(gMarioState->pos,gSafepos);
+            magic_mirror_timer = 0;
+            play_sound(SOUND_ABILITY_MAGIC_MIRROR, gGlobalSoundSource);
+            m->forwardVel = 0;
+            m->vel[0] = 0.0f;
+        }
     }
 }
 

@@ -942,5 +942,6 @@ extern const BehaviorScript bhvFloorSwitchTeleporter[];
 extern const BehaviorScript bhvCoinPile[];
 extern const BehaviorScript bhvCollectablePainting[];
 extern const BehaviorScript bhvHintArtStar[];
+extern const BehaviorScript bhvDreamer[];
 
 #endif // BEHAVIOR_DATA_H

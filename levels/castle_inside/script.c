@@ -64,6 +64,7 @@ const LevelScript level_castle_inside_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_REDD, redd_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_MUMBO_JUMBO, mumbo_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_SYNTHESIZER, synthesizer_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_DREAMER, dreamer_geo),
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -96,6 +97,7 @@ const LevelScript level_castle_inside_entry[] = {
 		OBJECT(MODEL_NONE, 2047, 1612, 1652, 0, 0, 0, 0x00000000, bhvCreditsSlab),
 		OBJECT(MODEL_NONE, -2062, 1859, -979, 0, 0, 0, (0x01 << 16), bhvDeathWarp),
 		OBJECT(MODEL_EGADD, -22, 1612, 2910, 0, 117, 0, 0x00000000, bhvEgaddNPC),
+		OBJECT(MODEL_DREAMER, -1648, 1612, -905, 0, 117, 0, 0x00000000, bhvDreamer),
 		OBJECT(MODEL_HUBPLATFORM, -510, 2651, 1460, 0, 0, 0, 0x00000000, bhvHubPlatform),
 		OBJECT(MODEL_HUBPLATFORM, -1214, 2407, 1059, 0, 0, 0, 0x00000000, bhvHubPlatform),
 		OBJECT(MODEL_HUBPLATFORM, -1572, 2112, 518, 0, 0, 0, 0x00000000, bhvHubPlatform),

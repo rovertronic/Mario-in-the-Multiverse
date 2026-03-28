@@ -911,6 +911,7 @@ void bhv_npc_egadd_loop(void) {
     u8 have_artifact = ((save_file_get_flags() & SAVE_FLAG_ARTREUS_ARTIFACT)!= 0);
 
     s32 egadd_advice_dialog = DIALOG_EGADD_1;
+    /*
     if ((have_enough_stars)&&(!have_artifact)) {
         egadd_advice_dialog = DIALOG_EGADD_2;
     }
@@ -920,6 +921,7 @@ void bhv_npc_egadd_loop(void) {
     if ((have_enough_stars)&&(have_artifact)) {
         egadd_advice_dialog = DIALOG_EGADD_4;
     }
+    */
 
     switch (o->oAction) {
         case 0:
@@ -940,6 +942,42 @@ void bhv_npc_egadd_loop(void) {
 
         case 2:
             dialogResponse = cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, egadd_advice_dialog);
+            if (dialogResponse != DIALOG_RESPONSE_NONE) {
+                o->oAction = 0;
+            }
+            break;
+    }
+
+    o->oInteractStatus = 0;
+}
+
+void bhv_npc_dreamer_loop(void) {
+    switch (o->oAction) {
+        case 0:
+            if (o->oDistanceToMario < 1000.0f) {
+                o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, o->oAngleToMario, 0x140);
+            }
+            if (o->oInteractStatus == INT_STATUS_INTERACTED) {
+                if (gMarioState->numDreamCatalysts >= 132) {
+                    o->oAction = 3;
+                    initiate_warp(LEVEL_ENDING, 1, 0x0A, WARP_FLAGS_NONE);
+                    fade_into_special_warp(WARP_SPECIAL_NONE, 0);
+                } else {
+                    o->oAction = 1;
+                }
+            }
+            break;
+
+        case 1:
+            o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, o->oAngleToMario, 0x1000);
+            if ((s16) o->oMoveAngleYaw == (s16) o->oAngleToMario) {
+                o->oAction = 2;
+            }
+            break;
+
+        case 2:;
+            s32 dialogResponse;
+            dialogResponse = cur_obj_update_dialog_with_cutscene(MARIO_DIALOG_LOOK_UP, DIALOG_FLAG_TURN_TO_MARIO, CUTSCENE_DIALOG, DIALOG_EGADD_2);
             if (dialogResponse != DIALOG_RESPONSE_NONE) {
                 o->oAction = 0;
             }

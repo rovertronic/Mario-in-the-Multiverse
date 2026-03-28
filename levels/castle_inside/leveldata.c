@@ -118,3 +118,4 @@
 #include "levels/castle_inside/synthesizer/model.inc.c"
 #include "levels/castle_inside/synthesizer/collision.inc.c"
 #include "levels/castle_inside/painting_mystery/model.inc.c"
+#include "dreamer/model.inc.c"

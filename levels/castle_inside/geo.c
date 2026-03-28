@@ -38,3 +38,4 @@
 #include "levels/castle_inside/redd/geo.inc.c"
 #include "levels/castle_inside/mumbo/geo.inc.c"
 #include "levels/castle_inside/synthesizer/geo.inc.c"
+#include "dreamer/geo.inc.c"

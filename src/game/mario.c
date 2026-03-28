@@ -1993,11 +1993,19 @@ void memory_leak_detection(void) {
 
 extern u8 gE_C9MarioHealth;
 
+Vec3f gSafepos;
+
 /**
  * Main function for executing Mario's behavior. Returns particleFlags.
  */
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
+
+    struct Surface * floor;
+    find_floor(gMarioState->pos[0], gMarioState->pos[1], gMarioState->pos[2], &floor);
+    if (floor && (!(floor->type == SURFACE_INSTANT_QUICKSAND || floor->type == SURFACE_BURNING || floor->type == SURFACE_DEATH_PLANE))) {
+        vec3f_copy(gSafepos,gMarioState->pos);
+    }
 
     //memory_leak_detection();
     if (gCurrCreditsEntry != NULL && gCurrLevelNum == LEVEL_CASTLE) {
@@ -2747,6 +2755,7 @@ void init_mario(void) {
     if (gHintArtTexture == NULL) {
         gHintArtTexture = main_pool_alloc(256*128*2,MEMORY_POOL_RIGHT);
     }
+    cm_eyestate = -1;
 }
 
 void init_mario_from_save_file(void) {

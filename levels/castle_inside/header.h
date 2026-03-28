@@ -210,4 +210,5 @@ extern const LevelScript level_castle_inside_entry[];
 
 #include "levels/castle_inside/painting_mystery/header.h"
 
+#include "dreamer/geo_header.h"
 #endif

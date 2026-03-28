@@ -586,59 +586,46 @@ Start the TPR challenge?\n\
 \n\
 //Go!////Don't Go"))
 
-DEFINE_DIALOG(DIALOG_EGADD_1, 2, 4, 95, 200, _("\
-Hello Mario! Blimey,\n\
-am I elated to see you!\n\
-\n\
-\n\
-We ought to get this\n\
-hullabaloo sorted out\n\
-as soon as possible,\n\
-and I have a plan.\n\
-I've got the Multiverse\n\
-Machine mostly back into\n\
-mint condition, but\n\
-there's a catch...\n\
-For one, the critical\n\
-component of this\n\
-machine is being scalped by\n\
-the wretched shopkeeper.\n\
-And two, all the power\n\
-stars used to fuel this\n\
-machine were completely\n\
-burnt up.\n\
-So, fetch these items\n\
-and we'll be able to\n\
-repair this machine\n\
-in no time.\n\
-From what I've read from\n\
-the historical tablets,\n\
-there is a deity that we\n\
-need to visit to fix this.\n\
-I'll take you there with\n\
-the machine once it's\n\
-ready.\n\
-\n\
-By the way, the machine\n\
-will need @ffff00ff80 total power\n\
-stars@-------- in order to get\n\
-there."))
+DEFINE_DIALOG(DIALOG_EGADD_1, 2, 7, 95, 200, _("\
+Hello Mario!\n\
+While exploring the dream\n\
+realm, some humanoid squid\n\
+gave me these boxes and\n\
+told me you'd need them."))
 
-DEFINE_DIALOG(DIALOG_EGADD_2, 2, 3, 95, 200, _("\
-Mario! Fancy seeing you\n\
-again. Looks like you've\n\
-got all the stars needed.\n\
-All you need to now is\n\
-to wrangle that artifact\n\
-back from the salesman."))
+DEFINE_DIALOG(DIALOG_EGADD_2, 2, 5, 95, 200, _("\
+Heyo old sport!\n\
+Welcome to the dream\n\
+realm.\n\
+I am Dryan. H, and I\n\
+will be your guide.\n\
+Unfortunately, the\n\
+circumstances that led you\n\
+to be here at this present\n\
+moment are most...\n\
+Dastardly.\n\
+It looks like you've\n\
+become a captive dreamer.\n\
+That's no good, captive\n\
+dreamers are the lowest\n\
+form of consciousness.\n\
+To release yourself of\n\
+the stressors that\n\
+hold you here, you must\n\
+collect the dream\n\
+catalysts.\n\
+They are fragments of\n\
+your memories that bind\n\
+you to this realm.\n\
+\n\
+\n\
+Collect 132 and come back\n\
+to me, and I will help\n\
+you truly get your\n\
+well-deserved nap."))
 
 DEFINE_DIALOG(DIALOG_EGADD_3, 2, 3, 95, 200, _("\
-Mario! Fancy seeing you\n\
-again. Looks like you've\n\
-got my artifact back.\n\
-I still need the power\n\
-stars, otherwise we\n\
-aren't getting anywhere."))
+s"))
 
 DEFINE_DIALOG(DIALOG_EGADD_4, 2, 6, 95, 200, _("\
 Eureka! You've got\n\

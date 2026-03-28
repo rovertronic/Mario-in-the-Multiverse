@@ -294,7 +294,7 @@ const LevelScript level_g_entry[] = {
 		OBJECT(MODEL_NONE, 554, 607, 1212, 0, 0, 0, (0 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -1683, 3576, 2210, 0, 0, 0, (1 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_NONE, -3301, 4231, -9958, 0, 0, 0, (2 << 16), bhvDreamCatalyst),
-		OBJECT(MODEL_NONE, -2626, 6097, -8212, 0, 0, 0, (3 << 16), bhvDreamCatalyst),
+		OBJECT(MODEL_NONE, 2697, 5535, -7398, 0, 0, 0, (3 << 16), bhvDreamCatalyst),
 		OBJECT(MODEL_LEVEL_PIPE, 909, 981, 219, 0, 0, 0, 0x00000000, bhvLevelPipe),
 		OBJECT(MODEL_GOOMBA, -496, -2108, 11816, 0, 0, 0, 0x00000000, bhvGoomba),
 		OBJECT(MODEL_GOOMBA, -1072, -1653, 8393, 0, 0, 0, 0x00000000, bhvGoomba),

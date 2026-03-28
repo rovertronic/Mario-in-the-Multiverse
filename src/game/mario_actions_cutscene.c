@@ -770,12 +770,13 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
         enable_background_sound();
         set_mario_action(m, isInWater ? ACT_WATER_IDLE : ACT_IDLE, 0);
 
+        m->forwardVel = 0;
+        m->vel[0] = 0.0f;
+
         if (danger) {
             vec3f_copy(gMarioState->pos,gSafepos);
             magic_mirror_timer = 0;
             play_sound(SOUND_ABILITY_MAGIC_MIRROR, gGlobalSoundSource);
-            m->forwardVel = 0;
-            m->vel[0] = 0.0f;
         }
     }
 }

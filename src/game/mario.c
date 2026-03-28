@@ -2096,6 +2096,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             return ACTIVE_PARTICLE_NONE;
         }
 
+        /*
         if ((gCurrLevelNum == LEVEL_F) && ((gMarioState->action & ACT_GROUP_MASK) == ACT_GROUP_STATIONARY) && (gCurrCreditsEntry == NULL)) {
             // Level F automatic dialog
 
@@ -2124,6 +2125,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 }
             }
         }
+        */
 
         f32 dist_to_nearest_star = 9999.0f;
         struct Object * nearest_star = cur_obj_nearest_object_with_behavior(bhvStar);

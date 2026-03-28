@@ -2359,7 +2359,7 @@ s32 mitm_file_select() {
             u8 fnaf_star_1 = ((gSaveBuffer.files[i][0].flags & SAVE_FLAG_BEAT_BOWSER) > 0);
             u8 fnaf_star_2 = (starCount >= 123);
             u8 fnaf_star_3 = ((gSaveBuffer.files[i][0].paintings_unlocked == 0xFFFF) && (gSaveBuffer.files[i][0].abilities == 0x3FFFF));
-            u8 fnaf_stars = fnaf_star_1 + fnaf_star_2 + fnaf_star_3;
+            u8 fnaf_stars = 0;//fnaf_star_1 + fnaf_star_2 + fnaf_star_3;
 
             if (fnaf_stars > 0) {
                 char fnaf_star_string[4] = "###";

@@ -2267,6 +2267,19 @@ s32 render_pause_courses_and_castle(void) {
             print_generic_string_ascii(128, 50, hintArtStr);
             print_generic_string_ascii(128, 30, "(Use analog stick to scroll)");
 
+            for (int i = 0; i < 30; i++) {
+                if (i == sHintArtIndex) {
+                    gDPSetEnvColor(gDisplayListHead++, 255, 255, 0, gDialogTextAlpha);
+                }
+                int x = 50 + ((i%15) * 3);
+                int y = 50 + ((i/15) * -3);
+                print_generic_string_ascii(x, y, ".");
+
+                if (i == sHintArtIndex) {
+                    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
+                }
+            }
+
             int newindex = sHintArtIndex%8;
             int newarray = HUBLEVEL_BOWSER + sHintArtIndex/8;
         

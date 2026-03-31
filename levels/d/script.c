@@ -153,7 +153,7 @@ const LevelScript level_d_entry[] = {
 		OBJECT(MODEL_GOOMBA, -6740, 3247, -670, 0, 0, 0, (0 << 16), bhvGoomba),
 		OBJECT(MODEL_NONE, -6792, 4145, 7265, 0, 0, 0, (0 << 24), bhvStar),
 		OBJECT(MODEL_NONE, 8349, 3879, 5214, 0, 0, 0, (1 << 24), bhvStar),
-		OBJECT(MODEL_EXCLAMATION_BOX, -771, -5057, -8676, 0, 0, 0, (EXCLAMATION_BOX_BP_STAR_3 << 16), bhvExclamationBox),
+		OBJECT(MODEL_EXCLAMATION_BOX, -771, -5057, -8676, 0, 0, 0, (EXCLAMATION_BOX_BP_COINS_10 << 16), bhvExclamationBox),
 		OBJECT(MODEL_EXCLAMATION_BOX, -3454, 3838, -12119, 0, 0, 0, (5 << 16), bhvExclamationBox),
 		OBJECT(MODEL_NONE, -1872, 2731, -4382, 0, 0, 0, (3 << 24), bhvStar),
 		OBJECT(MODEL_NONE, -1845, 3189, -3930, 0, 0, 0, 0x00000000, bhvWaterfallSoundLoop),

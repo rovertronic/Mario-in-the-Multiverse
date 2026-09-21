@@ -55,6 +55,7 @@
 #include "hints.h"
 #include "dream_comet.h"
 #include "lerp.h"
+#include "archipelago.h"
 
 u8 pipe_string_not_enough[] = {TEXT_PIPE_NOT_ENOUGH};
 u8 pipe_string_enter[] = {TEXT_PIPE_ENTER};
@@ -447,6 +448,7 @@ extern u8 shop_sold_out;
 struct Object * shop_item_objects[5];
 
 s32 try_to_buy(s32 price) {
+    gMarioState->numGlobalCoins = 999;
     if (gMarioState->numGlobalCoins >= price) {
         gMarioState->numGlobalCoins -= price;
         shop_sold_out = TRUE;
@@ -460,11 +462,11 @@ s32 try_to_buy(s32 price) {
 
 void bhv_shop_controller(void) {
     u8 sold_out[5];
-    sold_out[0] = (save_file_check_ability_unlocked(ABILITY_UTIL_COMPASS) != 0);
-    sold_out[1] = (save_file_check_ability_unlocked(ABILITY_UTIL_MIRROR) != 0);
-    sold_out[2] = (save_file_check_ability_unlocked(ABILITY_UTIL_MILK) != 0);
-    sold_out[3] = (save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_BITFS)) & 1);
-    sold_out[4] = ((save_file_get_flags() & SAVE_FLAG_ARTREUS_ARTIFACT) != 0);
+    sold_out[0] = 0;//(save_file_check_ability_unlocked(ABILITY_UTIL_COMPASS) != 0);
+    sold_out[1] = 0;//(save_file_check_ability_unlocked(ABILITY_UTIL_MIRROR) != 0);
+    sold_out[2] = 0;//(save_file_check_ability_unlocked(ABILITY_UTIL_MILK) != 0);
+    sold_out[3] = 0;//(save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_BITFS)) & 1);
+    sold_out[4] = 0;//((save_file_get_flags() & SAVE_FLAG_ARTREUS_ARTIFACT) != 0);
 
     Vec3f camera_target;
     switch(o->oAction) {
@@ -529,7 +531,8 @@ void bhv_shop_controller(void) {
                 switch(shop_target_item) {
                     case 0:
                         if (try_to_buy(250)) {
-                            save_file_unlock_ability(ABILITY_UTIL_COMPASS);
+                            archipelago_check_location(1);
+                            //save_file_unlock_ability(ABILITY_UTIL_COMPASS);
                             save_file_set_coins();
                             play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
                             save_file_do_save(gCurrSaveFileNum - 1);
@@ -537,7 +540,8 @@ void bhv_shop_controller(void) {
                         break;
                     case 1:
                         if (try_to_buy(200)) {
-                            save_file_unlock_ability(ABILITY_UTIL_MIRROR);
+                            archipelago_check_location(2);
+                            //save_file_unlock_ability(ABILITY_UTIL_MIRROR);
                             save_file_set_coins();
                             play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
                             save_file_do_save(gCurrSaveFileNum - 1);
@@ -545,7 +549,8 @@ void bhv_shop_controller(void) {
                         break;
                     case 2:
                         if (try_to_buy(350)) {
-                            save_file_unlock_ability(ABILITY_UTIL_MILK);
+                            archipelago_check_location(3);
+                            //save_file_unlock_ability(ABILITY_UTIL_MILK);
                             save_file_set_coins();
                             play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
                             save_file_do_save(gCurrSaveFileNum - 1);
@@ -553,8 +558,9 @@ void bhv_shop_controller(void) {
                         break;
                     case 3:
                         if (try_to_buy(200)) { // Star
+                            archipelago_check_location(4);
                             save_file_set_coins();
-
+                            /*
                             shop_target_item = -1;
                             o->oAction = 3;
                             gCamera->cutscene = 0;
@@ -565,12 +571,14 @@ void bhv_shop_controller(void) {
                             set_mario_action(gMarioState, ACT_STAR_DANCE_NO_EXIT, 3);
                             save_file_collect_star_or_key(gMarioState->numCoins, 0);
                             gMarioState->numStars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
+                            */
                         }
                         break;
                     case 4:
                         if (try_to_buy(500)) {
+                            archipelago_check_location(5);
                             save_file_set_coins();
-                            save_file_set_flags(SAVE_FLAG_ARTREUS_ARTIFACT);
+                            //save_file_set_flags(SAVE_FLAG_ARTREUS_ARTIFACT);
                             play_sound(SOUND_MENU_STAR_SOUND, gMarioState->marioObj->header.gfx.cameraToObject);
                             save_file_do_save(gCurrSaveFileNum - 1);
                         }

@@ -23,6 +23,7 @@
 #include "ability.h"
 #include "mitm_hub.h"
 #include "seq_ids.h"
+#include "archipelago.h"
 
 #ifdef UNIQUE_SAVE_DATA
 u16 MENU_DATA_MAGIC = 0x4849;
@@ -778,6 +779,8 @@ void save_file_get_ability_dpad(void) {
 
 //-1 is because ABILITY_DEFAULT should not count
 s32 save_file_check_ability_unlocked(u8 ability_id) {
+    return archipelago_item_unlocked(ability_id-1);
+
     #ifndef UNLOCK_ABILITIES_DEBUG
     return gSaveBuffer.files[gCurrSaveFileNum - 1][0].abilities & (1 << (ability_id-1));
     #else

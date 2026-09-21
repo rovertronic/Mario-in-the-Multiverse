@@ -25,6 +25,7 @@
 #include "game/dream_comet.h"
 #include "game/lerp.h"
 #include "game/emutest.h"
+#include "game/archipelago.h"
 
 #include "eu_translation.h"
 #if MULTILANG
@@ -2138,6 +2139,26 @@ s32 mitm_file_select() {
         return;
     }
 
+    if (0){
+        if (!gArchipelagoBuffer[AP_FOUND_CLIENT]) {
+            shade_screen();
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+            sprintf(&warning_string_buffer,"Waiting for Archipelago Client.");
+            print_generic_string_ascii(15, 200, &warning_string_buffer);
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+            return;
+        }
+
+        if (!gArchipelagoBuffer[AP_CONNECTED]) {
+            shade_screen();
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+            sprintf(&warning_string_buffer,"Enter host and port on client.");
+            print_generic_string_ascii(15, 200, &warning_string_buffer);
+            gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+            return;
+        }
+    }
+    
     //print version
     prepare_blank_box();
     render_blank_box(10,230,20+get_string_width_ascii(VERSION_STRING),205,  0,0,0,  150);

@@ -33,6 +33,7 @@
 #include "fb_effects.h"
 #include "emutest.h"
 #include "level_update.h"
+#include "archipelago.h"
 
 // Gfx handlers
 struct SPTask *gGfxSPTask;
@@ -790,6 +791,8 @@ void thread5_game_loop(UNUSED void *arg) {
     gConfig.widescreen = save_file_get_widescreen_mode();
 #endif
     render_init();
+
+    archipelago_init();
 
     while (TRUE) {
         profiler_frame_setup();

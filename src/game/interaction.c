@@ -967,9 +967,11 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
             if (!level_in_dream_comet_mode()) {
                 //power star
                 p_rank_stars ++;
-                save_file_collect_star_or_key(m->numCoins, starIndex);
-                m->numStars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
+                //save_file_collect_star_or_key(m->numCoins, starIndex);
+                //m->numStars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
                 ability_get_confirm = TRUE;
+
+                archipelago_check_location((hub_level_current_index * 8) + 9 + starIndex);
             } else {
                 //dream catalyst
                 set_dream_star(obj->oBehParams2ndByte);

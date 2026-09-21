@@ -42,6 +42,7 @@
 #include "bullet_system.h"
 #include "actors/group0.h"
 #include "hints.h"
+#include "archipelago.h"
 
 s16 check_water_height = -10000;
 Bool8 have_splashed;
@@ -1999,6 +2000,8 @@ extern u8 gE_C9MarioHealth;
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
+    gMarioState->numStars = gArchipelagoBuffer[AP_STAR_TOTAL];
+
     //memory_leak_detection();
     if (gCurrCreditsEntry != NULL && gCurrLevelNum == LEVEL_CASTLE) {
         set_background_music(0, SEQ_MITM_CREDITS, 0);
@@ -2768,7 +2771,7 @@ void init_mario_from_save_file(void) {
     gMarioState->animList = &gMarioAnimsBuf;
 
     gMarioState->numCoins = 0;
-    gMarioState->numStars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
+    //gMarioState->numStars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
     gMarioState->numDreamCatalysts = get_dream_star_count();
     gMarioState->numKeys = 0;
 #ifdef ENABLE_LIVES

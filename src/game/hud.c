@@ -27,6 +27,7 @@
 #include "config.h"
 #include "ability.h"
 #include "lerp.h"
+#include "archipelago.h"
 
 /* @file hud.c
  * This file implements HUD rendering and power meter animations.
@@ -1374,6 +1375,14 @@ void render_hud(void) {
                 hud_information_string[0] = '\0';
             }
         }
+
+        prepare_blank_box();
+        render_blank_box(10,230,20+get_string_width_ascii(&gArchipelagoBuffer[AP_MESSAGE]),205,  0,0,0,  150);
+        finish_blank_box();
+
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+        print_generic_string_ascii(15, 15, &gArchipelagoBuffer[AP_MESSAGE]);
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 
 #ifdef VANILLA_STYLE_CUSTOM_DEBUG
         if (gCustomDebugMode) {

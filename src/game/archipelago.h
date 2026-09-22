@@ -16,6 +16,8 @@ enum {
     AP_MESSAGE,
 
     AP_ITEMS = 20,
+    AP_ITEMS_2,
+
     AP_END,
 };
 

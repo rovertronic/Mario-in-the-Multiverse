@@ -2756,7 +2756,7 @@ void init_mario_from_save_file(void) {
     } else {
         save_file_unlock_song(SEQ_MITM_FILE_SELECT);
         save_file_init_ability_dpad();
-        gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked = 1;
+        //gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked = 1;
     }
     gMarioState->numCheckpointFlag = -1;
     gMarioState->areaCheckpointFlag = -1;

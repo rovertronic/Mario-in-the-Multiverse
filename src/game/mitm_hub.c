@@ -204,7 +204,8 @@ void level_pipe_loop(void) {
         return;
     }
 
-    if ((gMarioState->numStars >= mitm_levels[o->oBehParams2ndByte].star_requirement)&&(!queued_pipe_cutscene)&&
+    if ((archipelago_item_unlocked(21 + o->oBehParams2ndByte) )&&(!queued_pipe_cutscene)&&
+    //if ((gMarioState->numStars >= mitm_levels[o->oBehParams2ndByte].star_requirement)&&(!queued_pipe_cutscene)&&
         !(gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked & (1 << o->oBehParams2ndByte))) {
         if (o->oTimer > 30) {
             queued_pipe_cutscene = TRUE;
@@ -348,19 +349,24 @@ void render_mitm_hub_hud(void) {
             line_3_y = 31;
         }
 
-        if (mitm_levels[hub_dma_index].star_requirement <= gMarioState->numStars) {
-            //Display Collected Stars
-            gDPSetEnvColor(gDisplayListHead++, 255, 255, 0, (u8)hub_titlecard_alpha);
-            if (dream_comet_enabled) {
-                gDPSetEnvColor(gDisplayListHead++, 255, 0, 255, (u8)hub_titlecard_alpha);
+        if (archipelago_item_unlocked(21 + hub_dma_index)) {
+            if (mitm_levels[hub_dma_index].star_requirement <= gMarioState->numStars) {
+                //Display Collected Stars
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 0, (u8)hub_titlecard_alpha);
+                if (dream_comet_enabled) {
+                    gDPSetEnvColor(gDisplayListHead++, 255, 0, 255, (u8)hub_titlecard_alpha);
+                }
+                update_hub_star_string(hub_dma_index);
+                print_generic_string(110,line_2_y,hub_star_string);
+            } else {
+                //Not Enough Stars to Enter
+                gDPSetEnvColor(gDisplayListHead++, 255, 0, 0, (u8)hub_titlecard_alpha);
+                int_to_str(mitm_levels[hub_dma_index].star_requirement, &pipe_string_not_enough[10]);
+                print_generic_string(110,line_2_y,pipe_string_not_enough);
             }
-            update_hub_star_string(hub_dma_index);
-            print_generic_string(110,line_2_y,hub_star_string);
         } else {
-            //Not Enough Stars to Enter
             gDPSetEnvColor(gDisplayListHead++, 255, 0, 0, (u8)hub_titlecard_alpha);
-            int_to_str(mitm_levels[hub_dma_index].star_requirement, &pipe_string_not_enough[10]);
-            print_generic_string(110,line_2_y,pipe_string_not_enough);
+            print_generic_string_ascii(110,line_2_y, "Not Unlocked");
         }
 
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hub_titlecard_alpha);

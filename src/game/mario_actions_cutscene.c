@@ -680,6 +680,8 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
 
                 u8 got_an_ability = FALSE;
                 u8 got_an_painting = FALSE;
+
+                /*
                 if (obj_has_behavior(m->usedObj,bhvAbilityUnlock)) {
                     obj_set_model(celebStar, MODEL_ABILITY);
                     obj_set_billboard(celebStar);
@@ -692,6 +694,7 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
                     celebStar->oBehParams2ndByte = m->usedObj->oBehParams2ndByte;
                     got_an_painting = TRUE;
                 }
+                */
 
                 if (!using_ability(ABILITY_E_SHOTGUN)) {
                     disable_background_sound();
@@ -795,11 +798,11 @@ s32 act_fall_after_star_grab(struct MarioState *m) {
     }
     if (perform_air_step(m, AIR_STEP_CHECK_LEDGE_GRAB) == AIR_STEP_LANDED) {
         play_mario_landing_sound(m, SOUND_ACTION_TERRAIN_LANDING);
-        if (obj_has_behavior(m->usedObj,bhvAbilityUnlock)) {
-            return set_mario_action(m, ACT_ABILITY_DANCE,m->actionArg);
-        } else {
+        //if (obj_has_behavior(m->usedObj,bhvAbilityUnlock)) {
+        //    return set_mario_action(m, ACT_ABILITY_DANCE,m->actionArg);
+        //} else {
             set_mario_action(m, m->actionArg & 1 ? ACT_STAR_DANCE_NO_EXIT : ACT_STAR_DANCE_EXIT,m->actionArg);
-        }
+        //}
     }
     set_mario_animation(m, MARIO_ANIM_GENERAL_FALL);
     return FALSE;

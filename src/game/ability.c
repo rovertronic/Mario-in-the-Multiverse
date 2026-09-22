@@ -439,6 +439,9 @@ void bhv_ability(void) {
             }
         break;
         case 1:
+            cur_obj_hide();
+            o->oAction = 2;
+            /*
             if (o->oInteractStatus & INT_STATUS_INTERACTED) {
                 save_file_unlock_song(SEQ_MITM_GET_ABILITY);
 
@@ -455,6 +458,7 @@ void bhv_ability(void) {
                 save_file_set_ability_dpad();
                 o->oAction = 2;
             }
+            */
         break;
     }
 }

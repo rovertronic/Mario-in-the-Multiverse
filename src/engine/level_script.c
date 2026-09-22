@@ -923,11 +923,12 @@ static void level_cmd_set_echo(void) {
 }
 
 void level_cmd_fileselect_condition(void) {
-    if (save_file_exists(gCurrSaveFileNum - 1)) {
-        sRegister = LEVEL_CASTLE;
-    } else {
-        sRegister = LEVEL_BIRTHDAY;
-    }
+    sRegister = LEVEL_CASTLE;
+    //if (save_file_exists(gCurrSaveFileNum - 1)) {
+    //    sRegister = LEVEL_CASTLE;
+    //} else {
+    //    sRegister = LEVEL_BIRTHDAY;
+    //}
     sCurrentCmd = CMD_NEXT;
 }
 

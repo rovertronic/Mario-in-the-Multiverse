@@ -936,6 +936,27 @@ u8 combo_meter_visual = 201;
 
 char hud_information_string[60] = {'\0'};
 
+void archipelago_hud_render(void) {
+    if (gArchipelagoBuffer[AP_TEXT_TIMER] > 0) {
+        f32 ap_alpha = 1.0f;
+
+        if (gArchipelagoBuffer[AP_TEXT_TIMER] < 60) {
+            ap_alpha = gArchipelagoBuffer[AP_TEXT_TIMER]/60.0f;
+        }
+
+        prepare_blank_box();
+        render_blank_box(10,230,20+get_string_width_ascii(&gArchipelagoBuffer[AP_MESSAGE]),205,  0,0,0,  150 * ap_alpha);
+        finish_blank_box();
+
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, ap_alpha * 255);
+        print_generic_string_ascii(15, 15, &gArchipelagoBuffer[AP_MESSAGE]);
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+
+        gArchipelagoBuffer[AP_TEXT_TIMER] --;
+    }
+}
+
 void render_hud(void) {
     //--E
     if ((gCurrLevelNum == LEVEL_E)&&(gHudDisplay.flags != HUD_DISPLAY_NONE)&&(!level_in_dream_comet_mode())) {
@@ -1058,6 +1079,8 @@ void render_hud(void) {
         create_dl_translation_matrix(MENU_MTX_PUSH, 0.f, 20.f, 0);
         render_ability_get_hud();
         gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+        archipelago_hud_render();
 
         return;
     }
@@ -1376,13 +1399,7 @@ void render_hud(void) {
             }
         }
 
-        prepare_blank_box();
-        render_blank_box(10,230,20+get_string_width_ascii(&gArchipelagoBuffer[AP_MESSAGE]),205,  0,0,0,  150);
-        finish_blank_box();
-
-        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
-        print_generic_string_ascii(15, 15, &gArchipelagoBuffer[AP_MESSAGE]);
-        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+        archipelago_hud_render();
 
 #ifdef VANILLA_STYLE_CUSTOM_DEBUG
         if (gCustomDebugMode) {

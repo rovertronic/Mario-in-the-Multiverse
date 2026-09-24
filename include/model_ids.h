@@ -624,6 +624,8 @@ enum GLOBAL_MODELS {
     MODEL_BD_STAR,
     MODEL_BD_WAVE,
 
+    MODEL_AP_ITEM,
+
     // Custom Mario Models
     MODEL_E__MARIO,
     MODEL_MARIO_K,

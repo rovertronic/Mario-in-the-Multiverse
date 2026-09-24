@@ -163,6 +163,8 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_BD_STAR,                 bd_star_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BD_WAVE,                 bd_wave_geo),
 
+    LOAD_MODEL_FROM_GEO(MODEL_AP_ITEM, apitem_geo),
+
     FREE_LEVEL_POOL(),
     POP_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),

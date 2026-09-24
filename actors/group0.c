@@ -157,3 +157,4 @@
 #include "collectable_painting/model.inc.c"
 #include "chaingun/model.inc.c"
 #include "chaingunh/model.inc.c"
+#include "apitem/model.inc.c"

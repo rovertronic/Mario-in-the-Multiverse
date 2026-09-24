@@ -16,7 +16,8 @@ enum {
     AP_MESSAGE,
 
     AP_ITEMS = 20,
-    AP_ITEMS_2,
+
+    AP_TEXT_TIMER = 22,
 
     AP_END,
 };
@@ -24,6 +25,7 @@ enum {
 void archipelago_init(void);
 void archipelago_check_location(int id);
 u32 archipelago_item_unlocked(int id);
+s32 archipelago_item_model(int id, struct Object * obj);
 
 extern u32 gArchipelagoBuffer[];
 

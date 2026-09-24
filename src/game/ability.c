@@ -422,9 +422,12 @@ static struct ObjectHitbox sCollectAbilityHitbox = {
 };
 
 void bhv_ability(void) {
+    archipelago_item_model(139 + o->oBehParams2ndByte);
+
     switch(o->oAction) {
         case 0:
-            if (save_file_check_ability_unlocked(o->oBehParams2ndByte)) {
+            //if (save_file_check_ability_unlocked(o->oBehParams2ndByte)) {
+            if (0) {
 /* When debugging, you should always be able to test ability collection*/
 #ifdef UNLOCK_ABILITIES_DEBUG
                 o->oAction = 1;
@@ -439,8 +442,10 @@ void bhv_ability(void) {
             }
         break;
         case 1:
-            cur_obj_hide();
-            o->oAction = 2;
+            if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+                cur_obj_hide();
+                o->oAction = 2;
+            }
             /*
             if (o->oInteractStatus & INT_STATUS_INTERACTED) {
                 save_file_unlock_song(SEQ_MITM_GET_ABILITY);

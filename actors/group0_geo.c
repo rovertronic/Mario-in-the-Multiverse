@@ -70,3 +70,4 @@
 #include "bd_star/geo.inc.c"
 #include "bd_wave/geo.inc.c"
 #include "collectable_painting/geo.inc.c"
+#include "apitem/geo.inc.c"

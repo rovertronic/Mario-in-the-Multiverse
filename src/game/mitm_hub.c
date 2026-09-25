@@ -620,8 +620,11 @@ void bhv_shop_controller(void) {
 }
 
 void bhv_shopitem_loop(void) {
+    archipelago_item_model(o->oBehParams2ndByte + 1 , o);
+
     switch(o->oAction) {
         case 0:
+            /*
             switch(o->oBehParams2ndByte) {
                 case 0: // Compass
                     o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_SHOPITEM_1];
@@ -642,6 +645,8 @@ void bhv_shopitem_loop(void) {
                     o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_SHOPITEM_4];
                     break;
             }
+            */
+
             shop_item_objects[o->oBehParams2ndByte] = o;
             o->oAction = 1;
             break;

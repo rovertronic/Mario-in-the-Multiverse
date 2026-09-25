@@ -51,7 +51,7 @@ void bhv_collect_star_init(void) {
 
 void bhv_collect_star_loop(void) {
     o->oFaceAngleYaw += 0x800;
-    archipelago_item_model((hub_level_current_index * 8) + 9 + GET_BPARAM1(o->oBehParams));
+    archipelago_item_model((hub_level_current_index * 8) + 9 + GET_BPARAM1(o->oBehParams), o);
 
     if (o->oInteractStatus & INT_STATUS_INTERACTED) {
         obj_mark_for_deletion(o);

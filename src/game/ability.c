@@ -243,7 +243,7 @@ Gfx *geo_ability_material(s32 callContext, struct GraphNode *node, void *context
         gDPSetTextureFilter(dlHead++,G_TF_POINT);
         gDPSetCombineLERP(dlHead++,0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0);
         gSPTexture(dlHead++,65535, 65535, 0, 0, 1);
-        gDPSetTextureImage(dlHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, ability_images[obj->oBehParams2ndByte]);
+        gDPSetTextureImage(dlHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, ability_images[ GET_BPARAM4(obj->oBehParams)]);
         gDPSetTile(dlHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0);
         gDPLoadBlock(dlHead++,7, 0, 0, 1023, 256);
         gDPSetTile(dlHead++,G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0);
@@ -422,7 +422,7 @@ static struct ObjectHitbox sCollectAbilityHitbox = {
 };
 
 void bhv_ability(void) {
-    archipelago_item_model(139 + o->oBehParams2ndByte);
+    archipelago_item_model(140 + o->oBehParams2ndByte, o);
 
     switch(o->oAction) {
         case 0:

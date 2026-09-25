@@ -634,6 +634,11 @@ u32 save_file_get_star_flags(UNUSED s32 fileIndex, UNUSED s32 courseIndex) {
 }
 #else
 u32 save_file_get_star_flags(s32 fileIndex, s32 courseIndex) {
+    u8 * course_offset = &gArchipelagoBuffer[AP_LOCATIONS_CHECKED];
+    course_offset += 1 + courseIndex;
+
+    return *course_offset;
+
     u32 starFlags;
 
     if (courseIndex == COURSE_NUM_TO_INDEX(COURSE_NONE)) {

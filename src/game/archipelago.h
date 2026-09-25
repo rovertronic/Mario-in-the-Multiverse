@@ -18,6 +18,9 @@ enum {
     AP_ITEMS = 20,
 
     AP_TEXT_TIMER = 22,
+    AP_LOCATIONS_CHECKED = 23,
+    AP_REQUEST_MODEL_ID = 31,
+    AP_RETURN_MODEL_ID = 32,
 
     AP_END,
 };
@@ -26,6 +29,7 @@ void archipelago_init(void);
 void archipelago_check_location(int id);
 u32 archipelago_item_unlocked(int id);
 s32 archipelago_item_model(int id, struct Object * obj);
+u32 archipelago_location_checked(int id);
 
 extern u32 gArchipelagoBuffer[];
 

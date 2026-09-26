@@ -88,6 +88,8 @@ void bhv_star_spawn_init(void) {
 }
 
 void bhv_star_spawn_loop(void) {
+    archipelago_item_model((hub_level_current_index * 8) + 9 + GET_BPARAM1(o->oBehParams), o);
+
     switch (o->oAction) {
         case SPAWN_STAR_ARC_CUTSCENE_ACT_START:
             o->oFaceAngleYaw += 0x1000;

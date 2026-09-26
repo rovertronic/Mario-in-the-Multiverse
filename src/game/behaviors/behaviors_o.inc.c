@@ -2912,19 +2912,22 @@ static struct ObjectHitbox sCollectablePaintingHitbox = {
 extern const u8 painting_data[];
 extern u8 collectable_painting_painting_rgba16[];
 void bhv_collectable_painting(void) {
+
+    archipelago_item_model(155 + o->oBehParams2ndByte, o);
     switch(o->oAction) {
         case 0: //decide if i should become active
-            if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].paintings_unlocked & (1<<o->oBehParams2ndByte)) {
+            //if (gSaveBuffer.files[gCurrSaveFileNum - 1][0].paintings_unlocked & (1<<o->oBehParams2ndByte)) {
+            if (archipelago_location_checked(155 + o->oBehParams2ndByte )) {
                 mark_obj_for_deletion(o);
             } else {
                 o->oAction = 1;
             }
             break;
         case 1: //init
-            ;void * texture = segmented_to_virtual(&collectable_painting_painting_rgba16);
-            void * rom_location = ((uintptr_t)painting_data)+(o->oBehParams2ndByte*2048);
-            dma_read(texture,rom_location,rom_location+2048);
-            o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_PAINTING];
+            //;void * texture = segmented_to_virtual(&collectable_painting_painting_rgba16);
+            //void * rom_location = ((uintptr_t)painting_data)+(o->oBehParams2ndByte*2048);
+            //dma_read(texture,rom_location,rom_location+2048);
+            //o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_PAINTING];
             obj_set_hitbox(o, &sCollectablePaintingHitbox);
             o->oAction = 2;
             break;

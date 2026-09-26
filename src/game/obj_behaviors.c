@@ -34,6 +34,7 @@
 #include "rumble_init.h"
 #include "puppylights.h"
 #include "spidertron.h"
+#include "archipelago.h"
 
 /**
  * @file obj_behaviors.c

@@ -12,7 +12,8 @@ void bhv_m_boss_elevator(void) {
         case 0:
             switch(o->oAction) {
                 case 0:
-                    if ((o->oDistanceToMario < 700.0f)&&(save_file_check_ability_unlocked(ABILITY_DASH_BOOSTER))) {
+                    //if ((o->oDistanceToMario < 700.0f)&&(save_file_check_ability_unlocked(ABILITY_DASH_BOOSTER))) {
+                    if ((o->oDistanceToMario < 700.0f)&&(archipelago_location_checked(155))) {
                         cur_obj_play_sound_2(SOUND_GENERAL_STAR_DOOR_OPEN);
                         o->oAction = 1;
                     }

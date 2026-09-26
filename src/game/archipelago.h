@@ -32,5 +32,6 @@ s32 archipelago_item_model(int id, struct Object * obj);
 u32 archipelago_location_checked(int id);
 
 extern u32 gArchipelagoBuffer[];
+extern u32 gArchipelagoLastLocationChecked;
 
 #endif

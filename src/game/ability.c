@@ -422,7 +422,8 @@ static struct ObjectHitbox sCollectAbilityHitbox = {
 };
 
 void bhv_ability(void) {
-    archipelago_item_model(140 + o->oBehParams2ndByte, o);
+    archipelago_item_model(139 + o->oBehParams2ndByte, o);
+    o->oFaceAngleYaw += 0x800;
 
     switch(o->oAction) {
         case 0:

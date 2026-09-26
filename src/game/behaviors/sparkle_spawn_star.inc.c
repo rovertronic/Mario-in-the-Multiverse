@@ -69,6 +69,8 @@ void slow_star_rotation(void) {
 }
 
 void bhv_spawned_star_loop(void) {
+    archipelago_item_model((hub_level_current_index * 8) + 9 + GET_BPARAM1(o->oBehParams), o);
+
     if (o->oAction == SPAWN_STAR_POS_CUTSCENE_ACT_START) {
         if (o->oTimer == 0) {
             cutscene_object(CUTSCENE_STAR_SPAWN, o);

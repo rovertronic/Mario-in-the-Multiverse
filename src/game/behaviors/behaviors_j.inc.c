@@ -49,7 +49,8 @@ void bhv_dragonite_init(void){
         cur_obj_init_animation(0);
     } else if (o->oBehParams2ndByte == 1){
         ///IF (1), DESPAWN IF YOU HAVE THE ABILITY UNLOCKED
-        if (save_file_check_ability_unlocked(ABILITY_HM_FLY)) {
+        //if (save_file_check_ability_unlocked(ABILITY_HM_FLY)) {
+        if (archipelago_location_checked(139 + ABILITY_HM_FLY)) {
             struct Object * star_always_there = spawn_object(o,MODEL_STAR,bhvStar);
             vec3f_set(&star_always_there->oPosVec,0.0f, 749.0f, -1762.0f);
             obj_mark_for_deletion(o);

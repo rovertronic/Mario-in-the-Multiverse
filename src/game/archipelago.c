@@ -6,12 +6,15 @@
 #include "include/object_constants.h"
 
 u32 gArchipelagoBuffer[AP_END];
+u32 gArchipelagoLastLocationChecked = 0;
 
 void archipelago_init(void) {
     sprintf(&gArchipelagoBuffer,"MITM AP BUFFER  ");
 }
 
+// Send Location
 void archipelago_check_location(int id) {
+    gArchipelagoLastLocationChecked = id;
     gArchipelagoBuffer[AP_SEND_LOCATION] = id;
 }
 
@@ -21,6 +24,7 @@ u32 archipelago_item_unlocked(int id) {
     return (gArchipelagoBuffer[AP_ITEMS + slot] & (1 << bit));
 }
 
+// Check Location
 u32 archipelago_location_checked(int id) {
     int slot = id/32;
     int bit = id%32;
@@ -38,6 +42,7 @@ s32 archipelago_item_model(int id, struct Object * obj) {
         } else {
             // Wait for response
             if (gArchipelagoBuffer[AP_RETURN_MODEL_ID] > 0) {
+                obj->header.gfx.node.flags &= ~GRAPH_RENDER_BILLBOARD;
                 switch(gArchipelagoBuffer[AP_RETURN_MODEL_ID]) {
                     case 1:
                         model = MODEL_AP_ITEM;

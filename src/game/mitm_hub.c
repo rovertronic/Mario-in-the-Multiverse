@@ -454,7 +454,6 @@ extern u8 shop_sold_out;
 struct Object * shop_item_objects[5];
 
 s32 try_to_buy(s32 price) {
-    gMarioState->numGlobalCoins = 999;
     if (gMarioState->numGlobalCoins >= price) {
         gMarioState->numGlobalCoins -= price;
         shop_sold_out = TRUE;
@@ -468,11 +467,11 @@ s32 try_to_buy(s32 price) {
 
 void bhv_shop_controller(void) {
     u8 sold_out[5];
-    sold_out[0] = 0;//(save_file_check_ability_unlocked(ABILITY_UTIL_COMPASS) != 0);
-    sold_out[1] = 0;//(save_file_check_ability_unlocked(ABILITY_UTIL_MIRROR) != 0);
-    sold_out[2] = 0;//(save_file_check_ability_unlocked(ABILITY_UTIL_MILK) != 0);
-    sold_out[3] = 0;//(save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_BITFS)) & 1);
-    sold_out[4] = 0;//((save_file_get_flags() & SAVE_FLAG_ARTREUS_ARTIFACT) != 0);
+    sold_out[0] = archipelago_location_checked(1);//(save_file_check_ability_unlocked(ABILITY_UTIL_COMPASS) != 0);
+    sold_out[1] = archipelago_location_checked(2);//(save_file_check_ability_unlocked(ABILITY_UTIL_MIRROR) != 0);
+    sold_out[2] = archipelago_location_checked(3);//(save_file_check_ability_unlocked(ABILITY_UTIL_MILK) != 0);
+    sold_out[3] = archipelago_location_checked(4);//(save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_BITFS)) & 1);
+    sold_out[4] = archipelago_location_checked(5);//((save_file_get_flags() & SAVE_FLAG_ARTREUS_ARTIFACT) != 0);
 
     Vec3f camera_target;
     switch(o->oAction) {

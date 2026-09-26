@@ -50,6 +50,7 @@
 #include "levels/k/header.h"
 #include "mario_actions_object.h"
 #include "src/game/e__shotgun_effects.h"
+#include "archipelago.h"
 
 //! TODO: remove static
 

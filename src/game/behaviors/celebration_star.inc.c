@@ -56,6 +56,7 @@ void celeb_star_act_face_camera(void) {
 }
 
 void bhv_celebration_star_loop(void) {
+    archipelago_item_model(gArchipelagoLastLocationChecked, o);
     switch (o->oAction) {
         case CELEB_STAR_ACT_SPIN_AROUND_MARIO:
             celeb_star_act_spin_around_mario();

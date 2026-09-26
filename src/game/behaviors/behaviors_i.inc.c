@@ -260,7 +260,7 @@ void bhv_hoodmonger_init(void){
     
     //if first star get, delete all hoodmonger with Bparam 2 set to 1
     //TODO change "if first star get" to "if Shock Rocket unlocked"
-    if (save_file_check_ability_unlocked(ABILITY_SHOCK_ROCKET) && GET_BPARAM2(o->oBehParams) == 1) {
+    if (archipelago_location_checked(144) && GET_BPARAM2(o->oBehParams) == 1) {
         obj_mark_for_deletion(o);
     } else {
         if(o->oIsLootingRocket) {

@@ -966,7 +966,10 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
             */
             } else if (obj_has_behavior(obj,bhvCollectablePainting)) {
                 //starGrabAction = ACT_STAR_DANCE_WATER;
-                gSaveBuffer.files[gCurrSaveFileNum - 1][0].paintings_unlocked |= (1<<obj->oBehParams2ndByte);
+                //gSaveBuffer.files[gCurrSaveFileNum - 1][0].paintings_unlocked |= (1<<obj->oBehParams2ndByte);
+                archipelago_check_location(155 + obj->oBehParams2ndByte);
+                ability_get_confirm = TRUE;
+
                 gSaveFileModified = TRUE;
             } else {
             if (!level_in_dream_comet_mode()) {

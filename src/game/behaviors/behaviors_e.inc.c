@@ -729,7 +729,16 @@ void bhv_e__key(void) {
             play_sound(SOUND_MITM_LEVEL_E_ITEM, o->header.gfx.cameraToObject);
             spawn_object(o, (obj_get_model_id(o) + 3), bhvE_KeyCollect);
             o->activeFlags = 0;
-            gMarioState->numKeys |= o->oBehParams2ndByte;
+            //gMarioState->numKeys |= o->oBehParams2ndByte;
+
+            switch(o->oBehParams) {
+                case 0x00020000:
+                    archipelago_check_location(170);
+                    break;
+                case 0x00010000:
+                    archipelago_check_location(171);
+                    break;
+            }
         }
     }
 }

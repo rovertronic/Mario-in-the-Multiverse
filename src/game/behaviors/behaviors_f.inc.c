@@ -404,7 +404,8 @@ void bhv_f_key(void) {
             if (o->oDistanceToMario < 150.0f) {
                 o->oAction = 1;
                 o->oHomeY = 1.0f;
-                gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags |= (1<<LEVEL_F_FLAG_KEY);
+                //gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags |= (1<<LEVEL_F_FLAG_KEY);
+                archipelago_check_location(172);
                 save_file_do_save(gCurrSaveFileNum - 1);
                 cur_obj_play_sound_2(SOUND_GENERAL_BOWSER_KEY_LAND);
             }
@@ -632,7 +633,8 @@ void bhv_f_boat(void) {
 
     load_object_collision_model();
 
-    if (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags & (1<<LEVEL_F_FLAG_KEY))) {
+    //if (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].level_f_flags & (1<<LEVEL_F_FLAG_KEY))) {
+    if (!archipelago_item_unlocked(38)) {
         if (lateral_dist_between_objects(gMarioObject,o) < 400.0f) {
             sprintf(&hud_information_string,"NEED BOAT KEY");
         }

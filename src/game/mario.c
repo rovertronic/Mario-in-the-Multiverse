@@ -2002,6 +2002,13 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 
     gMarioState->numStars = gArchipelagoBuffer[AP_STAR_TOTAL];
 
+    if (archipelago_item_unlocked(36)) {
+        gMarioState->numKeys |= 0x02;
+    }
+    if (archipelago_item_unlocked(37)) {
+        gMarioState->numKeys |= 0x01;
+    }
+
     //memory_leak_detection();
     if (gCurrCreditsEntry != NULL && gCurrLevelNum == LEVEL_CASTLE) {
         set_background_music(0, SEQ_MITM_CREDITS, 0);

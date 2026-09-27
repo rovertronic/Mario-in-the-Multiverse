@@ -21,6 +21,7 @@ enum {
     AP_LOCATIONS_CHECKED = 23,
     AP_REQUEST_MODEL_ID = 31,
     AP_RETURN_MODEL_ID = 32,
+    AP_KILL_BOWSER = 33,
 
     AP_END,
 };

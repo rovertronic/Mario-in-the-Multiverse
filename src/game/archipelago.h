@@ -23,6 +23,9 @@ enum {
     AP_RETURN_MODEL_ID = 32,
     AP_KILL_BOWSER = 33,
 
+    AP_50_COIN_PACK = 34,
+    AP_STARS_TO_COMPLETE = 35,
+
     AP_END,
 };
 

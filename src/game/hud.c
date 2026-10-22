@@ -937,6 +937,11 @@ u8 combo_meter_visual = 201;
 char hud_information_string[60] = {'\0'};
 
 void archipelago_hud_render(void) {
+    int updog = 0;
+    if ((gCurrLevelNum == LEVEL_E) || (hud_information_string[0] != '\0')) {
+        // Move the AP text up if there's stuff in the way
+        updog = 16;
+    }
     if (gArchipelagoBuffer[AP_TEXT_TIMER] > 0) {
         f32 ap_alpha = 1.0f;
 
@@ -945,12 +950,12 @@ void archipelago_hud_render(void) {
         }
 
         prepare_blank_box();
-        render_blank_box(10,230,20+get_string_width_ascii(&gArchipelagoBuffer[AP_MESSAGE]),205,  0,0,0,  150 * ap_alpha);
+        render_blank_box(10,230 - updog,20+get_string_width_ascii(&gArchipelagoBuffer[AP_MESSAGE]),205 - updog,  0,0,0,  150 * ap_alpha);
         finish_blank_box();
 
         gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, ap_alpha * 255);
-        print_generic_string_ascii(15, 15, &gArchipelagoBuffer[AP_MESSAGE]);
+        print_generic_string_ascii(15, 15 + updog, &gArchipelagoBuffer[AP_MESSAGE]);
         gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 
         gArchipelagoBuffer[AP_TEXT_TIMER] --;

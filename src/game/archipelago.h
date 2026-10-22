@@ -30,6 +30,8 @@ enum {
     AP_ITEM_NAME = 37,
     AP_ITEM_NAME_END = 49,
 
+    AP_LEVEL_ITEM_RANDO = 50,
+
     AP_END,
 };
 

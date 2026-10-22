@@ -7,7 +7,7 @@
 /*
 MITM EXCLUSIVE: Have all abilities accessible regardless of save status. Also unlocks all levels.
 */
-#define UNLOCK_ABILITIES_DEBUG
+//#define UNLOCK_ABILITIES_DEBUG
 
 /**
  * Enables most debug options, including PUPPYPRINT_DEBUG.

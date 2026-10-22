@@ -204,7 +204,14 @@ void level_pipe_loop(void) {
         return;
     }
 
-    if ((archipelago_item_unlocked(21 + o->oBehParams2ndByte) )&&(!queued_pipe_cutscene)&&
+    u32 condition;
+    if (gArchipelagoBuffer[AP_LEVEL_ITEM_RANDO]) {
+        condition = archipelago_item_unlocked(21 + o->oBehParams2ndByte);
+    } else {
+        condition = gMarioState->numStars >= mitm_levels[o->oBehParams2ndByte].star_requirement;
+    }
+
+    if ((condition)&&(!queued_pipe_cutscene)&&
     //if ((gMarioState->numStars >= mitm_levels[o->oBehParams2ndByte].star_requirement)&&(!queued_pipe_cutscene)&&
         !(gSaveBuffer.files[gCurrSaveFileNum - 1][0].levels_unlocked & (1 << o->oBehParams2ndByte))) {
         if (o->oTimer > 30) {
@@ -241,7 +248,7 @@ void level_pipe_loop(void) {
                     #ifdef UNLOCK_ABILITIES_DEBUG
                         mitm_levels[o->oBehParams2ndByte].star_requirement = 0;
                     #endif
-                    if (gMarioState->numStars >= mitm_levels[o->oBehParams2ndByte].star_requirement) {
+                    if (condition) {
                         o->oAction = 3;
                     }
                 }
@@ -349,24 +356,31 @@ void render_mitm_hub_hud(void) {
             line_3_y = 31;
         }
 
-        if (archipelago_item_unlocked(21 + hub_dma_index)) {
-            if (mitm_levels[hub_dma_index].star_requirement <= gMarioState->numStars) {
-                //Display Collected Stars
-                gDPSetEnvColor(gDisplayListHead++, 255, 255, 0, (u8)hub_titlecard_alpha);
-                if (dream_comet_enabled) {
-                    gDPSetEnvColor(gDisplayListHead++, 255, 0, 255, (u8)hub_titlecard_alpha);
-                }
-                update_hub_star_string(hub_dma_index);
-                print_generic_string(110,line_2_y,hub_star_string);
+        u32 condition;
+        if (gArchipelagoBuffer[AP_LEVEL_ITEM_RANDO]) {
+            condition = archipelago_item_unlocked(21 + hub_dma_index);
+        } else {
+            condition = mitm_levels[hub_dma_index].star_requirement <= gMarioState->numStars;
+        }
+        
+        if (condition) {
+            //Display Collected Stars
+            gDPSetEnvColor(gDisplayListHead++, 255, 255, 0, (u8)hub_titlecard_alpha);
+            if (dream_comet_enabled) {
+                gDPSetEnvColor(gDisplayListHead++, 255, 0, 255, (u8)hub_titlecard_alpha);
+            }
+            update_hub_star_string(hub_dma_index);
+            print_generic_string(110,line_2_y,hub_star_string);
+        } else {
+            if (gArchipelagoBuffer[AP_LEVEL_ITEM_RANDO]) {
+                gDPSetEnvColor(gDisplayListHead++, 255, 0, 0, (u8)hub_titlecard_alpha);
+                print_generic_string_ascii(110,line_2_y, "Not Unlocked");
             } else {
                 //Not Enough Stars to Enter
                 gDPSetEnvColor(gDisplayListHead++, 255, 0, 0, (u8)hub_titlecard_alpha);
                 int_to_str(mitm_levels[hub_dma_index].star_requirement, &pipe_string_not_enough[10]);
                 print_generic_string(110,line_2_y,pipe_string_not_enough);
             }
-        } else {
-            gDPSetEnvColor(gDisplayListHead++, 255, 0, 0, (u8)hub_titlecard_alpha);
-            print_generic_string_ascii(110,line_2_y, "Not Unlocked");
         }
 
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, (u8)hub_titlecard_alpha);

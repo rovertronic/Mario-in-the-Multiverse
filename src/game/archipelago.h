@@ -26,6 +26,10 @@ enum {
     AP_50_COIN_PACK = 34,
     AP_STARS_TO_COMPLETE = 35,
 
+    AP_REQUEST_ITEM_NAME = 36,
+    AP_ITEM_NAME = 37,
+    AP_ITEM_NAME_END = 49,
+
     AP_END,
 };
 

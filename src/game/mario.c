@@ -2009,6 +2009,12 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         gMarioState->numKeys |= 0x01;
     }
 
+    if (gArchipelagoBuffer[AP_50_COIN_PACK] > gSaveBuffer.files[gCurrSaveFileNum - 1][0].coin_packs_resolved ) {
+        int diff = gArchipelagoBuffer[AP_50_COIN_PACK] - gSaveBuffer.files[gCurrSaveFileNum - 1][0].coin_packs_resolved;
+        gMarioState->numGlobalCoins += diff * 50;
+        gSaveBuffer.files[gCurrSaveFileNum - 1][0].coin_packs_resolved = gArchipelagoBuffer[AP_50_COIN_PACK];
+    }
+
     //memory_leak_detection();
     if (gCurrCreditsEntry != NULL && gCurrLevelNum == LEVEL_CASTLE) {
         set_background_music(0, SEQ_MITM_CREDITS, 0);

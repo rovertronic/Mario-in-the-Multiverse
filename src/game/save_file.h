@@ -51,6 +51,7 @@ struct SaveFile {
     u8 courseCoinScores[COURSE_STAGES_COUNT];
     u8 hints_unlocked[15];
     u8 songs_unlocked[8];
+    u8 coin_packs_resolved;
 
     struct SaveBlockSignature signature;
 };

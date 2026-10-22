@@ -883,7 +883,7 @@ void bc_stair_loop(void) {
 }
 
 void bhv_machine_door(void) {
-    u8 have_enough_stars = (gMarioState->numStars >= 80);
+    u8 have_enough_stars = (gMarioState->numStars >= gArchipelagoBuffer[AP_STARS_TO_COMPLETE]);
     u32 have_artifact = archipelago_item_unlocked(18);//  ((save_file_get_flags() & SAVE_FLAG_ARTREUS_ARTIFACT)!= 0);
 
     if ((have_enough_stars)&&(have_artifact)) {
@@ -907,8 +907,10 @@ void bhv_artreus_artifact_on_machine(void) {
 
 void bhv_npc_egadd_loop(void) {
     s32 dialogResponse;
-    u8 have_enough_stars = (gMarioState->numStars >= 80);
+    u8 have_enough_stars = (gMarioState->numStars >= gArchipelagoBuffer[AP_STARS_TO_COMPLETE]);
     u32 have_artifact = archipelago_item_unlocked(18);//((save_file_get_flags() & SAVE_FLAG_ARTREUS_ARTIFACT)!= 0);
+
+    gDialogVariable = gArchipelagoBuffer[AP_STARS_TO_COMPLETE];
 
     s32 egadd_advice_dialog = DIALOG_EGADD_1;
     if ((have_enough_stars)&&(!have_artifact)) {
@@ -950,7 +952,7 @@ void bhv_npc_egadd_loop(void) {
 }
 
 void bhv_stargoo(void) {
-    f32 scale = gMarioState->numStars/80.0f;
+    f32 scale = gMarioState->numStars/((f32)gArchipelagoBuffer[AP_STARS_TO_COMPLETE]);
     if (scale < 0.05f) {
         scale = 0.05f;
     }

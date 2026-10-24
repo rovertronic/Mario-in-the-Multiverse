@@ -2139,24 +2139,22 @@ s32 mitm_file_select() {
         return;
     }
 
-    if (0){
-        if (!gArchipelagoBuffer[AP_FOUND_CLIENT]) {
-            shade_screen();
-            gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
-            sprintf(&warning_string_buffer,"Waiting for Archipelago Client.");
-            print_generic_string_ascii(15, 200, &warning_string_buffer);
-            gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
-            return;
-        }
+    if (!gArchipelagoBuffer[AP_FOUND_CLIENT]) {
+        shade_screen();
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+        sprintf(&warning_string_buffer,"Waiting for Archipelago Client.");
+        print_generic_string_ascii(15, 200, &warning_string_buffer);
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+        return;
+    }
 
-        if (!gArchipelagoBuffer[AP_CONNECTED]) {
-            shade_screen();
-            gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
-            sprintf(&warning_string_buffer,"Enter host and port on client.");
-            print_generic_string_ascii(15, 200, &warning_string_buffer);
-            gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
-            return;
-        }
+    if (!gArchipelagoBuffer[AP_CONNECTED]) {
+        shade_screen();
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+        sprintf(&warning_string_buffer,"Waiting for the client to connect to a slot.");
+        print_generic_string_ascii(15, 200, &warning_string_buffer);
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+        return;
     }
     
     //print version

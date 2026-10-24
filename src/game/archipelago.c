@@ -9,7 +9,25 @@ u32 gArchipelagoBuffer[AP_END];
 u32 gArchipelagoLastLocationChecked = 0;
 
 void archipelago_init(void) {
-    sprintf(&gArchipelagoBuffer,"MITM AP BUFFER  ");
+    char *buffer = &gArchipelagoBuffer;
+
+    buffer[0]  = 'M';
+    buffer[1]  = 'I';
+    buffer[2]  = 'T';
+    buffer[3]  = 'M';
+    buffer[4]  = ' ';
+    buffer[5]  = 'A';
+    buffer[6]  = 'P';
+    buffer[7]  = ' ';
+    buffer[8]  = 'B';
+    buffer[9]  = 'U';
+    buffer[10] = 'F';
+    buffer[11] = 'F';
+    buffer[12] = 'E';
+    buffer[13] = 'R';
+    buffer[14] = ' ';
+    buffer[15] = ' ';
+    buffer[16] = '\0';
 }
 
 // Send Location

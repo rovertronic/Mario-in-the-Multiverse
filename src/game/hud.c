@@ -835,7 +835,7 @@ f32 hud_alpha = 255.0f;
 // Shop logic in mitm_hub.c
 u8 shop_show_ui = FALSE;
 char * shop_text[] = {
-    "Progression, Useful, Filler? You want it? It's yours\nmy friend, as long as you have enough coins.\nUse ^ and | to browse, A to buy, B to exit.",
+    "Progression, Useful, Filler? You want it? It's\nyours my friend, as long as you have enough coins.\nUse ^ and | to browse, A to buy, B to exit.",
     "%s\n250 coins",
     "%s\n200 coins",
     "%s\n350 coins",
@@ -1321,10 +1321,17 @@ void render_hud(void) {
             gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
             gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255.0f-hud_alpha);
 
-            gArchipelagoBuffer[AP_REQUEST_ITEM_NAME] = shop_target_item;
+
             char shoptextbuffer[60];
-            sprintf(shoptextbuffer,shop_text[shop_target_item+1],&gArchipelagoBuffer[AP_ITEM_NAME]);
-            char * text_to_print = &shoptextbuffer;
+            char * text_to_print;
+            if (shop_target_item != -1) {
+                gArchipelagoBuffer[AP_REQUEST_ITEM_NAME] = shop_target_item + 1;
+                sprintf(shoptextbuffer,shop_text[shop_target_item+1],&gArchipelagoBuffer[AP_ITEM_NAME]);
+                text_to_print = &shoptextbuffer;
+            } else {
+                text_to_print = shop_text[0];
+            }
+
             if (shop_cant_afford) {
                 text_to_print = &shop_cant_afford_text;
             }

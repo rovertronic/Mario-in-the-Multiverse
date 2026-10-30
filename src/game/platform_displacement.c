@@ -110,6 +110,14 @@ void apply_platform_displacement(struct PlatformDisplacementInfo *displaceInfo, 
     //if (platform->transform == NULL) return;
     //commented this out because... transforms aren't pointers to mtx. hopefully nothing breaks here : D
 
+    // Console fix: scale_vec3f divides by the platform's scale
+    if (!FLT_IS_NONZERO(platform->header.gfx.scale[0])
+     || !FLT_IS_NONZERO(platform->header.gfx.scale[1])
+     || !FLT_IS_NONZERO(platform->header.gfx.scale[2])) {
+        displaceInfo->prevPlatform = NULL;
+        return;
+    }
+
     vec3f_copy(platformPos, (platform->transform)[3]);
 
     // Determine how far Mario moved on his own since last frame

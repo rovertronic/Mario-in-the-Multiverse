@@ -387,27 +387,29 @@ void geo_process_master_list_sub(struct GraphNodeMasterList *node) {
             // Enable z buffer.
             gDPPipeSync(gDisplayListHead++);
             gSPSetGeometryMode(gDisplayListHead++, G_ZBUFFER);
+            gDPSetDepthSource(gDisplayListHead++, G_ZS_PIXEL);
         }
         // Iterate through the layers on the current render phase.
         for (currLayer = startLayer; currLayer <= endLayer; currLayer++) {
+            u32 layerMode1 = mode1List->modes[currLayer];
+            u32 layerMode2 = mode2List->modes[currLayer];
             // Set 'currList' to the first DisplayListNode on the current layer.
             currList = node->listHeads[ucode][currLayer];
-#if defined(DISABLE_AA) || !SILHOUETTE
-            // Set the render mode for the current layer.
-            gDPSetRenderMode(gDisplayListHead++, mode1List->modes[currLayer],
-                                                 mode2List->modes[currLayer]);
-#else
+#if !defined(DISABLE_AA) && SILHOUETTE
             if (phaseIndex == RENDER_PHASE_NON_SILHOUETTE) {
                 // To properly cover the silhouette, disable AA.
                 // The silhouette model does not have AA due to the hack used to prevent triangle overlap.
-                gDPSetRenderMode(gDisplayListHead++, (mode1List->modes[currLayer] & ~IM_RD),
-                                                     (mode2List->modes[currLayer] & ~IM_RD));
-            } else {
-                // Set the render mode for the current dl.
-                gDPSetRenderMode(gDisplayListHead++, mode1List->modes[currLayer],
-                                                     mode2List->modes[currLayer]);
+                layerMode1 &= ~IM_RD;
+                layerMode2 &= ~IM_RD;
             }
 #endif
+            // Set the render mode for the current layer.
+            gDPSetRenderMode(gDisplayListHead++, layerMode1, layerMode2);
+            // Console fix: material reverts restore this render mode with gsSPLayerRenderMode()
+            Gfx *layerModeDL = alloc_display_list(2 * sizeof(Gfx));
+            gDPSetRenderMode(&layerModeDL[0], layerMode1, layerMode2);
+            gSPEndDisplayList(&layerModeDL[1]);
+            gSPSegment(gDisplayListHead++, SEGMENT_RENDER, VIRTUAL_TO_PHYSICAL(layerModeDL));
             // Iterate through all the displaylists on the current layer.
             while (currList != NULL) {
                 // Add the display list's transformation to the master list.
@@ -437,7 +439,11 @@ void geo_process_master_list_sub(struct GraphNodeMasterList *node) {
         // Disable z buffer.
         gDPPipeSync(gDisplayListHead++);
         gSPClearGeometryMode(gDisplayListHead++, G_ZBUFFER);
+        // Console fix: triangles drawn with G_ZBUFFER off have no depth values; use depth 0 for them
+        gDPSetDepthSource(gDisplayListHead++, G_ZS_PRIM);
+        gDPSetPrimDepth(gDisplayListHead++, 0, 0);
     }
+    gSPSegment(gDisplayListHead++, SEGMENT_RENDER, VIRTUAL_TO_PHYSICAL(dl_layer_render_mode_none));
 #ifdef OBJECTS_REJ
  #if defined(F3DEX_GBI_2) && defined(VISUAL_DEBUG)
     if (hitboxView) render_debug_boxes(DEBUG_UCODE_REJ);
@@ -683,7 +689,6 @@ void setup_global_light() {
 /**
  * Process a camera node.
  */
-struct GraphNodeCamera * last_camera_node = NULL;
 void geo_process_camera(struct GraphNodeCamera *node) {
     Mtx *rollMtx = alloc_display_list(sizeof(*rollMtx));
     Mtx *viewMtx = alloc_display_list(sizeof(Mtx));
@@ -770,7 +775,6 @@ void geo_process_camera(struct GraphNodeCamera *node) {
 
     if (node->fnNode.node.children != 0) {
         gCurGraphNodeCamera = node;
-        last_camera_node = node;
         node->matrixPtr = &gCameraTransform;
         geo_process_node_and_siblings(node->fnNode.node.children);
         gCurGraphNodeCamera = NULL;
@@ -961,17 +965,24 @@ void geo_process_animated_part(struct GraphNodeAnimatedPart *node) {
         translation[2] += gCurrAnimData[retrieve_animation_index(gCurrAnimFrame, &gCurrAnimAttribute)]
                           * gCurrAnimTranslationMultiplier;
 
-        if (!_60fps_midframe) {
-            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0 + 0] = translation[0];
-            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0 + 1] = translation[1];
-            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0 + 2] = translation[2];
-        } else {
-            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0 + 0] = approach_pos_lerp(gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0 + 0], translation[0]);
-            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0 + 1] = approach_pos_lerp(gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0 + 1], translation[1]);
-            gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0 + 2] = approach_pos_lerp(gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0 + 2], translation[2]);
-            vec3f_set(translation, gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][0], gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][1], gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack[gCurrAnimPos][2]);
+        Vec3s *transStack = gCurGraphNodeObjectNode->header.gfx.animInfo.animRotStack;
+        u32 *transPos = &gCurrAnimPos;
+        if (is_held_object) {
+            transStack = held_obj_rotstack;
+            transPos = &held_obj_anim_pos;
         }
-        gCurrAnimPos++;
+
+        if (!_60fps_midframe) {
+            transStack[*transPos][0 + 0] = translation[0];
+            transStack[*transPos][0 + 1] = translation[1];
+            transStack[*transPos][0 + 2] = translation[2];
+        } else {
+            transStack[*transPos][0 + 0] = approach_pos_lerp(transStack[*transPos][0 + 0], translation[0]);
+            transStack[*transPos][0 + 1] = approach_pos_lerp(transStack[*transPos][0 + 1], translation[1]);
+            transStack[*transPos][0 + 2] = approach_pos_lerp(transStack[*transPos][0 + 2], translation[2]);
+            vec3f_set(translation, transStack[*transPos][0], transStack[*transPos][1], transStack[*transPos][2]);
+        }
+        (*transPos)++;
 
         gCurrAnimType = ANIM_TYPE_ROTATION;
     } else {
@@ -1604,6 +1615,8 @@ void geo_process_held_object(struct GraphNodeHeldObject *node) {
         gGeoTempState.translationMultiplier = gCurrAnimTranslationMultiplier;
         gGeoTempState.attribute = gCurrAnimAttribute;
         gGeoTempState.data = gCurrAnimData;
+        u32 holderAnimPos = gCurrAnimPos;
+        u8 holderIsHeld = is_held_object;
         gCurrAnimType = ANIM_TYPE_NONE;
         gCurGraphNodeHeldObject = (void *) node;
         if (node->objNode->header.gfx.animInfo.curAnim != NULL) {
@@ -1616,6 +1629,9 @@ void geo_process_held_object(struct GraphNodeHeldObject *node) {
         }
 
         geo_process_node_and_siblings(node->objNode->header.gfx.sharedChild);
+        // Console fix: the held object's animated parts must not use the holder's animRotStack slots
+        gCurrAnimPos = holderAnimPos;
+        is_held_object = holderIsHeld;
         gCurGraphNodeHeldObject = NULL;
         gCurrAnimType = gGeoTempState.type;
         gCurrAnimEnabled = gGeoTempState.enabled;

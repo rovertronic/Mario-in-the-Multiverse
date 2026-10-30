@@ -44,6 +44,7 @@ extern struct VblankHandler gGameVblankHandler;
 extern uintptr_t gPhysicalFramebuffers[3];
 extern uintptr_t gPhysicalChronosAuxFramebuffer;
 extern uintptr_t gPhysicalZBuffer;
+extern const Gfx dl_layer_render_mode_none[];
 extern void *gMarioAnimsMemAlloc;
 extern void *gDemoInputsMemAlloc;
 extern struct SPTask *gGfxSPTask;
@@ -95,6 +96,7 @@ void init_rcp(s32 resetZB);
 void end_master_display_list(void);
 void render_init(void);
 void select_gfx_pool(void);
+void discard_frame_display_list(void);
 void display_and_vsync(void);
 
 extern u8 _60fps_on;

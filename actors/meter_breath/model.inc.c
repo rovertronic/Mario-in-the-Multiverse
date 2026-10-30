@@ -155,12 +155,14 @@ Gfx mat_meter_breath_ui_bubbles[] = {
 	gsDPLoadBlock(7, 0, 0, 511, 512),
 	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
 	gsDPSetTileSize(0, 0, 0, 124, 124),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_meter_breath_ui_bubbles[] = {
 	gsDPPipeSync(),
 	gsSPSetGeometryMode(G_ZBUFFER),
+	gsSPLayerRenderMode(),
 	gsSPEndDisplayList(),
 };
 

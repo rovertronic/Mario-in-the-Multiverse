@@ -507,7 +507,9 @@ static s32 bhv_cmd_animate(void) {
     s32 animIndex = BHV_CMD_GET_2ND_U8(0);
     struct Animation **animations = gCurrentObject->oAnimations;
 
-    geo_obj_init_animation(&gCurrentObject->header.gfx, &animations[animIndex]);
+    if (animations != NULL) {
+        geo_obj_init_animation(&gCurrentObject->header.gfx, &animations[animIndex]);
+    }
 
     gCurBhvCommand++;
     return BHV_PROC_CONTINUE;

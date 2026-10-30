@@ -890,12 +890,14 @@ Gfx mat_o_spooky_sky_dark_skybox_layer1[] = {
 	gsDPSetTileSize(0, 0, 0, 252, 252),
 	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b, 8, 0, 1, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 2, G_TX_WRAP | G_TX_NOMIRROR, 6, 2),
 	gsDPSetTileSize(1, 0, 0, 252, 252),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_o_spooky_sky_dark_skybox_layer1[] = {
 	gsDPPipeSync(),
 	gsSPGeometryMode(0, G_ZBUFFER | G_LIGHTING),
+	gsSPLayerRenderMode(),
 	gsDPSetCycleType(G_CYC_1CYCLE),
 	gsDPSetDepthSource(G_ZS_PIXEL),
 	gsDPSetPrimDepth(0, 0),

@@ -262,13 +262,10 @@ static struct Surface *read_surface_data(TerrainData *vertexData, TerrainData **
     find_vector_perpendicular_to_plane(n, v[0], v[1], v[2]);
 
     f32 mag = (sqr(n[0]) + sqr(n[1]) + sqr(n[2]));
-    // This will never need to be run for custom levels because Fast64 does this step before exporting.
-    // assert(mag >= NEAR_ZERO, "Denorm tri was found.");
-#ifdef ENABLE_VANILLA_LEVEL_SPECIFIC_CHECKS
+    // Console fix: objects scaled to zero on an axis make zero-area triangles at run time
     if (mag < NEAR_ZERO) {
         return NULL;
     }
-#endif
     mag = 1.0f / sqrtf(mag);
     vec3_mul_val(n, mag);
 

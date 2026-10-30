@@ -283,12 +283,14 @@ Gfx mat_ability_ability[] = {
 	gsDPLoadBlock(7, 0, 0, 1023, 256),
 	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0, G_TX_CLAMP | G_TX_NOMIRROR, 5, 0),
 	gsDPSetTileSize(0, 0, 0, 124, 124),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_ability_ability[] = {
 	gsDPPipeSync(),
 	gsSPSetGeometryMode(G_ZBUFFER),
+	gsSPLayerRenderMode(),
 	gsSPEndDisplayList(),
 };
 

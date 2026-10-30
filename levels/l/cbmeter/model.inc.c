@@ -452,12 +452,14 @@ Gfx mat_cbmeter_combometer[] = {
 	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, cbmeter_combometernotext_pal_rgba16),
 	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadTLUTCmd(5, 4),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_cbmeter_combometer[] = {
 	gsDPPipeSync(),
 	gsSPGeometryMode(0, G_ZBUFFER),
+	gsSPLayerRenderMode(),
 	gsDPSetTextureFilter(G_TF_BILERP),
 	gsDPSetTextureLUT(G_TT_NONE),
 	gsSPEndDisplayList(),

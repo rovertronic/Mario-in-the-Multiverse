@@ -3223,12 +3223,14 @@ Gfx mat_e_hud_coins_f3d_layer1[] = {
 	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
 	gsDPSetTileSize(0, 0, 0, 252, 252),
 	gsDPSetPrimColor(0, 0, 39, 39, 39, 255),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_e_hud_coins_f3d_layer1[] = {
 	gsDPPipeSync(),
 	gsSPGeometryMode(0, G_ZBUFFER | G_LIGHTING),
+	gsSPLayerRenderMode(),
 	gsDPSetDepthSource(G_ZS_PIXEL),
 	gsDPSetPrimDepth(0, 0),
 	gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2),
@@ -3249,12 +3251,14 @@ Gfx mat_e_hud_health_f3d_layer1[] = {
 	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
 	gsDPSetTileSize(0, 0, 0, 252, 252),
 	gsDPSetPrimColor(0, 0, 39, 39, 39, 255),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_e_hud_health_f3d_layer1[] = {
 	gsDPPipeSync(),
 	gsSPGeometryMode(0, G_ZBUFFER | G_LIGHTING),
+	gsSPLayerRenderMode(),
 	gsDPSetDepthSource(G_ZS_PIXEL),
 	gsDPSetPrimDepth(0, 0),
 	gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2),
@@ -3275,12 +3279,14 @@ Gfx mat_e_hud_stars_f3d_layer1[] = {
 	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
 	gsDPSetTileSize(0, 0, 0, 252, 252),
 	gsDPSetPrimColor(0, 0, 39, 39, 39, 255),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_e_hud_stars_f3d_layer1[] = {
 	gsDPPipeSync(),
 	gsSPGeometryMode(0, G_ZBUFFER | G_LIGHTING),
+	gsSPLayerRenderMode(),
 	gsDPSetDepthSource(G_ZS_PIXEL),
 	gsDPSetPrimDepth(0, 0),
 	gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2),
@@ -3301,12 +3307,14 @@ Gfx mat_e_hud_cam_keys_f3d_layer1[] = {
 	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
 	gsDPSetTileSize(0, 0, 0, 252, 252),
 	gsDPSetPrimColor(0, 0, 39, 39, 39, 255),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_e_hud_cam_keys_f3d_layer1[] = {
 	gsDPPipeSync(),
 	gsSPGeometryMode(0, G_ZBUFFER | G_LIGHTING),
+	gsSPLayerRenderMode(),
 	gsDPSetDepthSource(G_ZS_PIXEL),
 	gsDPSetPrimDepth(0, 0),
 	gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2),
@@ -3327,12 +3335,14 @@ Gfx mat_e_hud_empty_f3d_layer1[] = {
 	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
 	gsDPSetTileSize(0, 0, 0, 252, 252),
 	gsDPSetPrimColor(0, 0, 39, 39, 39, 255),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_e_hud_empty_f3d_layer1[] = {
 	gsDPPipeSync(),
 	gsSPGeometryMode(0, G_ZBUFFER | G_LIGHTING),
+	gsSPLayerRenderMode(),
 	gsDPSetDepthSource(G_ZS_PIXEL),
 	gsDPSetPrimDepth(0, 0),
 	gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2),
@@ -3353,12 +3363,14 @@ Gfx mat_e_hud_empty_2_f3d_layer1[] = {
 	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
 	gsDPSetTileSize(0, 0, 0, 252, 252),
 	gsDPSetPrimColor(0, 0, 39, 39, 39, 255),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_e_hud_empty_2_f3d_layer1[] = {
 	gsDPPipeSync(),
 	gsSPGeometryMode(0, G_ZBUFFER | G_LIGHTING),
+	gsSPLayerRenderMode(),
 	gsDPSetDepthSource(G_ZS_PIXEL),
 	gsDPSetPrimDepth(0, 0),
 	gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2),

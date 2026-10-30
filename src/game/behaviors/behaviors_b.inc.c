@@ -1501,7 +1501,7 @@ void bhv_boss_daddy(void){
             //print_text_fmt_int(20, 60, "oDistanceToMario: %d", o->oDistanceToMario);
             cur_obj_init_animation(4);
             cur_obj_unused_play_footstep_sound(1, 15, SOUND_OBJ_POUNDING_LOUD);
-            cur_obj_rotate_yaw_toward(o->oAngleToMario, 1792 / (o->oForwardVel / 8));
+            cur_obj_rotate_yaw_toward(o->oAngleToMario, FLT_IS_NONZERO(o->oForwardVel) ? 1792 / (o->oForwardVel / 8) : 0);
             if (o->oForwardVel < 64){
                 o->oForwardVel += 2;
             }

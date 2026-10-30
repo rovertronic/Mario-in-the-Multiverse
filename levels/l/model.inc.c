@@ -117556,12 +117556,14 @@ Gfx mat_l_dl_pepperface_layer0[] = {
 	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, l_dl_pepperevil_pal_rgba16),
 	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadTLUTCmd(5, 3),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_l_dl_pepperface_layer0[] = {
 	gsDPPipeSync(),
 	gsSPGeometryMode(0, G_ZBUFFER),
+	gsSPLayerRenderMode(),
 	gsDPSetTextureFilter(G_TF_BILERP),
 	gsDPSetTextureLUT(G_TT_NONE),
 	gsDPSetRenderMode(G_RM_ZB_OPA_SURF, G_RM_ZB_OPA_SURF2),
@@ -117574,12 +117576,14 @@ Gfx mat_l_dl_black_nozbuf_layer0[] = {
 	gsSPGeometryMode(G_ZBUFFER, 0),
 	gsDPSetRenderMode(G_RM_OPA_SURF, G_RM_NOOP),
 	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_l_dl_black_nozbuf_layer0[] = {
 	gsDPPipeSync(),
 	gsSPGeometryMode(0, G_ZBUFFER),
+	gsSPLayerRenderMode(),
 	gsDPSetRenderMode(G_RM_ZB_OPA_SURF, G_RM_ZB_OPA_SURF2),
 	gsSPEndDisplayList(),
 };

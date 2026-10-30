@@ -1222,12 +1222,14 @@ Gfx mat_e_sky_cloud_f3d_layer1[] = {
 	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b, 8, 0, 1, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 14, G_TX_WRAP | G_TX_NOMIRROR, 6, 14),
 	gsDPSetTileSize(1, 0, 0, 252, 252),
 	gsDPSetPrimColor(0, 0, 102, 102, 102, 255),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_e_sky_cloud_f3d_layer1[] = {
 	gsDPPipeSync(),
 	gsSPGeometryMode(0, G_ZBUFFER | G_LIGHTING),
+	gsSPLayerRenderMode(),
 	gsDPSetCycleType(G_CYC_1CYCLE),
 	gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2),
 	gsSPEndDisplayList(),

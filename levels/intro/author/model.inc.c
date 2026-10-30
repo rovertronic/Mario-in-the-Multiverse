@@ -2712,12 +2712,14 @@ Gfx mat_author_bg[] = {
 	gsDPLoadBlock(7, 0, 0, 2047, 256),
 	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0),
 	gsDPSetTileSize(0, 0, 0, 252, 252),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_author_bg[] = {
 	gsDPPipeSync(),
 	gsSPGeometryMode(0, G_ZBUFFER),
+	gsSPLayerRenderMode(),
 	gsSPEndDisplayList(),
 };
 
@@ -2727,12 +2729,14 @@ Gfx mat_author_author[] = {
 	gsSPGeometryMode(G_ZBUFFER, 0),
 	gsDPSetTextureFilter(G_TF_AVERAGE),
 	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_author_author[] = {
 	gsDPPipeSync(),
 	gsSPGeometryMode(0, G_ZBUFFER),
+	gsSPLayerRenderMode(),
 	gsDPSetTextureFilter(G_TF_BILERP),
 	gsSPEndDisplayList(),
 };

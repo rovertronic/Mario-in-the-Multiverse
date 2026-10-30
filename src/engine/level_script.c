@@ -33,6 +33,7 @@
 #include "game/cutscene_manager.h"
 #include "game/level_update.h"
 #include "buffers/buffers.h"
+#include "game/main.h"
 
 #include "config.h"
 
@@ -105,7 +106,19 @@ static s32 eval_script_op(s8 op, s32 arg) {
     return result;
 }
 
+static u8 sFrameDrewLevel = FALSE;
+
+// Console fix: the RCP may still be drawing a frame that reads level memory
+static void prepare_level_memory_change(void) {
+    if (sFrameDrewLevel) {
+        discard_frame_display_list();
+        sFrameDrewLevel = FALSE;
+    }
+    wait_for_gfx_task_completion();
+}
+
 static void level_cmd_load_and_execute(void) {
+    prepare_level_memory_change();
     main_pool_push_state();
     load_segment(CMD_GET(s16, 2), CMD_GET(void *, 4), CMD_GET(void *, 8), MEMORY_POOL_LEFT, CMD_GET(void *, 16), CMD_GET(void *, 20));
 
@@ -119,6 +132,7 @@ static void level_cmd_load_and_execute(void) {
 static void level_cmd_exit_and_execute(void) {
     void *targetAddr = CMD_GET(void *, 12);
 
+    prepare_level_memory_change();
     main_pool_pop_state();
     main_pool_push_state();
 
@@ -277,27 +291,32 @@ static void level_cmd_push_pool_state(void) {
 }
 
 static void level_cmd_pop_pool_state(void) {
+    prepare_level_memory_change();
     main_pool_pop_state();
     sCurrentCmd = CMD_NEXT;
 }
 
 static void level_cmd_load_to_fixed_address(void) {
+    prepare_level_memory_change();
     load_to_fixed_pool_addr(CMD_GET(void *, 4), CMD_GET(void *, 8), CMD_GET(void *, 12));
     sCurrentCmd = CMD_NEXT;
 }
 
 static void level_cmd_load_raw(void) {
+    prepare_level_memory_change();
     load_segment(CMD_GET(s16, 2), CMD_GET(void *, 4), CMD_GET(void *, 8),
             MEMORY_POOL_LEFT, CMD_GET(void *, 12), CMD_GET(void *, 16));
     sCurrentCmd = CMD_NEXT;
 }
 
 static void level_cmd_load_yay0(void) {
+    prepare_level_memory_change();
     load_segment_decompress(CMD_GET(s16, 2), CMD_GET(void *, 4), CMD_GET(void *, 8));
     sCurrentCmd = CMD_NEXT;
 }
 
 static void level_cmd_load_mario_head(void) {
+    prepare_level_memory_change();
 #ifdef KEEP_MARIO_HEAD
     // TODO: Fix these hardcoded sizes
     void *addr = main_pool_alloc(DOUBLE_SIZE_ON_64_BIT(0xE1000), MEMORY_POOL_LEFT);
@@ -313,6 +332,7 @@ static void level_cmd_load_mario_head(void) {
 }
 
 static void level_cmd_load_yay0_texture(void) {
+    prepare_level_memory_change();
     load_segment_decompress(CMD_GET(s16, 2), CMD_GET(void *, 4), CMD_GET(void *, 8));
     sCurrentCmd = CMD_NEXT;
 }
@@ -364,6 +384,7 @@ void unmap_tlbs(void) {
 }
 
 static void level_cmd_clear_level(void) {
+    prepare_level_memory_change();
     hub_reset_variables();
     cm_cutscene_on = FALSE;
     clear_objects();
@@ -1011,7 +1032,9 @@ struct LevelCommand *level_script_execute(struct LevelCommand *cmd) {
     }
 
     init_rcp(CLEAR_ZBUFFER);
+    sFrameDrewLevel = FALSE;
     if (ran_game_logic_once_before_rendering) {
+        sFrameDrewLevel = (gCurrentArea != NULL);
         render_game();
     }
     end_master_display_list();

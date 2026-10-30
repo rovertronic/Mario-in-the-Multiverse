@@ -592,7 +592,7 @@
 
 /* Geodude */
 #define /*0x0F4*/ oGeodudeWalkTimer       OBJECT_FIELD_S32(0x1B)
-#define /*0x0F8*/ oGeodudeTargetYaw        OBJECT_FIELD_F32(0x1C)
+#define /*0x0F8*/ oGeodudeTargetYaw        OBJECT_FIELD_S32(0x1C)
 #define /*0x0FC*/ oGeodudeTurningAwayFromWall OBJECT_FIELD_S32(0x1D)
 
 /* Grand Star */

@@ -974,12 +974,14 @@ Gfx mat_hsky_sky[] = {
 	gsDPSetCombineLERP(0, 0, 0, SHADE, ENVIRONMENT, 0, SHADE, 0, 0, 0, 0, SHADE, ENVIRONMENT, 0, SHADE, 0),
 	gsSPGeometryMode(G_ZBUFFER | G_LIGHTING, 0),
 	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_hsky_sky[] = {
 	gsDPPipeSync(),
 	gsSPGeometryMode(0, G_ZBUFFER | G_LIGHTING),
+	gsSPLayerRenderMode(),
 	gsSPEndDisplayList(),
 };
 
@@ -997,12 +999,14 @@ Gfx mat_hsky_fancy_water_layer1[] = {
 	gsDPSetTileSize(0, 0, 0, 252, 252),
 	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b, 8, 0, 1, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 0),
 	gsDPSetTileSize(1, 24, 11, 252, 252),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_hsky_fancy_water_layer1[] = {
 	gsDPPipeSync(),
 	gsSPGeometryMode(0, G_ZBUFFER | G_LIGHTING),
+	gsSPLayerRenderMode(),
 	gsDPSetCycleType(G_CYC_1CYCLE),
 	gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2),
 	gsSPEndDisplayList(),
@@ -1025,12 +1029,14 @@ Gfx mat_hsky_distant_canyon_layer1[] = {
 	gsDPLoadBlock(7, 0, 0, 511, 512),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0),
 	gsDPSetTileSize(0, 0, 0, 124, 124),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_hsky_distant_canyon_layer1[] = {
 	gsDPPipeSync(),
 	gsSPGeometryMode(0, G_ZBUFFER),
+	gsSPLayerRenderMode(),
 	gsDPSetTextureLUT(G_TT_NONE),
 	gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2),
 	gsSPEndDisplayList(),

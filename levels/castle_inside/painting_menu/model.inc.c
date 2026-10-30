@@ -17807,12 +17807,14 @@ Gfx mat_painting_menu_ui_corner[] = {
 	gsDPLoadBlock(7, 0, 0, 2047, 256),
 	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_WRAP | G_TX_MIRROR, 6, 0, G_TX_WRAP | G_TX_MIRROR, 6, 0),
 	gsDPSetTileSize(0, 0, 0, 252, 252),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_painting_menu_ui_corner[] = {
 	gsDPPipeSync(),
 	gsSPSetGeometryMode(G_ZBUFFER),
+	gsSPLayerRenderMode(),
 	gsSPEndDisplayList(),
 };
 
@@ -17821,12 +17823,14 @@ Gfx mat_painting_menu_ui_paintings[] = {
 	gsDPSetCombineLERP(0, 0, 0, TEXEL0, ENVIRONMENT, 0, TEXEL0, 0, 0, 0, 0, TEXEL0, ENVIRONMENT, 0, TEXEL0, 0),
 	gsSPClearGeometryMode(G_ZBUFFER),
 	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_painting_menu_ui_paintings[] = {
 	gsDPPipeSync(),
 	gsSPSetGeometryMode(G_ZBUFFER),
+	gsSPLayerRenderMode(),
 	gsSPEndDisplayList(),
 };
 

@@ -8430,6 +8430,7 @@ Gfx mat_title_card_TitleCard[] = {
     gsDPSetTextureFilter(G_TF_POINT),
 	gsSPClearGeometryMode(G_ZBUFFER),
 	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
@@ -8437,6 +8438,7 @@ Gfx mat_revert_title_card_TitleCard[] = {
 	gsDPPipeSync(),
     gsDPSetTextureFilter(G_TF_BILERP),
 	gsSPSetGeometryMode(G_ZBUFFER),
+	gsSPLayerRenderMode(),
 	gsDPSetTextureFilter(G_TF_BILERP),
 	gsSPEndDisplayList(),
 };

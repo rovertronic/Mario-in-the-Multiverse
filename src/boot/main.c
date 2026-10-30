@@ -320,6 +320,16 @@ void alert_rcp_hung_up(void) {
     error("RCP is HUNG UP!! Oh! MY GOD!!");
 }
 
+s32 gfx_task_in_flight(void) {
+    return (*(struct SPTask * volatile *) &sCurrentDisplaySPTask != NULL)
+        || (*(struct SPTask * volatile *) &sNextDisplaySPTask != NULL);
+}
+
+void wait_for_gfx_task_completion(void) {
+    while (gfx_task_in_flight()) {
+    }
+}
+
 /**
  * Increment the first and last values of the stack.
  * If they're different, that means an error has occured, so trigger a crash.

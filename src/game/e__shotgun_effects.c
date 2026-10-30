@@ -325,6 +325,8 @@ Gfx *e__shotgun_effects(s32 callContext, struct GraphNode *node, UNUSED Mat4 unu
 
 
 		//revert for any other generated display list functions after this
+		// Console fix: wait for the last triangles before changing the render modes
+		gDPPipeSync(dlH++);
 		gSPGeometryMode(dlH++, G_TEXTURE_GEN, G_CULL_BACK | G_LIGHTING);
 		gDPSetCycleType(dlH++, G_CYC_1CYCLE);
 		gDPSetRenderMode(dlH++, G_RM_AA_ZB_XLU_INTER, G_RM_AA_ZB_XLU_INTER2);

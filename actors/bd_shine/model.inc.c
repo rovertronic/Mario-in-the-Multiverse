@@ -29,12 +29,14 @@ Gfx mat_bd_shine_shimmer[] = {
 	gsDPSetCombineLERP(0, 0, 0, SHADE, ENVIRONMENT, 0, SHADE, 0, 0, 0, 0, SHADE, ENVIRONMENT, 0, SHADE, 0),
 	gsSPClearGeometryMode(G_ZBUFFER | G_LIGHTING),
 	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_bd_shine_shimmer[] = {
 	gsDPPipeSync(),
 	gsSPSetGeometryMode(G_ZBUFFER | G_LIGHTING),
+	gsSPLayerRenderMode(),
 	gsSPEndDisplayList(),
 };
 

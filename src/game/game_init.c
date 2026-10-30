@@ -131,6 +131,10 @@ const Gfx init_rdp[] = {
     gsSPEndDisplayList(),
 };
 
+const Gfx dl_layer_render_mode_none[] = {
+    gsSPEndDisplayList(),
+};
+
 /**
  * Sets the initial RSP (Reality Signal Processor) settings.
  */
@@ -187,6 +191,9 @@ void select_framebuffer(void) {
                      gPhysicalFramebuffers[sRenderingFramebuffer]);
     gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, 0, gBorderHeight, SCREEN_WIDTH,
                   SCREEN_HEIGHT - gBorderHeight);
+    // Console fix: triangles drawn with G_ZBUFFER off have no depth values; use depth 0 for them
+    gDPSetDepthSource(gDisplayListHead++, G_ZS_PRIM);
+    gDPSetPrimDepth(gDisplayListHead++, 0, 0);
 }
 
 /**
@@ -344,6 +351,7 @@ void create_gfx_task_structure(void) {
  */
 void init_rcp(s32 resetZB) {
     move_segment_table_to_dmem();
+    gSPSegment(gDisplayListHead++, SEGMENT_RENDER, VIRTUAL_TO_PHYSICAL(dl_layer_render_mode_none));
     gSPDisplayList(gDisplayListHead++, init_rdp);
     gSPDisplayList(gDisplayListHead++, init_rsp);
     init_z_buffer(resetZB);
@@ -428,6 +436,13 @@ void select_gfx_pool(void) {
     gGfxSPTask = &gGfxPool->spTask;
     gDisplayListHead = gGfxPool->buffer;
     gGfxPoolEnd = (u8 *) (gGfxPool->buffer + GFX_POOL_SIZE);
+}
+
+void discard_frame_display_list(void) {
+    select_gfx_pool();
+    init_rcp(CLEAR_ZBUFFER);
+    clear_framebuffer(0);
+    end_master_display_list();
 }
 
 /**

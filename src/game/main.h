@@ -110,6 +110,8 @@ typedef struct {
 void set_vblank_handler(s32 index, struct VblankHandler *handler, OSMesgQueue *queue, OSMesg *msg);
 void dispatch_audio_sptask(struct SPTask *spTask);
 void exec_display_list(struct SPTask *spTask);
+s32 gfx_task_in_flight(void);
+void wait_for_gfx_task_completion(void);
 void change_vi(OSViMode *mode, int width, int height);
 
 #endif // MAIN_H

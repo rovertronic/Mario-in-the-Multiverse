@@ -3187,6 +3187,19 @@ typedef union {
 #define	gsDPSetDepthSource(src)	\
 	gsSPSetOtherMode(G_SETOTHERMODE_L, G_MDSFT_ZSRCSEL, 1, src)
 
+/*
+ * Console fix: materials that turn G_ZBUFFER off also turn off depth compare and
+ * update, because their triangles have no depth values. gsSPLayerRenderMode()
+ * restores the current layer's render mode.
+ */
+#define	gDPNoDepthCompareUpdate(pkt)	\
+	gSPSetOtherMode(pkt, G_SETOTHERMODE_L, 4, 2, 0)
+#define	gsDPNoDepthCompareUpdate()	\
+	gsSPSetOtherMode(G_SETOTHERMODE_L, 4, 2, 0)
+#define	LAYER_RENDER_MODE_DL	((Gfx *) 0x01000000)
+#define	gsSPLayerRenderMode()	\
+	gsSPDisplayList(LAYER_RENDER_MODE_DL)
+
 #define	gDPSetRenderMode(pkt, c0, c1)	\
 	gSPSetOtherMode(pkt, G_SETOTHERMODE_L, G_MDSFT_RENDERMODE, 29, 	\
 			(c0) | (c1))

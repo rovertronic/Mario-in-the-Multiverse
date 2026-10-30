@@ -63,7 +63,6 @@ Gfx *geo_envfx_main(s32 callContext, struct GraphNode *node, Mat4 mtxf) {
  * Geo function that generates a displaylist for the skybox. Can be assigned
  * as the function of a GraphNodeBackground.
  */
-extern struct GraphNodeCamera * last_camera_node;
 Gfx *geo_skybox_main(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx) {
     Gfx *gfx = NULL;
     struct GraphNodeBackground *backgroundNode = (struct GraphNodeBackground *) node;
@@ -75,9 +74,7 @@ Gfx *geo_skybox_main(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx) 
         struct GraphNodeCamera *camNode = (struct GraphNodeCamera *) gCurGraphNodeRoot->views[0];
         struct GraphNodePerspective *camFrustum =
             (struct GraphNodePerspective *) camNode->fnNode.node.parent;
-        if (last_camera_node != NULL) {
-            gfx = create_skybox_facing_camera(0, backgroundNode->background, camFrustum->fov, last_camera_node->posLerp, last_camera_node->focusLerp);
-        }
+        gfx = create_skybox_facing_camera(0, backgroundNode->background, camFrustum->fov, camNode->posLerp, camNode->focusLerp);
 #endif
     }
 
@@ -124,9 +121,10 @@ Gfx *geo_update_uv_lights(s32 callContext, struct GraphNode *node, UNUSED void *
             if (using_ability(ABILITY_GADGET_WATCH)) {
                 //uv light on
                 for (i = 0; i < uv_light_vtx_list_sizes[j] / sizeof(o_dl_zuvlight_mesh_layer_5_vtx_0[0]); i++) {
-                    dist = sqrtf((marioPos[0] - vert[i].v.ob[0]) * (marioPos[0] - vert[i].v.ob[0]) + 
-                                 (marioPos[1] - vert[i].v.ob[1]) * (marioPos[1] - vert[i].v.ob[1]) + 
-                                 (marioPos[2] - vert[i].v.ob[2]) * (marioPos[2] - vert[i].v.ob[2]));
+                    f32 dx = marioPos[0] - vert[i].v.ob[0];
+                    f32 dy = marioPos[1] - vert[i].v.ob[1];
+                    f32 dz = marioPos[2] - vert[i].v.ob[2];
+                    dist = sqrtf(dx * dx + dy * dy + dz * dz);
 
                     light = 255 - (dist/4);
                     if (light < 0) {
@@ -177,9 +175,10 @@ Gfx *geo_update_j_invisible_path_2(s32 callContext, struct GraphNode *node, UNUS
         if (using_ability(ABILITY_GADGET_WATCH)) {
             //uv light on
             for (i = 0; i < sizeof(J_dl_InvisiblePlatforms_mesh_layer_5_vtx_0) / sizeof(J_dl_InvisiblePlatforms_mesh_layer_5_vtx_0[0]); i++) {
-                dist = sqrtf((marioPos[0] - vert[i].v.ob[0]) * (marioPos[0] - vert[i].v.ob[0]) + 
-                                (marioPos[1] - vert[i].v.ob[1]) * (marioPos[1] - vert[i].v.ob[1]) + 
-                                (marioPos[2] - vert[i].v.ob[2]) * (marioPos[2] - vert[i].v.ob[2]));
+                f32 dx = marioPos[0] - vert[i].v.ob[0];
+                f32 dy = marioPos[1] - vert[i].v.ob[1];
+                f32 dz = marioPos[2] - vert[i].v.ob[2];
+                dist = sqrtf(dx * dx + dy * dy + dz * dz);
 
                 light = 255 - (dist/5);
                 if (light < 0) {
@@ -399,9 +398,10 @@ Gfx *geo_update_bowser_course_invisible_path(s32 callContext, struct GraphNode *
         if (using_ability(ABILITY_GADGET_WATCH)) {
             //uv light on
             for (i = 0; i < sizeof(bowser_course_dl_zuvlightbc_mesh_layer_5_vtx_0) / sizeof(bowser_course_dl_zuvlightbc_mesh_layer_5_vtx_0[0]); i++) {
-                dist = sqrtf((marioPos[0] - vert[i].v.ob[0]) * (marioPos[0] - vert[i].v.ob[0]) + 
-                                (marioPos[1] - vert[i].v.ob[1]) * (marioPos[1] - vert[i].v.ob[1]) + 
-                                (marioPos[2] - vert[i].v.ob[2]) * (marioPos[2] - vert[i].v.ob[2]));
+                f32 dx = marioPos[0] - vert[i].v.ob[0];
+                f32 dy = marioPos[1] - vert[i].v.ob[1];
+                f32 dz = marioPos[2] - vert[i].v.ob[2];
+                dist = sqrtf(dx * dx + dy * dy + dz * dz);
 
                 light = 255 - (dist/5);
                 if (light < 0) {

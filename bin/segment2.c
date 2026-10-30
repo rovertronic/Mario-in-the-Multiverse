@@ -4190,12 +4190,14 @@ static Gfx mat___C_c_f3d_layer1[] = {
     gsDPLoadBlock(7, 0, 0, 2047, 256),
     gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_WRAP | G_TX_MIRROR, 6, 0, G_TX_WRAP | G_TX_MIRROR, 6, 0),
     gsDPSetTileSize(0, 0, 0, 252, 252),
+    gsDPNoDepthCompareUpdate(),
     gsSPEndDisplayList(),
 };
 
 static Gfx mat_revert___C_c_f3d_layer1[] = {
     gsDPPipeSync(),
     gsSPGeometryMode(0, G_ZBUFFER | G_LIGHTING),
+    gsSPLayerRenderMode(),
     gsDPSetDepthSource(G_ZS_PIXEL),
     gsDPSetPrimDepth(0, 0),
     gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2),

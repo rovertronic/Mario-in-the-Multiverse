@@ -93,7 +93,8 @@ struct SaveBuffer {
     // Main menu data, storing config options.
     struct MainMenuSaveData menuData;
     // Screenshots, 100 x 50 barely fits into SRAM
-    u16 screenshot[3][50][100];
+    // Console fix: the RDP loads these as textures, so they must be 8-byte aligned
+    ALIGNED8 u16 screenshot[3][50][100];
 };
 
 #ifdef PUPPYCAM
@@ -103,6 +104,7 @@ extern void puppycam_check_save(void);
 #endif
 
 STATIC_ASSERT(sizeof(struct SaveBuffer) <= EEPROM_SIZE, "ERROR: Save struct too big for specified save type");
+STATIC_ASSERT((__builtin_offsetof(struct SaveBuffer, screenshot) % 8) == 0, "Screenshots must be 8-byte aligned for the RDP");
 
 extern u8 gLastCompletedCourseNum;
 extern u8 gLastCompletedStarNum;

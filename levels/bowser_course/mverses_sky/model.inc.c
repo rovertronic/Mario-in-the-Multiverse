@@ -18875,12 +18875,14 @@ Gfx mat_mverses_sky_nebula[] = {
 	gsDPLoadBlock(7, 0, 0, 2047, 128),
 	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 0),
 	gsDPSetTileSize(0, 0, 0, 252, 124),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_mverses_sky_nebula[] = {
 	gsDPPipeSync(),
 	gsSPSetGeometryMode(G_ZBUFFER),
+	gsSPLayerRenderMode(),
 	gsSPEndDisplayList(),
 };
 
@@ -18892,12 +18894,14 @@ Gfx mat_mverses_sky_mverse_up_close[] = {
 	gsDPSetPrimColor(0, 0, 145, 67, 255, 255),
     gsSPLightColor(LIGHT_1, 0xffffffff),
     gsSPLightColor(LIGHT_2, 0x7f7f7fff),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_mverses_sky_mverse_up_close[] = {
 	gsDPPipeSync(),
 	gsSPSetGeometryMode(G_ZBUFFER),
+	gsSPLayerRenderMode(),
 	gsSPEndDisplayList(),
 };
 
@@ -18909,12 +18913,14 @@ Gfx mat_mverses_sky_multiverse_ball_layer1[] = {
 	gsDPSetPrimDepth(32767, 0),
 	gsDPSetRenderMode(G_RM_ZB_XLU_SURF, G_RM_ZB_XLU_SURF2),
 	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPNoDepthCompareUpdate(),
 	gsSPEndDisplayList(),
 };
 
 Gfx mat_revert_mverses_sky_multiverse_ball_layer1[] = {
 	gsDPPipeSync(),
 	gsSPSetGeometryMode(G_ZBUFFER),
+	gsSPLayerRenderMode(),
 	gsDPSetDepthSource(G_ZS_PIXEL),
 	gsDPSetPrimDepth(0, 0),
 	gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2),
